@@ -1,0 +1,49 @@
+[config]
+skip_core_tasks = true
+
+[tasks.clean]
+script = '''
+fvm flutter clean
+'''
+
+[tasks.install]
+script = '''
+fvm flutter pub get
+'''
+
+[tasks.fvm-install]
+script = '''
+fvm install
+'''
+
+[tasks.format]
+script = '''
+dart format .
+'''
+
+[tasks.run]
+script = '''
+# fvm flutter run --flavor dev -t lib/main-dev.dart
+fvm flutter run --flavor dev -t lib/main.dart
+'''
+
+[tasks.run-prod]
+script = '''
+fvm flutter run --release  --flavor prod -t lib/main-prod.dart
+'''
+
+[tasks.test]
+script = '''
+fvm flutter test
+'''
+
+[tasks.lint]
+dependencies = ["format"]
+script = '''
+fvm flutter analyze
+'''
+
+[tasks.freeze]
+script = '''
+fvm flutter pub run build_runner build --delete-conflicting-outputs
+'''
