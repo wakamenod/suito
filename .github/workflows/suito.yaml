@@ -14,6 +14,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Create configuration files
+        run: |
+          echo "${{ secrets.LIB_FIREBASE_OPTIONS }}" | base64 --decode > lib/firebase_options.dart
+          echo "${{ secrets.IOS_RUNNER_GOOGLESERVICE_INFO_PLIST }}" | base64 --decode > ios/Runner/GoogleService-Info.plist
+          echo "${{ secrets.IOS_FIREBASE_APP_ID_FILE_JSON }}" | base64 --decode > ios/firebase_app_id_file.json
+          echo "${{ secrets.MACOS_RUNNER_GOOGLESERVICE_INFO_PLIST }}" | base64 --decode > macos/Runner/GoogleService-Info.plist
+          echo "${{ secrets.MACOS_FIREBASE_APP_ID_FILE_JSON }}" | base64 --decode > macos/firebase_app_id_file.json
+
       - name: Set up Java
         uses: actions/setup-java@v1
         with:

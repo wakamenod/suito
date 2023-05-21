@@ -24,7 +24,8 @@ dart format .
 [tasks.run]
 script = '''
 # fvm flutter run --flavor dev -t lib/main-dev.dart
-fvm flutter run --flavor dev -t lib/main.dart
+# fvm flutter run --flavor dev -t lib/main.dart
+fvm flutter run
 '''
 
 [tasks.run-prod]
