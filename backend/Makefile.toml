@@ -1,0 +1,40 @@
+[config]
+skip_core_tasks = true
+
+[env]
+GIT_HASH = { script = ["git rev-parse --short HEAD"] }
+
+[tasks.format]
+script = "go fmt ./..."
+
+[tasks.lint]
+script = "golangci-lint run --tests  ./..."
+
+[tasks.build]
+dependencies = ["format"]
+script = """
+GOOS=linux GOARCH=amd64 go build -ldflags "-X env.CommitHash=${GIT_HASH}" -o ./suito
+"""
+
+[tasks.build-production]
+dependencies = ["format"]
+script = """
+GOOS=linux GOARCH=amd64 go build -tags release -ldflags "-X envenv.CommitHash=${GIT_HASH}" -o ./easycashboko
+"""
+
+[tasks.run]
+script = """
+go build -o ./suito
+./suito run --config ./config/config.debug.toml
+"""
+
+[tasks.swag]
+script = "swag init --parseDependency --requiredByDefault=true"
+
+[tasks.test]
+dependencies = ["format", "lint"]
+script = """
+#!/usr/bin/env bash
+set -o pipefail
+go test $1 -count=1 -p=1 -cover -coverprofile=cover.out ./... -json | tparse -smallscreen $2
+"""
