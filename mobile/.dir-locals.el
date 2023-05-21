@@ -1,0 +1,6 @@
+((nil . ((projectile-project-compilation-dir . ".")
+         (projectile-project-test-cmd . "makers test")
+         (projectile-project-compilation-cmd . "makers lint")
+         (projectile-project-run-cmd . "makers run")
+         (projectile-project-package-cmd . "makers clean")
+         )))

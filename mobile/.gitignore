@@ -53,3 +53,6 @@ android/app/google-services.json
 
 # Android Play Store key
 key.jks
+
+# opt in dir-locals
+!.dir-locals.el
