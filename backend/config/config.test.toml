@@ -1,0 +1,23 @@
+[server]
+host = "localhost"
+port = "8009"
+ver = "1.0.0"
+
+[db]
+type = "mysql"
+host = "localhost"
+port = 3336
+user = "root"
+passwd = "root"
+sslmode = "false"
+database = ""
+max_idle_conns = 2
+max_open_conns = 100
+logmode = true
+
+[log]
+log = "stdout"
+err_log = "stderr"
+activity_log = "stdout"
+# debug|info|warn|error|dpanic|panic|fatal
+level = "debug"

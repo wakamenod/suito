@@ -2,7 +2,7 @@
 ** Internal Testing
 [[https://play.google.com/console/u/0/developers/6647710529474370236/app/4973482256101182602/tracks/internal-testing][here]]
 * AWS
-** SSMセッションマネージャーを使ってLighssailにログインする
+** SSMセッションマネージャーを使ってLighsailにログインする
 #+begin_src bash
 $ aws ssm start-session --profile private --target mi-0e95a36e21a43b084
 #+end_src
