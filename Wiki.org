@@ -1,0 +1,15 @@
+* Android
+** Internal Testing
+[[https://play.google.com/console/u/0/developers/6647710529474370236/app/4973482256101182602/tracks/internal-testing][here]]
+* AWS
+** SSMセッションマネージャーを使ってLighssailにログインする
+#+begin_src bash
+$ aws ssm start-session --profile private --target mi-0e95a36e21a43b084
+#+end_src
+で出来るはずだが、エラーになる場合がある。
+
+#+begin_quote
+An error occurred (BadRequest) when calling the StartSession operation: Enable advanced-instances tier to use Session Manager with your on-premises instances
+#+end_quote
+
+ただし、どういう時にエラーになるのかが良くわからない。コンソールで [[https://ap-northeast-1.console.aws.amazon.com/systems-manager/managed-instances/settings?region=ap-northeast-1][フリートマネージャー]] を触ってると解決してた...
