@@ -1,4 +1,4 @@
-((nil . ((projectile-project-compilation-dir . ".")
+((nil . ((projectile-project-compilation-dir . "./mobile")
          (projectile-project-test-cmd . "makers test")
          (projectile-project-compilation-cmd . "makers lint")
          (projectile-project-run-cmd . "makers run")
