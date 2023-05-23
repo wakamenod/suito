@@ -58,4 +58,4 @@ jobs:
         run: |
           cd backend
           cargo make install
-          cargo make test
+          cargo make test-github
