@@ -40,7 +40,7 @@ func GetServerAddress() string {
 }
 
 func (s *Server) Start() {
-	log.Info("start suito server", log.Fields{
+	log.Info("started suito server", log.Fields{
 		"address": s.address,
 		"ver":     viper.GetString("server.ver"),
 	})
