@@ -3,7 +3,6 @@ package server_test
 import (
 	"net/http"
 
-	"fmt"
 	"testing"
 
 	"github.com/spf13/viper"
@@ -28,7 +27,6 @@ func initLogger() {
 }
 
 func setup() {
-	fmt.Println("setup test")
 	viper.SetDefault("server.host", "localhost")
 	viper.SetDefault("server.port", "8009")
 	viper.SetDefault("log.log", "stdout")
@@ -38,7 +36,7 @@ func setup() {
 }
 
 func teardown() {
-	fmt.Println("teardown")
+	// fmt.Println("teardown")
 }
 
 func TestMain(m *testing.M) {
@@ -56,6 +54,7 @@ func TestServer_Start(t *testing.T) {
 
 		resp, err := http.Get("http://" + server.GetServerAddress() + "/")
 		require.NoError(t, err)
+		defer resp.Body.Close()
 		require.Equal(t, http.StatusNotFound, resp.StatusCode)
 	})
 }

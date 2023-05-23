@@ -1,2 +1,5 @@
 suito
 cover.out
+
+# opt in dir-locals
+!.dir-locals.el
