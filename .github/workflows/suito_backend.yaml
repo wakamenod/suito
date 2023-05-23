@@ -1,0 +1,61 @@
+name: Suito Backend CI
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+    paths:
+      - "backend/**"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    # services:
+    #   mysql:
+    #     image: mysql:8.0
+    #     env:
+    #       MYSQL_ROOT_PASSWORD: root
+    #     ports:
+    #       - 3336:3306
+    #     options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+    #     volumes:
+    #       - mysqlconf.d:/etc/mysql/conf.d
+    #   redis:
+    #     image: redis
+    #     ports:
+    #       - 6399:6379
+
+    steps:
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: 1.19
+
+      - name: Set up Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+
+      - name: Set up cargo-make
+        uses: davidB/rust-cargo-make@v1
+        with:
+          version: "0.35.13"
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Build
+        run: |
+          cd backend && cargo make build
+
+      # - name: Init DB
+      #   run: |
+      #     mysql -h 127.0.0.1 --port 3336 -u root -proot < packages/ddl/init.sql
+      #     cargo make install
+      #     cargo make migrate-up
+
+      - name: Test
+        run: |
+          cd backend
+          cargo make install
+          cargo make test-github

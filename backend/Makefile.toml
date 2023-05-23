@@ -4,6 +4,15 @@ skip_core_tasks = true
 [env]
 GIT_HASH = { script = ["git rev-parse --short HEAD"] }
 
+[tasks.install]
+script = '''
+go install github.com/swaggo/swag/cmd/swag@v1.8.4
+go install -tags 'mysql' github.com/golang-migrate/migrate/v4/cmd/migrate@v4.15.2
+go install github.com/mfridman/tparse@latest
+go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.52.2
+'''
+
+
 [tasks.format]
 script = "go fmt ./..."
 
@@ -33,6 +42,14 @@ script = "swag init --parseDependency --requiredByDefault=true"
 
 [tasks.test]
 dependencies = ["format", "lint"]
+script = """
+#!/usr/bin/env bash
+set -o pipefail
+go test $1 -count=1 -p=1 -cover -coverprofile=cover.out ./... -json | tparse -smallscreen $2
+"""
+
+[tasks.test-github]
+dependencies = ["format"]
 script = """
 #!/usr/bin/env bash
 set -o pipefail

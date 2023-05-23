@@ -21,11 +21,12 @@ func CreateServer(t *testing.T) func() {
 	}()
 
 	for {
-		resp, err := http.Get("http://" + server.GetServerAddress() + "/")
+		// nolint
+		_, err := http.Get("http://" + server.GetServerAddress() + "/")
 		if err == nil {
 			break
 		}
-		defer resp.Body.Close()
+		// defer resp.Body.Close()
 		time.Sleep(5 * time.Millisecond)
 	}
 
