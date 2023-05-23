@@ -1,0 +1,24 @@
+run:
+  go: '1.19'
+linters-settings:
+  revive:
+    severity: error
+    rules:
+      - name: bare-return
+      - name: context-as-argument
+        arguments:
+          - allowTypesBefore: "*testing.T,*github.com/user/repo/testing.Harness"
+      - name: early-return
+      - name: superfluous-else
+      - name: var-naming
+  staticcheck:
+    checks: ["all"]
+linters:
+  enable:
+    - forbidigo
+    - decorder
+    - bodyclose
+    - gosec
+    - nilerr
+    - revive
+    - staticcheck

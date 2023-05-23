@@ -21,10 +21,11 @@ func CreateServer(t *testing.T) func() {
 	}()
 
 	for {
-		_, err := http.Get("http://" + server.GetServerAddress() + "/")
+		resp, err := http.Get("http://" + server.GetServerAddress() + "/")
 		if err == nil {
 			break
 		}
+		defer resp.Body.Close()
 		time.Sleep(5 * time.Millisecond)
 	}
 
