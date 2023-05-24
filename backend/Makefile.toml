@@ -28,7 +28,7 @@ GOOS=linux GOARCH=amd64 go build -ldflags "-X env.CommitHash=${GIT_HASH}" -o ./s
 [tasks.build-production]
 dependencies = ["format"]
 script = """
-GOOS=linux GOARCH=amd64 go build -tags release -ldflags "-X envenv.CommitHash=${GIT_HASH}" -o ./easycashboko
+GOOS=linux GOARCH=amd64 go build -tags release -ldflags "-X envenv.CommitHash=${GIT_HASH}" -o ./suito
 """
 
 [tasks.run]

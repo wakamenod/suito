@@ -1,0 +1,12 @@
+[config]
+skip_core_tasks = true
+
+[tasks.up]
+script = '''
+cd backend && makers build
+cd ../
+docker-compose up -d
+'''
+
+[tasks.down]
+script = "docker-compose kill"
