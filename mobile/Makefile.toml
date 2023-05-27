@@ -28,6 +28,12 @@ script = '''
 fvm flutter run
 '''
 
+[tasks.build_runner_watch]
+script = '''
+fvm flutter pub run build_runner watch
+'''
+
+
 [tasks.run-prod]
 script = '''
 fvm flutter run --release  --flavor prod -t lib/main-prod.dart

@@ -18,6 +18,7 @@ jobs:
 
       - name: Create configuration files
         run: |
+          echo "${{ secrets.DIO_PROVIDER }}" | base64 --decode > mobile/lib/src/data/dio_provider.dart
           echo "${{ secrets.LIB_FIREBASE_OPTIONS }}" | base64 --decode > mobile/lib/firebase_options.dart
           echo "${{ secrets.IOS_RUNNER_GOOGLESERVICE_INFO_PLIST }}" | base64 --decode > mobile/ios/Runner/GoogleService-Info.plist
           echo "${{ secrets.IOS_FIREBASE_APP_ID_FILE_JSON }}" | base64 --decode > mobile/ios/firebase_app_id_file.json
