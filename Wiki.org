@@ -13,3 +13,24 @@ An error occurred (BadRequest) when calling the StartSession operation: Enable a
 #+end_quote
 
 ただし、どういう時にエラーになるのかが良くわからない。コンソールで [[https://ap-northeast-1.console.aws.amazon.com/systems-manager/managed-instances/settings?region=ap-northeast-1][フリートマネージャー]] を触ってると解決してた...
+** SSMエージェント導入
+https://qiita.com/kooohei/items/35340bd9d36163c33f54
+*** IAMサービスロール作成
+#+begin_src sh
+$ aws iam --profile private create-role --role-name SSMServiceRole --assume-role-policy-document file://SSMService-Trust.json
+
+$ aws iam  --profile private attach-role-policy  --role-name SSMServiceRole --policy-arn arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
+#+end_src
+*** アクティベーションコード作成
+#+begin_src sh
+$ aws ssm --profile private \
+    create-activation \
+   --default-instance-name redmineLightsail \
+   --iam-role SSMServiceRole \
+   --registration-limit 5 \
+   --region ap-northeast-1 \
+   --tags "Key=Environment,Value=Production"
+#+end_src
+* Lightsail
+** プランのアップグレード
+- [[https://chigusa-web.com/blog/lightsail-upgrade/][【AWS】Lightsailのプランをアップグレード]]

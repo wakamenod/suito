@@ -21,7 +21,7 @@ func defaultRoute(e *echo.Echo) *echo.Echo {
 	}
 	// ping
 	e.GET("/ping", func(c echo.Context) error {
-		return c.String(http.StatusOK, "pong")
+		return c.String(http.StatusOK, "pong!\n")
 	})
 
 	// version
