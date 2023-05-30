@@ -9,16 +9,16 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    # services:
-    #   mysql:
-    #     image: mysql:8.0
-    #     env:
-    #       MYSQL_ROOT_PASSWORD: root
-    #     ports:
-    #       - 3336:3306
-    #     options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-    #     volumes:
-    #       - mysqlconf.d:/etc/mysql/conf.d
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: "${{ secrets.DB_PASS }}"
+        ports:
+          - 3346:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+        volumes:
+          - mysqlconf.d:/etc/mysql/conf.d
     #   redis:
     #     image: redis
     #     ports:
@@ -44,15 +44,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Create env files
+        run: |
+          echo "${{ secrets.ENV }}" > ./.env.suito
+
       - name: Build
         run: |
           cd backend && cargo make build
 
-      # - name: Init DB
-      #   run: |
-      #     mysql -h 127.0.0.1 --port 3336 -u root -proot < packages/ddl/init.sql
-      #     cargo make install
-      #     cargo make migrate-up
+      - name: Init DB
+        run: |
+          mysql -h 127.0.0.1 --port 3346 -u root -p"${{ secrets.DB_PASS }}" < ddl/init.sql
+          cargo make install
+          cargo make migrate-up
 
       - name: Test
         run: |

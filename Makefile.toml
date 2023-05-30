@@ -1,5 +1,20 @@
+env_files = [
+    "./.env.suito",
+]
+
 [config]
 skip_core_tasks = true
+
+
+[env]
+DDL_SRC = "ddl/migrations"
+DB_CONNECT = "mysql://${DB_USER}:${DB_PASS}@tcp(${DB_HOST}:${DB_PORT})/${DB_NAME}"
+DB_CONNECT_TEST = "mysql://${DB_USER}:${DB_PASS}@tcp(${DB_HOST}:${DB_PORT})/${DB_NAME_TEST}"
+
+[tasks.install]
+script = '''
+go install -tags mysql github.com/golang-migrate/migrate/v4/cmd/migrate@v4.15.1
+'''
 
 [tasks.up]
 script = '''
@@ -8,5 +23,35 @@ cd ../
 docker-compose up -d
 '''
 
+[tasks.up-log]
+script = '''
+cd backend && makers build
+cd ../
+docker-compose up
+'''
+
 [tasks.down]
 script = "docker-compose kill"
+
+[tasks.migrate-up]
+script = '''
+echo y | migrate -source file://${DDL_SRC} -database "${DB_CONNECT}" up
+echo y | migrate -source file://${DDL_SRC} -database "${DB_CONNECT_TEST}" up
+'''
+
+[tasks.migrate-down]
+script = '''
+echo y | migrate -source file://${DDL_SRC} -database "${DB_CONNECT}" down
+echo y | migrate -source file://${DDL_SRC} -database "${DB_CONNECT_TEST}" down
+'''
+
+[tasks.migrate-drop]
+script = '''
+echo y | migrate -source file://${DDL_SRC} -database "${DB_CONNECT}" drop
+echo y | migrate -source file://${DDL_SRC} -database "${DB_CONNECT_TEST}" drop
+'''
+
+[tasks.ssm]
+script = '''
+aws ssm --profile private start-session --target ${SSM_INSTANCE_ID}
+'''

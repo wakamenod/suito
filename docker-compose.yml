@@ -6,21 +6,34 @@ services:
       dockerfile: Dockerfile
     image: suito
     container_name: suito
-    # environment:
-    #   DB_HOST: suito-db
-    #   DB_PORT: 3306
-    #   REDIS_SERVER: suito-redis:6379
-    #   GIT_REVISION: ${GIT_REVISION:-develop}
-    #   GIT_BRANCH: ${GIT_BRANCH:-develop}
+    environment:
+      DB_HOST: suito-db
+      DB_PORT: 3306
+      # REDIS_SERVER: suito-redis:6379
+      GIT_REVISION: ${GIT_REVISION:-develop}
+      GIT_BRANCH: ${GIT_BRANCH:-develop}
     ports:
       - '8009:8009'
     volumes:
       - ./backend:/backend
-    # depends_on:
-    #   db:
-    #     condition: service_started
-    #   redis:
-    #     condition: service_started
-    # volumes:
-    #   - ./packages/ddl:/packages/ddl:ro
-    # env_file: .env.suito
+    depends_on:
+      db:
+        condition: service_started
+      # redis:
+      #   condition: service_started
+    volumes:
+      - ./ddl:/ddl:ro
+    env_file: .env.suito
+  db:
+    container_name: suito-db
+    image: mysql:8.0
+    volumes:
+      - ./ddl:/docker-entrypoint-initdb.d
+    environment:
+      MYSQL_ROOT_USER: ${DB_USER}
+      MYSQL_ROOT_PASSWORD: ${DB_PASS}
+      MYSQL_ROOT_HOST: '%'
+    ports:
+      - "3346:3306"
+    cap_add:
+      - SYS_NICE
