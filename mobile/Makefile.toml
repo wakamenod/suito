@@ -18,7 +18,7 @@ fvm install
 
 [tasks.format]
 script = '''
-dart format .
+fvm dart format .
 '''
 
 [tasks.run]
@@ -30,7 +30,7 @@ fvm flutter run
 
 [tasks.build_runner_watch]
 script = '''
-fvm flutter pub run build_runner watch
+fvm flutter pub run build_runner watch --delete-conflicting-outputs
 '''
 
 
@@ -41,7 +41,9 @@ fvm flutter run --release  --flavor prod -t lib/main-prod.dart
 
 [tasks.test]
 script = '''
-fvm flutter test
+fvm flutter test lib
+# fvm flutter test lib --machine > machine.log || echo 'Tests failed'
+# flutter pub global run dart_dot_reporter machine.log --show-message
 '''
 
 [tasks.lint]
