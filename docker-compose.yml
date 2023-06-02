@@ -16,13 +16,12 @@ services:
       - '8009:8009'
     volumes:
       - ./backend:/backend
+      - ./ddl:/ddl:ro
     depends_on:
       db:
         condition: service_started
       # redis:
       #   condition: service_started
-    volumes:
-      - ./ddl:/ddl:ro
     env_file: .env.suito
   db:
     container_name: suito-db
