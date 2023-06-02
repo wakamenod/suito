@@ -43,16 +43,16 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
+# env
+.env.mobile
+env.g.dart
+
 # Firebase
-lib/firebase_options.dart
 ios/Runner/GoogleService-Info.plist
 ios/firebase_app_id_file.json
 macos/Runner/GoogleService-Info.plist
 macos/firebase_app_id_file.json
 android/app/google-services.json
-
-# Temporary
-lib/src/data/dio_provider.dart
 
 # fvm
 .fvm/flutter_sdk
