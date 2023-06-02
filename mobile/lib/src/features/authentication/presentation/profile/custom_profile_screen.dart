@@ -27,9 +27,9 @@ class _PingWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return ref.watch(pingFutureProvider).when(
-      data: (data) => Text(data),
-      loading: () => const CircularProgressIndicator(),
-      error: (err, stack) => Text('Error: $err'),
-    );
+          data: (data) => Text(data),
+          loading: () => const CircularProgressIndicator(),
+          error: (err, stack) => Text('Error: $err'),
+        );
   }
 }

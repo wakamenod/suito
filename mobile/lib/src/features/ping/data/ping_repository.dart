@@ -14,8 +14,8 @@ class PingRepository {
     final response = await _dio.get('/ping');
     return response.data.toString();
   }
-
 }
+
 @Riverpod(keepAlive: true)
 PingRepository pingRepository(PingRepositoryRef ref) {
   final dio = ref.watch(dioProvider);
