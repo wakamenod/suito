@@ -3,3 +3,5 @@ cover.out
 
 # opt in dir-locals
 !.dir-locals.el
+
+/cmd/suito_data/*
