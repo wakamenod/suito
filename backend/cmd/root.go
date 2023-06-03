@@ -21,7 +21,7 @@ var rootCmd = &cobra.Command{
 }
 
 func Execute() {
-	log.Debug("Suito API Server", log.Fields{"start": env.CommitHash})
+	log.Debug("Suito Backend Program", log.Fields{"start": env.CommitHash})
 	if err := rootCmd.Execute(); err != nil {
 		log.Info("err", log.Fields{"err": err})
 		os.Exit(1)
