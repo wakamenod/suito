@@ -1,5 +1,5 @@
-import 'package:suito/src/features/home/domain/transaction.dart';
-import 'package:suito/src/features/home/domain/transaction_type.dart';
+import 'package:suito/src/features/transactions/domain/transaction.dart';
+import 'package:suito/src/features/transactions/domain/transaction_type.dart';
 import 'package:suito/src/utils/delay.dart';
 import 'package:suito/src/utils/in_memory_store.dart';
 
