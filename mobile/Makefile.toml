@@ -18,7 +18,7 @@ fvm install
 
 [tasks.format]
 script = '''
-fvm dart format .
+fvm dart format lib
 '''
 
 [tasks.run]
@@ -60,4 +60,15 @@ fvm flutter pub run build_runner build --delete-conflicting-outputs
 [tasks.build-appbundle]
 script = '''
 fvm flutter build appbundle
+'''
+
+[tasks.api-generate]
+script = '''
+  ./bin/openapi-generator-cli.jar generate \
+  -i ../backend/docs/swagger.yaml \
+  -g dart-dio \
+  -o openapi/client/
+cd ./openapi/client
+flutter pub get
+flutter packages pub run build_runner build --delete-conflicting-outputs
 '''

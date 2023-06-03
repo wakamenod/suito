@@ -1,25 +1,26 @@
 import 'dart:async';
 
-import 'package:dio/dio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:suito/src/data/dio_provider.dart';
+import 'package:openapi/openapi.dart';
+import 'package:suito/src/data/openapi_provider.dart';
 
 part 'ping_repository.g.dart';
 
 class PingRepository {
-  PingRepository(this._dio);
-  final Dio _dio;
+  PingRepository(this._openapi);
+  final Openapi _openapi;
 
   Future<String> ping() async {
-    final response = await _dio.get('/ping');
-    return response.data.toString();
+    final api = _openapi.getSuitoDefaultApi();
+    final response = await api.ping();
+    return response.data ?? '';
   }
 }
 
 @Riverpod(keepAlive: true)
 PingRepository pingRepository(PingRepositoryRef ref) {
-  final dio = ref.watch(dioProvider);
-  return PingRepository(dio);
+  final openapi = ref.watch(openApiProvider);
+  return PingRepository(openapi);
 }
 
 @riverpod
