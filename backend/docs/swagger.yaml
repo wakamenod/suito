@@ -1,0 +1,94 @@
+basePath: /api/v1
+definitions:
+  ErrorInfo:
+    properties:
+      code:
+        type: string
+      message:
+        type: string
+    required:
+    - code
+    - message
+    type: object
+  ErrorRes:
+    properties:
+      errorInfo:
+        $ref: '#/definitions/ErrorInfo'
+    required:
+    - errorInfo
+    type: object
+  transactions.ListTransactionsRes:
+    properties:
+      transactions:
+        items:
+          $ref: '#/definitions/transactions.Transaction'
+        type: array
+    required:
+    - transactions
+    type: object
+  transactions.Transaction:
+    properties:
+      amount:
+        type: integer
+      id:
+        type: string
+      title:
+        type: string
+      type:
+        enum:
+        - 1
+        - 2
+        type: integer
+    required:
+    - amount
+    - id
+    - title
+    - type
+    type: object
+host: localhost:8009
+info:
+  contact: {}
+  title: suito
+  version: "1.0"
+paths:
+  /ping:
+    get:
+      description: Ping
+      operationId: ping
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: pong
+          schema:
+            type: string
+      summary: Ping
+      tags:
+      - suito.default
+  /transactions:
+    get:
+      consumes:
+      - application/json
+      description: List transactions.
+      operationId: listTransactions
+      parameters:
+      - description: yearMonth
+        in: query
+        name: yearMonth
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/transactions.ListTransactionsRes'
+        "500":
+          description: 未知のエラー
+          schema:
+            $ref: '#/definitions/ErrorRes'
+      summary: List transactions
+      tags:
+      - suito.transactions
+swagger: "2.0"

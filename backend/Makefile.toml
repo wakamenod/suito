@@ -19,6 +19,9 @@ script = "go fmt ./..."
 [tasks.lint]
 script = "golangci-lint run --tests  ./..."
 
+[tasks.swag]
+script = "swag init --parseDependency --requiredByDefault=true"
+
 [tasks.build]
 dependencies = ["format"]
 script = """
@@ -36,9 +39,6 @@ script = """
 go build -o ./suito
 ./suito run --config ./config/config.debug.toml
 """
-
-[tasks.swag]
-script = "swag init --parseDependency --requiredByDefault=true"
 
 [tasks.test]
 dependencies = ["format", "lint"]

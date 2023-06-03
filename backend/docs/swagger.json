@@ -1,0 +1,141 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "suito",
+        "contact": {},
+        "version": "1.0"
+    },
+    "host": "localhost:8009",
+    "basePath": "/api/v1",
+    "paths": {
+        "/ping": {
+            "get": {
+                "description": "Ping",
+                "produces": [
+                    "text/plain"
+                ],
+                "tags": [
+                    "suito.default"
+                ],
+                "summary": "Ping",
+                "operationId": "ping",
+                "responses": {
+                    "200": {
+                        "description": "pong",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/transactions": {
+            "get": {
+                "description": "List transactions.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "suito.transactions"
+                ],
+                "summary": "List transactions",
+                "operationId": "listTransactions",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "yearMonth",
+                        "name": "yearMonth",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "$ref": "#/definitions/transactions.ListTransactionsRes"
+                        }
+                    },
+                    "500": {
+                        "description": "未知のエラー",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorRes"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "ErrorInfo": {
+            "type": "object",
+            "required": [
+                "code",
+                "message"
+            ],
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "ErrorRes": {
+            "type": "object",
+            "required": [
+                "errorInfo"
+            ],
+            "properties": {
+                "errorInfo": {
+                    "$ref": "#/definitions/ErrorInfo"
+                }
+            }
+        },
+        "transactions.ListTransactionsRes": {
+            "type": "object",
+            "required": [
+                "transactions"
+            ],
+            "properties": {
+                "transactions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/transactions.Transaction"
+                    }
+                }
+            }
+        },
+        "transactions.Transaction": {
+            "type": "object",
+            "required": [
+                "amount",
+                "id",
+                "title",
+                "type"
+            ],
+            "properties": {
+                "amount": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "integer",
+                    "enum": [
+                        1,
+                        2
+                    ]
+                }
+            }
+        }
+    }
+}
