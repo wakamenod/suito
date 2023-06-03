@@ -25,6 +25,7 @@ const (
 
 var (
 	regexMonthlyFile = regexp.MustCompile(`^\d{4}-\d{2}\.tsv$`)
+	regexYearlyFile  = regexp.MustCompile(`^\d{4}\.tsv$`)
 	// jst              = time.FixedZone("Asia/Tokyo", 9*60*60)
 )
 
@@ -42,15 +43,59 @@ var importCmd = &cobra.Command{
 		entries, err := os.ReadDir(dataDir)
 		fatalIfErr(err, "failed to read dir")
 		for _, entry := range entries {
-			if !entry.IsDir() && regexMonthlyFile.MatchString(entry.Name()) {
+			if entry.IsDir() {
+				continue
+			}
+			switch name := entry.Name(); {
+			case regexMonthlyFile.MatchString(name):
 				importMonthlyFile(db, entry)
+			case regexYearlyFile.MatchString(name):
+				importYearlyFile(db, entry)
 			}
 		}
 	},
 }
 
+func importYearlyFile(db *gorm.DB, entry os.DirEntry) {
+	file, err := os.Open(dataDir + "/" + entry.Name())
+	fatalIfErr(err)
+	defer file.Close()
+
+	year, err := strconv.Atoi(entry.Name()[:4])
+	fatalIfErr(err)
+
+	scanner := bufio.NewScanner(file)
+
+	row := 0
+	for scanner.Scan() {
+		row++
+		title, income, category := func() (string, bool, string) {
+			switch row {
+			case 3, 4, 5:
+				return os.Getenv(fmt.Sprintf("IMPORT_YEARLY_NAME_%d", row)), true, ""
+			case 7, 8, 9, 10, 11, 12, 13, 14, 15, 17, 18:
+				return os.Getenv(fmt.Sprintf("IMPORT_YEARLY_NAME_%d", row)), false, "日用品"
+			case 16:
+				return os.Getenv(fmt.Sprintf("IMPORT_YEARLY_NAME_%d", row)), false, "教育費"
+			}
+			return "", false, ""
+		}()
+
+		if title == "" {
+			continue
+		}
+
+		fields := strings.Split(scanner.Text(), "\t")
+		if income {
+			createYearlyIncomes(db, fields, year, title)
+		} else {
+			createYearlyExpenses(db, fields, year, title, category)
+		}
+	}
+	fatalIfErr(scanner.Err())
+}
+
 func importMonthlyFile(db *gorm.DB, entry os.DirEntry) {
-	// fmt.Printf("File Name : %s\n", entry.Name())
 	file, err := os.Open(dataDir + "/" + entry.Name())
 	fatalIfErr(err)
 	defer file.Close()
@@ -85,6 +130,45 @@ func importMonthlyFile(db *gorm.DB, entry os.DirEntry) {
 		}
 	}
 	fatalIfErr(scanner.Err())
+}
+
+func createYearlyExpenses(db *gorm.DB, fields []string, year int, title, category string) {
+	categoryID := firstOrCreateCategory(db, category).ID
+
+	for i := 1; i <= 12; i++ {
+		amount, err := strconv.Atoi(fields[i+1])
+		if err != nil || amount == 0 {
+			continue
+		}
+
+		expense := model.Expense{
+			ID:                xid.New().String(),
+			UID:               os.Getenv("FIREBASE_UID"),
+			Title:             title,
+			Amount:            amount,
+			ExpenseCategoryID: categoryID,
+			LocalDate:         fmt.Sprintf("%d%02d01", year, i),
+		}
+		fatalIfErr(db.Create(&expense).Error)
+	}
+}
+
+func createYearlyIncomes(db *gorm.DB, fields []string, year int, title string) {
+	for i := 1; i <= 12; i++ {
+		amount, err := strconv.Atoi(fields[i+1])
+		if err != nil || amount == 0 {
+			continue
+		}
+
+		expense := model.Income{
+			ID:        xid.New().String(),
+			UID:       os.Getenv("FIREBASE_UID"),
+			Title:     title,
+			Amount:    amount,
+			LocalDate: fmt.Sprintf("%d%02d01", year, i),
+		}
+		fatalIfErr(db.Create(&expense).Error)
+	}
 }
 
 func createExpense(db *gorm.DB, date, title, categoryID string, amount int) {
