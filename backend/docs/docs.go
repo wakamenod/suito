@@ -62,13 +62,13 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "成功",
+                        "description": "Success",
                         "schema": {
                             "$ref": "#/definitions/transactions.ListTransactionsRes"
                         }
                     },
                     "500": {
-                        "description": "未知のエラー",
+                        "description": "Unknown Error",
                         "schema": {
                             "$ref": "#/definitions/ErrorRes"
                         }

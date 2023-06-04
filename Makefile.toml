@@ -55,3 +55,10 @@ echo y | migrate -source file://${DDL_SRC} -database "${DB_CONNECT_TEST}" drop
 script = '''
 aws ssm --profile private start-session --target ${SSM_INSTANCE_ID}
 '''
+
+[tasks.swag]
+script = '''
+cd backend && makers swag
+cd ../
+cd mobile && makers api-generate
+'''

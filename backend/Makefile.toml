@@ -20,7 +20,23 @@ script = "go fmt ./..."
 script = "golangci-lint run --tests  ./..."
 
 [tasks.swag]
-script = "swag init --parseDependency --requiredByDefault=true"
+script = """
+swag init --parseDependency --requiredByDefault=true
+# covert to V3 format
+curl -X 'POST' \
+  'https://converter.swagger.io/api/convert' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '@docs/swagger.json' | jq . > docs/tmp_v3_swagger.json
+curl -X 'POST' \
+  'https://converter.swagger.io/api/convert' \
+  -H 'accept: application/yaml' \
+  -H 'Content-Type: application/yaml' \
+  -d '@docs/swagger.json' \
+  -o 'docs/tmp_v3_swagger.yaml'
+mv docs/tmp_v3_swagger.json docs/swagger.json
+mv docs/tmp_v3_swagger.yaml docs/swagger.yaml
+"""
 
 [tasks.build]
 dependencies = ["format"]
@@ -45,7 +61,7 @@ dependencies = ["format", "lint"]
 script = """
 #!/usr/bin/env bash
 set -o pipefail
-go test $1 -count=1 -p=1 -cover -coverprofile=cover.out ./... -json | tparse -smallscreen $2
+go test --short $1 -count=1 -p=1 -cover -coverprofile=cover.out ./... -json | tparse -smallscreen $2
 """
 
 [tasks.test-github]
@@ -53,5 +69,5 @@ dependencies = ["format"]
 script = """
 #!/usr/bin/env bash
 set -o pipefail
-go test $1 -count=1 -p=1 -cover -coverprofile=cover.out ./... -json | tparse -smallscreen $2
+go test --short $1 -count=1 -p=1 -cover -coverprofile=cover.out ./... -json | tparse -smallscreen $2
 """

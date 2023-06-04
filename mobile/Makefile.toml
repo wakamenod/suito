@@ -25,7 +25,7 @@ fvm dart format lib
 script = '''
 # fvm flutter run --flavor dev -t lib/main-dev.dart
 # fvm flutter run --flavor dev -t lib/main.dart
-fvm flutter run
+fvm flutter run --dart-define-from-file=dart_defines/dev.json
 '''
 
 [tasks.build_runner_watch]
@@ -33,10 +33,10 @@ script = '''
 fvm flutter pub run build_runner watch --delete-conflicting-outputs
 '''
 
-
 [tasks.run-prod]
 script = '''
-fvm flutter run --release  --flavor prod -t lib/main-prod.dart
+# fvm flutter run --release  --flavor prod -t lib/main-prod.dart
+fvm flutter run --dart-define-from-file=dart_defines/prod.json
 '''
 
 [tasks.test]
