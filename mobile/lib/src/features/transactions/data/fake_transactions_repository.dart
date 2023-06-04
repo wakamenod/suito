@@ -1,7 +1,10 @@
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:suito/src/features/transactions/domain/transaction.dart';
 import 'package:suito/src/features/transactions/domain/transaction_type.dart';
 import 'package:suito/src/utils/delay.dart';
 import 'package:suito/src/utils/in_memory_store.dart';
+
+part 'fake_transactions_repository.g.dart';
 
 const kFakeTransactions = [
   Transaction(
@@ -43,4 +46,17 @@ class FakeTransactionsRepository {
     await delay(addDelay);
     return Future.value(_transactions.value);
   }
+}
+
+@Riverpod(keepAlive: true)
+FakeTransactionsRepository fakeTransactionsRepository(
+    FakeTransactionsRepositoryRef ref) {
+  return FakeTransactionsRepository(addDelay: false);
+}
+
+@riverpod
+Future<List<Transaction>> transactionsListFuture(
+    TransactionsListFutureRef ref) {
+  final transactionsRepository = ref.watch(fakeTransactionsRepositoryProvider);
+  return transactionsRepository.fetchTransactionsList();
 }
