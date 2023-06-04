@@ -5,11 +5,14 @@ import (
 	"fmt"
 	"time"
 
+	firebase "firebase.google.com/go/v4"
+	"firebase.google.com/go/v4/auth"
 	"github.com/labstack/echo/v4"
 	"github.com/spf13/viper"
 	"github.com/wakamenod/suito/api"
 	"github.com/wakamenod/suito/env"
 	"github.com/wakamenod/suito/log"
+	"github.com/wakamenod/suito/middleware"
 )
 
 type (
@@ -30,7 +33,22 @@ func New() Server {
 	e.Server.WriteTimeout = 5 * time.Second
 	e.Server.IdleTimeout = 120 * time.Second
 
+	e.Use(middleware.VerifyIDTokenMiddleware(firebaseAuthClient()))
+
 	return Server{e: e, address: GetServerAddress()}
+}
+
+func firebaseAuthClient() *auth.Client {
+	ctx := context.Background()
+	app, err := firebase.NewApp(ctx, nil)
+	if err != nil {
+		log.Fatal("error initializing Firebase App", log.Fields{"err": err})
+	}
+	client, err := app.Auth(ctx)
+	if err != nil {
+		log.Fatal("error getting Firebase Auth client", log.Fields{"err": err})
+	}
+	return client
 }
 
 func GetServerAddress() string {

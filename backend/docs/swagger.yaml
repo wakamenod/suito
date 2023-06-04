@@ -1,94 +1,93 @@
-basePath: /api/v1
-definitions:
-  ErrorInfo:
-    properties:
-      code:
-        type: string
-      message:
-        type: string
-    required:
-    - code
-    - message
-    type: object
-  ErrorRes:
-    properties:
-      errorInfo:
-        $ref: '#/definitions/ErrorInfo'
-    required:
-    - errorInfo
-    type: object
-  transactions.ListTransactionsRes:
-    properties:
-      transactions:
-        items:
-          $ref: '#/definitions/transactions.Transaction'
-        type: array
-    required:
-    - transactions
-    type: object
-  transactions.Transaction:
-    properties:
-      amount:
-        type: integer
-      id:
-        type: string
-      title:
-        type: string
-      type:
-        enum:
-        - 1
-        - 2
-        type: integer
-    required:
-    - amount
-    - id
-    - title
-    - type
-    type: object
-host: localhost:8009
+openapi: 3.0.1
 info:
-  contact: {}
   title: suito
+  contact: {}
   version: "1.0"
+servers:
+- url: //localhost:8009/api/v1
 paths:
   /ping:
     get:
-      description: Ping
-      operationId: ping
-      produces:
-      - text/plain
-      responses:
-        "200":
-          description: pong
-          schema:
-            type: string
-      summary: Ping
       tags:
       - suito.default
+      summary: Ping
+      description: Ping
+      operationId: ping
+      responses:
+        200:
+          description: pong
+          content:
+            text/plain:
+              schema:
+                type: string
   /transactions:
     get:
-      consumes:
-      - application/json
+      tags:
+      - suito.transactions
+      summary: List transactions
       description: List transactions.
       operationId: listTransactions
       parameters:
-      - description: yearMonth
+      - name: yearMonth
         in: query
-        name: yearMonth
+        description: yearMonth
         required: true
-        type: string
-      produces:
-      - application/json
+        schema:
+          type: string
       responses:
-        "200":
-          description: 成功
-          schema:
-            $ref: '#/definitions/transactions.ListTransactionsRes'
-        "500":
-          description: 未知のエラー
-          schema:
-            $ref: '#/definitions/ErrorRes'
-      summary: List transactions
-      tags:
-      - suito.transactions
-swagger: "2.0"
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/transactions.ListTransactionsRes'
+        500:
+          description: Unknown Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+components:
+  schemas:
+    ErrorInfo:
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    ErrorRes:
+      required:
+      - errorInfo
+      type: object
+      properties:
+        errorInfo:
+          $ref: '#/components/schemas/ErrorInfo'
+    transactions.ListTransactionsRes:
+      required:
+      - transactions
+      type: object
+      properties:
+        transactions:
+          type: array
+          items:
+            $ref: '#/components/schemas/transactions.Transaction'
+    transactions.Transaction:
+      required:
+      - amount
+      - id
+      - title
+      - type
+      type: object
+      properties:
+        amount:
+          type: integer
+        id:
+          type: string
+        title:
+          type: string
+        type:
+          type: integer

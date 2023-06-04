@@ -36,8 +36,8 @@ type (
 // @Accept      json
 // @Produce     json
 // @Param       yearMonth     query     string              true  "yearMonth"
-// @Success     200           {object}  ListTransactionsRes "成功"
-// @Failure     500           {object}  ErrorRes            "未知のエラー"
+// @Success     200           {object}  ListTransactionsRes "Success"
+// @Failure     500           {object}  ErrorRes            "Unknown Error"
 // @Router      /transactions [GET]
 func list(c echo.Context) error {
 	var res ListTransactionsRes

@@ -1,141 +1,147 @@
 {
-    "swagger": "2.0",
-    "info": {
-        "title": "suito",
-        "contact": {},
-        "version": "1.0"
-    },
-    "host": "localhost:8009",
-    "basePath": "/api/v1",
-    "paths": {
-        "/ping": {
-            "get": {
-                "description": "Ping",
-                "produces": [
-                    "text/plain"
-                ],
-                "tags": [
-                    "suito.default"
-                ],
-                "summary": "Ping",
-                "operationId": "ping",
-                "responses": {
-                    "200": {
-                        "description": "pong",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
-        "/transactions": {
-            "get": {
-                "description": "List transactions.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "suito.transactions"
-                ],
-                "summary": "List transactions",
-                "operationId": "listTransactions",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "yearMonth",
-                        "name": "yearMonth",
-                        "in": "query",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "成功",
-                        "schema": {
-                            "$ref": "#/definitions/transactions.ListTransactionsRes"
-                        }
-                    },
-                    "500": {
-                        "description": "未知のエラー",
-                        "schema": {
-                            "$ref": "#/definitions/ErrorRes"
-                        }
-                    }
-                }
-            }
-        }
-    },
-    "definitions": {
-        "ErrorInfo": {
-            "type": "object",
-            "required": [
-                "code",
-                "message"
-            ],
-            "properties": {
-                "code": {
-                    "type": "string"
-                },
-                "message": {
-                    "type": "string"
-                }
-            }
-        },
-        "ErrorRes": {
-            "type": "object",
-            "required": [
-                "errorInfo"
-            ],
-            "properties": {
-                "errorInfo": {
-                    "$ref": "#/definitions/ErrorInfo"
-                }
-            }
-        },
-        "transactions.ListTransactionsRes": {
-            "type": "object",
-            "required": [
-                "transactions"
-            ],
-            "properties": {
-                "transactions": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/transactions.Transaction"
-                    }
-                }
-            }
-        },
-        "transactions.Transaction": {
-            "type": "object",
-            "required": [
-                "amount",
-                "id",
-                "title",
-                "type"
-            ],
-            "properties": {
-                "amount": {
-                    "type": "integer"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "title": {
-                    "type": "string"
-                },
-                "type": {
-                    "type": "integer",
-                    "enum": [
-                        1,
-                        2
-                    ]
-                }
-            }
-        }
+  "openapi": "3.0.1",
+  "info": {
+    "title": "suito",
+    "contact": {},
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "//localhost:8009/api/v1"
     }
+  ],
+  "paths": {
+    "/ping": {
+      "get": {
+        "tags": [
+          "suito.default"
+        ],
+        "summary": "Ping",
+        "description": "Ping",
+        "operationId": "ping",
+        "responses": {
+          "200": {
+            "description": "pong",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/transactions": {
+      "get": {
+        "tags": [
+          "suito.transactions"
+        ],
+        "summary": "List transactions",
+        "description": "List transactions.",
+        "operationId": "listTransactions",
+        "parameters": [
+          {
+            "name": "yearMonth",
+            "in": "query",
+            "description": "yearMonth",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/transactions.ListTransactionsRes"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unknown Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRes"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ErrorInfo": {
+        "required": [
+          "code",
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "ErrorRes": {
+        "required": [
+          "errorInfo"
+        ],
+        "type": "object",
+        "properties": {
+          "errorInfo": {
+            "$ref": "#/components/schemas/ErrorInfo"
+          }
+        }
+      },
+      "transactions.ListTransactionsRes": {
+        "required": [
+          "transactions"
+        ],
+        "type": "object",
+        "properties": {
+          "transactions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/transactions.Transaction"
+            }
+          }
+        }
+      },
+      "transactions.Transaction": {
+        "required": [
+          "amount",
+          "id",
+          "title",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "integer"
+          },
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "type": {
+            "type": "integer"
+          }
+        }
+      }
+    }
+  }
 }
