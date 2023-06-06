@@ -3,6 +3,7 @@ package server
 import (
 	"context"
 	"fmt"
+	"os"
 	"time"
 
 	firebase "firebase.google.com/go/v4"
@@ -13,6 +14,11 @@ import (
 	"github.com/wakamenod/suito/env"
 	"github.com/wakamenod/suito/log"
 	"github.com/wakamenod/suito/middleware"
+	"go.uber.org/zap"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
+	gormlogger "gorm.io/gorm/logger"
+	"moul.io/zapgorm2"
 )
 
 type (
@@ -63,13 +69,33 @@ func (s *Server) Start() {
 		"ver":     viper.GetString("server.ver"),
 	})
 
-	s.e = api.InitRoute(s.e)
+	db := openDB()
+	s.e = api.InitRoute(s.e, db)
 
 	go func() {
 		if err := s.e.Start(s.address); err != nil {
 			log.Info("shutting down suito api server", nil)
 		}
 	}()
+}
+
+// TODO DBオープン処理まとめる
+func openDB() *gorm.DB {
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True",
+		os.Getenv("DB_USER"),
+		os.Getenv("DB_PASS"),
+		os.Getenv("DB_HOST"),
+		os.Getenv("DB_PORT"),
+		os.Getenv("DB_NAME"),
+	)
+	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	logger := zapgorm2.New(zap.L())
+	logger.SetAsDefault()
+	logger.LogLevel = gormlogger.Info
+	if err != nil {
+		log.Fatal("error opening database", log.Fields{"err": err})
+	}
+	return db
 }
 
 func (s *Server) Stop() error {

@@ -47,7 +47,7 @@ GOOS=linux GOARCH=amd64 go build -ldflags "-X env.CommitHash=${GIT_HASH}" -o ./s
 [tasks.build-production]
 dependencies = ["format"]
 script = """
-GOOS=linux GOARCH=amd64 go build -tags release -ldflags "-X envenv.CommitHash=${GIT_HASH}" -o ./suito
+GOOS=linux GOARCH=amd64 go build -tags release -ldflags "-X env.CommitHash=${GIT_HASH}" -o ./suito
 """
 
 [tasks.run]
@@ -61,7 +61,7 @@ dependencies = ["format", "lint"]
 script = """
 #!/usr/bin/env bash
 set -o pipefail
-go test --short $1 -count=1 -p=1 -cover -coverprofile=cover.out ./... -json | tparse -smallscreen $2
+go test --short $1 -ldflags "-X github.com/wakamenod/suito/env.TEST=test" -count=1 -p=1 -cover -coverprofile=cover.out ./... -json | tparse -smallscreen $2
 """
 
 [tasks.test-github]

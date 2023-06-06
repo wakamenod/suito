@@ -1,22 +1,38 @@
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:suito/src/features/transactions/domain/transaction.dart';
-import 'package:suito/src/features/transactions/domain/transaction_type.dart';
+import 'package:openapi/openapi.dart';
 import 'package:suito/src/utils/delay.dart';
 import 'package:suito/src/utils/in_memory_store.dart';
 
-part 'fake_transactions_repository.g.dart';
-
-const kFakeTransactions = [
-  Transaction(
-      id: 'AAA', title: 'テスト支払い', amount: 1900, type: TransactionType.expense),
-  Transaction(
-      id: 'BBB', title: 'コンビニお菓子', amount: 700, type: TransactionType.expense),
-  Transaction(
-      id: 'CCC', title: '臨時収入', amount: 20000, type: TransactionType.income),
-  Transaction(
-      id: 'DDD', title: 'サブスク', amount: 12000, type: TransactionType.expense),
-  Transaction(
-      id: 'FFF', title: 'スーパー買い物', amount: 1290, type: TransactionType.expense),
+final kFakeTransactions = [
+  Transaction((b) => b
+    ..id = 'AAA'
+    ..title = 'テスト支払い'
+    ..amount = 1900
+    ..localDate = '2023-05-01'
+    ..type = 1),
+  Transaction((b) => b
+    ..id = 'BBB'
+    ..title = 'コンビニお菓子'
+    ..amount = 700
+    ..localDate = '2023-05-01'
+    ..type = 1),
+  Transaction((b) => b
+    ..id = 'CCC'
+    ..title = '臨時収入'
+    ..amount = 20000
+    ..localDate = '2023-05-01'
+    ..type = 2),
+  Transaction((b) => b
+    ..id = 'DDD'
+    ..title = 'サブスク'
+    ..amount = 12000
+    ..localDate = '2023-05-01'
+    ..type = 1),
+  Transaction((b) => b
+    ..id = 'FFF'
+    ..title = 'スーパー買い物'
+    ..amount = 1290
+    ..localDate = '2023-05-01'
+    ..type = 1),
 ];
 
 class FakeTransactionsRepository {
@@ -46,17 +62,4 @@ class FakeTransactionsRepository {
     await delay(addDelay);
     return Future.value(_transactions.value);
   }
-}
-
-@Riverpod(keepAlive: true)
-FakeTransactionsRepository fakeTransactionsRepository(
-    FakeTransactionsRepositoryRef ref) {
-  return FakeTransactionsRepository(addDelay: false);
-}
-
-@riverpod
-Future<List<Transaction>> transactionsListFuture(
-    TransactionsListFutureRef ref) {
-  final transactionsRepository = ref.watch(fakeTransactionsRepositoryProvider);
-  return transactionsRepository.fetchTransactionsList();
 }

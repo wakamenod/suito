@@ -8,8 +8,8 @@ import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 
 import 'package:openapi/src/api_util.dart';
-import 'package:openapi/src/model/error_res.dart';
-import 'package:openapi/src/model/transactions_list_transactions_res.dart';
+import 'package:openapi/src/model/api_error_res.dart';
+import 'package:openapi/src/model/list_transactions_res.dart';
 
 class SuitoTransactionsApi {
 
@@ -31,9 +31,9 @@ class SuitoTransactionsApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [TransactionsListTransactionsRes] as data
+  /// Returns a [Future] containing a [Response] with a [ListTransactionsRes] as data
   /// Throws [DioError] if API call or serialization fails
-  Future<Response<TransactionsListTransactionsRes>> listTransactions({ 
+  Future<Response<ListTransactionsRes>> listTransactions({ 
     required String yearMonth,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -68,14 +68,14 @@ class SuitoTransactionsApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    TransactionsListTransactionsRes _responseData;
+    ListTransactionsRes _responseData;
 
     try {
-      const _responseType = FullType(TransactionsListTransactionsRes);
+      const _responseType = FullType(ListTransactionsRes);
       _responseData = _serializers.deserialize(
         _response.data!,
         specifiedType: _responseType,
-      ) as TransactionsListTransactionsRes;
+      ) as ListTransactionsRes;
 
     } catch (error, stackTrace) {
       throw DioError(
@@ -86,7 +86,7 @@ class SuitoTransactionsApi {
       )..stackTrace = stackTrace;
     }
 
-    return Response<TransactionsListTransactionsRes>(
+    return Response<ListTransactionsRes>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,

@@ -32,10 +32,9 @@ type LogConfig struct {
 
 // Init
 func Init(c LogConfig) error {
-	if env.TEST {
+	if env.IsTest() {
 		return initTestLogger(c)
 	}
-
 	return initLogger(c)
 }
 
@@ -64,6 +63,7 @@ func initTestLogger(c LogConfig) error {
 			return errors.Wrap(err, "failed build logger")
 		}
 		logger = l
+		zap.ReplaceGlobals(logger)
 	}
 	{
 		l, err := buildTestLogger(c.ErrPath, c.ErrPath, c.Level)
@@ -251,7 +251,7 @@ func zapValues(f Fields) []zap.Field {
 	for k, v := range f {
 		fs = append(fs, zap.Any(k, v))
 	}
-	if !env.TEST {
+	if !env.IsTest() {
 		fs = append(fs, zap.Any("version", env.GetVersionDetail()))
 	}
 	return fs

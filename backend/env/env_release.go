@@ -6,7 +6,7 @@ package env
 const DEBUG = false
 
 var (
-	TEST       = false
+	TEST       = ""
 	Name       = "release"
 	Version    = "0.0.1"
 	CommitHash = "XXXX"

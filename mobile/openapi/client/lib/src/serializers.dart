@@ -14,18 +14,18 @@ import 'package:built_value/iso_8601_date_time_serializer.dart';
 import 'package:openapi/src/date_serializer.dart';
 import 'package:openapi/src/model/date.dart';
 
-import 'package:openapi/src/model/error_info.dart';
-import 'package:openapi/src/model/error_res.dart';
-import 'package:openapi/src/model/transactions_list_transactions_res.dart';
-import 'package:openapi/src/model/transactions_transaction.dart';
+import 'package:openapi/src/model/api_error_info.dart';
+import 'package:openapi/src/model/api_error_res.dart';
+import 'package:openapi/src/model/list_transactions_res.dart';
+import 'package:openapi/src/model/transaction.dart';
 
 part 'serializers.g.dart';
 
 @SerializersFor([
-  ErrorInfo,
-  ErrorRes,
-  TransactionsListTransactionsRes,
-  TransactionsTransaction,
+  APIErrorInfo,
+  APIErrorRes,
+  ListTransactionsRes,
+  Transaction,
 ])
 Serializers serializers = (_$serializers.toBuilder()
       ..add(const OneOfSerializer())

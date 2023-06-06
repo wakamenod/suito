@@ -8,6 +8,7 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
+	"time"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -147,7 +148,7 @@ func createYearlyExpenses(db *gorm.DB, fields []string, year int, title, categor
 			Title:             title,
 			Amount:            amount,
 			ExpenseCategoryID: categoryID,
-			LocalDate:         fmt.Sprintf("%d%02d01", year, i),
+			LocalDate:         time.Date(year, time.Month(i), 1, 0, 0, 0, 0, time.UTC),
 		}
 		fatalIfErr(db.Create(&expense).Error)
 	}
@@ -165,20 +166,25 @@ func createYearlyIncomes(db *gorm.DB, fields []string, year int, title string) {
 			UID:       os.Getenv("FIREBASE_UID"),
 			Title:     title,
 			Amount:    amount,
-			LocalDate: fmt.Sprintf("%d%02d01", year, i),
+			LocalDate: time.Date(year, time.Month(i), 1, 0, 0, 0, 0, time.UTC),
 		}
 		fatalIfErr(db.Create(&expense).Error)
 	}
 }
 
 func createExpense(db *gorm.DB, date, title, categoryID string, amount int) {
+	parsedDate, err := time.Parse(dateLayout, date)
+	if err != nil {
+		fatalIfErr(err, "failed to parse date")
+	}
+
 	expense := model.Expense{
 		ID:                xid.New().String(),
 		UID:               os.Getenv("FIREBASE_UID"),
 		Title:             title,
 		Amount:            amount,
 		ExpenseCategoryID: categoryID,
-		LocalDate:         date[0:4] + date[5:7] + date[8:10],
+		LocalDate:         parsedDate,
 	}
 	fatalIfErr(db.Create(&expense).Error)
 }
@@ -197,7 +203,7 @@ func init() {
 }
 
 func openDB() *gorm.DB {
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True",
 		os.Getenv("DB_USER"),
 		os.Getenv("DB_PASS"),
 		os.Getenv("DB_HOST"),

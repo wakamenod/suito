@@ -7,7 +7,7 @@ import (
 
 	"firebase.google.com/go/v4/auth"
 	"github.com/labstack/echo/v4"
-	"github.com/wakamenod/suito/errors"
+	"github.com/wakamenod/suito/apperrors"
 )
 
 const UIDKey = "uidKey"
@@ -26,7 +26,7 @@ func VerifyIDTokenMiddleware(authClient AuthClient) echo.MiddlewareFunc {
 
 			token, err := authClient.VerifyIDToken(ctx, idToken)
 			if err != nil {
-				return errors.ErrInvalidIDToken
+				return apperrors.InvalidIDToken.Wrap(err)
 			}
 
 			c.Set(UIDKey, token.UID)

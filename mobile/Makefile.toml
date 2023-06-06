@@ -64,10 +64,12 @@ fvm flutter build appbundle
 
 [tasks.api-generate]
 script = '''
+  rm -fr ./openapi/
   ./bin/openapi-generator-cli.jar generate \
   -i ../backend/docs/swagger.yaml \
   -g dart-dio \
-  -o openapi/client/
+  -o openapi/client/ \
+  --additional-properties=useEnumExtension=true
 cd ./openapi/client
 flutter pub get
 flutter packages pub run build_runner build --delete-conflicting-outputs

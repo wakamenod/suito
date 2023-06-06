@@ -19,13 +19,18 @@ services:
       - ./ddl:/ddl:ro
     depends_on:
       db:
-        condition: service_started
+        condition: service_healthy
       # redis:
       #   condition: service_started
     env_file: .env.suito
   db:
     container_name: suito-db
     image: mysql:8.0
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     volumes:
       - ./ddl:/docker-entrypoint-initdb.d
     environment:
