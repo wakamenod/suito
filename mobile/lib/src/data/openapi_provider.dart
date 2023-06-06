@@ -20,7 +20,7 @@ final openApiProvider = Provider<Openapi>((ref) {
 
   // https://zenn.dev/manabu/articles/13e6e608c787dc
   return Openapi(
-    basePathOverride: baseUrl,
+    basePathOverride: '$baseUrl/api/v1/',
     interceptors: [
       if (kDebugMode) LogInterceptor(requestBody: true, responseBody: true),
       _BearerAuthInterceptor(firebaseAuth),

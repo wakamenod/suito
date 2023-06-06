@@ -1,6 +1,7 @@
 import 'package:test/test.dart';
 import 'package:openapi/openapi.dart';
 
+
 /// tests for SuitoDefaultApi
 void main() {
   final instance = Openapi().getSuitoDefaultApi();
@@ -14,5 +15,6 @@ void main() {
     test('test ping', () async {
       // TODO
     });
+
   });
 }

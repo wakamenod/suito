@@ -12,7 +12,7 @@ export 'package:openapi/src/model/date.dart';
 export 'package:openapi/src/api/suito_default_api.dart';
 export 'package:openapi/src/api/suito_transactions_api.dart';
 
-export 'package:openapi/src/model/error_info.dart';
-export 'package:openapi/src/model/error_res.dart';
-export 'package:openapi/src/model/transactions_list_transactions_res.dart';
-export 'package:openapi/src/model/transactions_transaction.dart';
+export 'package:openapi/src/model/api_error_info.dart';
+export 'package:openapi/src/model/api_error_res.dart';
+export 'package:openapi/src/model/list_transactions_res.dart';
+export 'package:openapi/src/model/transaction.dart';

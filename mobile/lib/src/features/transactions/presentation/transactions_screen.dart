@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:openapi/openapi.dart';
 import 'package:suito/src/common_widgets/async_value_widget.dart';
-import 'package:suito/src/features/transactions/data/fake_transactions_repository.dart';
-import 'package:suito/src/features/transactions/domain/transaction.dart';
+import 'package:suito/src/features/transactions/data/transactions_repository.dart';
 
 class TransactionsScreen extends ConsumerWidget {
   const TransactionsScreen({super.key});

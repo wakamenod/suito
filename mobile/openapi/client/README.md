@@ -69,10 +69,10 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
- - [ErrorInfo](doc/ErrorInfo.md)
- - [ErrorRes](doc/ErrorRes.md)
- - [TransactionsListTransactionsRes](doc/TransactionsListTransactionsRes.md)
- - [TransactionsTransaction](doc/TransactionsTransaction.md)
+ - [APIErrorInfo](doc/APIErrorInfo.md)
+ - [APIErrorRes](doc/APIErrorRes.md)
+ - [ListTransactionsRes](doc/ListTransactionsRes.md)
+ - [Transaction](doc/Transaction.md)
 
 
 ## Documentation For Authorization

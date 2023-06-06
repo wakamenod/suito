@@ -10,7 +10,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
-	cerrors "github.com/wakamenod/suito/errors"
+	"github.com/wakamenod/suito/apperrors"
 	mecho "github.com/wakamenod/suito/mock/echo"
 )
 
@@ -74,5 +74,7 @@ func TestVerifyIDTokenEmpty(t *testing.T) {
 	middleware := middlewareFunc(mockNext)
 	err := middleware(mockContext)
 	require.Error(t, err)
-	require.ErrorIs(t, err, cerrors.ErrInvalidIDToken)
+	var suitoError *apperrors.SuitoError
+	require.ErrorAs(t, err, &suitoError)
+	require.Equal(t, apperrors.InvalidIDToken, suitoError.ErrCode)
 }

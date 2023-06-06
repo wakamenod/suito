@@ -13,7 +13,7 @@ Method | HTTP request | Description
 
 
 # **listTransactions**
-> TransactionsListTransactionsRes listTransactions(yearMonth)
+> ListTransactionsRes listTransactions(yearMonth)
 
 List transactions
 
@@ -42,7 +42,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**TransactionsListTransactionsRes**](TransactionsListTransactionsRes.md)
+[**ListTransactionsRes**](ListTransactionsRes.md)
 
 ### Authorization
 

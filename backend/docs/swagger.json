@@ -58,7 +58,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/transactions.ListTransactionsRes"
+                  "$ref": "#/components/schemas/ListTransactionsRes"
                 }
               }
             }
@@ -68,7 +68,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorRes"
+                  "$ref": "#/components/schemas/APIErrorRes"
                 }
               }
             }
@@ -79,9 +79,10 @@
   },
   "components": {
     "schemas": {
-      "ErrorInfo": {
+      "APIErrorInfo": {
         "required": [
           "code",
+          "data",
           "message"
         ],
         "type": "object",
@@ -89,23 +90,26 @@
           "code": {
             "type": "string"
           },
+          "data": {
+            "type": "string"
+          },
           "message": {
             "type": "string"
           }
         }
       },
-      "ErrorRes": {
+      "APIErrorRes": {
         "required": [
           "errorInfo"
         ],
         "type": "object",
         "properties": {
           "errorInfo": {
-            "$ref": "#/components/schemas/ErrorInfo"
+            "$ref": "#/components/schemas/APIErrorInfo"
           }
         }
       },
-      "transactions.ListTransactionsRes": {
+      "ListTransactionsRes": {
         "required": [
           "transactions"
         ],
@@ -114,15 +118,16 @@
           "transactions": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/transactions.Transaction"
+              "$ref": "#/components/schemas/Transaction"
             }
           }
         }
       },
-      "transactions.Transaction": {
+      "Transaction": {
         "required": [
           "amount",
           "id",
+          "localDate",
           "title",
           "type"
         ],
@@ -132,6 +137,9 @@
             "type": "integer"
           },
           "id": {
+            "type": "string"
+          },
+          "localDate": {
             "type": "string"
           },
           "title": {

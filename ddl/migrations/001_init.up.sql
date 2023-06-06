@@ -14,8 +14,8 @@ CREATE TABLE `expense` (
   `expense_location_id` VARCHAR(20) NOT NULL,
   -- Expense Category Id
   `expense_category_id` VARCHAR(20) NOT NULL,
-  -- local_date (YYYYMMDD)
-  `local_date` CHAR(8) NOT NULL,
+  -- Local Date
+  `local_date` DATE NOT NULL,
 
   `created_at` DATETIME NOT NULL,
   `updated_at` DATETIME NOT NULL,
@@ -48,8 +48,8 @@ CREATE TABLE `income` (
   `amount` INT NOT NULL,
   -- Memo
   `memo` VARCHAR(512) NOT NULL,
-  -- local_date (YYYYMMDD)
-  `local_date` CHAR(8) NOT NULL,
+  -- Local Date
+  `local_date` DATE NOT NULL,
 
   `created_at` DATETIME NOT NULL,
   `updated_at` DATETIME NOT NULL,

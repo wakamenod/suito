@@ -40,33 +40,36 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/transactions.ListTransactionsRes'
+                $ref: '#/components/schemas/ListTransactionsRes'
         500:
           description: Unknown Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorRes'
+                $ref: '#/components/schemas/APIErrorRes'
 components:
   schemas:
-    ErrorInfo:
+    APIErrorInfo:
       required:
       - code
+      - data
       - message
       type: object
       properties:
         code:
           type: string
+        data:
+          type: string
         message:
           type: string
-    ErrorRes:
+    APIErrorRes:
       required:
       - errorInfo
       type: object
       properties:
         errorInfo:
-          $ref: '#/components/schemas/ErrorInfo'
-    transactions.ListTransactionsRes:
+          $ref: '#/components/schemas/APIErrorInfo'
+    ListTransactionsRes:
       required:
       - transactions
       type: object
@@ -74,11 +77,12 @@ components:
         transactions:
           type: array
           items:
-            $ref: '#/components/schemas/transactions.Transaction'
-    transactions.Transaction:
+            $ref: '#/components/schemas/Transaction'
+    Transaction:
       required:
       - amount
       - id
+      - localDate
       - title
       - type
       type: object
@@ -86,6 +90,8 @@ components:
         amount:
           type: integer
         id:
+          type: string
+        localDate:
           type: string
         title:
           type: string

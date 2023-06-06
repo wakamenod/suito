@@ -7,14 +7,13 @@ part of 'serializers.dart';
 // **************************************************************************
 
 Serializers _$serializers = (new Serializers().toBuilder()
-      ..add(ErrorInfo.serializer)
-      ..add(ErrorRes.serializer)
-      ..add(TransactionsListTransactionsRes.serializer)
-      ..add(TransactionsTransaction.serializer)
+      ..add(APIErrorInfo.serializer)
+      ..add(APIErrorRes.serializer)
+      ..add(ListTransactionsRes.serializer)
+      ..add(Transaction.serializer)
       ..addBuilderFactory(
-          const FullType(
-              BuiltList, const [const FullType(TransactionsTransaction)]),
-          () => new ListBuilder<TransactionsTransaction>()))
+          const FullType(BuiltList, const [const FullType(Transaction)]),
+          () => new ListBuilder<Transaction>()))
     .build();
 
 // ignore_for_file: deprecated_member_use_from_same_package,type=lint

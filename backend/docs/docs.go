@@ -64,13 +64,13 @@ const docTemplate = `{
                     "200": {
                         "description": "Success",
                         "schema": {
-                            "$ref": "#/definitions/transactions.ListTransactionsRes"
+                            "$ref": "#/definitions/ListTransactionsRes"
                         }
                     },
                     "500": {
                         "description": "Unknown Error",
                         "schema": {
-                            "$ref": "#/definitions/ErrorRes"
+                            "$ref": "#/definitions/APIErrorRes"
                         }
                     }
                 }
@@ -78,14 +78,18 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "ErrorInfo": {
+        "APIErrorInfo": {
             "type": "object",
             "required": [
                 "code",
+                "data",
                 "message"
             ],
             "properties": {
                 "code": {
+                    "type": "string"
+                },
+                "data": {
                     "type": "string"
                 },
                 "message": {
@@ -93,18 +97,18 @@ const docTemplate = `{
                 }
             }
         },
-        "ErrorRes": {
+        "APIErrorRes": {
             "type": "object",
             "required": [
                 "errorInfo"
             ],
             "properties": {
                 "errorInfo": {
-                    "$ref": "#/definitions/ErrorInfo"
+                    "$ref": "#/definitions/APIErrorInfo"
                 }
             }
         },
-        "transactions.ListTransactionsRes": {
+        "ListTransactionsRes": {
             "type": "object",
             "required": [
                 "transactions"
@@ -113,16 +117,17 @@ const docTemplate = `{
                 "transactions": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/transactions.Transaction"
+                        "$ref": "#/definitions/Transaction"
                     }
                 }
             }
         },
-        "transactions.Transaction": {
+        "Transaction": {
             "type": "object",
             "required": [
                 "amount",
                 "id",
+                "localDate",
                 "title",
                 "type"
             ],
@@ -131,6 +136,9 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "id": {
+                    "type": "string"
+                },
+                "localDate": {
                     "type": "string"
                 },
                 "title": {

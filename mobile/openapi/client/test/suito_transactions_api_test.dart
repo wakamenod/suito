@@ -1,6 +1,7 @@
 import 'package:test/test.dart';
 import 'package:openapi/openapi.dart';
 
+
 /// tests for SuitoTransactionsApi
 void main() {
   final instance = Openapi().getSuitoTransactionsApi();
@@ -10,9 +11,10 @@ void main() {
     //
     // List transactions.
     //
-    //Future<TransactionsListTransactionsRes> listTransactions(String yearMonth) async
+    //Future<ListTransactionsRes> listTransactions(String yearMonth) async
     test('test listTransactions', () async {
       // TODO
     });
+
   });
 }
