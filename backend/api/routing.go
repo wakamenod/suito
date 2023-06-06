@@ -21,6 +21,7 @@ func InitRoute(e *echo.Echo, db *gorm.DB) *echo.Echo {
 	{
 		a := g.Group("/transactions")
 		a.GET("", tCon.TransactionsListHandler)
+		a.GET("/months", tCon.TransactionMonthsHandler)
 	}
 
 	return e

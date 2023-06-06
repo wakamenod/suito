@@ -26,4 +26,5 @@ type (
 
 type TransactionsService interface {
 	ListTransactionsService(uid string, start, end *time.Time) ([]Transaction, error)
+	TransactionMonthsService(uid string) ([]string, error)
 }

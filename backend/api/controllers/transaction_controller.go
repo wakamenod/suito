@@ -70,18 +70,13 @@ func (s *TransactionController) TransactionsListHandler(c echo.Context) error {
 func (s *TransactionController) TransactionMonthsHandler(c echo.Context) error {
 	var res TransactionMonthsRes
 
-	// yearMonth := c.QueryParam("yearMonth")
-	// start, end, err := dateutils.YearMonthDateRange(yearMonth)
-	// if err != nil {
-	// 	return apperrors.InvalidParameter.Wrap(err)
-	// }
-	// uid := c.Get(middleware.UIDKey).(string)
+	uid := c.Get(middleware.UIDKey).(string)
 
-	// transactions, err := s.service.ListTransactionsService(uid, start, end)
-	// if err != nil {
-	// 	return err
-	// }
-	// res.Transactions = transactions
+	yearMonths, err := s.service.TransactionMonthsService(uid)
+	if err != nil {
+		return err
+	}
+	res.YearMonths = yearMonths
 
 	return webutils.Response(c, http.StatusOK, res)
 }
