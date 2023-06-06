@@ -8,6 +8,7 @@ doc/ListTransactionsRes.md
 doc/SuitoDefaultApi.md
 doc/SuitoTransactionsApi.md
 doc/Transaction.md
+doc/TransactionMonthsRes.md
 lib/openapi.dart
 lib/src/api.dart
 lib/src/api/suito_default_api.dart
@@ -24,6 +25,7 @@ lib/src/model/api_error_res.dart
 lib/src/model/date.dart
 lib/src/model/list_transactions_res.dart
 lib/src/model/transaction.dart
+lib/src/model/transaction_months_res.dart
 lib/src/serializers.dart
 pubspec.yaml
 test/api_error_info_test.dart
@@ -31,4 +33,5 @@ test/api_error_res_test.dart
 test/list_transactions_res_test.dart
 test/suito_default_api_test.dart
 test/suito_transactions_api_test.dart
+test/transaction_months_res_test.dart
 test/transaction_test.dart

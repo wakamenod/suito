@@ -11,6 +11,10 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(APIErrorRes.serializer)
       ..add(ListTransactionsRes.serializer)
       ..add(Transaction.serializer)
+      ..add(TransactionMonthsRes.serializer)
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(Transaction)]),
           () => new ListBuilder<Transaction>()))

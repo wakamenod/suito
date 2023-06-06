@@ -75,6 +75,36 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/transactions/months": {
+            "get": {
+                "description": "トランザクションが発生した月(YYYY-MM)の一覧を取得します.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "suito.transactions"
+                ],
+                "summary": "List transaction months",
+                "operationId": "transactionMonths",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/TransactionMonthsRes"
+                        }
+                    },
+                    "500": {
+                        "description": "Unknown Error",
+                        "schema": {
+                            "$ref": "#/definitions/APIErrorRes"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -150,6 +180,20 @@ const docTemplate = `{
                         1,
                         2
                     ]
+                }
+            }
+        },
+        "TransactionMonthsRes": {
+            "type": "object",
+            "required": [
+                "yearMonths"
+            ],
+            "properties": {
+                "yearMonths": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 }
             }
         }

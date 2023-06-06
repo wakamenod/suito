@@ -16,3 +16,4 @@ export 'package:openapi/src/model/api_error_info.dart';
 export 'package:openapi/src/model/api_error_res.dart';
 export 'package:openapi/src/model/list_transactions_res.dart';
 export 'package:openapi/src/model/transaction.dart';
+export 'package:openapi/src/model/transaction_months_res.dart';

@@ -47,6 +47,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/APIErrorRes'
+  /transactions/months:
+    get:
+      tags:
+      - suito.transactions
+      summary: List transaction months
+      description: トランザクションが発生した月(YYYY-MM)の一覧を取得します.
+      operationId: transactionMonths
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionMonthsRes'
+        500:
+          description: Unknown Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrorRes'
 components:
   schemas:
     APIErrorInfo:
@@ -97,3 +117,12 @@ components:
           type: string
         type:
           type: integer
+    TransactionMonthsRes:
+      required:
+      - yearMonths
+      type: object
+      properties:
+        yearMonths:
+          type: array
+          items:
+            type: string
