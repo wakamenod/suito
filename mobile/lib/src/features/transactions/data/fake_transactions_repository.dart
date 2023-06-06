@@ -2,6 +2,8 @@ import 'package:openapi/openapi.dart';
 import 'package:suito/src/utils/delay.dart';
 import 'package:suito/src/utils/in_memory_store.dart';
 
+import 'transactions_repository.dart';
+
 final kFakeTransactions = [
   Transaction((b) => b
     ..id = 'AAA'
@@ -35,7 +37,7 @@ final kFakeTransactions = [
     ..type = 1),
 ];
 
-class FakeTransactionsRepository {
+class FakeTransactionsRepository implements TransactionsRepository {
   FakeTransactionsRepository({this.addDelay = true});
   final bool addDelay;
 
@@ -58,6 +60,7 @@ class FakeTransactionsRepository {
     }
   }
 
+  @override
   Future<List<Transaction>> fetchTransactionsList() async {
     await delay(addDelay);
     return Future.value(_transactions.value);

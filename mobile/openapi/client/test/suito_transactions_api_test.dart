@@ -16,5 +16,14 @@ void main() {
       // TODO
     });
 
+    // List transaction months
+    //
+    // トランザクションが発生した月(YYYY-MM)の一覧を取得します.
+    //
+    //Future<TransactionMonthsRes> transactionMonths() async
+    test('test transactionMonths', () async {
+      // TODO
+    });
+
   });
 }

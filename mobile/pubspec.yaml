@@ -28,6 +28,7 @@ dependencies:
   json_annotation: ^4.8.1
   openapi:
     path: ./openapi/client
+  dropdown_button2: ^2.1.3
 
 dev_dependencies:
   custom_lint: 0.3.4

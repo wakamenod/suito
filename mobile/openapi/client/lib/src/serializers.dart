@@ -18,6 +18,7 @@ import 'package:openapi/src/model/api_error_info.dart';
 import 'package:openapi/src/model/api_error_res.dart';
 import 'package:openapi/src/model/list_transactions_res.dart';
 import 'package:openapi/src/model/transaction.dart';
+import 'package:openapi/src/model/transaction_months_res.dart';
 
 part 'serializers.g.dart';
 
@@ -26,6 +27,7 @@ part 'serializers.g.dart';
   APIErrorRes,
   ListTransactionsRes,
   Transaction,
+  TransactionMonthsRes,
 ])
 Serializers serializers = (_$serializers.toBuilder()
       ..add(const OneOfSerializer())

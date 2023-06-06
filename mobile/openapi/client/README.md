@@ -65,6 +65,7 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 [*SuitoDefaultApi*](doc/SuitoDefaultApi.md) | [**ping**](doc/SuitoDefaultApi.md#ping) | **GET** /ping | Ping
 [*SuitoTransactionsApi*](doc/SuitoTransactionsApi.md) | [**listTransactions**](doc/SuitoTransactionsApi.md#listtransactions) | **GET** /transactions | List transactions
+[*SuitoTransactionsApi*](doc/SuitoTransactionsApi.md) | [**transactionMonths**](doc/SuitoTransactionsApi.md#transactionmonths) | **GET** /transactions/months | List transaction months
 
 
 ## Documentation For Models
@@ -73,6 +74,7 @@ Class | Method | HTTP request | Description
  - [APIErrorRes](doc/APIErrorRes.md)
  - [ListTransactionsRes](doc/ListTransactionsRes.md)
  - [Transaction](doc/Transaction.md)
+ - [TransactionMonthsRes](doc/TransactionMonthsRes.md)
 
 
 ## Documentation For Authorization
