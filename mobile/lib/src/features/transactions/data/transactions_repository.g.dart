@@ -25,22 +25,22 @@ final transactionsRepositoryProvider =
 );
 
 typedef TransactionsRepositoryRef = ProviderRef<TransactionsRepository>;
-String _$transactionsListFutureHash() =>
-    r'34edfcb6239caad7173a4b53fdefaa3b4cb9bda6';
+String _$transactionsListWatchHash() =>
+    r'5b6b4844af5d16483506ce684fb247a905a9c7b5';
 
-/// See also [transactionsListFuture].
-@ProviderFor(transactionsListFuture)
-final transactionsListFutureProvider =
-    AutoDisposeFutureProvider<List<Transaction>>.internal(
-  transactionsListFuture,
-  name: r'transactionsListFutureProvider',
+/// See also [transactionsListWatch].
+@ProviderFor(transactionsListWatch)
+final transactionsListWatchProvider =
+    AutoDisposeStreamProvider<List<Transaction>>.internal(
+  transactionsListWatch,
+  name: r'transactionsListWatchProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$transactionsListFutureHash,
+      : _$transactionsListWatchHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef TransactionsListFutureRef
-    = AutoDisposeFutureProviderRef<List<Transaction>>;
+typedef TransactionsListWatchRef
+    = AutoDisposeStreamProviderRef<List<Transaction>>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

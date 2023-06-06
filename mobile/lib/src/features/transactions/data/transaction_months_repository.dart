@@ -10,10 +10,9 @@ class TransactionMonthsRepository {
   final Openapi _openapi;
 
   Future<List<String>> fetchTransactionMonthsList() async {
-    // final api = _openapi.getSuitoTransactionMonthsApi();
-    // final response = await api.listTransactionMonths(yearMonth: '2022-05');
-    // return response.data?.TransactionMonths.toList() ?? [];
-    return Future.value([]);
+    final api = _openapi.getSuitoTransactionsApi();
+    final response = await api.transactionMonths();
+    return response.data?.yearMonths.toList() ?? [];
   }
 }
 

@@ -27,7 +27,7 @@ const (
 var (
 	regexMonthlyFile = regexp.MustCompile(`^\d{4}-\d{2}\.tsv$`)
 	regexYearlyFile  = regexp.MustCompile(`^\d{4}\.tsv$`)
-	// jst              = time.FixedZone("Asia/Tokyo", 9*60*60)
+	jst              = time.FixedZone("Asia/Tokyo", 9*60*60)
 )
 
 var importCmd = &cobra.Command{
@@ -135,10 +135,14 @@ func importMonthlyFile(db *gorm.DB, entry os.DirEntry) {
 
 func createYearlyExpenses(db *gorm.DB, fields []string, year int, title, category string) {
 	categoryID := firstOrCreateCategory(db, category).ID
+	currentMonth := time.Now().In(jst).Month()
 
 	for i := 1; i <= 12; i++ {
 		amount, err := strconv.Atoi(fields[i+1])
 		if err != nil || amount == 0 {
+			continue
+		}
+		if year == 2023 && i > int(currentMonth) {
 			continue
 		}
 
@@ -155,9 +159,13 @@ func createYearlyExpenses(db *gorm.DB, fields []string, year int, title, categor
 }
 
 func createYearlyIncomes(db *gorm.DB, fields []string, year int, title string) {
+	currentMonth := time.Now().In(jst).Month()
 	for i := 1; i <= 12; i++ {
 		amount, err := strconv.Atoi(fields[i+1])
 		if err != nil || amount == 0 {
+			continue
+		}
+		if year == 2023 && i > int(currentMonth) {
 			continue
 		}
 
