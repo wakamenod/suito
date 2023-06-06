@@ -35,7 +35,7 @@ void main() {
     test('fetchTransactionsList returns global list', () async {
       final transactionsRepository = makeTransactionsRepository();
       expect(
-        await transactionsRepository.fetchTransactionsList(),
+        await transactionsRepository.fetchTransactionsList('2023-05'),
         kFakeTransactions,
       );
     });

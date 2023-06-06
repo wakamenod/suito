@@ -61,8 +61,14 @@ class FakeTransactionsRepository implements TransactionsRepository {
   }
 
   @override
-  Future<List<Transaction>> fetchTransactionsList() async {
+  Future<List<Transaction>> fetchTransactionsList(String? yearMonth) async {
+    if (yearMonth == null) {
+      return Future.value([]);
+    }
+
     await delay(addDelay);
-    return Future.value(_transactions.value);
+    return Future.value(_transactions.value
+        .where((element) => element.localDate.startsWith(yearMonth))
+        .toList());
   }
 }

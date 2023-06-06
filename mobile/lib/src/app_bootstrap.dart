@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:suito/src/exceptions/async_error_logger.dart';
 import 'package:suito/src/exceptions/error_logger.dart';
-import 'package:suito/src/features/transactions/data/fake_transaction_months_repository.dart';
-import 'package:suito/src/features/transactions/data/transaction_months_repository.dart';
 
 import 'app.dart';
 
@@ -12,13 +10,13 @@ import 'app.dart';
 class AppBootstrap {
   Future<ProviderContainer> createFakeDioProviderContainer(
       {bool addDelay = true}) async {
-    final transactionMonthsRepository =
-        FakeTransactionMonthsRepository(addDelay: addDelay);
+    // final transactionMonthsRepository =
+    //     FakeTransactionMonthsRepository(addDelay: addDelay);
 
     return ProviderContainer(
       overrides: [
-        transactionMonthsRepositoryProvider
-            .overrideWithValue(transactionMonthsRepository),
+        // transactionMonthsRepositoryProvider
+        //     .overrideWithValue(transactionMonthsRepository),
       ],
       observers: [AsyncErrorLogger()],
     );
