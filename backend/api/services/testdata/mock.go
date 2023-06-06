@@ -19,3 +19,7 @@ func (r *RepositoryMock) FindExpenses(uid string, start, end *time.Time) ([]mode
 func (r *RepositoryMock) FindIncomes(uid string, start, end *time.Time) ([]model.Income, error) {
 	return incomeTestData, nil
 }
+
+func (r *RepositoryMock) FindTransactionMonths(uid string) ([]string, error) {
+	return []string{"2023-06", "2023-05", "2023-02"}, nil
+}

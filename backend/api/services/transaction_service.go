@@ -42,3 +42,11 @@ func (s *SuitoService) ListTransactionsService(uid string, start, end *time.Time
 
 	return transactions, nil
 }
+
+func (s *SuitoService) TransactionMonthsService(uid string) ([]string, error) {
+	months, err := s.repo.FindTransactionMonths(uid)
+	if err != nil {
+		return nil, err
+	}
+	return months, nil
+}

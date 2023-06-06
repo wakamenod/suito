@@ -31,3 +31,20 @@ func TestTransactionsListHandler(t *testing.T) {
 	require.Equal(t, "ID_INCOME_01", res.Transactions[2].ID)
 	require.Equal(t, "ID_EXPENSE_01", res.Transactions[3].ID)
 }
+
+func TestTransactionMonthsHandler(t *testing.T) {
+	// Setup
+	e := echo.New()
+	req := httptest.NewRequest(http.MethodGet, "/months", nil)
+	rec := httptest.NewRecorder()
+	c := e.NewContext(req, rec)
+	c.Set(middleware.UIDKey, "user1")
+
+	// Assertions
+	require.NoError(t, tCon.TransactionMonthsHandler(c))
+	require.Equal(t, http.StatusOK, rec.Code)
+
+	var res TransactionMonthsRes
+	require.NoError(t, json.Unmarshal(rec.Body.Bytes(), &res))
+	require.Equal(t, 3, len(res.YearMonths))
+}
