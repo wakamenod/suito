@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:suito/src/common_widgets/text_input_field.dart';
 
 class TransactionEditDialog extends StatelessWidget {
   const TransactionEditDialog({super.key});
@@ -12,6 +13,10 @@ class TransactionEditDialog extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            TextInputField(
+                errorText: "Error",
+                hintText: "Title",
+                onChanged: (value) => {}),
             const FlutterLogo(
               size: 150,
             ),
