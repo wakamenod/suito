@@ -8,8 +8,10 @@ part of 'serializers.dart';
 
 Serializers _$serializers = (new Serializers().toBuilder()
       ..add(ListExpenseCategoriesRes.serializer)
+      ..add(ListExpenseLocationsRes.serializer)
       ..add(ListTransactionsRes.serializer)
       ..add(ModelExpenseCategory.serializer)
+      ..add(ModelExpenseLocation.serializer)
       ..add(SuitoError.serializer)
       ..add(Transaction.serializer)
       ..add(TransactionMonthsRes.serializer)
@@ -17,6 +19,10 @@ Serializers _$serializers = (new Serializers().toBuilder()
           const FullType(
               BuiltList, const [const FullType(ModelExpenseCategory)]),
           () => new ListBuilder<ModelExpenseCategory>())
+      ..addBuilderFactory(
+          const FullType(
+              BuiltList, const [const FullType(ModelExpenseLocation)]),
+          () => new ListBuilder<ModelExpenseLocation>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())

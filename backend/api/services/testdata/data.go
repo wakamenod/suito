@@ -56,3 +56,16 @@ var expenseCategoryTestData = []model.ExpenseCategory{
 		Name: "Test Category 02",
 	},
 }
+
+var expenseLocationTestData = []model.ExpenseLocation{
+	model.ExpenseLocation{
+		ID:   "ID_EXPENSE_LOCATION_01",
+		UID:  "user1",
+		Name: "Test Location 01",
+	},
+	model.ExpenseLocation{
+		ID:   "ID_EXPENSE_LOCATION_02",
+		UID:  "user1",
+		Name: "Test Location 02",
+	},
+}

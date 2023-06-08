@@ -27,3 +27,7 @@ func (r *RepositoryMock) FindTransactionMonths(uid string) ([]string, error) {
 func (r *RepositoryMock) FindExpenseCategories(uid string) ([]model.ExpenseCategory, error) {
 	return expenseCategoryTestData, nil
 }
+
+func (r *RepositoryMock) FindExpenseLocations(uid string) ([]model.ExpenseLocation, error) {
+	return expenseLocationTestData, nil
+}
