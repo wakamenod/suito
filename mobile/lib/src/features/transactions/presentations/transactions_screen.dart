@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:suito/src/features/transactions/presentations/transaction_edit_dialog.dart';
 
 import 'transaction_months_dropdown.dart';
 import 'transactions_list.dart';
@@ -21,17 +22,17 @@ class TransactionsScreen extends ConsumerWidget {
           Expanded(child: TransactionsList())
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return const TransactionEditDialog();
+              });
+        },
+        backgroundColor: Colors.blueAccent,
+        child: const Icon(Icons.add),
+      ),
     );
   }
 }
-
-// class _PingWidget extends ConsumerWidget {
-//   @override
-//   Widget build(BuildContext context, WidgetRef ref) {
-//     return ref.watch(pingFutureProvider).when(
-//           data: (data) => Text(data),
-//           loading: () => const CircularProgressIndicator(),
-//           error: (err, stack) => Text('Error: $err'),
-//         );
-//   }
-// }
