@@ -33,4 +33,5 @@ type TransactionsService interface {
 
 type ExpenseService interface {
 	ListExpenseCategoryService(uid string) ([]model.ExpenseCategory, error)
+	ListExpenseLocationService(uid string) ([]model.ExpenseLocation, error)
 }

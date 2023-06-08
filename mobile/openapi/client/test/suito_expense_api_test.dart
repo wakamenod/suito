@@ -16,5 +16,14 @@ void main() {
       // TODO
     });
 
+    // List expense locations
+    //
+    // 購入場所ー一覧を返却します.
+    //
+    //Future<ListExpenseLocationsRes> listExpenseLocations() async
+    test('test listExpenseLocations', () async {
+      // TODO
+    });
+
   });
 }

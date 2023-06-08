@@ -26,6 +26,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuitoError'
+  /expense/locations:
+    get:
+      tags:
+      - suito.expense
+      summary: List expense locations
+      description: 購入場所ー一覧を返却します.
+      operationId: listExpenseLocations
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListExpenseLocationsRes'
+        500:
+          description: Unknown Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuitoError'
   /ping:
     get:
       tags:
@@ -98,6 +118,15 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/model.ExpenseCategory'
+    ListExpenseLocationsRes:
+      required:
+      - expenseLocations
+      type: object
+      properties:
+        expenseLocations:
+          type: array
+          items:
+            $ref: '#/components/schemas/model.ExpenseLocation'
     ListTransactionsRes:
       required:
       - transactions
@@ -143,6 +172,23 @@ components:
           items:
             type: string
     model.ExpenseCategory:
+      required:
+      - id
+      - name
+      - uid
+      type: object
+      properties:
+        createdAt:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+        uid:
+          type: string
+        updatedAt:
+          type: string
+    model.ExpenseLocation:
       required:
       - id
       - name

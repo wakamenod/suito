@@ -65,6 +65,7 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 [*SuitoDefaultApi*](doc/SuitoDefaultApi.md) | [**ping**](doc/SuitoDefaultApi.md#ping) | **GET** /ping | Ping
 [*SuitoExpenseApi*](doc/SuitoExpenseApi.md) | [**listExpenseCategories**](doc/SuitoExpenseApi.md#listexpensecategories) | **GET** /expense/categories | List expense categories
+[*SuitoExpenseApi*](doc/SuitoExpenseApi.md) | [**listExpenseLocations**](doc/SuitoExpenseApi.md#listexpenselocations) | **GET** /expense/locations | List expense locations
 [*SuitoTransactionsApi*](doc/SuitoTransactionsApi.md) | [**listTransactions**](doc/SuitoTransactionsApi.md#listtransactions) | **GET** /transactions | List transactions
 [*SuitoTransactionsApi*](doc/SuitoTransactionsApi.md) | [**transactionMonths**](doc/SuitoTransactionsApi.md#transactionmonths) | **GET** /transactions/months | List transaction months
 
@@ -72,8 +73,10 @@ Class | Method | HTTP request | Description
 ## Documentation For Models
 
  - [ListExpenseCategoriesRes](doc/ListExpenseCategoriesRes.md)
+ - [ListExpenseLocationsRes](doc/ListExpenseLocationsRes.md)
  - [ListTransactionsRes](doc/ListTransactionsRes.md)
  - [ModelExpenseCategory](doc/ModelExpenseCategory.md)
+ - [ModelExpenseLocation](doc/ModelExpenseLocation.md)
  - [SuitoError](doc/SuitoError.md)
  - [Transaction](doc/Transaction.md)
  - [TransactionMonthsRes](doc/TransactionMonthsRes.md)

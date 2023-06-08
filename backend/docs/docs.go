@@ -46,6 +46,36 @@ const docTemplate = `{
                 }
             }
         },
+        "/expense/locations": {
+            "get": {
+                "description": "購入場所ー一覧を返却します.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "suito.expense"
+                ],
+                "summary": "List expense locations",
+                "operationId": "listExpenseLocations",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/ListExpenseLocationsRes"
+                        }
+                    },
+                    "500": {
+                        "description": "Unknown Error",
+                        "schema": {
+                            "$ref": "#/definitions/SuitoError"
+                        }
+                    }
+                }
+            }
+        },
         "/ping": {
             "get": {
                 "description": "Ping",
@@ -152,6 +182,20 @@ const docTemplate = `{
                 }
             }
         },
+        "ListExpenseLocationsRes": {
+            "type": "object",
+            "required": [
+                "expenseLocations"
+            ],
+            "properties": {
+                "expenseLocations": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.ExpenseLocation"
+                    }
+                }
+            }
+        },
         "ListTransactionsRes": {
             "type": "object",
             "required": [
@@ -223,6 +267,31 @@ const docTemplate = `{
             }
         },
         "model.ExpenseCategory": {
+            "type": "object",
+            "required": [
+                "id",
+                "name",
+                "uid"
+            ],
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "uid": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.ExpenseLocation": {
             "type": "object",
             "required": [
                 "id",

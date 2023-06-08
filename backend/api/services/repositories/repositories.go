@@ -11,4 +11,5 @@ type Repository interface {
 	FindIncomes(uid string, start, end *time.Time) ([]model.Income, error)
 	FindTransactionMonths(uid string) ([]string, error)
 	FindExpenseCategories(uid string) ([]model.ExpenseCategory, error)
+	FindExpenseLocations(uid string) ([]model.ExpenseLocation, error)
 }
