@@ -117,6 +117,47 @@ const docTemplate = `{
                 }
             }
         },
+        "/income": {
+            "post": {
+                "description": "収入情報を登録します",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "suito.income"
+                ],
+                "summary": "Register income",
+                "operationId": "registerIncome",
+                "parameters": [
+                    {
+                        "description": "register income req",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/RegisterIncomeReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/RegisterIncomeRes"
+                        }
+                    },
+                    "500": {
+                        "description": "Unknown Error",
+                        "schema": {
+                            "$ref": "#/definitions/SuitoError"
+                        }
+                    }
+                }
+            }
+        },
         "/ping": {
             "get": {
                 "description": "Ping",
@@ -273,6 +314,28 @@ const docTemplate = `{
                 }
             }
         },
+        "RegisterIncomeReq": {
+            "type": "object",
+            "required": [
+                "income"
+            ],
+            "properties": {
+                "income": {
+                    "$ref": "#/definitions/model.Income"
+                }
+            }
+        },
+        "RegisterIncomeRes": {
+            "type": "object",
+            "required": [
+                "newIncome"
+            ],
+            "properties": {
+                "newIncome": {
+                    "$ref": "#/definitions/model.Income"
+                }
+            }
+        },
         "SuitoError": {
             "type": "object",
             "properties": {
@@ -414,6 +477,43 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "name": {
+                    "type": "string"
+                },
+                "uid": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.Income": {
+            "type": "object",
+            "required": [
+                "amount",
+                "id",
+                "local_date",
+                "memo",
+                "title",
+                "uid"
+            ],
+            "properties": {
+                "amount": {
+                    "type": "integer"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "local_date": {
+                    "type": "string"
+                },
+                "memo": {
+                    "type": "string"
+                },
+                "title": {
                     "type": "string"
                 },
                 "uid": {

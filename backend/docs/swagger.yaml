@@ -74,6 +74,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuitoError'
+  /income:
+    post:
+      tags:
+      - suito.income
+      summary: Register income
+      description: 収入情報を登録します
+      operationId: registerIncome
+      requestBody:
+        description: register income req
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterIncomeReq'
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegisterIncomeRes'
+        500:
+          description: Unknown Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuitoError'
+      x-codegen-request-body-name: request
   /ping:
     get:
       tags:
@@ -178,6 +206,20 @@ components:
       properties:
         newExpense:
           $ref: '#/components/schemas/model.Expense'
+    RegisterIncomeReq:
+      required:
+      - income
+      type: object
+      properties:
+        income:
+          $ref: '#/components/schemas/model.Income'
+    RegisterIncomeRes:
+      required:
+      - newIncome
+      type: object
+      properties:
+        newIncome:
+          $ref: '#/components/schemas/model.Income'
     SuitoError:
       type: object
       properties:
@@ -274,6 +316,32 @@ components:
         id:
           type: string
         name:
+          type: string
+        uid:
+          type: string
+        updatedAt:
+          type: string
+    model.Income:
+      required:
+      - amount
+      - id
+      - local_date
+      - memo
+      - title
+      - uid
+      type: object
+      properties:
+        amount:
+          type: integer
+        createdAt:
+          type: string
+        id:
+          type: string
+        local_date:
+          type: string
+        memo:
+          type: string
+        title:
           type: string
         uid:
           type: string

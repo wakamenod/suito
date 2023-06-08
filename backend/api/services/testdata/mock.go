@@ -35,3 +35,7 @@ func (r *RepositoryMock) FindExpenseLocations(uid string) ([]model.ExpenseLocati
 func (r *RepositoryMock) CreateExpense(uid string, expense model.Expense) (model.Expense, error) {
 	return model.Expense{ID: "new_expense_id"}, nil
 }
+
+func (r *RepositoryMock) CreateIncome(uid string, income model.Income) (model.Income, error) {
+	return model.Income{ID: "new_income_id"}, nil
+}
