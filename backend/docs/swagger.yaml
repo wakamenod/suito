@@ -6,6 +6,26 @@ info:
 servers:
 - url: //localhost:8009/api/v1
 paths:
+  /expense/categories:
+    get:
+      tags:
+      - suito.expense
+      summary: List expense categories
+      description: 購入カテゴリー一覧を返却します.
+      operationId: listExpenseCategories
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListExpenseCategoriesRes'
+        500:
+          description: Unknown Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuitoError'
   /ping:
     get:
       tags:
@@ -46,7 +66,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/APIErrorRes'
+                $ref: '#/components/schemas/SuitoError'
   /transactions/months:
     get:
       tags:
@@ -66,29 +86,18 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/APIErrorRes'
+                $ref: '#/components/schemas/SuitoError'
 components:
   schemas:
-    APIErrorInfo:
+    ListExpenseCategoriesRes:
       required:
-      - code
-      - data
-      - message
+      - expenseCategories
       type: object
       properties:
-        code:
-          type: string
-        data:
-          type: string
-        message:
-          type: string
-    APIErrorRes:
-      required:
-      - errorInfo
-      type: object
-      properties:
-        errorInfo:
-          $ref: '#/components/schemas/APIErrorInfo'
+        expenseCategories:
+          type: array
+          items:
+            $ref: '#/components/schemas/model.ExpenseCategory'
     ListTransactionsRes:
       required:
       - transactions
@@ -98,6 +107,13 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Transaction'
+    SuitoError:
+      type: object
+      properties:
+        ErrCode:
+          type: string
+        message:
+          type: string
     Transaction:
       required:
       - amount
@@ -126,3 +142,20 @@ components:
           type: array
           items:
             type: string
+    model.ExpenseCategory:
+      required:
+      - id
+      - name
+      - uid
+      type: object
+      properties:
+        createdAt:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+        uid:
+          type: string
+        updatedAt:
+          type: string

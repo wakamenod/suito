@@ -64,15 +64,17 @@ All URIs are relative to *http://localhost:8009/api/v1*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 [*SuitoDefaultApi*](doc/SuitoDefaultApi.md) | [**ping**](doc/SuitoDefaultApi.md#ping) | **GET** /ping | Ping
+[*SuitoExpenseApi*](doc/SuitoExpenseApi.md) | [**listExpenseCategories**](doc/SuitoExpenseApi.md#listexpensecategories) | **GET** /expense/categories | List expense categories
 [*SuitoTransactionsApi*](doc/SuitoTransactionsApi.md) | [**listTransactions**](doc/SuitoTransactionsApi.md#listtransactions) | **GET** /transactions | List transactions
 [*SuitoTransactionsApi*](doc/SuitoTransactionsApi.md) | [**transactionMonths**](doc/SuitoTransactionsApi.md#transactionmonths) | **GET** /transactions/months | List transaction months
 
 
 ## Documentation For Models
 
- - [APIErrorInfo](doc/APIErrorInfo.md)
- - [APIErrorRes](doc/APIErrorRes.md)
+ - [ListExpenseCategoriesRes](doc/ListExpenseCategoriesRes.md)
  - [ListTransactionsRes](doc/ListTransactionsRes.md)
+ - [ModelExpenseCategory](doc/ModelExpenseCategory.md)
+ - [SuitoError](doc/SuitoError.md)
  - [Transaction](doc/Transaction.md)
  - [TransactionMonthsRes](doc/TransactionMonthsRes.md)
 

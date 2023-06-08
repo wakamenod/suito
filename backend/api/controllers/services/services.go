@@ -2,6 +2,8 @@ package services
 
 import (
 	"time"
+
+	"github.com/wakamenod/suito/model"
 )
 
 type TransactionType int
@@ -27,4 +29,8 @@ type (
 type TransactionsService interface {
 	ListTransactionsService(uid string, start, end *time.Time) ([]Transaction, error)
 	TransactionMonthsService(uid string) ([]string, error)
+}
+
+type ExpenseService interface {
+	ListExpenseCategoryService(uid string) ([]model.ExpenseCategory, error)
 }

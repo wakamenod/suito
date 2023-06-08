@@ -7,11 +7,16 @@ part of 'serializers.dart';
 // **************************************************************************
 
 Serializers _$serializers = (new Serializers().toBuilder()
-      ..add(APIErrorInfo.serializer)
-      ..add(APIErrorRes.serializer)
+      ..add(ListExpenseCategoriesRes.serializer)
       ..add(ListTransactionsRes.serializer)
+      ..add(ModelExpenseCategory.serializer)
+      ..add(SuitoError.serializer)
       ..add(Transaction.serializer)
       ..add(TransactionMonthsRes.serializer)
+      ..addBuilderFactory(
+          const FullType(
+              BuiltList, const [const FullType(ModelExpenseCategory)]),
+          () => new ListBuilder<ModelExpenseCategory>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())

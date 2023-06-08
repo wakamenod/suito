@@ -13,7 +13,7 @@ type SuitoError struct {
 	ErrCode
 	Message string
 	Err     error `json:"-"`
-}
+} // @Name SuitoError
 
 func (myErr *SuitoError) Error() string {
 	return myErr.Err.Error()
