@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:suito/src/features/transactions/presentation/transaction_months_dropdown.dart';
-import 'package:suito/src/features/transactions/presentation/transactions_list.dart';
+
+import 'transaction_months_dropdown.dart';
+import 'transactions_list.dart';
+import 'transactions_total_amounts.dart';
 
 class TransactionsScreen extends ConsumerWidget {
   const TransactionsScreen({super.key});
@@ -15,6 +17,7 @@ class TransactionsScreen extends ConsumerWidget {
       body: const Column(
         children: [
           TransactionMonthsDropdown(),
+          TransactionsTotalAmounts(),
           Expanded(child: TransactionsList())
         ],
       ),

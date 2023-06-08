@@ -62,3 +62,5 @@ key.jks
 
 # opt in dir-locals
 !.dir-locals.el
+
+coverage

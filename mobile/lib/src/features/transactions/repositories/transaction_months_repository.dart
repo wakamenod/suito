@@ -6,7 +6,6 @@ part 'transaction_months_repository.g.dart';
 
 class TransactionMonthsRepository {
   TransactionMonthsRepository(this._openapi);
-  // ignore: unused_field, TODO
   final Openapi _openapi;
 
   Future<List<String>> fetchTransactionMonthsList() async {
