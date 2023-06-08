@@ -7,7 +7,7 @@ import 'package:suito/src/features/authentication/presentation/sign_in/custom_si
 import 'package:suito/src/features/authentication/presentation/sign_out/custom_sign_out_screen.dart';
 import 'package:suito/src/features/schedule/presentation/schedule_screen.dart';
 import 'package:suito/src/features/stats/presentation/stats_screen.dart';
-import 'package:suito/src/features/transactions/presentation/transactions_screen.dart';
+import 'package:suito/src/features/transactions/presentations/transactions_screen.dart';
 import 'package:suito/src/routing/go_router_refresh_stream.dart';
 
 import 'shell_screen.dart';

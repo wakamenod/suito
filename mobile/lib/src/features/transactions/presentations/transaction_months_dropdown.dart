@@ -2,8 +2,8 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:suito/src/common_widgets/error_message_widget.dart';
-import 'package:suito/src/features/transactions/data/transaction_months_repository.dart';
-import 'package:suito/src/features/transactions/data/transactions_repository.dart';
+import 'package:suito/src/features/transactions/repositories/transaction_months_repository.dart';
+import 'package:suito/src/features/transactions/services/transaction_service.dart';
 
 class TransactionMonthsDropdown extends ConsumerWidget {
   const TransactionMonthsDropdown({super.key});
@@ -12,18 +12,18 @@ class TransactionMonthsDropdown extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final transactionMonthsValue =
         ref.watch(transactionMonthsListFutureProvider);
-    final transactionsListProvider = ref.watch(transactionsRepositoryProvider);
+    final transactionsNotifier = ref.watch(transactionsProvider.notifier);
 
     return transactionMonthsValue.when(
         data: (yearMonths) {
           final initialValue = yearMonths.firstOrNull;
-          transactionsListProvider.fetchTransactionsList(initialValue);
+          Future(() => transactionsNotifier.fetchTransactions(initialValue));
 
           return _TransactinoMonthsDropdown(
               yearMonthItems: yearMonths,
               initialValue: initialValue,
               onChanged: (value) {
-                transactionsListProvider.fetchTransactionsList(value);
+                transactionsNotifier.fetchTransactions(value);
               });
         },
         loading: () => const _TransactinoMonthsDropdown(yearMonthItems: []),

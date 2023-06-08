@@ -25,22 +25,4 @@ final transactionsRepositoryProvider =
 );
 
 typedef TransactionsRepositoryRef = ProviderRef<TransactionsRepository>;
-String _$transactionsListWatchHash() =>
-    r'5b6b4844af5d16483506ce684fb247a905a9c7b5';
-
-/// See also [transactionsListWatch].
-@ProviderFor(transactionsListWatch)
-final transactionsListWatchProvider =
-    AutoDisposeStreamProvider<List<Transaction>>.internal(
-  transactionsListWatch,
-  name: r'transactionsListWatchProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$transactionsListWatchHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef TransactionsListWatchRef
-    = AutoDisposeStreamProviderRef<List<Transaction>>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:openapi/openapi.dart';
 import 'package:suito/src/common_widgets/async_value_widget.dart';
-import 'package:suito/src/features/transactions/data/transactions_repository.dart';
+import 'package:suito/src/features/transactions/services/transaction_service.dart';
 
 class TransactionsList extends ConsumerWidget {
   const TransactionsList({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final transactionsValue = ref.watch(transactionsListWatchProvider);
+    final transactionsValue = ref.watch(transactionsProvider);
 
     return AsyncValueWidget<List<Transaction>>(
       value: transactionsValue,
@@ -26,14 +26,3 @@ class TransactionsList extends ConsumerWidget {
     );
   }
 }
-
-// class _PingWidget extends ConsumerWidget {
-//   @override
-//   Widget build(BuildContext context, WidgetRef ref) {
-//     return ref.watch(pingFutureProvider).when(
-//           data: (data) => Text(data),
-//           loading: () => const CircularProgressIndicator(),
-//           error: (err, stack) => Text('Error: $err'),
-//         );
-//   }
-// }

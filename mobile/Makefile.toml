@@ -18,7 +18,7 @@ fvm install
 
 [tasks.format]
 script = '''
-fvm dart format lib
+fvm dart format lib test
 '''
 
 [tasks.run]
@@ -41,7 +41,7 @@ fvm flutter run --dart-define-from-file=dart_defines/prod.json
 
 [tasks.test]
 script = '''
-fvm flutter test lib
+fvm flutter test --coverage
 # fvm flutter test lib --machine > machine.log || echo 'Tests failed'
 # flutter pub global run dart_dot_reporter machine.log --show-message
 '''
