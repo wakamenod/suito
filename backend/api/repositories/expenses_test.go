@@ -164,3 +164,18 @@ func TestFindExpenses3(t *testing.T) {
 	require.Equal(t, "title02", res[0].Title)
 	require.Equal(t, "title01", res[1].Title)
 }
+
+func TestCreateExpense(t *testing.T) {
+	tx := begin()
+	defer rollback(tx)
+	// setup
+	expense := model.Expense{Title: "title", Amount: 2000, LocalDate: time.Date(2023, 5, 1, 0, 0, 0, 0, time.UTC)}
+	// run
+	res, err := NewSuitoRepository(tx).CreateExpense("user1", expense)
+	// check
+	require.NoError(t, err)
+	require.NotEmpty(t, res.ID)
+	require.Equal(t, "user1", res.UID)
+	require.Equal(t, expense.Title, res.Title)
+	require.Equal(t, expense.Amount, res.Amount)
+}

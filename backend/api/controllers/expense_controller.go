@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo/v4"
+	"github.com/pkg/errors"
 	"github.com/wakamenod/suito/api/controllers/services"
 	"github.com/wakamenod/suito/middleware"
 	"github.com/wakamenod/suito/model"
@@ -26,6 +27,13 @@ type (
 	ListExpenseLocationsRes struct {
 		ExpenseLocations []model.ExpenseLocation `json:"expenseLocations"`
 	} // @Name ListExpenseLocationsRes
+
+	RegisterExpenseReq struct {
+		Expense model.Expense `json:"expense"`
+	} // @Name RegisterExpenseReq
+	RegisterExpenseRes struct {
+		NewExpense model.Expense `json:"newExpense"`
+	} // @Name RegisterExpenseRes
 )
 
 // @Summary     List expense categories
@@ -70,6 +78,38 @@ func (s *ExpenseController) ExpenseLocationsHandler(c echo.Context) error {
 		return err
 	}
 	res.ExpenseLocations = locations
+
+	return webutils.Response(c, http.StatusOK, res)
+}
+
+// @Summary     Register expense
+// @Description 支出情報を登録します
+// @Tags        suito.expense
+// @ID          registerExpense
+// @Accept      json
+// @Produce     json
+// @Param       request body     RegisterExpenseReq   true           "register expense req"
+// @Success     200     {object} RegisterExpenseRes   "Success"
+// @Failure     500     {object} apperrors.SuitoError "Unknown Error"
+// @Router      /expense [POST]
+func (s *ExpenseController) RegisterExpenseHandler(c echo.Context) error {
+	var req RegisterExpenseReq
+
+	if err := c.Bind(&req); err != nil {
+		return errors.Wrap(err, "failed bind")
+	}
+	if err := c.Validate(req); err != nil {
+		return err
+	}
+
+	uid := c.Get(middleware.UIDKey).(string)
+	newExpense, err := s.service.CreateExpenseService(uid, req.Expense)
+	if err != nil {
+		return err
+	}
+
+	var res RegisterExpenseRes
+	res.NewExpense = newExpense
 
 	return webutils.Response(c, http.StatusOK, res)
 }

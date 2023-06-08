@@ -17,3 +17,11 @@ func (s *SuitoService) ListExpenseLocationService(uid string) ([]model.ExpenseLo
 	}
 	return locations, nil
 }
+
+func (s *SuitoService) CreateExpenseService(uid string, expense model.Expense) (model.Expense, error) {
+	expense, err := s.repo.CreateExpense(uid, expense)
+	if err != nil {
+		return expense, err
+	}
+	return expense, nil
+}

@@ -25,5 +25,14 @@ void main() {
       // TODO
     });
 
+    // Register expense
+    //
+    // 支出情報を登録します
+    //
+    //Future<RegisterExpenseRes> registerExpense(RegisterExpenseReq request) async
+    test('test registerExpense', () async {
+      // TODO
+    });
+
   });
 }

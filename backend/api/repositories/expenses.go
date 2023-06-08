@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/pkg/errors"
+	"github.com/rs/xid"
 	"github.com/wakamenod/suito/model"
 )
 
@@ -17,4 +18,15 @@ func (r *SuitoRepository) FindExpenses(uid string, start, end *time.Time) ([]mod
 	}
 
 	return expenses, nil
+}
+
+func (r *SuitoRepository) CreateExpense(uid string, expense model.Expense) (model.Expense, error) {
+	expense.ID = xid.New().String()
+	expense.UID = uid
+
+	if err := r.db.Create(&expense).Error; err != nil {
+		return expense, errors.Wrap(err, "failed to create expenses")
+	}
+
+	return expense, nil
 }
