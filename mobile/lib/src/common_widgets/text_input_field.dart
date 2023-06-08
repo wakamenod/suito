@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class TextInputField extends StatelessWidget {
   final String hintText;
   final ValueChanged<String> onChanged;
   final String? errorText;
+  final bool digitsOnly;
   final bool obscureText;
 
   const TextInputField({
@@ -11,6 +13,7 @@ class TextInputField extends StatelessWidget {
     required this.hintText,
     this.onChanged = _defaultOnChange,
     this.errorText,
+    this.digitsOnly = false,
     this.obscureText = false,
   });
 
@@ -33,6 +36,9 @@ class TextInputField extends StatelessWidget {
               )),
           child: TextField(
             onChanged: onChanged,
+            keyboardType: digitsOnly ? TextInputType.number : null,
+            inputFormatters:
+                digitsOnly ? [FilteringTextInputFormatter.digitsOnly] : null,
             obscureText: obscureText,
             decoration: InputDecoration(
               labelText: 'Enter your title',
