@@ -16,6 +16,36 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/expense/categories": {
+            "get": {
+                "description": "購入カテゴリー一覧を返却します.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "suito.expense"
+                ],
+                "summary": "List expense categories",
+                "operationId": "listExpenseCategories",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/ListExpenseCategoriesRes"
+                        }
+                    },
+                    "500": {
+                        "description": "Unknown Error",
+                        "schema": {
+                            "$ref": "#/definitions/SuitoError"
+                        }
+                    }
+                }
+            }
+        },
         "/ping": {
             "get": {
                 "description": "Ping",
@@ -70,7 +100,7 @@ const docTemplate = `{
                     "500": {
                         "description": "Unknown Error",
                         "schema": {
-                            "$ref": "#/definitions/APIErrorRes"
+                            "$ref": "#/definitions/SuitoError"
                         }
                     }
                 }
@@ -100,7 +130,7 @@ const docTemplate = `{
                     "500": {
                         "description": "Unknown Error",
                         "schema": {
-                            "$ref": "#/definitions/APIErrorRes"
+                            "$ref": "#/definitions/SuitoError"
                         }
                     }
                 }
@@ -108,33 +138,17 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "APIErrorInfo": {
+        "ListExpenseCategoriesRes": {
             "type": "object",
             "required": [
-                "code",
-                "data",
-                "message"
+                "expenseCategories"
             ],
             "properties": {
-                "code": {
-                    "type": "string"
-                },
-                "data": {
-                    "type": "string"
-                },
-                "message": {
-                    "type": "string"
-                }
-            }
-        },
-        "APIErrorRes": {
-            "type": "object",
-            "required": [
-                "errorInfo"
-            ],
-            "properties": {
-                "errorInfo": {
-                    "$ref": "#/definitions/APIErrorInfo"
+                "expenseCategories": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.ExpenseCategory"
+                    }
                 }
             }
         },
@@ -149,6 +163,17 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/Transaction"
                     }
+                }
+            }
+        },
+        "SuitoError": {
+            "type": "object",
+            "properties": {
+                "ErrCode": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string"
                 }
             }
         },
@@ -194,6 +219,31 @@ const docTemplate = `{
                     "items": {
                         "type": "string"
                     }
+                }
+            }
+        },
+        "model.ExpenseCategory": {
+            "type": "object",
+            "required": [
+                "id",
+                "name",
+                "uid"
+            ],
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "uid": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
                 }
             }
         }

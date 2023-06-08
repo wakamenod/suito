@@ -8,6 +8,7 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"github.com/stretchr/testify/require"
+	"github.com/wakamenod/suito/apperrors"
 	"github.com/wakamenod/suito/middleware"
 )
 
@@ -30,6 +31,22 @@ func TestTransactionsListHandler(t *testing.T) {
 	require.Equal(t, "ID_EXPENSE_02", res.Transactions[1].ID)
 	require.Equal(t, "ID_INCOME_01", res.Transactions[2].ID)
 	require.Equal(t, "ID_EXPENSE_01", res.Transactions[3].ID)
+}
+
+func TestTransactionsListHandlerError(t *testing.T) {
+	// Setup
+	e := echo.New()
+	req := httptest.NewRequest(http.MethodGet, "/?yearMonth=abc", nil)
+	rec := httptest.NewRecorder()
+	c := e.NewContext(req, rec)
+	c.Set(middleware.UIDKey, "user1")
+
+	// Assertions
+	err := tCon.TransactionsListHandler(c)
+	require.Error(t, err)
+	var appErr *apperrors.SuitoError
+	require.ErrorAs(t, err, &appErr)
+	require.Equal(t, apperrors.InvalidParameter, appErr.ErrCode)
 }
 
 func TestTransactionMonthsHandler(t *testing.T) {

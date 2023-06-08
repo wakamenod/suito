@@ -6,69 +6,91 @@
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
-part 'api_error_info.g.dart';
+part 'model_expense_category.g.dart';
 
-/// APIErrorInfo
+/// ModelExpenseCategory
 ///
 /// Properties:
-/// * [code] 
-/// * [data] 
-/// * [message] 
+/// * [createdAt] 
+/// * [id] 
+/// * [name] 
+/// * [uid] 
+/// * [updatedAt] 
 @BuiltValue()
-abstract class APIErrorInfo implements Built<APIErrorInfo, APIErrorInfoBuilder> {
-  @BuiltValueField(wireName: r'code')
-  String get code;
+abstract class ModelExpenseCategory implements Built<ModelExpenseCategory, ModelExpenseCategoryBuilder> {
+  @BuiltValueField(wireName: r'createdAt')
+  String? get createdAt;
 
-  @BuiltValueField(wireName: r'data')
-  String get data;
+  @BuiltValueField(wireName: r'id')
+  String get id;
 
-  @BuiltValueField(wireName: r'message')
-  String get message;
+  @BuiltValueField(wireName: r'name')
+  String get name;
 
-  APIErrorInfo._();
+  @BuiltValueField(wireName: r'uid')
+  String get uid;
 
-  factory APIErrorInfo([void updates(APIErrorInfoBuilder b)]) = _$APIErrorInfo;
+  @BuiltValueField(wireName: r'updatedAt')
+  String? get updatedAt;
+
+  ModelExpenseCategory._();
+
+  factory ModelExpenseCategory([void updates(ModelExpenseCategoryBuilder b)]) = _$ModelExpenseCategory;
 
   @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(APIErrorInfoBuilder b) => b;
+  static void _defaults(ModelExpenseCategoryBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<APIErrorInfo> get serializer => _$APIErrorInfoSerializer();
+  static Serializer<ModelExpenseCategory> get serializer => _$ModelExpenseCategorySerializer();
 }
 
-class _$APIErrorInfoSerializer implements PrimitiveSerializer<APIErrorInfo> {
+class _$ModelExpenseCategorySerializer implements PrimitiveSerializer<ModelExpenseCategory> {
   @override
-  final Iterable<Type> types = const [APIErrorInfo, _$APIErrorInfo];
+  final Iterable<Type> types = const [ModelExpenseCategory, _$ModelExpenseCategory];
 
   @override
-  final String wireName = r'APIErrorInfo';
+  final String wireName = r'ModelExpenseCategory';
 
   Iterable<Object?> _serializeProperties(
     Serializers serializers,
-    APIErrorInfo object, {
+    ModelExpenseCategory object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'code';
+    if (object.createdAt != null) {
+      yield r'createdAt';
+      yield serializers.serialize(
+        object.createdAt,
+        specifiedType: const FullType(String),
+      );
+    }
+    yield r'id';
     yield serializers.serialize(
-      object.code,
+      object.id,
       specifiedType: const FullType(String),
     );
-    yield r'data';
+    yield r'name';
     yield serializers.serialize(
-      object.data,
+      object.name,
       specifiedType: const FullType(String),
     );
-    yield r'message';
+    yield r'uid';
     yield serializers.serialize(
-      object.message,
+      object.uid,
       specifiedType: const FullType(String),
     );
+    if (object.updatedAt != null) {
+      yield r'updatedAt';
+      yield serializers.serialize(
+        object.updatedAt,
+        specifiedType: const FullType(String),
+      );
+    }
   }
 
   @override
   Object serialize(
     Serializers serializers,
-    APIErrorInfo object, {
+    ModelExpenseCategory object, {
     FullType specifiedType = FullType.unspecified,
   }) {
     return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
@@ -79,33 +101,47 @@ class _$APIErrorInfoSerializer implements PrimitiveSerializer<APIErrorInfo> {
     Object serialized, {
     FullType specifiedType = FullType.unspecified,
     required List<Object?> serializedList,
-    required APIErrorInfoBuilder result,
+    required ModelExpenseCategoryBuilder result,
     required List<Object?> unhandled,
   }) {
     for (var i = 0; i < serializedList.length; i += 2) {
       final key = serializedList[i] as String;
       final value = serializedList[i + 1];
       switch (key) {
-        case r'code':
+        case r'createdAt':
           final valueDes = serializers.deserialize(
             value,
             specifiedType: const FullType(String),
           ) as String;
-          result.code = valueDes;
+          result.createdAt = valueDes;
           break;
-        case r'data':
+        case r'id':
           final valueDes = serializers.deserialize(
             value,
             specifiedType: const FullType(String),
           ) as String;
-          result.data = valueDes;
+          result.id = valueDes;
           break;
-        case r'message':
+        case r'name':
           final valueDes = serializers.deserialize(
             value,
             specifiedType: const FullType(String),
           ) as String;
-          result.message = valueDes;
+          result.name = valueDes;
+          break;
+        case r'uid':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.uid = valueDes;
+          break;
+        case r'updatedAt':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.updatedAt = valueDes;
           break;
         default:
           unhandled.add(key);
@@ -116,12 +152,12 @@ class _$APIErrorInfoSerializer implements PrimitiveSerializer<APIErrorInfo> {
   }
 
   @override
-  APIErrorInfo deserialize(
+  ModelExpenseCategory deserialize(
     Serializers serializers,
     Object serialized, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    final result = APIErrorInfoBuilder();
+    final result = ModelExpenseCategoryBuilder();
     final serializedList = (serialized as Iterable<Object?>).toList();
     final unhandled = <Object?>[];
     _deserializeProperties(

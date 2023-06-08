@@ -3,55 +3,56 @@
 //
 
 // ignore_for_file: unused_element
-import 'package:openapi/src/model/api_error_info.dart';
+import 'package:openapi/src/model/model_expense_category.dart';
+import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
-part 'api_error_res.g.dart';
+part 'list_expense_categories_res.g.dart';
 
-/// APIErrorRes
+/// ListExpenseCategoriesRes
 ///
 /// Properties:
-/// * [errorInfo] 
+/// * [expenseCategories] 
 @BuiltValue()
-abstract class APIErrorRes implements Built<APIErrorRes, APIErrorResBuilder> {
-  @BuiltValueField(wireName: r'errorInfo')
-  APIErrorInfo get errorInfo;
+abstract class ListExpenseCategoriesRes implements Built<ListExpenseCategoriesRes, ListExpenseCategoriesResBuilder> {
+  @BuiltValueField(wireName: r'expenseCategories')
+  BuiltList<ModelExpenseCategory> get expenseCategories;
 
-  APIErrorRes._();
+  ListExpenseCategoriesRes._();
 
-  factory APIErrorRes([void updates(APIErrorResBuilder b)]) = _$APIErrorRes;
+  factory ListExpenseCategoriesRes([void updates(ListExpenseCategoriesResBuilder b)]) = _$ListExpenseCategoriesRes;
 
   @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(APIErrorResBuilder b) => b;
+  static void _defaults(ListExpenseCategoriesResBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<APIErrorRes> get serializer => _$APIErrorResSerializer();
+  static Serializer<ListExpenseCategoriesRes> get serializer => _$ListExpenseCategoriesResSerializer();
 }
 
-class _$APIErrorResSerializer implements PrimitiveSerializer<APIErrorRes> {
+class _$ListExpenseCategoriesResSerializer implements PrimitiveSerializer<ListExpenseCategoriesRes> {
   @override
-  final Iterable<Type> types = const [APIErrorRes, _$APIErrorRes];
+  final Iterable<Type> types = const [ListExpenseCategoriesRes, _$ListExpenseCategoriesRes];
 
   @override
-  final String wireName = r'APIErrorRes';
+  final String wireName = r'ListExpenseCategoriesRes';
 
   Iterable<Object?> _serializeProperties(
     Serializers serializers,
-    APIErrorRes object, {
+    ListExpenseCategoriesRes object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'errorInfo';
+    yield r'expenseCategories';
     yield serializers.serialize(
-      object.errorInfo,
-      specifiedType: const FullType(APIErrorInfo),
+      object.expenseCategories,
+      specifiedType: const FullType(BuiltList, [FullType(ModelExpenseCategory)]),
     );
   }
 
   @override
   Object serialize(
     Serializers serializers,
-    APIErrorRes object, {
+    ListExpenseCategoriesRes object, {
     FullType specifiedType = FullType.unspecified,
   }) {
     return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
@@ -62,19 +63,19 @@ class _$APIErrorResSerializer implements PrimitiveSerializer<APIErrorRes> {
     Object serialized, {
     FullType specifiedType = FullType.unspecified,
     required List<Object?> serializedList,
-    required APIErrorResBuilder result,
+    required ListExpenseCategoriesResBuilder result,
     required List<Object?> unhandled,
   }) {
     for (var i = 0; i < serializedList.length; i += 2) {
       final key = serializedList[i] as String;
       final value = serializedList[i + 1];
       switch (key) {
-        case r'errorInfo':
+        case r'expenseCategories':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(APIErrorInfo),
-          ) as APIErrorInfo;
-          result.errorInfo.replace(valueDes);
+            specifiedType: const FullType(BuiltList, [FullType(ModelExpenseCategory)]),
+          ) as BuiltList<ModelExpenseCategory>;
+          result.expenseCategories.replace(valueDes);
           break;
         default:
           unhandled.add(key);
@@ -85,12 +86,12 @@ class _$APIErrorResSerializer implements PrimitiveSerializer<APIErrorRes> {
   }
 
   @override
-  APIErrorRes deserialize(
+  ListExpenseCategoriesRes deserialize(
     Serializers serializers,
     Object serialized, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    final result = APIErrorResBuilder();
+    final result = ListExpenseCategoriesResBuilder();
     final serializedList = (serialized as Iterable<Object?>).toList();
     final unhandled = <Object?>[];
     _deserializeProperties(

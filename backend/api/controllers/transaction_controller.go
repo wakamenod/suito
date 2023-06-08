@@ -36,8 +36,8 @@ type (
 // @Accept      json
 // @Produce     json
 // @Param       yearMonth     query     string               true  "yearMonth"
-// @Success     200           {object}  ListTransactionsRes "Success"
-// @Failure     500           {object}  webutils.ErrorRes   "Unknown Error"
+// @Success     200           {object}  ListTransactionsRes  "Success"
+// @Failure     500           {object}  apperrors.SuitoError "Unknown Error"
 // @Router      /transactions [GET]
 func (s *TransactionController) TransactionsListHandler(c echo.Context) error {
 	var res ListTransactionsRes
@@ -65,7 +65,7 @@ func (s *TransactionController) TransactionsListHandler(c echo.Context) error {
 // @Accept      json
 // @Produce     json
 // @Success     200           {object}  TransactionMonthsRes "Success"
-// @Failure     500           {object}  webutils.ErrorRes     "Unknown Error"
+// @Failure     500           {object}  apperrors.SuitoError "Unknown Error"
 // @Router      /transactions/months [GET]
 func (s *TransactionController) TransactionMonthsHandler(c echo.Context) error {
 	var res TransactionMonthsRes

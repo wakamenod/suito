@@ -1,19 +1,14 @@
 import 'package:test/test.dart';
 import 'package:openapi/openapi.dart';
 
-// tests for APIErrorInfo
+// tests for SuitoError
 void main() {
-  final instance = APIErrorInfoBuilder();
+  final instance = SuitoErrorBuilder();
   // TODO add properties to the builder and call build()
 
-  group(APIErrorInfo, () {
-    // String code
-    test('to test the property `code`', () async {
-      // TODO
-    });
-
-    // String data
-    test('to test the property `data`', () async {
+  group(SuitoError, () {
+    // String errCode
+    test('to test the property `errCode`', () async {
       // TODO
     });
 

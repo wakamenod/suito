@@ -8,8 +8,8 @@ import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 
 import 'package:openapi/src/api_util.dart';
-import 'package:openapi/src/model/api_error_res.dart';
 import 'package:openapi/src/model/list_transactions_res.dart';
+import 'package:openapi/src/model/suito_error.dart';
 import 'package:openapi/src/model/transaction_months_res.dart';
 
 class SuitoTransactionsApi {

@@ -10,6 +10,7 @@ import 'package:openapi/src/auth/basic_auth.dart';
 import 'package:openapi/src/auth/bearer_auth.dart';
 import 'package:openapi/src/auth/oauth.dart';
 import 'package:openapi/src/api/suito_default_api.dart';
+import 'package:openapi/src/api/suito_expense_api.dart';
 import 'package:openapi/src/api/suito_transactions_api.dart';
 
 class Openapi {
@@ -70,6 +71,12 @@ class Openapi {
   /// by doing that all interceptors will not be executed
   SuitoDefaultApi getSuitoDefaultApi() {
     return SuitoDefaultApi(dio, serializers);
+  }
+
+  /// Get SuitoExpenseApi instance, base route and serializer can be overridden by a given but be careful,
+  /// by doing that all interceptors will not be executed
+  SuitoExpenseApi getSuitoExpenseApi() {
+    return SuitoExpenseApi(dio, serializers);
   }
 
   /// Get SuitoTransactionsApi instance, base route and serializer can be overridden by a given but be careful,
