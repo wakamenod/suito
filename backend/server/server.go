@@ -11,9 +11,11 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/spf13/viper"
 	"github.com/wakamenod/suito/api"
+	"github.com/wakamenod/suito/apperrors"
 	"github.com/wakamenod/suito/env"
 	"github.com/wakamenod/suito/log"
 	"github.com/wakamenod/suito/middleware"
+	"github.com/wakamenod/suito/validate"
 	"go.uber.org/zap"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -38,6 +40,8 @@ func New() Server {
 	e.Server.ReadHeaderTimeout = 10 * time.Second
 	e.Server.WriteTimeout = 5 * time.Second
 	e.Server.IdleTimeout = 120 * time.Second
+	e.Validator = validate.NewValidator()
+	e.HTTPErrorHandler = apperrors.HTTPErrorHandler
 
 	e.Use(middleware.VerifyIDTokenMiddleware(firebaseAuthClient()))
 

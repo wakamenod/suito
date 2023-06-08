@@ -17,8 +17,11 @@ import 'package:openapi/src/model/date.dart';
 import 'package:openapi/src/model/list_expense_categories_res.dart';
 import 'package:openapi/src/model/list_expense_locations_res.dart';
 import 'package:openapi/src/model/list_transactions_res.dart';
+import 'package:openapi/src/model/model_expense.dart';
 import 'package:openapi/src/model/model_expense_category.dart';
 import 'package:openapi/src/model/model_expense_location.dart';
+import 'package:openapi/src/model/register_expense_req.dart';
+import 'package:openapi/src/model/register_expense_res.dart';
 import 'package:openapi/src/model/suito_error.dart';
 import 'package:openapi/src/model/transaction.dart';
 import 'package:openapi/src/model/transaction_months_res.dart';
@@ -29,8 +32,11 @@ part 'serializers.g.dart';
   ListExpenseCategoriesRes,
   ListExpenseLocationsRes,
   ListTransactionsRes,
+  ModelExpense,
   ModelExpenseCategory,
   ModelExpenseLocation,
+  RegisterExpenseReq,
+  RegisterExpenseRes,
   SuitoError,
   Transaction,
   TransactionMonthsRes,

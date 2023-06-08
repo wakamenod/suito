@@ -16,6 +16,47 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/expense": {
+            "post": {
+                "description": "支出情報を登録します",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "suito.expense"
+                ],
+                "summary": "Register expense",
+                "operationId": "registerExpense",
+                "parameters": [
+                    {
+                        "description": "register expense req",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/RegisterExpenseReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/RegisterExpenseRes"
+                        }
+                    },
+                    "500": {
+                        "description": "Unknown Error",
+                        "schema": {
+                            "$ref": "#/definitions/SuitoError"
+                        }
+                    }
+                }
+            }
+        },
         "/expense/categories": {
             "get": {
                 "description": "購入カテゴリー一覧を返却します.",
@@ -210,6 +251,28 @@ const docTemplate = `{
                 }
             }
         },
+        "RegisterExpenseReq": {
+            "type": "object",
+            "required": [
+                "expense"
+            ],
+            "properties": {
+                "expense": {
+                    "$ref": "#/definitions/model.Expense"
+                }
+            }
+        },
+        "RegisterExpenseRes": {
+            "type": "object",
+            "required": [
+                "newExpense"
+            ],
+            "properties": {
+                "newExpense": {
+                    "$ref": "#/definitions/model.Expense"
+                }
+            }
+        },
         "SuitoError": {
             "type": "object",
             "properties": {
@@ -263,6 +326,51 @@ const docTemplate = `{
                     "items": {
                         "type": "string"
                     }
+                }
+            }
+        },
+        "model.Expense": {
+            "type": "object",
+            "required": [
+                "amount",
+                "expense_category_id",
+                "expense_location_id",
+                "id",
+                "local_date",
+                "memo",
+                "title",
+                "uid"
+            ],
+            "properties": {
+                "amount": {
+                    "type": "integer"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "expense_category_id": {
+                    "type": "string"
+                },
+                "expense_location_id": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "local_date": {
+                    "type": "string"
+                },
+                "memo": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "uid": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
                 }
             }
         },

@@ -6,6 +6,34 @@ info:
 servers:
 - url: //localhost:8009/api/v1
 paths:
+  /expense:
+    post:
+      tags:
+      - suito.expense
+      summary: Register expense
+      description: 支出情報を登録します
+      operationId: registerExpense
+      requestBody:
+        description: register expense req
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterExpenseReq'
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegisterExpenseRes'
+        500:
+          description: Unknown Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuitoError'
+      x-codegen-request-body-name: request
   /expense/categories:
     get:
       tags:
@@ -136,6 +164,20 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Transaction'
+    RegisterExpenseReq:
+      required:
+      - expense
+      type: object
+      properties:
+        expense:
+          $ref: '#/components/schemas/model.Expense'
+    RegisterExpenseRes:
+      required:
+      - newExpense
+      type: object
+      properties:
+        newExpense:
+          $ref: '#/components/schemas/model.Expense'
     SuitoError:
       type: object
       properties:
@@ -171,6 +213,38 @@ components:
           type: array
           items:
             type: string
+    model.Expense:
+      required:
+      - amount
+      - expense_category_id
+      - expense_location_id
+      - id
+      - local_date
+      - memo
+      - title
+      - uid
+      type: object
+      properties:
+        amount:
+          type: integer
+        createdAt:
+          type: string
+        expense_category_id:
+          type: string
+        expense_location_id:
+          type: string
+        id:
+          type: string
+        local_date:
+          type: string
+        memo:
+          type: string
+        title:
+          type: string
+        uid:
+          type: string
+        updatedAt:
+          type: string
     model.ExpenseCategory:
       required:
       - id

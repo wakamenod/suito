@@ -11,6 +11,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**listExpenseCategories**](SuitoExpenseApi.md#listexpensecategories) | **GET** /expense/categories | List expense categories
 [**listExpenseLocations**](SuitoExpenseApi.md#listexpenselocations) | **GET** /expense/locations | List expense locations
+[**registerExpense**](SuitoExpenseApi.md#registerexpense) | **POST** /expense | Register expense
 
 
 # **listExpenseCategories**
@@ -87,6 +88,49 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **registerExpense**
+> RegisterExpenseRes registerExpense(request)
+
+Register expense
+
+支出情報を登録します
+
+### Example
+```dart
+import 'package:openapi/api.dart';
+
+final api = Openapi().getSuitoExpenseApi();
+final RegisterExpenseReq request = ; // RegisterExpenseReq | register expense req
+
+try {
+    final response = api.registerExpense(request);
+    print(response);
+} catch on DioError (e) {
+    print('Exception when calling SuitoExpenseApi->registerExpense: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request** | [**RegisterExpenseReq**](RegisterExpenseReq.md)| register expense req | 
+
+### Return type
+
+[**RegisterExpenseRes**](RegisterExpenseRes.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
