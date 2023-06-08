@@ -9,13 +9,18 @@ class TransactionEditDialog extends StatelessWidget {
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
       child: SizedBox(
-        height: 300,
+        height: 400,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             TextInputField(
                 errorText: "Error",
                 hintText: "Title",
+                onChanged: (value) => {}),
+            TextInputField(
+                errorText: "Error",
+                hintText: "Amount",
+                digitsOnly: true,
                 onChanged: (value) => {}),
             const FlutterLogo(
               size: 150,
