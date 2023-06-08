@@ -36,3 +36,7 @@ type ExpenseService interface {
 	ListExpenseLocationService(uid string) ([]model.ExpenseLocation, error)
 	CreateExpenseService(uid string, expense model.Expense) (model.Expense, error)
 }
+
+type IncomeService interface {
+	CreateIncomeService(uid string, income model.Income) (model.Income, error)
+}

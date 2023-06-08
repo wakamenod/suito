@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/pkg/errors"
+	"github.com/rs/xid"
 	"github.com/wakamenod/suito/model"
 )
 
@@ -17,4 +18,15 @@ func (r *SuitoRepository) FindIncomes(uid string, start, end *time.Time) ([]mode
 	}
 
 	return incomes, nil
+}
+
+func (r *SuitoRepository) CreateIncome(uid string, income model.Income) (model.Income, error) {
+	income.ID = xid.New().String()
+	income.UID = uid
+
+	if err := r.db.Create(&income).Error; err != nil {
+		return income, errors.Wrap(err, "failed to create incomes")
+	}
+
+	return income, nil
 }

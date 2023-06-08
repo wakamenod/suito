@@ -92,3 +92,18 @@ func TestFindIncomes3(t *testing.T) {
 	require.Equal(t, "title02", res[0].Title)
 	require.Equal(t, "title01", res[1].Title)
 }
+
+func TestCreateIncome(t *testing.T) {
+	tx := begin()
+	defer rollback(tx)
+	// setup
+	income := model.Income{Title: "title", Amount: 2000, LocalDate: time.Date(2023, 5, 1, 0, 0, 0, 0, time.UTC)}
+	// run
+	res, err := NewSuitoRepository(tx).CreateIncome("user1", income)
+	// check
+	require.NoError(t, err)
+	require.NotEmpty(t, res.ID)
+	require.Equal(t, "user1", res.UID)
+	require.Equal(t, income.Title, res.Title)
+	require.Equal(t, income.Amount, res.Amount)
+}
