@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:suito/src/features/transactions/presentations/transaction_edit_dialog.dart';
+import 'package:go_router/go_router.dart';
+import 'package:suito/src/routing/app_router.dart';
+import 'package:suito/src/routing/shell_screen.dart';
 
 import 'transaction_months_dropdown.dart';
 import 'transactions_list.dart';
@@ -24,11 +26,13 @@ class TransactionsScreen extends ConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return const TransactionEditDialog();
-              });
+          context.go(
+              "${NavigationBarRoute.transactions.path}/${AppRoute.transactionDetail.path}");
+          // showDialog(
+          //     context: context,
+          //     builder: (BuildContext context) {
+          //       return const TransactionEditDialog();
+          //     });
         },
         backgroundColor: Colors.blueAccent,
         child: const Icon(Icons.add),
