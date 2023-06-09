@@ -20,8 +20,9 @@ import (
 )
 
 const (
-	dataDir    = "./cmd/suito_data"
-	dateLayout = "2006-01-02"
+	dataDir      = "./cmd/suito_data"
+	locationFile = "locations.tsv"
+	dateLayout   = "2006-01-02"
 )
 
 var (
@@ -54,7 +55,26 @@ var importCmd = &cobra.Command{
 				importYearlyFile(db, entry)
 			}
 		}
+
+		importLocations(db)
 	},
+}
+
+func importLocations(db *gorm.DB) {
+	file, err := os.Open(dataDir + "/" + locationFile)
+	fatalIfErr(err)
+	defer file.Close()
+
+	scanner := bufio.NewScanner(file)
+
+	for scanner.Scan() {
+		fatalIfErr(db.Create(&model.ExpenseLocation{
+			ID:   xid.New().String(),
+			UID:  os.Getenv("FIREBASE_UID"),
+			Name: scanner.Text(),
+		}).Error)
+	}
+	fatalIfErr(scanner.Err())
 }
 
 func importYearlyFile(db *gorm.DB, entry os.DirEntry) {
