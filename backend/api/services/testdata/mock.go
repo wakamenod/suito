@@ -49,3 +49,12 @@ func (r *RepositoryMock) FindExpense(id, uid string) (model.Expense, error) {
 	}
 	return model.Expense{}, gorm.ErrRecordNotFound
 }
+
+func (r *RepositoryMock) FindIncome(id, uid string) (model.Income, error) {
+	for _, ex := range incomeTestData {
+		if id == ex.ID && uid == ex.UID {
+			return ex, nil
+		}
+	}
+	return model.Income{}, gorm.ErrRecordNotFound
+}

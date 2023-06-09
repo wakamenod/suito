@@ -13,7 +13,6 @@ part 'model_expense_category.g.dart';
 /// Properties:
 /// * [id] 
 /// * [name] 
-/// * [uid] 
 @BuiltValue()
 abstract class ModelExpenseCategory implements Built<ModelExpenseCategory, ModelExpenseCategoryBuilder> {
   @BuiltValueField(wireName: r'id')
@@ -21,9 +20,6 @@ abstract class ModelExpenseCategory implements Built<ModelExpenseCategory, Model
 
   @BuiltValueField(wireName: r'name')
   String get name;
-
-  @BuiltValueField(wireName: r'uid')
-  String get uid;
 
   ModelExpenseCategory._();
 
@@ -56,11 +52,6 @@ class _$ModelExpenseCategorySerializer implements PrimitiveSerializer<ModelExpen
     yield r'name';
     yield serializers.serialize(
       object.name,
-      specifiedType: const FullType(String),
-    );
-    yield r'uid';
-    yield serializers.serialize(
-      object.uid,
       specifiedType: const FullType(String),
     );
   }
@@ -99,13 +90,6 @@ class _$ModelExpenseCategorySerializer implements PrimitiveSerializer<ModelExpen
             specifiedType: const FullType(String),
           ) as String;
           result.name = valueDes;
-          break;
-        case r'uid':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.uid = valueDes;
           break;
         default:
           unhandled.add(key);

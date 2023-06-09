@@ -130,6 +130,34 @@ paths:
               schema:
                 $ref: '#/components/schemas/SuitoError'
       x-codegen-request-body-name: request
+  /income/detail:
+    post:
+      tags:
+      - suito.income
+      summary: Get income detail
+      description: 収入詳細情報を取得します.
+      operationId: incomeDetail
+      requestBody:
+        description: income detail req
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IncomeDetailReq'
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IncomeDetailRes'
+        500:
+          description: Unknown Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuitoError'
+      x-codegen-request-body-name: request
   /ping:
     get:
       tags:
@@ -207,6 +235,20 @@ components:
       properties:
         expense:
           $ref: '#/components/schemas/model.Expense'
+    IncomeDetailReq:
+      required:
+      - id
+      type: object
+      properties:
+        id:
+          type: string
+    IncomeDetailRes:
+      required:
+      - income
+      type: object
+      properties:
+        income:
+          $ref: '#/components/schemas/model.Income'
     ListExpenseCategoriesRes:
       required:
       - expenseCategories
@@ -306,13 +348,10 @@ components:
       - local_date
       - memo
       - title
-      - uid
       type: object
       properties:
         amount:
           type: integer
-        createdAt:
-          type: string
         expense_category_id:
           type: string
         expense_location_id:
@@ -325,35 +364,25 @@ components:
           type: string
         title:
           type: string
-        uid:
-          type: string
-        updatedAt:
-          type: string
     model.ExpenseCategory:
       required:
       - id
       - name
-      - uid
       type: object
       properties:
         id:
           type: string
         name:
-          type: string
-        uid:
           type: string
     model.ExpenseLocation:
       required:
       - id
       - name
-      - uid
       type: object
       properties:
         id:
           type: string
         name:
-          type: string
-        uid:
           type: string
     model.Income:
       required:
@@ -362,13 +391,10 @@ components:
       - local_date
       - memo
       - title
-      - uid
       type: object
       properties:
         amount:
           type: integer
-        createdAt:
-          type: string
         id:
           type: string
         local_date:
@@ -376,8 +402,4 @@ components:
         memo:
           type: string
         title:
-          type: string
-        uid:
-          type: string
-        updatedAt:
           type: string

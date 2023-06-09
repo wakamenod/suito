@@ -199,6 +199,47 @@ const docTemplate = `{
                 }
             }
         },
+        "/income/detail": {
+            "post": {
+                "description": "収入詳細情報を取得します.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "suito.income"
+                ],
+                "summary": "Get income detail",
+                "operationId": "incomeDetail",
+                "parameters": [
+                    {
+                        "description": "income detail req",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/IncomeDetailReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/IncomeDetailRes"
+                        }
+                    },
+                    "500": {
+                        "description": "Unknown Error",
+                        "schema": {
+                            "$ref": "#/definitions/SuitoError"
+                        }
+                    }
+                }
+            }
+        },
         "/ping": {
             "get": {
                 "description": "Ping",
@@ -310,6 +351,28 @@ const docTemplate = `{
             "properties": {
                 "expense": {
                     "$ref": "#/definitions/model.Expense"
+                }
+            }
+        },
+        "IncomeDetailReq": {
+            "type": "object",
+            "required": [
+                "id"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string"
+                }
+            }
+        },
+        "IncomeDetailRes": {
+            "type": "object",
+            "required": [
+                "income"
+            ],
+            "properties": {
+                "income": {
+                    "$ref": "#/definitions/model.Income"
                 }
             }
         },
@@ -464,15 +527,11 @@ const docTemplate = `{
                 "id",
                 "local_date",
                 "memo",
-                "title",
-                "uid"
+                "title"
             ],
             "properties": {
                 "amount": {
                     "type": "integer"
-                },
-                "createdAt": {
-                    "type": "string"
                 },
                 "expense_category_id": {
                     "type": "string"
@@ -491,12 +550,6 @@ const docTemplate = `{
                 },
                 "title": {
                     "type": "string"
-                },
-                "uid": {
-                    "type": "string"
-                },
-                "updatedAt": {
-                    "type": "string"
                 }
             }
         },
@@ -504,17 +557,13 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "id",
-                "name",
-                "uid"
+                "name"
             ],
             "properties": {
                 "id": {
                     "type": "string"
                 },
                 "name": {
-                    "type": "string"
-                },
-                "uid": {
                     "type": "string"
                 }
             }
@@ -523,17 +572,13 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "id",
-                "name",
-                "uid"
+                "name"
             ],
             "properties": {
                 "id": {
                     "type": "string"
                 },
                 "name": {
-                    "type": "string"
-                },
-                "uid": {
                     "type": "string"
                 }
             }
@@ -545,15 +590,11 @@ const docTemplate = `{
                 "id",
                 "local_date",
                 "memo",
-                "title",
-                "uid"
+                "title"
             ],
             "properties": {
                 "amount": {
                     "type": "integer"
-                },
-                "createdAt": {
-                    "type": "string"
                 },
                 "id": {
                     "type": "string"
@@ -565,12 +606,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "title": {
-                    "type": "string"
-                },
-                "uid": {
-                    "type": "string"
-                },
-                "updatedAt": {
                     "type": "string"
                 }
             }

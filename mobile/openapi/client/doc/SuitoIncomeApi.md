@@ -9,8 +9,52 @@ All URIs are relative to *http://localhost:8009/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**incomeDetail**](SuitoIncomeApi.md#incomedetail) | **POST** /income/detail | Get income detail
 [**registerIncome**](SuitoIncomeApi.md#registerincome) | **POST** /income | Register income
 
+
+# **incomeDetail**
+> IncomeDetailRes incomeDetail(request)
+
+Get income detail
+
+収入詳細情報を取得します.
+
+### Example
+```dart
+import 'package:openapi/api.dart';
+
+final api = Openapi().getSuitoIncomeApi();
+final IncomeDetailReq request = ; // IncomeDetailReq | income detail req
+
+try {
+    final response = api.incomeDetail(request);
+    print(response);
+} catch on DioError (e) {
+    print('Exception when calling SuitoIncomeApi->incomeDetail: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request** | [**IncomeDetailReq**](IncomeDetailReq.md)| income detail req | 
+
+### Return type
+
+[**IncomeDetailRes**](IncomeDetailRes.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **registerIncome**
 > RegisterIncomeRes registerIncome(request)

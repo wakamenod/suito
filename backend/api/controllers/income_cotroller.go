@@ -26,7 +26,45 @@ type (
 	RegisterIncomeRes struct {
 		NewIncome model.Income `json:"newIncome"`
 	} // @Name RegisterIncomeRes
+
+	IncomeDetailReq struct {
+		ID string `json:"id" validate:"required"`
+	} // @Name IncomeDetailReq
+	IncomeDetailRes struct {
+		Income model.Income `json:"income"`
+	} // @Name IncomeDetailRes
 )
+
+// @Summary     Get income detail
+// @Description 収入詳細情報を取得します.
+// @Tags        suito.income
+// @ID          incomeDetail
+// @Accept      json
+// @Produce     json
+// @Param       request body  IncomeDetailReq      true           "income detail req"
+// @Success     200 {object}  IncomeDetailRes      "Success"
+// @Failure     500 {object}  apperrors.SuitoError "Unknown Error"
+// @Router      /income/detail [POST]
+func (s *IncomeController) IncomeDetailHandler(c echo.Context) error {
+	var req IncomeDetailReq
+
+	if err := c.Bind(&req); err != nil {
+		return errors.Wrap(err, "failed bind")
+	}
+	if err := c.Validate(req); err != nil {
+		return err
+	}
+
+	uid := c.Get(middleware.UIDKey).(string)
+	income, err := s.service.FindIncomeService(req.ID, uid)
+	if err != nil {
+		return err
+	}
+
+	var res IncomeDetailRes
+	res.Income = income
+	return webutils.Response(c, http.StatusOK, res)
+}
 
 // @Summary     Register income
 // @Description 収入情報を登録します

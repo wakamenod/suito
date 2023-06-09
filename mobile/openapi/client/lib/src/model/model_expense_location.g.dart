@@ -11,20 +11,15 @@ class _$ModelExpenseLocation extends ModelExpenseLocation {
   final String id;
   @override
   final String name;
-  @override
-  final String uid;
 
   factory _$ModelExpenseLocation(
           [void Function(ModelExpenseLocationBuilder)? updates]) =>
       (new ModelExpenseLocationBuilder()..update(updates))._build();
 
-  _$ModelExpenseLocation._(
-      {required this.id, required this.name, required this.uid})
-      : super._() {
+  _$ModelExpenseLocation._({required this.id, required this.name}) : super._() {
     BuiltValueNullFieldError.checkNotNull(id, r'ModelExpenseLocation', 'id');
     BuiltValueNullFieldError.checkNotNull(
         name, r'ModelExpenseLocation', 'name');
-    BuiltValueNullFieldError.checkNotNull(uid, r'ModelExpenseLocation', 'uid');
   }
 
   @override
@@ -41,8 +36,7 @@ class _$ModelExpenseLocation extends ModelExpenseLocation {
     if (identical(other, this)) return true;
     return other is ModelExpenseLocation &&
         id == other.id &&
-        name == other.name &&
-        uid == other.uid;
+        name == other.name;
   }
 
   @override
@@ -50,7 +44,6 @@ class _$ModelExpenseLocation extends ModelExpenseLocation {
     var _$hash = 0;
     _$hash = $jc(_$hash, id.hashCode);
     _$hash = $jc(_$hash, name.hashCode);
-    _$hash = $jc(_$hash, uid.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -59,8 +52,7 @@ class _$ModelExpenseLocation extends ModelExpenseLocation {
   String toString() {
     return (newBuiltValueToStringHelper(r'ModelExpenseLocation')
           ..add('id', id)
-          ..add('name', name)
-          ..add('uid', uid))
+          ..add('name', name))
         .toString();
   }
 }
@@ -77,10 +69,6 @@ class ModelExpenseLocationBuilder
   String? get name => _$this._name;
   set name(String? name) => _$this._name = name;
 
-  String? _uid;
-  String? get uid => _$this._uid;
-  set uid(String? uid) => _$this._uid = uid;
-
   ModelExpenseLocationBuilder() {
     ModelExpenseLocation._defaults(this);
   }
@@ -90,7 +78,6 @@ class ModelExpenseLocationBuilder
     if ($v != null) {
       _id = $v.id;
       _name = $v.name;
-      _uid = $v.uid;
       _$v = null;
     }
     return this;
@@ -116,9 +103,7 @@ class ModelExpenseLocationBuilder
             id: BuiltValueNullFieldError.checkNotNull(
                 id, r'ModelExpenseLocation', 'id'),
             name: BuiltValueNullFieldError.checkNotNull(
-                name, r'ModelExpenseLocation', 'name'),
-            uid: BuiltValueNullFieldError.checkNotNull(
-                uid, r'ModelExpenseLocation', 'uid'));
+                name, r'ModelExpenseLocation', 'name'));
     replace(_$result);
     return _$result;
   }

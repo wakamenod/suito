@@ -20,6 +20,17 @@ func (r *SuitoRepository) FindIncomes(uid string, start, end *time.Time) ([]mode
 	return incomes, nil
 }
 
+func (r *SuitoRepository) FindIncome(id, uid string) (model.Income, error) {
+	var income model.Income
+
+	if err := r.db.Where("id = ? AND uid = ?", id, uid).
+		First(&income).Error; err != nil {
+		return income, errors.Wrap(err, "failed to find income")
+	}
+
+	return income, nil
+}
+
 func (r *SuitoRepository) CreateIncome(uid string, income model.Income) (model.Income, error) {
 	income.ID = xid.New().String()
 	income.UID = uid

@@ -68,6 +68,7 @@ Class | Method | HTTP request | Description
 [*SuitoExpenseApi*](doc/SuitoExpenseApi.md) | [**listExpenseCategories**](doc/SuitoExpenseApi.md#listexpensecategories) | **GET** /expense/categories | List expense categories
 [*SuitoExpenseApi*](doc/SuitoExpenseApi.md) | [**listExpenseLocations**](doc/SuitoExpenseApi.md#listexpenselocations) | **GET** /expense/locations | List expense locations
 [*SuitoExpenseApi*](doc/SuitoExpenseApi.md) | [**registerExpense**](doc/SuitoExpenseApi.md#registerexpense) | **POST** /expense | Register expense
+[*SuitoIncomeApi*](doc/SuitoIncomeApi.md) | [**incomeDetail**](doc/SuitoIncomeApi.md#incomedetail) | **POST** /income/detail | Get income detail
 [*SuitoIncomeApi*](doc/SuitoIncomeApi.md) | [**registerIncome**](doc/SuitoIncomeApi.md#registerincome) | **POST** /income | Register income
 [*SuitoTransactionsApi*](doc/SuitoTransactionsApi.md) | [**listTransactions**](doc/SuitoTransactionsApi.md#listtransactions) | **GET** /transactions | List transactions
 [*SuitoTransactionsApi*](doc/SuitoTransactionsApi.md) | [**transactionMonths**](doc/SuitoTransactionsApi.md#transactionmonths) | **GET** /transactions/months | List transaction months
@@ -77,6 +78,8 @@ Class | Method | HTTP request | Description
 
  - [ExpenseDetailReq](doc/ExpenseDetailReq.md)
  - [ExpenseDetailRes](doc/ExpenseDetailRes.md)
+ - [IncomeDetailReq](doc/IncomeDetailReq.md)
+ - [IncomeDetailRes](doc/IncomeDetailRes.md)
  - [ListExpenseCategoriesRes](doc/ListExpenseCategoriesRes.md)
  - [ListExpenseLocationsRes](doc/ListExpenseLocationsRes.md)
  - [ListTransactionsRes](doc/ListTransactionsRes.md)

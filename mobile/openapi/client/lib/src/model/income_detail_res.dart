@@ -3,63 +3,55 @@
 //
 
 // ignore_for_file: unused_element
+import 'package:openapi/src/model/model_income.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
-part 'model_expense_location.g.dart';
+part 'income_detail_res.g.dart';
 
-/// ModelExpenseLocation
+/// IncomeDetailRes
 ///
 /// Properties:
-/// * [id] 
-/// * [name] 
+/// * [income] 
 @BuiltValue()
-abstract class ModelExpenseLocation implements Built<ModelExpenseLocation, ModelExpenseLocationBuilder> {
-  @BuiltValueField(wireName: r'id')
-  String get id;
+abstract class IncomeDetailRes implements Built<IncomeDetailRes, IncomeDetailResBuilder> {
+  @BuiltValueField(wireName: r'income')
+  ModelIncome get income;
 
-  @BuiltValueField(wireName: r'name')
-  String get name;
+  IncomeDetailRes._();
 
-  ModelExpenseLocation._();
-
-  factory ModelExpenseLocation([void updates(ModelExpenseLocationBuilder b)]) = _$ModelExpenseLocation;
+  factory IncomeDetailRes([void updates(IncomeDetailResBuilder b)]) = _$IncomeDetailRes;
 
   @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(ModelExpenseLocationBuilder b) => b;
+  static void _defaults(IncomeDetailResBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<ModelExpenseLocation> get serializer => _$ModelExpenseLocationSerializer();
+  static Serializer<IncomeDetailRes> get serializer => _$IncomeDetailResSerializer();
 }
 
-class _$ModelExpenseLocationSerializer implements PrimitiveSerializer<ModelExpenseLocation> {
+class _$IncomeDetailResSerializer implements PrimitiveSerializer<IncomeDetailRes> {
   @override
-  final Iterable<Type> types = const [ModelExpenseLocation, _$ModelExpenseLocation];
+  final Iterable<Type> types = const [IncomeDetailRes, _$IncomeDetailRes];
 
   @override
-  final String wireName = r'ModelExpenseLocation';
+  final String wireName = r'IncomeDetailRes';
 
   Iterable<Object?> _serializeProperties(
     Serializers serializers,
-    ModelExpenseLocation object, {
+    IncomeDetailRes object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'id';
+    yield r'income';
     yield serializers.serialize(
-      object.id,
-      specifiedType: const FullType(String),
-    );
-    yield r'name';
-    yield serializers.serialize(
-      object.name,
-      specifiedType: const FullType(String),
+      object.income,
+      specifiedType: const FullType(ModelIncome),
     );
   }
 
   @override
   Object serialize(
     Serializers serializers,
-    ModelExpenseLocation object, {
+    IncomeDetailRes object, {
     FullType specifiedType = FullType.unspecified,
   }) {
     return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
@@ -70,26 +62,19 @@ class _$ModelExpenseLocationSerializer implements PrimitiveSerializer<ModelExpen
     Object serialized, {
     FullType specifiedType = FullType.unspecified,
     required List<Object?> serializedList,
-    required ModelExpenseLocationBuilder result,
+    required IncomeDetailResBuilder result,
     required List<Object?> unhandled,
   }) {
     for (var i = 0; i < serializedList.length; i += 2) {
       final key = serializedList[i] as String;
       final value = serializedList[i + 1];
       switch (key) {
-        case r'id':
+        case r'income':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.id = valueDes;
-          break;
-        case r'name':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.name = valueDes;
+            specifiedType: const FullType(ModelIncome),
+          ) as ModelIncome;
+          result.income.replace(valueDes);
           break;
         default:
           unhandled.add(key);
@@ -100,12 +85,12 @@ class _$ModelExpenseLocationSerializer implements PrimitiveSerializer<ModelExpen
   }
 
   @override
-  ModelExpenseLocation deserialize(
+  IncomeDetailRes deserialize(
     Serializers serializers,
     Object serialized, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    final result = ModelExpenseLocationBuilder();
+    final result = IncomeDetailResBuilder();
     final serializedList = (serialized as Iterable<Object?>).toList();
     final unhandled = <Object?>[];
     _deserializeProperties(
