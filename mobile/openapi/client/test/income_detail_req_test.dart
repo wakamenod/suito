@@ -1,19 +1,14 @@
 import 'package:test/test.dart';
 import 'package:openapi/openapi.dart';
 
-// tests for ModelExpenseLocation
+// tests for IncomeDetailReq
 void main() {
-  final instance = ModelExpenseLocationBuilder();
+  final instance = IncomeDetailReqBuilder();
   // TODO add properties to the builder and call build()
 
-  group(ModelExpenseLocation, () {
+  group(IncomeDetailReq, () {
     // String id
     test('to test the property `id`', () async {
-      // TODO
-    });
-
-    // String name
-    test('to test the property `name`', () async {
       // TODO
     });
 

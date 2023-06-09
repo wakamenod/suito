@@ -9,6 +9,8 @@ part of 'serializers.dart';
 Serializers _$serializers = (new Serializers().toBuilder()
       ..add(ExpenseDetailReq.serializer)
       ..add(ExpenseDetailRes.serializer)
+      ..add(IncomeDetailReq.serializer)
+      ..add(IncomeDetailRes.serializer)
       ..add(ListExpenseCategoriesRes.serializer)
       ..add(ListExpenseLocationsRes.serializer)
       ..add(ListTransactionsRes.serializer)

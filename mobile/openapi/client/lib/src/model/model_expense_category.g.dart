@@ -11,20 +11,15 @@ class _$ModelExpenseCategory extends ModelExpenseCategory {
   final String id;
   @override
   final String name;
-  @override
-  final String uid;
 
   factory _$ModelExpenseCategory(
           [void Function(ModelExpenseCategoryBuilder)? updates]) =>
       (new ModelExpenseCategoryBuilder()..update(updates))._build();
 
-  _$ModelExpenseCategory._(
-      {required this.id, required this.name, required this.uid})
-      : super._() {
+  _$ModelExpenseCategory._({required this.id, required this.name}) : super._() {
     BuiltValueNullFieldError.checkNotNull(id, r'ModelExpenseCategory', 'id');
     BuiltValueNullFieldError.checkNotNull(
         name, r'ModelExpenseCategory', 'name');
-    BuiltValueNullFieldError.checkNotNull(uid, r'ModelExpenseCategory', 'uid');
   }
 
   @override
@@ -41,8 +36,7 @@ class _$ModelExpenseCategory extends ModelExpenseCategory {
     if (identical(other, this)) return true;
     return other is ModelExpenseCategory &&
         id == other.id &&
-        name == other.name &&
-        uid == other.uid;
+        name == other.name;
   }
 
   @override
@@ -50,7 +44,6 @@ class _$ModelExpenseCategory extends ModelExpenseCategory {
     var _$hash = 0;
     _$hash = $jc(_$hash, id.hashCode);
     _$hash = $jc(_$hash, name.hashCode);
-    _$hash = $jc(_$hash, uid.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -59,8 +52,7 @@ class _$ModelExpenseCategory extends ModelExpenseCategory {
   String toString() {
     return (newBuiltValueToStringHelper(r'ModelExpenseCategory')
           ..add('id', id)
-          ..add('name', name)
-          ..add('uid', uid))
+          ..add('name', name))
         .toString();
   }
 }
@@ -77,10 +69,6 @@ class ModelExpenseCategoryBuilder
   String? get name => _$this._name;
   set name(String? name) => _$this._name = name;
 
-  String? _uid;
-  String? get uid => _$this._uid;
-  set uid(String? uid) => _$this._uid = uid;
-
   ModelExpenseCategoryBuilder() {
     ModelExpenseCategory._defaults(this);
   }
@@ -90,7 +78,6 @@ class ModelExpenseCategoryBuilder
     if ($v != null) {
       _id = $v.id;
       _name = $v.name;
-      _uid = $v.uid;
       _$v = null;
     }
     return this;
@@ -116,9 +103,7 @@ class ModelExpenseCategoryBuilder
             id: BuiltValueNullFieldError.checkNotNull(
                 id, r'ModelExpenseCategory', 'id'),
             name: BuiltValueNullFieldError.checkNotNull(
-                name, r'ModelExpenseCategory', 'name'),
-            uid: BuiltValueNullFieldError.checkNotNull(
-                uid, r'ModelExpenseCategory', 'uid'));
+                name, r'ModelExpenseCategory', 'name'));
     replace(_$result);
     return _$result;
   }

@@ -25,18 +25,20 @@ func newIncomeInserter(t *testing.T, db *gorm.DB) *incomeInserter {
 	}
 }
 
-func (e *incomeInserter) mustInsert(uid, date, title string) {
+func (e *incomeInserter) mustInsert(uid, date, title string) string {
 	parsedDate, err := time.Parse(dateLayout, date)
 	require.NoError(e.t, err, "failed to parse date")
 
+	id := xid.New().String()
 	require.NoError(e.t, e.db.Create(&model.Income{
-		ID:        xid.New().String(),
+		ID:        id,
 		UID:       uid,
 		Title:     title,
 		Amount:    200,
 		Memo:      "test memo",
 		LocalDate: parsedDate,
 	}).Error, "failed to insert income")
+	return id
 }
 
 // An empty result set should not cause an error
@@ -91,6 +93,32 @@ func TestFindIncomes3(t *testing.T) {
 	require.Equal(t, 2, len(res))
 	require.Equal(t, "title02", res[0].Title)
 	require.Equal(t, "title01", res[1].Title)
+}
+
+func TestFindIncome(t *testing.T) {
+	tx := begin()
+	defer rollback(tx)
+	// setup test data
+	i := newIncomeInserter(t, tx)
+	id := i.mustInsert("user2", "2023-05-02", "title02")
+	// run
+	res, err := NewSuitoRepository(tx).FindIncome(id, "user2")
+	// check
+	require.NoError(t, err)
+	require.Equal(t, id, res.ID)
+}
+
+func TestFindIncome_ErrorNotFound(t *testing.T) {
+	tx := begin()
+	defer rollback(tx)
+	// setup test data
+	i := newIncomeInserter(t, tx)
+	id := i.mustInsert("user2", "2023-05-02", "title02")
+	// run
+	_, err := NewSuitoRepository(tx).FindIncome(id, "user1")
+	// check
+	require.Error(t, err)
+	require.ErrorIs(t, err, gorm.ErrRecordNotFound)
 }
 
 func TestCreateIncome(t *testing.T) {

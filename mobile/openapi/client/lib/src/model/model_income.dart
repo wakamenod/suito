@@ -12,20 +12,14 @@ part 'model_income.g.dart';
 ///
 /// Properties:
 /// * [amount] 
-/// * [createdAt] 
 /// * [id] 
 /// * [localDate] 
 /// * [memo] 
 /// * [title] 
-/// * [uid] 
-/// * [updatedAt] 
 @BuiltValue()
 abstract class ModelIncome implements Built<ModelIncome, ModelIncomeBuilder> {
   @BuiltValueField(wireName: r'amount')
   int get amount;
-
-  @BuiltValueField(wireName: r'createdAt')
-  String? get createdAt;
 
   @BuiltValueField(wireName: r'id')
   String get id;
@@ -38,12 +32,6 @@ abstract class ModelIncome implements Built<ModelIncome, ModelIncomeBuilder> {
 
   @BuiltValueField(wireName: r'title')
   String get title;
-
-  @BuiltValueField(wireName: r'uid')
-  String get uid;
-
-  @BuiltValueField(wireName: r'updatedAt')
-  String? get updatedAt;
 
   ModelIncome._();
 
@@ -73,13 +61,6 @@ class _$ModelIncomeSerializer implements PrimitiveSerializer<ModelIncome> {
       object.amount,
       specifiedType: const FullType(int),
     );
-    if (object.createdAt != null) {
-      yield r'createdAt';
-      yield serializers.serialize(
-        object.createdAt,
-        specifiedType: const FullType(String),
-      );
-    }
     yield r'id';
     yield serializers.serialize(
       object.id,
@@ -100,18 +81,6 @@ class _$ModelIncomeSerializer implements PrimitiveSerializer<ModelIncome> {
       object.title,
       specifiedType: const FullType(String),
     );
-    yield r'uid';
-    yield serializers.serialize(
-      object.uid,
-      specifiedType: const FullType(String),
-    );
-    if (object.updatedAt != null) {
-      yield r'updatedAt';
-      yield serializers.serialize(
-        object.updatedAt,
-        specifiedType: const FullType(String),
-      );
-    }
   }
 
   @override
@@ -142,13 +111,6 @@ class _$ModelIncomeSerializer implements PrimitiveSerializer<ModelIncome> {
           ) as int;
           result.amount = valueDes;
           break;
-        case r'createdAt':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.createdAt = valueDes;
-          break;
         case r'id':
           final valueDes = serializers.deserialize(
             value,
@@ -176,20 +138,6 @@ class _$ModelIncomeSerializer implements PrimitiveSerializer<ModelIncome> {
             specifiedType: const FullType(String),
           ) as String;
           result.title = valueDes;
-          break;
-        case r'uid':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.uid = valueDes;
-          break;
-        case r'updatedAt':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.updatedAt = valueDes;
           break;
         default:
           unhandled.add(key);

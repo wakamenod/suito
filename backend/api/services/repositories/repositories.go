@@ -9,6 +9,7 @@ import (
 type Repository interface {
 	FindExpense(id, uid string) (model.Expense, error)
 	FindExpenses(uid string, start, end *time.Time) ([]model.Expense, error)
+	FindIncome(id, uid string) (model.Income, error)
 	FindIncomes(uid string, start, end *time.Time) ([]model.Income, error)
 	FindTransactionMonths(uid string) ([]string, error)
 	FindExpenseCategories(uid string) ([]model.ExpenseCategory, error)
