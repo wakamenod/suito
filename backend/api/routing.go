@@ -17,13 +17,25 @@ func InitRoute(e *echo.Echo, db *gorm.DB) *echo.Echo {
 	repo := repositories.NewSuitoRepository(db)
 	ser := services.NewSuitoService(repo)
 	tCon := controllers.NewTransactionController(ser)
+	iCon := controllers.NewIncomeController(ser)
+	eCon := controllers.NewExpenseController(ser)
 
 	{
 		a := g.Group("/transactions")
 		a.GET("", tCon.TransactionsListHandler)
 		a.GET("/months", tCon.TransactionMonthsHandler)
 	}
-
+	{
+		a := g.Group("/expense")
+		a.POST("/detail", eCon.ExpenseDetailHandler)
+		a.GET("/categories", eCon.ExpenseCategoriesHandler)
+		a.GET("/locations", eCon.ExpenseLocationsHandler)
+		a.POST("/", eCon.RegisterExpenseHandler)
+	}
+	{
+		a := g.Group("/income")
+		a.POST("/", iCon.RegisterIncomeHandler)
+	}
 	return e
 }
 
