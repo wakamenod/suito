@@ -1,19 +1,27 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+enum InputType {
+  text,
+  digits,
+  date,
+}
 
 class TextInputField extends StatelessWidget {
   final String hintText;
   final ValueChanged<String> onChanged;
   final String? errorText;
-  final bool digitsOnly;
+  final InputType inputType;
   final bool obscureText;
+  final TextEditingController _textEditingController = TextEditingController();
 
-  const TextInputField({
+  TextInputField({
     super.key,
     required this.hintText,
     this.onChanged = _defaultOnChange,
     this.errorText,
-    this.digitsOnly = false,
+    this.inputType = InputType.text,
     this.obscureText = false,
   });
 
@@ -35,10 +43,17 @@ class TextInputField extends StatelessWidget {
                 width: 1.5,
               )),
           child: TextField(
+            controller: _textEditingController,
             onChanged: onChanged,
-            keyboardType: digitsOnly ? TextInputType.number : null,
-            inputFormatters:
-                digitsOnly ? [FilteringTextInputFormatter.digitsOnly] : null,
+            readOnly: inputType == InputType.date,
+            onTap: inputType != InputType.date
+                ? null
+                : () => _showDialog(context, _textEditingController),
+            keyboardType:
+                inputType == InputType.digits ? TextInputType.number : null,
+            inputFormatters: inputType == InputType.digits
+                ? [FilteringTextInputFormatter.digitsOnly]
+                : null,
             obscureText: obscureText,
             decoration: InputDecoration(
               labelText: 'Enter your title',
@@ -65,5 +80,37 @@ class TextInputField extends StatelessWidget {
           ),
       ],
     );
+  }
+
+  // This function displays a CupertinoModalPopup with a reasonable fixed height
+  // which hosts CupertinoDatePicker.
+  void _showDialog(BuildContext context, TextEditingController controller) {
+    showCupertinoModalPopup<void>(
+        context: context,
+        builder: (BuildContext context) => Container(
+              height: 216,
+              padding: const EdgeInsets.only(top: 6.0),
+              // The Bottom margin is provided to align the popup above the system
+              // navigation bar.
+              margin: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom,
+              ),
+              // Provide a background color for the popup.
+              color: CupertinoColors.systemBackground.resolveFrom(context),
+              // Use a SafeArea widget to avoid system overlaps.
+              child: SafeArea(
+                top: false,
+                child: CupertinoDatePicker(
+                  // initialDateTime: date,
+                  mode: CupertinoDatePickerMode.date,
+                  // This shows day of week alongside day of month
+                  showDayOfWeek: false,
+                  // This is called when the user changes the date.
+                  onDateTimeChanged: (DateTime newDate) {
+                    controller.text = newDate.toString();
+                  },
+                ),
+              ),
+            ));
   }
 }
