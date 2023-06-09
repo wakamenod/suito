@@ -520,9 +520,6 @@
         ],
         "type": "object",
         "properties": {
-          "createdAt": {
-            "type": "string"
-          },
           "id": {
             "type": "string"
           },
@@ -530,9 +527,6 @@
             "type": "string"
           },
           "uid": {
-            "type": "string"
-          },
-          "updatedAt": {
             "type": "string"
           }
         }
@@ -545,9 +539,6 @@
         ],
         "type": "object",
         "properties": {
-          "createdAt": {
-            "type": "string"
-          },
           "id": {
             "type": "string"
           },
@@ -555,9 +546,6 @@
             "type": "string"
           },
           "uid": {
-            "type": "string"
-          },
-          "updatedAt": {
             "type": "string"
           }
         }

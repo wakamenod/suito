@@ -11,16 +11,11 @@ part 'model_expense_location.g.dart';
 /// ModelExpenseLocation
 ///
 /// Properties:
-/// * [createdAt] 
 /// * [id] 
 /// * [name] 
 /// * [uid] 
-/// * [updatedAt] 
 @BuiltValue()
 abstract class ModelExpenseLocation implements Built<ModelExpenseLocation, ModelExpenseLocationBuilder> {
-  @BuiltValueField(wireName: r'createdAt')
-  String? get createdAt;
-
   @BuiltValueField(wireName: r'id')
   String get id;
 
@@ -29,9 +24,6 @@ abstract class ModelExpenseLocation implements Built<ModelExpenseLocation, Model
 
   @BuiltValueField(wireName: r'uid')
   String get uid;
-
-  @BuiltValueField(wireName: r'updatedAt')
-  String? get updatedAt;
 
   ModelExpenseLocation._();
 
@@ -56,13 +48,6 @@ class _$ModelExpenseLocationSerializer implements PrimitiveSerializer<ModelExpen
     ModelExpenseLocation object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    if (object.createdAt != null) {
-      yield r'createdAt';
-      yield serializers.serialize(
-        object.createdAt,
-        specifiedType: const FullType(String),
-      );
-    }
     yield r'id';
     yield serializers.serialize(
       object.id,
@@ -78,13 +63,6 @@ class _$ModelExpenseLocationSerializer implements PrimitiveSerializer<ModelExpen
       object.uid,
       specifiedType: const FullType(String),
     );
-    if (object.updatedAt != null) {
-      yield r'updatedAt';
-      yield serializers.serialize(
-        object.updatedAt,
-        specifiedType: const FullType(String),
-      );
-    }
   }
 
   @override
@@ -108,13 +86,6 @@ class _$ModelExpenseLocationSerializer implements PrimitiveSerializer<ModelExpen
       final key = serializedList[i] as String;
       final value = serializedList[i + 1];
       switch (key) {
-        case r'createdAt':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.createdAt = valueDes;
-          break;
         case r'id':
           final valueDes = serializers.deserialize(
             value,
@@ -135,13 +106,6 @@ class _$ModelExpenseLocationSerializer implements PrimitiveSerializer<ModelExpen
             specifiedType: const FullType(String),
           ) as String;
           result.uid = valueDes;
-          break;
-        case r'updatedAt':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.updatedAt = valueDes;
           break;
         default:
           unhandled.add(key);

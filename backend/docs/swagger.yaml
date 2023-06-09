@@ -336,15 +336,11 @@ components:
       - uid
       type: object
       properties:
-        createdAt:
-          type: string
         id:
           type: string
         name:
           type: string
         uid:
-          type: string
-        updatedAt:
           type: string
     model.ExpenseLocation:
       required:
@@ -353,15 +349,11 @@ components:
       - uid
       type: object
       properties:
-        createdAt:
-          type: string
         id:
           type: string
         name:
           type: string
         uid:
-          type: string
-        updatedAt:
           type: string
     model.Income:
       required:

@@ -7,11 +7,6 @@ void main() {
   // TODO add properties to the builder and call build()
 
   group(ModelExpenseLocation, () {
-    // String createdAt
-    test('to test the property `createdAt`', () async {
-      // TODO
-    });
-
     // String id
     test('to test the property `id`', () async {
       // TODO
@@ -24,11 +19,6 @@ void main() {
 
     // String uid
     test('to test the property `uid`', () async {
-      // TODO
-    });
-
-    // String updatedAt
-    test('to test the property `updatedAt`', () async {
       // TODO
     });
 

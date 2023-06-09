@@ -508,9 +508,6 @@ const docTemplate = `{
                 "uid"
             ],
             "properties": {
-                "createdAt": {
-                    "type": "string"
-                },
                 "id": {
                     "type": "string"
                 },
@@ -518,9 +515,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "uid": {
-                    "type": "string"
-                },
-                "updatedAt": {
                     "type": "string"
                 }
             }
@@ -533,9 +527,6 @@ const docTemplate = `{
                 "uid"
             ],
             "properties": {
-                "createdAt": {
-                    "type": "string"
-                },
                 "id": {
                     "type": "string"
                 },
@@ -543,9 +534,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "uid": {
-                    "type": "string"
-                },
-                "updatedAt": {
                     "type": "string"
                 }
             }

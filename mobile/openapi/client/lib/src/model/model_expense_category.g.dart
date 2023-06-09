@@ -8,26 +8,18 @@ part of 'model_expense_category.dart';
 
 class _$ModelExpenseCategory extends ModelExpenseCategory {
   @override
-  final String? createdAt;
-  @override
   final String id;
   @override
   final String name;
   @override
   final String uid;
-  @override
-  final String? updatedAt;
 
   factory _$ModelExpenseCategory(
           [void Function(ModelExpenseCategoryBuilder)? updates]) =>
       (new ModelExpenseCategoryBuilder()..update(updates))._build();
 
   _$ModelExpenseCategory._(
-      {this.createdAt,
-      required this.id,
-      required this.name,
-      required this.uid,
-      this.updatedAt})
+      {required this.id, required this.name, required this.uid})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(id, r'ModelExpenseCategory', 'id');
     BuiltValueNullFieldError.checkNotNull(
@@ -48,21 +40,17 @@ class _$ModelExpenseCategory extends ModelExpenseCategory {
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
     return other is ModelExpenseCategory &&
-        createdAt == other.createdAt &&
         id == other.id &&
         name == other.name &&
-        uid == other.uid &&
-        updatedAt == other.updatedAt;
+        uid == other.uid;
   }
 
   @override
   int get hashCode {
     var _$hash = 0;
-    _$hash = $jc(_$hash, createdAt.hashCode);
     _$hash = $jc(_$hash, id.hashCode);
     _$hash = $jc(_$hash, name.hashCode);
     _$hash = $jc(_$hash, uid.hashCode);
-    _$hash = $jc(_$hash, updatedAt.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -70,11 +58,9 @@ class _$ModelExpenseCategory extends ModelExpenseCategory {
   @override
   String toString() {
     return (newBuiltValueToStringHelper(r'ModelExpenseCategory')
-          ..add('createdAt', createdAt)
           ..add('id', id)
           ..add('name', name)
-          ..add('uid', uid)
-          ..add('updatedAt', updatedAt))
+          ..add('uid', uid))
         .toString();
   }
 }
@@ -82,10 +68,6 @@ class _$ModelExpenseCategory extends ModelExpenseCategory {
 class ModelExpenseCategoryBuilder
     implements Builder<ModelExpenseCategory, ModelExpenseCategoryBuilder> {
   _$ModelExpenseCategory? _$v;
-
-  String? _createdAt;
-  String? get createdAt => _$this._createdAt;
-  set createdAt(String? createdAt) => _$this._createdAt = createdAt;
 
   String? _id;
   String? get id => _$this._id;
@@ -99,10 +81,6 @@ class ModelExpenseCategoryBuilder
   String? get uid => _$this._uid;
   set uid(String? uid) => _$this._uid = uid;
 
-  String? _updatedAt;
-  String? get updatedAt => _$this._updatedAt;
-  set updatedAt(String? updatedAt) => _$this._updatedAt = updatedAt;
-
   ModelExpenseCategoryBuilder() {
     ModelExpenseCategory._defaults(this);
   }
@@ -110,11 +88,9 @@ class ModelExpenseCategoryBuilder
   ModelExpenseCategoryBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _createdAt = $v.createdAt;
       _id = $v.id;
       _name = $v.name;
       _uid = $v.uid;
-      _updatedAt = $v.updatedAt;
       _$v = null;
     }
     return this;
@@ -137,14 +113,12 @@ class ModelExpenseCategoryBuilder
   _$ModelExpenseCategory _build() {
     final _$result = _$v ??
         new _$ModelExpenseCategory._(
-            createdAt: createdAt,
             id: BuiltValueNullFieldError.checkNotNull(
                 id, r'ModelExpenseCategory', 'id'),
             name: BuiltValueNullFieldError.checkNotNull(
                 name, r'ModelExpenseCategory', 'name'),
             uid: BuiltValueNullFieldError.checkNotNull(
-                uid, r'ModelExpenseCategory', 'uid'),
-            updatedAt: updatedAt);
+                uid, r'ModelExpenseCategory', 'uid'));
     replace(_$result);
     return _$result;
   }

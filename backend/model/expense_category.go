@@ -3,11 +3,11 @@ package model
 import "time"
 
 type ExpenseCategory struct {
-	ID        string `gorm:"type:varchar(20);primaryKey"`
-	UID       string `gorm:"type:varchar(128)"`
-	Name      string `gorm:"type:varchar(256)"`
-	CreatedAt time.Time
-	UpdatedAt time.Time
+	ID        string    `gorm:"type:varchar(20);primaryKey" json:"id"`
+	UID       string    `gorm:"type:varchar(128)" json:"uid"`
+	Name      string    `gorm:"type:varchar(256)" json:"name"`
+	CreatedAt time.Time `json:"-"`
+	UpdatedAt time.Time `json:"-"`
 }
 
 func (ExpenseCategory) TableName() string {

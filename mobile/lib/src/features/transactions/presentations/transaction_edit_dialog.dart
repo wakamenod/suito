@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:suito/src/common_widgets/text_input_field.dart';
 
+import 'expense_categories_autocomplete.dart';
+
 class TransactionEditDialog extends StatelessWidget {
   const TransactionEditDialog({super.key});
 
@@ -26,9 +28,7 @@ class TransactionEditDialog extends StatelessWidget {
                 hintText: "Date",
                 inputType: InputType.date,
                 onChanged: (value) => {}),
-            const FlutterLogo(
-              size: 150,
-            ),
+            const ExpenseCategoriesAutocomplete(),
             const Text(
               "This is a Custom Dialog",
               style: TextStyle(fontSize: 20),
