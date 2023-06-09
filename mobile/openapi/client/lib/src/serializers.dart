@@ -14,6 +14,8 @@ import 'package:built_value/iso_8601_date_time_serializer.dart';
 import 'package:openapi/src/date_serializer.dart';
 import 'package:openapi/src/model/date.dart';
 
+import 'package:openapi/src/model/expense_detail_req.dart';
+import 'package:openapi/src/model/expense_detail_res.dart';
 import 'package:openapi/src/model/list_expense_categories_res.dart';
 import 'package:openapi/src/model/list_expense_locations_res.dart';
 import 'package:openapi/src/model/list_transactions_res.dart';
@@ -32,6 +34,8 @@ import 'package:openapi/src/model/transaction_months_res.dart';
 part 'serializers.g.dart';
 
 @SerializersFor([
+  ExpenseDetailReq,
+  ExpenseDetailRes,
   ListExpenseCategoriesRes,
   ListExpenseLocationsRes,
   ListTransactionsRes,

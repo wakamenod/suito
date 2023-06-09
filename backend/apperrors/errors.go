@@ -2,11 +2,11 @@ package apperrors
 
 import (
 	"context"
-	"database/sql"
 
 	"github.com/labstack/echo/v4"
 	"github.com/pkg/errors"
 	"github.com/wakamenod/suito/utils/webutils"
+	"gorm.io/gorm"
 )
 
 type SuitoError struct {
@@ -46,7 +46,7 @@ func HTTPErrorHandler(err error, c echo.Context) {
 func handleError(err error) *SuitoError {
 	var suitoErr *SuitoError
 	if !errors.As(err, &suitoErr) {
-		if errors.Is(err, sql.ErrNoRows) {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
 			suitoErr = &SuitoError{
 				ErrCode: SQLNoRows,
 				Err:     err,

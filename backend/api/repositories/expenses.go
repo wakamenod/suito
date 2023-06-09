@@ -20,6 +20,17 @@ func (r *SuitoRepository) FindExpenses(uid string, start, end *time.Time) ([]mod
 	return expenses, nil
 }
 
+func (r *SuitoRepository) FindExpense(id, uid string) (model.Expense, error) {
+	var expense model.Expense
+
+	if err := r.db.Where("id = ? AND uid = ?", id, uid).
+		First(&expense).Error; err != nil {
+		return expense, errors.Wrap(err, "failed to find expense")
+	}
+
+	return expense, nil
+}
+
 func (r *SuitoRepository) CreateExpense(uid string, expense model.Expense) (model.Expense, error) {
 	expense.ID = xid.New().String()
 	expense.UID = uid

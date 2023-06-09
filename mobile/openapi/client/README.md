@@ -64,6 +64,7 @@ All URIs are relative to *http://localhost:8009/api/v1*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 [*SuitoDefaultApi*](doc/SuitoDefaultApi.md) | [**ping**](doc/SuitoDefaultApi.md#ping) | **GET** /ping | Ping
+[*SuitoExpenseApi*](doc/SuitoExpenseApi.md) | [**expenseDetail**](doc/SuitoExpenseApi.md#expensedetail) | **POST** /expense/detail | Get expense detail
 [*SuitoExpenseApi*](doc/SuitoExpenseApi.md) | [**listExpenseCategories**](doc/SuitoExpenseApi.md#listexpensecategories) | **GET** /expense/categories | List expense categories
 [*SuitoExpenseApi*](doc/SuitoExpenseApi.md) | [**listExpenseLocations**](doc/SuitoExpenseApi.md#listexpenselocations) | **GET** /expense/locations | List expense locations
 [*SuitoExpenseApi*](doc/SuitoExpenseApi.md) | [**registerExpense**](doc/SuitoExpenseApi.md#registerexpense) | **POST** /expense | Register expense
@@ -74,6 +75,8 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
+ - [ExpenseDetailReq](doc/ExpenseDetailReq.md)
+ - [ExpenseDetailRes](doc/ExpenseDetailRes.md)
  - [ListExpenseCategoriesRes](doc/ListExpenseCategoriesRes.md)
  - [ListExpenseLocationsRes](doc/ListExpenseLocationsRes.md)
  - [ListTransactionsRes](doc/ListTransactionsRes.md)

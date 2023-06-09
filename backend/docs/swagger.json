@@ -87,6 +87,50 @@
         }
       }
     },
+    "/expense/detail": {
+      "post": {
+        "tags": [
+          "suito.expense"
+        ],
+        "summary": "Get expense detail",
+        "description": "購入詳細情報を取得します.",
+        "operationId": "expenseDetail",
+        "requestBody": {
+          "description": "expense detail req",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExpenseDetailReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExpenseDetailRes"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unknown Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuitoError"
+                }
+              }
+            }
+          }
+        },
+        "x-codegen-request-body-name": "request"
+      }
+    },
     "/expense/locations": {
       "get": {
         "tags": [
@@ -263,6 +307,28 @@
   },
   "components": {
     "schemas": {
+      "ExpenseDetailReq": {
+        "required": [
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        }
+      },
+      "ExpenseDetailRes": {
+        "required": [
+          "expense"
+        ],
+        "type": "object",
+        "properties": {
+          "expense": {
+            "$ref": "#/components/schemas/model.Expense"
+          }
+        }
+      },
       "ListExpenseCategoriesRes": {
         "required": [
           "expenseCategories"
