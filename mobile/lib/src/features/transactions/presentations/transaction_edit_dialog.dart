@@ -20,7 +20,11 @@ class TransactionEditDialog extends StatelessWidget {
             TextInputField(
                 errorText: "Error",
                 hintText: "Amount",
-                digitsOnly: true,
+                inputType: InputType.digits,
+                onChanged: (value) => {}),
+            TextInputField(
+                hintText: "Date",
+                inputType: InputType.date,
                 onChanged: (value) => {}),
             const FlutterLogo(
               size: 150,
