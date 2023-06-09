@@ -7,6 +7,8 @@ part of 'serializers.dart';
 // **************************************************************************
 
 Serializers _$serializers = (new Serializers().toBuilder()
+      ..add(ExpenseDetailReq.serializer)
+      ..add(ExpenseDetailRes.serializer)
       ..add(ListExpenseCategoriesRes.serializer)
       ..add(ListExpenseLocationsRes.serializer)
       ..add(ListTransactionsRes.serializer)

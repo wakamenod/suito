@@ -7,6 +7,15 @@ void main() {
   final instance = Openapi().getSuitoExpenseApi();
 
   group(SuitoExpenseApi, () {
+    // Get expense detail
+    //
+    // 購入詳細情報を取得します.
+    //
+    //Future<ExpenseDetailRes> expenseDetail(ExpenseDetailReq request) async
+    test('test expenseDetail', () async {
+      // TODO
+    });
+
     // List expense categories
     //
     // 購入カテゴリー一覧を返却します.

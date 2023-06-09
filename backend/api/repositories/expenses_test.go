@@ -30,18 +30,20 @@ func newExpenseInserter(t *testing.T, db *gorm.DB) *expenseInserter {
 	}
 }
 
-func (e *expenseInserter) mustInsert(uid, date, title string) {
+func (e *expenseInserter) mustInsert(uid, date, title string) string {
 	parsedDate, err := time.Parse(dateLayout, date)
 	require.NoError(e.t, err, "failed to parse date")
 
+	id := xid.New().String()
 	require.NoError(e.t, e.db.Create(&model.Expense{
-		ID:        xid.New().String(),
+		ID:        id,
 		UID:       uid,
 		Title:     title,
 		Amount:    200,
 		Memo:      "test memo",
 		LocalDate: parsedDate,
 	}).Error, "failed to insert expense")
+	return id
 }
 
 func SetupMockDB(t *testing.T) (*gorm.DB, sqlmock.Sqlmock, error) {
@@ -163,6 +165,32 @@ func TestFindExpenses3(t *testing.T) {
 	require.Equal(t, 2, len(res))
 	require.Equal(t, "title02", res[0].Title)
 	require.Equal(t, "title01", res[1].Title)
+}
+
+func TestFindExpense(t *testing.T) {
+	tx := begin()
+	defer rollback(tx)
+	// setup test data
+	i := newExpenseInserter(t, tx)
+	id := i.mustInsert("user2", "2023-05-02", "title02")
+	// run
+	res, err := NewSuitoRepository(tx).FindExpense(id, "user2")
+	// check
+	require.NoError(t, err)
+	require.Equal(t, id, res.ID)
+}
+
+func TestFindExpense_ErrorNotFound(t *testing.T) {
+	tx := begin()
+	defer rollback(tx)
+	// setup test data
+	i := newExpenseInserter(t, tx)
+	id := i.mustInsert("user2", "2023-05-02", "title02")
+	// run
+	_, err := NewSuitoRepository(tx).FindExpense(id, "user1")
+	// check
+	require.Error(t, err)
+	require.ErrorIs(t, err, gorm.ErrRecordNotFound)
 }
 
 func TestCreateExpense(t *testing.T) {

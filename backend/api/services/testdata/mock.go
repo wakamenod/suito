@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/wakamenod/suito/model"
+	"gorm.io/gorm"
 )
 
 type RepositoryMock struct{}
@@ -38,4 +39,13 @@ func (r *RepositoryMock) CreateExpense(uid string, expense model.Expense) (model
 
 func (r *RepositoryMock) CreateIncome(uid string, income model.Income) (model.Income, error) {
 	return model.Income{ID: "new_income_id"}, nil
+}
+
+func (r *RepositoryMock) FindExpense(id, uid string) (model.Expense, error) {
+	for _, ex := range expenseTestData {
+		if id == ex.ID && uid == ex.UID {
+			return ex, nil
+		}
+	}
+	return model.Expense{}, gorm.ErrRecordNotFound
 }

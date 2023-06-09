@@ -2,12 +2,12 @@ package apperrors
 
 import (
 	"context"
-	"database/sql"
 	"net/http"
 	"testing"
 
 	"github.com/pkg/errors"
 	"github.com/stretchr/testify/require"
+	"gorm.io/gorm"
 )
 
 func TestHandleError(t *testing.T) {
@@ -24,8 +24,8 @@ func TestHandleError(t *testing.T) {
 			wantMessage: string(messageInvalidIDToken),
 		},
 		{
-			name:        "sql.ErrNoRows",
-			err:         sql.ErrNoRows,
+			name:        "gorm.ErrRecordNotFound",
+			err:         gorm.ErrRecordNotFound,
 			wantStatus:  http.StatusNotFound,
 			wantMessage: string(messageSQLNoRows),
 		},

@@ -2,6 +2,14 @@ package services
 
 import "github.com/wakamenod/suito/model"
 
+func (s *SuitoService) FindExpenseService(id, uid string) (model.Expense, error) {
+	expense, err := s.repo.FindExpense(id, uid)
+	if err != nil {
+		return expense, err
+	}
+	return expense, nil
+}
+
 func (s *SuitoService) ListExpenseCategoryService(uid string) ([]model.ExpenseCategory, error) {
 	categories, err := s.repo.FindExpenseCategories(uid)
 	if err != nil {

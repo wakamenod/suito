@@ -9,10 +9,54 @@ All URIs are relative to *http://localhost:8009/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**expenseDetail**](SuitoExpenseApi.md#expensedetail) | **POST** /expense/detail | Get expense detail
 [**listExpenseCategories**](SuitoExpenseApi.md#listexpensecategories) | **GET** /expense/categories | List expense categories
 [**listExpenseLocations**](SuitoExpenseApi.md#listexpenselocations) | **GET** /expense/locations | List expense locations
 [**registerExpense**](SuitoExpenseApi.md#registerexpense) | **POST** /expense | Register expense
 
+
+# **expenseDetail**
+> ExpenseDetailRes expenseDetail(request)
+
+Get expense detail
+
+購入詳細情報を取得します.
+
+### Example
+```dart
+import 'package:openapi/api.dart';
+
+final api = Openapi().getSuitoExpenseApi();
+final ExpenseDetailReq request = ; // ExpenseDetailReq | expense detail req
+
+try {
+    final response = api.expenseDetail(request);
+    print(response);
+} catch on DioError (e) {
+    print('Exception when calling SuitoExpenseApi->expenseDetail: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request** | [**ExpenseDetailReq**](ExpenseDetailReq.md)| expense detail req | 
+
+### Return type
+
+[**ExpenseDetailRes**](ExpenseDetailRes.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **listExpenseCategories**
 > ListExpenseCategoriesRes listExpenseCategories()

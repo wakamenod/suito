@@ -87,6 +87,47 @@ const docTemplate = `{
                 }
             }
         },
+        "/expense/detail": {
+            "post": {
+                "description": "購入詳細情報を取得します.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "suito.expense"
+                ],
+                "summary": "Get expense detail",
+                "operationId": "expenseDetail",
+                "parameters": [
+                    {
+                        "description": "expense detail req",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ExpenseDetailReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/ExpenseDetailRes"
+                        }
+                    },
+                    "500": {
+                        "description": "Unknown Error",
+                        "schema": {
+                            "$ref": "#/definitions/SuitoError"
+                        }
+                    }
+                }
+            }
+        },
         "/expense/locations": {
             "get": {
                 "description": "購入場所ー一覧を返却します.",
@@ -250,6 +291,28 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "ExpenseDetailReq": {
+            "type": "object",
+            "required": [
+                "id"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ExpenseDetailRes": {
+            "type": "object",
+            "required": [
+                "expense"
+            ],
+            "properties": {
+                "expense": {
+                    "$ref": "#/definitions/model.Expense"
+                }
+            }
+        },
         "ListExpenseCategoriesRes": {
             "type": "object",
             "required": [

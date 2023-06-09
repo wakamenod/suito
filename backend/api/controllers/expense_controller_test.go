@@ -14,6 +14,7 @@ import (
 	"github.com/wakamenod/suito/middleware"
 	"github.com/wakamenod/suito/model"
 	"github.com/wakamenod/suito/validate"
+	"gorm.io/gorm"
 )
 
 func TestExpenseCategoriesHandler(t *testing.T) {
@@ -93,4 +94,64 @@ func TestRegisterExpenseHandler_Success(t *testing.T) {
 
 	var res RegisterExpenseRes
 	require.NoError(t, json.Unmarshal(rec.Body.Bytes(), &res))
+}
+
+func TestExpenseDetailHandler_ErrorValidate(t *testing.T) {
+	// Setup
+	e := echo.New()
+	e.Validator = validate.NewValidator()
+	req := httptest.NewRequest(http.MethodPost, "/", nil)
+	rec := httptest.NewRecorder()
+	c := e.NewContext(req, rec)
+	c.Set(middleware.UIDKey, "user1")
+
+	// Assertions
+	err := eCon.ExpenseDetailHandler(c)
+	var appErr *apperrors.SuitoError
+	require.ErrorAs(t, err, &appErr)
+	require.Equal(t, apperrors.InvalidParameter, appErr.ErrCode)
+}
+
+func TestExpenseDetailHandler_ErrorNotFound(t *testing.T) {
+	// Setup
+	e := echo.New()
+	e.Validator = validate.NewValidator()
+	jsonReq, err := json.Marshal(ExpenseDetailReq{
+		ID: "ID_EXPENSE_01",
+	})
+	require.NoError(t, err)
+	req := httptest.NewRequest(http.MethodPost, "/", bytes.NewReader(jsonReq))
+	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+	rec := httptest.NewRecorder()
+	c := e.NewContext(req, rec)
+	c.Set(middleware.UIDKey, "user99")
+
+	// Assertions
+	err = eCon.ExpenseDetailHandler(c)
+	require.ErrorIs(t, err, gorm.ErrRecordNotFound)
+}
+
+func TestExpenseDetailHandler_Success(t *testing.T) {
+	// Setup
+	e := echo.New()
+	e.Validator = validate.NewValidator()
+	jsonReq, err := json.Marshal(ExpenseDetailReq{
+		ID: "ID_EXPENSE_01",
+	})
+	require.NoError(t, err)
+	req := httptest.NewRequest(http.MethodPost, "/", bytes.NewReader(jsonReq))
+	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+	rec := httptest.NewRecorder()
+	c := e.NewContext(req, rec)
+	c.Set(middleware.UIDKey, "user1")
+
+	// Assertions
+	err = eCon.ExpenseDetailHandler(c)
+	require.NoError(t, err)
+	require.Equal(t, http.StatusOK, rec.Code)
+
+	// Response
+	var res ExpenseDetailRes
+	require.NoError(t, json.Unmarshal(rec.Body.Bytes(), &res))
+	require.Equal(t, "ID_EXPENSE_01", res.Expense.ID)
 }

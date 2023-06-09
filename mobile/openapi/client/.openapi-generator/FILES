@@ -2,6 +2,8 @@
 .openapi-generator-ignore
 README.md
 analysis_options.yaml
+doc/ExpenseDetailReq.md
+doc/ExpenseDetailRes.md
 doc/ListExpenseCategoriesRes.md
 doc/ListExpenseLocationsRes.md
 doc/ListTransactionsRes.md
@@ -34,6 +36,8 @@ lib/src/auth/bearer_auth.dart
 lib/src/auth/oauth.dart
 lib/src/date_serializer.dart
 lib/src/model/date.dart
+lib/src/model/expense_detail_req.dart
+lib/src/model/expense_detail_res.dart
 lib/src/model/list_expense_categories_res.dart
 lib/src/model/list_expense_locations_res.dart
 lib/src/model/list_transactions_res.dart
@@ -50,6 +54,8 @@ lib/src/model/transaction.dart
 lib/src/model/transaction_months_res.dart
 lib/src/serializers.dart
 pubspec.yaml
+test/expense_detail_req_test.dart
+test/expense_detail_res_test.dart
 test/list_expense_categories_res_test.dart
 test/list_expense_locations_res_test.dart
 test/list_transactions_res_test.dart

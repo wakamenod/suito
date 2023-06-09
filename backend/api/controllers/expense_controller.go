@@ -34,7 +34,45 @@ type (
 	RegisterExpenseRes struct {
 		NewExpense model.Expense `json:"newExpense"`
 	} // @Name RegisterExpenseRes
+
+	ExpenseDetailReq struct {
+		ID string `json:"id" validate:"required"`
+	} // @Name ExpenseDetailReq
+	ExpenseDetailRes struct {
+		Expense model.Expense `json:"expense"`
+	} // @Name ExpenseDetailRes
 )
+
+// @Summary     Get expense detail
+// @Description 購入詳細情報を取得します.
+// @Tags        suito.expense
+// @ID          expenseDetail
+// @Accept      json
+// @Produce     json
+// @Param       request body  ExpenseDetailReq     true           "expense detail req"
+// @Success     200 {object}  ExpenseDetailRes     "Success"
+// @Failure     500 {object}  apperrors.SuitoError "Unknown Error"
+// @Router      /expense/detail [POST]
+func (s *ExpenseController) ExpenseDetailHandler(c echo.Context) error {
+	var req ExpenseDetailReq
+
+	if err := c.Bind(&req); err != nil {
+		return errors.Wrap(err, "failed bind")
+	}
+	if err := c.Validate(req); err != nil {
+		return err
+	}
+
+	uid := c.Get(middleware.UIDKey).(string)
+	expense, err := s.service.FindExpenseService(req.ID, uid)
+	if err != nil {
+		return err
+	}
+
+	var res ExpenseDetailRes
+	res.Expense = expense
+	return webutils.Response(c, http.StatusOK, res)
+}
 
 // @Summary     List expense categories
 // @Description 購入カテゴリー一覧を返却します.
