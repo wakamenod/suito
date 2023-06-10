@@ -439,12 +439,20 @@
       },
       "RegisterExpenseReq": {
         "required": [
-          "expense"
+          "category",
+          "expense",
+          "location"
         ],
         "type": "object",
         "properties": {
+          "category": {
+            "type": "string"
+          },
           "expense": {
             "$ref": "#/components/schemas/model.Expense"
+          },
+          "location": {
+            "type": "string"
           }
         }
       },
