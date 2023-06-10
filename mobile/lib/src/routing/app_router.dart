@@ -7,6 +7,8 @@ import 'package:suito/src/features/authentication/presentation/sign_in/custom_si
 import 'package:suito/src/features/authentication/presentation/sign_out/custom_sign_out_screen.dart';
 import 'package:suito/src/features/schedule/presentation/schedule_screen.dart';
 import 'package:suito/src/features/stats/presentation/stats_screen.dart';
+import 'package:suito/src/features/transactions/presentations/expense_category_screen.dart';
+import 'package:suito/src/features/transactions/presentations/expense_location_screen.dart';
 import 'package:suito/src/features/transactions/presentations/transaction_detail_screen.dart';
 import 'package:suito/src/features/transactions/presentations/transactions_screen.dart';
 import 'package:suito/src/routing/go_router_refresh_stream.dart';
@@ -18,7 +20,9 @@ enum AppRoute {
   signOut(path: '/sign-out'),
   home(path: '/home'),
   profile(path: '/profile'),
-  transactionDetail(path: 'transaction-detail');
+  transactionDetail(path: 'transaction-detail'),
+  transactionDetailCategory(path: 'transaction-detail-category'),
+  transactionDetailLocation(path: 'transaction-detail-location');
 
   const AppRoute({required this.path});
 
@@ -65,36 +69,51 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       ShellRoute(
         builder: (BuildContext context, GoRouterState state, Widget child) {
           return ShellScreen(
-              route: NavigationBarRouteX.fromPath(state.location),
-              child: child);
+              route: NavigationBarRouteX.fromName(state.name), child: child);
         },
         routes: [
           GoRoute(
               path: NavigationBarRoute.transactions.path,
+              name: NavigationBarRoute.transactions.name,
               pageBuilder: (context, state) =>
                   const NoTransitionPage(child: TransactionsScreen()),
               routes: [
                 GoRoute(
-                  path: AppRoute.transactionDetail.path,
-                  pageBuilder: (context, state) => CustomTransitionPage(
-                    key: state.pageKey,
-                    child: const TransactionDetailScreen(),
-                    transitionsBuilder:
-                        (context, animation, secondaryAnimation, child) =>
-                            SlideTransition(
-                      position: animation.drive(
-                          Tween(begin: const Offset(1.0, 0.0), end: Offset.zero)
-                              .chain(CurveTween(curve: Curves.ease))),
-                      child: child,
-                    ),
-                  ),
-                )
+                    name: AppRoute.transactionDetail.name,
+                    path: AppRoute.transactionDetail.path,
+                    pageBuilder: (context, state) => CustomTransitionPage(
+                          key: state.pageKey,
+                          child: const TransactionDetailScreen(),
+                          transitionsBuilder: _slideTransitionBuilder,
+                        ),
+                    routes: [
+                      GoRoute(
+                        path: AppRoute.transactionDetailCategory.path,
+                        name: AppRoute.transactionDetailCategory.name,
+                        pageBuilder: (context, state) => CustomTransitionPage(
+                          key: state.pageKey,
+                          child: const ExpenseCategoryScreen(),
+                          transitionsBuilder: _slideTransitionBuilder,
+                        ),
+                      ),
+                      GoRoute(
+                        path: AppRoute.transactionDetailLocation.path,
+                        name: AppRoute.transactionDetailLocation.name,
+                        pageBuilder: (context, state) => CustomTransitionPage(
+                          key: state.pageKey,
+                          child: const ExpenseLocationScreen(),
+                          transitionsBuilder: _slideTransitionBuilder,
+                        ),
+                      )
+                    ]),
               ]),
           GoRoute(
+              name: NavigationBarRoute.stats.name,
               path: NavigationBarRoute.stats.path,
               pageBuilder: (context, state) =>
                   const NoTransitionPage(child: StatsScreen())),
           GoRoute(
+              name: NavigationBarRoute.schedule.name,
               path: NavigationBarRoute.schedule.path,
               pageBuilder: (context, state) =>
                   const NoTransitionPage(child: ScheduleScreen())),
@@ -103,3 +122,15 @@ final goRouterProvider = Provider<GoRouter>((ref) {
     ],
   );
 });
+
+Widget _slideTransitionBuilder(
+        BuildContext context,
+        Animation<double> animation,
+        Animation<double> secondaryAnimation,
+        Widget child) =>
+    SlideTransition(
+      position: animation.drive(
+          Tween(begin: const Offset(1.0, 0.0), end: Offset.zero)
+              .chain(CurveTween(curve: Curves.ease))),
+      child: child,
+    );

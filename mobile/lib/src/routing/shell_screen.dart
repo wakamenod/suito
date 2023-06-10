@@ -16,8 +16,8 @@ enum NavigationBarRoute {
 }
 
 extension NavigationBarRouteX on NavigationBarRoute {
-  static NavigationBarRoute fromPath(String path) {
-    return NavigationBarRoute.values.firstWhere((r) => r.path == path,
+  static NavigationBarRoute fromName(String? name) {
+    return NavigationBarRoute.values.firstWhere((r) => r.name == name,
         orElse: () => NavigationBarRoute.transactions);
   }
 }
@@ -40,8 +40,8 @@ class ShellScreen extends StatelessWidget {
               label: r.labelName,
             )
         ],
-        onDestinationSelected: (index) => context.go(
-          NavigationBarRoute.values[index].path,
+        onDestinationSelected: (index) => context.goNamed(
+          NavigationBarRoute.values[index].name,
         ),
         selectedIndex: route.index,
         // labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
