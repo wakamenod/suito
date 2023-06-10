@@ -1,21 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:suito/src/common_widgets/custom_autocomplete.dart';
 import 'package:suito/src/common_widgets/error_message_widget.dart';
 import 'package:suito/src/features/transactions/repositories/expense_locations_repository.dart';
 
-class ExpenseLocationScreen extends ConsumerWidget {
+class ExpenseLocationScreen extends ConsumerStatefulWidget {
   const ExpenseLocationScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ExpenseLocationScreen> createState() =>
+      _ExpenseLocationScreenState();
+}
+
+class _ExpenseLocationScreenState extends ConsumerState<ExpenseLocationScreen> {
+  final TextEditingController _textEditingController = TextEditingController();
+
+  @override
+  void dispose() {
+    _textEditingController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Expense Location'),
+        leading: IconButton(
+            icon: const Icon(Icons.arrow_back, color: Colors.white),
+            onPressed: () => context.pop(_textEditingController.text)),
       ),
-      body: const Column(
+      body: Column(
         children: [
-          _ExpenseLocationsAutocomplete(),
+          _ExpenseLocationsAutocomplete(_textEditingController),
         ],
       ),
     );
@@ -23,7 +41,9 @@ class ExpenseLocationScreen extends ConsumerWidget {
 }
 
 class _ExpenseLocationsAutocomplete extends ConsumerWidget {
-  const _ExpenseLocationsAutocomplete();
+  final TextEditingController controller;
+
+  const _ExpenseLocationsAutocomplete(this.controller);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -32,10 +52,12 @@ class _ExpenseLocationsAutocomplete extends ConsumerWidget {
     return expenseLocationsValue.when(
         data: (locationItems) {
           return CustomAutocomplete(
+            textEditingController: controller,
             items: locationItems.map((e) => e.name),
           );
         },
-        loading: () => CustomAutocomplete(items: const []),
+        loading: () => CustomAutocomplete(
+            textEditingController: controller, items: const []),
         error: (e, st) => Center(child: ErrorMessageWidget(e.toString())));
   }
 }
