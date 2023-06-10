@@ -29,15 +29,15 @@ class TransactionDetailScreen extends ConsumerWidget {
                   hintText: "Date",
                   inputType: InputType.date,
                   onChanged: (value) => {}),
-              _TransitionTextField(
+              const _TransitionTextField(
                   hintText: "Category",
                   labelText: "Category",
                   route: AppRoute.transactionDetailCategory),
-              _TransitionTextField(
+              const _TransitionTextField(
                   hintText: "Location",
                   labelText: "Location",
                   route: AppRoute.transactionDetailLocation),
-              _TransitionTextField(
+              const _TransitionTextField(
                   hintText: "Memo",
                   labelText: "Memo",
                   route: AppRoute.transactionDetailMemo),
@@ -52,17 +52,29 @@ class TransactionDetailScreen extends ConsumerWidget {
   }
 }
 
-class _TransitionTextField extends StatelessWidget {
+class _TransitionTextField extends StatefulWidget {
   final AppRoute route;
   final String hintText;
   final String labelText;
-  final TextEditingController _textEditingController = TextEditingController();
 
-  _TransitionTextField({
+  const _TransitionTextField({
     required this.hintText,
     required this.route,
     required this.labelText,
   });
+
+  @override
+  State<_TransitionTextField> createState() => _TransitionTextFieldState();
+}
+
+class _TransitionTextFieldState extends State<_TransitionTextField> {
+  final TextEditingController _textEditingController = TextEditingController();
+
+  @override
+  void dispose() {
+    _textEditingController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,12 +94,15 @@ class _TransitionTextField extends StatelessWidget {
           child: TextField(
             controller: _textEditingController,
             readOnly: true,
-            onTap: () => context.goNamed(route.name),
+            onTap: () async {
+              final val = await context.pushNamed<String>(widget.route.name);
+              _textEditingController.text = val ?? '';
+            },
             //          obscureText: obscureText,
             decoration: InputDecoration(
-              labelText: labelText,
+              labelText: widget.labelText,
               border: InputBorder.none,
-              hintText: hintText,
+              hintText: widget.hintText,
               hintStyle: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w500,

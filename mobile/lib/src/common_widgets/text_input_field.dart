@@ -8,15 +8,14 @@ enum InputType {
   date,
 }
 
-class TextInputField extends StatelessWidget {
+class TextInputField extends StatefulWidget {
   final String hintText;
   final ValueChanged<String> onChanged;
   final String? errorText;
   final InputType inputType;
   final bool obscureText;
-  final TextEditingController _textEditingController = TextEditingController();
 
-  TextInputField({
+  const TextInputField({
     super.key,
     required this.hintText,
     this.onChanged = _defaultOnChange,
@@ -26,6 +25,19 @@ class TextInputField extends StatelessWidget {
   });
 
   static void _defaultOnChange(String value) {}
+
+  @override
+  State<TextInputField> createState() => _TextInputFieldState();
+}
+
+class _TextInputFieldState extends State<TextInputField> {
+  final TextEditingController _textEditingController = TextEditingController();
+
+  @override
+  void dispose() {
+    _textEditingController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,21 +56,22 @@ class TextInputField extends StatelessWidget {
               )),
           child: TextField(
             controller: _textEditingController,
-            onChanged: onChanged,
-            readOnly: inputType == InputType.date,
-            onTap: inputType != InputType.date
+            onChanged: widget.onChanged,
+            readOnly: widget.inputType == InputType.date,
+            onTap: widget.inputType != InputType.date
                 ? null
                 : () => _showDialog(context, _textEditingController),
-            keyboardType:
-                inputType == InputType.digits ? TextInputType.number : null,
-            inputFormatters: inputType == InputType.digits
+            keyboardType: widget.inputType == InputType.digits
+                ? TextInputType.number
+                : null,
+            inputFormatters: widget.inputType == InputType.digits
                 ? [FilteringTextInputFormatter.digitsOnly]
                 : null,
-            obscureText: obscureText,
+            obscureText: widget.obscureText,
             decoration: InputDecoration(
               labelText: 'Enter your title',
               border: InputBorder.none,
-              hintText: hintText,
+              hintText: widget.hintText,
               hintStyle: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
@@ -67,12 +80,12 @@ class TextInputField extends StatelessWidget {
             ),
           ),
         ),
-        if (errorText != null)
+        if (widget.errorText != null)
           Padding(
             padding:
                 const EdgeInsets.only(left: 16, top: 4, right: 16, bottom: 0),
             child: Text(
-              errorText!,
+              widget.errorText!,
               style: TextStyle(
                 color: Theme.of(context).colorScheme.error,
               ),
@@ -83,7 +96,6 @@ class TextInputField extends StatelessWidget {
   }
 
   // This function displays a CupertinoModalPopup with a reasonable fixed height
-  // which hosts CupertinoDatePicker.
   void _showDialog(BuildContext context, TextEditingController controller) {
     showCupertinoModalPopup<void>(
         context: context,
