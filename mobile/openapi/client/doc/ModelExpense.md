@@ -9,8 +9,6 @@ import 'package:openapi/api.dart';
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **amount** | **int** |  | 
-**expenseCategoryId** | **String** |  | 
-**expenseLocationId** | **String** |  | 
 **id** | **String** |  | 
 **localDate** | **String** |  | 
 **memo** | **String** |  | 

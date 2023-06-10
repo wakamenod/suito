@@ -530,8 +530,6 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "amount",
-                "expense_category_id",
-                "expense_location_id",
                 "id",
                 "local_date",
                 "memo",
@@ -540,12 +538,6 @@ const docTemplate = `{
             "properties": {
                 "amount": {
                     "type": "integer"
-                },
-                "expense_category_id": {
-                    "type": "string"
-                },
-                "expense_location_id": {
-                    "type": "string"
                 },
                 "id": {
                     "type": "string"

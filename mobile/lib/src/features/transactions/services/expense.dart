@@ -1,3 +1,4 @@
+import 'package:formz/formz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'formz/amount.dart';
@@ -15,14 +16,17 @@ class Expense with _$Expense {
     required String location,
     required String memo,
     required bool isValid,
+    required FormzSubmissionStatus submissionStatus,
   }) = _Expense;
 
-  static Expense empty = const Expense(
-      title: Title.pure(),
-      amount: Amount.pure(),
-      date: '',
-      category: '',
-      location: '',
-      memo: '',
-      isValid: true);
+  static Expense init() => const Expense(
+        title: Title.pure(),
+        amount: Amount.pure(),
+        date: '',
+        category: '',
+        location: '',
+        memo: '',
+        isValid: true,
+        submissionStatus: FormzSubmissionStatus.initial,
+      );
 }

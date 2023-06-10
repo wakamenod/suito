@@ -60,7 +60,8 @@ class _TextInputFieldState extends State<TextInputField> {
             readOnly: widget.inputType == InputType.date,
             onTap: widget.inputType != InputType.date
                 ? null
-                : () => _showDialog(context, _textEditingController),
+                : () => _showDialog(
+                    context, _textEditingController, widget.onChanged),
             keyboardType: widget.inputType == InputType.digits
                 ? TextInputType.number
                 : null,
@@ -96,7 +97,8 @@ class _TextInputFieldState extends State<TextInputField> {
   }
 
   // This function displays a CupertinoModalPopup with a reasonable fixed height
-  void _showDialog(BuildContext context, TextEditingController controller) {
+  void _showDialog(BuildContext context, TextEditingController controller,
+      ValueChanged<String> onChanged) {
     showCupertinoModalPopup<void>(
         context: context,
         builder: (BuildContext context) => Container(
@@ -119,7 +121,9 @@ class _TextInputFieldState extends State<TextInputField> {
                   showDayOfWeek: false,
                   // This is called when the user changes the date.
                   onDateTimeChanged: (DateTime newDate) {
-                    controller.text = newDate.toString();
+                    final val = newDate.toString();
+                    controller.text = val;
+                    onChanged(val);
                   },
                 ),
               ),

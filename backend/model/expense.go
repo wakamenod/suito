@@ -8,8 +8,8 @@ type Expense struct {
 	Title             string    `gorm:"type:varchar(256);not null" json:"title" validate:"required"`
 	Amount            int       `gorm:"type:int" json:"amount" validate:"required"`
 	Memo              string    `gorm:"type:varchar(512)" json:"memo"`
-	ExpenseLocationID string    `gorm:"type:varchar(20)" json:"expense_location_id"`
-	ExpenseCategoryID string    `gorm:"type:varchar(20)" json:"expense_category_id"`
+	ExpenseLocationID string    `gorm:"type:varchar(20)" json:"-"`
+	ExpenseCategoryID string    `gorm:"type:varchar(20)" json:"-"`
 	LocalDate         time.Time `gorm:"type:date" json:"local_date" validate:"required"`
 
 	CreatedAt time.Time `json:"-"`

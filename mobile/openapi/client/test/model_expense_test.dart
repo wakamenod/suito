@@ -12,16 +12,6 @@ void main() {
       // TODO
     });
 
-    // String expenseCategoryId
-    test('to test the property `expenseCategoryId`', () async {
-      // TODO
-    });
-
-    // String expenseLocationId
-    test('to test the property `expenseLocationId`', () async {
-      // TODO
-    });
-
     // String id
     test('to test the property `id`', () async {
       // TODO

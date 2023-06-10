@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:formz/formz.dart';
+import 'package:openapi/openapi.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:suito/src/features/transactions/repositories/register_expense_repository.dart';
 
 import 'expense.dart';
 import 'formz/amount.dart';
@@ -12,7 +13,7 @@ part 'expense_service.g.dart';
 class ExpenseController extends _$ExpenseController {
   @override
   Expense build() {
-    return Expense.empty;
+    return Expense.init();
   }
 
   void onChangeTitle(String value) {
@@ -63,8 +64,44 @@ class ExpenseController extends _$ExpenseController {
     );
   }
 
+  RegisterExpenseReq _request() {
+    return RegisterExpenseReq((r) => r
+      ..category = state.category
+      ..expense.replace(ModelExpense((e) => e
+        ..id = ''
+        ..title = state.title.value
+        ..localDate = DateTime.parse(state.date).toRfc3339()
+        ..memo = state.memo
+        ..amount = state.amount.value))
+      ..location = state.location);
+  }
+
   void registerExpense() async {
-    debugPrint("State: $state");
     if (!state.isValid) return;
+    state = state.copyWith(submissionStatus: FormzSubmissionStatus.inProgress);
+
+    // TODO エラーハンドリング
+    // TODO submissionStatusをUI側で監視し送信中を表す
+    // try {
+    // await _authenticationRepository.signUpWithEmailAndPassword(
+    //   email: state.email.value,
+    //   password: state.password.value,
+    // );
+
+    await ref
+        .read(registerExpenseRepositoryProvider)
+        .registerExpense(_request());
+
+    state = state.copyWith(submissionStatus: FormzSubmissionStatus.success);
+    // } on CustomFailure catch (e) {
+    //   state = state.copyWith(
+    //       status: FormzSubmissionStatus.failure, errorMessage: e.code);
+    // }
+  }
+}
+
+extension DateTimeRFC3339 on DateTime {
+  String toRfc3339() {
+    return "${toUtc().toString().split('.')[0].replaceAll(' ', 'T')}Z";
   }
 }
