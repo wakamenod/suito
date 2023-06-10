@@ -1,6 +1,10 @@
 package services
 
-import "github.com/wakamenod/suito/model"
+import (
+	"strings"
+
+	"github.com/wakamenod/suito/model"
+)
 
 func (s *SuitoService) FindExpenseService(id, uid string) (model.Expense, error) {
 	expense, err := s.repo.FindExpense(id, uid)
@@ -26,7 +30,22 @@ func (s *SuitoService) ListExpenseLocationService(uid string) ([]model.ExpenseLo
 	return locations, nil
 }
 
-func (s *SuitoService) CreateExpenseService(uid string, expense model.Expense) (model.Expense, error) {
+func (s *SuitoService) CreateExpenseService(uid string, expense model.Expense, categoryName, locationName string) (model.Expense, error) {
+	if categoryName != "" {
+		category, err := s.repo.FindOrCreateExpenseCategory(uid, strings.TrimSpace(categoryName))
+		if err != nil {
+			return model.Expense{}, err
+		}
+		expense.ExpenseCategoryID = category.ID
+	}
+	if locationName != "" {
+		location, err := s.repo.FindOrCreateExpenseLocation(uid, strings.TrimSpace(locationName))
+		if err != nil {
+			return model.Expense{}, err
+		}
+		expense.ExpenseLocationID = location.ID
+	}
+
 	expense, err := s.repo.CreateExpense(uid, expense)
 	if err != nil {
 		return expense, err

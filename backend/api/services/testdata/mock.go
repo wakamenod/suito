@@ -34,11 +34,13 @@ func (r *RepositoryMock) FindExpenseLocations(uid string) ([]model.ExpenseLocati
 }
 
 func (r *RepositoryMock) CreateExpense(uid string, expense model.Expense) (model.Expense, error) {
-	return model.Expense{ID: "new_expense_id"}, nil
+	expense.ID = "new_expense_id"
+	return expense, nil
 }
 
 func (r *RepositoryMock) CreateIncome(uid string, income model.Income) (model.Income, error) {
-	return model.Income{ID: "new_income_id"}, nil
+	income.ID = "new_income_id"
+	return income, nil
 }
 
 func (r *RepositoryMock) FindExpense(id, uid string) (model.Expense, error) {
@@ -57,4 +59,12 @@ func (r *RepositoryMock) FindIncome(id, uid string) (model.Income, error) {
 		}
 	}
 	return model.Income{}, gorm.ErrRecordNotFound
+}
+
+func (r *RepositoryMock) FindOrCreateExpenseCategory(uid string, name string) (model.ExpenseCategory, error) {
+	return model.ExpenseCategory{ID: "TEST_CATEGORY_ID"}, nil
+}
+
+func (r *RepositoryMock) FindOrCreateExpenseLocation(uid string, name string) (model.ExpenseLocation, error) {
+	return model.ExpenseLocation{ID: "TEST_LOCATION_ID"}, nil
 }

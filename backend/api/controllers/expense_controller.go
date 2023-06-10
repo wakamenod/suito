@@ -29,7 +29,9 @@ type (
 	} // @Name ListExpenseLocationsRes
 
 	RegisterExpenseReq struct {
-		Expense model.Expense `json:"expense"`
+		Expense  model.Expense `json:"expense" validate:"required"`
+		Category string        `json:"category"`
+		Location string        `json:"location"`
 	} // @Name RegisterExpenseReq
 	RegisterExpenseRes struct {
 		NewExpense model.Expense `json:"newExpense"`
@@ -141,7 +143,7 @@ func (s *ExpenseController) RegisterExpenseHandler(c echo.Context) error {
 	}
 
 	uid := c.Get(middleware.UIDKey).(string)
-	newExpense, err := s.service.CreateExpenseService(uid, req.Expense)
+	newExpense, err := s.service.CreateExpenseService(uid, req.Expense, req.Category, req.Location)
 	if err != nil {
 		return err
 	}
