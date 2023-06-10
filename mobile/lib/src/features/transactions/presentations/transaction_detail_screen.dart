@@ -29,14 +29,18 @@ class TransactionDetailScreen extends ConsumerWidget {
                   hintText: "Date",
                   inputType: InputType.date,
                   onChanged: (value) => {}),
-              // const ExpenseCategoriesAutocomplete(),
-              // const ExpenseLocationsAutocomplete(),
               _TransitionTextField(
                   hintText: "Category",
+                  labelText: "Category",
                   route: AppRoute.transactionDetailCategory),
               _TransitionTextField(
                   hintText: "Location",
+                  labelText: "Location",
                   route: AppRoute.transactionDetailLocation),
+              _TransitionTextField(
+                  hintText: "Memo",
+                  labelText: "Memo",
+                  route: AppRoute.transactionDetailMemo),
               ElevatedButton(
                   onPressed: () {
                     Navigator.of(context).pop();
@@ -51,11 +55,13 @@ class TransactionDetailScreen extends ConsumerWidget {
 class _TransitionTextField extends StatelessWidget {
   final AppRoute route;
   final String hintText;
+  final String labelText;
   final TextEditingController _textEditingController = TextEditingController();
 
   _TransitionTextField({
     required this.hintText,
     required this.route,
+    required this.labelText,
   });
 
   @override
@@ -79,7 +85,7 @@ class _TransitionTextField extends StatelessWidget {
             onTap: () => context.goNamed(route.name),
             //          obscureText: obscureText,
             decoration: InputDecoration(
-              labelText: 'Enter your title',
+              labelText: labelText,
               border: InputBorder.none,
               hintText: hintText,
               hintStyle: const TextStyle(
