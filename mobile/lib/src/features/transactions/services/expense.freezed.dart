@@ -23,6 +23,8 @@ mixin _$Expense {
   String get location => throw _privateConstructorUsedError;
   String get memo => throw _privateConstructorUsedError;
   bool get isValid => throw _privateConstructorUsedError;
+  FormzSubmissionStatus get submissionStatus =>
+      throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ExpenseCopyWith<Expense> get copyWith => throw _privateConstructorUsedError;
@@ -40,7 +42,8 @@ abstract class $ExpenseCopyWith<$Res> {
       String category,
       String location,
       String memo,
-      bool isValid});
+      bool isValid,
+      FormzSubmissionStatus submissionStatus});
 }
 
 /// @nodoc
@@ -63,6 +66,7 @@ class _$ExpenseCopyWithImpl<$Res, $Val extends Expense>
     Object? location = null,
     Object? memo = null,
     Object? isValid = null,
+    Object? submissionStatus = null,
   }) {
     return _then(_value.copyWith(
       title: null == title
@@ -93,6 +97,10 @@ class _$ExpenseCopyWithImpl<$Res, $Val extends Expense>
           ? _value.isValid
           : isValid // ignore: cast_nullable_to_non_nullable
               as bool,
+      submissionStatus: null == submissionStatus
+          ? _value.submissionStatus
+          : submissionStatus // ignore: cast_nullable_to_non_nullable
+              as FormzSubmissionStatus,
     ) as $Val);
   }
 }
@@ -111,7 +119,8 @@ abstract class _$$_ExpenseCopyWith<$Res> implements $ExpenseCopyWith<$Res> {
       String category,
       String location,
       String memo,
-      bool isValid});
+      bool isValid,
+      FormzSubmissionStatus submissionStatus});
 }
 
 /// @nodoc
@@ -131,6 +140,7 @@ class __$$_ExpenseCopyWithImpl<$Res>
     Object? location = null,
     Object? memo = null,
     Object? isValid = null,
+    Object? submissionStatus = null,
   }) {
     return _then(_$_Expense(
       title: null == title
@@ -161,6 +171,10 @@ class __$$_ExpenseCopyWithImpl<$Res>
           ? _value.isValid
           : isValid // ignore: cast_nullable_to_non_nullable
               as bool,
+      submissionStatus: null == submissionStatus
+          ? _value.submissionStatus
+          : submissionStatus // ignore: cast_nullable_to_non_nullable
+              as FormzSubmissionStatus,
     ));
   }
 }
@@ -175,7 +189,8 @@ class _$_Expense implements _Expense {
       required this.category,
       required this.location,
       required this.memo,
-      required this.isValid});
+      required this.isValid,
+      required this.submissionStatus});
 
   @override
   final Title title;
@@ -191,10 +206,12 @@ class _$_Expense implements _Expense {
   final String memo;
   @override
   final bool isValid;
+  @override
+  final FormzSubmissionStatus submissionStatus;
 
   @override
   String toString() {
-    return 'Expense(title: $title, amount: $amount, date: $date, category: $category, location: $location, memo: $memo, isValid: $isValid)';
+    return 'Expense(title: $title, amount: $amount, date: $date, category: $category, location: $location, memo: $memo, isValid: $isValid, submissionStatus: $submissionStatus)';
   }
 
   @override
@@ -210,12 +227,14 @@ class _$_Expense implements _Expense {
             (identical(other.location, location) ||
                 other.location == location) &&
             (identical(other.memo, memo) || other.memo == memo) &&
-            (identical(other.isValid, isValid) || other.isValid == isValid));
+            (identical(other.isValid, isValid) || other.isValid == isValid) &&
+            (identical(other.submissionStatus, submissionStatus) ||
+                other.submissionStatus == submissionStatus));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, title, amount, date, category, location, memo, isValid);
+  int get hashCode => Object.hash(runtimeType, title, amount, date, category,
+      location, memo, isValid, submissionStatus);
 
   @JsonKey(ignore: true)
   @override
@@ -232,7 +251,8 @@ abstract class _Expense implements Expense {
       required final String category,
       required final String location,
       required final String memo,
-      required final bool isValid}) = _$_Expense;
+      required final bool isValid,
+      required final FormzSubmissionStatus submissionStatus}) = _$_Expense;
 
   @override
   Title get title;
@@ -248,6 +268,8 @@ abstract class _Expense implements Expense {
   String get memo;
   @override
   bool get isValid;
+  @override
+  FormzSubmissionStatus get submissionStatus;
   @override
   @JsonKey(ignore: true)
   _$$_ExpenseCopyWith<_$_Expense> get copyWith =>

@@ -544,8 +544,6 @@
       "model.Expense": {
         "required": [
           "amount",
-          "expense_category_id",
-          "expense_location_id",
           "id",
           "local_date",
           "memo",
@@ -555,12 +553,6 @@
         "properties": {
           "amount": {
             "type": "integer"
-          },
-          "expense_category_id": {
-            "type": "string"
-          },
-          "expense_location_id": {
-            "type": "string"
           },
           "id": {
             "type": "string"
