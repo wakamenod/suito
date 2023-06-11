@@ -16,5 +16,6 @@
   },
   "files.watcherExclude": {
     "**/.fvm": true
-  }
+  },
+  "cSpell.words": ["suito"]
 }

@@ -32,6 +32,7 @@ func InitRoute(e *echo.Echo, db *gorm.DB) *echo.Echo {
 		a.GET("/locations", eCon.ExpenseLocationsHandler)
 		a.POST("", eCon.RegisterExpenseHandler)
 		a.PUT("", eCon.UpdateExpenseHandler)
+		a.DELETE("", eCon.DeleteExpenseHandler)
 	}
 	{
 		a := g.Group("/income")
