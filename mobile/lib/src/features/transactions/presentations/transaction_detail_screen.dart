@@ -5,6 +5,9 @@ import 'package:suito/src/common_widgets/async_value_widget.dart';
 import 'package:suito/src/common_widgets/text_input_field.dart';
 import 'package:suito/src/features/transactions/services/expense.dart';
 import 'package:suito/src/features/transactions/services/expense_service.dart';
+import 'package:suito/src/features/transactions/services/formz/amount.dart';
+import 'package:suito/src/features/transactions/services/formz/title.dart'
+    as stitle;
 import 'package:suito/src/routing/app_router.dart';
 
 class TransactionDetailScreen extends ConsumerWidget {
@@ -29,12 +32,12 @@ class TransactionDetailScreen extends ConsumerWidget {
               children: [
                 TextInputField(
                     initialValue: expense.title.value,
-                    errorText: "Error",
+                    errorText: stitle.Title.showTitleErrorMessage(expense.title.error),
                     hintText: "Title",
                     onChanged: expenseController.onChangeTitle),
                 TextInputField(
                     initialValue: expense.amount.value.toString(),
-                    errorText: "Error",
+                    errorText: Amount.showAmountErrorMessage(expense.amount.error),
                     hintText: "Amount",
                     inputType: InputType.digits,
                     onChanged: (val) => expenseController
