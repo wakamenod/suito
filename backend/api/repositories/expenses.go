@@ -48,3 +48,10 @@ func (r *SuitoRepository) UpdateExpense(uid string, expense model.Expense) (mode
 	}
 	return expense, nil
 }
+
+func (r *SuitoRepository) DeleteExpense(id string, uid string) error {
+	if err := r.db.Where("id = ? AND uid = ?", id, uid).Delete(&model.Expense{}).Error; err != nil {
+		return errors.Wrap(err, "failed to delete expenses")
+	}
+	return nil
+}

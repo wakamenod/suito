@@ -21,4 +21,5 @@ type Repository interface {
 	FindExpenseCategory(id string, uid string) (model.ExpenseCategory, error)
 	FindExpenseLocation(id string, uid string) (model.ExpenseLocation, error)
 	UpdateExpense(uid string, expense model.Expense) (model.Expense, error)
+	DeleteExpense(id, uid string) error
 }

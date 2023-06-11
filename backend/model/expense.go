@@ -1,6 +1,10 @@
 package model
 
-import "time"
+import (
+	"time"
+
+	"gorm.io/gorm"
+)
 
 type Expense struct {
 	ID                string    `gorm:"type:varchar(20);primaryKey" json:"id"`
@@ -12,8 +16,9 @@ type Expense struct {
 	ExpenseCategoryID string    `gorm:"type:varchar(20)" json:"-"`
 	LocalDate         time.Time `gorm:"type:date" json:"local_date" validate:"required"`
 
-	CreatedAt time.Time `json:"-"`
-	UpdatedAt time.Time `json:"-"`
+	DeletedAt gorm.DeletedAt `json:"-"`
+	CreatedAt time.Time      `json:"-"`
+	UpdatedAt time.Time      `json:"-"`
 }
 
 func (Expense) TableName() string {

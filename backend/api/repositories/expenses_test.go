@@ -46,6 +46,23 @@ func (e *expenseInserter) mustInsert(uid, date, title string) string {
 	return id
 }
 
+func (e *expenseInserter) mustInsertDeleted(uid, date, title string) string {
+	parsedDate, err := time.Parse(dateLayout, date)
+	require.NoError(e.t, err, "failed to parse date")
+
+	id := xid.New().String()
+	require.NoError(e.t, e.db.Create(&model.Expense{
+		ID:        id,
+		UID:       uid,
+		Title:     title,
+		Amount:    200,
+		Memo:      "test memo",
+		LocalDate: parsedDate,
+		DeletedAt: gorm.DeletedAt{Time: time.Now(), Valid: true},
+	}).Error, "failed to insert expense")
+	return id
+}
+
 func SetupMockDB(t *testing.T) (*gorm.DB, sqlmock.Sqlmock, error) {
 	mockDB, mock, err := sqlmock.New()
 	if err != nil {
@@ -136,6 +153,7 @@ func TestFindExpenses2(t *testing.T) {
 	i.mustInsert("user1", "2023-05-01", "title01")
 	i.mustInsert("user2", "2023-05-02", "title02")
 	i.mustInsert("user1", "2023-05-03", "title03")
+	i.mustInsertDeleted("user1", "2023-05-03", "title deleted")
 	// run
 	start, end, err := dateutils.YearMonthDateRange("2023-05")
 	require.NoError(t, err)
@@ -236,4 +254,22 @@ func TestUpdateExpense(t *testing.T) {
 	require.Equal(t, targetExpense.LocalDate.Format(layout), found.LocalDate.Format(layout))
 	require.Equal(t, targetExpense.ExpenseCategoryID, found.ExpenseCategoryID)
 	require.Equal(t, targetExpense.ExpenseLocationID, found.ExpenseLocationID)
+}
+
+func TestDeleteExpense(t *testing.T) {
+	tx := begin()
+	defer rollback(tx)
+	// setup
+	i := newExpenseInserter(t, tx)
+	id := i.mustInsert("user1", "2023-05-01", "title01")
+	i.mustInsert("user99", "2023-05-01", "title99")
+	i.mustInsert("user1", "2023-05-01", "title01_2")
+	// run
+	err := NewSuitoRepository(tx).DeleteExpense(id, "user1")
+	// check
+	require.NoError(t, err)
+
+	var found model.Expense
+	require.NoError(t, tx.Where("id = ? AND uid = ?", id, "user1").Unscoped().First(&found).Error)
+	require.NotNil(t, found.DeletedAt)
 }

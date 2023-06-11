@@ -95,6 +95,48 @@
           }
         },
         "x-codegen-request-body-name": "request"
+      },
+      "delete": {
+        "tags": [
+          "suito.expense"
+        ],
+        "summary": "Delete expense",
+        "description": "支出情報を削除します",
+        "operationId": "deleteExpense",
+        "requestBody": {
+          "description": "delete expense req",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteExpenseReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteExpenseRes"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unknown Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuitoError"
+                }
+              }
+            }
+          }
+        },
+        "x-codegen-request-body-name": "request"
       }
     },
     "/expense/categories": {
@@ -393,6 +435,20 @@
   },
   "components": {
     "schemas": {
+      "DeleteExpenseReq": {
+        "required": [
+          "expenseId"
+        ],
+        "type": "object",
+        "properties": {
+          "expenseId": {
+            "type": "string"
+          }
+        }
+      },
+      "DeleteExpenseRes": {
+        "type": "object"
+      },
       "ExpenseDetailReq": {
         "required": [
           "id"

@@ -14,6 +14,7 @@ import 'package:built_value/iso_8601_date_time_serializer.dart';
 import 'package:openapi/src/date_serializer.dart';
 import 'package:openapi/src/model/date.dart';
 
+import 'package:openapi/src/model/delete_expense_req.dart';
 import 'package:openapi/src/model/expense_detail_req.dart';
 import 'package:openapi/src/model/expense_detail_res.dart';
 import 'package:openapi/src/model/income_detail_req.dart';
@@ -38,6 +39,7 @@ import 'package:openapi/src/model/update_expense_res.dart';
 part 'serializers.g.dart';
 
 @SerializersFor([
+  DeleteExpenseReq,
   ExpenseDetailReq,
   ExpenseDetailRes,
   IncomeDetailReq,

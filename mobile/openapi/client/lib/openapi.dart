@@ -14,6 +14,7 @@ export 'package:openapi/src/api/suito_expense_api.dart';
 export 'package:openapi/src/api/suito_income_api.dart';
 export 'package:openapi/src/api/suito_transactions_api.dart';
 
+export 'package:openapi/src/model/delete_expense_req.dart';
 export 'package:openapi/src/model/expense_detail_req.dart';
 export 'package:openapi/src/model/expense_detail_res.dart';
 export 'package:openapi/src/model/income_detail_req.dart';

@@ -9,12 +9,56 @@ All URIs are relative to *http://localhost:8009/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**deleteExpense**](SuitoExpenseApi.md#deleteexpense) | **DELETE** /expense | Delete expense
 [**expenseDetail**](SuitoExpenseApi.md#expensedetail) | **POST** /expense/detail | Get expense detail
 [**listExpenseCategories**](SuitoExpenseApi.md#listexpensecategories) | **GET** /expense/categories | List expense categories
 [**listExpenseLocations**](SuitoExpenseApi.md#listexpenselocations) | **GET** /expense/locations | List expense locations
 [**registerExpense**](SuitoExpenseApi.md#registerexpense) | **POST** /expense | Register expense
 [**updateExpense**](SuitoExpenseApi.md#updateexpense) | **PUT** /expense | Update expense
 
+
+# **deleteExpense**
+> JsonObject deleteExpense(request)
+
+Delete expense
+
+支出情報を削除します
+
+### Example
+```dart
+import 'package:openapi/api.dart';
+
+final api = Openapi().getSuitoExpenseApi();
+final DeleteExpenseReq request = ; // DeleteExpenseReq | delete expense req
+
+try {
+    final response = api.deleteExpense(request);
+    print(response);
+} catch on DioError (e) {
+    print('Exception when calling SuitoExpenseApi->deleteExpense: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request** | [**DeleteExpenseReq**](DeleteExpenseReq.md)| delete expense req | 
+
+### Return type
+
+[**JsonObject**](JsonObject.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **expenseDetail**
 > ExpenseDetailRes expenseDetail(request)

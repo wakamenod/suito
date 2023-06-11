@@ -1,6 +1,10 @@
 package model
 
-import "time"
+import (
+	"time"
+
+	"gorm.io/gorm"
+)
 
 type Income struct {
 	ID        string    `gorm:"type:varchar(20);primaryKey" json:"id"`
@@ -10,8 +14,9 @@ type Income struct {
 	Memo      string    `gorm:"type:varchar(512)" json:"memo"`
 	LocalDate time.Time `gorm:"type:date" json:"local_date" validate:"required"`
 
-	CreatedAt time.Time `json:"-"`
-	UpdatedAt time.Time `json:"-"`
+	DeletedAt gorm.DeletedAt `json:"-"`
+	CreatedAt time.Time      `json:"-"`
+	UpdatedAt time.Time      `json:"-"`
 }
 
 func (Income) TableName() string {

@@ -7,6 +7,7 @@ part of 'serializers.dart';
 // **************************************************************************
 
 Serializers _$serializers = (new Serializers().toBuilder()
+      ..add(DeleteExpenseReq.serializer)
       ..add(ExpenseDetailReq.serializer)
       ..add(ExpenseDetailRes.serializer)
       ..add(IncomeDetailReq.serializer)

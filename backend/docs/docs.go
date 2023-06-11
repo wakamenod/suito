@@ -94,6 +94,45 @@ const docTemplate = `{
                         }
                     }
                 }
+            },
+            "delete": {
+                "description": "支出情報を削除します",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "suito.expense"
+                ],
+                "summary": "Delete expense",
+                "operationId": "deleteExpense",
+                "parameters": [
+                    {
+                        "description": "delete expense req",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/DeleteExpenseReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/DeleteExpenseRes"
+                        }
+                    },
+                    "500": {
+                        "description": "Unknown Error",
+                        "schema": {
+                            "$ref": "#/definitions/SuitoError"
+                        }
+                    }
+                }
             }
         },
         "/expense/categories": {
@@ -371,6 +410,20 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "DeleteExpenseReq": {
+            "type": "object",
+            "required": [
+                "expenseId"
+            ],
+            "properties": {
+                "expenseId": {
+                    "type": "string"
+                }
+            }
+        },
+        "DeleteExpenseRes": {
+            "type": "object"
+        },
         "ExpenseDetailReq": {
             "type": "object",
             "required": [
