@@ -1,20 +1,20 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:formz/formz.dart';
 import 'package:openapi/openapi.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:suito/src/features/transactions/repositories/expense_detail_repository.dart';
 import 'package:suito/src/features/transactions/repositories/register_expense_repository.dart';
 import 'package:suito/src/features/transactions/repositories/update_expense_repository.dart';
+import 'package:suito/src/features/transactions/services/transaction_service.dart';
 
 import 'expense.dart';
 import 'formz/amount.dart';
 import 'formz/title.dart' as formz_title;
 
-final expenseControllerProvider = AsyncNotifierProvider.autoDispose
-    .family<ExpenseController, Expense, String>(ExpenseController.new);
+part 'expense_service.g.dart';
 
-class ExpenseController
-    extends AutoDisposeFamilyAsyncNotifier<Expense, String> {
+// FIXME; there should be a better way than using unnecessary AsyncValues...
+@riverpod
+class ExpenseController extends _$ExpenseController {
   @override
   FutureOr<Expense> build(String arg) async {
     if (arg.isEmpty) {
@@ -118,6 +118,8 @@ class ExpenseController
         : await ref
             .read(updateExpenseRepositoryProvider)
             .updateExpense(_updateRequest());
+
+    ref.read(reloadTransactionsProvider.notifier).reload();
 
     state = AsyncValue.data(
         state.value!.copyWith(submissionStatus: FormzSubmissionStatus.success));

@@ -10,7 +10,8 @@ class DeleteExpenseRepository {
 
   Future<void> deleteExpense(String id) async {
     final api = _openapi.getSuitoExpenseApi();
-    api.deleteExpense(request: DeleteExpenseReq((r) => r.expenseId = id));
+    await api.deleteExpense(request: DeleteExpenseReq((r) => r.expenseId = id));
+    return;
   }
 }
 
