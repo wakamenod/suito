@@ -7,6 +7,7 @@ import (
 	"github.com/rs/xid"
 	"github.com/stretchr/testify/require"
 	"github.com/wakamenod/suito/model"
+	"gorm.io/gorm"
 )
 
 func TestFindExpenseCategories(t *testing.T) {
@@ -104,4 +105,44 @@ func TestFindOrCreateExpenseCategory_Created(t *testing.T) {
 	var cnt int64
 	tx.Model(&model.ExpenseCategory{}).Count(&cnt)
 	require.EqualValues(t, 2, cnt)
+}
+
+func TestFindExpenseCategory(t *testing.T) {
+	tx := begin()
+	defer rollback(tx)
+
+	category := model.ExpenseCategory{
+		ID:        xid.New().String(),
+		Name:      "Category_02",
+		UID:       "user01",
+		CreatedAt: time.Date(2023, 5, 1, 0, 0, 0, 0, time.UTC),
+		UpdatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC),
+	}
+	require.NoError(t, tx.Create(&category).Error)
+	// run
+	res, err := NewSuitoRepository(tx).FindExpenseCategory(category.ID, category.UID)
+	// check
+	require.NoError(t, err)
+	require.Equal(t, category.Name, res.Name)
+	require.Equal(t, category.UID, res.UID)
+	require.Equal(t, category.ID, res.ID)
+}
+
+func TestFindExpenseCategory_NotFound(t *testing.T) {
+	tx := begin()
+	defer rollback(tx)
+
+	category := model.ExpenseCategory{
+		ID:        xid.New().String(),
+		Name:      "Category_02",
+		UID:       "user01",
+		CreatedAt: time.Date(2023, 5, 1, 0, 0, 0, 0, time.UTC),
+		UpdatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC),
+	}
+	require.NoError(t, tx.Create(&category).Error)
+	// run
+	_, err := NewSuitoRepository(tx).FindExpenseCategory(category.ID, "user99")
+	// check
+	require.Error(t, err)
+	require.ErrorIs(t, err, gorm.ErrRecordNotFound)
 }

@@ -1,75 +1,91 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:suito/src/common_widgets/async_value_widget.dart';
 import 'package:suito/src/common_widgets/text_input_field.dart';
+import 'package:suito/src/features/transactions/services/expense.dart';
 import 'package:suito/src/features/transactions/services/expense_service.dart';
 import 'package:suito/src/routing/app_router.dart';
 
 class TransactionDetailScreen extends ConsumerWidget {
-  const TransactionDetailScreen({super.key});
+  final String expenseID;
+
+  const TransactionDetailScreen({required this.expenseID, super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final expenseController = ref.watch(expenseControllerProvider.notifier);
+    final expenseController =
+        ref.watch(expenseControllerProvider(expenseID).notifier);
+    final expenseValue = ref.watch(expenseControllerProvider(expenseID));
 
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text('TransactionDetail'),
-        ),
-        body: SingleChildScrollView(
-          child: ListBody(
-            children: [
-              TextInputField(
-                  errorText: "Error",
-                  hintText: "Title",
-                  onChanged: expenseController.onChangeTitle),
-              TextInputField(
-                  errorText: "Error",
-                  hintText: "Amount",
-                  inputType: InputType.digits,
-                  onChanged: (val) =>
-                      expenseController.onChangeAmount(int.tryParse(val) ?? 0)),
-              TextInputField(
-                  hintText: "Date",
-                  inputType: InputType.date,
-                  onChanged: expenseController.onChangeDate),
-              _TransitionTextField(
-                  hintText: "Category",
-                  labelText: "Category",
-                  route: AppRoute.transactionDetailCategory,
-                  onChanged: expenseController.onChangeCategory),
-              _TransitionTextField(
-                  hintText: "Location",
-                  labelText: "Location",
-                  route: AppRoute.transactionDetailLocation,
-                  onChanged: expenseController.onChangeLocation),
-              _TransitionTextField(
-                  hintText: "Memo",
-                  labelText: "Memo",
-                  route: AppRoute.transactionDetailMemo,
-                  onChanged: expenseController.onChangeMemo),
-              ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text("Close")),
-              ElevatedButton(
-                onPressed: () {
-                  expenseController.registerExpense();
-                },
-                child: const Text(
-                  "Post",
-                ),
-              )
-            ],
+    return AsyncValueWidget<Expense>(
+      value: expenseValue,
+      data: (expense) => Scaffold(
+          appBar: AppBar(
+            title: const Text('TransactionDetail'),
           ),
-        ));
+          body: SingleChildScrollView(
+            child: ListBody(
+              children: [
+                TextInputField(
+                    initialValue: expense.title.value,
+                    errorText: "Error",
+                    hintText: "Title",
+                    onChanged: expenseController.onChangeTitle),
+                TextInputField(
+                    initialValue: expense.amount.value.toString(),
+                    errorText: "Error",
+                    hintText: "Amount",
+                    inputType: InputType.digits,
+                    onChanged: (val) => expenseController
+                        .onChangeAmount(int.tryParse(val) ?? 0)),
+                TextInputField(
+                    initialValue: expense.date,
+                    hintText: "Date",
+                    inputType: InputType.date,
+                    onChanged: expenseController.onChangeDate),
+                _TransitionTextField(
+                    initialValue: expense.category,
+                    hintText: "Category",
+                    labelText: "Category",
+                    route: AppRoute.transactionDetailCategory,
+                    onChanged: expenseController.onChangeCategory),
+                _TransitionTextField(
+                    initialValue: expense.location,
+                    hintText: "Location",
+                    labelText: "Location",
+                    route: AppRoute.transactionDetailLocation,
+                    onChanged: expenseController.onChangeLocation),
+                _TransitionTextField(
+                    initialValue: expense.memo,
+                    hintText: "Memo",
+                    labelText: "Memo",
+                    route: AppRoute.transactionDetailMemo,
+                    onChanged: expenseController.onChangeMemo),
+                ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text("Close")),
+                ElevatedButton(
+                  onPressed: () {
+                    expenseController.registerExpense();
+                  },
+                  child: const Text(
+                    "Post",
+                  ),
+                )
+              ],
+            ),
+          )),
+    );
   }
 }
 
 class _TransitionTextField extends StatefulWidget {
   final AppRoute route;
   final String hintText;
+  final String initialValue;
   final String labelText;
   final ValueChanged<String> onChanged;
 
@@ -78,6 +94,7 @@ class _TransitionTextField extends StatefulWidget {
     required this.route,
     required this.labelText,
     required this.onChanged,
+    required this.initialValue,
   });
 
   @override
@@ -85,7 +102,8 @@ class _TransitionTextField extends StatefulWidget {
 }
 
 class _TransitionTextFieldState extends State<_TransitionTextField> {
-  final TextEditingController _textEditingController = TextEditingController();
+  late final TextEditingController _textEditingController =
+      TextEditingController(text: widget.initialValue);
 
   @override
   void dispose() {

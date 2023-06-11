@@ -85,7 +85,10 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                     path: AppRoute.transactionDetail.path,
                     pageBuilder: (context, state) => CustomTransitionPage(
                           key: state.pageKey,
-                          child: const TransactionDetailScreen(),
+                          child: TransactionDetailScreen(
+                              expenseID: state.extra == null
+                                  ? ''
+                                  : state.extra as String),
                           transitionsBuilder: _slideTransitionBuilder,
                         ),
                     routes: [

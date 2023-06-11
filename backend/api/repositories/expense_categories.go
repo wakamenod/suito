@@ -18,6 +18,17 @@ func (r *SuitoRepository) FindExpenseCategories(uid string) ([]model.ExpenseCate
 	return res, nil
 }
 
+func (r *SuitoRepository) FindExpenseCategory(id string, uid string) (model.ExpenseCategory, error) {
+	var res model.ExpenseCategory
+
+	if err := r.db.Where(model.ExpenseCategory{ID: id, UID: uid}).
+		First(&res).Error; err != nil {
+		return res, errors.Wrap(err, "failed to find expense category")
+	}
+
+	return res, nil
+}
+
 func (r *SuitoRepository) FindOrCreateExpenseCategory(uid string, name string) (model.ExpenseCategory, error) {
 	var res model.ExpenseCategory
 

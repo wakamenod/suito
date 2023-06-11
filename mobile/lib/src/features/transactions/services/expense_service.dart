@@ -1,84 +1,92 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:formz/formz.dart';
 import 'package:openapi/openapi.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:suito/src/features/transactions/repositories/expense_detail_repository.dart';
 import 'package:suito/src/features/transactions/repositories/register_expense_repository.dart';
 
 import 'expense.dart';
 import 'formz/amount.dart';
 import 'formz/title.dart' as formz_title;
 
-part 'expense_service.g.dart';
+final expenseControllerProvider = AsyncNotifierProvider.autoDispose
+    .family<ExpenseController, Expense, String>(ExpenseController.new);
 
-@riverpod
-class ExpenseController extends _$ExpenseController {
+class ExpenseController
+    extends AutoDisposeFamilyAsyncNotifier<Expense, String> {
   @override
-  Expense build() {
-    return Expense.init();
+  FutureOr<Expense> build(String arg) async {
+    if (arg.isEmpty) {
+      return Expense.init();
+    }
+    final modelRes =
+        await ref.read(expenseDetailRepositoryProvider).fetchExpenseDetail(arg);
+    return Expense.fromModel(modelRes);
   }
 
   void onChangeTitle(String value) {
     final title = formz_title.Title.dirty(value);
 
-    state = state.copyWith(
+    state = AsyncValue.data(state.value!.copyWith(
       title: title,
       isValid: Formz.validate([
         title,
-        state.amount,
+        state.value!.amount,
       ]),
-    );
+    ));
   }
 
   void onChangeAmount(int value) {
     final amount = Amount.dirty(value);
 
-    state = state.copyWith(
+    state = AsyncValue.data(state.value!.copyWith(
       amount: amount,
       isValid: Formz.validate([
         amount,
-        state.title,
+        state.value!.title,
       ]),
-    );
+    ));
   }
 
   void onChangeDate(String value) {
-    state = state.copyWith(
+    state = AsyncValue.data(state.value!.copyWith(
       date: value,
-    );
+    ));
   }
 
   void onChangeCategory(String value) {
-    state = state.copyWith(
+    state = AsyncValue.data(state.value!.copyWith(
       category: value,
-    );
+    ));
   }
 
   void onChangeLocation(String value) {
-    state = state.copyWith(
+    state = AsyncValue.data(state.value!.copyWith(
       location: value,
-    );
+    ));
   }
 
   void onChangeMemo(String value) {
-    state = state.copyWith(
+    state = AsyncValue.data(state.value!.copyWith(
       memo: value,
-    );
+    ));
   }
 
   RegisterExpenseReq _request() {
     return RegisterExpenseReq((r) => r
-      ..category = state.category
+      ..category = state.value!.category
       ..expense.replace(ModelExpense((e) => e
         ..id = ''
-        ..title = state.title.value
-        ..localDate = DateTime.parse(state.date).toRfc3339()
-        ..memo = state.memo
-        ..amount = state.amount.value))
-      ..location = state.location);
+        ..title = state.value!.title.value
+        ..localDate = DateTime.parse(state.value!.date).toRfc3339()
+        ..memo = state.value!.memo
+        ..amount = state.value!.amount.value))
+      ..location = state.value!.location);
   }
 
   void registerExpense() async {
-    if (!state.isValid) return;
-    state = state.copyWith(submissionStatus: FormzSubmissionStatus.inProgress);
+    if (!state.value!.isValid) return;
+    state = const AsyncValue.loading();
 
     // TODO エラーハンドリング
     // TODO submissionStatusをUI側で監視し送信中を表す
@@ -92,7 +100,8 @@ class ExpenseController extends _$ExpenseController {
         .read(registerExpenseRepositoryProvider)
         .registerExpense(_request());
 
-    state = state.copyWith(submissionStatus: FormzSubmissionStatus.success);
+    state = AsyncValue.data(
+        state.value!.copyWith(submissionStatus: FormzSubmissionStatus.success));
     // } on CustomFailure catch (e) {
     //   state = state.copyWith(
     //       status: FormzSubmissionStatus.failure, errorMessage: e.code);

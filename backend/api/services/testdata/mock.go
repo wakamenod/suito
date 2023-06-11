@@ -68,3 +68,11 @@ func (r *RepositoryMock) FindOrCreateExpenseCategory(uid string, name string) (m
 func (r *RepositoryMock) FindOrCreateExpenseLocation(uid string, name string) (model.ExpenseLocation, error) {
 	return model.ExpenseLocation{ID: "TEST_LOCATION_ID"}, nil
 }
+
+func (r *RepositoryMock) FindExpenseCategory(id string, uid string) (model.ExpenseCategory, error) {
+	return model.ExpenseCategory{ID: "TEST_CATEGORY_ID", Name: "Test Category"}, nil
+}
+
+func (r *RepositoryMock) FindExpenseLocation(id string, uid string) (model.ExpenseLocation, error) {
+	return model.ExpenseLocation{ID: "TEST_LOCATION_ID", Name: "Test Location"}, nil
+}

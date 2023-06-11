@@ -2,26 +2,27 @@
 
 // ignore_for_file: non_constant_identifier_names
 
-part of 'expense_service.dart';
+part of 'expense_detail_repository.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$expenseControllerHash() => r'd0961d4776cf9cdcb258a33d454cd38b1801d821';
+String _$expenseDetailRepositoryHash() =>
+    r'7f91ed89442ed9bf7c3136177897c9a9ff75f5ed';
 
-/// See also [ExpenseController].
-@ProviderFor(ExpenseController)
-final expenseControllerProvider =
-    AutoDisposeNotifierProvider<ExpenseController, Expense>.internal(
-  ExpenseController.new,
-  name: r'expenseControllerProvider',
+/// See also [expenseDetailRepository].
+@ProviderFor(expenseDetailRepository)
+final expenseDetailRepositoryProvider =
+    Provider<ExpenseDetailRepository>.internal(
+  expenseDetailRepository,
+  name: r'expenseDetailRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$expenseControllerHash,
+      : _$expenseDetailRepositoryHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$ExpenseController = AutoDisposeNotifier<Expense>;
+typedef ExpenseDetailRepositoryRef = ProviderRef<ExpenseDetailRepository>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

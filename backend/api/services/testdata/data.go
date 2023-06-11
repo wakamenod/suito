@@ -8,20 +8,24 @@ import (
 
 var expenseTestData = []model.Expense{
 	model.Expense{
-		ID:        "ID_EXPENSE_01",
-		UID:       "user1",
-		Title:     "Test001",
-		Amount:    100,
-		Memo:      "Memo001",
-		LocalDate: time.Date(2023, time.Month(1), 1, 0, 0, 0, 0, time.UTC),
+		ID:                "ID_EXPENSE_01",
+		UID:               "user1",
+		Title:             "Test001",
+		Amount:            100,
+		Memo:              "Memo001",
+		ExpenseLocationID: "ID_EXPENSE_LOCATION_01",
+		ExpenseCategoryID: "ID_EXPENSE_CATEGORY_01",
+		LocalDate:         time.Date(2023, time.Month(1), 1, 0, 0, 0, 0, time.UTC),
 	},
 	model.Expense{
-		ID:        "ID_EXPENSE_02",
-		UID:       "user1",
-		Title:     "Test002",
-		Amount:    200,
-		Memo:      "Memo001",
-		LocalDate: time.Date(2023, time.Month(3), 1, 0, 0, 0, 0, time.UTC),
+		ID:                "ID_EXPENSE_02",
+		UID:               "user1",
+		Title:             "Test002",
+		Amount:            200,
+		Memo:              "Memo001",
+		ExpenseLocationID: "ID_EXPENSE_LOCATION_01",
+		ExpenseCategoryID: "ID_EXPENSE_CATEGORY_01",
+		LocalDate:         time.Date(2023, time.Month(3), 1, 0, 0, 0, 0, time.UTC),
 	},
 }
 
