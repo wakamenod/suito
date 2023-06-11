@@ -138,6 +138,44 @@ func TestUpdateExpenseHandler_Success(t *testing.T) {
 	require.NoError(t, json.Unmarshal(rec.Body.Bytes(), &res))
 }
 
+func TestDeleteExpenseHandler_ErrorValidate(t *testing.T) {
+	// Setup
+	e := echo.New()
+	e.Validator = validate.NewValidator()
+	req := httptest.NewRequest(http.MethodDelete, "/", nil)
+	rec := httptest.NewRecorder()
+	c := e.NewContext(req, rec)
+	c.Set(middleware.UIDKey, "user1")
+
+	// Assertions
+	err := eCon.DeleteExpenseHandler(c)
+	var appErr *apperrors.SuitoError
+	require.ErrorAs(t, err, &appErr)
+	require.Equal(t, apperrors.InvalidParameter, appErr.ErrCode)
+}
+
+func TestDeleteExpenseHandler_Success(t *testing.T) {
+	// Setup
+	e := echo.New()
+	e.Validator = validate.NewValidator()
+	jsonReq, err := json.Marshal(DeleteExpenseReq{
+		ExpenseID: "expense_id",
+	})
+	require.NoError(t, err)
+	req := httptest.NewRequest(http.MethodDelete, "/", bytes.NewReader(jsonReq))
+	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+	rec := httptest.NewRecorder()
+	c := e.NewContext(req, rec)
+	c.Set(middleware.UIDKey, "user1")
+
+	// Assertions
+	require.NoError(t, eCon.DeleteExpenseHandler(c))
+	require.Equal(t, http.StatusOK, rec.Code)
+
+	var res DeleteExpenseRes
+	require.NoError(t, json.Unmarshal(rec.Body.Bytes(), &res))
+}
+
 func TestExpenseDetailHandler_ErrorValidate(t *testing.T) {
 	// Setup
 	e := echo.New()

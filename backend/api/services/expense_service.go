@@ -92,3 +92,11 @@ func (s *SuitoService) UpdateExpenseService(uid string, expense model.Expense, c
 	}
 	return expense, nil
 }
+
+func (s *SuitoService) DeleteExpenseService(id, uid string) error {
+	err := s.repo.DeleteExpense(id, uid)
+	if err != nil {
+		return err
+	}
+	return nil
+}

@@ -7,6 +7,15 @@ void main() {
   final instance = Openapi().getSuitoExpenseApi();
 
   group(SuitoExpenseApi, () {
+    // Delete expense
+    //
+    // 支出情報を削除します
+    //
+    //Future<JsonObject> deleteExpense(DeleteExpenseReq request) async
+    test('test deleteExpense', () async {
+      // TODO
+    });
+
     // Get expense detail
     //
     // 購入詳細情報を取得します.

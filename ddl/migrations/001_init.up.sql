@@ -17,6 +17,7 @@ CREATE TABLE `expense` (
   -- Local Date
   `local_date` DATE NOT NULL,
 
+  `deleted_at` DATETIME,
   `created_at` DATETIME NOT NULL,
   `updated_at` DATETIME NOT NULL,
   PRIMARY KEY (`id`)
@@ -51,6 +52,7 @@ CREATE TABLE `income` (
   -- Local Date
   `local_date` DATE NOT NULL,
 
+  `deleted_at` DATETIME,
   `created_at` DATETIME NOT NULL,
   `updated_at` DATETIME NOT NULL,
   PRIMARY KEY (`id`)

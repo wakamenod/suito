@@ -2,6 +2,7 @@
 .openapi-generator-ignore
 README.md
 analysis_options.yaml
+doc/DeleteExpenseReq.md
 doc/ExpenseDetailReq.md
 doc/ExpenseDetailRes.md
 doc/IncomeDetailReq.md
@@ -40,6 +41,7 @@ lib/src/auth/bearer_auth.dart
 lib/src/auth/oauth.dart
 lib/src/date_serializer.dart
 lib/src/model/date.dart
+lib/src/model/delete_expense_req.dart
 lib/src/model/expense_detail_req.dart
 lib/src/model/expense_detail_res.dart
 lib/src/model/income_detail_req.dart
@@ -62,6 +64,7 @@ lib/src/model/update_expense_req.dart
 lib/src/model/update_expense_res.dart
 lib/src/serializers.dart
 pubspec.yaml
+test/delete_expense_req_test.dart
 test/expense_detail_req_test.dart
 test/expense_detail_res_test.dart
 test/income_detail_req_test.dart
