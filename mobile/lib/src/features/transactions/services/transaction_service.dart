@@ -1,31 +1,11 @@
 import 'package:openapi/openapi.dart';
-import 'package:suito/src/features/transactions/repositories/transactions_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:suito/src/features/transactions/repositories/transactions_repository.dart';
+import 'package:suito/src/features/transactions/services/transaction_year_months.dart';
 
 import 'transactions_total_amounts.dart';
 
 part 'transaction_service.g.dart';
-
-@riverpod
-class Transactions extends _$Transactions {
-  @override
-  FutureOr<List<Transaction>> build() {
-    return [];
-  }
-
-  Future<List<Transaction>> _fetchTransactions(String yearMonth) async {
-    final transactionsRepository = ref.watch(transactionsRepositoryProvider);
-    return transactionsRepository.fetchTransactionsList(yearMonth);
-  }
-
-  Future<void> fetchTransactions(String? yearMonth) async {
-    if (yearMonth == null) return;
-    state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() async {
-      return _fetchTransactions(yearMonth);
-    });
-  }
-}
 
 TransactionsTotalAmounts _calcTotalAmounts(List<Transaction> list) {
   var expense = 0;
@@ -44,9 +24,29 @@ TransactionsTotalAmounts _calcTotalAmounts(List<Transaction> list) {
 @riverpod
 TransactionsTotalAmounts transactionsTotalAmounts(
     TransactionsTotalAmountsRef ref) {
-  final transactionsAsyncValue = ref.watch(transactionsProvider);
+  final transactionsAsyncValue = ref.watch(fetchTransactionsProvider);
   return transactionsAsyncValue.when(
       data: (transactions) => _calcTotalAmounts(transactions),
       error: (_, __) => TransactionsTotalAmounts.empty,
       loading: () => TransactionsTotalAmounts.empty);
+}
+
+@riverpod
+class ReloadTransactions extends _$ReloadTransactions {
+  @override
+  int build() {
+    return 0;
+  }
+
+  Future<void> reload() async {
+    state++;
+  }
+}
+
+@riverpod
+Future<List<Transaction>> fetchTransactions(FetchTransactionsRef ref) {
+  ref.watch(reloadTransactionsProvider);
+  final selectedYearMonth = ref.watch(selectedYearMonthProvider);
+  final transactionsRepository = ref.read(transactionsRepositoryProvider);
+  return transactionsRepository.fetchTransactionsList(selectedYearMonth);
 }

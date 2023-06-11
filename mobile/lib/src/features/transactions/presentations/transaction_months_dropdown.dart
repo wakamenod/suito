@@ -2,28 +2,22 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:suito/src/common_widgets/error_message_widget.dart';
-import 'package:suito/src/features/transactions/repositories/transaction_months_repository.dart';
-import 'package:suito/src/features/transactions/services/transaction_service.dart';
+import 'package:suito/src/features/transactions/services/transaction_year_months.dart';
 
 class TransactionMonthsDropdown extends ConsumerWidget {
   const TransactionMonthsDropdown({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final transactionMonthsValue =
-        ref.watch(transactionMonthsListFutureProvider);
-    final transactionsNotifier = ref.watch(transactionsProvider.notifier);
+    final transactionMonthsValue = ref.watch(transactionYearMonthsProvider);
 
     return transactionMonthsValue.when(
         data: (yearMonths) {
-          final initialValue = yearMonths.firstOrNull;
-          Future(() => transactionsNotifier.fetchTransactions(initialValue));
-
           return _TransactinoMonthsDropdown(
               yearMonthItems: yearMonths,
-              initialValue: initialValue,
+              initialValue: ref.watch(selectedYearMonthProvider),
               onChanged: (value) {
-                transactionsNotifier.fetchTransactions(value);
+                ref.read(selectedYearMonthProvider.notifier).state = value!;
               });
         },
         loading: () => const _TransactinoMonthsDropdown(yearMonthItems: []),

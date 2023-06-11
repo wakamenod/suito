@@ -12,7 +12,7 @@ class TransactionsList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final transactionsValue = ref.watch(transactionsProvider);
+    final transactionsValue = ref.watch(fetchTransactionsProvider);
 
     return AsyncValueWidget<List<Transaction>>(
       value: transactionsValue,

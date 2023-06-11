@@ -22,10 +22,10 @@ TransactionMonthsRepository transactionMonthsRepository(
   return TransactionMonthsRepository(openapi);
 }
 
-@riverpod
-Future<List<String>> transactionMonthsListFuture(
-    TransactionMonthsListFutureRef ref) {
-  final transactionMonthsRepository =
-      ref.watch(transactionMonthsRepositoryProvider);
-  return transactionMonthsRepository.fetchTransactionMonthsList();
-}
+// @riverpod
+// Future<List<String>> transactionMonthsListFuture(
+//     TransactionMonthsListFutureRef ref) {
+//   final transactionMonthsRepository =
+//       ref.watch(transactionMonthsRepositoryProvider);
+//   return transactionMonthsRepository.fetchTransactionMonthsList();
+// }
