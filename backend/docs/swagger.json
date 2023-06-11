@@ -12,6 +12,48 @@
   ],
   "paths": {
     "/expense": {
+      "put": {
+        "tags": [
+          "suito.expense"
+        ],
+        "summary": "Update expense",
+        "description": "支出情報を更新します",
+        "operationId": "updateExpense",
+        "requestBody": {
+          "description": "update expense req",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateExpenseReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateExpenseRes"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unknown Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuitoError"
+                }
+              }
+            }
+          }
+        },
+        "x-codegen-request-body-name": "request"
+      },
       "post": {
         "tags": [
           "suito.expense"
@@ -546,6 +588,36 @@
             "items": {
               "type": "string"
             }
+          }
+        }
+      },
+      "UpdateExpenseReq": {
+        "required": [
+          "category",
+          "expense",
+          "location"
+        ],
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string"
+          },
+          "expense": {
+            "$ref": "#/components/schemas/model.Expense"
+          },
+          "location": {
+            "type": "string"
+          }
+        }
+      },
+      "UpdateExpenseRes": {
+        "required": [
+          "updatedExpense"
+        ],
+        "type": "object",
+        "properties": {
+          "updatedExpense": {
+            "$ref": "#/components/schemas/model.Expense"
           }
         }
       },

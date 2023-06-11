@@ -17,6 +17,45 @@ const docTemplate = `{
     "basePath": "{{.BasePath}}",
     "paths": {
         "/expense": {
+            "put": {
+                "description": "支出情報を更新します",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "suito.expense"
+                ],
+                "summary": "Update expense",
+                "operationId": "updateExpense",
+                "parameters": [
+                    {
+                        "description": "update expense req",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/UpdateExpenseReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/UpdateExpenseRes"
+                        }
+                    },
+                    "500": {
+                        "description": "Unknown Error",
+                        "schema": {
+                            "$ref": "#/definitions/SuitoError"
+                        }
+                    }
+                }
+            },
             "post": {
                 "description": "支出情報を登録します",
                 "consumes": [
@@ -531,6 +570,36 @@ const docTemplate = `{
                     "items": {
                         "type": "string"
                     }
+                }
+            }
+        },
+        "UpdateExpenseReq": {
+            "type": "object",
+            "required": [
+                "category",
+                "expense",
+                "location"
+            ],
+            "properties": {
+                "category": {
+                    "type": "string"
+                },
+                "expense": {
+                    "$ref": "#/definitions/model.Expense"
+                },
+                "location": {
+                    "type": "string"
+                }
+            }
+        },
+        "UpdateExpenseRes": {
+            "type": "object",
+            "required": [
+                "updatedExpense"
+            ],
+            "properties": {
+                "updatedExpense": {
+                    "$ref": "#/definitions/model.Expense"
                 }
             }
         },

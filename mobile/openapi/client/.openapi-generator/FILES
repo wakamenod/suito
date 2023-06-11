@@ -24,6 +24,8 @@ doc/SuitoIncomeApi.md
 doc/SuitoTransactionsApi.md
 doc/Transaction.md
 doc/TransactionMonthsRes.md
+doc/UpdateExpenseReq.md
+doc/UpdateExpenseRes.md
 lib/openapi.dart
 lib/src/api.dart
 lib/src/api/suito_default_api.dart
@@ -56,6 +58,8 @@ lib/src/model/register_income_res.dart
 lib/src/model/suito_error.dart
 lib/src/model/transaction.dart
 lib/src/model/transaction_months_res.dart
+lib/src/model/update_expense_req.dart
+lib/src/model/update_expense_res.dart
 lib/src/serializers.dart
 pubspec.yaml
 test/expense_detail_req_test.dart
@@ -80,3 +84,5 @@ test/suito_income_api_test.dart
 test/suito_transactions_api_test.dart
 test/transaction_months_res_test.dart
 test/transaction_test.dart
+test/update_expense_req_test.dart
+test/update_expense_res_test.dart

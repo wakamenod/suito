@@ -25,6 +25,8 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(SuitoError.serializer)
       ..add(Transaction.serializer)
       ..add(TransactionMonthsRes.serializer)
+      ..add(UpdateExpenseReq.serializer)
+      ..add(UpdateExpenseRes.serializer)
       ..addBuilderFactory(
           const FullType(
               BuiltList, const [const FullType(ModelExpenseCategory)]),

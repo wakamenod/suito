@@ -76,3 +76,7 @@ func (r *RepositoryMock) FindExpenseCategory(id string, uid string) (model.Expen
 func (r *RepositoryMock) FindExpenseLocation(id string, uid string) (model.ExpenseLocation, error) {
 	return model.ExpenseLocation{ID: "TEST_LOCATION_ID", Name: "Test Location"}, nil
 }
+
+func (r *RepositoryMock) UpdateExpense(uid string, expense model.Expense) (model.Expense, error) {
+	return expense, nil
+}

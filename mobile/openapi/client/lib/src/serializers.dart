@@ -32,6 +32,8 @@ import 'package:openapi/src/model/register_income_res.dart';
 import 'package:openapi/src/model/suito_error.dart';
 import 'package:openapi/src/model/transaction.dart';
 import 'package:openapi/src/model/transaction_months_res.dart';
+import 'package:openapi/src/model/update_expense_req.dart';
+import 'package:openapi/src/model/update_expense_res.dart';
 
 part 'serializers.g.dart';
 
@@ -54,6 +56,8 @@ part 'serializers.g.dart';
   SuitoError,
   Transaction,
   TransactionMonthsRes,
+  UpdateExpenseReq,
+  UpdateExpenseRes,
 ])
 Serializers serializers = (_$serializers.toBuilder()
       ..add(const OneOfSerializer())

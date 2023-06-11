@@ -68,6 +68,7 @@ Class | Method | HTTP request | Description
 [*SuitoExpenseApi*](doc/SuitoExpenseApi.md) | [**listExpenseCategories**](doc/SuitoExpenseApi.md#listexpensecategories) | **GET** /expense/categories | List expense categories
 [*SuitoExpenseApi*](doc/SuitoExpenseApi.md) | [**listExpenseLocations**](doc/SuitoExpenseApi.md#listexpenselocations) | **GET** /expense/locations | List expense locations
 [*SuitoExpenseApi*](doc/SuitoExpenseApi.md) | [**registerExpense**](doc/SuitoExpenseApi.md#registerexpense) | **POST** /expense | Register expense
+[*SuitoExpenseApi*](doc/SuitoExpenseApi.md) | [**updateExpense**](doc/SuitoExpenseApi.md#updateexpense) | **PUT** /expense | Update expense
 [*SuitoIncomeApi*](doc/SuitoIncomeApi.md) | [**incomeDetail**](doc/SuitoIncomeApi.md#incomedetail) | **POST** /income/detail | Get income detail
 [*SuitoIncomeApi*](doc/SuitoIncomeApi.md) | [**registerIncome**](doc/SuitoIncomeApi.md#registerincome) | **POST** /income | Register income
 [*SuitoTransactionsApi*](doc/SuitoTransactionsApi.md) | [**listTransactions**](doc/SuitoTransactionsApi.md#listtransactions) | **GET** /transactions | List transactions
@@ -94,6 +95,8 @@ Class | Method | HTTP request | Description
  - [SuitoError](doc/SuitoError.md)
  - [Transaction](doc/Transaction.md)
  - [TransactionMonthsRes](doc/TransactionMonthsRes.md)
+ - [UpdateExpenseReq](doc/UpdateExpenseReq.md)
+ - [UpdateExpenseRes](doc/UpdateExpenseRes.md)
 
 
 ## Documentation For Authorization

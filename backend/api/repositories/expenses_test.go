@@ -207,3 +207,33 @@ func TestCreateExpense(t *testing.T) {
 	require.Equal(t, expense.Title, res.Title)
 	require.Equal(t, expense.Amount, res.Amount)
 }
+
+func TestUpdateExpense(t *testing.T) {
+	tx := begin()
+	defer rollback(tx)
+	// setup
+	i := newExpenseInserter(t, tx)
+	id := i.mustInsert("user1", "2023-05-01", "title01")
+	i.mustInsert("user99", "2023-05-01", "title99")
+	i.mustInsert("user1", "2023-05-01", "title01_2")
+	targetExpense := model.Expense{
+		ID:     id,
+		Title:  "update title",
+		Amount: 2000, LocalDate: time.Date(2022, 6, 1, 0, 0, 0, 0, time.UTC),
+		ExpenseLocationID: "location_id",
+		ExpenseCategoryID: "category_id",
+	}
+	// run
+	_, err := NewSuitoRepository(tx).UpdateExpense("user1", targetExpense)
+	// check
+	require.NoError(t, err)
+
+	found, err := NewSuitoRepository(tx).FindExpense(id, "user1")
+	require.NoError(t, err)
+	require.Equal(t, targetExpense.Title, found.Title)
+	require.Equal(t, targetExpense.Amount, found.Amount)
+	layout := "2006-01-02"
+	require.Equal(t, targetExpense.LocalDate.Format(layout), found.LocalDate.Format(layout))
+	require.Equal(t, targetExpense.ExpenseCategoryID, found.ExpenseCategoryID)
+	require.Equal(t, targetExpense.ExpenseLocationID, found.ExpenseLocationID)
+}
