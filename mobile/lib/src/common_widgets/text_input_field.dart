@@ -12,12 +12,14 @@ class TextInputField extends StatefulWidget {
   final String hintText;
   final ValueChanged<String> onChanged;
   final String? errorText;
+  final String initialValue;
   final InputType inputType;
   final bool obscureText;
 
   const TextInputField({
     super.key,
     required this.hintText,
+    required this.initialValue,
     this.onChanged = _defaultOnChange,
     this.errorText,
     this.inputType = InputType.text,
@@ -31,7 +33,8 @@ class TextInputField extends StatefulWidget {
 }
 
 class _TextInputFieldState extends State<TextInputField> {
-  final TextEditingController _textEditingController = TextEditingController();
+  late final TextEditingController _textEditingController =
+      TextEditingController(text: widget.initialValue);
 
   @override
   void dispose() {

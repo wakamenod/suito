@@ -12,11 +12,19 @@ part 'expense_detail_res.g.dart';
 /// ExpenseDetailRes
 ///
 /// Properties:
+/// * [category] 
 /// * [expense] 
+/// * [location] 
 @BuiltValue()
 abstract class ExpenseDetailRes implements Built<ExpenseDetailRes, ExpenseDetailResBuilder> {
+  @BuiltValueField(wireName: r'category')
+  String get category;
+
   @BuiltValueField(wireName: r'expense')
   ModelExpense get expense;
+
+  @BuiltValueField(wireName: r'location')
+  String get location;
 
   ExpenseDetailRes._();
 
@@ -41,10 +49,20 @@ class _$ExpenseDetailResSerializer implements PrimitiveSerializer<ExpenseDetailR
     ExpenseDetailRes object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
+    yield r'category';
+    yield serializers.serialize(
+      object.category,
+      specifiedType: const FullType(String),
+    );
     yield r'expense';
     yield serializers.serialize(
       object.expense,
       specifiedType: const FullType(ModelExpense),
+    );
+    yield r'location';
+    yield serializers.serialize(
+      object.location,
+      specifiedType: const FullType(String),
     );
   }
 
@@ -69,12 +87,26 @@ class _$ExpenseDetailResSerializer implements PrimitiveSerializer<ExpenseDetailR
       final key = serializedList[i] as String;
       final value = serializedList[i + 1];
       switch (key) {
+        case r'category':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.category = valueDes;
+          break;
         case r'expense':
           final valueDes = serializers.deserialize(
             value,
             specifiedType: const FullType(ModelExpense),
           ) as ModelExpense;
           result.expense.replace(valueDes);
+          break;
+        case r'location':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.location = valueDes;
           break;
         default:
           unhandled.add(key);

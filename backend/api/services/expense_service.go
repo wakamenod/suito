@@ -6,12 +6,29 @@ import (
 	"github.com/wakamenod/suito/model"
 )
 
-func (s *SuitoService) FindExpenseService(id, uid string) (model.Expense, error) {
+func (s *SuitoService) FindExpenseService(id, uid string) (model.Expense, string, string, error) {
 	expense, err := s.repo.FindExpense(id, uid)
 	if err != nil {
-		return expense, err
+		return expense, "", "", err
 	}
-	return expense, nil
+
+	var categoryName, locationName string
+	if expense.ExpenseCategoryID != "" {
+		category, err := s.repo.FindExpenseCategory(expense.ExpenseCategoryID, uid)
+		if err != nil {
+			return expense, "", "", err
+		}
+		categoryName = category.Name
+	}
+	if expense.ExpenseLocationID != "" {
+		location, err := s.repo.FindExpenseLocation(expense.ExpenseLocationID, uid)
+		if err != nil {
+			return expense, "", "", err
+		}
+		locationName = location.Name
+	}
+
+	return expense, categoryName, locationName, nil
 }
 
 func (s *SuitoService) ListExpenseCategoryService(uid string) ([]model.ExpenseCategory, error) {

@@ -18,4 +18,6 @@ type Repository interface {
 	CreateIncome(uid string, income model.Income) (model.Income, error)
 	FindOrCreateExpenseCategory(uid string, name string) (model.ExpenseCategory, error)
 	FindOrCreateExpenseLocation(uid string, name string) (model.ExpenseLocation, error)
+	FindExpenseCategory(id string, uid string) (model.ExpenseCategory, error)
+	FindExpenseLocation(id string, uid string) (model.ExpenseLocation, error)
 }

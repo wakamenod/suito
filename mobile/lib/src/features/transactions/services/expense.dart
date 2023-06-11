@@ -1,5 +1,6 @@
 import 'package:formz/formz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:openapi/openapi.dart';
 
 import 'formz/amount.dart';
 import 'formz/title.dart';
@@ -26,6 +27,17 @@ class Expense with _$Expense {
         category: '',
         location: '',
         memo: '',
+        isValid: true,
+        submissionStatus: FormzSubmissionStatus.initial,
+      );
+
+  static Expense fromModel(ExpenseDetailRes res) => Expense(
+        title: Title.dirty(res.expense.title),
+        amount: Amount.dirty(res.expense.amount),
+        date: res.expense.localDate,
+        category: res.category,
+        location: res.location,
+        memo: res.expense.memo,
         isValid: true,
         submissionStatus: FormzSubmissionStatus.initial,
       );

@@ -41,7 +41,9 @@ type (
 		ID string `json:"id" validate:"required"`
 	} // @Name ExpenseDetailReq
 	ExpenseDetailRes struct {
-		Expense model.Expense `json:"expense"`
+		Expense  model.Expense `json:"expense"`
+		Category string        `json:"category"`
+		Location string        `json:"location"`
 	} // @Name ExpenseDetailRes
 )
 
@@ -66,13 +68,15 @@ func (s *ExpenseController) ExpenseDetailHandler(c echo.Context) error {
 	}
 
 	uid := c.Get(middleware.UIDKey).(string)
-	expense, err := s.service.FindExpenseService(req.ID, uid)
+	expense, category, location, err := s.service.FindExpenseService(req.ID, uid)
 	if err != nil {
 		return err
 	}
 
 	var res ExpenseDetailRes
 	res.Expense = expense
+	res.Category = category
+	res.Location = location
 	return webutils.Response(c, http.StatusOK, res)
 }
 

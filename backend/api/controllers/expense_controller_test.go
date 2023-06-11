@@ -154,4 +154,6 @@ func TestExpenseDetailHandler_Success(t *testing.T) {
 	var res ExpenseDetailRes
 	require.NoError(t, json.Unmarshal(rec.Body.Bytes(), &res))
 	require.Equal(t, "ID_EXPENSE_01", res.Expense.ID)
+	require.Equal(t, "Test Category", res.Category)
+	require.Equal(t, "Test Location", res.Location)
 }
