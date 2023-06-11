@@ -69,3 +69,26 @@ func (s *SuitoService) CreateExpenseService(uid string, expense model.Expense, c
 	}
 	return expense, nil
 }
+
+func (s *SuitoService) UpdateExpenseService(uid string, expense model.Expense, categoryName, locationName string) (model.Expense, error) {
+	if categoryName != "" {
+		category, err := s.repo.FindOrCreateExpenseCategory(uid, strings.TrimSpace(categoryName))
+		if err != nil {
+			return model.Expense{}, err
+		}
+		expense.ExpenseCategoryID = category.ID
+	}
+	if locationName != "" {
+		location, err := s.repo.FindOrCreateExpenseLocation(uid, strings.TrimSpace(locationName))
+		if err != nil {
+			return model.Expense{}, err
+		}
+		expense.ExpenseLocationID = location.ID
+	}
+
+	expense, err := s.repo.UpdateExpense(uid, expense)
+	if err != nil {
+		return expense, err
+	}
+	return expense, nil
+}

@@ -41,3 +41,10 @@ func (r *SuitoRepository) CreateExpense(uid string, expense model.Expense) (mode
 
 	return expense, nil
 }
+
+func (r *SuitoRepository) UpdateExpense(uid string, expense model.Expense) (model.Expense, error) {
+	if err := r.db.Where("id = ? AND uid = ?", expense.ID, uid).Updates(expense).Error; err != nil {
+		return expense, errors.Wrap(err, "failed to update expenses")
+	}
+	return expense, nil
+}

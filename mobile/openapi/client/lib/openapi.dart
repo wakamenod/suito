@@ -32,3 +32,5 @@ export 'package:openapi/src/model/register_income_res.dart';
 export 'package:openapi/src/model/suito_error.dart';
 export 'package:openapi/src/model/transaction.dart';
 export 'package:openapi/src/model/transaction_months_res.dart';
+export 'package:openapi/src/model/update_expense_req.dart';
+export 'package:openapi/src/model/update_expense_res.dart';

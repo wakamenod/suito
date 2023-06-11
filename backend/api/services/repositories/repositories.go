@@ -20,4 +20,5 @@ type Repository interface {
 	FindOrCreateExpenseLocation(uid string, name string) (model.ExpenseLocation, error)
 	FindExpenseCategory(id string, uid string) (model.ExpenseCategory, error)
 	FindExpenseLocation(id string, uid string) (model.ExpenseLocation, error)
+	UpdateExpense(uid string, expense model.Expense) (model.Expense, error)
 }

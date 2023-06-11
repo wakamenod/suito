@@ -37,6 +37,15 @@ type (
 		NewExpense model.Expense `json:"newExpense"`
 	} // @Name RegisterExpenseRes
 
+	UpdateExpenseReq struct {
+		Expense  model.Expense `json:"expense" validate:"required"`
+		Category string        `json:"category"`
+		Location string        `json:"location"`
+	} // @Name UpdateExpenseReq
+	UpdateExpenseRes struct {
+		UpdatedExpense model.Expense `json:"updatedExpense"`
+	} // @Name UpdateExpenseRes
+
 	ExpenseDetailReq struct {
 		ID string `json:"id" validate:"required"`
 	} // @Name ExpenseDetailReq
@@ -154,6 +163,38 @@ func (s *ExpenseController) RegisterExpenseHandler(c echo.Context) error {
 
 	var res RegisterExpenseRes
 	res.NewExpense = newExpense
+
+	return webutils.Response(c, http.StatusOK, res)
+}
+
+// @Summary     Update expense
+// @Description 支出情報を更新します
+// @Tags        suito.expense
+// @ID          updateExpense
+// @Accept      json
+// @Produce     json
+// @Param       request body     UpdateExpenseReq     true           "update expense req"
+// @Success     200     {object} UpdateExpenseRes     "Success"
+// @Failure     500     {object} apperrors.SuitoError "Unknown Error"
+// @Router      /expense [PUT]
+func (s *ExpenseController) UpdateExpenseHandler(c echo.Context) error {
+	var req UpdateExpenseReq
+
+	if err := c.Bind(&req); err != nil {
+		return errors.Wrap(err, "failed bind")
+	}
+	if err := c.Validate(req); err != nil {
+		return err
+	}
+
+	uid := c.Get(middleware.UIDKey).(string)
+	updatedExpense, err := s.service.UpdateExpenseService(uid, req.Expense, req.Category, req.Location)
+	if err != nil {
+		return err
+	}
+
+	var res UpdateExpenseRes
+	res.UpdatedExpense = updatedExpense
 
 	return webutils.Response(c, http.StatusOK, res)
 }

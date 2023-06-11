@@ -13,6 +13,7 @@ Method | HTTP request | Description
 [**listExpenseCategories**](SuitoExpenseApi.md#listexpensecategories) | **GET** /expense/categories | List expense categories
 [**listExpenseLocations**](SuitoExpenseApi.md#listexpenselocations) | **GET** /expense/locations | List expense locations
 [**registerExpense**](SuitoExpenseApi.md#registerexpense) | **POST** /expense | Register expense
+[**updateExpense**](SuitoExpenseApi.md#updateexpense) | **PUT** /expense | Update expense
 
 
 # **expenseDetail**
@@ -167,6 +168,49 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**RegisterExpenseRes**](RegisterExpenseRes.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **updateExpense**
+> UpdateExpenseRes updateExpense(request)
+
+Update expense
+
+支出情報を更新します
+
+### Example
+```dart
+import 'package:openapi/api.dart';
+
+final api = Openapi().getSuitoExpenseApi();
+final UpdateExpenseReq request = ; // UpdateExpenseReq | update expense req
+
+try {
+    final response = api.updateExpense(request);
+    print(response);
+} catch on DioError (e) {
+    print('Exception when calling SuitoExpenseApi->updateExpense: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request** | [**UpdateExpenseReq**](UpdateExpenseReq.md)| update expense req | 
+
+### Return type
+
+[**UpdateExpenseRes**](UpdateExpenseRes.md)
 
 ### Authorization
 

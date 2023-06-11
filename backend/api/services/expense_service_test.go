@@ -51,3 +51,33 @@ func TestCreateExpenseService(t *testing.T) {
 	require.Equal(t, "TEST_CATEGORY_ID", newExpense.ExpenseCategoryID)
 	require.Equal(t, "TEST_LOCATION_ID", newExpense.ExpenseLocationID)
 }
+
+func TestUpdateExpenseService_NoCategoryLocatoin(t *testing.T) {
+	expense := model.Expense{
+		ID:        "update_target_expense_id",
+		Title:     "test_title",
+		LocalDate: time.Date(2023, 5, 3, 0, 0, 0, 0, time.UTC),
+		Amount:    2000,
+		Memo:      "test_memo",
+	}
+	newExpense, err := aSer.UpdateExpenseService("user1", expense, "", "")
+	require.NoError(t, err)
+	require.Equal(t, expense.ID, newExpense.ID)
+	require.Empty(t, newExpense.ExpenseCategoryID)
+	require.Empty(t, newExpense.ExpenseLocationID)
+}
+
+func TestUpdateExpenseService(t *testing.T) {
+	expense := model.Expense{
+		ID:        "update_target_expense_id",
+		Title:     "test_title",
+		LocalDate: time.Date(2023, 5, 3, 0, 0, 0, 0, time.UTC),
+		Amount:    2000,
+		Memo:      "test_memo",
+	}
+	newExpense, err := aSer.UpdateExpenseService("user1", expense, "Test Category", "Test Location")
+	require.NoError(t, err)
+	require.Equal(t, expense.ID, newExpense.ID)
+	require.Equal(t, "TEST_CATEGORY_ID", newExpense.ExpenseCategoryID)
+	require.Equal(t, "TEST_LOCATION_ID", newExpense.ExpenseLocationID)
+}

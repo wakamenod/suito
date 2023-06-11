@@ -43,5 +43,14 @@ void main() {
       // TODO
     });
 
+    // Update expense
+    //
+    // 支出情報を更新します
+    //
+    //Future<UpdateExpenseRes> updateExpense(UpdateExpenseReq request) async
+    test('test updateExpense', () async {
+      // TODO
+    });
+
   });
 }
