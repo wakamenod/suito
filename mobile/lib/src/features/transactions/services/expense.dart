@@ -10,6 +10,7 @@ part 'expense.freezed.dart';
 @freezed
 class Expense with _$Expense {
   const factory Expense({
+    required String id,
     required Title title,
     required Amount amount,
     required String date,
@@ -21,6 +22,7 @@ class Expense with _$Expense {
   }) = _Expense;
 
   static Expense init() => const Expense(
+        id: '',
         title: Title.pure(),
         amount: Amount.pure(),
         date: '',
@@ -32,6 +34,7 @@ class Expense with _$Expense {
       );
 
   static Expense fromModel(ExpenseDetailRes res) => Expense(
+        id: res.expense.id,
         title: Title.dirty(res.expense.title),
         amount: Amount.dirty(res.expense.amount),
         date: res.expense.localDate,
