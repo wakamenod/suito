@@ -16,6 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$Expense {
+  String get id => throw _privateConstructorUsedError;
   Title get title => throw _privateConstructorUsedError;
   Amount get amount => throw _privateConstructorUsedError;
   String get date => throw _privateConstructorUsedError;
@@ -36,7 +37,8 @@ abstract class $ExpenseCopyWith<$Res> {
       _$ExpenseCopyWithImpl<$Res, Expense>;
   @useResult
   $Res call(
-      {Title title,
+      {String id,
+      Title title,
       Amount amount,
       String date,
       String category,
@@ -59,6 +61,7 @@ class _$ExpenseCopyWithImpl<$Res, $Val extends Expense>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? title = null,
     Object? amount = null,
     Object? date = null,
@@ -69,6 +72,10 @@ class _$ExpenseCopyWithImpl<$Res, $Val extends Expense>
     Object? submissionStatus = null,
   }) {
     return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -113,7 +120,8 @@ abstract class _$$_ExpenseCopyWith<$Res> implements $ExpenseCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {Title title,
+      {String id,
+      Title title,
       Amount amount,
       String date,
       String category,
@@ -133,6 +141,7 @@ class __$$_ExpenseCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? title = null,
     Object? amount = null,
     Object? date = null,
@@ -143,6 +152,10 @@ class __$$_ExpenseCopyWithImpl<$Res>
     Object? submissionStatus = null,
   }) {
     return _then(_$_Expense(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -183,7 +196,8 @@ class __$$_ExpenseCopyWithImpl<$Res>
 
 class _$_Expense implements _Expense {
   const _$_Expense(
-      {required this.title,
+      {required this.id,
+      required this.title,
       required this.amount,
       required this.date,
       required this.category,
@@ -192,6 +206,8 @@ class _$_Expense implements _Expense {
       required this.isValid,
       required this.submissionStatus});
 
+  @override
+  final String id;
   @override
   final Title title;
   @override
@@ -211,7 +227,7 @@ class _$_Expense implements _Expense {
 
   @override
   String toString() {
-    return 'Expense(title: $title, amount: $amount, date: $date, category: $category, location: $location, memo: $memo, isValid: $isValid, submissionStatus: $submissionStatus)';
+    return 'Expense(id: $id, title: $title, amount: $amount, date: $date, category: $category, location: $location, memo: $memo, isValid: $isValid, submissionStatus: $submissionStatus)';
   }
 
   @override
@@ -219,6 +235,7 @@ class _$_Expense implements _Expense {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Expense &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.amount, amount) || other.amount == amount) &&
             (identical(other.date, date) || other.date == date) &&
@@ -233,8 +250,8 @@ class _$_Expense implements _Expense {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, title, amount, date, category,
-      location, memo, isValid, submissionStatus);
+  int get hashCode => Object.hash(runtimeType, id, title, amount, date,
+      category, location, memo, isValid, submissionStatus);
 
   @JsonKey(ignore: true)
   @override
@@ -245,7 +262,8 @@ class _$_Expense implements _Expense {
 
 abstract class _Expense implements Expense {
   const factory _Expense(
-      {required final Title title,
+      {required final String id,
+      required final Title title,
       required final Amount amount,
       required final String date,
       required final String category,
@@ -254,6 +272,8 @@ abstract class _Expense implements Expense {
       required final bool isValid,
       required final FormzSubmissionStatus submissionStatus}) = _$_Expense;
 
+  @override
+  String get id;
   @override
   Title get title;
   @override
