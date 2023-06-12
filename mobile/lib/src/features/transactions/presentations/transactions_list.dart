@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:openapi/openapi.dart';
 import 'package:suito/i18n/translations.g.dart';
 import 'package:suito/src/common_widgets/async_value_widget.dart';
@@ -10,7 +11,9 @@ import 'package:suito/src/routing/app_router.dart';
 import 'package:suito/src/utils/currency_formatter.dart';
 
 class TransactionsList extends ConsumerWidget {
-  const TransactionsList({super.key});
+  TransactionsList({super.key});
+
+  final _dateFormatter = DateFormat('yyyy-MM-dd');
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -83,6 +86,9 @@ class TransactionsList extends ConsumerWidget {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 40),
                     child: Row(children: [
+                      Text(_dateFormatter
+                          .format(DateTime.parse(transaction.localDate))),
+                      const SizedBox(width: 20),
                       SizedBox(
                           width: 60,
                           child: Align(
