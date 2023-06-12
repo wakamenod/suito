@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:suito/i18n/translations.g.dart';
 import 'package:suito/src/common_widgets/async_value_widget.dart';
+import 'package:suito/src/common_widgets/currency_input_field.dart';
 import 'package:suito/src/common_widgets/text_input_field.dart';
 import 'package:suito/src/features/transactions/services/expense.dart';
 import 'package:suito/src/features/transactions/services/expense_service.dart';
@@ -10,6 +11,7 @@ import 'package:suito/src/features/transactions/services/formz/amount.dart';
 import 'package:suito/src/features/transactions/services/formz/title.dart'
     as stitle;
 import 'package:suito/src/routing/app_router.dart';
+import 'package:suito/src/utils/currency_formatter.dart';
 
 class TransactionDetailScreen extends ConsumerWidget {
   final String expenseID;
@@ -37,14 +39,14 @@ class TransactionDetailScreen extends ConsumerWidget {
                         stitle.Title.showTitleErrorMessage(expense.title.error),
                     labelText: t.transactions.detail.inputLabels.title,
                     onChanged: expenseController.onChangeTitle),
-                TextInputField(
-                    initialValue: expense.amount.value.toString(),
-                    errorText:
-                        Amount.showAmountErrorMessage(expense.amount.error),
-                    labelText: t.transactions.detail.inputLabels.amount,
-                    inputType: InputType.digits,
-                    onChanged: (val) => expenseController
-                        .onChangeAmount(int.tryParse(val) ?? 0)),
+                CurrencyInputField(
+                  formatter: ref.watch(currencyFormatterProvider),
+                  initialValue: expense.amount.value,
+                  errorText:
+                      Amount.showAmountErrorMessage(expense.amount.error),
+                  labelText: t.transactions.detail.inputLabels.amount,
+                  onChanged: expenseController.onChangeAmount,
+                ),
                 TextInputField(
                     initialValue: expense.date,
                     labelText: t.transactions.detail.inputLabels.date,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:suito/i18n/translations.g.dart';
 import 'package:suito/src/features/transactions/services/transaction_service.dart';
+import 'package:suito/src/utils/currency_formatter.dart';
 
 class TransactionsTotalAmounts extends ConsumerWidget {
   const TransactionsTotalAmounts({super.key});
@@ -9,6 +10,7 @@ class TransactionsTotalAmounts extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final totalAmounts = ref.watch(transactionsTotalAmountsProvider);
+    final currencyFormatter = ref.watch(currencyFormatterProvider);
     return SizedBox(
       height: 120,
       child: Padding(
@@ -18,7 +20,7 @@ class TransactionsTotalAmounts extends ConsumerWidget {
           children: [
             _SummaryCard(
               title: t.transactions.totalAmounts.balance,
-              amount: totalAmounts.balance,
+              amount: currencyFormatter.format(totalAmounts.balance),
               height: 100,
               width: 150,
             ),
@@ -26,13 +28,13 @@ class TransactionsTotalAmounts extends ConsumerWidget {
               children: [
                 _SummaryCard(
                   title: t.transactions.totalAmounts.income,
-                  amount: totalAmounts.income,
+                  amount: currencyFormatter.format(totalAmounts.income),
                   height: 52,
                   width: 150,
                 ),
                 _SummaryCard(
                   title: t.transactions.totalAmounts.expense,
-                  amount: totalAmounts.expense,
+                  amount: currencyFormatter.format(totalAmounts.expense),
                   height: 52,
                   width: 150,
                 ),
@@ -47,7 +49,7 @@ class TransactionsTotalAmounts extends ConsumerWidget {
 
 class _SummaryCard extends StatelessWidget {
   final String title;
-  final int amount;
+  final String amount;
   final double width;
   final double height;
 
@@ -75,7 +77,7 @@ class _SummaryCard extends StatelessWidget {
             children: [
               Text(title, style: const TextStyle(fontSize: 12)),
               // TODO amount formatter
-              Text('\$$amount', style: const TextStyle(fontSize: 12)),
+              Text(amount, style: const TextStyle(fontSize: 12)),
             ],
           ),
         ),

@@ -7,6 +7,7 @@ import 'package:suito/src/common_widgets/async_value_widget.dart';
 import 'package:suito/src/features/transactions/services/delete_expense_controller.dart';
 import 'package:suito/src/features/transactions/services/transaction_service.dart';
 import 'package:suito/src/routing/app_router.dart';
+import 'package:suito/src/utils/currency_formatter.dart';
 
 class TransactionsList extends ConsumerWidget {
   const TransactionsList({super.key});
@@ -14,6 +15,7 @@ class TransactionsList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final transactionsValue = ref.watch(fetchTransactionsProvider);
+    final currencyFormatter = ref.watch(currencyFormatterProvider);
 
     return AsyncValueWidget<List<Transaction>>(
       value: transactionsValue,
@@ -85,7 +87,12 @@ class TransactionsList extends ConsumerWidget {
                           width: 60,
                           child: Align(
                             alignment: Alignment.centerRight,
-                            child: Text('${transaction.amount}'),
+                            child: Text(
+                                currencyFormatter.format(transaction.amount),
+                                style: TextStyle(
+                                    color: transaction.type == 1
+                                        ? Colors.red
+                                        : Colors.green)),
                           )),
                       const SizedBox(width: 20),
                       Text(transaction.title)

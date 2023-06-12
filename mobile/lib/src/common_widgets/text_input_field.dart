@@ -1,10 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 enum InputType {
   text,
-  digits,
   date,
 }
 
@@ -65,12 +63,6 @@ class _TextInputFieldState extends State<TextInputField> {
                 ? null
                 : () => _showDialog(
                     context, _textEditingController, widget.onChanged),
-            keyboardType: widget.inputType == InputType.digits
-                ? TextInputType.number
-                : null,
-            inputFormatters: widget.inputType == InputType.digits
-                ? [FilteringTextInputFormatter.digitsOnly]
-                : null,
             obscureText: widget.obscureText,
             decoration: InputDecoration(
               labelText: widget.labelText,
