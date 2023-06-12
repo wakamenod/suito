@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:suito/i18n/translations.g.dart';
 import 'package:suito/src/features/transactions/services/transaction_service.dart';
 
 class TransactionsTotalAmounts extends ConsumerWidget {
@@ -16,7 +17,7 @@ class TransactionsTotalAmounts extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             _SummaryCard(
-              title: 'Balance',
+              title: t.transactions.totalAmounts.balance,
               amount: totalAmounts.balance,
               height: 100,
               width: 150,
@@ -24,13 +25,13 @@ class TransactionsTotalAmounts extends ConsumerWidget {
             Column(
               children: [
                 _SummaryCard(
-                  title: 'Income',
+                  title: t.transactions.totalAmounts.income,
                   amount: totalAmounts.income,
                   height: 52,
                   width: 150,
                 ),
                 _SummaryCard(
-                  title: 'Expense',
+                  title: t.transactions.totalAmounts.expense,
                   amount: totalAmounts.expense,
                   height: 52,
                   width: 150,
@@ -68,11 +69,12 @@ class _SummaryCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(3.0),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(3.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(title, style: const TextStyle(fontSize: 12)),
+              // TODO amount formatter
               Text('\$$amount', style: const TextStyle(fontSize: 12)),
             ],
           ),

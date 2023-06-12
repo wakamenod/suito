@@ -1,0 +1,3 @@
+errors:
+  emptyTitle: タイトルが未入力です
+  emptyAmount: 金額が未入力です

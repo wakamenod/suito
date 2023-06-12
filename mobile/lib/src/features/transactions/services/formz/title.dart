@@ -1,4 +1,5 @@
 import 'package:formz/formz.dart';
+import 'package:suito/i18n/translations.g.dart';
 
 enum TitleValidationError { empty }
 
@@ -17,7 +18,7 @@ class Title extends FormzInput<String, TitleValidationError> {
 
   static String? showTitleErrorMessage(TitleValidationError? error) {
     if (error == TitleValidationError.empty) {
-      return 'Empty title';
+      return t.forms.errors.emptyTitle;
     } else {
       return null;
     }

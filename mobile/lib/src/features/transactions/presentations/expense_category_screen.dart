@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:suito/i18n/translations.g.dart';
 import 'package:suito/src/common_widgets/custom_autocomplete.dart';
 import 'package:suito/src/common_widgets/error_message_widget.dart';
 import 'package:suito/src/features/transactions/repositories/expense_categories_repository.dart';
@@ -26,7 +27,7 @@ class _ExpenseCategoryScreenState extends ConsumerState<ExpenseCategoryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Expense Category'),
+        title: Text(t.transactions.category.title),
         leading: IconButton(
             icon: const Icon(Icons.arrow_back, color: Colors.white),
             onPressed: () => context.pop(_textEditingController.text)),

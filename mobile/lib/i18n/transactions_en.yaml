@@ -1,0 +1,33 @@
+abbBar: Transactions
+category:
+  title: Expense Category
+location:
+  title: Expense Location
+memo:
+  title: Expense Memo
+  hintText: Please enter your note here...
+detail:
+  title: Detail
+  inputLabels:
+    title: Title
+    amount: Amount
+    date: Date
+    category: Category
+    location: Location
+    memo: Memo
+dismissible:
+  snackBar: removed
+  confirmTitle: Confirmation
+  confirmContent: Are you sure you want to delete this item?
+  buttonDelete: DELETE
+  buttonCancel: CANCEL
+  backgroundText: Delete
+months:
+  hintText: Select Month
+totalAmounts:
+  balance: Balance
+  income: Income
+  expense: Expense
+buttons:
+  close: Close
+  post: Post

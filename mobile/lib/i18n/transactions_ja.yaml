@@ -1,0 +1,33 @@
+abbBar: 決済一覧
+category:
+  title: 支出カテゴリー
+location:
+  title: 購入場所
+memo:
+  title: メモ
+  hintText: ここにメモを入力してください...
+detail:
+  title: 詳細
+  inputLabels:
+    title: タイトル
+    amount: 金額
+    date: 日付
+    category: カテゴリー
+    location: 購入場所
+    memo: メモ
+dismissible:
+  snackBar: 削除しました
+  confirmTitle: 確認
+  confirmContent: このアイテムを削除しますか?
+  buttonDelete: 削除
+  buttonCancel: キャンセル
+  backgroundText: 削除
+months:
+  hintText: 月選択
+totalAmounts:
+  balance: 収支
+  income: 収入
+  expense: 支出
+buttons:
+  close: 閉じる
+  post: 登録

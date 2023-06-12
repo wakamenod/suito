@@ -1,4 +1,5 @@
 import 'package:formz/formz.dart';
+import 'package:suito/i18n/translations.g.dart';
 
 enum AmountValidationError { empty }
 
@@ -17,7 +18,7 @@ class Amount extends FormzInput<int, AmountValidationError> {
 
   static String? showAmountErrorMessage(AmountValidationError? error) {
     if (error == AmountValidationError.empty) {
-      return 'Empty amount';
+      return t.forms.errors.emptyAmount;
     } else {
       return null;
     }
