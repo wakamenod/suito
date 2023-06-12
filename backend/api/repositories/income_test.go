@@ -64,6 +64,7 @@ func TestFindIncomes2(t *testing.T) {
 	i.mustInsert("user1", "2023-05-01", "title01")
 	i.mustInsert("user2", "2023-05-02", "title02")
 	i.mustInsert("user1", "2023-05-03", "title03")
+	i.mustInsert("user1", "2023-06-01", "title06")
 	// run
 	start, end, err := dateutils.YearMonthDateRange("2023-05")
 	require.NoError(t, err)
