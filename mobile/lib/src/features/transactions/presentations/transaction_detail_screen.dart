@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:suito/i18n/translations.g.dart';
 import 'package:suito/src/common_widgets/async_value_widget.dart';
 import 'package:suito/src/common_widgets/text_input_field.dart';
 import 'package:suito/src/features/transactions/services/expense.dart';
@@ -25,57 +26,56 @@ class TransactionDetailScreen extends ConsumerWidget {
       value: expenseValue,
       data: (expense) => Scaffold(
           appBar: AppBar(
-            title: const Text('TransactionDetail'),
+            title: Text(t.transactions.detail.title),
           ),
           body: SingleChildScrollView(
             child: ListBody(
               children: [
                 TextInputField(
                     initialValue: expense.title.value,
-                    errorText: stitle.Title.showTitleErrorMessage(expense.title.error),
-                    hintText: "Title",
+                    errorText:
+                        stitle.Title.showTitleErrorMessage(expense.title.error),
+                    labelText: t.transactions.detail.inputLabels.title,
                     onChanged: expenseController.onChangeTitle),
                 TextInputField(
                     initialValue: expense.amount.value.toString(),
-                    errorText: Amount.showAmountErrorMessage(expense.amount.error),
-                    hintText: "Amount",
+                    errorText:
+                        Amount.showAmountErrorMessage(expense.amount.error),
+                    labelText: t.transactions.detail.inputLabels.amount,
                     inputType: InputType.digits,
                     onChanged: (val) => expenseController
                         .onChangeAmount(int.tryParse(val) ?? 0)),
                 TextInputField(
                     initialValue: expense.date,
-                    hintText: "Date",
+                    labelText: t.transactions.detail.inputLabels.date,
                     inputType: InputType.date,
                     onChanged: expenseController.onChangeDate),
                 _TransitionTextField(
                     initialValue: expense.category,
-                    hintText: "Category",
-                    labelText: "Category",
+                    labelText: t.transactions.detail.inputLabels.category,
                     route: AppRoute.transactionDetailCategory,
                     onChanged: expenseController.onChangeCategory),
                 _TransitionTextField(
                     initialValue: expense.location,
-                    hintText: "Location",
-                    labelText: "Location",
+                    labelText: t.transactions.detail.inputLabels.location,
                     route: AppRoute.transactionDetailLocation,
                     onChanged: expenseController.onChangeLocation),
                 _TransitionTextField(
                     initialValue: expense.memo,
-                    hintText: "Memo",
-                    labelText: "Memo",
+                    labelText: t.transactions.detail.inputLabels.memo,
                     route: AppRoute.transactionDetailMemo,
                     onChanged: expenseController.onChangeMemo),
                 ElevatedButton(
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
-                    child: const Text("Close")),
+                    child: Text(t.transactions.buttons.close)),
                 ElevatedButton(
                   onPressed: () {
                     expenseController.registerExpense();
                   },
-                  child: const Text(
-                    "Post",
+                  child: Text(
+                    t.transactions.buttons.post,
                   ),
                 )
               ],
@@ -87,13 +87,11 @@ class TransactionDetailScreen extends ConsumerWidget {
 
 class _TransitionTextField extends StatefulWidget {
   final AppRoute route;
-  final String hintText;
   final String initialValue;
   final String labelText;
   final ValueChanged<String> onChanged;
 
   const _TransitionTextField({
-    required this.hintText,
     required this.route,
     required this.labelText,
     required this.onChanged,
@@ -142,7 +140,7 @@ class _TransitionTextFieldState extends State<_TransitionTextField> {
             decoration: InputDecoration(
               labelText: widget.labelText,
               border: InputBorder.none,
-              hintText: widget.hintText,
+              hintText: widget.labelText,
               hintStyle: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w500,

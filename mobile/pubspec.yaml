@@ -32,6 +32,8 @@ dependencies:
   mocktail: ^0.3.0
   formz: ^0.6.0
   intl: ^0.18.0
+  slang: ^3.18.1
+  slang_flutter: ^3.18.0
 
 dev_dependencies:
   custom_lint: 0.3.4

@@ -9,7 +9,7 @@ enum InputType {
 }
 
 class TextInputField extends StatefulWidget {
-  final String hintText;
+  final String labelText;
   final ValueChanged<String> onChanged;
   final String? errorText;
   final String initialValue;
@@ -18,7 +18,7 @@ class TextInputField extends StatefulWidget {
 
   const TextInputField({
     super.key,
-    required this.hintText,
+    required this.labelText,
     required this.initialValue,
     this.onChanged = _defaultOnChange,
     this.errorText,
@@ -73,9 +73,9 @@ class _TextInputFieldState extends State<TextInputField> {
                 : null,
             obscureText: widget.obscureText,
             decoration: InputDecoration(
-              labelText: 'Enter your title',
+              labelText: widget.labelText,
               border: InputBorder.none,
-              hintText: widget.hintText,
+              hintText: widget.labelText,
               hintStyle: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w500,

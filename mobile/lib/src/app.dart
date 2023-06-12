@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:suito/i18n/translations.g.dart';
 import 'package:suito/src/routing/app_router.dart';
 
 class MyApp extends ConsumerWidget {
@@ -9,6 +10,7 @@ class MyApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final goRouter = ref.watch(goRouterProvider);
     return MaterialApp.router(
+      locale: TranslationProvider.of(context).flutterLocale,
       routerConfig: goRouter,
       restorationScopeId: 'app',
       debugShowCheckedModeBanner: false,

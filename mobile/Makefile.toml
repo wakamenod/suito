@@ -21,6 +21,11 @@ script = '''
 fvm dart format lib test
 '''
 
+[tasks.slang]
+script = '''
+fvm dart run slang watch
+'''
+
 [tasks.run]
 script = '''
 # fvm flutter run --flavor dev -t lib/main-dev.dart

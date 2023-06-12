@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:suito/i18n/translations.g.dart';
 
 class ExpenseMemoScreen extends ConsumerStatefulWidget {
   const ExpenseMemoScreen({super.key});
@@ -25,7 +26,7 @@ class _ExpenseMemoScreenState extends ConsumerState<ExpenseMemoScreen> {
         leading: IconButton(
             icon: const Icon(Icons.arrow_back, color: Colors.white),
             onPressed: () => context.pop(_textEditingController.text)),
-        title: const Text('Expense Memo'),
+        title: Text(t.transactions.memo.title),
       ),
       body: Column(
         children: [
@@ -34,9 +35,9 @@ class _ExpenseMemoScreenState extends ConsumerState<ExpenseMemoScreen> {
             maxLines: null,
             minLines: 5,
             keyboardType: TextInputType.multiline,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              hintText: 'ここにメモを入力してください...',
+            decoration: InputDecoration(
+              border: const OutlineInputBorder(),
+              hintText: t.transactions.memo.hintText,
             ),
           ),
         ],

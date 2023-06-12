@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:suito/i18n/translations.g.dart';
 import 'package:suito/src/exceptions/async_error_logger.dart';
 import 'package:suito/src/exceptions/error_logger.dart';
 
@@ -26,9 +27,11 @@ class AppBootstrap {
     final errorLogger = container.read(errorLoggerProvider);
     registerErrorHandlers(errorLogger);
 
-    return UncontrolledProviderScope(
-      container: container,
-      child: const MyApp(),
+    return TranslationProvider(
+      child: UncontrolledProviderScope(
+        container: container,
+        child: const MyApp(),
+      ),
     );
   }
 

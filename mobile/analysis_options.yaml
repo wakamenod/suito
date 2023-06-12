@@ -16,6 +16,7 @@ analyzer:
     invalid_annotation_target: ignore
   exclude:
     - "openapi"
+    - "lib/i18n"
 
 custom_lint:
   rules:

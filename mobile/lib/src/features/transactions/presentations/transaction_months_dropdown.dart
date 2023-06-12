@@ -1,6 +1,7 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:suito/i18n/translations.g.dart';
 import 'package:suito/src/common_widgets/error_message_widget.dart';
 import 'package:suito/src/features/transactions/services/transaction_year_months.dart';
 
@@ -38,7 +39,7 @@ class _TransactinoMonthsDropdown extends StatelessWidget {
     return DropdownButtonHideUnderline(
       child: DropdownButton2(
         hint: Text(
-          'Select Month',
+          t.transactions.months.hintText,
           style: TextStyle(
             fontSize: 14,
             color: Theme.of(context).hintColor,

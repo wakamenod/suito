@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:openapi/openapi.dart';
+import 'package:suito/i18n/translations.g.dart';
 import 'package:suito/src/common_widgets/async_value_widget.dart';
 import 'package:suito/src/features/transactions/services/delete_expense_controller.dart';
 import 'package:suito/src/features/transactions/services/transaction_service.dart';
@@ -31,24 +32,24 @@ class TransactionsList extends ConsumerWidget {
                   .deleteExpense(transaction.id);
 
               // Show a snackbar.
-              state.showSnackBar(const SnackBar(content: Text("removed")));
+              state.showSnackBar(
+                  SnackBar(content: Text(t.transactions.dismissible.snackBar)));
             },
             confirmDismiss: (direction) async {
               return await showDialog(
                 context: context,
                 builder: (BuildContext context) {
                   return AlertDialog(
-                    title: const Text("Confirmation"),
-                    content: const Text(
-                        "Are you sure you want to delete this item?"),
+                    title: Text(t.transactions.dismissible.confirmContent),
+                    content: Text(t.transactions.dismissible.confirmContent),
                     actions: <Widget>[
                       TextButton(
                         onPressed: () => Navigator.of(context).pop(true),
-                        child: const Text("DELETE"),
+                        child: Text(t.transactions.dismissible.buttonDelete),
                       ),
                       TextButton(
                         onPressed: () => Navigator.of(context).pop(false),
-                        child: const Text("CANCEL"),
+                        child: Text(t.transactions.dismissible.buttonCancel),
                       ),
                     ],
                   );
@@ -58,13 +59,14 @@ class TransactionsList extends ConsumerWidget {
             direction: DismissDirection.endToStart,
             background: Container(
               color: Colors.red,
-              child: const Padding(
-                padding: EdgeInsets.all(15),
+              child: Padding(
+                padding: const EdgeInsets.all(15),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
-                    Icon(Icons.delete, color: Colors.white),
-                    Text('Delete', style: TextStyle(color: Colors.white)),
+                    const Icon(Icons.delete, color: Colors.white),
+                    Text(t.transactions.dismissible.backgroundText,
+                        style: const TextStyle(color: Colors.white)),
                   ],
                 ),
               ),
@@ -76,7 +78,19 @@ class TransactionsList extends ConsumerWidget {
                     context.goNamed(AppRoute.transactionDetail.name,
                         extra: transaction.id);
                   },
-                  child: Center(child: Text('Title: ${transaction.title}'))),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 40),
+                    child: Row(children: [
+                      SizedBox(
+                          width: 60,
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: Text('${transaction.amount}'),
+                          )),
+                      const SizedBox(width: 20),
+                      Text(transaction.title)
+                    ]),
+                  )),
             ),
           );
         },
