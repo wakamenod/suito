@@ -44,7 +44,7 @@ script = """
 GOOS=linux GOARCH=amd64 go build -ldflags "-X env.CommitHash=${GIT_HASH}" -o ./suito
 """
 
-[tasks.build-production]
+[tasks.build-prod]
 dependencies = ["format"]
 script = """
 GOOS=linux GOARCH=amd64 go build -tags release -ldflags "-X env.CommitHash=${GIT_HASH}" -o ./suito

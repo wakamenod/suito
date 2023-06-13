@@ -23,9 +23,23 @@ cd ../
 docker-compose up -d
 '''
 
+[tasks.up-prod]
+script = '''
+cd backend && makers build-prod
+cd ../
+docker-compose up -d
+'''
+
 [tasks.up-log]
 script = '''
 cd backend && makers build
+cd ../
+docker-compose up
+'''
+
+[tasks.up-log-prod]
+script = '''
+cd backend && makers build-prod
 cd ../
 docker-compose up
 '''
