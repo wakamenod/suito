@@ -44,7 +44,7 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
+  static final FirebaseOptions web = FirebaseOptions(
     apiKey: Env.kFirebaseWebApiKey,
     appId: Env.kFirebaseWebAppId,
     messagingSenderId: Env.kFirebaseMessagingSenderId,
@@ -53,7 +53,7 @@ class DefaultFirebaseOptions {
     storageBucket: Env.kFirebaseStorageBucket,
   );
 
-  static const FirebaseOptions android = FirebaseOptions(
+  static final FirebaseOptions android = FirebaseOptions(
     apiKey: Env.kFirebaseAndroidApiKey,
     appId: Env.kFirebaseAndroidAppId,
     messagingSenderId: Env.kFirebaseMessagingSenderId,
@@ -61,7 +61,7 @@ class DefaultFirebaseOptions {
     storageBucket: Env.kFirebaseStorageBucket,
   );
 
-  static const FirebaseOptions ios = FirebaseOptions(
+  static final FirebaseOptions ios = FirebaseOptions(
     apiKey: Env.kFirebaseIosApiKey,
     appId: Env.kFirebaseIosAppId,
     messagingSenderId: Env.kFirebaseMessagingSenderId,
@@ -71,7 +71,7 @@ class DefaultFirebaseOptions {
     iosBundleId: 'net.wakamenod.suito',
   );
 
-  static const FirebaseOptions macos = FirebaseOptions(
+  static final FirebaseOptions macos = FirebaseOptions(
     apiKey: Env.kFirebaseIosApiKey,
     appId: Env.kFirebaseIosAppId,
     messagingSenderId: Env.kFirebaseMessagingSenderId,
