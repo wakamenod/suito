@@ -24,6 +24,16 @@ services:
       # redis:
       #   condition: service_started
     env_file: .env.suito
+  suito-web:
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+    image: suito-web
+    container_name: suito-web
+    ports:
+      - "1200:80"
+    volumes:
+      - ./web:/web
   db:
     container_name: suito-db
     image: mysql:8.0
