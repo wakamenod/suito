@@ -13,10 +13,11 @@ services:
       GIT_REVISION: ${GIT_REVISION:-develop}
       GIT_BRANCH: ${GIT_BRANCH:-develop}
     ports:
-      - '8009:8009'
+      - "${HOST_PORT}:${APP_PORT}"
     volumes:
       - ./backend:/backend
       - ./ddl:/ddl:ro
+      - ./certs:/var/www/certs
     depends_on:
       db:
         condition: service_healthy

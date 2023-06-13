@@ -1,5 +1,6 @@
 SECRETS.org
 SSMService-Trust.json
 .env.suito
+.env.suito.prod
 firebase-adminsdk.json
 cover.html

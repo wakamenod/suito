@@ -9,20 +9,21 @@
       "request": "launch",
       "type": "dart",
       "program": "lib/main.dart",
-      "args": [
-        "--target",
-        "lib/main.dart"
-      ]
+      "args": ["--target", "lib/main.dart"]
+    },
+    {
+      "name": "Launch (Prod)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "args": ["--dart-define-from-file=dart_defines/prod.json"]
     },
     {
       "name": "Launch (Fakes)",
       "request": "launch",
       "type": "dart",
       "program": "lib/main_fakes.dart",
-      "args": [
-        "--target",
-        "lib/main_fakes.dart"
-      ]
-    },
+      "args": ["--target", "lib/main_fakes.dart"]
+    }
   ]
 }

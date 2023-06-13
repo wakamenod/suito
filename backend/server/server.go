@@ -19,6 +19,7 @@ import (
 	"github.com/wakamenod/suito/middleware"
 	"github.com/wakamenod/suito/validate"
 	"go.uber.org/zap"
+	"golang.org/x/crypto/acme/autocert"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	gormlogger "gorm.io/gorm/logger"
@@ -45,6 +46,12 @@ func New() Server {
 	e.Validator = validate.NewValidator()
 	e.HTTPErrorHandler = apperrors.HTTPErrorHandler
 
+	if !env.DEBUG {
+		e.Pre(emiddleware.HTTPSRedirect())
+		e.AutoTLSManager.HostPolicy = autocert.HostWhitelist(os.Getenv("APP_HOST"))
+		e.AutoTLSManager.Cache = autocert.DirCache("/var/www/certs")
+	}
+
 	e.Use(middleware.VerifyIDTokenMiddleware(firebaseAuthClient()))
 	e.Use(middleware.Logger())
 	e.Use(emiddleware.BodyDump(func(c echo.Context, reqBody, resBody []byte) {
@@ -69,9 +76,9 @@ func firebaseAuthClient() *auth.Client {
 }
 
 func GetServerAddress() string {
-	host := viper.GetString("server.host")
-	port := viper.GetInt("server.port")
-	return fmt.Sprintf("%s:%d", host, port)
+	host := os.Getenv("APP_HOST")
+	port := os.Getenv("APP_PORT")
+	return fmt.Sprintf("%s:%s", host, port)
 }
 
 func (s *Server) Start() {
@@ -84,8 +91,14 @@ func (s *Server) Start() {
 	s.e = api.InitRoute(s.e, db)
 
 	go func() {
-		if err := s.e.Start(s.address); err != nil {
-			log.Info("shutting down suito api server", nil)
+		if env.DEBUG {
+			if err := s.e.Start(s.address); err != nil {
+				log.Info("shutting down suito api server", log.Fields{"err": err})
+			}
+		} else {
+			if err := s.e.StartAutoTLS(":443"); err != nil {
+				log.Info("shutting down suito api server", log.Fields{"err": err})
+			}
 		}
 	}()
 }
