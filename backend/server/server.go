@@ -9,6 +9,8 @@ import (
 	firebase "firebase.google.com/go/v4"
 	"firebase.google.com/go/v4/auth"
 	"github.com/labstack/echo/v4"
+
+	emiddleware "github.com/labstack/echo/v4/middleware"
 	"github.com/spf13/viper"
 	"github.com/wakamenod/suito/api"
 	"github.com/wakamenod/suito/apperrors"
@@ -44,6 +46,11 @@ func New() Server {
 	e.HTTPErrorHandler = apperrors.HTTPErrorHandler
 
 	e.Use(middleware.VerifyIDTokenMiddleware(firebaseAuthClient()))
+	e.Use(middleware.Logger())
+	e.Use(emiddleware.BodyDump(func(c echo.Context, reqBody, resBody []byte) {
+		c.Set(middleware.ReqBodyLogKey, string(reqBody))
+		c.Set(middleware.ResBodyLogKey, string(resBody))
+	}))
 
 	return Server{e: e, address: GetServerAddress()}
 }
