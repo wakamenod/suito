@@ -1,0 +1,28 @@
+[config]
+skip_core_tasks = true
+
+[tasks.clean]
+script = '''
+fvm flutter clean
+'''
+
+[tasks.install]
+script = '''
+fvm flutter pub get
+'''
+
+[tasks.fvm-install]
+script = '''
+fvm install
+'''
+
+[tasks.format]
+script = '''
+fvm dart format lib test
+'''
+
+[tasks.build]
+script = '''
+fvm flutter build web
+tar -czvf build.tar.gz build
+'''
