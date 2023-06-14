@@ -20,6 +20,10 @@ type AuthClient interface {
 func VerifyIDTokenMiddleware(authClient AuthClient) echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
+			if c.Request().URL.Path == "/ping" {
+				return next(c)
+			}
+
 			ctx := c.Request().Context()
 
 			idToken := extractToken(c.Request())

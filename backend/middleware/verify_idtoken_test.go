@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"net/http"
+	"net/url"
 	"testing"
 
 	"firebase.google.com/go/v4/auth"
@@ -36,6 +37,9 @@ func TestVerifyIDTokenSucess(t *testing.T) {
 	mockContext := mecho.NewMockContext(t)
 	mockContext.On("Request").Return(&http.Request{
 		Header: http.Header{"Authorization": []string{"Bearer testToken"}},
+		URL: &url.URL{
+			Path: "/api/v1/endpoint",
+		},
 	})
 	mockContext.On("Set", UIDKey, testUID)
 
@@ -52,12 +56,18 @@ func TestVerifyIDTokenSucess(t *testing.T) {
 	// Test the middleware
 	middleware := middlewareFunc(mockNext)
 	require.NoError(t, middleware(mockContext))
+
+	mockAuthClient.AssertExpectations(t)
+	mockContext.AssertExpectations(t)
 }
 
 func TestVerifyIDTokenEmpty(t *testing.T) {
 	mockContext := mecho.NewMockContext(t)
 	mockContext.On("Request").Return(&http.Request{
 		Header: http.Header{"Authorization": []string{"Bearer"}},
+		URL: &url.URL{
+			Path: "/api/v1/endpoint",
+		},
 	})
 
 	mockAuthClient := new(MockAuthClient)
@@ -77,4 +87,34 @@ func TestVerifyIDTokenEmpty(t *testing.T) {
 	var suitoError *apperrors.SuitoError
 	require.ErrorAs(t, err, &suitoError)
 	require.Equal(t, apperrors.InvalidIDToken, suitoError.ErrCode)
+
+	mockAuthClient.AssertExpectations(t)
+	mockContext.AssertExpectations(t)
+}
+
+func TestVerifyIDTokenSkip(t *testing.T) {
+	mockContext := mecho.NewMockContext(t)
+	mockContext.On("Request").Return(&http.Request{
+		Header: http.Header{"Authorization": []string{"Bearer"}},
+		URL: &url.URL{
+			Path: "/ping",
+		},
+	})
+
+	mockAuthClient := new(MockAuthClient)
+	// Create a mock echo.HandlerFunc that will be the next middleware
+	mockNext := func(c echo.Context) error {
+		return nil
+	}
+
+	// Create the middleware with the mock dependencies
+	middlewareFunc := VerifyIDTokenMiddleware(mockAuthClient)
+
+	// Test the middleware
+	middleware := middlewareFunc(mockNext)
+	err := middleware(mockContext)
+	require.NoError(t, err)
+
+	mockAuthClient.AssertExpectations(t)
+	mockContext.AssertExpectations(t)
 }
