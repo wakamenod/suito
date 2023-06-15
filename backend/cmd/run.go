@@ -7,14 +7,23 @@ import (
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+	"github.com/wakamenod/suito/client"
 	"github.com/wakamenod/suito/env"
+	"github.com/wakamenod/suito/jobs"
 	"github.com/wakamenod/suito/log"
 	"github.com/wakamenod/suito/server"
 )
 
 func startWeb() error {
-	server := server.New()
-	server.Start()
+	authClient := client.NewFirebaseAuthClient()
+
+	db := openDB()
+	if err := jobs.ScheduleAllJobs(authClient, db); err != nil {
+		return err
+	}
+
+	server := server.New(authClient, db)
+	server.Start(db)
 
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, os.Interrupt)

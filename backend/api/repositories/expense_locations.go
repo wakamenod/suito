@@ -10,7 +10,7 @@ func (r *SuitoRepository) FindExpenseLocations(uid string) ([]model.ExpenseLocat
 	var res []model.ExpenseLocation
 
 	if err := r.db.Where("uid = ?", uid).
-		Order("created_at desc").
+		Order("id desc").
 		Find(&res).Error; err != nil {
 		return nil, errors.Wrap(err, "failed to find expense locations")
 	}
@@ -39,4 +39,11 @@ func (r *SuitoRepository) FindOrCreateExpenseLocation(uid string, name string) (
 	}
 
 	return res, nil
+}
+
+func (r *SuitoRepository) HardDeleteAllUserExpenseLocations(uid string) error {
+	if err := r.db.Unscoped().Where("uid = ?", uid).Delete(&model.ExpenseLocation{}).Error; err != nil {
+		return errors.Wrap(err, "failed to hard delete expense locations")
+	}
+	return nil
 }

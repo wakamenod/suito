@@ -45,6 +45,7 @@ func initLogger(c LogConfig) error {
 			return errors.Wrap(err, "failed build logger")
 		}
 		logger = l
+		zap.ReplaceGlobals(logger)
 	}
 	{
 		l, err := BuildLogger(c.ErrPath, c.ErrPath, c.Level)

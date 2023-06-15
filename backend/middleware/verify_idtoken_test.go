@@ -9,29 +9,15 @@ import (
 
 	"firebase.google.com/go/v4/auth"
 	"github.com/labstack/echo/v4"
-	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
+	"github.com/wakamenod/suito/api/services/repositories"
 	"github.com/wakamenod/suito/apperrors"
+	"github.com/wakamenod/suito/client"
 	mecho "github.com/wakamenod/suito/mock/echo"
+	"github.com/wakamenod/suito/model"
 )
 
 const testUID = "testUID"
-
-type MockAuthClient struct {
-	mock.Mock
-}
-
-func (m *MockAuthClient) VerifyIDToken(ctx context.Context, idToken string) (*auth.Token, error) {
-	args := m.Called(ctx, idToken)
-
-	// args.Get(0) returns the first argument passed to m.Called
-	token := args.Get(0)
-	if token == nil {
-		return nil, args.Error(1)
-	}
-
-	return token.(*auth.Token), args.Error(1)
-}
 
 func TestVerifyIDTokenSucess(t *testing.T) {
 	mockContext := mecho.NewMockContext(t)
@@ -43,21 +29,31 @@ func TestVerifyIDTokenSucess(t *testing.T) {
 	})
 	mockContext.On("Set", UIDKey, testUID)
 
-	mockAuthClient := new(MockAuthClient)
-	mockAuthClient.On("VerifyIDToken", mock.Anything, "testToken").Return(&auth.Token{UID: testUID}, nil)
+	mockAuthClient := &client.AuthClientMock{
+		VerifyIDTokenFunc: func(ctx context.Context, idToken string) (*auth.Token, error) {
+			return &auth.Token{UID: testUID}, nil
+		},
+	}
+
 	// Create a mock echo.HandlerFunc that will be the next middleware
 	mockNext := func(c echo.Context) error {
 		return nil
 	}
 
+	repositoryMock := repositories.RepositoryMock{
+		FindOrCreateUserFunc: func(uid string) (model.User, error) {
+			return model.User{UID: "user1", ID: "user1_id"}, nil
+		},
+	}
+
 	// Create the middleware with the mock dependencies
-	middlewareFunc := VerifyIDTokenMiddleware(mockAuthClient)
+	middlewareFunc := VerifyIDTokenMiddleware(mockAuthClient, &repositoryMock)
 
 	// Test the middleware
 	middleware := middlewareFunc(mockNext)
 	require.NoError(t, middleware(mockContext))
 
-	mockAuthClient.AssertExpectations(t)
+	require.Equal(t, 1, len(mockAuthClient.VerifyIDTokenCalls()))
 	mockContext.AssertExpectations(t)
 }
 
@@ -70,15 +66,27 @@ func TestVerifyIDTokenEmpty(t *testing.T) {
 		},
 	})
 
-	mockAuthClient := new(MockAuthClient)
-	mockAuthClient.On("VerifyIDToken", mock.Anything, "").Return(&auth.Token{}, errors.New("invalid token"))
+	mockAuthClient := &client.AuthClientMock{
+		VerifyIDTokenFunc: func(ctx context.Context, idToken string) (*auth.Token, error) {
+			return &auth.Token{}, errors.New("invalid token")
+		},
+	}
+
+	// mockAuthClient := new(MockAuthClient)
+	// mockAuthClient.On("VerifyIDToken", mock.Anything, "").Return(&auth.Token{}, errors.New("invalid token"))
 	// Create a mock echo.HandlerFunc that will be the next middleware
 	mockNext := func(c echo.Context) error {
 		return nil
 	}
 
+	repositoryMock := repositories.RepositoryMock{
+		FindOrCreateUserFunc: func(uid string) (model.User, error) {
+			return model.User{UID: "user1", ID: "user1_id"}, nil
+		},
+	}
+
 	// Create the middleware with the mock dependencies
-	middlewareFunc := VerifyIDTokenMiddleware(mockAuthClient)
+	middlewareFunc := VerifyIDTokenMiddleware(mockAuthClient, &repositoryMock)
 
 	// Test the middleware
 	middleware := middlewareFunc(mockNext)
@@ -88,7 +96,7 @@ func TestVerifyIDTokenEmpty(t *testing.T) {
 	require.ErrorAs(t, err, &suitoError)
 	require.Equal(t, apperrors.InvalidIDToken, suitoError.ErrCode)
 
-	mockAuthClient.AssertExpectations(t)
+	require.Equal(t, 1, len(mockAuthClient.VerifyIDTokenCalls()))
 	mockContext.AssertExpectations(t)
 }
 
@@ -101,20 +109,32 @@ func TestVerifyIDTokenSkip(t *testing.T) {
 		},
 	})
 
-	mockAuthClient := new(MockAuthClient)
+	mockAuthClient := &client.AuthClientMock{
+		VerifyIDTokenFunc: func(ctx context.Context, idToken string) (*auth.Token, error) {
+			return &auth.Token{}, errors.New("invalid token")
+		},
+	}
+
+	// mockAuthClient := new(MockAuthClient)
 	// Create a mock echo.HandlerFunc that will be the next middleware
 	mockNext := func(c echo.Context) error {
 		return nil
 	}
 
+	repositoryMock := repositories.RepositoryMock{
+		FindOrCreateUserFunc: func(uid string) (model.User, error) {
+			return model.User{UID: "user1", ID: "user1_id"}, nil
+		},
+	}
+
 	// Create the middleware with the mock dependencies
-	middlewareFunc := VerifyIDTokenMiddleware(mockAuthClient)
+	middlewareFunc := VerifyIDTokenMiddleware(mockAuthClient, &repositoryMock)
 
 	// Test the middleware
 	middleware := middlewareFunc(mockNext)
 	err := middleware(mockContext)
 	require.NoError(t, err)
 
-	mockAuthClient.AssertExpectations(t)
+	require.Equal(t, 0, len(mockAuthClient.VerifyIDTokenCalls()))
 	mockContext.AssertExpectations(t)
 }

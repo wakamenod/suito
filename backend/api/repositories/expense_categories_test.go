@@ -2,11 +2,10 @@ package repositories
 
 import (
 	"testing"
-	"time"
 
-	"github.com/rs/xid"
 	"github.com/stretchr/testify/require"
 	"github.com/wakamenod/suito/model"
+	"github.com/wakamenod/suito/utils/testutils"
 	"gorm.io/gorm"
 )
 
@@ -15,27 +14,10 @@ func TestFindExpenseCategories(t *testing.T) {
 	defer rollback(tx)
 
 	uid := "user01"
-	require.NoError(t, tx.Create(&model.ExpenseCategory{
-		ID:        xid.New().String(),
-		Name:      "Category_01",
-		UID:       uid,
-		CreatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC),
-		UpdatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC),
-	}).Error, "failed to insert expense category")
-	require.NoError(t, tx.Create(&model.ExpenseCategory{
-		ID:        xid.New().String(),
-		Name:      "Category_01 Other User",
-		UID:       "user02",
-		CreatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC),
-		UpdatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC),
-	}).Error, "failed to insert expense category")
-	require.NoError(t, tx.Create(&model.ExpenseCategory{
-		ID:        xid.New().String(),
-		Name:      "Category_02",
-		UID:       uid,
-		CreatedAt: time.Date(2023, 5, 1, 0, 0, 0, 0, time.UTC),
-		UpdatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC),
-	}).Error, "failed to insert expense category")
+	i := testutils.NewTestDataInserter(t, tx)
+	i.InsertExpenseCategory(uid, "Category_01")
+	i.InsertExpenseCategory("user99", "Category_01 Other User")
+	i.InsertExpenseCategory(uid, "Category_02")
 	// run
 	res, err := NewSuitoRepository(tx).FindExpenseCategories(uid)
 	// check
@@ -50,14 +32,8 @@ func TestFindOrCreateExpenseCategory_New(t *testing.T) {
 	defer rollback(tx)
 
 	// other user's data
-	category := model.ExpenseCategory{
-		ID:        xid.New().String(),
-		Name:      "NEW_CATEGORY",
-		UID:       "user99",
-		CreatedAt: time.Date(2023, 5, 1, 0, 0, 0, 0, time.UTC),
-		UpdatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC),
-	}
-	require.NoError(t, tx.Create(&category).Error)
+	i := testutils.NewTestDataInserter(t, tx)
+	i.InsertExpenseCategory("user99", "NEW_CATEGORY")
 
 	uid := "user01"
 	// run
@@ -78,22 +54,10 @@ func TestFindOrCreateExpenseCategory_Created(t *testing.T) {
 	defer rollback(tx)
 
 	// other user's data
-	require.NoError(t, tx.Create(&model.ExpenseCategory{
-		ID:        xid.New().String(),
-		Name:      "Category_02",
-		UID:       "user99",
-		CreatedAt: time.Date(2023, 5, 1, 0, 0, 0, 0, time.UTC),
-		UpdatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC),
-	}).Error)
+	i := testutils.NewTestDataInserter(t, tx)
+	i.InsertExpenseCategory("user99", "Category_02")
 
-	category := model.ExpenseCategory{
-		ID:        xid.New().String(),
-		Name:      "Category_02",
-		UID:       "user01",
-		CreatedAt: time.Date(2023, 5, 1, 0, 0, 0, 0, time.UTC),
-		UpdatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC),
-	}
-	require.NoError(t, tx.Create(&category).Error)
+	category := i.InsertExpenseCategory("user01", "Category_02")
 	// run
 	res, err := NewSuitoRepository(tx).FindOrCreateExpenseCategory(category.UID, category.Name)
 	// check
@@ -111,14 +75,8 @@ func TestFindExpenseCategory(t *testing.T) {
 	tx := begin()
 	defer rollback(tx)
 
-	category := model.ExpenseCategory{
-		ID:        xid.New().String(),
-		Name:      "Category_02",
-		UID:       "user01",
-		CreatedAt: time.Date(2023, 5, 1, 0, 0, 0, 0, time.UTC),
-		UpdatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC),
-	}
-	require.NoError(t, tx.Create(&category).Error)
+	i := testutils.NewTestDataInserter(t, tx)
+	category := i.InsertExpenseCategory("user01", "Category_02")
 	// run
 	res, err := NewSuitoRepository(tx).FindExpenseCategory(category.ID, category.UID)
 	// check
@@ -132,17 +90,35 @@ func TestFindExpenseCategory_NotFound(t *testing.T) {
 	tx := begin()
 	defer rollback(tx)
 
-	category := model.ExpenseCategory{
-		ID:        xid.New().String(),
-		Name:      "Category_02",
-		UID:       "user01",
-		CreatedAt: time.Date(2023, 5, 1, 0, 0, 0, 0, time.UTC),
-		UpdatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC),
-	}
-	require.NoError(t, tx.Create(&category).Error)
+	i := testutils.NewTestDataInserter(t, tx)
+	category := i.InsertExpenseCategory("user01", "Category_02")
 	// run
 	_, err := NewSuitoRepository(tx).FindExpenseCategory(category.ID, "user99")
 	// check
 	require.Error(t, err)
 	require.ErrorIs(t, err, gorm.ErrRecordNotFound)
+}
+
+func TestHardDeleteAllUserExpenseCategories(t *testing.T) {
+	tx := begin()
+	defer rollback(tx)
+	// setup
+	userID := "user1"
+	i := testutils.NewTestDataInserter(t, tx)
+	i.InsertExpenseCategory(userID, "Category_01")
+	i.InsertExpenseCategory(userID, "Category_02")
+	i.InsertExpenseCategory("user99", "Category_03")
+	// run
+	err := NewSuitoRepository(tx).HardDeleteAllUserExpenseCategories(userID)
+	// check
+	require.NoError(t, err)
+
+	var found model.ExpenseCategory
+	err = tx.Where("uid = ?", userID).Unscoped().First(&found).Error
+	require.Error(t, err)
+	require.ErrorIs(t, err, gorm.ErrRecordNotFound)
+
+	var cnt int64
+	tx.Model(&model.ExpenseCategory{}).Count(&cnt)
+	require.EqualValues(t, 1, cnt)
 }

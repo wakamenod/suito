@@ -55,3 +55,10 @@ func (r *SuitoRepository) DeleteExpense(id string, uid string) error {
 	}
 	return nil
 }
+
+func (r *SuitoRepository) HardDeleteAllUserExpenses(uid string) error {
+	if err := r.db.Unscoped().Where("uid = ?", uid).Delete(&model.Expense{}).Error; err != nil {
+		return errors.Wrap(err, "failed to hard delete expenses")
+	}
+	return nil
+}
