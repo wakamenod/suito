@@ -2,11 +2,10 @@ package repositories
 
 import (
 	"testing"
-	"time"
 
-	"github.com/rs/xid"
 	"github.com/stretchr/testify/require"
 	"github.com/wakamenod/suito/model"
+	"github.com/wakamenod/suito/utils/testutils"
 	"gorm.io/gorm"
 )
 
@@ -15,27 +14,10 @@ func TestFindExpenseLocations(t *testing.T) {
 	defer rollback(tx)
 
 	uid := "user01"
-	require.NoError(t, tx.Create(&model.ExpenseLocation{
-		ID:        xid.New().String(),
-		Name:      "Location_01",
-		UID:       uid,
-		CreatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC),
-		UpdatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC),
-	}).Error, "failed to insert expense location")
-	require.NoError(t, tx.Create(&model.ExpenseLocation{
-		ID:        xid.New().String(),
-		Name:      "Location_01 Other User",
-		UID:       "user02",
-		CreatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC),
-		UpdatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC),
-	}).Error, "failed to insert expense location")
-	require.NoError(t, tx.Create(&model.ExpenseLocation{
-		ID:        xid.New().String(),
-		Name:      "Location_02",
-		UID:       uid,
-		CreatedAt: time.Date(2023, 5, 1, 0, 0, 0, 0, time.UTC),
-		UpdatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC),
-	}).Error, "failed to insert expense location")
+	i := testutils.NewTestDataInserter(t, tx)
+	i.InsertExpenseLocation(uid, "Location_01")
+	i.InsertExpenseLocation("user99", "Location_01 Other User")
+	i.InsertExpenseLocation(uid, "Location_02")
 	// run
 	res, err := NewSuitoRepository(tx).FindExpenseLocations(uid)
 	// check
@@ -50,14 +32,8 @@ func TestFindOrCreateExpenseLocation_New(t *testing.T) {
 	defer rollback(tx)
 
 	// other user's data
-	location := model.ExpenseLocation{
-		ID:        xid.New().String(),
-		Name:      "NEW_LOCATION",
-		UID:       "user99",
-		CreatedAt: time.Date(2023, 5, 1, 0, 0, 0, 0, time.UTC),
-		UpdatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC),
-	}
-	require.NoError(t, tx.Create(&location).Error)
+	i := testutils.NewTestDataInserter(t, tx)
+	i.InsertExpenseLocation("user99", "NEW_LOCATION")
 
 	uid := "user01"
 	// run
@@ -78,22 +54,10 @@ func TestFindOrCreateExpenseLocation_Created(t *testing.T) {
 	defer rollback(tx)
 
 	// other user's data
-	require.NoError(t, tx.Create(&model.ExpenseLocation{
-		ID:        xid.New().String(),
-		Name:      "Location_02",
-		UID:       "user99",
-		CreatedAt: time.Date(2023, 5, 1, 0, 0, 0, 0, time.UTC),
-		UpdatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC),
-	}).Error)
+	i := testutils.NewTestDataInserter(t, tx)
+	i.InsertExpenseLocation("user99", "Location_02")
 
-	location := model.ExpenseLocation{
-		ID:        xid.New().String(),
-		Name:      "Location_02",
-		UID:       "user01",
-		CreatedAt: time.Date(2023, 5, 1, 0, 0, 0, 0, time.UTC),
-		UpdatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC),
-	}
-	require.NoError(t, tx.Create(&location).Error)
+	location := i.InsertExpenseLocation("user01", "Location_02")
 	// run
 	res, err := NewSuitoRepository(tx).FindOrCreateExpenseLocation(location.UID, location.Name)
 	// check
@@ -111,14 +75,8 @@ func TestFindExpenseLocation(t *testing.T) {
 	tx := begin()
 	defer rollback(tx)
 
-	location := model.ExpenseLocation{
-		ID:        xid.New().String(),
-		Name:      "Location_02",
-		UID:       "user01",
-		CreatedAt: time.Date(2023, 5, 1, 0, 0, 0, 0, time.UTC),
-		UpdatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC),
-	}
-	require.NoError(t, tx.Create(&location).Error)
+	i := testutils.NewTestDataInserter(t, tx)
+	location := i.InsertExpenseLocation("user01", "Location_02")
 	// run
 	res, err := NewSuitoRepository(tx).FindExpenseLocation(location.ID, location.UID)
 	// check
@@ -132,17 +90,35 @@ func TestFindExpenseLocation_NotFound(t *testing.T) {
 	tx := begin()
 	defer rollback(tx)
 
-	location := model.ExpenseLocation{
-		ID:        xid.New().String(),
-		Name:      "Location_02",
-		UID:       "user01",
-		CreatedAt: time.Date(2023, 5, 1, 0, 0, 0, 0, time.UTC),
-		UpdatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC),
-	}
-	require.NoError(t, tx.Create(&location).Error)
+	i := testutils.NewTestDataInserter(t, tx)
+	location := i.InsertExpenseLocation("user01", "Location_02")
 	// run
 	_, err := NewSuitoRepository(tx).FindExpenseLocation(location.ID, "user99")
 	// check
 	require.Error(t, err)
 	require.ErrorIs(t, err, gorm.ErrRecordNotFound)
+}
+
+func TestHardDeleteAllUserExpenseLocations(t *testing.T) {
+	tx := begin()
+	defer rollback(tx)
+	// setup
+	userID := "user1"
+	i := testutils.NewTestDataInserter(t, tx)
+	i.InsertExpenseLocation(userID, "Location_01")
+	i.InsertExpenseLocation(userID, "Location_02")
+	i.InsertExpenseLocation("user99", "Location_03")
+	// run
+	err := NewSuitoRepository(tx).HardDeleteAllUserExpenseLocations(userID)
+	// check
+	require.NoError(t, err)
+
+	var found model.ExpenseLocation
+	err = tx.Where("uid = ?", userID).Unscoped().First(&found).Error
+	require.Error(t, err)
+	require.ErrorIs(t, err, gorm.ErrRecordNotFound)
+
+	var cnt int64
+	tx.Model(&model.ExpenseLocation{}).Count(&cnt)
+	require.EqualValues(t, 1, cnt)
 }

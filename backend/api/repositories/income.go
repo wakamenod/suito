@@ -41,3 +41,10 @@ func (r *SuitoRepository) CreateIncome(uid string, income model.Income) (model.I
 
 	return income, nil
 }
+
+func (r *SuitoRepository) HardDeleteAllUserIncomes(uid string) error {
+	if err := r.db.Unscoped().Where("uid = ?", uid).Delete(&model.Income{}).Error; err != nil {
+		return errors.Wrap(err, "failed to hard delete incomes")
+	}
+	return nil
+}

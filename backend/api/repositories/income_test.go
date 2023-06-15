@@ -4,42 +4,12 @@ import (
 	"testing"
 	"time"
 
-	"github.com/rs/xid"
 	"github.com/stretchr/testify/require"
 	"github.com/wakamenod/suito/model"
 	"github.com/wakamenod/suito/utils/dateutils"
+	"github.com/wakamenod/suito/utils/testutils"
 	"gorm.io/gorm"
 )
-
-type (
-	incomeInserter struct {
-		t  *testing.T
-		db *gorm.DB
-	}
-)
-
-func newIncomeInserter(t *testing.T, db *gorm.DB) *incomeInserter {
-	return &incomeInserter{
-		t:  t,
-		db: db,
-	}
-}
-
-func (e *incomeInserter) mustInsert(uid, date, title string) string {
-	parsedDate, err := time.Parse(dateLayout, date)
-	require.NoError(e.t, err, "failed to parse date")
-
-	id := xid.New().String()
-	require.NoError(e.t, e.db.Create(&model.Income{
-		ID:        id,
-		UID:       uid,
-		Title:     title,
-		Amount:    200,
-		Memo:      "test memo",
-		LocalDate: parsedDate,
-	}).Error, "failed to insert income")
-	return id
-}
 
 // An empty result set should not cause an error
 func TestFindIncomes(t *testing.T) {
@@ -60,11 +30,11 @@ func TestFindIncomes2(t *testing.T) {
 	tx := begin()
 	defer rollback(tx)
 	// setup test data
-	i := newIncomeInserter(t, tx)
-	i.mustInsert("user1", "2023-05-01", "title01")
-	i.mustInsert("user2", "2023-05-02", "title02")
-	i.mustInsert("user1", "2023-05-03", "title03")
-	i.mustInsert("user1", "2023-06-01", "title06")
+	i := testutils.NewTestDataInserter(t, tx)
+	i.InsertIncome("user1", "2023-05-01", "title01")
+	i.InsertIncome("user2", "2023-05-02", "title02")
+	i.InsertIncome("user1", "2023-05-03", "title03")
+	i.InsertIncome("user1", "2023-06-01", "title06")
 	// run
 	start, end, err := dateutils.YearMonthDateRange("2023-05")
 	require.NoError(t, err)
@@ -81,10 +51,10 @@ func TestFindIncomes3(t *testing.T) {
 	tx := begin()
 	defer rollback(tx)
 	// setup test data
-	i := newIncomeInserter(t, tx)
-	i.mustInsert("user1", "2023-05-01", "title01")
-	i.mustInsert("user1", "2023-05-02", "title02")
-	i.mustInsert("user1", "2023-06-03", "title03")
+	i := testutils.NewTestDataInserter(t, tx)
+	i.InsertIncome("user1", "2023-05-01", "title01")
+	i.InsertIncome("user1", "2023-05-02", "title02")
+	i.InsertIncome("user1", "2023-06-03", "title03")
 	// run
 	start, end, err := dateutils.YearMonthDateRange("2023-05")
 	require.NoError(t, err)
@@ -100,8 +70,8 @@ func TestFindIncome(t *testing.T) {
 	tx := begin()
 	defer rollback(tx)
 	// setup test data
-	i := newIncomeInserter(t, tx)
-	id := i.mustInsert("user2", "2023-05-02", "title02")
+	i := testutils.NewTestDataInserter(t, tx)
+	id := i.InsertIncome("user2", "2023-05-02", "title02")
 	// run
 	res, err := NewSuitoRepository(tx).FindIncome(id, "user2")
 	// check
@@ -113,8 +83,8 @@ func TestFindIncome_ErrorNotFound(t *testing.T) {
 	tx := begin()
 	defer rollback(tx)
 	// setup test data
-	i := newIncomeInserter(t, tx)
-	id := i.mustInsert("user2", "2023-05-02", "title02")
+	i := testutils.NewTestDataInserter(t, tx)
+	id := i.InsertIncome("user2", "2023-05-02", "title02")
 	// run
 	_, err := NewSuitoRepository(tx).FindIncome(id, "user1")
 	// check
@@ -135,4 +105,27 @@ func TestCreateIncome(t *testing.T) {
 	require.Equal(t, "user1", res.UID)
 	require.Equal(t, income.Title, res.Title)
 	require.Equal(t, income.Amount, res.Amount)
+}
+
+func TestHardDeleteAllUserIncomes(t *testing.T) {
+	tx := begin()
+	defer rollback(tx)
+	// setup
+	i := testutils.NewTestDataInserter(t, tx)
+	i.InsertExpense("user1", "2023-05-01", "title01")
+	i.InsertExpense("user99", "2023-05-01", "title99")
+	i.InsertExpense("user1", "2023-05-01", "title01_2")
+	// run
+	err := NewSuitoRepository(tx).HardDeleteAllUserExpenses("user1")
+	// check
+	require.NoError(t, err)
+
+	var found model.Expense
+	err = tx.Where("uid = ?", "user1").Unscoped().First(&found).Error
+	require.Error(t, err)
+	require.ErrorIs(t, err, gorm.ErrRecordNotFound)
+
+	var cnt int64
+	tx.Model(&model.Expense{}).Count(&cnt)
+	require.EqualValues(t, 1, cnt)
 }

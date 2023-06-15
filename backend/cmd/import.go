@@ -10,13 +10,16 @@ import (
 	"strings"
 	"time"
 
+	"go.uber.org/zap"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"moul.io/zapgorm2"
 
 	"github.com/joho/godotenv"
 	"github.com/rs/xid"
 	"github.com/spf13/cobra"
 	"github.com/wakamenod/suito/model"
+	gormlogger "gorm.io/gorm/logger"
 )
 
 const (
@@ -238,7 +241,12 @@ func openDB() *gorm.DB {
 		os.Getenv("DB_PORT"),
 		os.Getenv("DB_NAME"),
 	)
-	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	logger := zapgorm2.New(zap.L())
+	logger.SetAsDefault()
+	logger.LogLevel = gormlogger.Info
+	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
+		Logger: logger,
+	})
 	fatalIfErr(err, "failed to open database")
 	return db
 }

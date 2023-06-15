@@ -15,9 +15,9 @@ import (
 //	cleanup := CreateServer()
 //	defer cleanup()
 func CreateServer(t *testing.T) func() {
-	s := server.New()
+	s := server.New(nil, nil)
 	go func() {
-		s.Start()
+		s.Start(nil)
 	}()
 
 	for {

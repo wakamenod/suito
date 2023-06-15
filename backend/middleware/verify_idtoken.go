@@ -1,23 +1,18 @@
 package middleware
 
 import (
-	"context"
 	"net/http"
 	"strings"
 
-	"firebase.google.com/go/v4/auth"
 	"github.com/labstack/echo/v4"
+	"github.com/wakamenod/suito/api/services/repositories"
 	"github.com/wakamenod/suito/apperrors"
+	"github.com/wakamenod/suito/client"
 )
 
 const UIDKey = "uidKey"
 
-// Define an interface for the Firebase Auth client
-type AuthClient interface {
-	VerifyIDToken(ctx context.Context, idToken string) (*auth.Token, error)
-}
-
-func VerifyIDTokenMiddleware(authClient AuthClient) echo.MiddlewareFunc {
+func VerifyIDTokenMiddleware(authClient client.AuthClient, repository repositories.Repository) echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
 			if c.Request().URL.Path == "/ping" {
@@ -31,6 +26,11 @@ func VerifyIDTokenMiddleware(authClient AuthClient) echo.MiddlewareFunc {
 			token, err := authClient.VerifyIDToken(ctx, idToken)
 			if err != nil {
 				return apperrors.InvalidIDToken.Wrap(err)
+			}
+
+			// TODO トランザクション
+			if _, err := repository.FindOrCreateUser(token.UID); err != nil {
+				return err
 			}
 
 			c.Set(UIDKey, token.UID)

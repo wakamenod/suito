@@ -84,3 +84,7 @@ func (r *RepositoryMock) UpdateExpense(uid string, expense model.Expense) (model
 func (r *RepositoryMock) DeleteExpense(id, uid string) error {
 	return nil
 }
+
+func (r *RepositoryMock) FindOrCreateUser(uid string) (model.User, error) {
+	return model.User{ID: "user1_id", UID: "user1"}, nil
+}

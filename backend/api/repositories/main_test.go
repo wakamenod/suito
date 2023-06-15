@@ -86,7 +86,9 @@ func teardown() {
 func TestMain(m *testing.M) {
 	err := setup()
 	if err != nil {
-		os.Exit(1)
+		// nolint
+		fmt.Fprintf(os.Stderr, "err in repository TestMain %v\n", err)
+		panic(err)
 	}
 
 	m.Run()

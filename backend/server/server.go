@@ -3,26 +3,21 @@ package server
 import (
 	"context"
 	"fmt"
-	"os"
 	"time"
 
-	firebase "firebase.google.com/go/v4"
-	"firebase.google.com/go/v4/auth"
 	"github.com/labstack/echo/v4"
 
 	emiddleware "github.com/labstack/echo/v4/middleware"
 	"github.com/spf13/viper"
 	"github.com/wakamenod/suito/api"
+	"github.com/wakamenod/suito/api/repositories"
 	"github.com/wakamenod/suito/apperrors"
+	"github.com/wakamenod/suito/client"
 	"github.com/wakamenod/suito/env"
 	"github.com/wakamenod/suito/log"
 	"github.com/wakamenod/suito/middleware"
 	"github.com/wakamenod/suito/validate"
-	"go.uber.org/zap"
-	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
-	gormlogger "gorm.io/gorm/logger"
-	"moul.io/zapgorm2"
 )
 
 type (
@@ -32,7 +27,7 @@ type (
 	}
 )
 
-func New() Server {
+func New(authClient client.AuthClient, db *gorm.DB) Server {
 	e := echo.New()
 	e.HideBanner = true
 	e.HidePort = true
@@ -45,7 +40,7 @@ func New() Server {
 	e.Validator = validate.NewValidator()
 	e.HTTPErrorHandler = apperrors.HTTPErrorHandler
 
-	e.Use(middleware.VerifyIDTokenMiddleware(firebaseAuthClient()))
+	e.Use(middleware.VerifyIDTokenMiddleware(authClient, repositories.NewSuitoRepository(db)))
 	e.Use(middleware.Logger())
 	e.Use(emiddleware.BodyDump(func(c echo.Context, reqBody, resBody []byte) {
 		c.Set(middleware.ReqBodyLogKey, string(reqBody))
@@ -55,32 +50,18 @@ func New() Server {
 	return Server{e: e, address: GetServerAddress()}
 }
 
-func firebaseAuthClient() *auth.Client {
-	ctx := context.Background()
-	app, err := firebase.NewApp(ctx, nil)
-	if err != nil {
-		log.Fatal("error initializing Firebase App", log.Fields{"err": err})
-	}
-	client, err := app.Auth(ctx)
-	if err != nil {
-		log.Fatal("error getting Firebase Auth client", log.Fields{"err": err})
-	}
-	return client
-}
-
 func GetServerAddress() string {
 	host := viper.GetString("server.host")
 	port := viper.GetInt("server.port")
 	return fmt.Sprintf("%s:%d", host, port)
 }
 
-func (s *Server) Start() {
+func (s *Server) Start(db *gorm.DB) {
 	log.Info("start suito server", log.Fields{
 		"address": s.address,
 		"ver":     viper.GetString("server.ver"),
 	})
 
-	db := openDB()
 	s.e = api.InitRoute(s.e, db)
 
 	go func() {
@@ -88,25 +69,6 @@ func (s *Server) Start() {
 			log.Info("shutting down suito api server", nil)
 		}
 	}()
-}
-
-// TODO DBオープン処理まとめる
-func openDB() *gorm.DB {
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True",
-		os.Getenv("DB_USER"),
-		os.Getenv("DB_PASS"),
-		os.Getenv("DB_HOST"),
-		os.Getenv("DB_PORT"),
-		os.Getenv("DB_NAME"),
-	)
-	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
-	logger := zapgorm2.New(zap.L())
-	logger.SetAsDefault()
-	logger.LogLevel = gormlogger.Info
-	if err != nil {
-		log.Fatal("error opening database", log.Fields{"err": err})
-	}
-	return db
 }
 
 func (s *Server) Stop() error {

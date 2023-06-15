@@ -10,7 +10,7 @@ func (r *SuitoRepository) FindExpenseCategories(uid string) ([]model.ExpenseCate
 	var res []model.ExpenseCategory
 
 	if err := r.db.Where("uid = ?", uid).
-		Order("created_at desc").
+		Order("id desc").
 		Find(&res).Error; err != nil {
 		return nil, errors.Wrap(err, "failed to find expense categories")
 	}
@@ -39,4 +39,11 @@ func (r *SuitoRepository) FindOrCreateExpenseCategory(uid string, name string) (
 	}
 
 	return res, nil
+}
+
+func (r *SuitoRepository) HardDeleteAllUserExpenseCategories(uid string) error {
+	if err := r.db.Unscoped().Where("uid = ?", uid).Delete(&model.ExpenseCategory{}).Error; err != nil {
+		return errors.Wrap(err, "failed to hard delete expense categories")
+	}
+	return nil
 }
