@@ -5,7 +5,7 @@ import 'package:suito_web/env/env.dart';
 
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
-      return web;
+    return web;
   }
 
   static final FirebaseOptions web = FirebaseOptions(

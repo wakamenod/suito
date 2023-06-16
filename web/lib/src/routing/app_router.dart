@@ -1,14 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:suito_web/src/screen/custom_profile_screen.dart';
-import 'package:suito_web/src/screen/custom_sign_in_screen.dart';
+import 'package:suito_web/src/screen/delete_account_screen.dart';
+import 'package:suito_web/src/screen/sign_in_screen.dart';
 
 import 'go_router_refresh_stream.dart';
 
 enum AppRoute {
   signIn,
-  profile,
+  delete,
 }
 
 final firebaseAuthProvider = Provider<FirebaseAuth>((ref) {
@@ -24,10 +24,10 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       final isLoggedIn = firebaseAuth.currentUser != null;
       if (isLoggedIn) {
         if (state.location == '/sign-in') {
-          return '/profile';
+          return '/delete';
         }
       } else {
-        if (state.location.startsWith('/profile')) {
+        if (state.location.startsWith('/delete')) {
           return '/sign-in';
         }
       }
@@ -41,9 +41,9 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const CustomSignInScreen(),
       ),
       GoRoute(
-        path: '/profile',
-        name: AppRoute.profile.name,
-        builder: (context, state) => const CustomProfileScreen(),
+        path: '/delete',
+        name: AppRoute.delete.name,
+        builder: (context, state) => const CustomDeleteScreen(),
       ),
     ],
   );

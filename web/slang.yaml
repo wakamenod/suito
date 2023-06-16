@@ -1,0 +1,5 @@
+namespaces: true
+input_directory: lib/i18n
+input_file_pattern: .yaml
+output_directory: lib/i18n
+output_file_name: strings.g.dart

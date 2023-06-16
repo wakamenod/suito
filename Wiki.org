@@ -34,3 +34,15 @@ $ aws ssm --profile private \
 * Lightsail
 ** プランのアップグレード
 - [[https://chigusa-web.com/blog/lightsail-upgrade/][【AWS】Lightsailのプランをアップグレード]]
+* Flutter webのデプロイ手順
+事前にこの時だけLightsailの22番ポートを開ける。
+(SSMはSCPのトンネリングサポートをしているがアドバンスインスタンス層を有効にする必要があり、これをすると別途料金が発生する)
+
+#+begin_src sh
+$ cd web
+$ makers build
+$ scp ./web/build.tar.gz xxxx:/to/app/path
+#+end_src
+
+この後、Lightsailの22番ポートを閉じて、ssmでログインする。
+ログイン後にbuild.tar.gzを =web= ディレクトリで解凍し、docker-composeを再起動すればデプロイ完了
