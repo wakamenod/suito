@@ -20,6 +20,8 @@ go install -tags mysql github.com/golang-migrate/migrate/v4/cmd/migrate@v4.15.1
 script = '''
 cd backend && makers build
 cd ../
+cd web && makers build
+cd ../
 docker-compose up -d
 '''
 
@@ -33,6 +35,8 @@ docker-compose -f docker-compose.prod.yml up -d
 [tasks.up-log]
 script = '''
 cd backend && makers build
+cd ../
+cd web && makers build
 cd ../
 docker-compose up
 '''

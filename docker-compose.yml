@@ -33,7 +33,7 @@ services:
     ports:
       - "1200:80"
     volumes:
-      - ./web:/web
+      - ./web/build/web:/usr/share/nginx/html
   db:
     container_name: suito-db
     image: mysql:8.0
