@@ -4,6 +4,7 @@ import (
 	"github.com/pkg/errors"
 	"github.com/rs/xid"
 	"github.com/wakamenod/suito/model"
+	"gorm.io/gorm"
 )
 
 func (r *SuitoRepository) FindAllUIDs() ([]string, error) {
@@ -24,10 +25,24 @@ func (r *SuitoRepository) DeleteUsers(uids []string) error {
 func (r *SuitoRepository) FindOrCreateUser(uid string) (model.User, error) {
 	var res model.User
 
-	if err := r.db.Where(model.ExpenseCategory{UID: uid}).
-		Attrs(model.ExpenseCategory{ID: xid.New().String()}).
-		FirstOrCreate(&res).Error; err != nil {
-		return res, errors.Wrap(err, "failed to find user")
+	err := r.db.Transaction(func(tx *gorm.DB) error {
+		if err := tx.Where(model.ExpenseCategory{UID: uid}).
+			Attrs(model.ExpenseCategory{ID: xid.New().String()}).
+			FirstOrCreate(&res).Error; err != nil {
+			return errors.Wrap(err, "failed to find or create user")
+		}
+		return nil
+	})
+	if err != nil {
+		if !errors.Is(err, gorm.ErrDuplicatedKey) {
+			return res, err
+		}
+		var fallbackRes model.User
+		if err := r.db.Where(model.User{UID: uid}).
+			First(&fallbackRes).Error; err != nil {
+			return res, errors.Wrap(err, "failed to find user")
+		}
+		return fallbackRes, nil
 	}
 
 	return res, nil

@@ -9,8 +9,7 @@ import (
 var aSer *SuitoService
 
 func TestMain(m *testing.M) {
-	repo := testdata.NewRepositoryMock()
-	aSer = NewSuitoService(repo)
+	aSer = NewSuitoService(&testdata.TestRepositoryMock)
 
 	m.Run()
 }

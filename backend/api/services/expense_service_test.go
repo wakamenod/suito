@@ -24,7 +24,7 @@ func TestFindExpenseService_Error(t *testing.T) {
 	require.ErrorIs(t, err, gorm.ErrRecordNotFound)
 }
 
-func TestCreateExpenseService_NoCategoryLocatoin(t *testing.T) {
+func TestCreateExpenseService_NoCategoryLocation(t *testing.T) {
 	expense := model.Expense{
 		Title:     "test_title",
 		LocalDate: time.Date(2023, 5, 3, 0, 0, 0, 0, time.UTC),
@@ -52,7 +52,7 @@ func TestCreateExpenseService(t *testing.T) {
 	require.Equal(t, "TEST_LOCATION_ID", newExpense.ExpenseLocationID)
 }
 
-func TestUpdateExpenseService_NoCategoryLocatoin(t *testing.T) {
+func TestUpdateExpenseService_NoCategoryLocation(t *testing.T) {
 	expense := model.Expense{
 		ID:        "update_target_expense_id",
 		Title:     "test_title",

@@ -28,7 +28,6 @@ func VerifyIDTokenMiddleware(authClient client.AuthClient, repository repositori
 				return apperrors.InvalidIDToken.Wrap(err)
 			}
 
-			// TODO トランザクション
 			if _, err := repository.FindOrCreateUser(token.UID); err != nil {
 				return err
 			}

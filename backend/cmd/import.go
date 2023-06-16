@@ -10,16 +10,13 @@ import (
 	"strings"
 	"time"
 
-	"go.uber.org/zap"
-	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
-	"moul.io/zapgorm2"
 
 	"github.com/joho/godotenv"
 	"github.com/rs/xid"
 	"github.com/spf13/cobra"
+	"github.com/wakamenod/suito/db"
 	"github.com/wakamenod/suito/model"
-	gormlogger "gorm.io/gorm/logger"
 )
 
 const (
@@ -42,7 +39,7 @@ var importCmd = &cobra.Command{
 		fatalIfErr(godotenv.Load("../.env.suito"))
 
 		// open Database
-		db := openDB()
+		db := db.OpenDB()
 
 		// walk through test data directory
 		entries, err := os.ReadDir(dataDir)
@@ -231,24 +228,6 @@ func firstOrCreateCategory(db *gorm.DB, categoryName string) model.ExpenseCatego
 
 func init() {
 	rootCmd.AddCommand(importCmd)
-}
-
-func openDB() *gorm.DB {
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True",
-		os.Getenv("DB_USER"),
-		os.Getenv("DB_PASS"),
-		os.Getenv("DB_HOST"),
-		os.Getenv("DB_PORT"),
-		os.Getenv("DB_NAME"),
-	)
-	logger := zapgorm2.New(zap.L())
-	logger.SetAsDefault()
-	logger.LogLevel = gormlogger.Info
-	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
-		Logger: logger,
-	})
-	fatalIfErr(err, "failed to open database")
-	return db
 }
 
 func fatalIfErr(err error, msg ...string) {

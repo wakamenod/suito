@@ -6,6 +6,7 @@ import (
 	"sync"
 
 	"github.com/pkg/errors"
+	"github.com/spf13/viper"
 	"github.com/wakamenod/suito/env"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
@@ -30,8 +31,24 @@ type LogConfig struct {
 	Level   string
 }
 
-// Init
-func Init(c LogConfig) error {
+func InitWithConfigPath(path string) error {
+	viper.SetConfigFile(path)
+	if err := viper.ReadInConfig(); err != nil {
+		return errors.Wrap(err, "config read error")
+	}
+	return Init()
+}
+
+func Init() error {
+	outPath := viper.GetString("log.log")
+	errPath := viper.GetString("log.err_log")
+	level := viper.GetString("log.level")
+	c := LogConfig{
+		OutPath: outPath,
+		ErrPath: errPath,
+		Level:   level,
+	}
+
 	if env.IsTest() {
 		return initTestLogger(c)
 	}
