@@ -26,7 +26,7 @@ class TransactionsScreen extends ConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          context.goNamed(AppRoute.transactionDetail.name, extra: null);
+          context.goNamed(AppRoute.transactionDetail.name);
         },
         backgroundColor: Colors.blueAccent,
         child: const Icon(Icons.add),

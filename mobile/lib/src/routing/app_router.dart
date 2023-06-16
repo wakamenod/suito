@@ -12,6 +12,7 @@ import 'package:suito/src/features/transactions/presentations/expense_location_s
 import 'package:suito/src/features/transactions/presentations/expense_memo_screen.dart';
 import 'package:suito/src/features/transactions/presentations/transaction_detail_screen.dart';
 import 'package:suito/src/features/transactions/presentations/transactions_screen.dart';
+import 'package:suito/src/features/transactions/services/transaction_service.dart';
 import 'package:suito/src/routing/go_router_refresh_stream.dart';
 
 import 'shell_screen.dart';
@@ -86,9 +87,11 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                     pageBuilder: (context, state) => CustomTransitionPage(
                           key: state.pageKey,
                           child: TransactionDetailScreen(
-                              expenseID: state.extra == null
-                                  ? ''
-                                  : state.extra as String),
+                            id: state.queryParameters['id'] ?? '',
+                            type: int.tryParse(
+                                    state.queryParameters['type'] ?? '') ??
+                                TransactionType.expense.value,
+                          ),
                           transitionsBuilder: _slideTransitionBuilder,
                         ),
                     routes: [
