@@ -12,8 +12,7 @@ var eCon *ExpenseController
 var iCon *IncomeController
 
 func TestMain(m *testing.M) {
-	repo := testdata.NewRepositoryMock()
-	ser := services.NewSuitoService(repo)
+	ser := services.NewSuitoService(&testdata.TestRepositoryMock)
 	tCon = NewTransactionController(ser)
 	eCon = NewExpenseController(ser)
 	iCon = NewIncomeController(ser)

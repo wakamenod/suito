@@ -3,6 +3,7 @@ package repositories
 import (
 	"database/sql"
 
+	"github.com/wakamenod/suito/api/services/repositories"
 	"gorm.io/gorm"
 )
 
@@ -14,14 +15,8 @@ func NewSuitoRepository(db *gorm.DB) *SuitoRepository {
 	return &SuitoRepository{db: db}
 }
 
-func (r *SuitoRepository) Transaction(fc func(tx *gorm.DB) error, opts ...*sql.TxOptions) (err error) {
-	return r.db.Transaction(fc, opts...)
-
-	// TODO
-	// return r.db.Transaction(func(tx *gorm.DB) error {
-	// 	tmp := r.db
-	// 	r.db = tx
-	// 	defer func() { r.db = tmp }()
-	// 	return fc(tx)
-	// })
+func (r *SuitoRepository) Transaction(fc func(txRepo repositories.Repository) error, opts ...*sql.TxOptions) (err error) {
+	return r.db.Transaction(func(tx *gorm.DB) error {
+		return fc(NewSuitoRepository(tx))
+	})
 }

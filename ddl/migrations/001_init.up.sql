@@ -141,6 +141,7 @@ CREATE TABLE `expense_location` (
 
   `created_at` DATETIME NOT NULL,
   `updated_at` DATETIME NOT NULL,
+  UNIQUE INDEX `uid_name_UNIQUE` (`uid`, `name`),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
@@ -155,5 +156,6 @@ CREATE TABLE `expense_category` (
 
   `created_at` DATETIME NOT NULL,
   `updated_at` DATETIME NOT NULL,
+  UNIQUE INDEX `uid_name_UNIQUE` (`uid`, `name`),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;

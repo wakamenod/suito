@@ -1,8 +1,11 @@
 package repositories
 
 import (
+	"errors"
 	"testing"
+	"time"
 
+	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/stretchr/testify/require"
 	"github.com/wakamenod/suito/model"
 	"github.com/wakamenod/suito/utils/testutils"
@@ -69,6 +72,67 @@ func TestFindOrCreateExpenseLocation_Created(t *testing.T) {
 	var cnt int64
 	tx.Model(&model.ExpenseLocation{}).Count(&cnt)
 	require.EqualValues(t, 2, cnt)
+}
+
+func TestFindOrCreateExpenseLocation_DuplicatedError(t *testing.T) {
+	db, mock, err := setupMockDB(t)
+	if err != nil {
+		t.Fatalf("an error '%s' was not expected when opening a stub database connection", err)
+	}
+
+	userID := "user1"
+	locationName := "Location Name"
+
+	createdAt, _ := time.Parse("2006-01-02 15:04:05", "2023-05-01 00:00:00")
+	updatedAt, _ := time.Parse("2006-01-02 15:04:05", "2023-05-01 00:00:00")
+
+	mock.ExpectBegin()
+	mock.ExpectQuery("^SELECT (.+) FROM `expense_location` WHERE (.+) ORDER BY `expense_location`.`id` LIMIT 1$").
+		WithArgs(userID, locationName).
+		WillReturnRows(sqlmock.NewRows([]string{"id", "uid", "name", "created_at", "updated_at"}))
+	mock.ExpectExec("INSERT INTO `expense_location`").
+		WithArgs(sqlmock.AnyArg(), userID, locationName, sqlmock.AnyArg(), sqlmock.AnyArg()).
+		WillReturnError(gorm.ErrDuplicatedKey)
+	mock.ExpectQuery("^SELECT (.+) FROM `expense_location` WHERE (.+) ORDER BY `expense_location`.`id` LIMIT 1$").
+		WithArgs(userID, locationName).
+		WillReturnRows(sqlmock.NewRows([]string{"id", "uid", "name", "created_at", "updated_at"}).
+			AddRow("id1",
+				userID,
+				locationName,
+				createdAt,
+				updatedAt))
+
+	// run
+	_, err = NewSuitoRepository(db).FindOrCreateExpenseLocation(userID, locationName)
+	require.NoError(t, err)
+	if err := mock.ExpectationsWereMet(); err != nil {
+		t.Errorf("there were unfulfilled expectations: %s", err)
+	}
+}
+
+func TestFindOrCreateExpenseLocation_OtherError(t *testing.T) {
+	db, mock, err := setupMockDB(t)
+	if err != nil {
+		t.Fatalf("an error '%s' was not expected when opening a stub database connection", err)
+	}
+
+	userID := "user1"
+	locationName := "Location Name"
+
+	mock.ExpectBegin()
+	mock.ExpectQuery("^SELECT (.+) FROM `expense_location` WHERE (.+) ORDER BY `expense_location`.`id` LIMIT 1$").
+		WithArgs(userID, locationName).
+		WillReturnRows(sqlmock.NewRows([]string{"id", "uid", "name", "created_at", "updated_at"}))
+	mock.ExpectExec("INSERT INTO `expense_location`").
+		WithArgs(sqlmock.AnyArg(), userID, locationName, sqlmock.AnyArg(), sqlmock.AnyArg()).
+		WillReturnError(errors.New("some unknown error"))
+
+	// run
+	_, err = NewSuitoRepository(db).FindOrCreateExpenseLocation(userID, locationName)
+	require.Error(t, err)
+	if err := mock.ExpectationsWereMet(); err != nil {
+		t.Errorf("there were unfulfilled expectations: %s", err)
+	}
 }
 
 func TestFindExpenseLocation(t *testing.T) {

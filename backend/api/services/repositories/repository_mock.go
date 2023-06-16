@@ -4,6 +4,7 @@
 package repositories
 
 import (
+	"database/sql"
 	"github.com/wakamenod/suito/model"
 	"sync"
 	"time"
@@ -27,6 +28,9 @@ var _ Repository = &RepositoryMock{}
 //			},
 //			DeleteExpenseFunc: func(id string, uid string) error {
 //				panic("mock out the DeleteExpense method")
+//			},
+//			FindAllUIDsFunc: func() ([]string, error) {
+//				panic("mock out the FindAllUIDs method")
 //			},
 //			FindExpenseFunc: func(id string, uid string) (model.Expense, error) {
 //				panic("mock out the FindExpense method")
@@ -64,6 +68,21 @@ var _ Repository = &RepositoryMock{}
 //			FindTransactionMonthsFunc: func(uid string) ([]string, error) {
 //				panic("mock out the FindTransactionMonths method")
 //			},
+//			HardDeleteAllUserExpenseCategoriesFunc: func(uid string) error {
+//				panic("mock out the HardDeleteAllUserExpenseCategories method")
+//			},
+//			HardDeleteAllUserExpenseLocationsFunc: func(uid string) error {
+//				panic("mock out the HardDeleteAllUserExpenseLocations method")
+//			},
+//			HardDeleteAllUserExpensesFunc: func(uid string) error {
+//				panic("mock out the HardDeleteAllUserExpenses method")
+//			},
+//			HardDeleteAllUserIncomesFunc: func(uid string) error {
+//				panic("mock out the HardDeleteAllUserIncomes method")
+//			},
+//			TransactionFunc: func(fc func(txRepo Repository) error, opts ...*sql.TxOptions) error {
+//				panic("mock out the Transaction method")
+//			},
 //			UpdateExpenseFunc: func(uid string, expense model.Expense) (model.Expense, error) {
 //				panic("mock out the UpdateExpense method")
 //			},
@@ -82,6 +101,9 @@ type RepositoryMock struct {
 
 	// DeleteExpenseFunc mocks the DeleteExpense method.
 	DeleteExpenseFunc func(id string, uid string) error
+
+	// FindAllUIDsFunc mocks the FindAllUIDs method.
+	FindAllUIDsFunc func() ([]string, error)
 
 	// FindExpenseFunc mocks the FindExpense method.
 	FindExpenseFunc func(id string, uid string) (model.Expense, error)
@@ -119,6 +141,21 @@ type RepositoryMock struct {
 	// FindTransactionMonthsFunc mocks the FindTransactionMonths method.
 	FindTransactionMonthsFunc func(uid string) ([]string, error)
 
+	// HardDeleteAllUserExpenseCategoriesFunc mocks the HardDeleteAllUserExpenseCategories method.
+	HardDeleteAllUserExpenseCategoriesFunc func(uid string) error
+
+	// HardDeleteAllUserExpenseLocationsFunc mocks the HardDeleteAllUserExpenseLocations method.
+	HardDeleteAllUserExpenseLocationsFunc func(uid string) error
+
+	// HardDeleteAllUserExpensesFunc mocks the HardDeleteAllUserExpenses method.
+	HardDeleteAllUserExpensesFunc func(uid string) error
+
+	// HardDeleteAllUserIncomesFunc mocks the HardDeleteAllUserIncomes method.
+	HardDeleteAllUserIncomesFunc func(uid string) error
+
+	// TransactionFunc mocks the Transaction method.
+	TransactionFunc func(fc func(txRepo Repository) error, opts ...*sql.TxOptions) error
+
 	// UpdateExpenseFunc mocks the UpdateExpense method.
 	UpdateExpenseFunc func(uid string, expense model.Expense) (model.Expense, error)
 
@@ -144,6 +181,9 @@ type RepositoryMock struct {
 			ID string
 			// UID is the uid argument value.
 			UID string
+		}
+		// FindAllUIDs holds details about calls to the FindAllUIDs method.
+		FindAllUIDs []struct {
 		}
 		// FindExpense holds details about calls to the FindExpense method.
 		FindExpense []struct {
@@ -225,6 +265,33 @@ type RepositoryMock struct {
 			// UID is the uid argument value.
 			UID string
 		}
+		// HardDeleteAllUserExpenseCategories holds details about calls to the HardDeleteAllUserExpenseCategories method.
+		HardDeleteAllUserExpenseCategories []struct {
+			// UID is the uid argument value.
+			UID string
+		}
+		// HardDeleteAllUserExpenseLocations holds details about calls to the HardDeleteAllUserExpenseLocations method.
+		HardDeleteAllUserExpenseLocations []struct {
+			// UID is the uid argument value.
+			UID string
+		}
+		// HardDeleteAllUserExpenses holds details about calls to the HardDeleteAllUserExpenses method.
+		HardDeleteAllUserExpenses []struct {
+			// UID is the uid argument value.
+			UID string
+		}
+		// HardDeleteAllUserIncomes holds details about calls to the HardDeleteAllUserIncomes method.
+		HardDeleteAllUserIncomes []struct {
+			// UID is the uid argument value.
+			UID string
+		}
+		// Transaction holds details about calls to the Transaction method.
+		Transaction []struct {
+			// Fc is the fc argument value.
+			Fc func(txRepo Repository) error
+			// Opts is the opts argument value.
+			Opts []*sql.TxOptions
+		}
 		// UpdateExpense holds details about calls to the UpdateExpense method.
 		UpdateExpense []struct {
 			// UID is the uid argument value.
@@ -233,22 +300,28 @@ type RepositoryMock struct {
 			Expense model.Expense
 		}
 	}
-	lockCreateExpense               sync.RWMutex
-	lockCreateIncome                sync.RWMutex
-	lockDeleteExpense               sync.RWMutex
-	lockFindExpense                 sync.RWMutex
-	lockFindExpenseCategories       sync.RWMutex
-	lockFindExpenseCategory         sync.RWMutex
-	lockFindExpenseLocation         sync.RWMutex
-	lockFindExpenseLocations        sync.RWMutex
-	lockFindExpenses                sync.RWMutex
-	lockFindIncome                  sync.RWMutex
-	lockFindIncomes                 sync.RWMutex
-	lockFindOrCreateExpenseCategory sync.RWMutex
-	lockFindOrCreateExpenseLocation sync.RWMutex
-	lockFindOrCreateUser            sync.RWMutex
-	lockFindTransactionMonths       sync.RWMutex
-	lockUpdateExpense               sync.RWMutex
+	lockCreateExpense                      sync.RWMutex
+	lockCreateIncome                       sync.RWMutex
+	lockDeleteExpense                      sync.RWMutex
+	lockFindAllUIDs                        sync.RWMutex
+	lockFindExpense                        sync.RWMutex
+	lockFindExpenseCategories              sync.RWMutex
+	lockFindExpenseCategory                sync.RWMutex
+	lockFindExpenseLocation                sync.RWMutex
+	lockFindExpenseLocations               sync.RWMutex
+	lockFindExpenses                       sync.RWMutex
+	lockFindIncome                         sync.RWMutex
+	lockFindIncomes                        sync.RWMutex
+	lockFindOrCreateExpenseCategory        sync.RWMutex
+	lockFindOrCreateExpenseLocation        sync.RWMutex
+	lockFindOrCreateUser                   sync.RWMutex
+	lockFindTransactionMonths              sync.RWMutex
+	lockHardDeleteAllUserExpenseCategories sync.RWMutex
+	lockHardDeleteAllUserExpenseLocations  sync.RWMutex
+	lockHardDeleteAllUserExpenses          sync.RWMutex
+	lockHardDeleteAllUserIncomes           sync.RWMutex
+	lockTransaction                        sync.RWMutex
+	lockUpdateExpense                      sync.RWMutex
 }
 
 // CreateExpense calls CreateExpenseFunc.
@@ -356,6 +429,33 @@ func (mock *RepositoryMock) DeleteExpenseCalls() []struct {
 	mock.lockDeleteExpense.RLock()
 	calls = mock.calls.DeleteExpense
 	mock.lockDeleteExpense.RUnlock()
+	return calls
+}
+
+// FindAllUIDs calls FindAllUIDsFunc.
+func (mock *RepositoryMock) FindAllUIDs() ([]string, error) {
+	if mock.FindAllUIDsFunc == nil {
+		panic("RepositoryMock.FindAllUIDsFunc: method is nil but Repository.FindAllUIDs was just called")
+	}
+	callInfo := struct {
+	}{}
+	mock.lockFindAllUIDs.Lock()
+	mock.calls.FindAllUIDs = append(mock.calls.FindAllUIDs, callInfo)
+	mock.lockFindAllUIDs.Unlock()
+	return mock.FindAllUIDsFunc()
+}
+
+// FindAllUIDsCalls gets all the calls that were made to FindAllUIDs.
+// Check the length with:
+//
+//	len(mockedRepository.FindAllUIDsCalls())
+func (mock *RepositoryMock) FindAllUIDsCalls() []struct {
+} {
+	var calls []struct {
+	}
+	mock.lockFindAllUIDs.RLock()
+	calls = mock.calls.FindAllUIDs
+	mock.lockFindAllUIDs.RUnlock()
 	return calls
 }
 
@@ -780,6 +880,170 @@ func (mock *RepositoryMock) FindTransactionMonthsCalls() []struct {
 	mock.lockFindTransactionMonths.RLock()
 	calls = mock.calls.FindTransactionMonths
 	mock.lockFindTransactionMonths.RUnlock()
+	return calls
+}
+
+// HardDeleteAllUserExpenseCategories calls HardDeleteAllUserExpenseCategoriesFunc.
+func (mock *RepositoryMock) HardDeleteAllUserExpenseCategories(uid string) error {
+	if mock.HardDeleteAllUserExpenseCategoriesFunc == nil {
+		panic("RepositoryMock.HardDeleteAllUserExpenseCategoriesFunc: method is nil but Repository.HardDeleteAllUserExpenseCategories was just called")
+	}
+	callInfo := struct {
+		UID string
+	}{
+		UID: uid,
+	}
+	mock.lockHardDeleteAllUserExpenseCategories.Lock()
+	mock.calls.HardDeleteAllUserExpenseCategories = append(mock.calls.HardDeleteAllUserExpenseCategories, callInfo)
+	mock.lockHardDeleteAllUserExpenseCategories.Unlock()
+	return mock.HardDeleteAllUserExpenseCategoriesFunc(uid)
+}
+
+// HardDeleteAllUserExpenseCategoriesCalls gets all the calls that were made to HardDeleteAllUserExpenseCategories.
+// Check the length with:
+//
+//	len(mockedRepository.HardDeleteAllUserExpenseCategoriesCalls())
+func (mock *RepositoryMock) HardDeleteAllUserExpenseCategoriesCalls() []struct {
+	UID string
+} {
+	var calls []struct {
+		UID string
+	}
+	mock.lockHardDeleteAllUserExpenseCategories.RLock()
+	calls = mock.calls.HardDeleteAllUserExpenseCategories
+	mock.lockHardDeleteAllUserExpenseCategories.RUnlock()
+	return calls
+}
+
+// HardDeleteAllUserExpenseLocations calls HardDeleteAllUserExpenseLocationsFunc.
+func (mock *RepositoryMock) HardDeleteAllUserExpenseLocations(uid string) error {
+	if mock.HardDeleteAllUserExpenseLocationsFunc == nil {
+		panic("RepositoryMock.HardDeleteAllUserExpenseLocationsFunc: method is nil but Repository.HardDeleteAllUserExpenseLocations was just called")
+	}
+	callInfo := struct {
+		UID string
+	}{
+		UID: uid,
+	}
+	mock.lockHardDeleteAllUserExpenseLocations.Lock()
+	mock.calls.HardDeleteAllUserExpenseLocations = append(mock.calls.HardDeleteAllUserExpenseLocations, callInfo)
+	mock.lockHardDeleteAllUserExpenseLocations.Unlock()
+	return mock.HardDeleteAllUserExpenseLocationsFunc(uid)
+}
+
+// HardDeleteAllUserExpenseLocationsCalls gets all the calls that were made to HardDeleteAllUserExpenseLocations.
+// Check the length with:
+//
+//	len(mockedRepository.HardDeleteAllUserExpenseLocationsCalls())
+func (mock *RepositoryMock) HardDeleteAllUserExpenseLocationsCalls() []struct {
+	UID string
+} {
+	var calls []struct {
+		UID string
+	}
+	mock.lockHardDeleteAllUserExpenseLocations.RLock()
+	calls = mock.calls.HardDeleteAllUserExpenseLocations
+	mock.lockHardDeleteAllUserExpenseLocations.RUnlock()
+	return calls
+}
+
+// HardDeleteAllUserExpenses calls HardDeleteAllUserExpensesFunc.
+func (mock *RepositoryMock) HardDeleteAllUserExpenses(uid string) error {
+	if mock.HardDeleteAllUserExpensesFunc == nil {
+		panic("RepositoryMock.HardDeleteAllUserExpensesFunc: method is nil but Repository.HardDeleteAllUserExpenses was just called")
+	}
+	callInfo := struct {
+		UID string
+	}{
+		UID: uid,
+	}
+	mock.lockHardDeleteAllUserExpenses.Lock()
+	mock.calls.HardDeleteAllUserExpenses = append(mock.calls.HardDeleteAllUserExpenses, callInfo)
+	mock.lockHardDeleteAllUserExpenses.Unlock()
+	return mock.HardDeleteAllUserExpensesFunc(uid)
+}
+
+// HardDeleteAllUserExpensesCalls gets all the calls that were made to HardDeleteAllUserExpenses.
+// Check the length with:
+//
+//	len(mockedRepository.HardDeleteAllUserExpensesCalls())
+func (mock *RepositoryMock) HardDeleteAllUserExpensesCalls() []struct {
+	UID string
+} {
+	var calls []struct {
+		UID string
+	}
+	mock.lockHardDeleteAllUserExpenses.RLock()
+	calls = mock.calls.HardDeleteAllUserExpenses
+	mock.lockHardDeleteAllUserExpenses.RUnlock()
+	return calls
+}
+
+// HardDeleteAllUserIncomes calls HardDeleteAllUserIncomesFunc.
+func (mock *RepositoryMock) HardDeleteAllUserIncomes(uid string) error {
+	if mock.HardDeleteAllUserIncomesFunc == nil {
+		panic("RepositoryMock.HardDeleteAllUserIncomesFunc: method is nil but Repository.HardDeleteAllUserIncomes was just called")
+	}
+	callInfo := struct {
+		UID string
+	}{
+		UID: uid,
+	}
+	mock.lockHardDeleteAllUserIncomes.Lock()
+	mock.calls.HardDeleteAllUserIncomes = append(mock.calls.HardDeleteAllUserIncomes, callInfo)
+	mock.lockHardDeleteAllUserIncomes.Unlock()
+	return mock.HardDeleteAllUserIncomesFunc(uid)
+}
+
+// HardDeleteAllUserIncomesCalls gets all the calls that were made to HardDeleteAllUserIncomes.
+// Check the length with:
+//
+//	len(mockedRepository.HardDeleteAllUserIncomesCalls())
+func (mock *RepositoryMock) HardDeleteAllUserIncomesCalls() []struct {
+	UID string
+} {
+	var calls []struct {
+		UID string
+	}
+	mock.lockHardDeleteAllUserIncomes.RLock()
+	calls = mock.calls.HardDeleteAllUserIncomes
+	mock.lockHardDeleteAllUserIncomes.RUnlock()
+	return calls
+}
+
+// Transaction calls TransactionFunc.
+func (mock *RepositoryMock) Transaction(fc func(txRepo Repository) error, opts ...*sql.TxOptions) error {
+	if mock.TransactionFunc == nil {
+		panic("RepositoryMock.TransactionFunc: method is nil but Repository.Transaction was just called")
+	}
+	callInfo := struct {
+		Fc   func(txRepo Repository) error
+		Opts []*sql.TxOptions
+	}{
+		Fc:   fc,
+		Opts: opts,
+	}
+	mock.lockTransaction.Lock()
+	mock.calls.Transaction = append(mock.calls.Transaction, callInfo)
+	mock.lockTransaction.Unlock()
+	return mock.TransactionFunc(fc, opts...)
+}
+
+// TransactionCalls gets all the calls that were made to Transaction.
+// Check the length with:
+//
+//	len(mockedRepository.TransactionCalls())
+func (mock *RepositoryMock) TransactionCalls() []struct {
+	Fc   func(txRepo Repository) error
+	Opts []*sql.TxOptions
+} {
+	var calls []struct {
+		Fc   func(txRepo Repository) error
+		Opts []*sql.TxOptions
+	}
+	mock.lockTransaction.RLock()
+	calls = mock.calls.Transaction
+	mock.lockTransaction.RUnlock()
 	return calls
 }
 

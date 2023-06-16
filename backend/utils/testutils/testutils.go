@@ -108,3 +108,10 @@ func (e *TestDataInserter) InsertUser(uid string, deletedAt gorm.DeletedAt) mode
 	require.NoError(e.t, e.db.Create(&user).Error, "failed to insert user")
 	return user
 }
+
+// SkipIfShort skips t if the "-short" flag is passed to "go test".
+func SkipIfShort(t *testing.T) {
+	if testing.Short() {
+		t.SkipNow()
+	}
+}

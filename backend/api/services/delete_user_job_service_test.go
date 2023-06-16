@@ -1,64 +1,22 @@
-package jobs
+package services
 
 import (
 	"context"
-	"fmt"
 	"os"
 	"testing"
 
 	"firebase.google.com/go/v4/auth"
 	"github.com/joho/godotenv"
-	"github.com/pkg/errors"
-	"github.com/spf13/viper"
 	"github.com/stretchr/testify/require"
 	"github.com/wakamenod/suito/api/repositories"
 	"github.com/wakamenod/suito/client"
-	"github.com/wakamenod/suito/integrationtest"
+	"github.com/wakamenod/suito/db"
 	"github.com/wakamenod/suito/log"
 	"github.com/wakamenod/suito/model"
 	"github.com/wakamenod/suito/utils/testutils"
-	"go.uber.org/zap"
 	"google.golang.org/api/iterator"
-	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
-	gormlogger "gorm.io/gorm/logger"
-	"moul.io/zapgorm2"
 )
-
-func initLogger() error {
-	viper.SetConfigFile("../config/config.test.toml")
-	if err := viper.ReadInConfig(); err != nil {
-		return errors.Wrap(err, "config read error")
-	}
-
-	outPath := viper.GetString("log.log")
-	errPath := viper.GetString("log.err_log")
-	level := viper.GetString("log.level")
-	c := log.LogConfig{
-		OutPath: outPath,
-		ErrPath: errPath,
-		Level:   level,
-	}
-	if err := log.Init(c); err != nil {
-		return errors.Wrap(err, "failed to init logger")
-	}
-
-	return nil
-}
-
-func TestGetFirebaseUsers(t *testing.T) {
-	integrationtest.SkipIfShort(t)
-
-	require.NoError(t, initLogger())
-	require.NoError(t, godotenv.Load("../../.env.suito"))
-	require.NoError(t, os.Setenv("GOOGLE_APPLICATION_CREDENTIALS", "../firebase-adminsdk.json"))
-
-	authClient := client.NewFirebaseAuthClient()
-	job := newDeleteUserJob(authClient, nil)
-	res, err := job.fetchFirebaseUsers()
-	require.NoError(t, err)
-	require.True(t, res[os.Getenv("FIREBASE_UID")])
-}
 
 type userQueue []*auth.ExportedUserRecord
 
@@ -70,6 +28,19 @@ func (q *userQueue) deq() *auth.ExportedUserRecord {
 	res := (*q)[0]
 	*q = (*q)[1:]
 	return res
+}
+
+func TestGetFirebaseUsers(t *testing.T) {
+	testutils.SkipIfShort(t)
+
+	require.NoError(t, log.InitWithConfigPath("../../config/config.test.toml"))
+	require.NoError(t, godotenv.Load("../../../.env.suito"))
+	require.NoError(t, os.Setenv("GOOGLE_APPLICATION_CREDENTIALS", "../../firebase-adminsdk.json"))
+
+	authClient := client.NewFirebaseAuthClient()
+	res, err := fetchFirebaseUsers(authClient)
+	require.NoError(t, err)
+	require.True(t, res[os.Getenv("FIREBASE_UID")])
 }
 
 func TestGetFirebaseUsers_Mock(t *testing.T) {
@@ -93,65 +64,25 @@ func TestGetFirebaseUsers_Mock(t *testing.T) {
 			return &authIteratorMock
 		},
 	}
-	job := newDeleteUserJob(authClientMock, nil)
-	res, err := job.fetchFirebaseUsers()
+	res, err := fetchFirebaseUsers(authClientMock)
 	require.NoError(t, err)
 	require.Equal(t, 3, len(res))
 }
 
-func TestGetFirebaseUsers_MockError(t *testing.T) {
-	authIteratorMock := client.AuthUserIteratorMock{
-		NextFunc: func() (*auth.ExportedUserRecord, error) {
-			return nil, errors.New("unknown error")
-		},
-	}
-
-	authClientMock := &client.AuthClientMock{
-		UsersFunc: func(ctx context.Context, nextPageToken string) client.AuthUserIterator {
-			return &authIteratorMock
-		},
-	}
-	job := newDeleteUserJob(authClientMock, nil)
-	_, err := job.fetchFirebaseUsers()
-	require.Error(t, err)
-}
-
-var testDB *gorm.DB
-
-// TODO openDB...
-func openDB() error {
-	if err := godotenv.Load("../../.env.suito"); err != nil {
-		return errors.Wrap(err, "failed to load env file")
-	}
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True",
-		os.Getenv("DB_USER"),
-		os.Getenv("DB_PASS"),
-		os.Getenv("DB_HOST"),
-		os.Getenv("DB_PORT"),
-		os.Getenv("DB_NAME_TEST"),
-	)
-	err := initLogger()
+func openDB() *gorm.DB {
+	err := log.InitWithConfigPath("../../config/config.test.toml")
 	if err != nil {
-		return err
+		log.Fatal("failed to init config", nil)
 	}
-	logger := zapgorm2.New(zap.L())
-	logger.SetAsDefault()
-	logger.LogLevel = gormlogger.Info
-	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
-		Logger: logger,
-	})
-	if err != nil {
-		return errors.Wrap(err, "failed to open test DB")
+	if err := godotenv.Load("../../../.env.suito"); err != nil {
+		log.Fatal("failed to load env file", nil)
 	}
-	testDB = db
-	return nil
+	return db.OpenDB()
 }
 
 func begin() *gorm.DB {
-	if err := openDB(); err != nil {
-		log.Fatal("open DB err", log.Fields{"err": err})
-	}
-	tx := testDB.Begin()
+	db := openDB()
+	tx := db.Begin()
 	if tx.Error != nil {
 		log.Fatal("begin transaction err", log.Fields{"err": tx.Error})
 	}
@@ -213,11 +144,10 @@ func TestDoDeleteUserJob(t *testing.T) {
 		},
 	}
 
-	newDeleteUserJob(authClientMock, repositories.NewSuitoRepository(tx)).do()
+	require.NoError(t, NewSuitoJobService(repositories.NewSuitoRepository(tx), authClientMock).DeleteUsersJobService())
 
 	// check
 	var cnt int64
-
 	{
 		require.Error(t, tx.Unscoped().Where("uid = ?", userDeleted.UID).First(&model.Expense{}).Error)
 		tx.Model(&model.Expense{}).Count(&cnt)

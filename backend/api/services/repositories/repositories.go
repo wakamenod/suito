@@ -1,12 +1,14 @@
 package repositories
 
 import (
+	"database/sql"
 	"time"
 
 	"github.com/wakamenod/suito/model"
 )
 
 type Repository interface {
+	Transaction(fc func(txRepo Repository) error, opts ...*sql.TxOptions) (err error)
 	FindExpense(id, uid string) (model.Expense, error)
 	FindExpenses(uid string, start, end *time.Time) ([]model.Expense, error)
 	FindIncome(id, uid string) (model.Income, error)
@@ -23,4 +25,9 @@ type Repository interface {
 	UpdateExpense(uid string, expense model.Expense) (model.Expense, error)
 	DeleteExpense(id, uid string) error
 	FindOrCreateUser(uid string) (model.User, error)
+	FindAllUIDs() ([]string, error)
+	HardDeleteAllUserExpenseCategories(uid string) error
+	HardDeleteAllUserExpenseLocations(uid string) error
+	HardDeleteAllUserExpenses(uid string) error
+	HardDeleteAllUserIncomes(uid string) error
 }

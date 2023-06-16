@@ -3,6 +3,7 @@ package services
 import (
 	"strings"
 
+	"github.com/wakamenod/suito/api/services/repositories"
 	"github.com/wakamenod/suito/model"
 )
 
@@ -48,26 +49,36 @@ func (s *SuitoService) ListExpenseLocationService(uid string) ([]model.ExpenseLo
 }
 
 func (s *SuitoService) CreateExpenseService(uid string, expense model.Expense, categoryName, locationName string) (model.Expense, error) {
-	if categoryName != "" {
-		category, err := s.repo.FindOrCreateExpenseCategory(uid, strings.TrimSpace(categoryName))
-		if err != nil {
-			return model.Expense{}, err
+	var res model.Expense
+
+	err := s.repo.Transaction(func(txRepo repositories.Repository) error {
+		if categoryName != "" {
+			category, err := s.repo.FindOrCreateExpenseCategory(uid, strings.TrimSpace(categoryName))
+			if err != nil {
+				return err
+			}
+			expense.ExpenseCategoryID = category.ID
 		}
-		expense.ExpenseCategoryID = category.ID
-	}
-	if locationName != "" {
-		location, err := s.repo.FindOrCreateExpenseLocation(uid, strings.TrimSpace(locationName))
-		if err != nil {
-			return model.Expense{}, err
+		if locationName != "" {
+			location, err := s.repo.FindOrCreateExpenseLocation(uid, strings.TrimSpace(locationName))
+			if err != nil {
+				return err
+			}
+			expense.ExpenseLocationID = location.ID
 		}
-		expense.ExpenseLocationID = location.ID
+
+		expense, err := s.repo.CreateExpense(uid, expense)
+		if err != nil {
+			return err
+		}
+		res = expense
+		return nil
+	})
+	if err != nil {
+		return res, err
 	}
 
-	expense, err := s.repo.CreateExpense(uid, expense)
-	if err != nil {
-		return expense, err
-	}
-	return expense, nil
+	return res, nil
 }
 
 func (s *SuitoService) UpdateExpenseService(uid string, expense model.Expense, categoryName, locationName string) (model.Expense, error) {

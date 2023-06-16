@@ -14,7 +14,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func SetupMockDB(t *testing.T) (*gorm.DB, sqlmock.Sqlmock, error) {
+func setupMockDB(t *testing.T) (*gorm.DB, sqlmock.Sqlmock, error) {
 	mockDB, mock, err := sqlmock.New()
 	if err != nil {
 		return nil, nil, err
@@ -33,7 +33,7 @@ func SetupMockDB(t *testing.T) (*gorm.DB, sqlmock.Sqlmock, error) {
 }
 
 func TestFindExpensesUsingMock(t *testing.T) {
-	db, mock, err := SetupMockDB(t)
+	db, mock, err := setupMockDB(t)
 	if err != nil {
 		t.Fatalf("an error '%s' was not expected when opening a stub database connection", err)
 	}
