@@ -5,8 +5,8 @@ import 'package:go_router/go_router.dart';
 import 'package:suito/src/features/authentication/presentation/profile/custom_profile_screen.dart';
 import 'package:suito/src/features/authentication/presentation/sign_in/custom_sign_in_screen.dart';
 import 'package:suito/src/features/authentication/presentation/sign_out/custom_sign_out_screen.dart';
+import 'package:suito/src/features/charts/presentation/charts_screen.dart';
 import 'package:suito/src/features/schedule/presentation/schedule_screen.dart';
-import 'package:suito/src/features/stats/presentation/stats_screen.dart';
 import 'package:suito/src/features/transactions/presentations/expense_category_screen.dart';
 import 'package:suito/src/features/transactions/presentations/expense_location_screen.dart';
 import 'package:suito/src/features/transactions/presentations/expense_memo_screen.dart';
@@ -72,7 +72,8 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       ShellRoute(
         builder: (BuildContext context, GoRouterState state, Widget child) {
           return ShellScreen(
-              route: NavigationBarRouteX.fromName(state.name), child: child);
+              route: NavigationBarRouteX.fromPath(state.fullPath),
+              child: child);
         },
         routes: [
           GoRoute(
@@ -125,10 +126,10 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                     ]),
               ]),
           GoRoute(
-              name: NavigationBarRoute.stats.name,
-              path: NavigationBarRoute.stats.path,
+              name: NavigationBarRoute.charts.name,
+              path: NavigationBarRoute.charts.path,
               pageBuilder: (context, state) =>
-                  const NoTransitionPage(child: StatsScreen())),
+                  const NoTransitionPage(child: ChartsScreen())),
           GoRoute(
               name: NavigationBarRoute.schedule.name,
               path: NavigationBarRoute.schedule.path,
