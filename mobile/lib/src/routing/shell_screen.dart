@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 enum NavigationBarRoute {
   transactions(
       path: '/transactions', icon: Icons.list_alt, labelName: 'Transactions'),
-  stats(path: '/stats', icon: Icons.query_stats, labelName: 'Stats'),
+  charts(path: '/charts', icon: Icons.stacked_bar_chart, labelName: 'Charts'),
   schedule(path: '/schedule', icon: Icons.schedule, labelName: 'Schedule');
 
   const NavigationBarRoute(
@@ -16,8 +16,8 @@ enum NavigationBarRoute {
 }
 
 extension NavigationBarRouteX on NavigationBarRoute {
-  static NavigationBarRoute fromName(String? name) {
-    return NavigationBarRoute.values.firstWhere((r) => r.name == name,
+  static NavigationBarRoute fromPath(String? path) {
+    return NavigationBarRoute.values.firstWhere((r) => r.path == path,
         orElse: () => NavigationBarRoute.transactions);
   }
 }
