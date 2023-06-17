@@ -37,6 +37,7 @@ dependencies:
   slang: ^3.18.1
   slang_flutter: ^3.18.0
   flutter_launcher_icons: ^0.13.1
+  toggle_switch: ^2.1.0
 
 dev_dependencies:
   custom_lint: 0.3.4
