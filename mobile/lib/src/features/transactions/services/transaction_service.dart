@@ -7,11 +7,24 @@ import 'transactions_total_amounts.dart';
 
 part 'transaction_service.g.dart';
 
+enum TransactionType {
+  expense(value: 1),
+  income(value: 2);
+
+  const TransactionType({required this.value});
+
+  final int value;
+
+  static bool isExpense(val) => val == expense.value;
+  static bool isIncome(val) => val == income.value;
+  static valueOf(val) => isExpense(val) ? expense : income;
+}
+
 TransactionsTotalAmounts _calcTotalAmounts(List<Transaction> list) {
   var expense = 0;
   var income = 0;
   for (var tr in list) {
-    if (tr.type == 1) {
+    if (TransactionType.isExpense(tr.type)) {
       expense += tr.amount;
     } else {
       income += tr.amount;

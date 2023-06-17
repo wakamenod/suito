@@ -81,7 +81,10 @@ class TransactionsList extends ConsumerWidget {
               child: GestureDetector(
                   onTap: () {
                     context.goNamed(AppRoute.transactionDetail.name,
-                        extra: transaction.id);
+                        queryParameters: {
+                          'id': transaction.id,
+                          'type': transaction.type.toString()
+                        });
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 40),
@@ -96,7 +99,8 @@ class TransactionsList extends ConsumerWidget {
                             child: Text(
                                 currencyFormatter.format(transaction.amount),
                                 style: TextStyle(
-                                    color: transaction.type == 1
+                                    color: TransactionType.isExpense(
+                                            transaction.type)
                                         ? Colors.red
                                         : Colors.green)),
                           )),
