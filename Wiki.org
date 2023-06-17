@@ -46,3 +46,6 @@ $ scp ./web/build.tar.gz xxxx:/to/app/path
 
 この後、Lightsailの22番ポートを閉じて、ssmでログインする。
 ログイン後にbuild.tar.gzを =web= ディレクトリで解凍し、docker-composeを再起動すればデプロイ完了
+* アプリアイコン
+https://www.canva.com/ で作成
+./mobile/assets/ にファイルを配置して、 =makers icon= コマンドで各OS用に展開される
