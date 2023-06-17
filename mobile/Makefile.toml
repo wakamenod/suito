@@ -67,6 +67,11 @@ script = '''
 fvm flutter build appbundle  --obfuscate --split-debug-info=obfuscate/android
 '''
 
+[tasks.icon]
+script = '''
+fvm flutter pub run flutter_launcher_icons:main
+'''
+
 [tasks.api-generate]
 script = '''
   rm -fr ./openapi/
