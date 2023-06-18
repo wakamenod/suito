@@ -40,6 +40,7 @@ class _BearerAuthInterceptor extends Interceptor {
   ) async {
     final token = await _auth.currentUser?.getIdToken();
     options.headers['Authorization'] = 'Bearer $token';
+    options.headers['X-Suito-Header'] = 'Suito';
     super.onRequest(options, handler);
   }
 }
