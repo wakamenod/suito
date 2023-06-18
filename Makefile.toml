@@ -29,7 +29,7 @@ docker-compose up -d
 script = '''
 cd backend && makers build-prod
 cd ../
-docker-compose -f docker-compose.prod.yml up -d
+docker-compose -f docker-compose-prod.yml up -d
 '''
 
 [tasks.up-log]
@@ -45,7 +45,7 @@ docker-compose up
 script = '''
 cd backend && makers build-prod
 cd ../
-docker-compose -f docker-compose.prod.yml up
+docker-compose -f docker-compose-prod.yml up
 '''
 
 [tasks.down]
