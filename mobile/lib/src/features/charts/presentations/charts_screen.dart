@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:suito/src/features/charts/presentations/column_chart_view.dart';
 import 'package:suito/src/features/charts/presentations/pie_chart_view.dart';
 
 class ChartsScreen extends ConsumerWidget {
@@ -24,8 +25,9 @@ class ChartsScreen extends ConsumerWidget {
           title: const Text('Charts'),
         ),
         body: const TabBarView(
+          physics: NeverScrollableScrollPhysics(),
           children: [
-            Icon(Icons.flight, size: 350),
+            ColumnChartView(),
             PieChartView(),
           ],
         ),
