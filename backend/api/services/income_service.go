@@ -1,6 +1,11 @@
 package services
 
-import "github.com/wakamenod/suito/model"
+import (
+	"strings"
+
+	"github.com/wakamenod/suito/api/services/repositories"
+	"github.com/wakamenod/suito/model"
+)
 
 func (s *SuitoService) FindIncomeService(id, uid string) (model.Income, error) {
 	income, err := s.repo.FindIncome(id, uid)
@@ -10,10 +15,35 @@ func (s *SuitoService) FindIncomeService(id, uid string) (model.Income, error) {
 	return income, nil
 }
 
-func (s *SuitoService) CreateIncomeService(uid string, income model.Income) (model.Income, error) {
-	income, err := s.repo.CreateIncome(uid, income)
+func (s *SuitoService) ListIncomeTypesService(uid string) ([]model.IncomeType, error) {
+	incomeTypes, err := s.repo.FindIncomeTypes(uid)
 	if err != nil {
-		return income, err
+		return nil, err
 	}
-	return income, nil
+	return incomeTypes, nil
+}
+
+func (s *SuitoService) CreateIncomeService(uid string, income model.Income) (model.Income, error) {
+	var res model.Income
+
+	err := s.repo.Transaction(func(txRepo repositories.Repository) error {
+		if income.IncomeType.Name != "" {
+			incomeType, err := s.repo.FindOrCreateExpenseLocation(uid, strings.TrimSpace(income.IncomeType.Name))
+			if err != nil {
+				return err
+			}
+			income.IncomeTypeID = incomeType.ID
+		}
+
+		income, err := s.repo.CreateIncome(uid, income)
+		if err != nil {
+			return err
+		}
+		res = income
+		return nil
+	})
+	if err != nil {
+		return res, err
+	}
+	return res, nil
 }

@@ -7,12 +7,13 @@ import (
 )
 
 type Income struct {
-	ID        string    `gorm:"type:varchar(20);primaryKey" json:"id"`
-	UID       string    `gorm:"type:varchar(128)" json:"-"`
-	Title     string    `gorm:"type:varchar(256)" json:"title" validate:"required"`
-	Amount    int       `gorm:"type:int" json:"amount" validate:"required"`
-	Memo      string    `gorm:"type:varchar(512)" json:"memo"`
-	LocalDate time.Time `gorm:"type:date" json:"local_date" validate:"required"`
+	ID           string     `gorm:"type:varchar(20);primaryKey" json:"id"`
+	UID          string     `gorm:"type:varchar(128)" json:"-"`
+	IncomeType   IncomeType `gorm:"foreignKey:IncomeTypeID;" json:"income_type"`
+	IncomeTypeID string     `gorm:"type:varchar(20)" json:"-"`
+	Amount       int        `gorm:"type:int" json:"amount" validate:"required"`
+	Memo         string     `gorm:"type:varchar(512)" json:"memo"`
+	LocalDate    time.Time  `gorm:"type:date" json:"local_date" validate:"required"`
 
 	DeletedAt gorm.DeletedAt `json:"-"`
 	CreatedAt time.Time      `json:"-"`

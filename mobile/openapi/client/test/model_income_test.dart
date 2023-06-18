@@ -17,6 +17,11 @@ void main() {
       // TODO
     });
 
+    // ModelIncomeType incomeType
+    test('to test the property `incomeType`', () async {
+      // TODO
+    });
+
     // String localDate
     test('to test the property `localDate`', () async {
       // TODO
@@ -24,11 +29,6 @@ void main() {
 
     // String memo
     test('to test the property `memo`', () async {
-      // TODO
-    });
-
-    // String title
-    test('to test the property `title`', () async {
       // TODO
     });
 

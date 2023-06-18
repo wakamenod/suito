@@ -16,6 +16,15 @@ void main() {
       // TODO
     });
 
+    // List income types
+    //
+    // 収入種別一覧を返却します.
+    //
+    //Future<ListIncomeTypesRes> listIncomeTypes() async
+    test('test listIncomeTypes', () async {
+      // TODO
+    });
+
     // Register income
     //
     // 収入情報を登録します

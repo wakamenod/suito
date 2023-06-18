@@ -3,83 +3,55 @@
 //
 
 // ignore_for_file: unused_element
-import 'package:openapi/src/model/model_income_type.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
-part 'model_income.g.dart';
+part 'model_income_type.g.dart';
 
-/// ModelIncome
+/// ModelIncomeType
 ///
 /// Properties:
-/// * [amount] 
 /// * [id] 
-/// * [incomeType] 
-/// * [localDate] 
-/// * [memo] 
+/// * [name] 
 @BuiltValue()
-abstract class ModelIncome implements Built<ModelIncome, ModelIncomeBuilder> {
-  @BuiltValueField(wireName: r'amount')
-  int get amount;
-
+abstract class ModelIncomeType implements Built<ModelIncomeType, ModelIncomeTypeBuilder> {
   @BuiltValueField(wireName: r'id')
   String get id;
 
-  @BuiltValueField(wireName: r'income_type')
-  ModelIncomeType get incomeType;
+  @BuiltValueField(wireName: r'name')
+  String get name;
 
-  @BuiltValueField(wireName: r'local_date')
-  String get localDate;
+  ModelIncomeType._();
 
-  @BuiltValueField(wireName: r'memo')
-  String get memo;
-
-  ModelIncome._();
-
-  factory ModelIncome([void updates(ModelIncomeBuilder b)]) = _$ModelIncome;
+  factory ModelIncomeType([void updates(ModelIncomeTypeBuilder b)]) = _$ModelIncomeType;
 
   @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(ModelIncomeBuilder b) => b;
+  static void _defaults(ModelIncomeTypeBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<ModelIncome> get serializer => _$ModelIncomeSerializer();
+  static Serializer<ModelIncomeType> get serializer => _$ModelIncomeTypeSerializer();
 }
 
-class _$ModelIncomeSerializer implements PrimitiveSerializer<ModelIncome> {
+class _$ModelIncomeTypeSerializer implements PrimitiveSerializer<ModelIncomeType> {
   @override
-  final Iterable<Type> types = const [ModelIncome, _$ModelIncome];
+  final Iterable<Type> types = const [ModelIncomeType, _$ModelIncomeType];
 
   @override
-  final String wireName = r'ModelIncome';
+  final String wireName = r'ModelIncomeType';
 
   Iterable<Object?> _serializeProperties(
     Serializers serializers,
-    ModelIncome object, {
+    ModelIncomeType object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'amount';
-    yield serializers.serialize(
-      object.amount,
-      specifiedType: const FullType(int),
-    );
     yield r'id';
     yield serializers.serialize(
       object.id,
       specifiedType: const FullType(String),
     );
-    yield r'income_type';
+    yield r'name';
     yield serializers.serialize(
-      object.incomeType,
-      specifiedType: const FullType(ModelIncomeType),
-    );
-    yield r'local_date';
-    yield serializers.serialize(
-      object.localDate,
-      specifiedType: const FullType(String),
-    );
-    yield r'memo';
-    yield serializers.serialize(
-      object.memo,
+      object.name,
       specifiedType: const FullType(String),
     );
   }
@@ -87,7 +59,7 @@ class _$ModelIncomeSerializer implements PrimitiveSerializer<ModelIncome> {
   @override
   Object serialize(
     Serializers serializers,
-    ModelIncome object, {
+    ModelIncomeType object, {
     FullType specifiedType = FullType.unspecified,
   }) {
     return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
@@ -98,20 +70,13 @@ class _$ModelIncomeSerializer implements PrimitiveSerializer<ModelIncome> {
     Object serialized, {
     FullType specifiedType = FullType.unspecified,
     required List<Object?> serializedList,
-    required ModelIncomeBuilder result,
+    required ModelIncomeTypeBuilder result,
     required List<Object?> unhandled,
   }) {
     for (var i = 0; i < serializedList.length; i += 2) {
       final key = serializedList[i] as String;
       final value = serializedList[i + 1];
       switch (key) {
-        case r'amount':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(int),
-          ) as int;
-          result.amount = valueDes;
-          break;
         case r'id':
           final valueDes = serializers.deserialize(
             value,
@@ -119,26 +84,12 @@ class _$ModelIncomeSerializer implements PrimitiveSerializer<ModelIncome> {
           ) as String;
           result.id = valueDes;
           break;
-        case r'income_type':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(ModelIncomeType),
-          ) as ModelIncomeType;
-          result.incomeType.replace(valueDes);
-          break;
-        case r'local_date':
+        case r'name':
           final valueDes = serializers.deserialize(
             value,
             specifiedType: const FullType(String),
           ) as String;
-          result.localDate = valueDes;
-          break;
-        case r'memo':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.memo = valueDes;
+          result.name = valueDes;
           break;
         default:
           unhandled.add(key);
@@ -149,12 +100,12 @@ class _$ModelIncomeSerializer implements PrimitiveSerializer<ModelIncome> {
   }
 
   @override
-  ModelIncome deserialize(
+  ModelIncomeType deserialize(
     Serializers serializers,
     Object serialized, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    final result = ModelIncomeBuilder();
+    final result = ModelIncomeTypeBuilder();
     final serializedList = (serialized as Iterable<Object?>).toList();
     final unhandled = <Object?>[];
     _deserializeProperties(

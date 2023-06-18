@@ -212,6 +212,26 @@ paths:
               schema:
                 $ref: '#/components/schemas/SuitoError'
       x-codegen-request-body-name: request
+  /income/types:
+    get:
+      tags:
+      - suito.income
+      summary: List income types
+      description: 収入種別一覧を返却します.
+      operationId: listIncomeTypes
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListIncomeTypesRes'
+        500:
+          description: Unknown Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuitoError'
   /ping:
     get:
       tags:
@@ -336,6 +356,15 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/model.ExpenseLocation'
+    ListIncomeTypesRes:
+      required:
+      - incomeTypes
+      type: object
+      properties:
+        incomeTypes:
+          type: array
+          items:
+            $ref: '#/components/schemas/model.IncomeType'
     ListTransactionsRes:
       required:
       - transactions
@@ -477,18 +506,28 @@ components:
       required:
       - amount
       - id
+      - income_type
       - local_date
       - memo
-      - title
       type: object
       properties:
         amount:
           type: integer
         id:
           type: string
+        income_type:
+          $ref: '#/components/schemas/model.IncomeType'
         local_date:
           type: string
         memo:
           type: string
-        title:
+    model.IncomeType:
+      required:
+      - id
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+        name:
           type: string

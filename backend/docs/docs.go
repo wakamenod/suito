@@ -318,6 +318,36 @@ const docTemplate = `{
                 }
             }
         },
+        "/income/types": {
+            "get": {
+                "description": "収入種別一覧を返却します.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "suito.income"
+                ],
+                "summary": "List income types",
+                "operationId": "listIncomeTypes",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/ListIncomeTypesRes"
+                        }
+                    },
+                    "500": {
+                        "description": "Unknown Error",
+                        "schema": {
+                            "$ref": "#/definitions/SuitoError"
+                        }
+                    }
+                }
+            }
+        },
         "/ping": {
             "get": {
                 "description": "Ping",
@@ -500,6 +530,20 @@ const docTemplate = `{
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/model.ExpenseLocation"
+                    }
+                }
+            }
+        },
+        "ListIncomeTypesRes": {
+            "type": "object",
+            "required": [
+                "incomeTypes"
+            ],
+            "properties": {
+                "incomeTypes": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.IncomeType"
                     }
                 }
             }
@@ -718,9 +762,9 @@ const docTemplate = `{
             "required": [
                 "amount",
                 "id",
+                "income_type",
                 "local_date",
-                "memo",
-                "title"
+                "memo"
             ],
             "properties": {
                 "amount": {
@@ -729,13 +773,28 @@ const docTemplate = `{
                 "id": {
                     "type": "string"
                 },
+                "income_type": {
+                    "$ref": "#/definitions/model.IncomeType"
+                },
                 "local_date": {
                     "type": "string"
                 },
                 "memo": {
                     "type": "string"
+                }
+            }
+        },
+        "model.IncomeType": {
+            "type": "object",
+            "required": [
+                "id",
+                "name"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string"
                 },
-                "title": {
+                "name": {
                     "type": "string"
                 }
             }

@@ -43,8 +43,8 @@ CREATE TABLE `income` (
   `id` VARCHAR(20) NOT NULL,
   -- UID
   `uid` VARCHAR(128) NOT NULL,
-  -- Title
-  `title` VARCHAR(256) NOT NULL,
+  -- Income Type ID
+  `income_type_id` VARCHAR(20) NOT NULL,
   -- Amount
   `amount` INT NOT NULL,
   -- Memo
@@ -147,6 +147,21 @@ CREATE TABLE `expense_location` (
 
 -- Expense Category
 CREATE TABLE `expense_category` (
+  -- ID
+  `id` VARCHAR(20) NOT NULL,
+  -- UID
+  `uid` VARCHAR(128) NOT NULL,
+  -- Name
+  `name` VARCHAR(256) NOT NULL,
+
+  `created_at` DATETIME NOT NULL,
+  `updated_at` DATETIME NOT NULL,
+  UNIQUE INDEX `uid_name_UNIQUE` (`uid`, `name`),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+-- Income Type
+CREATE TABLE `income_type` (
   -- ID
   `id` VARCHAR(20) NOT NULL,
   -- UID

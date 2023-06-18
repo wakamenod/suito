@@ -49,6 +49,9 @@ var TestRepositoryMock = repositories.RepositoryMock{
 		}
 		return model.Income{}, gorm.ErrRecordNotFound
 	},
+	FindIncomeTypesFunc: func(uid string) ([]model.IncomeType, error) {
+		return incomeTypeTestData, nil
+	},
 	FindOrCreateExpenseCategoryFunc: func(uid string, name string) (model.ExpenseCategory, error) {
 		return model.ExpenseCategory{ID: "TEST_CATEGORY_ID"}, nil
 	},

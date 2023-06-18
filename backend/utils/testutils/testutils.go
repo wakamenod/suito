@@ -83,20 +83,41 @@ func (i *TestDataInserter) InsertExpenseLocation(uid, name string) model.Expense
 	return cat
 }
 
+func (e *TestDataInserter) InsertIncomeType(uid, name string) model.IncomeType {
+	it := model.IncomeType{
+		ID:   xid.New().String(),
+		UID:  uid,
+		Name: name,
+	}
+	require.NoError(e.t, e.db.Create(&it).Error, "failed to insert income type")
+	return it
+}
+
 func (e *TestDataInserter) InsertIncome(uid, date, title string) string {
+	incomeType := e.firstOrCreateIncomeType(uid, title)
+
 	parsedDate, err := time.Parse(dateLayout, date)
 	require.NoError(e.t, err, "failed to parse date")
 
 	id := xid.New().String()
 	require.NoError(e.t, e.db.Create(&model.Income{
-		ID:        id,
-		UID:       uid,
-		Title:     title,
-		Amount:    200,
-		Memo:      "test memo",
-		LocalDate: parsedDate,
+		ID:           id,
+		UID:          uid,
+		IncomeTypeID: incomeType.ID,
+		Amount:       200,
+		Memo:         "test memo",
+		LocalDate:    parsedDate,
 	}).Error, "failed to insert income")
 	return id
+}
+
+func (e *TestDataInserter) firstOrCreateIncomeType(uid, typeName string) model.IncomeType {
+	var incomeType model.IncomeType
+	require.NoError(e.t, e.db.Where(model.IncomeType{Name: typeName, UID: uid}).
+		Attrs(model.IncomeType{ID: xid.New().String()}).
+		FirstOrCreate(&incomeType).Error)
+
+	return incomeType
 }
 
 func (e *TestDataInserter) InsertUser(uid string, deletedAt gorm.DeletedAt) model.User {
