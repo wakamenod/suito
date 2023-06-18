@@ -39,7 +39,9 @@ func TestRegisterIncomeHandler_Success(t *testing.T) {
 	e.Validator = validate.NewValidator()
 	jsonReq, err := json.Marshal(RegisterIncomeReq{
 		Income: model.Income{
-			Title:     "testTitle",
+			IncomeType: model.IncomeType{
+				Name: "testName",
+			},
 			Amount:    9999,
 			LocalDate: time.Date(2023, 5, 4, 0, 0, 0, 0, time.UTC),
 		}})
@@ -56,6 +58,7 @@ func TestRegisterIncomeHandler_Success(t *testing.T) {
 
 	var res RegisterIncomeRes
 	require.NoError(t, json.Unmarshal(rec.Body.Bytes(), &res))
+	require.Equal(t, "testName", res.NewIncome.IncomeType.Name)
 }
 
 func TestIncomeDetailHandler_ErrorValidate(t *testing.T) {
@@ -116,4 +119,23 @@ func TestIncomeDetailHandler_Success(t *testing.T) {
 	var res IncomeDetailRes
 	require.NoError(t, json.Unmarshal(rec.Body.Bytes(), &res))
 	require.Equal(t, "ID_INCOME_01", res.Income.ID)
+}
+
+func TestIncomeTypesHandler(t *testing.T) {
+	// Setup
+	e := echo.New()
+	req := httptest.NewRequest(http.MethodGet, "/types", nil)
+	rec := httptest.NewRecorder()
+	c := e.NewContext(req, rec)
+	c.Set(middleware.UIDKey, "user1")
+
+	// Assertions
+	require.NoError(t, iCon.IncomeTypesHandler(c))
+	require.Equal(t, http.StatusOK, rec.Code)
+
+	var res ListIncomeTypesRes
+	require.NoError(t, json.Unmarshal(rec.Body.Bytes(), &res))
+	require.Equal(t, 2, len(res.IncomeTypes))
+	require.Equal(t, "ID_INCOME_TYPE_01", res.IncomeTypes[0].ID)
+	require.Equal(t, "ID_INCOME_TYPE_02", res.IncomeTypes[1].ID)
 }

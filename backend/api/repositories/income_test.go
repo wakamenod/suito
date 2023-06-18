@@ -42,8 +42,8 @@ func TestFindIncomes2(t *testing.T) {
 	// check
 	require.NoError(t, err)
 	require.Equal(t, 2, len(res))
-	require.Equal(t, "title03", res[0].Title)
-	require.Equal(t, "title01", res[1].Title)
+	require.Equal(t, "title03", res[0].IncomeType.Name)
+	require.Equal(t, "title01", res[1].IncomeType.Name)
 }
 
 // Check date range
@@ -62,8 +62,8 @@ func TestFindIncomes3(t *testing.T) {
 	// check
 	require.NoError(t, err)
 	require.Equal(t, 2, len(res))
-	require.Equal(t, "title02", res[0].Title)
-	require.Equal(t, "title01", res[1].Title)
+	require.Equal(t, "title02", res[0].IncomeType.Name)
+	require.Equal(t, "title01", res[1].IncomeType.Name)
 }
 
 func TestFindIncome(t *testing.T) {
@@ -77,6 +77,7 @@ func TestFindIncome(t *testing.T) {
 	// check
 	require.NoError(t, err)
 	require.Equal(t, id, res.ID)
+	require.Equal(t, "title02", res.IncomeType.Name)
 }
 
 func TestFindIncome_ErrorNotFound(t *testing.T) {
@@ -96,14 +97,14 @@ func TestCreateIncome(t *testing.T) {
 	tx := begin()
 	defer rollback(tx)
 	// setup
-	income := model.Income{Title: "title", Amount: 2000, LocalDate: time.Date(2023, 5, 1, 0, 0, 0, 0, time.UTC)}
+	income := model.Income{IncomeType: model.IncomeType{Name: "title"}, Amount: 2000, LocalDate: time.Date(2023, 5, 1, 0, 0, 0, 0, time.UTC)}
 	// run
 	res, err := NewSuitoRepository(tx).CreateIncome("user1", income)
 	// check
 	require.NoError(t, err)
 	require.NotEmpty(t, res.ID)
 	require.Equal(t, "user1", res.UID)
-	require.Equal(t, income.Title, res.Title)
+	require.Equal(t, income.IncomeType.Name, res.IncomeType.Name)
 	require.Equal(t, income.Amount, res.Amount)
 }
 

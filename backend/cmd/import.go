@@ -178,7 +178,8 @@ func createYearlyExpenses(db *gorm.DB, fields []string, year int, title, categor
 	}
 }
 
-func createYearlyIncomes(db *gorm.DB, fields []string, year int, title string) {
+func createYearlyIncomes(db *gorm.DB, fields []string, year int, name string) {
+	incomeTypeID := firstOrCreateIncomeType(db, name).ID
 	currentMonth := time.Now().In(jst).Month()
 	for i := 1; i <= 12; i++ {
 		amount, err := strconv.Atoi(fields[i+1])
@@ -190,11 +191,11 @@ func createYearlyIncomes(db *gorm.DB, fields []string, year int, title string) {
 		}
 
 		expense := model.Income{
-			ID:        xid.New().String(),
-			UID:       os.Getenv("FIREBASE_UID"),
-			Title:     title,
-			Amount:    amount,
-			LocalDate: time.Date(year, time.Month(i), 1, 0, 0, 0, 0, time.UTC),
+			ID:           xid.New().String(),
+			UID:          os.Getenv("FIREBASE_UID"),
+			IncomeTypeID: incomeTypeID,
+			Amount:       amount,
+			LocalDate:    time.Date(year, time.Month(i), 1, 0, 0, 0, 0, time.UTC),
 		}
 		fatalIfErr(db.Create(&expense).Error)
 	}
@@ -219,11 +220,20 @@ func createExpense(db *gorm.DB, date, title, categoryID string, amount int) {
 
 func firstOrCreateCategory(db *gorm.DB, categoryName string) model.ExpenseCategory {
 	var category model.ExpenseCategory
-	err := db.Where(model.ExpenseCategory{Name: categoryName}).
-		Attrs(model.ExpenseCategory{ID: xid.New().String(), UID: os.Getenv("FIREBASE_UID")}).
+	err := db.Where(model.ExpenseCategory{Name: categoryName, UID: os.Getenv("FIREBASE_UID")}).
+		Attrs(model.ExpenseCategory{ID: xid.New().String()}).
 		FirstOrCreate(&category).Error
 	fatalIfErr(err, "failed to firstOrCreate Category")
 	return category
+}
+
+func firstOrCreateIncomeType(db *gorm.DB, typeName string) model.IncomeType {
+	var incomeType model.IncomeType
+	err := db.Where(model.IncomeType{Name: typeName, UID: os.Getenv("FIREBASE_UID")}).
+		Attrs(model.IncomeType{ID: xid.New().String()}).
+		FirstOrCreate(&incomeType).Error
+	fatalIfErr(err, "failed to firstOrCreate Income Type")
+	return incomeType
 }
 
 func init() {

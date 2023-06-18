@@ -1,4 +1,6 @@
 abbBar: Transactions
+incomeType:
+  title: Income Type
 category:
   title: Expense Category
 location:

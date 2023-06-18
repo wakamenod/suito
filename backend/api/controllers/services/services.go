@@ -43,4 +43,5 @@ type ExpenseService interface {
 type IncomeService interface {
 	CreateIncomeService(uid string, income model.Income) (model.Income, error)
 	FindIncomeService(id, uid string) (model.Income, error)
+	ListIncomeTypesService(uid string) ([]model.IncomeType, error)
 }

@@ -31,7 +31,7 @@ class Income with _$Income {
 
   static Income fromModel(IncomeDetailRes res) => Income(
         id: res.income.id,
-        title: Title.dirty(res.income.title),
+        title: Title.dirty(res.income.incomeType.name),
         amount: Amount.dirty(res.income.amount),
         date: res.income.localDate,
         memo: res.income.memo,

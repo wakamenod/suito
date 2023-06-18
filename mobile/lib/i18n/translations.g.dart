@@ -1,9 +1,9 @@
 /// Generated file. Do not edit.
 ///
 /// Locales: 2
-/// Strings: 52 (26 per locale)
+/// Strings: 54 (27 per locale)
 ///
-/// Built on 2023-06-12 at 00:35 UTC
+/// Built on 2023-06-18 at 12:37 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -199,6 +199,8 @@ class _TranslationsTransactionsEn {
 
   // Translations
   String get abbBar => 'Transactions';
+  late final _TranslationsTransactionsIncomeTypeEn incomeType =
+      _TranslationsTransactionsIncomeTypeEn._(_root);
   late final _TranslationsTransactionsCategoryEn category =
       _TranslationsTransactionsCategoryEn._(_root);
   late final _TranslationsTransactionsLocationEn location =
@@ -226,6 +228,16 @@ class _TranslationsFormsEn {
   // Translations
   late final _TranslationsFormsErrorsEn errors =
       _TranslationsFormsErrorsEn._(_root);
+}
+
+// Path: transactions.incomeType
+class _TranslationsTransactionsIncomeTypeEn {
+  _TranslationsTransactionsIncomeTypeEn._(this._root);
+
+  final _TranslationsEn _root; // ignore: unused_field
+
+  // Translations
+  String get title => 'Income Type';
 }
 
 // Path: transactions.category
@@ -394,6 +406,9 @@ class _TranslationsTransactionsJa implements _TranslationsTransactionsEn {
   @override
   String get abbBar => '決済一覧';
   @override
+  late final _TranslationsTransactionsIncomeTypeJa incomeType =
+      _TranslationsTransactionsIncomeTypeJa._(_root);
+  @override
   late final _TranslationsTransactionsCategoryJa category =
       _TranslationsTransactionsCategoryJa._(_root);
   @override
@@ -430,6 +445,19 @@ class _TranslationsFormsJa implements _TranslationsFormsEn {
   @override
   late final _TranslationsFormsErrorsJa errors =
       _TranslationsFormsErrorsJa._(_root);
+}
+
+// Path: transactions.incomeType
+class _TranslationsTransactionsIncomeTypeJa
+    implements _TranslationsTransactionsIncomeTypeEn {
+  _TranslationsTransactionsIncomeTypeJa._(this._root);
+
+  @override
+  final _TranslationsJa _root; // ignore: unused_field
+
+  // Translations
+  @override
+  String get title => '支出種別';
 }
 
 // Path: transactions.category
@@ -602,6 +630,8 @@ extension on _TranslationsEn {
     switch (path) {
       case 'transactions.abbBar':
         return 'Transactions';
+      case 'transactions.incomeType.title':
+        return 'Income Type';
       case 'transactions.category.title':
         return 'Expense Category';
       case 'transactions.location.title':
@@ -663,6 +693,8 @@ extension on _TranslationsJa {
     switch (path) {
       case 'transactions.abbBar':
         return '決済一覧';
+      case 'transactions.incomeType.title':
+        return '支出種別';
       case 'transactions.category.title':
         return '支出カテゴリー';
       case 'transactions.location.title':

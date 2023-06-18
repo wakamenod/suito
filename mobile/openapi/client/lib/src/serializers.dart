@@ -21,11 +21,13 @@ import 'package:openapi/src/model/income_detail_req.dart';
 import 'package:openapi/src/model/income_detail_res.dart';
 import 'package:openapi/src/model/list_expense_categories_res.dart';
 import 'package:openapi/src/model/list_expense_locations_res.dart';
+import 'package:openapi/src/model/list_income_types_res.dart';
 import 'package:openapi/src/model/list_transactions_res.dart';
 import 'package:openapi/src/model/model_expense.dart';
 import 'package:openapi/src/model/model_expense_category.dart';
 import 'package:openapi/src/model/model_expense_location.dart';
 import 'package:openapi/src/model/model_income.dart';
+import 'package:openapi/src/model/model_income_type.dart';
 import 'package:openapi/src/model/register_expense_req.dart';
 import 'package:openapi/src/model/register_expense_res.dart';
 import 'package:openapi/src/model/register_income_req.dart';
@@ -46,11 +48,13 @@ part 'serializers.g.dart';
   IncomeDetailRes,
   ListExpenseCategoriesRes,
   ListExpenseLocationsRes,
+  ListIncomeTypesRes,
   ListTransactionsRes,
   ModelExpense,
   ModelExpenseCategory,
   ModelExpenseLocation,
   ModelIncome,
+  ModelIncomeType,
   RegisterExpenseReq,
   RegisterExpenseRes,
   RegisterIncomeReq,

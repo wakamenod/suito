@@ -10,6 +10,7 @@ import 'package:suito/src/features/schedule/presentation/schedule_screen.dart';
 import 'package:suito/src/features/transactions/presentations/expense_category_screen.dart';
 import 'package:suito/src/features/transactions/presentations/expense_location_screen.dart';
 import 'package:suito/src/features/transactions/presentations/expense_memo_screen.dart';
+import 'package:suito/src/features/transactions/presentations/income_type_screen.dart';
 import 'package:suito/src/features/transactions/presentations/transaction_detail_screen.dart';
 import 'package:suito/src/features/transactions/presentations/transactions_screen.dart';
 import 'package:suito/src/features/transactions/services/transaction_service.dart';
@@ -25,6 +26,7 @@ enum AppRoute {
   transactionDetail(path: 'transaction-detail'),
   transactionDetailCategory(path: 'transaction-detail-category'),
   transactionDetailLocation(path: 'transaction-detail-location'),
+  transactionDetailIncomeType(path: 'transaction-detail-income-type'),
   transactionDetailMemo(path: 'transaction-detail-memo');
 
   const AppRoute({required this.path});
@@ -122,7 +124,16 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                           child: const ExpenseMemoScreen(),
                           transitionsBuilder: _slideTransitionBuilder,
                         ),
-                      )
+                      ),
+                      GoRoute(
+                        path: AppRoute.transactionDetailIncomeType.path,
+                        name: AppRoute.transactionDetailIncomeType.name,
+                        pageBuilder: (context, state) => CustomTransitionPage(
+                          key: state.pageKey,
+                          child: const IncomeTypeScreen(),
+                          transitionsBuilder: _slideTransitionBuilder,
+                        ),
+                      ),
                     ]),
               ]),
           GoRoute(

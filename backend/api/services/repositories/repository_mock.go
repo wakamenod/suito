@@ -53,6 +53,9 @@ var _ Repository = &RepositoryMock{}
 //			FindIncomeFunc: func(id string, uid string) (model.Income, error) {
 //				panic("mock out the FindIncome method")
 //			},
+//			FindIncomeTypesFunc: func(uid string) ([]model.IncomeType, error) {
+//				panic("mock out the FindIncomeTypes method")
+//			},
 //			FindIncomesFunc: func(uid string, start *time.Time, end *time.Time) ([]model.Income, error) {
 //				panic("mock out the FindIncomes method")
 //			},
@@ -61,6 +64,9 @@ var _ Repository = &RepositoryMock{}
 //			},
 //			FindOrCreateExpenseLocationFunc: func(uid string, name string) (model.ExpenseLocation, error) {
 //				panic("mock out the FindOrCreateExpenseLocation method")
+//			},
+//			FindOrCreateIncomeTypeFunc: func(uid string, name string) (model.IncomeType, error) {
+//				panic("mock out the FindOrCreateIncomeType method")
 //			},
 //			FindOrCreateUserFunc: func(uid string) (model.User, error) {
 //				panic("mock out the FindOrCreateUser method")
@@ -126,6 +132,9 @@ type RepositoryMock struct {
 	// FindIncomeFunc mocks the FindIncome method.
 	FindIncomeFunc func(id string, uid string) (model.Income, error)
 
+	// FindIncomeTypesFunc mocks the FindIncomeTypes method.
+	FindIncomeTypesFunc func(uid string) ([]model.IncomeType, error)
+
 	// FindIncomesFunc mocks the FindIncomes method.
 	FindIncomesFunc func(uid string, start *time.Time, end *time.Time) ([]model.Income, error)
 
@@ -134,6 +143,9 @@ type RepositoryMock struct {
 
 	// FindOrCreateExpenseLocationFunc mocks the FindOrCreateExpenseLocation method.
 	FindOrCreateExpenseLocationFunc func(uid string, name string) (model.ExpenseLocation, error)
+
+	// FindOrCreateIncomeTypeFunc mocks the FindOrCreateIncomeType method.
+	FindOrCreateIncomeTypeFunc func(uid string, name string) (model.IncomeType, error)
 
 	// FindOrCreateUserFunc mocks the FindOrCreateUser method.
 	FindOrCreateUserFunc func(uid string) (model.User, error)
@@ -232,6 +244,11 @@ type RepositoryMock struct {
 			// UID is the uid argument value.
 			UID string
 		}
+		// FindIncomeTypes holds details about calls to the FindIncomeTypes method.
+		FindIncomeTypes []struct {
+			// UID is the uid argument value.
+			UID string
+		}
 		// FindIncomes holds details about calls to the FindIncomes method.
 		FindIncomes []struct {
 			// UID is the uid argument value.
@@ -250,6 +267,13 @@ type RepositoryMock struct {
 		}
 		// FindOrCreateExpenseLocation holds details about calls to the FindOrCreateExpenseLocation method.
 		FindOrCreateExpenseLocation []struct {
+			// UID is the uid argument value.
+			UID string
+			// Name is the name argument value.
+			Name string
+		}
+		// FindOrCreateIncomeType holds details about calls to the FindOrCreateIncomeType method.
+		FindOrCreateIncomeType []struct {
 			// UID is the uid argument value.
 			UID string
 			// Name is the name argument value.
@@ -311,9 +335,11 @@ type RepositoryMock struct {
 	lockFindExpenseLocations               sync.RWMutex
 	lockFindExpenses                       sync.RWMutex
 	lockFindIncome                         sync.RWMutex
+	lockFindIncomeTypes                    sync.RWMutex
 	lockFindIncomes                        sync.RWMutex
 	lockFindOrCreateExpenseCategory        sync.RWMutex
 	lockFindOrCreateExpenseLocation        sync.RWMutex
+	lockFindOrCreateIncomeType             sync.RWMutex
 	lockFindOrCreateUser                   sync.RWMutex
 	lockFindTransactionMonths              sync.RWMutex
 	lockHardDeleteAllUserExpenseCategories sync.RWMutex
@@ -707,6 +733,38 @@ func (mock *RepositoryMock) FindIncomeCalls() []struct {
 	return calls
 }
 
+// FindIncomeTypes calls FindIncomeTypesFunc.
+func (mock *RepositoryMock) FindIncomeTypes(uid string) ([]model.IncomeType, error) {
+	if mock.FindIncomeTypesFunc == nil {
+		panic("RepositoryMock.FindIncomeTypesFunc: method is nil but Repository.FindIncomeTypes was just called")
+	}
+	callInfo := struct {
+		UID string
+	}{
+		UID: uid,
+	}
+	mock.lockFindIncomeTypes.Lock()
+	mock.calls.FindIncomeTypes = append(mock.calls.FindIncomeTypes, callInfo)
+	mock.lockFindIncomeTypes.Unlock()
+	return mock.FindIncomeTypesFunc(uid)
+}
+
+// FindIncomeTypesCalls gets all the calls that were made to FindIncomeTypes.
+// Check the length with:
+//
+//	len(mockedRepository.FindIncomeTypesCalls())
+func (mock *RepositoryMock) FindIncomeTypesCalls() []struct {
+	UID string
+} {
+	var calls []struct {
+		UID string
+	}
+	mock.lockFindIncomeTypes.RLock()
+	calls = mock.calls.FindIncomeTypes
+	mock.lockFindIncomeTypes.RUnlock()
+	return calls
+}
+
 // FindIncomes calls FindIncomesFunc.
 func (mock *RepositoryMock) FindIncomes(uid string, start *time.Time, end *time.Time) ([]model.Income, error) {
 	if mock.FindIncomesFunc == nil {
@@ -816,6 +874,42 @@ func (mock *RepositoryMock) FindOrCreateExpenseLocationCalls() []struct {
 	mock.lockFindOrCreateExpenseLocation.RLock()
 	calls = mock.calls.FindOrCreateExpenseLocation
 	mock.lockFindOrCreateExpenseLocation.RUnlock()
+	return calls
+}
+
+// FindOrCreateIncomeType calls FindOrCreateIncomeTypeFunc.
+func (mock *RepositoryMock) FindOrCreateIncomeType(uid string, name string) (model.IncomeType, error) {
+	if mock.FindOrCreateIncomeTypeFunc == nil {
+		panic("RepositoryMock.FindOrCreateIncomeTypeFunc: method is nil but Repository.FindOrCreateIncomeType was just called")
+	}
+	callInfo := struct {
+		UID  string
+		Name string
+	}{
+		UID:  uid,
+		Name: name,
+	}
+	mock.lockFindOrCreateIncomeType.Lock()
+	mock.calls.FindOrCreateIncomeType = append(mock.calls.FindOrCreateIncomeType, callInfo)
+	mock.lockFindOrCreateIncomeType.Unlock()
+	return mock.FindOrCreateIncomeTypeFunc(uid, name)
+}
+
+// FindOrCreateIncomeTypeCalls gets all the calls that were made to FindOrCreateIncomeType.
+// Check the length with:
+//
+//	len(mockedRepository.FindOrCreateIncomeTypeCalls())
+func (mock *RepositoryMock) FindOrCreateIncomeTypeCalls() []struct {
+	UID  string
+	Name string
+} {
+	var calls []struct {
+		UID  string
+		Name string
+	}
+	mock.lockFindOrCreateIncomeType.RLock()
+	calls = mock.calls.FindOrCreateIncomeType
+	mock.lockFindOrCreateIncomeType.RUnlock()
 	return calls
 }
 

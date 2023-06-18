@@ -10,6 +10,7 @@ All URIs are relative to *http://localhost:8009/api/v1*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**incomeDetail**](SuitoIncomeApi.md#incomedetail) | **POST** /income/detail | Get income detail
+[**listIncomeTypes**](SuitoIncomeApi.md#listincometypes) | **GET** /income/types | List income types
 [**registerIncome**](SuitoIncomeApi.md#registerincome) | **POST** /income | Register income
 
 
@@ -52,6 +53,45 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **listIncomeTypes**
+> ListIncomeTypesRes listIncomeTypes()
+
+List income types
+
+収入種別一覧を返却します.
+
+### Example
+```dart
+import 'package:openapi/api.dart';
+
+final api = Openapi().getSuitoIncomeApi();
+
+try {
+    final response = api.listIncomeTypes();
+    print(response);
+} catch on DioError (e) {
+    print('Exception when calling SuitoIncomeApi->listIncomeTypes: $e\n');
+}
+```
+
+### Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+[**ListIncomeTypesRes**](ListIncomeTypesRes.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

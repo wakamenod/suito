@@ -29,7 +29,7 @@ func (s *SuitoService) ListTransactionsService(uid string, start, end *time.Time
 	for i, in := range incomes {
 		transactions[len(expenses)+i] = services.Transaction{
 			ID:        in.ID,
-			Title:     in.Title,
+			Title:     in.IncomeType.Name,
 			Amount:    in.Amount,
 			LocalDate: in.LocalDate,
 			Type:      services.TransactionTypeIncome,

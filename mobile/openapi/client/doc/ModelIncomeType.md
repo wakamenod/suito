@@ -1,4 +1,4 @@
-# openapi.model.ModelIncome
+# openapi.model.ModelIncomeType
 
 ## Load the model package
 ```dart
@@ -8,11 +8,8 @@ import 'package:openapi/api.dart';
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**amount** | **int** |  | 
 **id** | **String** |  | 
-**incomeType** | [**ModelIncomeType**](ModelIncomeType.md) |  | 
-**localDate** | **String** |  | 
-**memo** | **String** |  | 
+**name** | **String** |  | 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
