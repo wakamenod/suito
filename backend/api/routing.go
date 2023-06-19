@@ -44,6 +44,7 @@ func InitRoute(e *echo.Echo, db *gorm.DB) *echo.Echo {
 	{
 		a := g.Group("/chart")
 		a.GET("/column", cCon.ColumnChartHandler)
+		a.GET("/pie", cCon.PieChartHandler)
 	}
 	return e
 }

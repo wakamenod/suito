@@ -2,27 +2,27 @@
 
 // ignore_for_file: non_constant_identifier_names
 
-part of 'pie_chart_service.dart';
+part of 'pie_chart_data_repository.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$pieChartControllerHash() =>
-    r'36d764d9033f1c24bdeaa22bba5a60b9852db28e';
+String _$pieChartDataRepositoryHash() =>
+    r'127cc39f44843174a5bb6d1279d3645751c415d9';
 
-/// See also [PieChartController].
-@ProviderFor(PieChartController)
-final pieChartControllerProvider =
-    AutoDisposeAsyncNotifierProvider<PieChartController, PieChart>.internal(
-  PieChartController.new,
-  name: r'pieChartControllerProvider',
+/// See also [pieChartDataRepository].
+@ProviderFor(pieChartDataRepository)
+final pieChartDataRepositoryProvider =
+    Provider<PieChartDataRepository>.internal(
+  pieChartDataRepository,
+  name: r'pieChartDataRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$pieChartControllerHash,
+      : _$pieChartDataRepositoryHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$PieChartController = AutoDisposeAsyncNotifier<PieChart>;
+typedef PieChartDataRepositoryRef = ProviderRef<PieChartDataRepository>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions
