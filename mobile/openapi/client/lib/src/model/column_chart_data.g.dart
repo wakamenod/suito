@@ -1,36 +1,36 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'services_column_chart_data.dart';
+part of 'column_chart_data.dart';
 
 // **************************************************************************
 // BuiltValueGenerator
 // **************************************************************************
 
-class _$ServicesColumnChartData extends ServicesColumnChartData {
+class _$ColumnChartData extends ColumnChartData {
   @override
   final int? amount;
   @override
-  final String? month;
+  final String month;
 
-  factory _$ServicesColumnChartData(
-          [void Function(ServicesColumnChartDataBuilder)? updates]) =>
-      (new ServicesColumnChartDataBuilder()..update(updates))._build();
+  factory _$ColumnChartData([void Function(ColumnChartDataBuilder)? updates]) =>
+      (new ColumnChartDataBuilder()..update(updates))._build();
 
-  _$ServicesColumnChartData._({this.amount, this.month}) : super._();
+  _$ColumnChartData._({this.amount, required this.month}) : super._() {
+    BuiltValueNullFieldError.checkNotNull(month, r'ColumnChartData', 'month');
+  }
 
   @override
-  ServicesColumnChartData rebuild(
-          void Function(ServicesColumnChartDataBuilder) updates) =>
+  ColumnChartData rebuild(void Function(ColumnChartDataBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  ServicesColumnChartDataBuilder toBuilder() =>
-      new ServicesColumnChartDataBuilder()..replace(this);
+  ColumnChartDataBuilder toBuilder() =>
+      new ColumnChartDataBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is ServicesColumnChartData &&
+    return other is ColumnChartData &&
         amount == other.amount &&
         month == other.month;
   }
@@ -46,17 +46,16 @@ class _$ServicesColumnChartData extends ServicesColumnChartData {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(r'ServicesColumnChartData')
+    return (newBuiltValueToStringHelper(r'ColumnChartData')
           ..add('amount', amount)
           ..add('month', month))
         .toString();
   }
 }
 
-class ServicesColumnChartDataBuilder
-    implements
-        Builder<ServicesColumnChartData, ServicesColumnChartDataBuilder> {
-  _$ServicesColumnChartData? _$v;
+class ColumnChartDataBuilder
+    implements Builder<ColumnChartData, ColumnChartDataBuilder> {
+  _$ColumnChartData? _$v;
 
   int? _amount;
   int? get amount => _$this._amount;
@@ -66,11 +65,11 @@ class ServicesColumnChartDataBuilder
   String? get month => _$this._month;
   set month(String? month) => _$this._month = month;
 
-  ServicesColumnChartDataBuilder() {
-    ServicesColumnChartData._defaults(this);
+  ColumnChartDataBuilder() {
+    ColumnChartData._defaults(this);
   }
 
-  ServicesColumnChartDataBuilder get _$this {
+  ColumnChartDataBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
       _amount = $v.amount;
@@ -81,22 +80,25 @@ class ServicesColumnChartDataBuilder
   }
 
   @override
-  void replace(ServicesColumnChartData other) {
+  void replace(ColumnChartData other) {
     ArgumentError.checkNotNull(other, 'other');
-    _$v = other as _$ServicesColumnChartData;
+    _$v = other as _$ColumnChartData;
   }
 
   @override
-  void update(void Function(ServicesColumnChartDataBuilder)? updates) {
+  void update(void Function(ColumnChartDataBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
   @override
-  ServicesColumnChartData build() => _build();
+  ColumnChartData build() => _build();
 
-  _$ServicesColumnChartData _build() {
-    final _$result =
-        _$v ?? new _$ServicesColumnChartData._(amount: amount, month: month);
+  _$ColumnChartData _build() {
+    final _$result = _$v ??
+        new _$ColumnChartData._(
+            amount: amount,
+            month: BuiltValueNullFieldError.checkNotNull(
+                month, r'ColumnChartData', 'month'));
     replace(_$result);
     return _$result;
   }

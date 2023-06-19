@@ -7,6 +7,8 @@ part of 'serializers.dart';
 // **************************************************************************
 
 Serializers _$serializers = (new Serializers().toBuilder()
+      ..add(ColumnChartCategoryData.serializer)
+      ..add(ColumnChartData.serializer)
       ..add(DeleteExpenseReq.serializer)
       ..add(ExpenseDetailReq.serializer)
       ..add(ExpenseDetailRes.serializer)
@@ -26,13 +28,22 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(RegisterExpenseRes.serializer)
       ..add(RegisterIncomeReq.serializer)
       ..add(RegisterIncomeRes.serializer)
-      ..add(ServicesColumnChartCategoryData.serializer)
-      ..add(ServicesColumnChartData.serializer)
       ..add(SuitoError.serializer)
       ..add(Transaction.serializer)
       ..add(TransactionMonthsRes.serializer)
       ..add(UpdateExpenseReq.serializer)
       ..add(UpdateExpenseRes.serializer)
+      ..addBuilderFactory(
+          const FullType(
+              BuiltList, const [const FullType(ColumnChartCategoryData)]),
+          () => new ListBuilder<ColumnChartCategoryData>())
+      ..addBuilderFactory(
+          const FullType(
+              BuiltList, const [const FullType(ColumnChartCategoryData)]),
+          () => new ListBuilder<ColumnChartCategoryData>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(ColumnChartData)]),
+          () => new ListBuilder<ColumnChartData>())
       ..addBuilderFactory(
           const FullType(
               BuiltList, const [const FullType(ModelExpenseCategory)]),
@@ -44,18 +55,6 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(ModelIncomeType)]),
           () => new ListBuilder<ModelIncomeType>())
-      ..addBuilderFactory(
-          const FullType(BuiltList,
-              const [const FullType(ServicesColumnChartCategoryData)]),
-          () => new ListBuilder<ServicesColumnChartCategoryData>())
-      ..addBuilderFactory(
-          const FullType(BuiltList,
-              const [const FullType(ServicesColumnChartCategoryData)]),
-          () => new ListBuilder<ServicesColumnChartCategoryData>())
-      ..addBuilderFactory(
-          const FullType(
-              BuiltList, const [const FullType(ServicesColumnChartData)]),
-          () => new ListBuilder<ServicesColumnChartData>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())

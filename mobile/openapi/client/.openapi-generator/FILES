@@ -2,6 +2,8 @@
 .openapi-generator-ignore
 README.md
 analysis_options.yaml
+doc/ColumnChartCategoryData.md
+doc/ColumnChartData.md
 doc/DeleteExpenseReq.md
 doc/ExpenseDetailReq.md
 doc/ExpenseDetailRes.md
@@ -21,8 +23,6 @@ doc/RegisterExpenseReq.md
 doc/RegisterExpenseRes.md
 doc/RegisterIncomeReq.md
 doc/RegisterIncomeRes.md
-doc/ServicesColumnChartCategoryData.md
-doc/ServicesColumnChartData.md
 doc/SuitoChartApi.md
 doc/SuitoDefaultApi.md
 doc/SuitoError.md
@@ -47,6 +47,8 @@ lib/src/auth/basic_auth.dart
 lib/src/auth/bearer_auth.dart
 lib/src/auth/oauth.dart
 lib/src/date_serializer.dart
+lib/src/model/column_chart_category_data.dart
+lib/src/model/column_chart_data.dart
 lib/src/model/date.dart
 lib/src/model/delete_expense_req.dart
 lib/src/model/expense_detail_req.dart
@@ -67,8 +69,6 @@ lib/src/model/register_expense_req.dart
 lib/src/model/register_expense_res.dart
 lib/src/model/register_income_req.dart
 lib/src/model/register_income_res.dart
-lib/src/model/services_column_chart_category_data.dart
-lib/src/model/services_column_chart_data.dart
 lib/src/model/suito_error.dart
 lib/src/model/transaction.dart
 lib/src/model/transaction_months_res.dart
@@ -76,6 +76,8 @@ lib/src/model/update_expense_req.dart
 lib/src/model/update_expense_res.dart
 lib/src/serializers.dart
 pubspec.yaml
+test/column_chart_category_data_test.dart
+test/column_chart_data_test.dart
 test/delete_expense_req_test.dart
 test/expense_detail_req_test.dart
 test/expense_detail_res_test.dart
@@ -95,8 +97,6 @@ test/register_expense_req_test.dart
 test/register_expense_res_test.dart
 test/register_income_req_test.dart
 test/register_income_res_test.dart
-test/services_column_chart_category_data_test.dart
-test/services_column_chart_data_test.dart
 test/suito_chart_api_test.dart
 test/suito_default_api_test.dart
 test/suito_error_test.dart

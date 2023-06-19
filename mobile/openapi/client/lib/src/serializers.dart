@@ -14,6 +14,8 @@ import 'package:built_value/iso_8601_date_time_serializer.dart';
 import 'package:openapi/src/date_serializer.dart';
 import 'package:openapi/src/model/date.dart';
 
+import 'package:openapi/src/model/column_chart_category_data.dart';
+import 'package:openapi/src/model/column_chart_data.dart';
 import 'package:openapi/src/model/delete_expense_req.dart';
 import 'package:openapi/src/model/expense_detail_req.dart';
 import 'package:openapi/src/model/expense_detail_res.dart';
@@ -33,8 +35,6 @@ import 'package:openapi/src/model/register_expense_req.dart';
 import 'package:openapi/src/model/register_expense_res.dart';
 import 'package:openapi/src/model/register_income_req.dart';
 import 'package:openapi/src/model/register_income_res.dart';
-import 'package:openapi/src/model/services_column_chart_category_data.dart';
-import 'package:openapi/src/model/services_column_chart_data.dart';
 import 'package:openapi/src/model/suito_error.dart';
 import 'package:openapi/src/model/transaction.dart';
 import 'package:openapi/src/model/transaction_months_res.dart';
@@ -44,6 +44,8 @@ import 'package:openapi/src/model/update_expense_res.dart';
 part 'serializers.g.dart';
 
 @SerializersFor([
+  ColumnChartCategoryData,
+  ColumnChartData,
   DeleteExpenseReq,
   ExpenseDetailReq,
   ExpenseDetailRes,
@@ -63,8 +65,6 @@ part 'serializers.g.dart';
   RegisterExpenseRes,
   RegisterIncomeReq,
   RegisterIncomeRes,
-  ServicesColumnChartCategoryData,
-  ServicesColumnChartData,
   SuitoError,
   Transaction,
   TransactionMonthsRes,

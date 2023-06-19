@@ -315,6 +315,27 @@ paths:
                 $ref: '#/components/schemas/SuitoError'
 components:
   schemas:
+    ColumnChartCategoryData:
+      required:
+      - categoryName
+      - columnChartData
+      type: object
+      properties:
+        categoryName:
+          type: string
+        columnChartData:
+          type: array
+          items:
+            $ref: '#/components/schemas/ColumnChartData'
+    ColumnChartData:
+      required:
+      - month
+      type: object
+      properties:
+        amount:
+          type: integer
+        month:
+          type: string
     DeleteExpenseReq:
       required:
       - expenseId
@@ -353,11 +374,11 @@ components:
         expenseData:
           type: array
           items:
-            $ref: '#/components/schemas/services.ColumnChartCategoryData'
+            $ref: '#/components/schemas/ColumnChartCategoryData'
         incomeData:
           type: array
           items:
-            $ref: '#/components/schemas/services.ColumnChartCategoryData'
+            $ref: '#/components/schemas/ColumnChartCategoryData'
     IncomeDetailReq:
       required:
       - id
@@ -564,20 +585,4 @@ components:
         id:
           type: string
         name:
-          type: string
-    services.ColumnChartCategoryData:
-      type: object
-      properties:
-        categoryName:
-          type: string
-        columnChartData:
-          type: array
-          items:
-            $ref: '#/components/schemas/services.ColumnChartData'
-    services.ColumnChartData:
-      type: object
-      properties:
-        amount:
-          type: integer
-        month:
           type: string

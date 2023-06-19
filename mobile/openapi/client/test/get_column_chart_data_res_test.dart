@@ -7,12 +7,12 @@ void main() {
   // TODO add properties to the builder and call build()
 
   group(GetColumnChartDataRes, () {
-    // BuiltList<ServicesColumnChartCategoryData> expenseData
+    // BuiltList<ColumnChartCategoryData> expenseData
     test('to test the property `expenseData`', () async {
       // TODO
     });
 
-    // BuiltList<ServicesColumnChartCategoryData> incomeData
+    // BuiltList<ColumnChartCategoryData> incomeData
     test('to test the property `incomeData`', () async {
       // TODO
     });
