@@ -292,3 +292,77 @@ func TestFindColumnChartExpenseData(t *testing.T) {
 		require.Equal(t, e.Month, res[i].Month, fmt.Sprintf("Month mismatch (row:%d)\n", i+1))
 	}
 }
+
+func TestFindPieChartCategoryData(t *testing.T) {
+	tx := begin()
+	defer rollback(tx)
+	// setup
+	i := testutils.NewTestDataInserter(t, tx)
+	userID := "user1"
+	i.InsertExpense(userID, "2023-05-01", "title01")
+	i.InsertExpense("user99", "2023-05-01", "title99")
+	i.InsertExpense(userID, "2023-05-01", "title01_2")
+	food := i.InsertExpenseCategory(userID, "Food")
+	i.InsertExpense(userID, "2023-06-01", "title01", food.ID)
+	i.InsertExpense("user99", "2023-05-01", "title99", food.ID)
+	i.InsertExpense(userID, "2023-05-01", "title01_2", food.ID)
+	// run
+	start, end, err := dateutils.YearMonthDateRange("2023-05")
+	require.NoError(t, err)
+	res, err := NewSuitoRepository(tx).FindPieChartCategoryData(userID, start, end)
+	// check
+	require.NoError(t, err)
+
+	expects := []PieChartData{
+		{
+			Name:   "Food",
+			Amount: 200,
+		},
+		{
+			Name:   "",
+			Amount: 400,
+		},
+	}
+	require.Equal(t, len(expects), len(res))
+	for i, e := range expects {
+		require.Equal(t, e.Name, res[i].Name, fmt.Sprintf("Category name mismatch (row:%d)\n", i+1))
+		require.Equal(t, e.Amount, res[i].Amount, fmt.Sprintf("Amount mismatch (row:%d)\n", i+1))
+	}
+}
+
+func TestFindPieChartLocationData(t *testing.T) {
+	tx := begin()
+	defer rollback(tx)
+	// setup
+	i := testutils.NewTestDataInserter(t, tx)
+	userID := "user1"
+	i.InsertExpense(userID, "2023-05-01", "title01")
+	i.InsertExpense("user99", "2023-05-01", "title99")
+	i.InsertExpense(userID, "2023-05-01", "title01_2")
+	amazon := i.InsertExpenseLocation(userID, "Amazon")
+	i.InsertExpense(userID, "2023-06-01", "title01", "", amazon.ID)
+	i.InsertExpense("user99", "2023-05-01", "title99", "", amazon.ID)
+	i.InsertExpense(userID, "2023-05-01", "title01_2", "", amazon.ID)
+	// run
+	start, end, err := dateutils.YearMonthDateRange("2023-05")
+	require.NoError(t, err)
+	res, err := NewSuitoRepository(tx).FindPieChartLocationData(userID, start, end)
+	// check
+	require.NoError(t, err)
+
+	expects := []PieChartData{
+		{
+			Name:   "Amazon",
+			Amount: 200,
+		},
+		{
+			Name:   "",
+			Amount: 400,
+		},
+	}
+	require.Equal(t, len(expects), len(res))
+	for i, e := range expects {
+		require.Equal(t, e.Name, res[i].Name, fmt.Sprintf("Location name mismatch (row:%d)\n", i+1))
+		require.Equal(t, e.Amount, res[i].Amount, fmt.Sprintf("Amount mismatch (row:%d)\n", i+1))
+	}
+}

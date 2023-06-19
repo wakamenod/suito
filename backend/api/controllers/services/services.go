@@ -3,6 +3,7 @@ package services
 import (
 	"time"
 
+	"github.com/wakamenod/suito/api/repositories"
 	"github.com/wakamenod/suito/api/services"
 	"github.com/wakamenod/suito/model"
 )
@@ -29,4 +30,5 @@ type IncomeService interface {
 
 type ChartService interface {
 	ColumnChartService(uid string) ([]services.ColumnChartCategoryData, []services.ColumnChartCategoryData, error)
+	PieChartService(uid string, start, end *time.Time) ([]repositories.PieChartData, []repositories.PieChartData, error)
 }

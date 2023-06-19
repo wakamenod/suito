@@ -78,6 +78,12 @@ var _ Repository = &RepositoryMock{}
 //			FindOrCreateUserFunc: func(uid string) (model.User, error) {
 //				panic("mock out the FindOrCreateUser method")
 //			},
+//			FindPieChartCategoryDataFunc: func(uid string, start *time.Time, end *time.Time) ([]repositories.PieChartData, error) {
+//				panic("mock out the FindPieChartCategoryData method")
+//			},
+//			FindPieChartLocationDataFunc: func(uid string, start *time.Time, end *time.Time) ([]repositories.PieChartData, error) {
+//				panic("mock out the FindPieChartLocationData method")
+//			},
 //			FindTransactionMonthsFunc: func(uid string) ([]string, error) {
 //				panic("mock out the FindTransactionMonths method")
 //			},
@@ -162,6 +168,12 @@ type RepositoryMock struct {
 
 	// FindOrCreateUserFunc mocks the FindOrCreateUser method.
 	FindOrCreateUserFunc func(uid string) (model.User, error)
+
+	// FindPieChartCategoryDataFunc mocks the FindPieChartCategoryData method.
+	FindPieChartCategoryDataFunc func(uid string, start *time.Time, end *time.Time) ([]repositories.PieChartData, error)
+
+	// FindPieChartLocationDataFunc mocks the FindPieChartLocationData method.
+	FindPieChartLocationDataFunc func(uid string, start *time.Time, end *time.Time) ([]repositories.PieChartData, error)
 
 	// FindTransactionMonthsFunc mocks the FindTransactionMonths method.
 	FindTransactionMonthsFunc func(uid string) ([]string, error)
@@ -307,6 +319,24 @@ type RepositoryMock struct {
 			// UID is the uid argument value.
 			UID string
 		}
+		// FindPieChartCategoryData holds details about calls to the FindPieChartCategoryData method.
+		FindPieChartCategoryData []struct {
+			// UID is the uid argument value.
+			UID string
+			// Start is the start argument value.
+			Start *time.Time
+			// End is the end argument value.
+			End *time.Time
+		}
+		// FindPieChartLocationData holds details about calls to the FindPieChartLocationData method.
+		FindPieChartLocationData []struct {
+			// UID is the uid argument value.
+			UID string
+			// Start is the start argument value.
+			Start *time.Time
+			// End is the end argument value.
+			End *time.Time
+		}
 		// FindTransactionMonths holds details about calls to the FindTransactionMonths method.
 		FindTransactionMonths []struct {
 			// UID is the uid argument value.
@@ -366,6 +396,8 @@ type RepositoryMock struct {
 	lockFindOrCreateExpenseLocation        sync.RWMutex
 	lockFindOrCreateIncomeType             sync.RWMutex
 	lockFindOrCreateUser                   sync.RWMutex
+	lockFindPieChartCategoryData           sync.RWMutex
+	lockFindPieChartLocationData           sync.RWMutex
 	lockFindTransactionMonths              sync.RWMutex
 	lockHardDeleteAllUserExpenseCategories sync.RWMutex
 	lockHardDeleteAllUserExpenseLocations  sync.RWMutex
@@ -1031,6 +1063,86 @@ func (mock *RepositoryMock) FindOrCreateUserCalls() []struct {
 	mock.lockFindOrCreateUser.RLock()
 	calls = mock.calls.FindOrCreateUser
 	mock.lockFindOrCreateUser.RUnlock()
+	return calls
+}
+
+// FindPieChartCategoryData calls FindPieChartCategoryDataFunc.
+func (mock *RepositoryMock) FindPieChartCategoryData(uid string, start *time.Time, end *time.Time) ([]repositories.PieChartData, error) {
+	if mock.FindPieChartCategoryDataFunc == nil {
+		panic("RepositoryMock.FindPieChartCategoryDataFunc: method is nil but Repository.FindPieChartCategoryData was just called")
+	}
+	callInfo := struct {
+		UID   string
+		Start *time.Time
+		End   *time.Time
+	}{
+		UID:   uid,
+		Start: start,
+		End:   end,
+	}
+	mock.lockFindPieChartCategoryData.Lock()
+	mock.calls.FindPieChartCategoryData = append(mock.calls.FindPieChartCategoryData, callInfo)
+	mock.lockFindPieChartCategoryData.Unlock()
+	return mock.FindPieChartCategoryDataFunc(uid, start, end)
+}
+
+// FindPieChartCategoryDataCalls gets all the calls that were made to FindPieChartCategoryData.
+// Check the length with:
+//
+//	len(mockedRepository.FindPieChartCategoryDataCalls())
+func (mock *RepositoryMock) FindPieChartCategoryDataCalls() []struct {
+	UID   string
+	Start *time.Time
+	End   *time.Time
+} {
+	var calls []struct {
+		UID   string
+		Start *time.Time
+		End   *time.Time
+	}
+	mock.lockFindPieChartCategoryData.RLock()
+	calls = mock.calls.FindPieChartCategoryData
+	mock.lockFindPieChartCategoryData.RUnlock()
+	return calls
+}
+
+// FindPieChartLocationData calls FindPieChartLocationDataFunc.
+func (mock *RepositoryMock) FindPieChartLocationData(uid string, start *time.Time, end *time.Time) ([]repositories.PieChartData, error) {
+	if mock.FindPieChartLocationDataFunc == nil {
+		panic("RepositoryMock.FindPieChartLocationDataFunc: method is nil but Repository.FindPieChartLocationData was just called")
+	}
+	callInfo := struct {
+		UID   string
+		Start *time.Time
+		End   *time.Time
+	}{
+		UID:   uid,
+		Start: start,
+		End:   end,
+	}
+	mock.lockFindPieChartLocationData.Lock()
+	mock.calls.FindPieChartLocationData = append(mock.calls.FindPieChartLocationData, callInfo)
+	mock.lockFindPieChartLocationData.Unlock()
+	return mock.FindPieChartLocationDataFunc(uid, start, end)
+}
+
+// FindPieChartLocationDataCalls gets all the calls that were made to FindPieChartLocationData.
+// Check the length with:
+//
+//	len(mockedRepository.FindPieChartLocationDataCalls())
+func (mock *RepositoryMock) FindPieChartLocationDataCalls() []struct {
+	UID   string
+	Start *time.Time
+	End   *time.Time
+} {
+	var calls []struct {
+		UID   string
+		Start *time.Time
+		End   *time.Time
+	}
+	mock.lockFindPieChartLocationData.RLock()
+	calls = mock.calls.FindPieChartLocationData
+	mock.lockFindPieChartLocationData.RUnlock()
 	return calls
 }
 

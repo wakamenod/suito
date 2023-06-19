@@ -13,6 +13,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(ExpenseDetailReq.serializer)
       ..add(ExpenseDetailRes.serializer)
       ..add(GetColumnChartDataRes.serializer)
+      ..add(GetPieChartDataRes.serializer)
       ..add(IncomeDetailReq.serializer)
       ..add(IncomeDetailRes.serializer)
       ..add(ListExpenseCategoriesRes.serializer)
@@ -24,6 +25,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(ModelExpenseLocation.serializer)
       ..add(ModelIncome.serializer)
       ..add(ModelIncomeType.serializer)
+      ..add(PieChartData.serializer)
       ..add(RegisterExpenseReq.serializer)
       ..add(RegisterExpenseRes.serializer)
       ..add(RegisterIncomeReq.serializer)
@@ -55,6 +57,12 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(ModelIncomeType)]),
           () => new ListBuilder<ModelIncomeType>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(PieChartData)]),
+          () => new ListBuilder<PieChartData>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(PieChartData)]),
+          () => new ListBuilder<PieChartData>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())

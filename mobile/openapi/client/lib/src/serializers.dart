@@ -20,6 +20,7 @@ import 'package:openapi/src/model/delete_expense_req.dart';
 import 'package:openapi/src/model/expense_detail_req.dart';
 import 'package:openapi/src/model/expense_detail_res.dart';
 import 'package:openapi/src/model/get_column_chart_data_res.dart';
+import 'package:openapi/src/model/get_pie_chart_data_res.dart';
 import 'package:openapi/src/model/income_detail_req.dart';
 import 'package:openapi/src/model/income_detail_res.dart';
 import 'package:openapi/src/model/list_expense_categories_res.dart';
@@ -31,6 +32,7 @@ import 'package:openapi/src/model/model_expense_category.dart';
 import 'package:openapi/src/model/model_expense_location.dart';
 import 'package:openapi/src/model/model_income.dart';
 import 'package:openapi/src/model/model_income_type.dart';
+import 'package:openapi/src/model/pie_chart_data.dart';
 import 'package:openapi/src/model/register_expense_req.dart';
 import 'package:openapi/src/model/register_expense_res.dart';
 import 'package:openapi/src/model/register_income_req.dart';
@@ -50,6 +52,7 @@ part 'serializers.g.dart';
   ExpenseDetailReq,
   ExpenseDetailRes,
   GetColumnChartDataRes,
+  GetPieChartDataRes,
   IncomeDetailReq,
   IncomeDetailRes,
   ListExpenseCategoriesRes,
@@ -61,6 +64,7 @@ part 'serializers.g.dart';
   ModelExpenseLocation,
   ModelIncome,
   ModelIncomeType,
+  PieChartData,
   RegisterExpenseReq,
   RegisterExpenseRes,
   RegisterIncomeReq,

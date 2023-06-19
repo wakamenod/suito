@@ -2,6 +2,7 @@ package services
 
 import (
 	"sort"
+	"time"
 
 	"github.com/wakamenod/suito/api/repositories"
 )
@@ -76,4 +77,17 @@ func groupByCategory(data []repositories.ColumnChartData, months []string) []Col
 	}
 	sort.SliceStable(res, func(i, j int) bool { return res[i].CategoryName > res[j].CategoryName })
 	return res
+}
+
+func (s *SuitoService) PieChartService(uid string, start, end *time.Time) ([]repositories.PieChartData, []repositories.PieChartData, error) {
+	categoryData, err := s.repo.FindPieChartCategoryData(uid, start, end)
+	if err != nil {
+		return nil, nil, err
+	}
+	locationData, err := s.repo.FindPieChartLocationData(uid, start, end)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return categoryData, locationData, nil
 }

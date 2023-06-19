@@ -107,4 +107,24 @@ var TestRepositoryMock = srepositories.RepositoryMock{
 			},
 		}, nil
 	},
+	FindPieChartCategoryDataFunc: func(uid string, start *time.Time, end *time.Time) ([]repositories.PieChartData, error) {
+		return []repositories.PieChartData{
+			{
+				Name:   "Food",
+				Amount: 1000,
+			},
+			{
+				Name:   "Car",
+				Amount: 3000,
+			},
+		}, nil
+	},
+	FindPieChartLocationDataFunc: func(uid string, start *time.Time, end *time.Time) ([]repositories.PieChartData, error) {
+		return []repositories.PieChartData{
+			{
+				Name:   "Amazon",
+				Amount: 500,
+			},
+		}, nil
+	},
 }

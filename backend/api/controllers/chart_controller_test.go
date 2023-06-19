@@ -8,6 +8,7 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"github.com/stretchr/testify/require"
+	"github.com/wakamenod/suito/apperrors"
 	"github.com/wakamenod/suito/middleware"
 )
 
@@ -60,5 +61,70 @@ func TestColumnChartController(t *testing.T) {
 		require.Equal(t, "2023-06", categoryData.ColumnChartData[1].Month)
 		require.EqualValues(t, 2000, *categoryData.ColumnChartData[2].Amount)
 		require.Equal(t, "2023-07", categoryData.ColumnChartData[2].Month)
+	}
+}
+
+func TestPieChartHandler_InvalidStart(t *testing.T) {
+	// Setup
+	e := echo.New()
+	req := httptest.NewRequest(http.MethodGet, "/?start=abc", nil)
+	rec := httptest.NewRecorder()
+	c := e.NewContext(req, rec)
+	c.Set(middleware.UIDKey, "user1")
+
+	// Assertions
+	err := cCon.PieChartHandler(c)
+	require.Error(t, err)
+	var appErr *apperrors.SuitoError
+	require.ErrorAs(t, err, &appErr)
+	require.Equal(t, apperrors.InvalidParameter, appErr.ErrCode)
+}
+
+func TestPieChartHandler_InvalidEnd(t *testing.T) {
+	// Setup
+	e := echo.New()
+	req := httptest.NewRequest(http.MethodGet, "/?start=2023-05-01&end=abc", nil)
+	rec := httptest.NewRecorder()
+	c := e.NewContext(req, rec)
+	c.Set(middleware.UIDKey, "user1")
+
+	// Assertions
+	err := cCon.PieChartHandler(c)
+	require.Error(t, err)
+	var appErr *apperrors.SuitoError
+	require.ErrorAs(t, err, &appErr)
+	require.Equal(t, apperrors.InvalidParameter, appErr.ErrCode)
+}
+
+func TestPieChartHandler(t *testing.T) {
+	// Setup
+	e := echo.New()
+	req := httptest.NewRequest(http.MethodGet, "/?start=2023-05-01&end=2023-05-31", nil)
+	rec := httptest.NewRecorder()
+	c := e.NewContext(req, rec)
+	c.Set(middleware.UIDKey, "user1")
+
+	// Assertions
+	err := cCon.PieChartHandler(c)
+	require.NoError(t, err)
+
+	var res GetPieChartDataRes
+	require.NoError(t, json.Unmarshal(rec.Body.Bytes(), &res))
+	require.Equal(t, 2, len(res.CategoryData))
+	require.Equal(t, 1, len(res.LocationData))
+	{
+		categoryData := res.CategoryData[0]
+		require.Equal(t, "Food", categoryData.Name)
+		require.EqualValues(t, 1000, categoryData.Amount)
+	}
+	{
+		categoryData := res.CategoryData[1]
+		require.Equal(t, "Car", categoryData.Name)
+		require.EqualValues(t, 3000, categoryData.Amount)
+	}
+	{
+		locationData := res.LocationData[0]
+		require.Equal(t, "Amazon", locationData.Name)
+		require.EqualValues(t, 500, locationData.Amount)
 	}
 }
