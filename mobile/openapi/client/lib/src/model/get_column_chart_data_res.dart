@@ -3,7 +3,7 @@
 //
 
 // ignore_for_file: unused_element
-import 'package:openapi/src/model/services_column_chart_category_data.dart';
+import 'package:openapi/src/model/column_chart_category_data.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
@@ -18,10 +18,10 @@ part 'get_column_chart_data_res.g.dart';
 @BuiltValue()
 abstract class GetColumnChartDataRes implements Built<GetColumnChartDataRes, GetColumnChartDataResBuilder> {
   @BuiltValueField(wireName: r'expenseData')
-  BuiltList<ServicesColumnChartCategoryData> get expenseData;
+  BuiltList<ColumnChartCategoryData> get expenseData;
 
   @BuiltValueField(wireName: r'incomeData')
-  BuiltList<ServicesColumnChartCategoryData> get incomeData;
+  BuiltList<ColumnChartCategoryData> get incomeData;
 
   GetColumnChartDataRes._();
 
@@ -49,12 +49,12 @@ class _$GetColumnChartDataResSerializer implements PrimitiveSerializer<GetColumn
     yield r'expenseData';
     yield serializers.serialize(
       object.expenseData,
-      specifiedType: const FullType(BuiltList, [FullType(ServicesColumnChartCategoryData)]),
+      specifiedType: const FullType(BuiltList, [FullType(ColumnChartCategoryData)]),
     );
     yield r'incomeData';
     yield serializers.serialize(
       object.incomeData,
-      specifiedType: const FullType(BuiltList, [FullType(ServicesColumnChartCategoryData)]),
+      specifiedType: const FullType(BuiltList, [FullType(ColumnChartCategoryData)]),
     );
   }
 
@@ -82,15 +82,15 @@ class _$GetColumnChartDataResSerializer implements PrimitiveSerializer<GetColumn
         case r'expenseData':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(BuiltList, [FullType(ServicesColumnChartCategoryData)]),
-          ) as BuiltList<ServicesColumnChartCategoryData>;
+            specifiedType: const FullType(BuiltList, [FullType(ColumnChartCategoryData)]),
+          ) as BuiltList<ColumnChartCategoryData>;
           result.expenseData.replace(valueDes);
           break;
         case r'incomeData':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(BuiltList, [FullType(ServicesColumnChartCategoryData)]),
-          ) as BuiltList<ServicesColumnChartCategoryData>;
+            specifiedType: const FullType(BuiltList, [FullType(ColumnChartCategoryData)]),
+          ) as BuiltList<ColumnChartCategoryData>;
           result.incomeData.replace(valueDes);
           break;
         default:

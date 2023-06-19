@@ -8,9 +8,9 @@ part of 'get_column_chart_data_res.dart';
 
 class _$GetColumnChartDataRes extends GetColumnChartDataRes {
   @override
-  final BuiltList<ServicesColumnChartCategoryData> expenseData;
+  final BuiltList<ColumnChartCategoryData> expenseData;
   @override
-  final BuiltList<ServicesColumnChartCategoryData> incomeData;
+  final BuiltList<ColumnChartCategoryData> incomeData;
 
   factory _$GetColumnChartDataRes(
           [void Function(GetColumnChartDataResBuilder)? updates]) =>
@@ -64,17 +64,16 @@ class GetColumnChartDataResBuilder
     implements Builder<GetColumnChartDataRes, GetColumnChartDataResBuilder> {
   _$GetColumnChartDataRes? _$v;
 
-  ListBuilder<ServicesColumnChartCategoryData>? _expenseData;
-  ListBuilder<ServicesColumnChartCategoryData> get expenseData =>
-      _$this._expenseData ??=
-          new ListBuilder<ServicesColumnChartCategoryData>();
-  set expenseData(ListBuilder<ServicesColumnChartCategoryData>? expenseData) =>
+  ListBuilder<ColumnChartCategoryData>? _expenseData;
+  ListBuilder<ColumnChartCategoryData> get expenseData =>
+      _$this._expenseData ??= new ListBuilder<ColumnChartCategoryData>();
+  set expenseData(ListBuilder<ColumnChartCategoryData>? expenseData) =>
       _$this._expenseData = expenseData;
 
-  ListBuilder<ServicesColumnChartCategoryData>? _incomeData;
-  ListBuilder<ServicesColumnChartCategoryData> get incomeData =>
-      _$this._incomeData ??= new ListBuilder<ServicesColumnChartCategoryData>();
-  set incomeData(ListBuilder<ServicesColumnChartCategoryData>? incomeData) =>
+  ListBuilder<ColumnChartCategoryData>? _incomeData;
+  ListBuilder<ColumnChartCategoryData> get incomeData =>
+      _$this._incomeData ??= new ListBuilder<ColumnChartCategoryData>();
+  set incomeData(ListBuilder<ColumnChartCategoryData>? incomeData) =>
       _$this._incomeData = incomeData;
 
   GetColumnChartDataResBuilder() {

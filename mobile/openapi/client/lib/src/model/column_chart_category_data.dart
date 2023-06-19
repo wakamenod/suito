@@ -4,68 +4,64 @@
 
 // ignore_for_file: unused_element
 import 'package:built_collection/built_collection.dart';
-import 'package:openapi/src/model/services_column_chart_data.dart';
+import 'package:openapi/src/model/column_chart_data.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
-part 'services_column_chart_category_data.g.dart';
+part 'column_chart_category_data.g.dart';
 
-/// ServicesColumnChartCategoryData
+/// ColumnChartCategoryData
 ///
 /// Properties:
 /// * [categoryName] 
 /// * [columnChartData] 
 @BuiltValue()
-abstract class ServicesColumnChartCategoryData implements Built<ServicesColumnChartCategoryData, ServicesColumnChartCategoryDataBuilder> {
+abstract class ColumnChartCategoryData implements Built<ColumnChartCategoryData, ColumnChartCategoryDataBuilder> {
   @BuiltValueField(wireName: r'categoryName')
-  String? get categoryName;
+  String get categoryName;
 
   @BuiltValueField(wireName: r'columnChartData')
-  BuiltList<ServicesColumnChartData>? get columnChartData;
+  BuiltList<ColumnChartData> get columnChartData;
 
-  ServicesColumnChartCategoryData._();
+  ColumnChartCategoryData._();
 
-  factory ServicesColumnChartCategoryData([void updates(ServicesColumnChartCategoryDataBuilder b)]) = _$ServicesColumnChartCategoryData;
+  factory ColumnChartCategoryData([void updates(ColumnChartCategoryDataBuilder b)]) = _$ColumnChartCategoryData;
 
   @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(ServicesColumnChartCategoryDataBuilder b) => b;
+  static void _defaults(ColumnChartCategoryDataBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<ServicesColumnChartCategoryData> get serializer => _$ServicesColumnChartCategoryDataSerializer();
+  static Serializer<ColumnChartCategoryData> get serializer => _$ColumnChartCategoryDataSerializer();
 }
 
-class _$ServicesColumnChartCategoryDataSerializer implements PrimitiveSerializer<ServicesColumnChartCategoryData> {
+class _$ColumnChartCategoryDataSerializer implements PrimitiveSerializer<ColumnChartCategoryData> {
   @override
-  final Iterable<Type> types = const [ServicesColumnChartCategoryData, _$ServicesColumnChartCategoryData];
+  final Iterable<Type> types = const [ColumnChartCategoryData, _$ColumnChartCategoryData];
 
   @override
-  final String wireName = r'ServicesColumnChartCategoryData';
+  final String wireName = r'ColumnChartCategoryData';
 
   Iterable<Object?> _serializeProperties(
     Serializers serializers,
-    ServicesColumnChartCategoryData object, {
+    ColumnChartCategoryData object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    if (object.categoryName != null) {
-      yield r'categoryName';
-      yield serializers.serialize(
-        object.categoryName,
-        specifiedType: const FullType(String),
-      );
-    }
-    if (object.columnChartData != null) {
-      yield r'columnChartData';
-      yield serializers.serialize(
-        object.columnChartData,
-        specifiedType: const FullType(BuiltList, [FullType(ServicesColumnChartData)]),
-      );
-    }
+    yield r'categoryName';
+    yield serializers.serialize(
+      object.categoryName,
+      specifiedType: const FullType(String),
+    );
+    yield r'columnChartData';
+    yield serializers.serialize(
+      object.columnChartData,
+      specifiedType: const FullType(BuiltList, [FullType(ColumnChartData)]),
+    );
   }
 
   @override
   Object serialize(
     Serializers serializers,
-    ServicesColumnChartCategoryData object, {
+    ColumnChartCategoryData object, {
     FullType specifiedType = FullType.unspecified,
   }) {
     return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
@@ -76,7 +72,7 @@ class _$ServicesColumnChartCategoryDataSerializer implements PrimitiveSerializer
     Object serialized, {
     FullType specifiedType = FullType.unspecified,
     required List<Object?> serializedList,
-    required ServicesColumnChartCategoryDataBuilder result,
+    required ColumnChartCategoryDataBuilder result,
     required List<Object?> unhandled,
   }) {
     for (var i = 0; i < serializedList.length; i += 2) {
@@ -93,8 +89,8 @@ class _$ServicesColumnChartCategoryDataSerializer implements PrimitiveSerializer
         case r'columnChartData':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(BuiltList, [FullType(ServicesColumnChartData)]),
-          ) as BuiltList<ServicesColumnChartData>;
+            specifiedType: const FullType(BuiltList, [FullType(ColumnChartData)]),
+          ) as BuiltList<ColumnChartData>;
           result.columnChartData.replace(valueDes);
           break;
         default:
@@ -106,12 +102,12 @@ class _$ServicesColumnChartCategoryDataSerializer implements PrimitiveSerializer
   }
 
   @override
-  ServicesColumnChartCategoryData deserialize(
+  ColumnChartCategoryData deserialize(
     Serializers serializers,
     Object serialized, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    final result = ServicesColumnChartCategoryDataBuilder();
+    final result = ColumnChartCategoryDataBuilder();
     final serializedList = (serialized as Iterable<Object?>).toList();
     final unhandled = <Object?>[];
     _deserializeProperties(

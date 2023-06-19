@@ -80,6 +80,8 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
+ - [ColumnChartCategoryData](doc/ColumnChartCategoryData.md)
+ - [ColumnChartData](doc/ColumnChartData.md)
  - [DeleteExpenseReq](doc/DeleteExpenseReq.md)
  - [ExpenseDetailReq](doc/ExpenseDetailReq.md)
  - [ExpenseDetailRes](doc/ExpenseDetailRes.md)
@@ -99,8 +101,6 @@ Class | Method | HTTP request | Description
  - [RegisterExpenseRes](doc/RegisterExpenseRes.md)
  - [RegisterIncomeReq](doc/RegisterIncomeReq.md)
  - [RegisterIncomeRes](doc/RegisterIncomeRes.md)
- - [ServicesColumnChartCategoryData](doc/ServicesColumnChartCategoryData.md)
- - [ServicesColumnChartData](doc/ServicesColumnChartData.md)
  - [SuitoError](doc/SuitoError.md)
  - [Transaction](doc/Transaction.md)
  - [TransactionMonthsRes](doc/TransactionMonthsRes.md)

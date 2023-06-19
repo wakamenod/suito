@@ -15,6 +15,8 @@ export 'package:openapi/src/api/suito_expense_api.dart';
 export 'package:openapi/src/api/suito_income_api.dart';
 export 'package:openapi/src/api/suito_transactions_api.dart';
 
+export 'package:openapi/src/model/column_chart_category_data.dart';
+export 'package:openapi/src/model/column_chart_data.dart';
 export 'package:openapi/src/model/delete_expense_req.dart';
 export 'package:openapi/src/model/expense_detail_req.dart';
 export 'package:openapi/src/model/expense_detail_res.dart';
@@ -34,8 +36,6 @@ export 'package:openapi/src/model/register_expense_req.dart';
 export 'package:openapi/src/model/register_expense_res.dart';
 export 'package:openapi/src/model/register_income_req.dart';
 export 'package:openapi/src/model/register_income_res.dart';
-export 'package:openapi/src/model/services_column_chart_category_data.dart';
-export 'package:openapi/src/model/services_column_chart_data.dart';
 export 'package:openapi/src/model/suito_error.dart';
 export 'package:openapi/src/model/transaction.dart';
 export 'package:openapi/src/model/transaction_months_res.dart';

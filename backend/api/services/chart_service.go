@@ -8,14 +8,14 @@ import (
 
 type (
 	ColumnChartData struct {
-		Amount *int64
-		Month  string
-	}
+		Amount *int64 `json:"amount" validate:"optional" `
+		Month  string `json:"month"`
+	} // @name ColumnChartData
 
 	ColumnChartCategoryData struct {
-		CategoryName    string
-		ColumnChartData []ColumnChartData
-	}
+		CategoryName    string            `json:"categoryName"`
+		ColumnChartData []ColumnChartData `json:"columnChartData"`
+	} // @name ColumnChartCategoryData
 )
 
 func (s *SuitoService) ColumnChartService(uid string) ([]ColumnChartCategoryData, []ColumnChartCategoryData, error) {

@@ -470,6 +470,38 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "ColumnChartCategoryData": {
+            "type": "object",
+            "required": [
+                "categoryName",
+                "columnChartData"
+            ],
+            "properties": {
+                "categoryName": {
+                    "type": "string"
+                },
+                "columnChartData": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ColumnChartData"
+                    }
+                }
+            }
+        },
+        "ColumnChartData": {
+            "type": "object",
+            "required": [
+                "month"
+            ],
+            "properties": {
+                "amount": {
+                    "type": "integer"
+                },
+                "month": {
+                    "type": "string"
+                }
+            }
+        },
         "DeleteExpenseReq": {
             "type": "object",
             "required": [
@@ -524,13 +556,13 @@ const docTemplate = `{
                 "expenseData": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/services.ColumnChartCategoryData"
+                        "$ref": "#/definitions/ColumnChartCategoryData"
                     }
                 },
                 "incomeData": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/services.ColumnChartCategoryData"
+                        "$ref": "#/definitions/ColumnChartCategoryData"
                     }
                 }
             }
@@ -846,31 +878,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "name": {
-                    "type": "string"
-                }
-            }
-        },
-        "services.ColumnChartCategoryData": {
-            "type": "object",
-            "properties": {
-                "categoryName": {
-                    "type": "string"
-                },
-                "columnChartData": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/services.ColumnChartData"
-                    }
-                }
-            }
-        },
-        "services.ColumnChartData": {
-            "type": "object",
-            "properties": {
-                "amount": {
-                    "type": "integer"
-                },
-                "month": {
                     "type": "string"
                 }
             }
