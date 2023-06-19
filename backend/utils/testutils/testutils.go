@@ -35,6 +35,11 @@ func (e *TestDataInserter) InsertExpense(uid, date, title string, optionals ...s
 		categoryID = optionals[0]
 	}
 
+	locationID := ""
+	if len(optionals) > 1 {
+		locationID = optionals[1]
+	}
+
 	id := xid.New().String()
 	require.NoError(e.t, e.db.Create(&model.Expense{
 		ID:                id,
@@ -42,6 +47,7 @@ func (e *TestDataInserter) InsertExpense(uid, date, title string, optionals ...s
 		Title:             title,
 		Amount:            200,
 		ExpenseCategoryID: categoryID,
+		ExpenseLocationID: locationID,
 		Memo:              "test memo",
 		LocalDate:         parsedDate,
 	}).Error, "failed to insert expense")

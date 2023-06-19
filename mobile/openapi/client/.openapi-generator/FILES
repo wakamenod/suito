@@ -8,6 +8,7 @@ doc/DeleteExpenseReq.md
 doc/ExpenseDetailReq.md
 doc/ExpenseDetailRes.md
 doc/GetColumnChartDataRes.md
+doc/GetPieChartDataRes.md
 doc/IncomeDetailReq.md
 doc/IncomeDetailRes.md
 doc/ListExpenseCategoriesRes.md
@@ -19,6 +20,7 @@ doc/ModelExpenseCategory.md
 doc/ModelExpenseLocation.md
 doc/ModelIncome.md
 doc/ModelIncomeType.md
+doc/PieChartData.md
 doc/RegisterExpenseReq.md
 doc/RegisterExpenseRes.md
 doc/RegisterIncomeReq.md
@@ -54,6 +56,7 @@ lib/src/model/delete_expense_req.dart
 lib/src/model/expense_detail_req.dart
 lib/src/model/expense_detail_res.dart
 lib/src/model/get_column_chart_data_res.dart
+lib/src/model/get_pie_chart_data_res.dart
 lib/src/model/income_detail_req.dart
 lib/src/model/income_detail_res.dart
 lib/src/model/list_expense_categories_res.dart
@@ -65,6 +68,7 @@ lib/src/model/model_expense_category.dart
 lib/src/model/model_expense_location.dart
 lib/src/model/model_income.dart
 lib/src/model/model_income_type.dart
+lib/src/model/pie_chart_data.dart
 lib/src/model/register_expense_req.dart
 lib/src/model/register_expense_res.dart
 lib/src/model/register_income_req.dart
@@ -82,6 +86,7 @@ test/delete_expense_req_test.dart
 test/expense_detail_req_test.dart
 test/expense_detail_res_test.dart
 test/get_column_chart_data_res_test.dart
+test/get_pie_chart_data_res_test.dart
 test/income_detail_req_test.dart
 test/income_detail_res_test.dart
 test/list_expense_categories_res_test.dart
@@ -93,6 +98,7 @@ test/model_expense_location_test.dart
 test/model_expense_test.dart
 test/model_income_test.dart
 test/model_income_type_test.dart
+test/pie_chart_data_test.dart
 test/register_expense_req_test.dart
 test/register_expense_res_test.dart
 test/register_income_req_test.dart

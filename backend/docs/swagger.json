@@ -43,6 +43,58 @@
         }
       }
     },
+    "/chart/pie": {
+      "get": {
+        "tags": [
+          "suito.chart"
+        ],
+        "summary": "Get pie chart data",
+        "description": "円グラフデータを取得します",
+        "operationId": "getPieChartData",
+        "parameters": [
+          {
+            "name": "start",
+            "in": "query",
+            "description": "Range start (YYYY-MM-DD)",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "end",
+            "in": "query",
+            "description": "Range end (YYYY-MM-DD)",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetPieChartDataRes"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unknown Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuitoError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/expense": {
       "put": {
         "tags": [
@@ -596,6 +648,27 @@
           }
         }
       },
+      "GetPieChartDataRes": {
+        "required": [
+          "categoryData",
+          "locationData"
+        ],
+        "type": "object",
+        "properties": {
+          "categoryData": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PieChartData"
+            }
+          },
+          "locationData": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PieChartData"
+            }
+          }
+        }
+      },
       "IncomeDetailReq": {
         "required": [
           "id"
@@ -671,6 +744,21 @@
             "items": {
               "$ref": "#/components/schemas/Transaction"
             }
+          }
+        }
+      },
+      "PieChartData": {
+        "required": [
+          "amount",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
           }
         }
       },

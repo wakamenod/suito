@@ -14,6 +14,10 @@ type (
 		Amount       int64
 		Month        string
 	}
+	PieChartData struct {
+		Name   string `json:"name"`
+		Amount int64  `json:"amount"`
+	} // @name PieChartData
 )
 
 func (r *SuitoRepository) FindExpenses(uid string, start, end *time.Time) ([]model.Expense, error) {
@@ -72,7 +76,7 @@ func (r *SuitoRepository) HardDeleteAllUserExpenses(uid string) error {
 }
 
 func (r *SuitoRepository) FindColumnChartExpenseData(uid string) ([]ColumnChartData, error) {
-	var months []ColumnChartData
+	var res []ColumnChartData
 
 	if err := r.db.Raw(`
 SELECT
@@ -92,9 +96,61 @@ GROUP BY
 ORDER BY
     category_name DESC,
     month ASC
-`, uid, uid).Scan(&months).Error; err != nil {
-		return nil, errors.Wrap(err, "failed to find expense chart data")
+`, uid, uid).Scan(&res).Error; err != nil {
+		return nil, errors.Wrap(err, "failed to find expense column chart data")
 	}
 
-	return months, nil
+	return res, nil
+}
+
+func (r *SuitoRepository) FindPieChartCategoryData(uid string, start, end *time.Time) ([]PieChartData, error) {
+	var res []PieChartData
+
+	if err := r.db.Raw(`
+SELECT
+    COALESCE(ec.name, '') AS name,
+    SUM(e.amount) AS amount
+FROM
+    expense AS e
+LEFT JOIN
+    expense_category AS ec
+    ON ec.id = e.expense_category_id AND ec.uid = ? AND e.deleted_at IS NULL
+WHERE
+    e.uid = ?
+    AND local_date >= ? AND local_date < ?
+GROUP BY
+    ec.name
+ORDER BY
+    name DESC
+`, uid, uid, start, end).Scan(&res).Error; err != nil {
+		return nil, errors.Wrap(err, "failed to find expense category pie chart data")
+	}
+
+	return res, nil
+}
+
+func (r *SuitoRepository) FindPieChartLocationData(uid string, start, end *time.Time) ([]PieChartData, error) {
+	var res []PieChartData
+
+	if err := r.db.Raw(`
+SELECT
+    COALESCE(el.name, '') AS name,
+    SUM(e.amount) AS amount
+FROM
+    expense AS e
+LEFT JOIN
+    expense_location AS el
+    ON el.id = e.expense_location_id AND el.uid = ? AND e.deleted_at IS NULL
+WHERE
+    e.uid = ?
+    AND local_date >= ? AND local_date < ?
+GROUP BY
+    el.name
+ORDER BY
+    name DESC
+`, uid, uid, start, end).Scan(&res).Error; err != nil {
+		return nil, errors.Wrap(err, "failed to find expense location pie chart data")
+	}
+
+	return res, nil
 }

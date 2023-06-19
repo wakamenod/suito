@@ -46,6 +46,52 @@ const docTemplate = `{
                 }
             }
         },
+        "/chart/pie": {
+            "get": {
+                "description": "円グラフデータを取得します",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "suito.chart"
+                ],
+                "summary": "Get pie chart data",
+                "operationId": "getPieChartData",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Range start (YYYY-MM-DD)",
+                        "name": "start",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Range end (YYYY-MM-DD)",
+                        "name": "end",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/GetPieChartDataRes"
+                        }
+                    },
+                    "500": {
+                        "description": "Unknown Error",
+                        "schema": {
+                            "$ref": "#/definitions/SuitoError"
+                        }
+                    }
+                }
+            }
+        },
         "/expense": {
             "put": {
                 "description": "支出情報を更新します",
@@ -567,6 +613,27 @@ const docTemplate = `{
                 }
             }
         },
+        "GetPieChartDataRes": {
+            "type": "object",
+            "required": [
+                "categoryData",
+                "locationData"
+            ],
+            "properties": {
+                "categoryData": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/PieChartData"
+                    }
+                },
+                "locationData": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/PieChartData"
+                    }
+                }
+            }
+        },
         "IncomeDetailReq": {
             "type": "object",
             "required": [
@@ -642,6 +709,21 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/Transaction"
                     }
+                }
+            }
+        },
+        "PieChartData": {
+            "type": "object",
+            "required": [
+                "amount",
+                "name"
+            ],
+            "properties": {
+                "amount": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
                 }
             }
         },

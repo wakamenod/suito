@@ -16,5 +16,14 @@ void main() {
       // TODO
     });
 
+    // Get pie chart data
+    //
+    // 円グラフデータを取得します
+    //
+    //Future<GetPieChartDataRes> getPieChartData(String start, String end) async
+    test('test getPieChartData', () async {
+      // TODO
+    });
+
   });
 }
