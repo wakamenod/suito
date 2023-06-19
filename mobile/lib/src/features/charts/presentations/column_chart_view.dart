@@ -42,6 +42,8 @@ class ColumnChartView extends ConsumerWidget {
                           // },
                           shared: true,
                           enable: true,
+                          textStyle: const TextStyle(
+                              fontFamily: 'NotoSerifJP', fontSize: 9),
                           tooltipPosition: TooltipPosition.pointer),
                       zoomPanBehavior: ZoomPanBehavior(
                           enablePanning: true,
@@ -51,7 +53,9 @@ class ColumnChartView extends ConsumerWidget {
                         // interval: 10000,
                         majorGridLines: const MajorGridLines(width: 0),
                         labelStyle: const TextStyle(
-                            color: Color(0xFF71AF99), fontSize: 13),
+                            color: Color(0xFF71AF99),
+                            fontSize: 13,
+                            fontFamily: 'NotoSerifJP'),
                         minimum: 0,
                         numberFormat: formatter,
                       ),

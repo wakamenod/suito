@@ -78,7 +78,11 @@ class PieChartView extends ConsumerWidget {
               Expanded(
                 child: Center(
                     child: SfCircularChart(
-                        legend: Legend(isVisible: true),
+                        legend: Legend(
+                          isVisible: true,
+                          textStyle: const TextStyle(
+                              fontFamily: 'NotoSerifJP', fontSize: 12),
+                        ),
                         // Enables the tooltip for all the series in chart
                         // tooltipBehavior: _tooltipBehavior,
                         series: <CircularSeries<PieChartData, String>>[
@@ -91,8 +95,11 @@ class PieChartView extends ConsumerWidget {
                           yValueMapper: (PieChartData data, _) => data.amount,
                           dataLabelMapper: (PieChartData data, _) =>
                               '${data.name}\n${currencyFormatter.format(data.amount)}',
-                          dataLabelSettings:
-                              const DataLabelSettings(isVisible: true)),
+                          dataLabelSettings: const DataLabelSettings(
+                            isVisible: true,
+                            textStyle: TextStyle(
+                                fontFamily: 'NotoSerifJP', fontSize: 12),
+                          )),
                     ])),
               ),
             ],

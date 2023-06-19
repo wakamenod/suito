@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:suito/i18n/translations.g.dart';
 import 'package:suito/src/routing/app_router.dart';
@@ -9,12 +10,22 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final goRouter = ref.watch(goRouterProvider);
+    final locale = TranslationProvider.of(context).flutterLocale;
     return MaterialApp.router(
-      locale: TranslationProvider.of(context).flutterLocale,
+      locale: locale,
       routerConfig: goRouter,
       restorationScopeId: 'app',
       debugShowCheckedModeBanner: false,
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: [
+        locale,
+      ],
       theme: ThemeData(
+        fontFamily: 'NotoSerifJP',
         useMaterial3: false,
         primarySwatch: Colors.grey,
         elevatedButtonTheme: ElevatedButtonThemeData(
