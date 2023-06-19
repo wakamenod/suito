@@ -46,13 +46,13 @@ Please follow the [installation procedure](#installation--usage) and then run th
 import 'package:openapi/openapi.dart';
 
 
-final api = Openapi().getSuitoDefaultApi();
+final api = Openapi().getSuitoChartApi();
 
 try {
-    final response = await api.ping();
+    final response = await api.getColumnChartData();
     print(response);
 } catch on DioError (e) {
-    print("Exception when calling SuitoDefaultApi->ping: $e\n");
+    print("Exception when calling SuitoChartApi->getColumnChartData: $e\n");
 }
 
 ```
@@ -63,6 +63,7 @@ All URIs are relative to *http://localhost:8009/api/v1*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+[*SuitoChartApi*](doc/SuitoChartApi.md) | [**getColumnChartData**](doc/SuitoChartApi.md#getcolumnchartdata) | **GET** /chart/column | Get column chart data
 [*SuitoDefaultApi*](doc/SuitoDefaultApi.md) | [**ping**](doc/SuitoDefaultApi.md#ping) | **GET** /ping | Ping
 [*SuitoExpenseApi*](doc/SuitoExpenseApi.md) | [**deleteExpense**](doc/SuitoExpenseApi.md#deleteexpense) | **DELETE** /expense | Delete expense
 [*SuitoExpenseApi*](doc/SuitoExpenseApi.md) | [**expenseDetail**](doc/SuitoExpenseApi.md#expensedetail) | **POST** /expense/detail | Get expense detail
@@ -82,6 +83,7 @@ Class | Method | HTTP request | Description
  - [DeleteExpenseReq](doc/DeleteExpenseReq.md)
  - [ExpenseDetailReq](doc/ExpenseDetailReq.md)
  - [ExpenseDetailRes](doc/ExpenseDetailRes.md)
+ - [GetColumnChartDataRes](doc/GetColumnChartDataRes.md)
  - [IncomeDetailReq](doc/IncomeDetailReq.md)
  - [IncomeDetailRes](doc/IncomeDetailRes.md)
  - [ListExpenseCategoriesRes](doc/ListExpenseCategoriesRes.md)
@@ -97,6 +99,8 @@ Class | Method | HTTP request | Description
  - [RegisterExpenseRes](doc/RegisterExpenseRes.md)
  - [RegisterIncomeReq](doc/RegisterIncomeReq.md)
  - [RegisterIncomeRes](doc/RegisterIncomeRes.md)
+ - [ServicesColumnChartCategoryData](doc/ServicesColumnChartCategoryData.md)
+ - [ServicesColumnChartData](doc/ServicesColumnChartData.md)
  - [SuitoError](doc/SuitoError.md)
  - [Transaction](doc/Transaction.md)
  - [TransactionMonthsRes](doc/TransactionMonthsRes.md)

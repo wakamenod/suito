@@ -3,7 +3,7 @@ package services
 import (
 	"strings"
 
-	"github.com/wakamenod/suito/api/services/repositories"
+	"github.com/wakamenod/suito/api/repositories"
 	"github.com/wakamenod/suito/model"
 )
 
@@ -51,7 +51,7 @@ func (s *SuitoService) ListExpenseLocationService(uid string) ([]model.ExpenseLo
 func (s *SuitoService) CreateExpenseService(uid string, expense model.Expense, categoryName, locationName string) (model.Expense, error) {
 	var res model.Expense
 
-	err := s.repo.Transaction(func(txRepo repositories.Repository) error {
+	err := s.repo.Transaction(func(txRepo *repositories.SuitoRepository) error {
 		if categoryName != "" {
 			category, err := s.repo.FindOrCreateExpenseCategory(uid, strings.TrimSpace(categoryName))
 			if err != nil {

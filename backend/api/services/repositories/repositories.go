@@ -4,11 +4,12 @@ import (
 	"database/sql"
 	"time"
 
+	"github.com/wakamenod/suito/api/repositories"
 	"github.com/wakamenod/suito/model"
 )
 
 type Repository interface {
-	Transaction(fc func(txRepo Repository) error, opts ...*sql.TxOptions) (err error)
+	Transaction(fc func(txRepo *repositories.SuitoRepository) error, opts ...*sql.TxOptions) (err error)
 	FindExpense(id, uid string) (model.Expense, error)
 	FindExpenses(uid string, start, end *time.Time) ([]model.Expense, error)
 	FindIncome(id, uid string) (model.Income, error)
@@ -32,4 +33,6 @@ type Repository interface {
 	HardDeleteAllUserExpenseLocations(uid string) error
 	HardDeleteAllUserExpenses(uid string) error
 	HardDeleteAllUserIncomes(uid string) error
+	FindColumnChartExpenseData(uid string) ([]repositories.ColumnChartData, error)
+	FindColumnChartIncomeData(uid string) ([]repositories.ColumnChartData, error)
 }

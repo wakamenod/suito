@@ -5,6 +5,7 @@ analysis_options.yaml
 doc/DeleteExpenseReq.md
 doc/ExpenseDetailReq.md
 doc/ExpenseDetailRes.md
+doc/GetColumnChartDataRes.md
 doc/IncomeDetailReq.md
 doc/IncomeDetailRes.md
 doc/ListExpenseCategoriesRes.md
@@ -20,6 +21,9 @@ doc/RegisterExpenseReq.md
 doc/RegisterExpenseRes.md
 doc/RegisterIncomeReq.md
 doc/RegisterIncomeRes.md
+doc/ServicesColumnChartCategoryData.md
+doc/ServicesColumnChartData.md
+doc/SuitoChartApi.md
 doc/SuitoDefaultApi.md
 doc/SuitoError.md
 doc/SuitoExpenseApi.md
@@ -31,6 +35,7 @@ doc/UpdateExpenseReq.md
 doc/UpdateExpenseRes.md
 lib/openapi.dart
 lib/src/api.dart
+lib/src/api/suito_chart_api.dart
 lib/src/api/suito_default_api.dart
 lib/src/api/suito_expense_api.dart
 lib/src/api/suito_income_api.dart
@@ -46,6 +51,7 @@ lib/src/model/date.dart
 lib/src/model/delete_expense_req.dart
 lib/src/model/expense_detail_req.dart
 lib/src/model/expense_detail_res.dart
+lib/src/model/get_column_chart_data_res.dart
 lib/src/model/income_detail_req.dart
 lib/src/model/income_detail_res.dart
 lib/src/model/list_expense_categories_res.dart
@@ -61,6 +67,8 @@ lib/src/model/register_expense_req.dart
 lib/src/model/register_expense_res.dart
 lib/src/model/register_income_req.dart
 lib/src/model/register_income_res.dart
+lib/src/model/services_column_chart_category_data.dart
+lib/src/model/services_column_chart_data.dart
 lib/src/model/suito_error.dart
 lib/src/model/transaction.dart
 lib/src/model/transaction_months_res.dart
@@ -71,6 +79,7 @@ pubspec.yaml
 test/delete_expense_req_test.dart
 test/expense_detail_req_test.dart
 test/expense_detail_res_test.dart
+test/get_column_chart_data_res_test.dart
 test/income_detail_req_test.dart
 test/income_detail_res_test.dart
 test/list_expense_categories_res_test.dart
@@ -86,6 +95,9 @@ test/register_expense_req_test.dart
 test/register_expense_res_test.dart
 test/register_income_req_test.dart
 test/register_income_res_test.dart
+test/services_column_chart_category_data_test.dart
+test/services_column_chart_data_test.dart
+test/suito_chart_api_test.dart
 test/suito_default_api_test.dart
 test/suito_error_test.dart
 test/suito_expense_api_test.dart
