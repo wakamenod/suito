@@ -41,6 +41,8 @@ var importCmd = &cobra.Command{
 		// open Database
 		db := db.OpenDB()
 
+		importLocations(db)
+
 		// walk through test data directory
 		entries, err := os.ReadDir(dataDir)
 		fatalIfErr(err, "failed to read dir")
@@ -55,8 +57,6 @@ var importCmd = &cobra.Command{
 				importYearlyFile(db, entry)
 			}
 		}
-
-		importLocations(db)
 	},
 }
 
@@ -207,15 +207,32 @@ func createExpense(db *gorm.DB, date, title, categoryID string, amount int) {
 		fatalIfErr(err, "failed to parse date")
 	}
 
+	var locationID string
+	if location := findExpenseLocationByName(db, title); location != nil {
+		locationID = location.ID
+	}
+
 	expense := model.Expense{
 		ID:                xid.New().String(),
 		UID:               os.Getenv("FIREBASE_UID"),
 		Title:             title,
 		Amount:            amount,
 		ExpenseCategoryID: categoryID,
+		ExpenseLocationID: locationID,
 		LocalDate:         parsedDate,
 	}
 	fatalIfErr(db.Create(&expense).Error)
+}
+
+func findExpenseLocationByName(db *gorm.DB, name string) *model.ExpenseLocation {
+	var location model.ExpenseLocation
+	err := db.Where("name LIKE ? AND uid = ?", fmt.Sprintf("%%%s%%", name), os.Getenv("FIREBASE_UID")).
+		First(&location).Error
+	if err == gorm.ErrRecordNotFound {
+		return nil
+	}
+	fatalIfErr(err, "failed to Find Expense Location by Name")
+	return &location
 }
 
 func firstOrCreateCategory(db *gorm.DB, categoryName string) model.ExpenseCategory {

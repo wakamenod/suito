@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:openapi/openapi.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:suito/src/features/charts/repositories/fake_pie_chart_data_repository.dart';
-import 'package:suito/src/features/charts/services/pie_chart_data.dart';
+import 'package:suito/src/features/charts/repositories/pie_chart_data_repository.dart';
+import 'package:suito/src/features/charts/services/pie_chart.dart';
+import 'package:suito/src/utils/datetime_utils.dart';
 
 part 'pie_chart_service.g.dart';
 
 @riverpod
 class PieChartController extends _$PieChartController {
   @override
-  Future<PieChartData> build() async {
+  Future<PieChart> build() async {
     final DateTime now = DateTime.now();
     final DateTime firstDayOfMonth = DateTime(now.year, now.month, 1);
     final initialRange = DateTimeRange(start: firstDayOfMonth, end: now);
 
     final res = await _fetch(initialRange);
-    return PieChartData(
+    return PieChart(
         dateRange: initialRange, res: res, type: PieChartType.category);
   }
 
@@ -36,6 +38,9 @@ class PieChartController extends _$PieChartController {
   }
 
   Future<GetPieChartDataRes> _fetch(DateTimeRange dateRange) async {
-    return FakePieChartDataRepository().fetchFakePieChartData(dateRange);
+    final res = await ref
+        .watch(pieChartDataRepositoryProvider)
+        .fetchPieChartData(dateRange.start.toYMD(), dateRange.end.toYMD());
+    return res;
   }
 }
