@@ -5,6 +5,7 @@ package repositories
 
 import (
 	"database/sql"
+	"github.com/wakamenod/suito/api/repositories"
 	"github.com/wakamenod/suito/model"
 	"sync"
 	"time"
@@ -31,6 +32,12 @@ var _ Repository = &RepositoryMock{}
 //			},
 //			FindAllUIDsFunc: func() ([]string, error) {
 //				panic("mock out the FindAllUIDs method")
+//			},
+//			FindColumnChartExpenseDataFunc: func(uid string) ([]repositories.ColumnChartData, error) {
+//				panic("mock out the FindColumnChartExpenseData method")
+//			},
+//			FindColumnChartIncomeDataFunc: func(uid string) ([]repositories.ColumnChartData, error) {
+//				panic("mock out the FindColumnChartIncomeData method")
 //			},
 //			FindExpenseFunc: func(id string, uid string) (model.Expense, error) {
 //				panic("mock out the FindExpense method")
@@ -86,7 +93,7 @@ var _ Repository = &RepositoryMock{}
 //			HardDeleteAllUserIncomesFunc: func(uid string) error {
 //				panic("mock out the HardDeleteAllUserIncomes method")
 //			},
-//			TransactionFunc: func(fc func(txRepo Repository) error, opts ...*sql.TxOptions) error {
+//			TransactionFunc: func(fc func(txRepo *repositories.SuitoRepository) error, opts ...*sql.TxOptions) error {
 //				panic("mock out the Transaction method")
 //			},
 //			UpdateExpenseFunc: func(uid string, expense model.Expense) (model.Expense, error) {
@@ -110,6 +117,12 @@ type RepositoryMock struct {
 
 	// FindAllUIDsFunc mocks the FindAllUIDs method.
 	FindAllUIDsFunc func() ([]string, error)
+
+	// FindColumnChartExpenseDataFunc mocks the FindColumnChartExpenseData method.
+	FindColumnChartExpenseDataFunc func(uid string) ([]repositories.ColumnChartData, error)
+
+	// FindColumnChartIncomeDataFunc mocks the FindColumnChartIncomeData method.
+	FindColumnChartIncomeDataFunc func(uid string) ([]repositories.ColumnChartData, error)
 
 	// FindExpenseFunc mocks the FindExpense method.
 	FindExpenseFunc func(id string, uid string) (model.Expense, error)
@@ -166,7 +179,7 @@ type RepositoryMock struct {
 	HardDeleteAllUserIncomesFunc func(uid string) error
 
 	// TransactionFunc mocks the Transaction method.
-	TransactionFunc func(fc func(txRepo Repository) error, opts ...*sql.TxOptions) error
+	TransactionFunc func(fc func(txRepo *repositories.SuitoRepository) error, opts ...*sql.TxOptions) error
 
 	// UpdateExpenseFunc mocks the UpdateExpense method.
 	UpdateExpenseFunc func(uid string, expense model.Expense) (model.Expense, error)
@@ -196,6 +209,16 @@ type RepositoryMock struct {
 		}
 		// FindAllUIDs holds details about calls to the FindAllUIDs method.
 		FindAllUIDs []struct {
+		}
+		// FindColumnChartExpenseData holds details about calls to the FindColumnChartExpenseData method.
+		FindColumnChartExpenseData []struct {
+			// UID is the uid argument value.
+			UID string
+		}
+		// FindColumnChartIncomeData holds details about calls to the FindColumnChartIncomeData method.
+		FindColumnChartIncomeData []struct {
+			// UID is the uid argument value.
+			UID string
 		}
 		// FindExpense holds details about calls to the FindExpense method.
 		FindExpense []struct {
@@ -312,7 +335,7 @@ type RepositoryMock struct {
 		// Transaction holds details about calls to the Transaction method.
 		Transaction []struct {
 			// Fc is the fc argument value.
-			Fc func(txRepo Repository) error
+			Fc func(txRepo *repositories.SuitoRepository) error
 			// Opts is the opts argument value.
 			Opts []*sql.TxOptions
 		}
@@ -328,6 +351,8 @@ type RepositoryMock struct {
 	lockCreateIncome                       sync.RWMutex
 	lockDeleteExpense                      sync.RWMutex
 	lockFindAllUIDs                        sync.RWMutex
+	lockFindColumnChartExpenseData         sync.RWMutex
+	lockFindColumnChartIncomeData          sync.RWMutex
 	lockFindExpense                        sync.RWMutex
 	lockFindExpenseCategories              sync.RWMutex
 	lockFindExpenseCategory                sync.RWMutex
@@ -482,6 +507,70 @@ func (mock *RepositoryMock) FindAllUIDsCalls() []struct {
 	mock.lockFindAllUIDs.RLock()
 	calls = mock.calls.FindAllUIDs
 	mock.lockFindAllUIDs.RUnlock()
+	return calls
+}
+
+// FindColumnChartExpenseData calls FindColumnChartExpenseDataFunc.
+func (mock *RepositoryMock) FindColumnChartExpenseData(uid string) ([]repositories.ColumnChartData, error) {
+	if mock.FindColumnChartExpenseDataFunc == nil {
+		panic("RepositoryMock.FindColumnChartExpenseDataFunc: method is nil but Repository.FindColumnChartExpenseData was just called")
+	}
+	callInfo := struct {
+		UID string
+	}{
+		UID: uid,
+	}
+	mock.lockFindColumnChartExpenseData.Lock()
+	mock.calls.FindColumnChartExpenseData = append(mock.calls.FindColumnChartExpenseData, callInfo)
+	mock.lockFindColumnChartExpenseData.Unlock()
+	return mock.FindColumnChartExpenseDataFunc(uid)
+}
+
+// FindColumnChartExpenseDataCalls gets all the calls that were made to FindColumnChartExpenseData.
+// Check the length with:
+//
+//	len(mockedRepository.FindColumnChartExpenseDataCalls())
+func (mock *RepositoryMock) FindColumnChartExpenseDataCalls() []struct {
+	UID string
+} {
+	var calls []struct {
+		UID string
+	}
+	mock.lockFindColumnChartExpenseData.RLock()
+	calls = mock.calls.FindColumnChartExpenseData
+	mock.lockFindColumnChartExpenseData.RUnlock()
+	return calls
+}
+
+// FindColumnChartIncomeData calls FindColumnChartIncomeDataFunc.
+func (mock *RepositoryMock) FindColumnChartIncomeData(uid string) ([]repositories.ColumnChartData, error) {
+	if mock.FindColumnChartIncomeDataFunc == nil {
+		panic("RepositoryMock.FindColumnChartIncomeDataFunc: method is nil but Repository.FindColumnChartIncomeData was just called")
+	}
+	callInfo := struct {
+		UID string
+	}{
+		UID: uid,
+	}
+	mock.lockFindColumnChartIncomeData.Lock()
+	mock.calls.FindColumnChartIncomeData = append(mock.calls.FindColumnChartIncomeData, callInfo)
+	mock.lockFindColumnChartIncomeData.Unlock()
+	return mock.FindColumnChartIncomeDataFunc(uid)
+}
+
+// FindColumnChartIncomeDataCalls gets all the calls that were made to FindColumnChartIncomeData.
+// Check the length with:
+//
+//	len(mockedRepository.FindColumnChartIncomeDataCalls())
+func (mock *RepositoryMock) FindColumnChartIncomeDataCalls() []struct {
+	UID string
+} {
+	var calls []struct {
+		UID string
+	}
+	mock.lockFindColumnChartIncomeData.RLock()
+	calls = mock.calls.FindColumnChartIncomeData
+	mock.lockFindColumnChartIncomeData.RUnlock()
 	return calls
 }
 
@@ -1106,12 +1195,12 @@ func (mock *RepositoryMock) HardDeleteAllUserIncomesCalls() []struct {
 }
 
 // Transaction calls TransactionFunc.
-func (mock *RepositoryMock) Transaction(fc func(txRepo Repository) error, opts ...*sql.TxOptions) error {
+func (mock *RepositoryMock) Transaction(fc func(txRepo *repositories.SuitoRepository) error, opts ...*sql.TxOptions) error {
 	if mock.TransactionFunc == nil {
 		panic("RepositoryMock.TransactionFunc: method is nil but Repository.Transaction was just called")
 	}
 	callInfo := struct {
-		Fc   func(txRepo Repository) error
+		Fc   func(txRepo *repositories.SuitoRepository) error
 		Opts []*sql.TxOptions
 	}{
 		Fc:   fc,
@@ -1128,11 +1217,11 @@ func (mock *RepositoryMock) Transaction(fc func(txRepo Repository) error, opts .
 //
 //	len(mockedRepository.TransactionCalls())
 func (mock *RepositoryMock) TransactionCalls() []struct {
-	Fc   func(txRepo Repository) error
+	Fc   func(txRepo *repositories.SuitoRepository) error
 	Opts []*sql.TxOptions
 } {
 	var calls []struct {
-		Fc   func(txRepo Repository) error
+		Fc   func(txRepo *repositories.SuitoRepository) error
 		Opts []*sql.TxOptions
 	}
 	mock.lockTransaction.RLock()

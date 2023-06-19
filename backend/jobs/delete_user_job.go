@@ -9,7 +9,6 @@ import (
 	"github.com/pkg/errors"
 	"github.com/wakamenod/suito/api/repositories"
 	"github.com/wakamenod/suito/api/services"
-	srepositories "github.com/wakamenod/suito/api/services/repositories"
 	"github.com/wakamenod/suito/client"
 	"github.com/wakamenod/suito/log"
 )
@@ -21,11 +20,11 @@ var (
 type (
 	deleteUserJob struct {
 		authClient client.AuthClient
-		repo       srepositories.Repository
+		repo       *repositories.SuitoRepository
 	}
 )
 
-func newDeleteUserJob(client client.AuthClient, repo srepositories.Repository) *deleteUserJob {
+func newDeleteUserJob(client client.AuthClient, repo *repositories.SuitoRepository) *deleteUserJob {
 	return &deleteUserJob{authClient: client, repo: repo}
 }
 

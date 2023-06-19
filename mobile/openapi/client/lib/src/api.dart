@@ -9,6 +9,7 @@ import 'package:openapi/src/auth/api_key_auth.dart';
 import 'package:openapi/src/auth/basic_auth.dart';
 import 'package:openapi/src/auth/bearer_auth.dart';
 import 'package:openapi/src/auth/oauth.dart';
+import 'package:openapi/src/api/suito_chart_api.dart';
 import 'package:openapi/src/api/suito_default_api.dart';
 import 'package:openapi/src/api/suito_expense_api.dart';
 import 'package:openapi/src/api/suito_income_api.dart';
@@ -66,6 +67,12 @@ class Openapi {
     if (this.dio.interceptors.any((i) => i is ApiKeyAuthInterceptor)) {
       (this.dio.interceptors.firstWhere((element) => element is ApiKeyAuthInterceptor) as ApiKeyAuthInterceptor).apiKeys[name] = apiKey;
     }
+  }
+
+  /// Get SuitoChartApi instance, base route and serializer can be overridden by a given but be careful,
+  /// by doing that all interceptors will not be executed
+  SuitoChartApi getSuitoChartApi() {
+    return SuitoChartApi(dio, serializers);
   }
 
   /// Get SuitoDefaultApi instance, base route and serializer can be overridden by a given but be careful,

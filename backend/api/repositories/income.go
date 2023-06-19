@@ -48,3 +48,31 @@ func (r *SuitoRepository) HardDeleteAllUserIncomes(uid string) error {
 	}
 	return nil
 }
+
+func (r *SuitoRepository) FindColumnChartIncomeData(uid string) ([]ColumnChartData, error) {
+	var months []ColumnChartData
+
+	if err := r.db.Raw(`
+SELECT
+    COALESCE(it.name, '') AS category_name,
+    DATE_FORMAT(i.local_date, '%Y-%m') AS month,
+    SUM(i.amount) AS amount
+FROM
+    income AS i
+LEFT JOIN
+    income_type AS it
+    ON it.id = i.income_type_id AND it.uid = ? AND i.deleted_at IS NULL
+WHERE
+    i.uid = ?
+GROUP BY
+    it.name,
+    month
+ORDER BY
+    category_name DESC,
+    month ASC
+`, uid, uid).Scan(&months).Error; err != nil {
+		return nil, errors.Wrap(err, "failed to find income chart data")
+	}
+
+	return months, nil
+}

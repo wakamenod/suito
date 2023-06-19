@@ -1,6 +1,7 @@
 package repositories
 
 import (
+	"fmt"
 	"testing"
 	"time"
 
@@ -31,10 +32,24 @@ func TestFindIncomes2(t *testing.T) {
 	defer rollback(tx)
 	// setup test data
 	i := testutils.NewTestDataInserter(t, tx)
-	i.InsertIncome("user1", "2023-05-01", "title01")
-	i.InsertIncome("user2", "2023-05-02", "title02")
-	i.InsertIncome("user1", "2023-05-03", "title03")
-	i.InsertIncome("user1", "2023-06-01", "title06")
+
+	{
+		incomeType := i.InsertIncomeType("user2", "title01")
+		i.InsertIncome("user1", "2023-05-01", incomeType.ID)
+	}
+	{
+		incomeType := i.InsertIncomeType("user2", "title02")
+		i.InsertIncome("user2", "2023-05-02", incomeType.ID)
+	}
+	{
+		incomeType := i.InsertIncomeType("user2", "title03")
+		i.InsertIncome("user1", "2023-05-03", incomeType.ID)
+	}
+	{
+		incomeType := i.InsertIncomeType("user2", "title06")
+		i.InsertIncome("user1", "2023-06-01", incomeType.ID)
+	}
+
 	// run
 	start, end, err := dateutils.YearMonthDateRange("2023-05")
 	require.NoError(t, err)
@@ -52,9 +67,18 @@ func TestFindIncomes3(t *testing.T) {
 	defer rollback(tx)
 	// setup test data
 	i := testutils.NewTestDataInserter(t, tx)
-	i.InsertIncome("user1", "2023-05-01", "title01")
-	i.InsertIncome("user1", "2023-05-02", "title02")
-	i.InsertIncome("user1", "2023-06-03", "title03")
+	{
+		incomeType := i.InsertIncomeType("user2", "title01")
+		i.InsertIncome("user1", "2023-05-01", incomeType.ID)
+	}
+	{
+		incomeType := i.InsertIncomeType("user2", "title02")
+		i.InsertIncome("user1", "2023-05-02", incomeType.ID)
+	}
+	{
+		incomeType := i.InsertIncomeType("user2", "title03")
+		i.InsertIncome("user1", "2023-06-03", incomeType.ID)
+	}
 	// run
 	start, end, err := dateutils.YearMonthDateRange("2023-05")
 	require.NoError(t, err)
@@ -71,7 +95,8 @@ func TestFindIncome(t *testing.T) {
 	defer rollback(tx)
 	// setup test data
 	i := testutils.NewTestDataInserter(t, tx)
-	id := i.InsertIncome("user2", "2023-05-02", "title02")
+	incomeType := i.InsertIncomeType("user2", "title02")
+	id := i.InsertIncome("user2", "2023-05-02", incomeType.ID)
 	// run
 	res, err := NewSuitoRepository(tx).FindIncome(id, "user2")
 	// check
@@ -129,4 +154,47 @@ func TestHardDeleteAllUserIncomes(t *testing.T) {
 	var cnt int64
 	tx.Model(&model.Expense{}).Count(&cnt)
 	require.EqualValues(t, 1, cnt)
+}
+
+func TestFindColumnChartIncomeData(t *testing.T) {
+	tx := begin()
+	defer rollback(tx)
+	// setup
+	i := testutils.NewTestDataInserter(t, tx)
+	userID := "user1"
+	i.InsertIncome(userID, "2023-05-01")
+	i.InsertIncome("user99", "2023-05-01")
+	i.InsertIncome(userID, "2023-05-01")
+	salary := i.InsertIncomeType(userID, "Salary")
+	i.InsertIncome(userID, "2023-06-01", salary.ID)
+	i.InsertIncome("user99", "2023-05-01", salary.ID)
+	i.InsertIncome(userID, "2023-05-01", salary.ID)
+	// run
+	res, err := NewSuitoRepository(tx).FindColumnChartIncomeData(userID)
+	// check
+	require.NoError(t, err)
+
+	expects := []ColumnChartData{
+		{
+			CategoryName: "Salary",
+			Amount:       200,
+			Month:        "2023-05",
+		},
+		{
+			CategoryName: "Salary",
+			Amount:       200,
+			Month:        "2023-06",
+		},
+		{
+			CategoryName: "",
+			Amount:       400,
+			Month:        "2023-05",
+		},
+	}
+	require.Equal(t, len(expects), len(res))
+	for i, e := range expects {
+		require.Equal(t, e.CategoryName, res[i].CategoryName, fmt.Sprintf("Category name mismatch (row:%d)\n", i+1))
+		require.Equal(t, e.Amount, res[i].Amount, fmt.Sprintf("Amount mismatch (row:%d)\n", i+1))
+		require.Equal(t, e.Month, res[i].Month, fmt.Sprintf("Month mismatch (row:%d)\n", i+1))
+	}
 }

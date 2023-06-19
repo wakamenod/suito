@@ -1,6 +1,7 @@
 package repositories
 
 import (
+	"fmt"
 	"testing"
 	"time"
 
@@ -247,4 +248,47 @@ func TestHardDeleteAllUserExpenses(t *testing.T) {
 	var cnt int64
 	tx.Model(&model.Expense{}).Count(&cnt)
 	require.EqualValues(t, 1, cnt)
+}
+
+func TestFindColumnChartExpenseData(t *testing.T) {
+	tx := begin()
+	defer rollback(tx)
+	// setup
+	i := testutils.NewTestDataInserter(t, tx)
+	userID := "user1"
+	i.InsertExpense(userID, "2023-05-01", "title01")
+	i.InsertExpense("user99", "2023-05-01", "title99")
+	i.InsertExpense(userID, "2023-05-01", "title01_2")
+	food := i.InsertExpenseCategory(userID, "Food")
+	i.InsertExpense(userID, "2023-06-01", "title01", food.ID)
+	i.InsertExpense("user99", "2023-05-01", "title99", food.ID)
+	i.InsertExpense(userID, "2023-05-01", "title01_2", food.ID)
+	// run
+	res, err := NewSuitoRepository(tx).FindColumnChartExpenseData(userID)
+	// check
+	require.NoError(t, err)
+
+	expects := []ColumnChartData{
+		{
+			CategoryName: "Food",
+			Amount:       200,
+			Month:        "2023-05",
+		},
+		{
+			CategoryName: "Food",
+			Amount:       200,
+			Month:        "2023-06",
+		},
+		{
+			CategoryName: "",
+			Amount:       400,
+			Month:        "2023-05",
+		},
+	}
+	require.Equal(t, len(expects), len(res))
+	for i, e := range expects {
+		require.Equal(t, e.CategoryName, res[i].CategoryName, fmt.Sprintf("Category name mismatch (row:%d)\n", i+1))
+		require.Equal(t, e.Amount, res[i].Amount, fmt.Sprintf("Amount mismatch (row:%d)\n", i+1))
+		require.Equal(t, e.Month, res[i].Month, fmt.Sprintf("Month mismatch (row:%d)\n", i+1))
+	}
 }

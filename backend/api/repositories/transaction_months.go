@@ -17,7 +17,7 @@ FROM
   FROM
     expense
   WHERE
-    uid = ?
+    uid = ? AND deleted_at is NULL
 
   UNION
 
@@ -26,7 +26,7 @@ FROM
   FROM
     income
   WHERE
-    uid = ?
+    uid = ? AND deleted_at is NULL
 ) AS combined
 GROUP BY
   ym

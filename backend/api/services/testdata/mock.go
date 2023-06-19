@@ -4,12 +4,13 @@ import (
 	"database/sql"
 	"time"
 
-	"github.com/wakamenod/suito/api/services/repositories"
+	"github.com/wakamenod/suito/api/repositories"
+	srepositories "github.com/wakamenod/suito/api/services/repositories"
 	"github.com/wakamenod/suito/model"
 	"gorm.io/gorm"
 )
 
-var TestRepositoryMock = repositories.RepositoryMock{
+var TestRepositoryMock = srepositories.RepositoryMock{
 	FindExpensesFunc: func(uid string, start *time.Time, end *time.Time) ([]model.Expense, error) {
 		return expenseTestData, nil
 	},
@@ -70,7 +71,40 @@ var TestRepositoryMock = repositories.RepositoryMock{
 	DeleteExpenseFunc: func(id string, uid string) error {
 		return nil
 	},
-	TransactionFunc: func(fc func(txRepo repositories.Repository) error, opts ...*sql.TxOptions) error {
-		return fc(&repositories.RepositoryMock{})
+	TransactionFunc: func(fc func(txRepo *repositories.SuitoRepository) error, opts ...*sql.TxOptions) error {
+		return fc(repositories.NewSuitoRepository(nil))
+	},
+	FindColumnChartExpenseDataFunc: func(uid string) ([]repositories.ColumnChartData, error) {
+		return []repositories.ColumnChartData{
+			{
+				CategoryName: "Food",
+				Month:        "2023-05",
+				Amount:       1000,
+			},
+			{
+				CategoryName: "Food",
+				Month:        "2023-06",
+				Amount:       2000,
+			},
+			{
+				CategoryName: "Car",
+				Month:        "2023-05",
+				Amount:       3000,
+			},
+		}, nil
+	},
+	FindColumnChartIncomeDataFunc: func(uid string) ([]repositories.ColumnChartData, error) {
+		return []repositories.ColumnChartData{
+			{
+				CategoryName: "Salary",
+				Month:        "2023-05",
+				Amount:       3000,
+			},
+			{
+				CategoryName: "Salary",
+				Month:        "2023-07",
+				Amount:       2000,
+			},
+		}, nil
 	},
 }

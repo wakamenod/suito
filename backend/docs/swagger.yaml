@@ -6,6 +6,26 @@ info:
 servers:
 - url: //localhost:8009/api/v1
 paths:
+  /chart/column:
+    get:
+      tags:
+      - suito.chart
+      summary: Get column chart data
+      description: 棒グラフデータを取得します
+      operationId: getColumnChartData
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetColumnChartDataRes'
+        500:
+          description: Unknown Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuitoError'
   /expense:
     put:
       tags:
@@ -324,6 +344,20 @@ components:
           $ref: '#/components/schemas/model.Expense'
         location:
           type: string
+    GetColumnChartDataRes:
+      required:
+      - expenseData
+      - incomeData
+      type: object
+      properties:
+        expenseData:
+          type: array
+          items:
+            $ref: '#/components/schemas/services.ColumnChartCategoryData'
+        incomeData:
+          type: array
+          items:
+            $ref: '#/components/schemas/services.ColumnChartCategoryData'
     IncomeDetailReq:
       required:
       - id
@@ -530,4 +564,20 @@ components:
         id:
           type: string
         name:
+          type: string
+    services.ColumnChartCategoryData:
+      type: object
+      properties:
+        categoryName:
+          type: string
+        columnChartData:
+          type: array
+          items:
+            $ref: '#/components/schemas/services.ColumnChartData'
+    services.ColumnChartData:
+      type: object
+      properties:
+        amount:
+          type: integer
+        month:
           type: string

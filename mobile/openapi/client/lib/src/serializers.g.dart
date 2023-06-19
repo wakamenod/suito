@@ -10,6 +10,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(DeleteExpenseReq.serializer)
       ..add(ExpenseDetailReq.serializer)
       ..add(ExpenseDetailRes.serializer)
+      ..add(GetColumnChartDataRes.serializer)
       ..add(IncomeDetailReq.serializer)
       ..add(IncomeDetailRes.serializer)
       ..add(ListExpenseCategoriesRes.serializer)
@@ -25,6 +26,8 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(RegisterExpenseRes.serializer)
       ..add(RegisterIncomeReq.serializer)
       ..add(RegisterIncomeRes.serializer)
+      ..add(ServicesColumnChartCategoryData.serializer)
+      ..add(ServicesColumnChartData.serializer)
       ..add(SuitoError.serializer)
       ..add(Transaction.serializer)
       ..add(TransactionMonthsRes.serializer)
@@ -41,6 +44,18 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(ModelIncomeType)]),
           () => new ListBuilder<ModelIncomeType>())
+      ..addBuilderFactory(
+          const FullType(BuiltList,
+              const [const FullType(ServicesColumnChartCategoryData)]),
+          () => new ListBuilder<ServicesColumnChartCategoryData>())
+      ..addBuilderFactory(
+          const FullType(BuiltList,
+              const [const FullType(ServicesColumnChartCategoryData)]),
+          () => new ListBuilder<ServicesColumnChartCategoryData>())
+      ..addBuilderFactory(
+          const FullType(
+              BuiltList, const [const FullType(ServicesColumnChartData)]),
+          () => new ListBuilder<ServicesColumnChartData>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())

@@ -4,7 +4,8 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo/v4"
-	"github.com/wakamenod/suito/api/controllers/services"
+	cservices "github.com/wakamenod/suito/api/controllers/services"
+	"github.com/wakamenod/suito/api/services"
 	"github.com/wakamenod/suito/apperrors"
 	"github.com/wakamenod/suito/middleware"
 	"github.com/wakamenod/suito/utils/dateutils"
@@ -12,10 +13,10 @@ import (
 )
 
 type TransactionController struct {
-	service services.TransactionsService
+	service cservices.TransactionsService
 }
 
-func NewTransactionController(s services.TransactionsService) *TransactionController {
+func NewTransactionController(s cservices.TransactionsService) *TransactionController {
 	return &TransactionController{service: s}
 }
 

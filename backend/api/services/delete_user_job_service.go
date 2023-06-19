@@ -5,7 +5,8 @@ import (
 	"fmt"
 
 	"github.com/pkg/errors"
-	"github.com/wakamenod/suito/api/services/repositories"
+	"github.com/wakamenod/suito/api/repositories"
+	srepositories "github.com/wakamenod/suito/api/services/repositories"
 	"github.com/wakamenod/suito/client"
 	"github.com/wakamenod/suito/log"
 	"google.golang.org/api/iterator"
@@ -32,9 +33,9 @@ func (s *SuitoJobService) DeleteUsersJobService() error {
 	return nil
 }
 
-func deleteAllUserData(repo repositories.Repository, uids []string) error {
+func deleteAllUserData(repo srepositories.Repository, uids []string) error {
 	for _, uid := range uids {
-		err := repo.Transaction(func(txRepo repositories.Repository) error {
+		err := repo.Transaction(func(txRepo *repositories.SuitoRepository) error {
 			if err := txRepo.HardDeleteAllUserExpenseCategories(uid); err != nil {
 				return err
 			}

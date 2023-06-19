@@ -16,6 +16,36 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/chart/column": {
+            "get": {
+                "description": "棒グラフデータを取得します",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "suito.chart"
+                ],
+                "summary": "Get column chart data",
+                "operationId": "getColumnChartData",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/GetColumnChartDataRes"
+                        }
+                    },
+                    "500": {
+                        "description": "Unknown Error",
+                        "schema": {
+                            "$ref": "#/definitions/SuitoError"
+                        }
+                    }
+                }
+            }
+        },
         "/expense": {
             "put": {
                 "description": "支出情報を更新します",
@@ -484,6 +514,27 @@ const docTemplate = `{
                 }
             }
         },
+        "GetColumnChartDataRes": {
+            "type": "object",
+            "required": [
+                "expenseData",
+                "incomeData"
+            ],
+            "properties": {
+                "expenseData": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.ColumnChartCategoryData"
+                    }
+                },
+                "incomeData": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.ColumnChartCategoryData"
+                    }
+                }
+            }
+        },
         "IncomeDetailReq": {
             "type": "object",
             "required": [
@@ -795,6 +846,31 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "services.ColumnChartCategoryData": {
+            "type": "object",
+            "properties": {
+                "categoryName": {
+                    "type": "string"
+                },
+                "columnChartData": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.ColumnChartData"
+                    }
+                }
+            }
+        },
+        "services.ColumnChartData": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "integer"
+                },
+                "month": {
                     "type": "string"
                 }
             }

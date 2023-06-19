@@ -8,6 +8,14 @@ import (
 	"github.com/wakamenod/suito/model"
 )
 
+type (
+	ColumnChartData struct {
+		CategoryName string
+		Amount       int64
+		Month        string
+	}
+)
+
 func (r *SuitoRepository) FindExpenses(uid string, start, end *time.Time) ([]model.Expense, error) {
 	var expenses []model.Expense
 
@@ -61,4 +69,32 @@ func (r *SuitoRepository) HardDeleteAllUserExpenses(uid string) error {
 		return errors.Wrap(err, "failed to hard delete expenses")
 	}
 	return nil
+}
+
+func (r *SuitoRepository) FindColumnChartExpenseData(uid string) ([]ColumnChartData, error) {
+	var months []ColumnChartData
+
+	if err := r.db.Raw(`
+SELECT
+    COALESCE(ec.name, '') AS category_name,
+    DATE_FORMAT(e.local_date, '%Y-%m') AS month,
+    SUM(e.amount) AS amount
+FROM
+    expense AS e
+LEFT JOIN
+    expense_category AS ec
+    ON ec.id = e.expense_category_id AND ec.uid = ? AND e.deleted_at IS NULL
+WHERE
+    e.uid = ?
+GROUP BY
+    ec.name,
+    month
+ORDER BY
+    category_name DESC,
+    month ASC
+`, uid, uid).Scan(&months).Error; err != nil {
+		return nil, errors.Wrap(err, "failed to find expense chart data")
+	}
+
+	return months, nil
 }
