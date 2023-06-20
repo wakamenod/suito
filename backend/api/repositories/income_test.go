@@ -198,3 +198,34 @@ func TestFindColumnChartIncomeData(t *testing.T) {
 		require.Equal(t, e.Month, res[i].Month, fmt.Sprintf("Month mismatch (row:%d)\n", i+1))
 	}
 }
+
+func TestUpdateIncome(t *testing.T) {
+	tx := begin()
+	defer rollback(tx)
+	// setup
+	i := testutils.NewTestDataInserter(t, tx)
+	id := i.InsertIncome("user1", "2023-05-01", "income_type_id_01")
+	i.InsertIncome("user99", "2023-05-01", "income_type_id_99")
+	i.InsertIncome("user1", "2023-05-01", "income_type_id_01_2")
+	updateIncomeTypeID := "update incomeTypeID"
+	targetIncome := model.Income{
+		ID: id,
+		IncomeType: model.IncomeType{
+			ID:   updateIncomeTypeID,
+			Name: "update title",
+		},
+		IncomeTypeID: updateIncomeTypeID,
+		Amount:       2000, LocalDate: time.Date(2022, 6, 1, 0, 0, 0, 0, time.UTC),
+	}
+	// run
+	_, err := NewSuitoRepository(tx).UpdateIncome("user1", targetIncome)
+	// check
+	require.NoError(t, err)
+	found, err := NewSuitoRepository(tx).FindIncome(id, "user1")
+	require.NoError(t, err)
+	// require.Equal(t, targetIncome.IncomeType.Name, found.IncomeType.Name)
+	require.Equal(t, targetIncome.Amount, found.Amount)
+	layout := "2006-01-02"
+	require.Equal(t, targetIncome.LocalDate.Format(layout), found.LocalDate.Format(layout))
+	require.Equal(t, targetIncome.IncomeTypeID, found.IncomeTypeID)
+}

@@ -28,14 +28,41 @@ func (s *SuitoService) CreateIncomeService(uid string, income model.Income) (mod
 
 	err := s.repo.Transaction(func(txRepo *repositories.SuitoRepository) error {
 		if income.IncomeType.Name != "" {
-			incomeType, err := s.repo.FindOrCreateExpenseLocation(uid, strings.TrimSpace(income.IncomeType.Name))
+			incomeType, err := s.repo.FindOrCreateIncomeType(uid, strings.TrimSpace(income.IncomeType.Name))
 			if err != nil {
 				return err
 			}
 			income.IncomeTypeID = incomeType.ID
+			income.IncomeType = incomeType
 		}
 
 		income, err := s.repo.CreateIncome(uid, income)
+		if err != nil {
+			return err
+		}
+		res = income
+		return nil
+	})
+	if err != nil {
+		return res, err
+	}
+	return res, nil
+}
+
+func (s *SuitoService) UpdateIncomeService(uid string, income model.Income) (model.Income, error) {
+	var res model.Income
+
+	err := s.repo.Transaction(func(txRepo *repositories.SuitoRepository) error {
+		if income.IncomeType.Name != "" {
+			incomeType, err := s.repo.FindOrCreateIncomeType(uid, strings.TrimSpace(income.IncomeType.Name))
+			if err != nil {
+				return err
+			}
+			income.IncomeTypeID = incomeType.ID
+			income.IncomeType = incomeType
+		}
+
+		income, err := s.repo.UpdateIncome(uid, income)
 		if err != nil {
 			return err
 		}

@@ -75,6 +75,7 @@ Class | Method | HTTP request | Description
 [*SuitoIncomeApi*](doc/SuitoIncomeApi.md) | [**incomeDetail**](doc/SuitoIncomeApi.md#incomedetail) | **POST** /income/detail | Get income detail
 [*SuitoIncomeApi*](doc/SuitoIncomeApi.md) | [**listIncomeTypes**](doc/SuitoIncomeApi.md#listincometypes) | **GET** /income/types | List income types
 [*SuitoIncomeApi*](doc/SuitoIncomeApi.md) | [**registerIncome**](doc/SuitoIncomeApi.md#registerincome) | **POST** /income | Register income
+[*SuitoIncomeApi*](doc/SuitoIncomeApi.md) | [**updateIncome**](doc/SuitoIncomeApi.md#updateincome) | **PUT** /income | Update income
 [*SuitoTransactionsApi*](doc/SuitoTransactionsApi.md) | [**listTransactions**](doc/SuitoTransactionsApi.md#listtransactions) | **GET** /transactions | List transactions
 [*SuitoTransactionsApi*](doc/SuitoTransactionsApi.md) | [**transactionMonths**](doc/SuitoTransactionsApi.md#transactionmonths) | **GET** /transactions/months | List transaction months
 
@@ -109,6 +110,8 @@ Class | Method | HTTP request | Description
  - [TransactionMonthsRes](doc/TransactionMonthsRes.md)
  - [UpdateExpenseReq](doc/UpdateExpenseReq.md)
  - [UpdateExpenseRes](doc/UpdateExpenseRes.md)
+ - [UpdateIncomeReq](doc/UpdateIncomeReq.md)
+ - [UpdateIncomeRes](doc/UpdateIncomeRes.md)
 
 
 ## Documentation For Authorization

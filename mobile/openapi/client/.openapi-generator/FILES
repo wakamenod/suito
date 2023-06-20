@@ -35,6 +35,8 @@ doc/Transaction.md
 doc/TransactionMonthsRes.md
 doc/UpdateExpenseReq.md
 doc/UpdateExpenseRes.md
+doc/UpdateIncomeReq.md
+doc/UpdateIncomeRes.md
 lib/openapi.dart
 lib/src/api.dart
 lib/src/api/suito_chart_api.dart
@@ -78,6 +80,8 @@ lib/src/model/transaction.dart
 lib/src/model/transaction_months_res.dart
 lib/src/model/update_expense_req.dart
 lib/src/model/update_expense_res.dart
+lib/src/model/update_income_req.dart
+lib/src/model/update_income_res.dart
 lib/src/serializers.dart
 pubspec.yaml
 test/column_chart_category_data_test.dart
@@ -113,3 +117,5 @@ test/transaction_months_res_test.dart
 test/transaction_test.dart
 test/update_expense_req_test.dart
 test/update_expense_res_test.dart
+test/update_income_req_test.dart
+test/update_income_res_test.dart

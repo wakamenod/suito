@@ -35,6 +35,8 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(TransactionMonthsRes.serializer)
       ..add(UpdateExpenseReq.serializer)
       ..add(UpdateExpenseRes.serializer)
+      ..add(UpdateIncomeReq.serializer)
+      ..add(UpdateIncomeRes.serializer)
       ..addBuilderFactory(
           const FullType(
               BuiltList, const [const FullType(ColumnChartCategoryData)]),

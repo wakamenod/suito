@@ -127,4 +127,10 @@ var TestRepositoryMock = srepositories.RepositoryMock{
 			},
 		}, nil
 	},
+	FindOrCreateIncomeTypeFunc: func(uid string, name string) (model.IncomeType, error) {
+		return model.IncomeType{ID: "NewIncomeTypeID", UID: uid, Name: name}, nil
+	},
+	UpdateIncomeFunc: func(uid string, income model.Income) (model.Income, error) {
+		return income, nil
+	},
 }

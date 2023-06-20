@@ -34,5 +34,14 @@ void main() {
       // TODO
     });
 
+    // Update income
+    //
+    // 収入情報を更新します
+    //
+    //Future<UpdateIncomeRes> updateIncome(UpdateIncomeReq request) async
+    test('test updateIncome', () async {
+      // TODO
+    });
+
   });
 }
