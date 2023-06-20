@@ -15,6 +15,6 @@ extension DateExtension on DateTime {
 
 extension DateTimeRFC3339 on DateTime {
   String toRfc3339() {
-    return "${toUtc().toString().split('.')[0].replaceAll(' ', 'T')}Z";
+    return "${toString().split('.')[0].replaceAll(' ', 'T')}Z";
   }
 }

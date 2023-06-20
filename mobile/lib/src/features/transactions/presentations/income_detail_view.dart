@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:suito/i18n/translations.g.dart';
 import 'package:suito/src/common_widgets/async_value_widget.dart';
 import 'package:suito/src/common_widgets/currency_input_field.dart';
-import 'package:suito/src/common_widgets/text_input_field.dart';
+import 'package:suito/src/features/transactions/presentations/transaction_date_picker.dart';
 import 'package:suito/src/features/transactions/services/formz/amount.dart';
 import 'package:suito/src/features/transactions/services/income.dart';
 import 'package:suito/src/features/transactions/services/income_service.dart';
@@ -33,6 +33,13 @@ class IncomeDetailView extends ConsumerWidget {
           body: SingleChildScrollView(
             child: ListBody(
               children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 10.0, horizontal: 5.0),
+                  child: TransactionDatePicker(
+                      date: income.date,
+                      onChanged: incomeController.onChangeDate),
+                ),
                 TransitionTextField(
                     initialValue: income.title.value,
                     labelText: t.transactions.detail.inputLabels.title,
@@ -45,11 +52,6 @@ class IncomeDetailView extends ConsumerWidget {
                   labelText: t.transactions.detail.inputLabels.amount,
                   onChanged: incomeController.onChangeAmount,
                 ),
-                TextInputField(
-                    initialValue: income.date,
-                    labelText: t.transactions.detail.inputLabels.date,
-                    inputType: InputType.date,
-                    onChanged: incomeController.onChangeDate),
                 TransitionTextField(
                     initialValue: income.memo,
                     labelText: t.transactions.detail.inputLabels.memo,
