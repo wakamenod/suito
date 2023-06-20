@@ -1,17 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-enum InputType {
-  text,
-  date,
-}
 
 class TextInputField extends StatefulWidget {
   final String labelText;
   final ValueChanged<String> onChanged;
   final String? errorText;
   final String initialValue;
-  final InputType inputType;
   final bool obscureText;
 
   const TextInputField({
@@ -20,7 +13,6 @@ class TextInputField extends StatefulWidget {
     required this.initialValue,
     this.onChanged = _defaultOnChange,
     this.errorText,
-    this.inputType = InputType.text,
     this.obscureText = false,
   });
 
@@ -58,11 +50,6 @@ class _TextInputFieldState extends State<TextInputField> {
           child: TextField(
             controller: _textEditingController,
             onChanged: widget.onChanged,
-            readOnly: widget.inputType == InputType.date,
-            onTap: widget.inputType != InputType.date
-                ? null
-                : () => _showDialog(
-                    context, _textEditingController, widget.onChanged),
             obscureText: widget.obscureText,
             decoration: InputDecoration(
               labelText: widget.labelText,
@@ -89,39 +76,5 @@ class _TextInputFieldState extends State<TextInputField> {
           ),
       ],
     );
-  }
-
-  // This function displays a CupertinoModalPopup with a reasonable fixed height
-  void _showDialog(BuildContext context, TextEditingController controller,
-      ValueChanged<String> onChanged) {
-    showCupertinoModalPopup<void>(
-        context: context,
-        builder: (BuildContext context) => Container(
-              height: 216,
-              padding: const EdgeInsets.only(top: 6.0),
-              // The Bottom margin is provided to align the popup above the system
-              // navigation bar.
-              margin: EdgeInsets.only(
-                bottom: MediaQuery.of(context).viewInsets.bottom,
-              ),
-              // Provide a background color for the popup.
-              color: CupertinoColors.systemBackground.resolveFrom(context),
-              // Use a SafeArea widget to avoid system overlaps.
-              child: SafeArea(
-                top: false,
-                child: CupertinoDatePicker(
-                  // initialDateTime: date,
-                  mode: CupertinoDatePickerMode.date,
-                  // This shows day of week alongside day of month
-                  showDayOfWeek: false,
-                  // This is called when the user changes the date.
-                  onDateTimeChanged: (DateTime newDate) {
-                    final val = newDate.toString();
-                    controller.text = val;
-                    onChanged(val);
-                  },
-                ),
-              ),
-            ));
   }
 }

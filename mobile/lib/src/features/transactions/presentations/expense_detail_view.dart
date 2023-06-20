@@ -13,6 +13,7 @@ import 'package:suito/src/features/transactions/services/formz/title.dart'
 import 'package:suito/src/routing/app_router.dart';
 import 'package:suito/src/utils/currency_formatter.dart';
 
+import 'transaction_date_picker.dart';
 import 'transition_text_field.dart';
 
 class ExpenseDetailView extends ConsumerWidget {
@@ -35,6 +36,13 @@ class ExpenseDetailView extends ConsumerWidget {
           body: SingleChildScrollView(
             child: ListBody(
               children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 10.0, horizontal: 5.0),
+                  child: TransactionDatePicker(
+                      date: expense.date,
+                      onChanged: expenseController.onChangeDate),
+                ),
                 TextInputField(
                     initialValue: expense.title.value,
                     errorText:
@@ -49,11 +57,6 @@ class ExpenseDetailView extends ConsumerWidget {
                   labelText: t.transactions.detail.inputLabels.amount,
                   onChanged: expenseController.onChangeAmount,
                 ),
-                TextInputField(
-                    initialValue: expense.date,
-                    labelText: t.transactions.detail.inputLabels.date,
-                    inputType: InputType.date,
-                    onChanged: expenseController.onChangeDate),
                 TransitionTextField(
                     initialValue: expense.category,
                     labelText: t.transactions.detail.inputLabels.category,
