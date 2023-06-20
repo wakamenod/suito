@@ -42,6 +42,8 @@ import 'package:openapi/src/model/transaction.dart';
 import 'package:openapi/src/model/transaction_months_res.dart';
 import 'package:openapi/src/model/update_expense_req.dart';
 import 'package:openapi/src/model/update_expense_res.dart';
+import 'package:openapi/src/model/update_income_req.dart';
+import 'package:openapi/src/model/update_income_res.dart';
 
 part 'serializers.g.dart';
 
@@ -74,6 +76,8 @@ part 'serializers.g.dart';
   TransactionMonthsRes,
   UpdateExpenseReq,
   UpdateExpenseRes,
+  UpdateIncomeReq,
+  UpdateIncomeRes,
 ])
 Serializers serializers = (_$serializers.toBuilder()
       ..add(const OneOfSerializer())

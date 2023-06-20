@@ -43,3 +43,5 @@ export 'package:openapi/src/model/transaction.dart';
 export 'package:openapi/src/model/transaction_months_res.dart';
 export 'package:openapi/src/model/update_expense_req.dart';
 export 'package:openapi/src/model/update_expense_res.dart';
+export 'package:openapi/src/model/update_income_req.dart';
+export 'package:openapi/src/model/update_income_res.dart';

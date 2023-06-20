@@ -26,6 +26,7 @@ type IncomeService interface {
 	CreateIncomeService(uid string, income model.Income) (model.Income, error)
 	FindIncomeService(id, uid string) (model.Income, error)
 	ListIncomeTypesService(uid string) ([]model.IncomeType, error)
+	UpdateIncomeService(uid string, income model.Income) (model.Income, error)
 }
 
 type ChartService interface {

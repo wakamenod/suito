@@ -38,6 +38,13 @@ type (
 		IncomeTypes []model.IncomeType `json:"incomeTypes"`
 	} // @Name ListIncomeTypesRes
 
+	UpdateIncomeReq struct {
+		Income model.Income `json:"income" validate:"required"`
+	} // @Name UpdateIncomeReq
+	UpdateIncomeRes struct {
+		UpdatedIncome model.Income `json:"updatedIncome"`
+	} // @Name UpdateIncomeRes
+
 )
 
 // @Summary     Get income detail
@@ -122,6 +129,38 @@ func (s *IncomeController) IncomeTypesHandler(c echo.Context) error {
 		return err
 	}
 	res.IncomeTypes = categories
+
+	return webutils.Response(c, http.StatusOK, res)
+}
+
+// @Summary     Update income
+// @Description 収入情報を更新します
+// @Tags        suito.income
+// @ID          updateIncome
+// @Accept      json
+// @Produce     json
+// @Param       request body     UpdateIncomeReq      true          "update income req"
+// @Success     200     {object} UpdateIncomeRes      "Success"
+// @Failure     500     {object} apperrors.SuitoError "Unknown Error"
+// @Router      /income [PUT]
+func (s *IncomeController) UpdateIncomeHandler(c echo.Context) error {
+	var req UpdateIncomeReq
+
+	if err := c.Bind(&req); err != nil {
+		return errors.Wrap(err, "failed bind")
+	}
+	if err := c.Validate(req); err != nil {
+		return err
+	}
+
+	uid := c.Get(middleware.UIDKey).(string)
+	updatedIncome, err := s.service.UpdateIncomeService(uid, req.Income)
+	if err != nil {
+		return err
+	}
+
+	var res UpdateIncomeRes
+	res.UpdatedIncome = updatedIncome
 
 	return webutils.Response(c, http.StatusOK, res)
 }

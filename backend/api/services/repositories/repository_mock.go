@@ -105,6 +105,9 @@ var _ Repository = &RepositoryMock{}
 //			UpdateExpenseFunc: func(uid string, expense model.Expense) (model.Expense, error) {
 //				panic("mock out the UpdateExpense method")
 //			},
+//			UpdateIncomeFunc: func(uid string, income model.Income) (model.Income, error) {
+//				panic("mock out the UpdateIncome method")
+//			},
 //		}
 //
 //		// use mockedRepository in code that requires Repository
@@ -195,6 +198,9 @@ type RepositoryMock struct {
 
 	// UpdateExpenseFunc mocks the UpdateExpense method.
 	UpdateExpenseFunc func(uid string, expense model.Expense) (model.Expense, error)
+
+	// UpdateIncomeFunc mocks the UpdateIncome method.
+	UpdateIncomeFunc func(uid string, income model.Income) (model.Income, error)
 
 	// calls tracks calls to the methods.
 	calls struct {
@@ -376,6 +382,13 @@ type RepositoryMock struct {
 			// Expense is the expense argument value.
 			Expense model.Expense
 		}
+		// UpdateIncome holds details about calls to the UpdateIncome method.
+		UpdateIncome []struct {
+			// UID is the uid argument value.
+			UID string
+			// Income is the income argument value.
+			Income model.Income
+		}
 	}
 	lockCreateExpense                      sync.RWMutex
 	lockCreateIncome                       sync.RWMutex
@@ -405,6 +418,7 @@ type RepositoryMock struct {
 	lockHardDeleteAllUserIncomes           sync.RWMutex
 	lockTransaction                        sync.RWMutex
 	lockUpdateExpense                      sync.RWMutex
+	lockUpdateIncome                       sync.RWMutex
 }
 
 // CreateExpense calls CreateExpenseFunc.
@@ -1375,5 +1389,41 @@ func (mock *RepositoryMock) UpdateExpenseCalls() []struct {
 	mock.lockUpdateExpense.RLock()
 	calls = mock.calls.UpdateExpense
 	mock.lockUpdateExpense.RUnlock()
+	return calls
+}
+
+// UpdateIncome calls UpdateIncomeFunc.
+func (mock *RepositoryMock) UpdateIncome(uid string, income model.Income) (model.Income, error) {
+	if mock.UpdateIncomeFunc == nil {
+		panic("RepositoryMock.UpdateIncomeFunc: method is nil but Repository.UpdateIncome was just called")
+	}
+	callInfo := struct {
+		UID    string
+		Income model.Income
+	}{
+		UID:    uid,
+		Income: income,
+	}
+	mock.lockUpdateIncome.Lock()
+	mock.calls.UpdateIncome = append(mock.calls.UpdateIncome, callInfo)
+	mock.lockUpdateIncome.Unlock()
+	return mock.UpdateIncomeFunc(uid, income)
+}
+
+// UpdateIncomeCalls gets all the calls that were made to UpdateIncome.
+// Check the length with:
+//
+//	len(mockedRepository.UpdateIncomeCalls())
+func (mock *RepositoryMock) UpdateIncomeCalls() []struct {
+	UID    string
+	Income model.Income
+} {
+	var calls []struct {
+		UID    string
+		Income model.Income
+	}
+	mock.lockUpdateIncome.RLock()
+	calls = mock.calls.UpdateIncome
+	mock.lockUpdateIncome.RUnlock()
 	return calls
 }
