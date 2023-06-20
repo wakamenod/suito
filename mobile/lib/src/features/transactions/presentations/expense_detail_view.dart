@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:suito/i18n/translations.g.dart';
 import 'package:suito/src/common_widgets/async_value_widget.dart';
 import 'package:suito/src/common_widgets/currency_input_field.dart';
@@ -69,13 +70,9 @@ class ExpenseDetailView extends ConsumerWidget {
                     route: AppRoute.transactionDetailMemo,
                     onChanged: expenseController.onChangeMemo),
                 ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Text(t.transactions.buttons.close)),
-                ElevatedButton(
-                  onPressed: () {
-                    expenseController.registerExpense();
+                  onPressed: () async {
+                    await expenseController.registerExpense();
+                    if (context.mounted) context.pop();
                   },
                   child: Text(
                     t.transactions.buttons.post,

@@ -8,15 +8,14 @@ part of 'model_income_type.dart';
 
 class _$ModelIncomeType extends ModelIncomeType {
   @override
-  final String id;
+  final String? id;
   @override
   final String name;
 
   factory _$ModelIncomeType([void Function(ModelIncomeTypeBuilder)? updates]) =>
       (new ModelIncomeTypeBuilder()..update(updates))._build();
 
-  _$ModelIncomeType._({required this.id, required this.name}) : super._() {
-    BuiltValueNullFieldError.checkNotNull(id, r'ModelIncomeType', 'id');
+  _$ModelIncomeType._({this.id, required this.name}) : super._() {
     BuiltValueNullFieldError.checkNotNull(name, r'ModelIncomeType', 'name');
   }
 
@@ -95,8 +94,7 @@ class ModelIncomeTypeBuilder
   _$ModelIncomeType _build() {
     final _$result = _$v ??
         new _$ModelIncomeType._(
-            id: BuiltValueNullFieldError.checkNotNull(
-                id, r'ModelIncomeType', 'id'),
+            id: id,
             name: BuiltValueNullFieldError.checkNotNull(
                 name, r'ModelIncomeType', 'name'));
     replace(_$result);

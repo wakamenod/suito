@@ -12,3 +12,9 @@ extension DateExtension on DateTime {
     return _yyyymmddFormatter.format(this);
   }
 }
+
+extension DateTimeRFC3339 on DateTime {
+  String toRfc3339() {
+    return "${toUtc().toString().split('.')[0].replaceAll(' ', 'T')}Z";
+  }
+}

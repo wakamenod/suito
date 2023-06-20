@@ -1046,7 +1046,6 @@
       },
       "model.IncomeType": {
         "required": [
-          "id",
           "name"
         ],
         "type": "object",
