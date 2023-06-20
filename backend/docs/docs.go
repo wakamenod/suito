@@ -1013,7 +1013,6 @@ const docTemplate = `{
         "model.IncomeType": {
             "type": "object",
             "required": [
-                "id",
                 "name"
             ],
             "properties": {

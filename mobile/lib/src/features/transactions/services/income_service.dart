@@ -1,6 +1,11 @@
 import 'package:formz/formz.dart';
+import 'package:openapi/openapi.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:suito/src/features/transactions/repositories/income_detail_repository.dart';
+import 'package:suito/src/features/transactions/repositories/register_income_repository.dart';
+import 'package:suito/src/features/transactions/repositories/update_income_repository.dart';
+import 'package:suito/src/features/transactions/services/transaction_service.dart';
+import 'package:suito/src/utils/datetime_utils.dart';
 
 import 'income.dart';
 import 'formz/amount.dart';
@@ -21,7 +26,7 @@ class IncomeController extends _$IncomeController {
     return Income.fromModel(modelRes);
   }
 
-  // bool get _isNew => state.value!.id == '';
+  bool get _isNew => state.value!.id == '';
 
   void onChangeTitle(String value) {
     final title = formz_title.Title.dirty(value);
@@ -59,61 +64,50 @@ class IncomeController extends _$IncomeController {
     ));
   }
 
-  // RegisterIncomeReq _registerRequest() {
-  //   return RegisterIncomeReq((r) => r
-  //     ..income.replace(ModelIncome((e) => e
-  //       ..id = ''
-  //       ..title = state.value!.title.value
-  //       ..localDate = DateTime.parse(state.value!.date).toRfc3339()
-  //       ..memo = state.value!.memo
-  //       ..amount = state.value!.amount.value)));
-  // }
+  RegisterIncomeReq _registerRequest() {
+    return RegisterIncomeReq((r) => r
+      ..income.replace(ModelIncome((e) => e
+        ..id = ''
+        ..incomeType
+            .replace(ModelIncomeType((t) => t..name = state.value!.title.value))
+        ..localDate = DateTime.parse(state.value!.date).toRfc3339()
+        ..memo = state.value!.memo
+        ..amount = state.value!.amount.value)));
+  }
 
-  // UpdateIncomeReq _updateRequest() {
-  //   return UpdateIncomeReq((r) => r
-  //     ..category = state.value!.category
-  //     ..income.replace(ModelIncome((e) => e
-  //       ..id = state.value!.id
-  //       ..title = state.value!.title.value
-  //       ..localDate = DateTime.parse(state.value!.date).toRfc3339()
-  //       ..memo = state.value!.memo
-  //       ..amount = state.value!.amount.value))
-  //     ..location = state.value!.location);
-  // }
+  UpdateIncomeReq _updateRequest() {
+    return UpdateIncomeReq((r) => r
+      ..income.replace(ModelIncome((e) => e
+        ..id = state.value!.id
+        ..incomeType
+            .replace(ModelIncomeType((t) => t..name = state.value!.title.value))
+        ..localDate = DateTime.parse(state.value!.date).toRfc3339()
+        ..memo = state.value!.memo
+        ..amount = state.value!.amount.value)));
+  }
 
-  void registerIncome() async {
+  Future<void> registerIncome() async {
     if (!state.value!.isValid) return;
-    // state = const AsyncValue.loading();
+    state = const AsyncValue.loading();
 
-    // // TODO エラーハンドリング
-    // // TODO submissionStatusをUI側で監視し送信中を表す
-    // // try {
-    // // await _authenticationRepository.signUpWithEmailAndPassword(
-    // //   email: state.email.value,
-    // //   password: state.password.value,
-    // // );
+    // TODO エラーハンドリング
+    // TODO submissionStatusをUI側で監視し送信中を表す
+    // try {
+    _isNew
+        ? await ref
+            .read(registerIncomeRepositoryProvider)
+            .registerIncome(_registerRequest())
+        : await ref
+            .read(updateIncomeRepositoryProvider)
+            .updateIncome(_updateRequest());
 
-    // _isNew
-    //     ? await ref
-    //         .read(registerIncomeRepositoryProvider)
-    //         .registerIncome(_registerRequest())
-    //     : await ref
-    //         .read(updateIncomeRepositoryProvider)
-    //         .updateIncome(_updateRequest());
+    ref.read(reloadTransactionsProvider.notifier).reload();
 
-    // ref.read(reloadTransactionsProvider.notifier).reload();
-
-    // state = AsyncValue.data(
-    //     state.value!.copyWith(submissionStatus: FormzSubmissionStatus.success));
+    state = AsyncValue.data(
+        state.value!.copyWith(submissionStatus: FormzSubmissionStatus.success));
     // } on CustomFailure catch (e) {
     //   state = state.copyWith(
     //       status: FormzSubmissionStatus.failure, errorMessage: e.code);
     // }
-  }
-}
-
-extension DateTimeRFC3339 on DateTime {
-  String toRfc3339() {
-    return "${toUtc().toString().split('.')[0].replaceAll(' ', 'T')}Z";
   }
 }

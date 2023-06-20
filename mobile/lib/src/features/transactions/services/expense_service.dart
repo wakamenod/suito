@@ -5,6 +5,7 @@ import 'package:suito/src/features/transactions/repositories/expense_detail_repo
 import 'package:suito/src/features/transactions/repositories/register_expense_repository.dart';
 import 'package:suito/src/features/transactions/repositories/update_expense_repository.dart';
 import 'package:suito/src/features/transactions/services/transaction_service.dart';
+import 'package:suito/src/utils/datetime_utils.dart';
 
 import 'expense.dart';
 import 'formz/amount.dart';
@@ -99,7 +100,7 @@ class ExpenseController extends _$ExpenseController {
       ..location = state.value!.location);
   }
 
-  void registerExpense() async {
+  Future<void> registerExpense() async {
     if (!state.value!.isValid) return;
     state = const AsyncValue.loading();
 
@@ -127,11 +128,5 @@ class ExpenseController extends _$ExpenseController {
     //   state = state.copyWith(
     //       status: FormzSubmissionStatus.failure, errorMessage: e.code);
     // }
-  }
-}
-
-extension DateTimeRFC3339 on DateTime {
-  String toRfc3339() {
-    return "${toUtc().toString().split('.')[0].replaceAll(' ', 'T')}Z";
   }
 }

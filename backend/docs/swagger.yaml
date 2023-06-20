@@ -676,7 +676,6 @@ components:
           type: string
     model.IncomeType:
       required:
-      - id
       - name
       type: object
       properties:

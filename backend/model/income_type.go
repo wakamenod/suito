@@ -3,8 +3,8 @@ package model
 import "time"
 
 type IncomeType struct {
-	ID        string    `gorm:"type:varchar(20);primaryKey" json:"id"`
-	UID       string    `gorm:"type:varchar(128)" json:"-"`
+	ID        string    `gorm:"type:varchar(20);primaryKey" json:"id" validate:"optional"`
+	UID       string    `gorm:"type:varchar(128)" json:"-" validate:"optional"`
 	Name      string    `gorm:"type:varchar(256)" json:"name"`
 	CreatedAt time.Time `json:"-"`
 	UpdatedAt time.Time `json:"-"`
