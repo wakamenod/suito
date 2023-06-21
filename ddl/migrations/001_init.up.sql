@@ -58,8 +58,8 @@ CREATE TABLE `income` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
--- Sheduled Expense
-CREATE TABLE `scheduled_expense` (
+-- Expense Shedule
+CREATE TABLE `expense_schedule` (
   -- ID
   `id` VARCHAR(20) NOT NULL,
   -- UID
@@ -74,28 +74,28 @@ CREATE TABLE `scheduled_expense` (
   `expense_location_id` VARCHAR(20) NOT NULL,
   -- Expense Category Id
   `expense_category_id` VARCHAR(20) NOT NULL,
-  -- scheduled_type
-  `scheduled_type` TINYINT NOT NULL,
+  -- schedule_type
+  `schedule_type` TINYINT NOT NULL,
 
   `created_at` DATETIME NOT NULL,
   `updated_at` DATETIME NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
--- Sheduled Income
-CREATE TABLE `scheduled_income` (
+-- Income Shedule
+CREATE TABLE `income_schedule` (
   -- ID
   `id` VARCHAR(20) NOT NULL,
   -- UID
   `uid` VARCHAR(128) NOT NULL,
-  -- Title
-  `title` VARCHAR(256) NOT NULL,
+  -- Income Type ID
+  `income_type_id` VARCHAR(20) NOT NULL,
   -- Amount
   `amount` INT NOT NULL,
   -- Memo
   `memo` VARCHAR(512) NOT NULL,
-  -- scheduled_type
-  `scheduled_type` TINYINT NOT NULL,
+  -- schedule_type
+  `schedule_type` TINYINT NOT NULL,
 
   `created_at` DATETIME NOT NULL,
   `updated_at` DATETIME NOT NULL,
@@ -106,8 +106,8 @@ CREATE TABLE `scheduled_income` (
 CREATE TABLE `scheduled_expense_queue` (
   -- ID
   `id` VARCHAR(20) NOT NULL,
-  -- scheduled_expense_id
-  `scheduled_expense_id` VARCHAR(20) NOT NULL,
+  -- expense_schedule_id
+  `expense_schedule_id` VARCHAR(20) NOT NULL,
   -- scheduled_at
   `scheduled_at` DATETIME NOT NULL,
 
@@ -120,8 +120,8 @@ CREATE TABLE `scheduled_expense_queue` (
 CREATE TABLE `scheduled_income_queue` (
   -- ID
   `id` VARCHAR(20) NOT NULL,
-  -- scheduled_income_id
-  `scheduled_income_id` VARCHAR(20) NOT NULL,
+  -- income_schedule_id
+  `income_schedule_id` VARCHAR(20) NOT NULL,
   -- scheduled_at
   `scheduled_at` DATETIME NOT NULL,
 
