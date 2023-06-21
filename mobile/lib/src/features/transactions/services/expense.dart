@@ -1,6 +1,7 @@
 import 'package:formz/formz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:openapi/openapi.dart';
+import 'package:suito/src/utils/datetime_utils.dart';
 
 import 'formz/amount.dart';
 import 'formz/title.dart';
@@ -21,11 +22,11 @@ class Expense with _$Expense {
     required FormzSubmissionStatus submissionStatus,
   }) = _Expense;
 
-  static Expense init() => const Expense(
+  static Expense init() => Expense(
         id: '',
-        title: Title.pure(),
-        amount: Amount.pure(),
-        date: '',
+        title: const Title.pure(),
+        amount: const Amount.pure(),
+        date: DateTime.now().toRfc3339(),
         category: '',
         location: '',
         memo: '',
