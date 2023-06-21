@@ -45,3 +45,23 @@ func TestDeleteScheduledIncomeQueues(t *testing.T) {
 	require.True(t, founds[0].DeletedAt.Valid)
 	require.True(t, founds[1].DeletedAt.Valid)
 }
+
+func TestEnqueuedIncomeSchedule(t *testing.T) {
+	tx := begin()
+	defer rollback(tx)
+	// setup test data
+	i := testutils.NewTestDataInserter(t, tx)
+	id1 := i.InsertIncomeSchedule("user1", "title01", "America/New_York").ID
+	// run
+	err := NewSuitoRepository(tx).EnqueuedIncomeSchedule()
+	// check
+	require.NoError(t, err)
+
+	var founds []model.ScheduledIncomeQueue
+	require.NoError(t, tx.Find(&founds).Order("id").Error)
+	require.Equal(t, 1, len((founds)))
+	require.False(t, founds[0].DeletedAt.Valid)
+	require.Equal(t, id1, founds[0].IncomeScheduleID)
+	// require.Equal(t, "", founds[0].ScheduledAt)
+	// require.True(t, founds[1].DeletedAt.Valid)
+}

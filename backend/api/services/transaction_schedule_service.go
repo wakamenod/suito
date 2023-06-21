@@ -43,3 +43,20 @@ func (s *SuitoJobService) CreateTransactionsService() error {
 
 	return nil
 }
+
+func (s *SuitoJobService) EnqueueTransactionSchedulesService() error {
+	err := s.repo.Transaction(func(txRepo *repositories.SuitoRepository) error {
+		if err := txRepo.EnqueuedExpenseSchedule(); err != nil {
+			return err
+		}
+		if err := txRepo.EnqueuedIncomeSchedule(); err != nil {
+			return err
+		}
+		return nil
+	})
+	if err != nil {
+		return errors.Wrap(err, "err EnqueueTransactionSchedulesService")
+	}
+
+	return nil
+}

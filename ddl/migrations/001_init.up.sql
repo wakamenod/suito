@@ -117,9 +117,13 @@ CREATE TABLE `scheduled_expense_queue` (
   -- scheduled_at
   `scheduled_at` DATETIME NOT NULL,
 
+  -- active flag
+  `is_active` tinyint(1) AS ((case when isnull(`deleted_at`) then 1 else NULL end)) VIRTUAL,
+
   `deleted_at` DATETIME,
   `created_at` DATETIME NOT NULL,
   `updated_at` DATETIME NOT NULL,
+  UNIQUE INDEX `expense_schedule_id` (`expense_schedule_id`, `is_active`),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
@@ -132,9 +136,13 @@ CREATE TABLE `scheduled_income_queue` (
   -- scheduled_at
   `scheduled_at` DATETIME NOT NULL,
 
+  -- active flag
+  `is_active` tinyint(1) AS ((case when isnull(`deleted_at`) then 1 else NULL end)) VIRTUAL,
+
   `deleted_at` DATETIME,
   `created_at` DATETIME NOT NULL,
   `updated_at` DATETIME NOT NULL,
+  UNIQUE INDEX `expense_schedule_id` (`income_schedule_id`, `is_active`),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
