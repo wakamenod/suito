@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class TextInputField extends StatefulWidget {
+class TextInputField extends StatelessWidget {
   final String labelText;
   final ValueChanged<String> onChanged;
   final String? errorText;
@@ -19,20 +19,6 @@ class TextInputField extends StatefulWidget {
   static void _defaultOnChange(String value) {}
 
   @override
-  State<TextInputField> createState() => _TextInputFieldState();
-}
-
-class _TextInputFieldState extends State<TextInputField> {
-  late final TextEditingController _textEditingController =
-      TextEditingController(text: widget.initialValue);
-
-  @override
-  void dispose() {
-    _textEditingController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -47,14 +33,14 @@ class _TextInputFieldState extends State<TextInputField> {
                 color: const Color.fromRGBO(208, 208, 208, 1.0),
                 width: 1.5,
               )),
-          child: TextField(
-            controller: _textEditingController,
-            onChanged: widget.onChanged,
-            obscureText: widget.obscureText,
+          child: TextFormField(
+            initialValue: initialValue,
+            onChanged: onChanged,
+            obscureText: obscureText,
             decoration: InputDecoration(
-              labelText: widget.labelText,
+              labelText: labelText,
               border: InputBorder.none,
-              hintText: widget.labelText,
+              hintText: labelText,
               hintStyle: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
@@ -63,12 +49,12 @@ class _TextInputFieldState extends State<TextInputField> {
             ),
           ),
         ),
-        if (widget.errorText != null)
+        if (errorText != null)
           Padding(
             padding:
                 const EdgeInsets.only(left: 16, top: 4, right: 16, bottom: 0),
             child: Text(
-              widget.errorText!,
+              errorText!,
               style: TextStyle(
                 color: Theme.of(context).colorScheme.error,
               ),
