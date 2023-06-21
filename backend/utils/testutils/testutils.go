@@ -15,6 +15,9 @@ type (
 		t  *testing.T
 		db *gorm.DB
 	}
+
+	ExpenseScheduleOption func(*model.ExpenseSchedule)
+	IncomeScheduleOption  func(*model.IncomeSchedule)
 )
 
 const dateLayout = "2006-01-02"
@@ -136,9 +139,104 @@ func (e *TestDataInserter) InsertUser(uid string, deletedAt gorm.DeletedAt) mode
 	return user
 }
 
+func (e *TestDataInserter) InsertScheduledExpenseQueue(scheduleID string, scheduledAt time.Time, deletedAt gorm.DeletedAt) model.ScheduledExpenseQueue {
+	q := model.ScheduledExpenseQueue{
+		ID:                xid.New().String(),
+		ExpenseScheduleID: scheduleID,
+		ScheduledAt:       scheduledAt,
+		DeletedAt:         deletedAt,
+	}
+	require.NoError(e.t, e.db.Create(&q).Error, "failed to insert scheduled_expense_queue")
+	return q
+}
+
+func (e *TestDataInserter) InsertScheduledIncomeQueue(scheduleID string, scheduledAt time.Time, deletedAt gorm.DeletedAt) model.ScheduledIncomeQueue {
+	q := model.ScheduledIncomeQueue{
+		ID:               xid.New().String(),
+		IncomeScheduleID: scheduleID,
+		ScheduledAt:      scheduledAt,
+		DeletedAt:        deletedAt,
+	}
+	require.NoError(e.t, e.db.Create(&q).Error, "failed to insert scheduled_income_queue")
+	return q
+}
+
 // SkipIfShort skips t if the "-short" flag is passed to "go test".
 func SkipIfShort(t *testing.T) {
 	if testing.Short() {
 		t.SkipNow()
 	}
+}
+
+func (e *TestDataInserter) WithExpenseCategoryID(expenseCategoryID string) ExpenseScheduleOption {
+	return func(es *model.ExpenseSchedule) {
+		es.ExpenseCategoryID = expenseCategoryID
+	}
+}
+
+func (e *TestDataInserter) WithExpenseLocationID(expenseLocationID string) ExpenseScheduleOption {
+	return func(es *model.ExpenseSchedule) {
+		es.ExpenseLocationID = expenseLocationID
+	}
+}
+
+func (e *TestDataInserter) WithExpenseMemo(memo string) ExpenseScheduleOption {
+	return func(es *model.ExpenseSchedule) {
+		es.Memo = memo
+	}
+}
+
+func (e *TestDataInserter) WithExpenseAmount(amount int) ExpenseScheduleOption {
+	return func(es *model.ExpenseSchedule) {
+		es.Amount = amount
+	}
+}
+
+func (e *TestDataInserter) InsertExpenseSchedule(uid, title, timezone string, options ...ExpenseScheduleOption) model.ExpenseSchedule {
+	es := model.ExpenseSchedule{
+		ID:       xid.New().String(),
+		UID:      uid,
+		Title:    title,
+		Amount:   200,
+		Timezone: timezone,
+	}
+	for _, option := range options {
+		option(&es)
+	}
+
+	require.NoError(e.t, e.db.Create(&es).Error, "failed to insert expense schedule")
+	return es
+}
+
+func (e *TestDataInserter) WithIncomeMemo(memo string) IncomeScheduleOption {
+	return func(es *model.IncomeSchedule) {
+		es.Memo = memo
+	}
+}
+
+func (e *TestDataInserter) WithIncomeAmount(amount int) IncomeScheduleOption {
+	return func(es *model.IncomeSchedule) {
+		es.Amount = amount
+	}
+}
+
+func (e *TestDataInserter) WithIncomeTypeID(incomeTypeID string) IncomeScheduleOption {
+	return func(es *model.IncomeSchedule) {
+		es.IncomeTypeID = incomeTypeID
+	}
+}
+
+func (e *TestDataInserter) InsertIncomeSchedule(uid, title, timezone string, options ...IncomeScheduleOption) model.IncomeSchedule {
+	es := model.IncomeSchedule{
+		ID:       xid.New().String(),
+		UID:      uid,
+		Amount:   200,
+		Timezone: timezone,
+	}
+	for _, option := range options {
+		option(&es)
+	}
+
+	require.NoError(e.t, e.db.Create(&es).Error, "failed to insert income schedule")
+	return es
 }

@@ -76,7 +76,10 @@ CREATE TABLE `expense_schedule` (
   `expense_category_id` VARCHAR(20) NOT NULL,
   -- schedule_type
   `schedule_type` TINYINT NOT NULL,
+  -- Timezone
+  `timezone` VARCHAR(64) NOT NULL,
 
+  `deleted_at` DATETIME,
   `created_at` DATETIME NOT NULL,
   `updated_at` DATETIME NOT NULL,
   PRIMARY KEY (`id`)
@@ -96,7 +99,10 @@ CREATE TABLE `income_schedule` (
   `memo` VARCHAR(512) NOT NULL,
   -- schedule_type
   `schedule_type` TINYINT NOT NULL,
+  -- Timezone
+  `timezone` VARCHAR(64) NOT NULL,
 
+  `deleted_at` DATETIME,
   `created_at` DATETIME NOT NULL,
   `updated_at` DATETIME NOT NULL,
   PRIMARY KEY (`id`)
@@ -111,6 +117,7 @@ CREATE TABLE `scheduled_expense_queue` (
   -- scheduled_at
   `scheduled_at` DATETIME NOT NULL,
 
+  `deleted_at` DATETIME,
   `created_at` DATETIME NOT NULL,
   `updated_at` DATETIME NOT NULL,
   PRIMARY KEY (`id`)
@@ -125,6 +132,7 @@ CREATE TABLE `scheduled_income_queue` (
   -- scheduled_at
   `scheduled_at` DATETIME NOT NULL,
 
+  `deleted_at` DATETIME,
   `created_at` DATETIME NOT NULL,
   `updated_at` DATETIME NOT NULL,
   PRIMARY KEY (`id`)

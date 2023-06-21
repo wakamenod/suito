@@ -154,3 +154,44 @@ ORDER BY
 
 	return res, nil
 }
+
+// queueのScheduledAtは現地時間の月の初日を表す日時でUTCとして登録されている
+// これをexpense_scheduleテーブルのタイムゾーンを使って現地日付に変換しlocal_dateとして登録する
+func (r *SuitoRepository) CreateExpensesFromScheduledQueue(queues []model.ScheduledExpenseQueue) error {
+	for _, q := range queues {
+		if err := r.db.Exec(`
+INSERT INTO expense
+(
+  id,
+  uid,
+  title,
+  amount,
+  memo,
+  expense_location_id,
+  expense_category_id,
+  local_date,
+  created_at,
+  updated_at,
+  deleted_at
+)
+SELECT
+  ?,
+  uid,
+  title,
+  amount,
+  memo,
+  expense_location_id,
+  expense_category_id,
+  DATE(CONVERT_TZ(?, 'UTC', timezone)) AS local_date,
+  NOW() AS created_at,
+  NOW() AS updated_at,
+  NULL AS deleted_at
+FROM expense_schedule
+WHERE id = ?
+`, xid.New().String(), q.ScheduledAt, q.ExpenseScheduleID).Error; err != nil {
+			return errors.Wrap(err, "failed to insert expense from queue")
+		}
+	}
+
+	return nil
+}
