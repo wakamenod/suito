@@ -1,13 +1,19 @@
 package model
 
-import "time"
+import (
+	"time"
+
+	"gorm.io/gorm"
+)
 
 type ScheduledIncomeQueue struct {
 	ID               string `gorm:"type:varchar(20);primaryKey"`
 	IncomeScheduleID string `gorm:"type:varchar(20)"`
 	ScheduledAt      time.Time
-	CreatedAt        time.Time
-	UpdatedAt        time.Time
+
+	DeletedAt gorm.DeletedAt
+	CreatedAt time.Time
+	UpdatedAt time.Time
 }
 
 func (ScheduledIncomeQueue) TableName() string {

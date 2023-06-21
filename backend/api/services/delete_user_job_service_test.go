@@ -77,7 +77,7 @@ func openDB() *gorm.DB {
 	if err := godotenv.Load("../../../.env.suito"); err != nil {
 		log.Fatal("failed to load env file", nil)
 	}
-	return db.OpenDB()
+	return db.OpenTestDB()
 }
 
 func begin() *gorm.DB {

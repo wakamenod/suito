@@ -1,6 +1,10 @@
 package model
 
-import "time"
+import (
+	"time"
+
+	"gorm.io/gorm"
+)
 
 type IncomeSchedule struct {
 	ID           string `gorm:"type:varchar(20);primaryKey"`
@@ -8,9 +12,12 @@ type IncomeSchedule struct {
 	IncomeTypeID string `gorm:"type:varchar(20)" json:"-"`
 	Amount       int
 	Memo         string `gorm:"type:varchar(512)"`
+	Timezone     string `gorm:"type:varchar(64)" json:"-"`
 	ScheduleType int8
-	CreatedAt    time.Time
-	UpdatedAt    time.Time
+
+	DeletedAt gorm.DeletedAt
+	CreatedAt time.Time
+	UpdatedAt time.Time
 }
 
 func (IncomeSchedule) TableName() string {

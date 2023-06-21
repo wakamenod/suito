@@ -366,3 +366,56 @@ func TestFindPieChartLocationData(t *testing.T) {
 		require.Equal(t, e.Amount, res[i].Amount, fmt.Sprintf("Amount mismatch (row:%d)\n", i+1))
 	}
 }
+
+func TestCreateExpensesFromScheduledQueue(t *testing.T) {
+	tx := begin()
+	defer rollback(tx)
+	// setup
+	i := testutils.NewTestDataInserter(t, tx)
+	userID := "user1"
+
+	var params []model.ScheduledExpenseQueue
+	{
+		id := i.InsertExpenseSchedule(userID, "title01", "America/New_York").ID
+		q := i.InsertScheduledExpenseQueue(id, time.Date(2023, 5, 1, 10, 0, 0, 0, time.UTC), gorm.DeletedAt{})
+		params = append(params, q)
+	}
+	{
+		id := i.InsertExpenseSchedule(userID, "title02", "Asia/Tokyo",
+			i.WithExpenseMemo("TEST MEMO"),
+			i.WithExpenseAmount(400),
+			i.WithExpenseCategoryID("CID1"),
+			i.WithExpenseLocationID("LID1"),
+		).ID
+		q := i.InsertScheduledExpenseQueue(id, time.Date(2023, 4, 30, 16, 0, 0, 0, time.UTC), gorm.DeletedAt{})
+		params = append(params, q)
+	}
+	// run
+	err := NewSuitoRepository(tx).CreateExpensesFromScheduledQueue(params)
+	// check
+	require.NoError(t, err)
+
+	var founds []model.Expense
+	require.NoError(t, tx.Where("uid = ?", "user1").Find(&founds).Order("id").Error)
+	require.Equal(t, 2, len((founds)))
+	{
+		found := founds[0]
+		require.Equal(t, "title01", found.Title)
+		require.Equal(t, "2023-05-01", found.LocalDate.Format("2006-01-02"))
+		require.Equal(t, 200, found.Amount)
+		require.Empty(t, found.Memo)
+		require.Empty(t, found.ExpenseCategoryID)
+		require.Empty(t, found.ExpenseLocationID)
+		require.False(t, found.DeletedAt.Valid)
+	}
+	{
+		found := founds[1]
+		require.Equal(t, "title02", found.Title)
+		require.Equal(t, "2023-05-01", found.LocalDate.Format("2006-01-02"))
+		require.Equal(t, "TEST MEMO", found.Memo)
+		require.Equal(t, 400, found.Amount)
+		require.Equal(t, "CID1", found.ExpenseCategoryID)
+		require.Equal(t, "LID1", found.ExpenseLocationID)
+		require.False(t, found.DeletedAt.Valid)
+	}
+}

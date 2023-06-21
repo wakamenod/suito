@@ -83,3 +83,51 @@ ORDER BY
 
 	return months, nil
 }
+
+// queueのScheduledAtは現地時間の月の初日を表す日時でUTCとして登録されている
+// これをincome_scheduleテーブルのタイムゾーンを使って現地日付に変換しlocal_dateとして登録する
+func (r *SuitoRepository) CreateIncomesFromScheduledQueue(queues []model.ScheduledIncomeQueue) error {
+	for _, q := range queues {
+		if err := r.db.Exec(`
+INSERT INTO income
+(
+  id,
+  uid,
+  income_type_id,
+  amount,
+  memo,
+  local_date,
+  created_at,
+  updated_at,
+  deleted_at
+)
+SELECT
+  ?,
+  uid,
+  income_type_id,
+  amount,
+  memo,
+  DATE(CONVERT_TZ(?, 'UTC', timezone)) AS local_date,
+  NOW() AS created_at,
+  NOW() AS updated_at,
+  NULL AS deleted_at
+FROM income_schedule
+WHERE id = ?
+`, xid.New().String(), q.ScheduledAt, q.IncomeScheduleID).Error; err != nil {
+			return errors.Wrap(err, "failed to insert income from queue")
+		}
+	}
+
+	return nil
+}
+
+func (r *SuitoRepository) DeleteScheduledIncomeQueues(queues []model.ScheduledIncomeQueue) error {
+	var ids []string
+	for _, q := range queues {
+		ids = append(ids, q.ID)
+	}
+	if err := r.db.Where("id IN ?", ids).Delete(&model.ScheduledIncomeQueue{}).Error; err != nil {
+		return errors.Wrap(err, "failed to delete schedule income queue")
+	}
+	return nil
+}

@@ -229,3 +229,51 @@ func TestUpdateIncome(t *testing.T) {
 	require.Equal(t, targetIncome.LocalDate.Format(layout), found.LocalDate.Format(layout))
 	require.Equal(t, targetIncome.IncomeTypeID, found.IncomeTypeID)
 }
+
+func TestCreateIncomesFromScheduledQueue(t *testing.T) {
+	tx := begin()
+	defer rollback(tx)
+	// setup
+	i := testutils.NewTestDataInserter(t, tx)
+	userID := "user1"
+
+	var params []model.ScheduledIncomeQueue
+	{
+		id := i.InsertIncomeSchedule(userID, "title01", "America/New_York").ID
+		q := i.InsertScheduledIncomeQueue(id, time.Date(2023, 5, 1, 10, 0, 0, 0, time.UTC), gorm.DeletedAt{})
+		params = append(params, q)
+	}
+	{
+		id := i.InsertIncomeSchedule(userID, "title02", "Asia/Tokyo",
+			i.WithIncomeMemo("TEST MEMO"),
+			i.WithIncomeAmount(400),
+			i.WithIncomeTypeID("TID1"),
+		).ID
+		q := i.InsertScheduledIncomeQueue(id, time.Date(2023, 4, 30, 16, 0, 0, 0, time.UTC), gorm.DeletedAt{})
+		params = append(params, q)
+	}
+	// run
+	err := NewSuitoRepository(tx).CreateIncomesFromScheduledQueue(params)
+	// check
+	require.NoError(t, err)
+
+	var founds []model.Income
+	require.NoError(t, tx.Where("uid = ?", "user1").Find(&founds).Order("id").Error)
+	require.Equal(t, 2, len((founds)))
+	{
+		found := founds[0]
+		require.Equal(t, "2023-05-01", found.LocalDate.Format("2006-01-02"))
+		require.Equal(t, 200, found.Amount)
+		require.Empty(t, found.Memo)
+		require.Empty(t, found.IncomeTypeID)
+		require.False(t, found.DeletedAt.Valid)
+	}
+	{
+		found := founds[1]
+		require.Equal(t, "2023-05-01", found.LocalDate.Format("2006-01-02"))
+		require.Equal(t, "TEST MEMO", found.Memo)
+		require.Equal(t, 400, found.Amount)
+		require.Equal(t, "TID1", found.IncomeTypeID)
+		require.False(t, found.DeletedAt.Valid)
+	}
+}
