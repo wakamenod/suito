@@ -27,7 +27,7 @@ class CurrencyInputField extends StatefulWidget {
 class _CurrencyInputFieldState extends State<CurrencyInputField> {
   late final TextEditingController _controller =
       TextEditingController(text: widget.formatter.format(widget.initialValue));
-  // TODO i18n 小数点以下がある通貨の場合数値に戻す時に小数点以下が自動で挿入される
+  // TODO i18n対応 小数点以下がある通貨の場合数値に戻す時に小数点以下が自動で挿入される
   final regexExceptNumber = RegExp(r'[^\d]');
 
   @override
@@ -53,9 +53,14 @@ class _CurrencyInputFieldState extends State<CurrencyInputField> {
               )),
           child: Focus(
             onFocusChange: (hasFocus) {
-              if (!hasFocus) {
-                final text = widget.formatter.format(int.parse(
-                    _controller.text.replaceAll(regexExceptNumber, '')));
+              // TODO ロジックをテスト出来るように移動
+              if (hasFocus) {
+                _controller.text =
+                    _controller.text.replaceFirst(RegExp(r'^0+'), '');
+              } else {
+                final text = widget.formatter.format(int.tryParse(
+                        _controller.text.replaceAll(regexExceptNumber, '')) ??
+                    0);
                 _controller.text = text;
               }
             },

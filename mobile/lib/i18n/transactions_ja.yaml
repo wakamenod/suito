@@ -11,7 +11,7 @@ memo:
 detail:
   title: 詳細
   inputLabels:
-    title: タイトル
+    title: 品目
     amount: 金額
     date: 日付
     category: カテゴリー
