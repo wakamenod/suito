@@ -589,6 +589,27 @@
           }
         }
       }
+    },
+    "/version": {
+      "get": {
+        "tags": [
+          "suito.default"
+        ],
+        "description": "Version",
+        "operationId": "version",
+        "responses": {
+          "200": {
+            "description": "version",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {

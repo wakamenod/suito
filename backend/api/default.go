@@ -11,13 +11,6 @@ import (
 	//_ "github.com/swaggo/echo-swagger/example/docs"
 )
 
-// @Summary     Ping
-// @Description Ping
-// @Tags        suito.default
-// @ID          ping
-// @Produce     plain
-// @Success     200 {string} string "pong"
-// @Router      /ping [GET]
 func defaultRoute(e *echo.Echo) *echo.Echo {
 	if env.DEBUG {
 		g := e.Group("/debug")
@@ -26,14 +19,21 @@ func defaultRoute(e *echo.Echo) *echo.Echo {
 		})
 		g.GET("/swagger/*", echoSwagger.WrapHandler)
 	}
+
+	e = pingRoute(e)
+	return e
+}
+
+// @Summary     Ping
+// @Description Ping
+// @Tags        suito.default
+// @ID          ping
+// @Produce     plain
+// @Success     200 {string} string "pong"
+// @Router      /ping [GET]
+func pingRoute(e *echo.Echo) *echo.Echo {
 	e.GET("/ping", func(c echo.Context) error {
 		return c.String(http.StatusOK, "pong!\n")
 	})
-
-	// version
-	e.GET("/version", func(c echo.Context) error {
-		return c.String(http.StatusOK, env.Version)
-	})
-
 	return e
 }

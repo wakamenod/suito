@@ -15,6 +15,8 @@ import 'package:suito/src/features/transactions/presentations/transaction_detail
 import 'package:suito/src/features/transactions/presentations/transactions_screen.dart';
 import 'package:suito/src/features/transactions/services/transaction_service.dart';
 import 'package:suito/src/routing/go_router_refresh_stream.dart';
+import 'package:suito/src/utils/app_lifecycle_state_provider.dart';
+import 'package:suito/src/utils/version_check.dart';
 
 import 'shell_screen.dart';
 
@@ -38,12 +40,22 @@ final firebaseAuthProvider = Provider<FirebaseAuth>((ref) {
   return FirebaseAuth.instance;
 });
 
-final goRouterProvider = Provider<GoRouter>((ref) {
+final goRouterProvider = Provider.family<GoRouter, GlobalKey<NavigatorState>>(
+    (ref, rootNavigatorKey) {
+  final versionCheck = ref.watch(versionCheckProvider);
+
+  ref.listen<AppLifecycleState>(appLifecycleStateProvider, (previous, next) {
+    versionCheck(rootNavigatorKey.currentContext);
+  });
+
   final firebaseAuth = ref.watch(firebaseAuthProvider);
   return GoRouter(
+    navigatorKey: rootNavigatorKey,
     initialLocation: AppRoute.signIn.path,
     debugLogDiagnostics: true,
     redirect: (context, state) {
+      versionCheck(rootNavigatorKey.currentContext);
+
       final isLoggedIn = firebaseAuth.currentUser != null;
       if (isLoggedIn) {
         if (state.location == AppRoute.signIn.path) {

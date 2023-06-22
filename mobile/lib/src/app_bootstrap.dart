@@ -30,7 +30,7 @@ class AppBootstrap {
     return TranslationProvider(
       child: UncontrolledProviderScope(
         container: container,
-        child: const MyApp(),
+        child: MyApp(),
       ),
     );
   }

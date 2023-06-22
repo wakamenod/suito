@@ -16,5 +16,12 @@ void main() {
       // TODO
     });
 
+    // Version
+    //
+    //Future<String> version() async
+    test('test version', () async {
+      // TODO
+    });
+
   });
 }

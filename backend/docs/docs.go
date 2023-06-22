@@ -552,6 +552,26 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/version": {
+            "get": {
+                "description": "Version",
+                "produces": [
+                    "text/plain"
+                ],
+                "tags": [
+                    "suito.default"
+                ],
+                "operationId": "version",
+                "responses": {
+                    "200": {
+                        "description": "version",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {

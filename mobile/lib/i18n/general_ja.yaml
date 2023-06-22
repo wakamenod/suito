@@ -1,0 +1,3 @@
+version:
+  updateAlertTitle: アップデートがあります
+  updateAlertContent: "アプリのアップデートをお願いします\n AppVersion: $appVersion\n ServerVersion: $serverVersion"
