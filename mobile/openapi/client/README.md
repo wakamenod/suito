@@ -66,6 +66,7 @@ Class | Method | HTTP request | Description
 [*SuitoChartApi*](doc/SuitoChartApi.md) | [**getColumnChartData**](doc/SuitoChartApi.md#getcolumnchartdata) | **GET** /chart/column | Get column chart data
 [*SuitoChartApi*](doc/SuitoChartApi.md) | [**getPieChartData**](doc/SuitoChartApi.md#getpiechartdata) | **GET** /chart/pie | Get pie chart data
 [*SuitoDefaultApi*](doc/SuitoDefaultApi.md) | [**ping**](doc/SuitoDefaultApi.md#ping) | **GET** /ping | Ping
+[*SuitoDefaultApi*](doc/SuitoDefaultApi.md) | [**version**](doc/SuitoDefaultApi.md#version) | **GET** /version | 
 [*SuitoExpenseApi*](doc/SuitoExpenseApi.md) | [**deleteExpense**](doc/SuitoExpenseApi.md#deleteexpense) | **DELETE** /expense | Delete expense
 [*SuitoExpenseApi*](doc/SuitoExpenseApi.md) | [**expenseDetail**](doc/SuitoExpenseApi.md#expensedetail) | **POST** /expense/detail | Get expense detail
 [*SuitoExpenseApi*](doc/SuitoExpenseApi.md) | [**listExpenseCategories**](doc/SuitoExpenseApi.md#listexpensecategories) | **GET** /expense/categories | List expense categories

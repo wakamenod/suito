@@ -8,7 +8,7 @@ part of 'expense_service.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$expenseControllerHash() => r'557938bf55e127272ad55ab16f5e374b0e36fd07';
+String _$expenseControllerHash() => r'84964c5fe4e199b31597ef94fff33758dbca94bd';
 
 /// Copied from Dart SDK
 class _SystemHash {

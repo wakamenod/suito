@@ -1,0 +1,3 @@
+version:
+  updateAlertTitle: Update Required
+  updateAlertContent: "Please update the app\n App version: $appVersion\n Server version: $serverVersion"

@@ -373,6 +373,19 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuitoError'
+  /version:
+    get:
+      tags:
+      - suito.default
+      description: Version
+      operationId: version
+      responses:
+        200:
+          description: version
+          content:
+            text/plain:
+              schema:
+                type: string
 components:
   schemas:
     ColumnChartCategoryData:

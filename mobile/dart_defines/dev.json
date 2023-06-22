@@ -1,5 +1,6 @@
 {
     "flavor": "dev",
     "appName": "FAT dev",
-    "appIdSuffix": ".dev"
+    "appIdSuffix": ".dev",
+    "androidStoreURL": "https://play.google.com/store/apps/details?id=net.wakamenod.suito"
 }

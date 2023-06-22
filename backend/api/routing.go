@@ -1,11 +1,14 @@
 package api
 
 import (
+	"net/http"
+
 	"github.com/labstack/echo/v4"
 	"github.com/spf13/viper"
 	"github.com/wakamenod/suito/api/controllers"
 	"github.com/wakamenod/suito/api/repositories"
 	"github.com/wakamenod/suito/api/services"
+	"github.com/wakamenod/suito/env"
 	"gorm.io/gorm"
 )
 
@@ -47,7 +50,21 @@ func InitRoute(e *echo.Echo, db *gorm.DB) *echo.Echo {
 		a.GET("/column", cCon.ColumnChartHandler)
 		a.GET("/pie", cCon.PieChartHandler)
 	}
+	versionRoute(g)
 	return e
+}
+
+// @Summary     Version
+// @Description Version
+// @Tags        suito.default
+// @ID          version
+// @Produce     plain
+// @Success     200 {string} string "version"
+// @Router      /version [GET]
+func versionRoute(e *echo.Group) {
+	e.GET("/version", func(c echo.Context) error {
+		return c.String(http.StatusOK, env.Version)
+	})
 }
 
 func init() {
