@@ -64,7 +64,7 @@ fvm flutter pub run build_runner build --delete-conflicting-outputs
 
 [tasks.build-appbundle]
 script = '''
-fvm flutter build appbundle  --obfuscate --split-debug-info=obfuscate/android
+fvm flutter build appbundle --dart-define-from-file=dart_defines/prod.json --obfuscate --split-debug-info=obfuscate/android
 '''
 
 [tasks.icon]
