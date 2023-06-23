@@ -10,7 +10,7 @@ All URIs are relative to *http://localhost:8009/api/v1*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**ping**](SuitoDefaultApi.md#ping) | **GET** /ping | Ping
-[**version**](SuitoDefaultApi.md#version) | **GET** /version | 
+[**version**](SuitoDefaultApi.md#version) | **GET** /version | Version
 
 
 # **ping**
@@ -55,7 +55,7 @@ No authorization required
 # **version**
 > String version()
 
-
+Version
 
 Version
 

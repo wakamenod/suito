@@ -23,6 +23,7 @@ func InitRoute(e *echo.Echo, db *gorm.DB) *echo.Echo {
 	iCon := controllers.NewIncomeController(ser)
 	eCon := controllers.NewExpenseController(ser)
 	cCon := controllers.NewChartController(ser)
+	sCon := controllers.NewTransactionScheduleController(ser)
 
 	{
 		a := g.Group("/transactions")
@@ -49,6 +50,10 @@ func InitRoute(e *echo.Echo, db *gorm.DB) *echo.Echo {
 		a := g.Group("/chart")
 		a.GET("/column", cCon.ColumnChartHandler)
 		a.GET("/pie", cCon.PieChartHandler)
+	}
+	{
+		a := g.Group("/schedules")
+		a.GET("", sCon.TransactionSchedulesListHandler)
 	}
 	versionRoute(g)
 	return e

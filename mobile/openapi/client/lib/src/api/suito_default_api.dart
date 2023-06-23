@@ -84,7 +84,7 @@ class SuitoDefaultApi {
     );
   }
 
-  /// version
+  /// Version
   /// Version
   ///
   /// Parameters:

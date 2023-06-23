@@ -133,4 +133,36 @@ var TestRepositoryMock = srepositories.RepositoryMock{
 	UpdateIncomeFunc: func(uid string, income model.Income) (model.Income, error) {
 		return income, nil
 	},
+	FindExpenseSchedulesFunc: func(uid string) ([]model.ExpenseSchedule, error) {
+		return []model.ExpenseSchedule{
+			{
+				ID:     "id1",
+				Title:  "Title Expense 1",
+				Amount: 100,
+			},
+			{
+				ID:     "id2",
+				Title:  "Title Expense 2",
+				Amount: 200,
+			},
+		}, nil
+	},
+	FindIncomeSchedulesFunc: func(uid string) ([]model.IncomeSchedule, error) {
+		return []model.IncomeSchedule{
+			{
+				ID: "id3",
+				IncomeType: model.IncomeType{
+					Name: "Income Type 1",
+				},
+				Amount: 300,
+			},
+			{
+				ID: "id4",
+				IncomeType: model.IncomeType{
+					Name: "Income Type 2",
+				},
+				Amount: 400,
+			},
+		}, nil
+	},
 }

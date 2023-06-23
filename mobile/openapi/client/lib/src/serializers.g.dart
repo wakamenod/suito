@@ -19,6 +19,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(ListExpenseCategoriesRes.serializer)
       ..add(ListExpenseLocationsRes.serializer)
       ..add(ListIncomeTypesRes.serializer)
+      ..add(ListTransactionSchedulesRes.serializer)
       ..add(ListTransactionsRes.serializer)
       ..add(ModelExpense.serializer)
       ..add(ModelExpenseCategory.serializer)
@@ -33,6 +34,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(SuitoError.serializer)
       ..add(Transaction.serializer)
       ..add(TransactionMonthsRes.serializer)
+      ..add(TransactionSchedule.serializer)
       ..add(UpdateExpenseReq.serializer)
       ..add(UpdateExpenseRes.serializer)
       ..add(UpdateIncomeReq.serializer)
@@ -70,7 +72,15 @@ Serializers _$serializers = (new Serializers().toBuilder()
           () => new ListBuilder<String>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(Transaction)]),
-          () => new ListBuilder<Transaction>()))
+          () => new ListBuilder<Transaction>())
+      ..addBuilderFactory(
+          const FullType(
+              BuiltList, const [const FullType(TransactionSchedule)]),
+          () => new ListBuilder<TransactionSchedule>())
+      ..addBuilderFactory(
+          const FullType(
+              BuiltList, const [const FullType(TransactionSchedule)]),
+          () => new ListBuilder<TransactionSchedule>()))
     .build();
 
 // ignore_for_file: deprecated_member_use_from_same_package,type=lint
