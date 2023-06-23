@@ -5,11 +5,11 @@ import 'package:suito/src/features/transactions/repositories/income_detail_repos
 import 'package:suito/src/features/transactions/repositories/register_income_repository.dart';
 import 'package:suito/src/features/transactions/repositories/update_income_repository.dart';
 import 'package:suito/src/features/transactions/services/transaction_service.dart';
+import 'package:suito/src/formz/amount.dart';
+import 'package:suito/src/formz/title.dart' as formz_title;
 import 'package:suito/src/utils/datetime_utils.dart';
 
 import 'income.dart';
-import 'formz/amount.dart';
-import 'formz/title.dart' as formz_title;
 
 part 'income_service.g.dart';
 

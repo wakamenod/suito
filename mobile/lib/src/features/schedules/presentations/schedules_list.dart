@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:suito/i18n/translations.g.dart';
 import 'package:suito/src/common_widgets/async_value_widget.dart';
 import 'package:suito/src/features/schedules/repositories/fake_schedules_repository.dart';
 import 'package:suito/src/features/schedules/services/schedule_service.dart';
+import 'package:suito/src/features/transactions/services/transaction_service.dart';
+import 'package:suito/src/routing/app_router.dart';
 import 'package:suito/src/utils/currency_formatter.dart';
 
 class SchedulesList extends ConsumerWidget {
@@ -78,11 +81,13 @@ class SchedulesList extends ConsumerWidget {
                     height: 50,
                     child: GestureDetector(
                         onTap: () {
-                          // context.goNamed(AppRoute.scheduleDetail.name,
-                          //     queryParameters: {
-                          //       'id': schedule.id,
-                          //       'type': schedule.type.toString()
-                          //     });
+                          context.goNamed(AppRoute.scheduleDetail.name,
+                              queryParameters: {
+                                'id': item.id,
+                                'type': index == 0
+                                    ? TransactionType.expense.value.toString()
+                                    : TransactionType.income.value.toString()
+                              });
                         },
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 40),

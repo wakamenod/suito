@@ -1,39 +1,37 @@
 import 'package:formz/formz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:openapi/openapi.dart';
+import 'package:suito/src/features/schedules/repositories/fake_income_schedule_detail_repository.dart';
 import 'package:suito/src/formz/amount.dart';
 import 'package:suito/src/formz/title.dart';
 
-part 'income.freezed.dart';
+part 'income_schedule.freezed.dart';
 
 @freezed
-class Income with _$Income {
-  const factory Income({
+class IncomeSchedule with _$IncomeSchedule {
+  const factory IncomeSchedule({
     required String id,
     required Title title,
     required Amount amount,
-    required String date,
     required String memo,
     required bool isValid,
     required FormzSubmissionStatus submissionStatus,
-  }) = _Income;
+  }) = _IncomeSchedule;
 
-  static Income init() => const Income(
+  static IncomeSchedule init() => const IncomeSchedule(
         id: '',
         title: Title.pure(),
         amount: Amount.pure(),
-        date: '',
         memo: '',
         isValid: true,
         submissionStatus: FormzSubmissionStatus.initial,
       );
 
-  static Income fromModel(IncomeDetailRes res) => Income(
-        id: res.income.id,
-        title: Title.dirty(res.income.incomeType.name),
-        amount: Amount.dirty(res.income.amount),
-        date: res.income.localDate,
-        memo: res.income.memo,
+  static IncomeSchedule fromModel(FakeIncomeScheduleDetailRes res) =>
+      IncomeSchedule(
+        id: res.id,
+        title: Title.dirty(res.title),
+        amount: Amount.dirty(res.amount),
+        memo: res.memo,
         isValid: true,
         submissionStatus: FormzSubmissionStatus.initial,
       );

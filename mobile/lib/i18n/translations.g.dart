@@ -3,7 +3,7 @@
 /// Locales: 2
 /// Strings: 66 (33 per locale)
 ///
-/// Built on 2023-06-23 at 02:24 UTC
+/// Built on 2023-06-23 at 05:11 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -563,7 +563,7 @@ class _TranslationsFormsErrorsJa implements _TranslationsFormsErrorsEn {
 	@override final _TranslationsJa _root; // ignore: unused_field
 
 	// Translations
-	@override String get emptyTitle => 'タイトルが未入力です';
+	@override String get emptyTitle => '品目が未入力です';
 	@override String get emptyAmount => '金額が未入力です';
 }
 
@@ -660,7 +660,7 @@ extension on _TranslationsJa {
 			case 'transactions.totalAmounts.expense': return '支出';
 			case 'transactions.buttons.close': return '閉じる';
 			case 'transactions.buttons.post': return '登録';
-			case 'forms.errors.emptyTitle': return 'タイトルが未入力です';
+			case 'forms.errors.emptyTitle': return '品目が未入力です';
 			case 'forms.errors.emptyAmount': return '金額が未入力です';
 			default: return null;
 		}

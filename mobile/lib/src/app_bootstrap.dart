@@ -4,7 +4,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:suito/i18n/translations.g.dart';
 import 'package:suito/src/exceptions/async_error_logger.dart';
 import 'package:suito/src/exceptions/error_logger.dart';
+import 'package:suito/src/features/schedules/repositories/expense_schedule_detail_repository.dart';
+import 'package:suito/src/features/schedules/repositories/fake_expense_schedule_detail_repository.dart';
+import 'package:suito/src/features/schedules/repositories/fake_income_schedule_detail_repository.dart';
 import 'package:suito/src/features/schedules/repositories/fake_schedules_repository.dart';
+import 'package:suito/src/features/schedules/repositories/income_schedule_detail_repository.dart';
 import 'package:suito/src/features/schedules/repositories/schedules_repository.dart';
 
 import 'app.dart';
@@ -16,12 +20,20 @@ class AppBootstrap {
     // final transactionMonthsRepository =
     //     FakeTransactionMonthsRepository(addDelay: addDelay);
     final fakeScheduleRepository = FakeSchedulesRepository();
+    final fakeExpenseScheduleDetailRepository =
+        FakeExpenseScheduleDetailRepository();
+    final fakeIncomeScheduleDetailRepository =
+        FakeIncomeScheduleDetailRepository();
 
     return ProviderContainer(
       overrides: [
         // transactionMonthsRepositoryProvider
         //     .overrideWithValue(transactionMonthsRepository),
         schedulesRepositoryProvider.overrideWithValue(fakeScheduleRepository),
+        expenseScheduleDetailRepositoryProvider
+            .overrideWithValue(fakeExpenseScheduleDetailRepository),
+        incomeScheduleDetailRepositoryProvider
+            .overrideWithValue(fakeIncomeScheduleDetailRepository),
       ],
       observers: [AsyncErrorLogger()],
     );
