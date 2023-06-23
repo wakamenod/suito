@@ -17,8 +17,11 @@ class ScheduleScreen extends ConsumerWidget {
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.only(top:10.0, bottom:24.0),
-            child: Text(t.schedules.description, style: const TextStyle(color: Colors.blueGrey),),
+            padding: const EdgeInsets.only(top: 10.0, bottom: 24.0),
+            child: Text(
+              t.schedules.description,
+              style: const TextStyle(color: Colors.blueGrey),
+            ),
           ),
           const Expanded(child: SchedulesList())
         ],

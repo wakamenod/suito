@@ -5,25 +5,25 @@ import 'package:suito/i18n/translations.g.dart';
 import 'package:suito/src/common_widgets/async_value_widget.dart';
 import 'package:suito/src/common_widgets/currency_input_field.dart';
 import 'package:suito/src/common_widgets/transition_text_field.dart';
-import 'package:suito/src/features/transactions/presentations/transaction_date_picker.dart';
-import 'package:suito/src/features/transactions/services/income.dart';
-import 'package:suito/src/features/transactions/services/income_service.dart';
+import 'package:suito/src/features/schedules/services/income_schedule.dart';
+import 'package:suito/src/features/schedules/services/income_schedule_service.dart';
 import 'package:suito/src/formz/amount.dart';
 import 'package:suito/src/routing/app_router.dart';
 import 'package:suito/src/utils/currency_formatter.dart';
 
-class IncomeDetailView extends ConsumerWidget {
-  final String incomeID;
+class IncomeScheduleDetailView extends ConsumerWidget {
+  final String incomeScheduleID;
 
-  const IncomeDetailView({required this.incomeID, super.key});
+  const IncomeScheduleDetailView({required this.incomeScheduleID, super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final incomeController =
-        ref.watch(incomeControllerProvider(incomeID).notifier);
-    final incomeValue = ref.watch(incomeControllerProvider(incomeID));
+        ref.watch(incomeScheduleControllerProvider(incomeScheduleID).notifier);
+    final incomeValue =
+        ref.watch(incomeScheduleControllerProvider(incomeScheduleID));
 
-    return AsyncValueWidget<Income>(
+    return AsyncValueWidget<IncomeSchedule>(
       value: incomeValue,
       data: (income) => Scaffold(
           appBar: AppBar(
@@ -32,13 +32,6 @@ class IncomeDetailView extends ConsumerWidget {
           body: SingleChildScrollView(
             child: ListBody(
               children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 10.0, horizontal: 5.0),
-                  child: TransactionDatePicker(
-                      date: income.date,
-                      onChanged: incomeController.onChangeDate),
-                ),
                 TransitionTextField(
                     initialValue: income.title.value,
                     labelText: t.transactions.detail.inputLabels.title,

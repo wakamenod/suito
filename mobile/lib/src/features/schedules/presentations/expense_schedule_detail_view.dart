@@ -1,32 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:suito/i18n/translations.g.dart';
 import 'package:suito/src/common_widgets/async_value_widget.dart';
 import 'package:suito/src/common_widgets/currency_input_field.dart';
 import 'package:suito/src/common_widgets/text_input_field.dart';
 import 'package:suito/src/common_widgets/transition_text_field.dart';
-import 'package:suito/src/features/transactions/services/expense.dart';
-import 'package:suito/src/features/transactions/services/expense_service.dart';
+import 'package:suito/src/features/schedules/services/expense_schedule.dart';
+import 'package:suito/src/features/schedules/services/expense_schedule_service.dart';
 import 'package:suito/src/formz/amount.dart';
 import 'package:suito/src/formz/title.dart' as stitle;
 import 'package:suito/src/routing/app_router.dart';
 import 'package:suito/src/utils/currency_formatter.dart';
 
-import 'transaction_date_picker.dart';
+class ExpenseScheduleDetailView extends ConsumerWidget {
+  final String expenseScheduleID;
 
-class ExpenseDetailView extends ConsumerWidget {
-  final String expenseID;
-
-  const ExpenseDetailView({required this.expenseID, super.key});
+  const ExpenseScheduleDetailView({required this.expenseScheduleID, super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final expenseController =
-        ref.watch(expenseControllerProvider(expenseID).notifier);
-    final expenseValue = ref.watch(expenseControllerProvider(expenseID));
+    final expenseController = ref
+        .watch(expenseScheduleControllerProvider(expenseScheduleID).notifier);
+    final expenseValue =
+        ref.watch(expenseScheduleControllerProvider(expenseScheduleID));
 
-    return AsyncValueWidget<Expense>(
+    return AsyncValueWidget<ExpenseSchedule>(
       value: expenseValue,
       data: (expense) => Scaffold(
           appBar: AppBar(
@@ -35,13 +33,6 @@ class ExpenseDetailView extends ConsumerWidget {
           body: SingleChildScrollView(
             child: ListBody(
               children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 10.0, horizontal: 5.0),
-                  child: TransactionDatePicker(
-                      date: expense.date,
-                      onChanged: expenseController.onChangeDate),
-                ),
                 TextInputField(
                     initialValue: expense.title.value,
                     errorText:
@@ -73,8 +64,8 @@ class ExpenseDetailView extends ConsumerWidget {
                     onChanged: expenseController.onChangeMemo),
                 ElevatedButton(
                   onPressed: () async {
-                    await expenseController.registerExpense();
-                    if (context.mounted) context.pop();
+                    // await expenseController.registerExpense();
+                    // if (context.mounted) context.pop();
                   },
                   child: Text(
                     t.transactions.buttons.post,
