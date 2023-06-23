@@ -17,13 +17,6 @@ detail:
     category: Category
     location: Location
     memo: Memo
-dismissible:
-  snackBar: removed
-  confirmTitle: Confirmation
-  confirmContent: Are you sure you want to delete this item?
-  buttonDelete: DELETE
-  buttonCancel: CANCEL
-  backgroundText: Delete
 months:
   hintText: Select Month
 totalAmounts:

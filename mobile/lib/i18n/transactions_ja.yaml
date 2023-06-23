@@ -17,13 +17,6 @@ detail:
     category: カテゴリー
     location: 購入場所
     memo: メモ
-dismissible:
-  snackBar: 削除しました
-  confirmTitle: 確認
-  confirmContent: このアイテムを削除しますか?
-  buttonDelete: 削除
-  buttonCancel: キャンセル
-  backgroundText: 削除
 months:
   hintText: 月選択
 totalAmounts:

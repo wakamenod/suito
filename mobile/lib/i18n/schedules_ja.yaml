@@ -1,0 +1,5 @@
+abbBar: スケジュール一覧
+description: この画面で登録した支出・出費は、月初に自動登録されます
+expansionTile:
+  expenseHeader: 支出
+  incomeHeader: 収入

@@ -1,3 +1,10 @@
 version:
   updateAlertTitle: アップデートがあります
   updateAlertContent: "アプリのアップデートをお願いします\n AppVersion: $appVersion\n ServerVersion: $serverVersion"
+dismissible:
+  snackBar: 削除しました
+  confirmTitle: 確認
+  confirmContent: このアイテムを削除しますか?
+  buttonDelete: 削除
+  buttonCancel: キャンセル
+  backgroundText: 削除

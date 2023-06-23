@@ -6,7 +6,7 @@ import 'package:suito/src/features/authentication/presentation/profile/custom_pr
 import 'package:suito/src/features/authentication/presentation/sign_in/custom_sign_in_screen.dart';
 import 'package:suito/src/features/authentication/presentation/sign_out/custom_sign_out_screen.dart';
 import 'package:suito/src/features/charts/presentations/charts_screen.dart';
-import 'package:suito/src/features/schedule/presentation/schedule_screen.dart';
+import 'package:suito/src/features/schedules/presentations/schedule_screen.dart';
 import 'package:suito/src/features/transactions/presentations/expense_category_screen.dart';
 import 'package:suito/src/features/transactions/presentations/expense_location_screen.dart';
 import 'package:suito/src/features/transactions/presentations/expense_memo_screen.dart';
