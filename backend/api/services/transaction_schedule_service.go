@@ -5,6 +5,14 @@ import (
 	"github.com/wakamenod/suito/api/repositories"
 )
 
+type (
+	TransactionSchedule struct {
+		ID     string `json:"id"`
+		Title  string `json:"title"`
+		Amount int    `json:"amount"`
+	} // @Name TransactionSchedule
+)
+
 func (s *SuitoJobService) CreateTransactionsService() error {
 	err := s.repo.Transaction(func(txRepo *repositories.SuitoRepository) error {
 		{ // expense
@@ -42,4 +50,35 @@ func (s *SuitoJobService) CreateTransactionsService() error {
 	}
 
 	return nil
+}
+
+func (s *SuitoService) ListTransactionSchedulesService(uid string) ([]TransactionSchedule, []TransactionSchedule, error) {
+	expenses, err := s.repo.FindExpenseSchedules(uid)
+	if err != nil {
+		return nil, nil, err
+	}
+	incomes, err := s.repo.FindIncomeSchedules(uid)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	resExpenses := make([]TransactionSchedule, len(expenses))
+	for i, ex := range expenses {
+		resExpenses[i] = TransactionSchedule{
+			ID:     ex.ID,
+			Title:  ex.Title,
+			Amount: ex.Amount,
+		}
+	}
+
+	resIncomes := make([]TransactionSchedule, len(incomes))
+	for i, in := range incomes {
+		resIncomes[i] = TransactionSchedule{
+			ID:     in.ID,
+			Title:  in.IncomeType.Name,
+			Amount: in.Amount,
+		}
+	}
+
+	return resExpenses, resIncomes, nil
 }

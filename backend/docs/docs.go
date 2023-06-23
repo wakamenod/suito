@@ -484,6 +484,36 @@ const docTemplate = `{
                 }
             }
         },
+        "/schedules": {
+            "get": {
+                "description": "List transactions schedules.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "suito.transactionSchedules"
+                ],
+                "summary": "List transaction schedules",
+                "operationId": "listTransactionSchedules",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/ListTransactionSchedulesRes"
+                        }
+                    },
+                    "500": {
+                        "description": "Unknown Error",
+                        "schema": {
+                            "$ref": "#/definitions/SuitoError"
+                        }
+                    }
+                }
+            }
+        },
         "/transactions": {
             "get": {
                 "description": "List transactions.",
@@ -562,6 +592,7 @@ const docTemplate = `{
                 "tags": [
                     "suito.default"
                 ],
+                "summary": "Version",
                 "operationId": "version",
                 "responses": {
                     "200": {
@@ -757,6 +788,27 @@ const docTemplate = `{
                 }
             }
         },
+        "ListTransactionSchedulesRes": {
+            "type": "object",
+            "required": [
+                "expenseSchedules",
+                "incomeSchedules"
+            ],
+            "properties": {
+                "expenseSchedules": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/TransactionSchedule"
+                    }
+                },
+                "incomeSchedules": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/TransactionSchedule"
+                    }
+                }
+            }
+        },
         "ListTransactionsRes": {
             "type": "object",
             "required": [
@@ -891,6 +943,25 @@ const docTemplate = `{
                     "items": {
                         "type": "string"
                     }
+                }
+            }
+        },
+        "TransactionSchedule": {
+            "type": "object",
+            "required": [
+                "amount",
+                "id",
+                "title"
+            ],
+            "properties": {
+                "amount": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
                 }
             }
         },

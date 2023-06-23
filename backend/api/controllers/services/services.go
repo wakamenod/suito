@@ -33,3 +33,7 @@ type ChartService interface {
 	ColumnChartService(uid string) ([]services.ColumnChartCategoryData, []services.ColumnChartCategoryData, error)
 	PieChartService(uid string, start, end *time.Time) ([]repositories.PieChartData, []repositories.PieChartData, error)
 }
+
+type TransactionScheduleService interface {
+	ListTransactionSchedulesService(uid string) ([]services.TransactionSchedule, []services.TransactionSchedule, error)
+}

@@ -515,6 +515,38 @@
         }
       }
     },
+    "/schedules": {
+      "get": {
+        "tags": [
+          "suito.transactionSchedules"
+        ],
+        "summary": "List transaction schedules",
+        "description": "List transactions schedules.",
+        "operationId": "listTransactionSchedules",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListTransactionSchedulesRes"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unknown Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuitoError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/transactions": {
       "get": {
         "tags": [
@@ -595,6 +627,7 @@
         "tags": [
           "suito.default"
         ],
+        "summary": "Version",
         "description": "Version",
         "operationId": "version",
         "responses": {
@@ -796,6 +829,27 @@
           }
         }
       },
+      "ListTransactionSchedulesRes": {
+        "required": [
+          "expenseSchedules",
+          "incomeSchedules"
+        ],
+        "type": "object",
+        "properties": {
+          "expenseSchedules": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TransactionSchedule"
+            }
+          },
+          "incomeSchedules": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TransactionSchedule"
+            }
+          }
+        }
+      },
       "ListTransactionsRes": {
         "required": [
           "transactions"
@@ -926,6 +980,25 @@
             "items": {
               "type": "string"
             }
+          }
+        }
+      },
+      "TransactionSchedule": {
+        "required": [
+          "amount",
+          "id",
+          "title"
+        ],
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "integer"
+          },
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
           }
         }
       },

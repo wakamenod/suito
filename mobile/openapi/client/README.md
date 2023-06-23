@@ -66,7 +66,7 @@ Class | Method | HTTP request | Description
 [*SuitoChartApi*](doc/SuitoChartApi.md) | [**getColumnChartData**](doc/SuitoChartApi.md#getcolumnchartdata) | **GET** /chart/column | Get column chart data
 [*SuitoChartApi*](doc/SuitoChartApi.md) | [**getPieChartData**](doc/SuitoChartApi.md#getpiechartdata) | **GET** /chart/pie | Get pie chart data
 [*SuitoDefaultApi*](doc/SuitoDefaultApi.md) | [**ping**](doc/SuitoDefaultApi.md#ping) | **GET** /ping | Ping
-[*SuitoDefaultApi*](doc/SuitoDefaultApi.md) | [**version**](doc/SuitoDefaultApi.md#version) | **GET** /version | 
+[*SuitoDefaultApi*](doc/SuitoDefaultApi.md) | [**version**](doc/SuitoDefaultApi.md#version) | **GET** /version | Version
 [*SuitoExpenseApi*](doc/SuitoExpenseApi.md) | [**deleteExpense**](doc/SuitoExpenseApi.md#deleteexpense) | **DELETE** /expense | Delete expense
 [*SuitoExpenseApi*](doc/SuitoExpenseApi.md) | [**expenseDetail**](doc/SuitoExpenseApi.md#expensedetail) | **POST** /expense/detail | Get expense detail
 [*SuitoExpenseApi*](doc/SuitoExpenseApi.md) | [**listExpenseCategories**](doc/SuitoExpenseApi.md#listexpensecategories) | **GET** /expense/categories | List expense categories
@@ -77,6 +77,7 @@ Class | Method | HTTP request | Description
 [*SuitoIncomeApi*](doc/SuitoIncomeApi.md) | [**listIncomeTypes**](doc/SuitoIncomeApi.md#listincometypes) | **GET** /income/types | List income types
 [*SuitoIncomeApi*](doc/SuitoIncomeApi.md) | [**registerIncome**](doc/SuitoIncomeApi.md#registerincome) | **POST** /income | Register income
 [*SuitoIncomeApi*](doc/SuitoIncomeApi.md) | [**updateIncome**](doc/SuitoIncomeApi.md#updateincome) | **PUT** /income | Update income
+[*SuitoTransactionSchedulesApi*](doc/SuitoTransactionSchedulesApi.md) | [**listTransactionSchedules**](doc/SuitoTransactionSchedulesApi.md#listtransactionschedules) | **GET** /schedules | List transaction schedules
 [*SuitoTransactionsApi*](doc/SuitoTransactionsApi.md) | [**listTransactions**](doc/SuitoTransactionsApi.md#listtransactions) | **GET** /transactions | List transactions
 [*SuitoTransactionsApi*](doc/SuitoTransactionsApi.md) | [**transactionMonths**](doc/SuitoTransactionsApi.md#transactionmonths) | **GET** /transactions/months | List transaction months
 
@@ -95,6 +96,7 @@ Class | Method | HTTP request | Description
  - [ListExpenseCategoriesRes](doc/ListExpenseCategoriesRes.md)
  - [ListExpenseLocationsRes](doc/ListExpenseLocationsRes.md)
  - [ListIncomeTypesRes](doc/ListIncomeTypesRes.md)
+ - [ListTransactionSchedulesRes](doc/ListTransactionSchedulesRes.md)
  - [ListTransactionsRes](doc/ListTransactionsRes.md)
  - [ModelExpense](doc/ModelExpense.md)
  - [ModelExpenseCategory](doc/ModelExpenseCategory.md)
@@ -109,6 +111,7 @@ Class | Method | HTTP request | Description
  - [SuitoError](doc/SuitoError.md)
  - [Transaction](doc/Transaction.md)
  - [TransactionMonthsRes](doc/TransactionMonthsRes.md)
+ - [TransactionSchedule](doc/TransactionSchedule.md)
  - [UpdateExpenseReq](doc/UpdateExpenseReq.md)
  - [UpdateExpenseRes](doc/UpdateExpenseRes.md)
  - [UpdateIncomeReq](doc/UpdateIncomeReq.md)

@@ -14,6 +14,7 @@ doc/IncomeDetailRes.md
 doc/ListExpenseCategoriesRes.md
 doc/ListExpenseLocationsRes.md
 doc/ListIncomeTypesRes.md
+doc/ListTransactionSchedulesRes.md
 doc/ListTransactionsRes.md
 doc/ModelExpense.md
 doc/ModelExpenseCategory.md
@@ -30,9 +31,11 @@ doc/SuitoDefaultApi.md
 doc/SuitoError.md
 doc/SuitoExpenseApi.md
 doc/SuitoIncomeApi.md
+doc/SuitoTransactionSchedulesApi.md
 doc/SuitoTransactionsApi.md
 doc/Transaction.md
 doc/TransactionMonthsRes.md
+doc/TransactionSchedule.md
 doc/UpdateExpenseReq.md
 doc/UpdateExpenseRes.md
 doc/UpdateIncomeReq.md
@@ -43,6 +46,7 @@ lib/src/api/suito_chart_api.dart
 lib/src/api/suito_default_api.dart
 lib/src/api/suito_expense_api.dart
 lib/src/api/suito_income_api.dart
+lib/src/api/suito_transaction_schedules_api.dart
 lib/src/api/suito_transactions_api.dart
 lib/src/api_util.dart
 lib/src/auth/api_key_auth.dart
@@ -64,6 +68,7 @@ lib/src/model/income_detail_res.dart
 lib/src/model/list_expense_categories_res.dart
 lib/src/model/list_expense_locations_res.dart
 lib/src/model/list_income_types_res.dart
+lib/src/model/list_transaction_schedules_res.dart
 lib/src/model/list_transactions_res.dart
 lib/src/model/model_expense.dart
 lib/src/model/model_expense_category.dart
@@ -78,6 +83,7 @@ lib/src/model/register_income_res.dart
 lib/src/model/suito_error.dart
 lib/src/model/transaction.dart
 lib/src/model/transaction_months_res.dart
+lib/src/model/transaction_schedule.dart
 lib/src/model/update_expense_req.dart
 lib/src/model/update_expense_res.dart
 lib/src/model/update_income_req.dart
@@ -96,6 +102,7 @@ test/income_detail_res_test.dart
 test/list_expense_categories_res_test.dart
 test/list_expense_locations_res_test.dart
 test/list_income_types_res_test.dart
+test/list_transaction_schedules_res_test.dart
 test/list_transactions_res_test.dart
 test/model_expense_category_test.dart
 test/model_expense_location_test.dart
@@ -112,8 +119,10 @@ test/suito_default_api_test.dart
 test/suito_error_test.dart
 test/suito_expense_api_test.dart
 test/suito_income_api_test.dart
+test/suito_transaction_schedules_api_test.dart
 test/suito_transactions_api_test.dart
 test/transaction_months_res_test.dart
+test/transaction_schedule_test.dart
 test/transaction_test.dart
 test/update_expense_req_test.dart
 test/update_expense_res_test.dart

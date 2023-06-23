@@ -13,6 +13,7 @@ import 'package:openapi/src/api/suito_chart_api.dart';
 import 'package:openapi/src/api/suito_default_api.dart';
 import 'package:openapi/src/api/suito_expense_api.dart';
 import 'package:openapi/src/api/suito_income_api.dart';
+import 'package:openapi/src/api/suito_transaction_schedules_api.dart';
 import 'package:openapi/src/api/suito_transactions_api.dart';
 
 class Openapi {
@@ -91,6 +92,12 @@ class Openapi {
   /// by doing that all interceptors will not be executed
   SuitoIncomeApi getSuitoIncomeApi() {
     return SuitoIncomeApi(dio, serializers);
+  }
+
+  /// Get SuitoTransactionSchedulesApi instance, base route and serializer can be overridden by a given but be careful,
+  /// by doing that all interceptors will not be executed
+  SuitoTransactionSchedulesApi getSuitoTransactionSchedulesApi() {
+    return SuitoTransactionSchedulesApi(dio, serializers);
   }
 
   /// Get SuitoTransactionsApi instance, base route and serializer can be overridden by a given but be careful,

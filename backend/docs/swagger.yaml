@@ -326,6 +326,26 @@ paths:
             text/plain:
               schema:
                 type: string
+  /schedules:
+    get:
+      tags:
+      - suito.transactionSchedules
+      summary: List transaction schedules
+      description: List transactions schedules.
+      operationId: listTransactionSchedules
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListTransactionSchedulesRes'
+        500:
+          description: Unknown Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuitoError'
   /transactions:
     get:
       tags:
@@ -377,6 +397,7 @@ paths:
     get:
       tags:
       - suito.default
+      summary: Version
       description: Version
       operationId: version
       responses:
@@ -507,6 +528,20 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/model.IncomeType'
+    ListTransactionSchedulesRes:
+      required:
+      - expenseSchedules
+      - incomeSchedules
+      type: object
+      properties:
+        expenseSchedules:
+          type: array
+          items:
+            $ref: '#/components/schemas/TransactionSchedule'
+        incomeSchedules:
+          type: array
+          items:
+            $ref: '#/components/schemas/TransactionSchedule'
     ListTransactionsRes:
       required:
       - transactions
@@ -595,6 +630,19 @@ components:
           type: array
           items:
             type: string
+    TransactionSchedule:
+      required:
+      - amount
+      - id
+      - title
+      type: object
+      properties:
+        amount:
+          type: integer
+        id:
+          type: string
+        title:
+          type: string
     UpdateExpenseReq:
       required:
       - category

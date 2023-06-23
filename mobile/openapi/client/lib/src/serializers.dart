@@ -26,6 +26,7 @@ import 'package:openapi/src/model/income_detail_res.dart';
 import 'package:openapi/src/model/list_expense_categories_res.dart';
 import 'package:openapi/src/model/list_expense_locations_res.dart';
 import 'package:openapi/src/model/list_income_types_res.dart';
+import 'package:openapi/src/model/list_transaction_schedules_res.dart';
 import 'package:openapi/src/model/list_transactions_res.dart';
 import 'package:openapi/src/model/model_expense.dart';
 import 'package:openapi/src/model/model_expense_category.dart';
@@ -40,6 +41,7 @@ import 'package:openapi/src/model/register_income_res.dart';
 import 'package:openapi/src/model/suito_error.dart';
 import 'package:openapi/src/model/transaction.dart';
 import 'package:openapi/src/model/transaction_months_res.dart';
+import 'package:openapi/src/model/transaction_schedule.dart';
 import 'package:openapi/src/model/update_expense_req.dart';
 import 'package:openapi/src/model/update_expense_res.dart';
 import 'package:openapi/src/model/update_income_req.dart';
@@ -60,6 +62,7 @@ part 'serializers.g.dart';
   ListExpenseCategoriesRes,
   ListExpenseLocationsRes,
   ListIncomeTypesRes,
+  ListTransactionSchedulesRes,
   ListTransactionsRes,
   ModelExpense,
   ModelExpenseCategory,
@@ -74,6 +77,7 @@ part 'serializers.g.dart';
   SuitoError,
   Transaction,
   TransactionMonthsRes,
+  TransactionSchedule,
   UpdateExpenseReq,
   UpdateExpenseRes,
   UpdateIncomeReq,

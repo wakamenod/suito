@@ -54,11 +54,17 @@ var _ Repository = &RepositoryMock{}
 //			FindExpenseLocationsFunc: func(uid string) ([]model.ExpenseLocation, error) {
 //				panic("mock out the FindExpenseLocations method")
 //			},
+//			FindExpenseSchedulesFunc: func(uid string) ([]model.ExpenseSchedule, error) {
+//				panic("mock out the FindExpenseSchedules method")
+//			},
 //			FindExpensesFunc: func(uid string, start *time.Time, end *time.Time) ([]model.Expense, error) {
 //				panic("mock out the FindExpenses method")
 //			},
 //			FindIncomeFunc: func(id string, uid string) (model.Income, error) {
 //				panic("mock out the FindIncome method")
+//			},
+//			FindIncomeSchedulesFunc: func(uid string) ([]model.IncomeSchedule, error) {
+//				panic("mock out the FindIncomeSchedules method")
 //			},
 //			FindIncomeTypesFunc: func(uid string) ([]model.IncomeType, error) {
 //				panic("mock out the FindIncomeTypes method")
@@ -148,11 +154,17 @@ type RepositoryMock struct {
 	// FindExpenseLocationsFunc mocks the FindExpenseLocations method.
 	FindExpenseLocationsFunc func(uid string) ([]model.ExpenseLocation, error)
 
+	// FindExpenseSchedulesFunc mocks the FindExpenseSchedules method.
+	FindExpenseSchedulesFunc func(uid string) ([]model.ExpenseSchedule, error)
+
 	// FindExpensesFunc mocks the FindExpenses method.
 	FindExpensesFunc func(uid string, start *time.Time, end *time.Time) ([]model.Expense, error)
 
 	// FindIncomeFunc mocks the FindIncome method.
 	FindIncomeFunc func(id string, uid string) (model.Income, error)
+
+	// FindIncomeSchedulesFunc mocks the FindIncomeSchedules method.
+	FindIncomeSchedulesFunc func(uid string) ([]model.IncomeSchedule, error)
 
 	// FindIncomeTypesFunc mocks the FindIncomeTypes method.
 	FindIncomeTypesFunc func(uid string) ([]model.IncomeType, error)
@@ -269,6 +281,11 @@ type RepositoryMock struct {
 			// UID is the uid argument value.
 			UID string
 		}
+		// FindExpenseSchedules holds details about calls to the FindExpenseSchedules method.
+		FindExpenseSchedules []struct {
+			// UID is the uid argument value.
+			UID string
+		}
 		// FindExpenses holds details about calls to the FindExpenses method.
 		FindExpenses []struct {
 			// UID is the uid argument value.
@@ -282,6 +299,11 @@ type RepositoryMock struct {
 		FindIncome []struct {
 			// ID is the id argument value.
 			ID string
+			// UID is the uid argument value.
+			UID string
+		}
+		// FindIncomeSchedules holds details about calls to the FindIncomeSchedules method.
+		FindIncomeSchedules []struct {
 			// UID is the uid argument value.
 			UID string
 		}
@@ -401,8 +423,10 @@ type RepositoryMock struct {
 	lockFindExpenseCategory                sync.RWMutex
 	lockFindExpenseLocation                sync.RWMutex
 	lockFindExpenseLocations               sync.RWMutex
+	lockFindExpenseSchedules               sync.RWMutex
 	lockFindExpenses                       sync.RWMutex
 	lockFindIncome                         sync.RWMutex
+	lockFindIncomeSchedules                sync.RWMutex
 	lockFindIncomeTypes                    sync.RWMutex
 	lockFindIncomes                        sync.RWMutex
 	lockFindOrCreateExpenseCategory        sync.RWMutex
@@ -792,6 +816,38 @@ func (mock *RepositoryMock) FindExpenseLocationsCalls() []struct {
 	return calls
 }
 
+// FindExpenseSchedules calls FindExpenseSchedulesFunc.
+func (mock *RepositoryMock) FindExpenseSchedules(uid string) ([]model.ExpenseSchedule, error) {
+	if mock.FindExpenseSchedulesFunc == nil {
+		panic("RepositoryMock.FindExpenseSchedulesFunc: method is nil but Repository.FindExpenseSchedules was just called")
+	}
+	callInfo := struct {
+		UID string
+	}{
+		UID: uid,
+	}
+	mock.lockFindExpenseSchedules.Lock()
+	mock.calls.FindExpenseSchedules = append(mock.calls.FindExpenseSchedules, callInfo)
+	mock.lockFindExpenseSchedules.Unlock()
+	return mock.FindExpenseSchedulesFunc(uid)
+}
+
+// FindExpenseSchedulesCalls gets all the calls that were made to FindExpenseSchedules.
+// Check the length with:
+//
+//	len(mockedRepository.FindExpenseSchedulesCalls())
+func (mock *RepositoryMock) FindExpenseSchedulesCalls() []struct {
+	UID string
+} {
+	var calls []struct {
+		UID string
+	}
+	mock.lockFindExpenseSchedules.RLock()
+	calls = mock.calls.FindExpenseSchedules
+	mock.lockFindExpenseSchedules.RUnlock()
+	return calls
+}
+
 // FindExpenses calls FindExpensesFunc.
 func (mock *RepositoryMock) FindExpenses(uid string, start *time.Time, end *time.Time) ([]model.Expense, error) {
 	if mock.FindExpensesFunc == nil {
@@ -865,6 +921,38 @@ func (mock *RepositoryMock) FindIncomeCalls() []struct {
 	mock.lockFindIncome.RLock()
 	calls = mock.calls.FindIncome
 	mock.lockFindIncome.RUnlock()
+	return calls
+}
+
+// FindIncomeSchedules calls FindIncomeSchedulesFunc.
+func (mock *RepositoryMock) FindIncomeSchedules(uid string) ([]model.IncomeSchedule, error) {
+	if mock.FindIncomeSchedulesFunc == nil {
+		panic("RepositoryMock.FindIncomeSchedulesFunc: method is nil but Repository.FindIncomeSchedules was just called")
+	}
+	callInfo := struct {
+		UID string
+	}{
+		UID: uid,
+	}
+	mock.lockFindIncomeSchedules.Lock()
+	mock.calls.FindIncomeSchedules = append(mock.calls.FindIncomeSchedules, callInfo)
+	mock.lockFindIncomeSchedules.Unlock()
+	return mock.FindIncomeSchedulesFunc(uid)
+}
+
+// FindIncomeSchedulesCalls gets all the calls that were made to FindIncomeSchedules.
+// Check the length with:
+//
+//	len(mockedRepository.FindIncomeSchedulesCalls())
+func (mock *RepositoryMock) FindIncomeSchedulesCalls() []struct {
+	UID string
+} {
+	var calls []struct {
+		UID string
+	}
+	mock.lockFindIncomeSchedules.RLock()
+	calls = mock.calls.FindIncomeSchedules
+	mock.lockFindIncomeSchedules.RUnlock()
 	return calls
 }
 

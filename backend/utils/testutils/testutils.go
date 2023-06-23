@@ -192,6 +192,12 @@ func (e *TestDataInserter) WithExpenseAmount(amount int) ExpenseScheduleOption {
 	}
 }
 
+func (e *TestDataInserter) WithExpenseScheduleDeletedAt(deletedAt gorm.DeletedAt) ExpenseScheduleOption {
+	return func(es *model.ExpenseSchedule) {
+		es.DeletedAt = deletedAt
+	}
+}
+
 func (e *TestDataInserter) InsertExpenseSchedule(uid, title, timezone string, options ...ExpenseScheduleOption) model.ExpenseSchedule {
 	es := model.ExpenseSchedule{
 		ID:       xid.New().String(),
@@ -223,6 +229,12 @@ func (e *TestDataInserter) WithIncomeAmount(amount int) IncomeScheduleOption {
 func (e *TestDataInserter) WithIncomeTypeID(incomeTypeID string) IncomeScheduleOption {
 	return func(es *model.IncomeSchedule) {
 		es.IncomeTypeID = incomeTypeID
+	}
+}
+
+func (e *TestDataInserter) WithIncomeScheduleDeletedAt(deletedAt gorm.DeletedAt) IncomeScheduleOption {
+	return func(es *model.IncomeSchedule) {
+		es.DeletedAt = deletedAt
 	}
 }
 
