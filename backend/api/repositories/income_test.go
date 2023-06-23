@@ -239,12 +239,12 @@ func TestCreateIncomesFromScheduledQueue(t *testing.T) {
 
 	var params []model.ScheduledIncomeQueue
 	{
-		id := i.InsertIncomeSchedule(userID, "title01", "America/New_York").ID
+		id := i.InsertIncomeSchedule(userID, "America/New_York").ID
 		q := i.InsertScheduledIncomeQueue(id, time.Date(2023, 5, 1, 10, 0, 0, 0, time.UTC), gorm.DeletedAt{})
 		params = append(params, q)
 	}
 	{
-		id := i.InsertIncomeSchedule(userID, "title02", "Asia/Tokyo",
+		id := i.InsertIncomeSchedule(userID, "Asia/Tokyo",
 			i.WithIncomeMemo("TEST MEMO"),
 			i.WithIncomeAmount(400),
 			i.WithIncomeTypeID("TID1"),

@@ -141,6 +141,34 @@ paths:
               schema:
                 $ref: '#/components/schemas/SuitoError'
       x-codegen-request-body-name: request
+  /expense-schedule/detail:
+    post:
+      tags:
+      - suito.expenseSchedule
+      summary: Get expense schedule detail
+      description: 購入スケジュール詳細情報を取得します.
+      operationId: expenseScheduleDetail
+      requestBody:
+        description: expense detail req
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExpenseScheduleDetailReq'
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExpenseScheduleDetailRes'
+        500:
+          description: Unknown Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuitoError'
+      x-codegen-request-body-name: request
   /expense/categories:
     get:
       tags:
@@ -257,6 +285,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RegisterIncomeRes'
+        500:
+          description: Unknown Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuitoError'
+      x-codegen-request-body-name: request
+  /income-schedule/detail:
+    post:
+      tags:
+      - suito.incomeSchedule
+      summary: Get income schedule detail
+      description: 購入スケジュール詳細情報を取得します.
+      operationId: incomeScheduleDetail
+      requestBody:
+        description: income detail req
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IncomeScheduleDetailReq'
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IncomeScheduleDetailRes'
         500:
           description: Unknown Error
           content:
@@ -459,6 +515,20 @@ components:
           $ref: '#/components/schemas/model.Expense'
         location:
           type: string
+    ExpenseScheduleDetailReq:
+      required:
+      - id
+      type: object
+      properties:
+        id:
+          type: string
+    ExpenseScheduleDetailRes:
+      required:
+      - expenseShcedule
+      type: object
+      properties:
+        expenseShcedule:
+          $ref: '#/components/schemas/model.ExpenseSchedule'
     GetColumnChartDataRes:
       required:
       - expenseData
@@ -501,6 +571,20 @@ components:
       properties:
         income:
           $ref: '#/components/schemas/model.Income'
+    IncomeScheduleDetailReq:
+      required:
+      - id
+      type: object
+      properties:
+        id:
+          type: string
+    IncomeScheduleDetailRes:
+      required:
+      - incomeShcedule
+      type: object
+      properties:
+        incomeShcedule:
+          $ref: '#/components/schemas/model.IncomeSchedule'
     ListExpenseCategoriesRes:
       required:
       - expenseCategories
@@ -677,6 +761,14 @@ components:
       properties:
         updatedIncome:
           $ref: '#/components/schemas/model.Income'
+    gorm.DeletedAt:
+      type: object
+      properties:
+        time:
+          type: string
+        valid:
+          type: boolean
+          description: Valid is true if Time is not NULL
     model.Expense:
       required:
       - amount
@@ -716,6 +808,44 @@ components:
           type: string
         name:
           type: string
+    model.ExpenseSchedule:
+      required:
+      - expenseCategory
+      - expenseCategoryID
+      - expenseLocation
+      - expenseLocationID
+      - id
+      - memo
+      - title
+      - uid
+      type: object
+      properties:
+        amount:
+          type: integer
+        createdAt:
+          type: string
+        deletedAt:
+          $ref: '#/components/schemas/gorm.DeletedAt'
+        expenseCategory:
+          $ref: '#/components/schemas/model.ExpenseCategory'
+        expenseCategoryID:
+          type: string
+        expenseLocation:
+          $ref: '#/components/schemas/model.ExpenseLocation'
+        expenseLocationID:
+          type: string
+        id:
+          type: string
+        memo:
+          type: string
+        scheduleType:
+          type: integer
+        title:
+          type: string
+        uid:
+          type: string
+        updatedAt:
+          type: string
     model.Income:
       required:
       - amount
@@ -734,6 +864,32 @@ components:
         local_date:
           type: string
         memo:
+          type: string
+    model.IncomeSchedule:
+      required:
+      - id
+      - income_type
+      - memo
+      - uid
+      type: object
+      properties:
+        amount:
+          type: integer
+        createdAt:
+          type: string
+        deletedAt:
+          $ref: '#/components/schemas/gorm.DeletedAt'
+        id:
+          type: string
+        income_type:
+          $ref: '#/components/schemas/model.IncomeType'
+        memo:
+          type: string
+        scheduleType:
+          type: integer
+        uid:
+          type: string
+        updatedAt:
           type: string
     model.IncomeType:
       required:

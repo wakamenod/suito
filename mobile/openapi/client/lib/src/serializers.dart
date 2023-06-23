@@ -19,10 +19,15 @@ import 'package:openapi/src/model/column_chart_data.dart';
 import 'package:openapi/src/model/delete_expense_req.dart';
 import 'package:openapi/src/model/expense_detail_req.dart';
 import 'package:openapi/src/model/expense_detail_res.dart';
+import 'package:openapi/src/model/expense_schedule_detail_req.dart';
+import 'package:openapi/src/model/expense_schedule_detail_res.dart';
 import 'package:openapi/src/model/get_column_chart_data_res.dart';
 import 'package:openapi/src/model/get_pie_chart_data_res.dart';
+import 'package:openapi/src/model/gorm_deleted_at.dart';
 import 'package:openapi/src/model/income_detail_req.dart';
 import 'package:openapi/src/model/income_detail_res.dart';
+import 'package:openapi/src/model/income_schedule_detail_req.dart';
+import 'package:openapi/src/model/income_schedule_detail_res.dart';
 import 'package:openapi/src/model/list_expense_categories_res.dart';
 import 'package:openapi/src/model/list_expense_locations_res.dart';
 import 'package:openapi/src/model/list_income_types_res.dart';
@@ -31,7 +36,9 @@ import 'package:openapi/src/model/list_transactions_res.dart';
 import 'package:openapi/src/model/model_expense.dart';
 import 'package:openapi/src/model/model_expense_category.dart';
 import 'package:openapi/src/model/model_expense_location.dart';
+import 'package:openapi/src/model/model_expense_schedule.dart';
 import 'package:openapi/src/model/model_income.dart';
+import 'package:openapi/src/model/model_income_schedule.dart';
 import 'package:openapi/src/model/model_income_type.dart';
 import 'package:openapi/src/model/pie_chart_data.dart';
 import 'package:openapi/src/model/register_expense_req.dart';
@@ -55,10 +62,15 @@ part 'serializers.g.dart';
   DeleteExpenseReq,
   ExpenseDetailReq,
   ExpenseDetailRes,
+  ExpenseScheduleDetailReq,
+  ExpenseScheduleDetailRes,
   GetColumnChartDataRes,
   GetPieChartDataRes,
+  GormDeletedAt,
   IncomeDetailReq,
   IncomeDetailRes,
+  IncomeScheduleDetailReq,
+  IncomeScheduleDetailRes,
   ListExpenseCategoriesRes,
   ListExpenseLocationsRes,
   ListIncomeTypesRes,
@@ -67,7 +79,9 @@ part 'serializers.g.dart';
   ModelExpense,
   ModelExpenseCategory,
   ModelExpenseLocation,
+  ModelExpenseSchedule,
   ModelIncome,
+  ModelIncomeSchedule,
   ModelIncomeType,
   PieChartData,
   RegisterExpenseReq,

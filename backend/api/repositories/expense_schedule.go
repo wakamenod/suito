@@ -16,3 +16,17 @@ func (r *SuitoRepository) FindExpenseSchedules(uid string) ([]model.ExpenseSched
 
 	return res, nil
 }
+
+func (r *SuitoRepository) FindExpenseSchedule(id, uid string) (model.ExpenseSchedule, error) {
+	var res model.ExpenseSchedule
+
+	if err := r.db.
+		Preload("ExpenseCategory").
+		Preload("ExpenseLocation").
+		Where("id = ? AND uid = ?", id, uid).
+		First(&res).Error; err != nil {
+		return res, errors.Wrap(err, "failed to find expense schedule")
+	}
+
+	return res, nil
+}

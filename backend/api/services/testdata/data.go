@@ -86,3 +86,43 @@ var expenseLocationTestData = []model.ExpenseLocation{
 		Name: "Test Location 02",
 	},
 }
+
+var expenseSchedulesTestData = []model.ExpenseSchedule{
+	{
+		ID:     "EXPENSE_SCHEDULE_ID1",
+		UID:    "user1",
+		Title:  "Title Expense 1",
+		Amount: 100,
+		ExpenseCategory: model.ExpenseCategory{
+			Name: "Test Category",
+		},
+		ExpenseLocation: model.ExpenseLocation{
+			Name: "Test Location",
+		},
+	},
+	{
+		ID:     "EXPENSE_SCHEDULE_ID2",
+		UID:    "user1",
+		Title:  "Title Expense 2",
+		Amount: 200,
+	},
+}
+
+var incomeSchedulesTestData = []model.IncomeSchedule{
+	{
+		ID:  "INCOME_SCHEDULE_ID1",
+		UID: "user1",
+		IncomeType: model.IncomeType{
+			Name: "Income Type 1",
+		},
+		Amount: 300,
+	},
+	{
+		ID:  "INCOME_SCHEDULE_ID2",
+		UID: "user1",
+		IncomeType: model.IncomeType{
+			Name: "Income Type 2",
+		},
+		Amount: 400,
+	},
+}

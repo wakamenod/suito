@@ -22,6 +22,14 @@ type ExpenseService interface {
 	FindExpenseService(id, uid string) (model.Expense, string, string, error)
 }
 
+type ExpenseScheduleService interface {
+	FindExpenseScheduleService(id, uid string) (model.ExpenseSchedule, error)
+}
+
+type IncomeScheduleService interface {
+	FindIncomeScheduleService(id, uid string) (model.IncomeSchedule, error)
+}
+
 type IncomeService interface {
 	CreateIncomeService(uid string, income model.Income) (model.Income, error)
 	FindIncomeService(id, uid string) (model.Income, error)
