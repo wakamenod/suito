@@ -42,6 +42,7 @@ class ColumnChartView extends ConsumerWidget {
                           // },
                           shared: true,
                           enable: true,
+                          duration: 10000,
                           textStyle: const TextStyle(
                               fontFamily: 'NotoSerifJP', fontSize: 9),
                           tooltipPosition: TooltipPosition.pointer),
