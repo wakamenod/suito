@@ -1,0 +1,5 @@
+abbBar: Schedules
+description: The expenses/incomes registered on this screen will be automatically recorded at the beginning of each month.
+expansionTile:
+  expenseHeader: Expense
+  incomeHeader: Income

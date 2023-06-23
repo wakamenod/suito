@@ -38,23 +38,23 @@ class TransactionsList extends ConsumerWidget {
 
               // Show a snackbar.
               state.showSnackBar(
-                  SnackBar(content: Text(t.transactions.dismissible.snackBar)));
+                  SnackBar(content: Text(t.general.dismissible.snackBar)));
             },
             confirmDismiss: (direction) async {
               return await showDialog(
                 context: context,
                 builder: (BuildContext context) {
                   return AlertDialog(
-                    title: Text(t.transactions.dismissible.confirmContent),
-                    content: Text(t.transactions.dismissible.confirmContent),
+                    title: Text(t.general.dismissible.confirmContent),
+                    content: Text(t.general.dismissible.confirmContent),
                     actions: <Widget>[
                       TextButton(
                         onPressed: () => Navigator.of(context).pop(true),
-                        child: Text(t.transactions.dismissible.buttonDelete),
+                        child: Text(t.general.dismissible.buttonDelete),
                       ),
                       TextButton(
                         onPressed: () => Navigator.of(context).pop(false),
-                        child: Text(t.transactions.dismissible.buttonCancel),
+                        child: Text(t.general.dismissible.buttonCancel),
                       ),
                     ],
                   );
@@ -70,7 +70,7 @@ class TransactionsList extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
                     const Icon(Icons.delete, color: Colors.white),
-                    Text(t.transactions.dismissible.backgroundText,
+                    Text(t.general.dismissible.backgroundText,
                         style: const TextStyle(color: Colors.white)),
                   ],
                 ),

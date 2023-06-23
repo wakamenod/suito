@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:suito/i18n/translations.g.dart';
 import 'package:suito/src/exceptions/async_error_logger.dart';
 import 'package:suito/src/exceptions/error_logger.dart';
+import 'package:suito/src/features/schedules/repositories/fake_schedules_repository.dart';
+import 'package:suito/src/features/schedules/repositories/schedules_repository.dart';
 
 import 'app.dart';
 
@@ -13,11 +15,13 @@ class AppBootstrap {
       {bool addDelay = true}) async {
     // final transactionMonthsRepository =
     //     FakeTransactionMonthsRepository(addDelay: addDelay);
+    final fakeScheduleRepository = FakeSchedulesRepository();
 
     return ProviderContainer(
       overrides: [
         // transactionMonthsRepositoryProvider
         //     .overrideWithValue(transactionMonthsRepository),
+        schedulesRepositoryProvider.overrideWithValue(fakeScheduleRepository),
       ],
       observers: [AsyncErrorLogger()],
     );
