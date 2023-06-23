@@ -63,3 +63,39 @@ func TestFindExpenseSchedules2(t *testing.T) {
 		require.Equal(t, "locationID", schedule.ExpenseLocationID)
 	}
 }
+
+func TestFindExpenseSchedule(t *testing.T) {
+	tx := begin()
+	defer rollback(tx)
+	// setup test data
+
+	userID := "user1"
+	i := testutils.NewTestDataInserter(t, tx)
+	categoryID := i.InsertExpenseCategory(userID, "CategoryName").ID
+	locationID := i.InsertExpenseLocation(userID, "LocationName").ID
+	id := i.InsertExpenseSchedule(userID, "title01", "Asia/Tokyo",
+		i.WithExpenseCategoryID(categoryID),
+		i.WithExpenseLocationID(locationID),
+	).ID
+	// run
+	res, err := NewSuitoRepository(tx).FindExpenseSchedule(id, userID)
+	// check
+	require.NoError(t, err)
+	require.Equal(t, id, res.ID)
+	require.Equal(t, "title01", res.Title)
+	require.Equal(t, 200, res.Amount)
+	require.Equal(t, "CategoryName", res.ExpenseCategory.Name)
+	require.Equal(t, "LocationName", res.ExpenseLocation.Name)
+}
+
+func TestFindExpenseSchedule_ErrorNotFound(t *testing.T) {
+	tx := begin()
+	defer rollback(tx)
+	// setup test data
+	// i := testutils.NewTestDataInserter(t, tx)
+	// run
+	_, err := NewSuitoRepository(tx).FindExpenseSchedule("scheduleID", "user1")
+	// check
+	require.Error(t, err)
+	require.ErrorIs(t, err, gorm.ErrRecordNotFound)
+}

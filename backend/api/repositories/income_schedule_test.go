@@ -29,14 +29,14 @@ func TestFindIncomeSchedules2(t *testing.T) {
 	i := testutils.NewTestDataInserter(t, tx)
 	userID := "user1"
 	incomeTypeID := i.InsertIncomeType(userID, "収入A").ID
-	i.InsertIncomeSchedule(userID, "title1", "America/New_York")
-	i.InsertIncomeSchedule("user99", "title_other_user", "Asia/Tokyo")
-	i.InsertIncomeSchedule(userID, "title2", "Asia/Tokyo",
+	i.InsertIncomeSchedule(userID, "America/New_York")
+	i.InsertIncomeSchedule("user99", "Asia/Tokyo")
+	i.InsertIncomeSchedule(userID, "Asia/Tokyo",
 		i.WithIncomeAmount(100),
 		i.WithIncomeMemo("memo"),
 		i.WithIncomeTypeID(incomeTypeID),
 	)
-	i.InsertIncomeSchedule(userID, "", "",
+	i.InsertIncomeSchedule(userID, "",
 		i.WithIncomeScheduleDeletedAt(gorm.DeletedAt{Valid: true, Time: time.Now()}),
 	)
 	// run
@@ -58,4 +58,33 @@ func TestFindIncomeSchedules2(t *testing.T) {
 		require.Equal(t, 100, schedule.Amount)
 		require.Equal(t, "memo", schedule.Memo)
 	}
+}
+
+func TestFindIncomeSchedule(t *testing.T) {
+	tx := begin()
+	defer rollback(tx)
+	// setup test data
+	i := testutils.NewTestDataInserter(t, tx)
+	userID := "user1"
+	typeID := i.InsertIncomeType(userID, "Income Type").ID
+	id := i.InsertIncomeSchedule(userID, "Asia/Tokyo", i.WithIncomeTypeID(typeID)).ID
+	// run
+	res, err := NewSuitoRepository(tx).FindIncomeSchedule(id, userID)
+	// check
+	require.NoError(t, err)
+	require.Equal(t, id, res.ID)
+	require.Equal(t, "Income Type", res.IncomeType.Name)
+	require.Equal(t, 200, res.Amount)
+}
+
+func TestFindIncomeSchedule_ErrorNotFound(t *testing.T) {
+	tx := begin()
+	defer rollback(tx)
+	// setup test data
+	// i := testutils.NewTestDataInserter(t, tx)
+	// run
+	_, err := NewSuitoRepository(tx).FindIncomeSchedule("scheduleID", "user1")
+	// check
+	require.Error(t, err)
+	require.ErrorIs(t, err, gorm.ErrRecordNotFound)
 }

@@ -12,6 +12,8 @@ var eCon *ExpenseController
 var iCon *IncomeController
 var cCon *ChartController
 var sCon *TransactionScheduleController
+var esCon *ExpenseScheduleController
+var isCon *IncomeScheduleController
 
 func TestMain(m *testing.M) {
 	ser := services.NewSuitoService(&testdata.TestRepositoryMock)
@@ -20,6 +22,8 @@ func TestMain(m *testing.M) {
 	iCon = NewIncomeController(ser)
 	cCon = NewChartController(ser)
 	sCon = NewTransactionScheduleController(ser)
+	esCon = NewExpenseScheduleController(ser)
+	isCon = NewIncomeScheduleController(ser)
 
 	m.Run()
 }

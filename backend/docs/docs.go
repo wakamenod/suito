@@ -211,6 +211,47 @@ const docTemplate = `{
                 }
             }
         },
+        "/expense-schedule/detail": {
+            "post": {
+                "description": "購入スケジュール詳細情報を取得します.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "suito.expenseSchedule"
+                ],
+                "summary": "Get expense schedule detail",
+                "operationId": "expenseScheduleDetail",
+                "parameters": [
+                    {
+                        "description": "expense detail req",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ExpenseScheduleDetailReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/ExpenseScheduleDetailRes"
+                        }
+                    },
+                    "500": {
+                        "description": "Unknown Error",
+                        "schema": {
+                            "$ref": "#/definitions/SuitoError"
+                        }
+                    }
+                }
+            }
+        },
         "/expense/categories": {
             "get": {
                 "description": "購入カテゴリー一覧を返却します.",
@@ -381,6 +422,47 @@ const docTemplate = `{
                         "description": "Success",
                         "schema": {
                             "$ref": "#/definitions/RegisterIncomeRes"
+                        }
+                    },
+                    "500": {
+                        "description": "Unknown Error",
+                        "schema": {
+                            "$ref": "#/definitions/SuitoError"
+                        }
+                    }
+                }
+            }
+        },
+        "/income-schedule/detail": {
+            "post": {
+                "description": "購入スケジュール詳細情報を取得します.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "suito.incomeSchedule"
+                ],
+                "summary": "Get income schedule detail",
+                "operationId": "incomeScheduleDetail",
+                "parameters": [
+                    {
+                        "description": "income detail req",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/IncomeScheduleDetailReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/IncomeScheduleDetailRes"
                         }
                     },
                     "500": {
@@ -682,6 +764,28 @@ const docTemplate = `{
                 }
             }
         },
+        "ExpenseScheduleDetailReq": {
+            "type": "object",
+            "required": [
+                "id"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ExpenseScheduleDetailRes": {
+            "type": "object",
+            "required": [
+                "expenseShcedule"
+            ],
+            "properties": {
+                "expenseShcedule": {
+                    "$ref": "#/definitions/model.ExpenseSchedule"
+                }
+            }
+        },
         "GetColumnChartDataRes": {
             "type": "object",
             "required": [
@@ -743,6 +847,28 @@ const docTemplate = `{
             "properties": {
                 "income": {
                     "$ref": "#/definitions/model.Income"
+                }
+            }
+        },
+        "IncomeScheduleDetailReq": {
+            "type": "object",
+            "required": [
+                "id"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string"
+                }
+            }
+        },
+        "IncomeScheduleDetailRes": {
+            "type": "object",
+            "required": [
+                "incomeShcedule"
+            ],
+            "properties": {
+                "incomeShcedule": {
+                    "$ref": "#/definitions/model.IncomeSchedule"
                 }
             }
         },
@@ -1017,6 +1143,18 @@ const docTemplate = `{
                 }
             }
         },
+        "gorm.DeletedAt": {
+            "type": "object",
+            "properties": {
+                "time": {
+                    "type": "string"
+                },
+                "valid": {
+                    "description": "Valid is true if Time is not NULL",
+                    "type": "boolean"
+                }
+            }
+        },
         "model.Expense": {
             "type": "object",
             "required": [
@@ -1074,6 +1212,60 @@ const docTemplate = `{
                 }
             }
         },
+        "model.ExpenseSchedule": {
+            "type": "object",
+            "required": [
+                "expenseCategory",
+                "expenseCategoryID",
+                "expenseLocation",
+                "expenseLocationID",
+                "id",
+                "memo",
+                "title",
+                "uid"
+            ],
+            "properties": {
+                "amount": {
+                    "type": "integer"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "deletedAt": {
+                    "$ref": "#/definitions/gorm.DeletedAt"
+                },
+                "expenseCategory": {
+                    "$ref": "#/definitions/model.ExpenseCategory"
+                },
+                "expenseCategoryID": {
+                    "type": "string"
+                },
+                "expenseLocation": {
+                    "$ref": "#/definitions/model.ExpenseLocation"
+                },
+                "expenseLocationID": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "memo": {
+                    "type": "string"
+                },
+                "scheduleType": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "uid": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
         "model.Income": {
             "type": "object",
             "required": [
@@ -1097,6 +1289,44 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "memo": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.IncomeSchedule": {
+            "type": "object",
+            "required": [
+                "id",
+                "income_type",
+                "memo",
+                "uid"
+            ],
+            "properties": {
+                "amount": {
+                    "type": "integer"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "deletedAt": {
+                    "$ref": "#/definitions/gorm.DeletedAt"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "income_type": {
+                    "$ref": "#/definitions/model.IncomeType"
+                },
+                "memo": {
+                    "type": "string"
+                },
+                "scheduleType": {
+                    "type": "integer"
+                },
+                "uid": {
+                    "type": "string"
+                },
+                "updatedAt": {
                     "type": "string"
                 }
             }

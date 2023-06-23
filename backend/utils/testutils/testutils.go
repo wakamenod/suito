@@ -238,7 +238,7 @@ func (e *TestDataInserter) WithIncomeScheduleDeletedAt(deletedAt gorm.DeletedAt)
 	}
 }
 
-func (e *TestDataInserter) InsertIncomeSchedule(uid, title, timezone string, options ...IncomeScheduleOption) model.IncomeSchedule {
+func (e *TestDataInserter) InsertIncomeSchedule(uid, timezone string, options ...IncomeScheduleOption) model.IncomeSchedule {
 	es := model.IncomeSchedule{
 		ID:       xid.New().String(),
 		UID:      uid,

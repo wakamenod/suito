@@ -40,4 +40,6 @@ type Repository interface {
 	FindPieChartLocationData(uid string, start, end *time.Time) ([]repositories.PieChartData, error)
 	FindExpenseSchedules(uid string) ([]model.ExpenseSchedule, error)
 	FindIncomeSchedules(uid string) ([]model.IncomeSchedule, error)
+	FindExpenseSchedule(id, uid string) (model.ExpenseSchedule, error)
+	FindIncomeSchedule(id, uid string) (model.IncomeSchedule, error)
 }

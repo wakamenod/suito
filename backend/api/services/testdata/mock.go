@@ -134,35 +134,25 @@ var TestRepositoryMock = srepositories.RepositoryMock{
 		return income, nil
 	},
 	FindExpenseSchedulesFunc: func(uid string) ([]model.ExpenseSchedule, error) {
-		return []model.ExpenseSchedule{
-			{
-				ID:     "id1",
-				Title:  "Title Expense 1",
-				Amount: 100,
-			},
-			{
-				ID:     "id2",
-				Title:  "Title Expense 2",
-				Amount: 200,
-			},
-		}, nil
+		return expenseSchedulesTestData, nil
 	},
 	FindIncomeSchedulesFunc: func(uid string) ([]model.IncomeSchedule, error) {
-		return []model.IncomeSchedule{
-			{
-				ID: "id3",
-				IncomeType: model.IncomeType{
-					Name: "Income Type 1",
-				},
-				Amount: 300,
-			},
-			{
-				ID: "id4",
-				IncomeType: model.IncomeType{
-					Name: "Income Type 2",
-				},
-				Amount: 400,
-			},
-		}, nil
+		return incomeSchedulesTestData, nil
+	},
+	FindExpenseScheduleFunc: func(id string, uid string) (model.ExpenseSchedule, error) {
+		for _, ex := range expenseSchedulesTestData {
+			if id == ex.ID && uid == ex.UID {
+				return ex, nil
+			}
+		}
+		return model.ExpenseSchedule{}, gorm.ErrRecordNotFound
+	},
+	FindIncomeScheduleFunc: func(id string, uid string) (model.IncomeSchedule, error) {
+		for _, ex := range incomeSchedulesTestData {
+			if id == ex.ID && uid == ex.UID {
+				return ex, nil
+			}
+		}
+		return model.IncomeSchedule{}, gorm.ErrRecordNotFound
 	},
 }
