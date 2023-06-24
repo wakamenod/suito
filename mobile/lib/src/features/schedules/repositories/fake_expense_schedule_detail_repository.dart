@@ -20,7 +20,7 @@ class FakeExpenseScheduleDetailRepository
   @override
   Future<FakeExpenseScheduleDetailRes> fetchExpenseScheduleDetail(
       String id) async {
-    return Future.value(kFakeSchedulesResponse.expenseSchedules
+    return Future.value(kFakeExpenseSchedules
         .map((m) => FakeExpenseScheduleDetailRes(
             m.id, m.title, m.amount, m.category, m.location, m.memo))
         .firstWhere((s) => s.id == id));

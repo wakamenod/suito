@@ -1,24 +1,22 @@
 import 'package:openapi/openapi.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:suito/src/features/schedules/repositories/fake_schedules_repository.dart';
+import 'package:suito/src/data/openapi_provider.dart';
 
 part 'schedules_repository.g.dart';
 
 class SchedulesRepository {
   SchedulesRepository(this._openapi);
-  // ignore: unused_field, TODO
   final Openapi _openapi;
 
-  Future<FakeScheduleResponse> fetchSchedulesList() async {
-    // final api = _openapi.getSuitoSchedulesApi();
-    // return response.data?.schedules.toList() ?? [];
-    return FakeScheduleResponse([], []);
+  Future<ListTransactionSchedulesRes> fetchSchedulesList() async {
+    final api = _openapi.getSuitoTransactionSchedulesApi();
+    final response = await api.listTransactionSchedules();
+    return response.data ?? ListTransactionSchedulesRes();
   }
 }
 
 @Riverpod(keepAlive: true)
 SchedulesRepository schedulesRepository(SchedulesRepositoryRef ref) {
-  // final openapi = ref.watch(openApiProvider);
-  // return SchedulesRepository(openapi);
-  throw UnimplementedError();
+  final openapi = ref.watch(openApiProvider);
+  return SchedulesRepository(openapi);
 }
