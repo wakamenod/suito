@@ -1,11 +1,15 @@
 import 'package:formz/formz.dart';
+import 'package:openapi/openapi.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:suito/src/features/schedules/repositories/income_schedule_detail_repository.dart';
-import 'package:suito/src/features/transactions/services/transaction_service.dart';
+import 'package:suito/src/features/schedules/repositories/register_income_schedule_repository.dart';
+import 'package:suito/src/features/schedules/repositories/update_income_schedule_repository.dart';
 import 'package:suito/src/formz/amount.dart';
 import 'package:suito/src/formz/title.dart' as formz_title;
+import 'package:suito/src/utils/timezone_provider.dart';
 
 import 'income_schedule.dart';
+import 'schedule_service.dart';
 
 part 'income_schedule_service.g.dart';
 
@@ -23,7 +27,7 @@ class IncomeScheduleController extends _$IncomeScheduleController {
     return IncomeSchedule.fromModel(modelRes);
   }
 
-  // bool get _isNew => state.value!.id == '';
+  bool get _isNew => state.value!.id == '';
 
   void onChangeTitle(String value) {
     final title = formz_title.Title.dirty(value);
@@ -55,27 +59,25 @@ class IncomeScheduleController extends _$IncomeScheduleController {
     ));
   }
 
-  // RegisterIncomeReq _registerRequest() {
-  //   return RegisterIncomeReq((r) => r
-  //     ..income.replace(ModelIncome((e) => e
-  //       ..id = ''
-  //       ..incomeType
-  //           .replace(ModelIncomeType((t) => t..name = state.value!.title.value))
-  //       ..localDate = DateTime.parse(state.value!.date).toRfc3339()
-  //       ..memo = state.value!.memo
-  //       ..amount = state.value!.amount.value)));
-  // }
+  RegisterIncomeScheduleReq _registerRequest(String timezone) =>
+      RegisterIncomeScheduleReq((r) => r
+        ..incomeSchedule.replace(ModelIncomeSchedule((e) => e
+          ..id = ''
+          ..memo = state.value!.memo
+          ..amount = state.value!.amount.value
+          ..timezone = timezone
+          ..incomeType.replace(
+              ModelIncomeType((c) => c..name = state.value!.title.value)))));
 
-  // UpdateIncomeReq _updateRequest() {
-  //   return UpdateIncomeReq((r) => r
-  //     ..income.replace(ModelIncome((e) => e
-  //       ..id = state.value!.id
-  //       ..incomeType
-  //           .replace(ModelIncomeType((t) => t..name = state.value!.title.value))
-  //       ..localDate = DateTime.parse(state.value!.date).toRfc3339()
-  //       ..memo = state.value!.memo
-  //       ..amount = state.value!.amount.value)));
-  // }
+  UpdateIncomeScheduleReq _updateRequest(String timezone) =>
+      UpdateIncomeScheduleReq((r) => r
+        ..incomeSchedule.replace(ModelIncomeSchedule((e) => e
+          ..id = state.value!.id
+          ..memo = state.value!.memo
+          ..amount = state.value!.amount.value
+          ..timezone = timezone
+          ..incomeType.replace(
+              ModelIncomeType((c) => c..name = state.value!.title.value)))));
 
   Future<void> registerIncome() async {
     if (!state.value!.isValid) return;
@@ -84,15 +86,19 @@ class IncomeScheduleController extends _$IncomeScheduleController {
     // TODO エラーハンドリング
     // TODO submissionStatusをUI側で監視し送信中を表す
     // try {
-    // _isNew
-    //     ? await ref
-    //         .read(registerIncomeRepositoryProvider)
-    //         .registerIncome(_registerRequest())
-    //     : await ref
-    //         .read(updateIncomeRepositoryProvider)
-    //         .updateIncome(_updateRequest());
 
-    ref.read(reloadTransactionsProvider.notifier).reload();
+    final String timezone =
+        await ref.read(localTimezoneProvider.future) ?? 'UTC';
+
+    _isNew
+        ? await ref
+            .read(registerIncomeScheduleRepositoryProvider)
+            .registerIncomeSchedule(_registerRequest(timezone))
+        : await ref
+            .read(updateIncomeScheduleRepositoryProvider)
+            .updateIncomeSchedule(_updateRequest(timezone));
+
+    ref.read(reloadSchedulesProvider.notifier).reload();
 
     state = AsyncValue.data(
         state.value!.copyWith(submissionStatus: FormzSubmissionStatus.success));

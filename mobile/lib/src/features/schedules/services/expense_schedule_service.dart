@@ -1,11 +1,15 @@
 import 'package:formz/formz.dart';
+import 'package:openapi/openapi.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:suito/src/features/schedules/repositories/expense_schedule_detail_repository.dart';
-import 'package:suito/src/features/transactions/services/transaction_service.dart';
+import 'package:suito/src/features/schedules/repositories/register_expense_schedule_repository.dart';
+import 'package:suito/src/features/schedules/repositories/update_expense_schedule_repository.dart';
 import 'package:suito/src/formz/amount.dart';
 import 'package:suito/src/formz/title.dart' as formz_title;
+import 'package:suito/src/utils/timezone_provider.dart';
 
 import 'expense_schedule.dart';
+import 'schedule_service.dart';
 
 part 'expense_schedule_service.g.dart';
 
@@ -23,7 +27,7 @@ class ExpenseScheduleController extends _$ExpenseScheduleController {
     return ExpenseSchedule.fromModel(modelRes);
   }
 
-  // bool get _isNew => state.value!.id == '';
+  bool get _isNew => state.value!.id == '';
 
   void onChangeTitle(String value) {
     final title = formz_title.Title.dirty(value);
@@ -67,27 +71,31 @@ class ExpenseScheduleController extends _$ExpenseScheduleController {
     ));
   }
 
-  // RegisterExpenseScheduleReq _registerRequest() {
-  //   return RegisterExpenseScheduleReq((r) => r
-  //     ..category = state.value!.category
-  //     ..expenseSchedule.replace(ModelExpenseSchedule((e) => e
-  //       ..id = ''
-  //       ..title = state.value!.title.value
-  //       ..memo = state.value!.memo
-  //       ..amount = state.value!.amount.value))
-  //     ..location = state.value!.location);
-  // }
+  RegisterExpenseScheduleReq _registerRequest(String timezone) =>
+      RegisterExpenseScheduleReq((r) => r
+        ..expenseSchedule.replace(ModelExpenseSchedule((e) => e
+          ..id = ''
+          ..title = state.value!.title.value
+          ..memo = state.value!.memo
+          ..amount = state.value!.amount.value
+          ..timezone = timezone
+          ..expenseCategory.replace(
+              ModelExpenseCategory((c) => c..name = state.value!.category))
+          ..expenseLocation.replace(
+              ModelExpenseLocation((c) => c..name = state.value!.location)))));
 
-  // UpdateExpenseScheduleReq _updateRequest() {
-  //   return UpdateExpenseScheduleReq((r) => r
-  //     ..category = state.value!.category
-  //     ..expenseSchedule.replace(ModelExpenseSchedule((e) => e
-  //       ..id = state.value!.id
-  //       ..title = state.value!.title.value
-  //       ..memo = state.value!.memo
-  //       ..amount = state.value!.amount.value))
-  //     ..location = state.value!.location);
-  // }
+  UpdateExpenseScheduleReq _updateRequest(String timezone) =>
+      UpdateExpenseScheduleReq((r) => r
+        ..expenseSchedule.replace(ModelExpenseSchedule((e) => e
+          ..id = state.value!.id
+          ..title = state.value!.title.value
+          ..memo = state.value!.memo
+          ..amount = state.value!.amount.value
+          ..timezone = timezone
+          ..expenseCategory.replace(
+              ModelExpenseCategory((c) => c..name = state.value!.category))
+          ..expenseLocation.replace(
+              ModelExpenseLocation((c) => c..name = state.value!.location)))));
 
   Future<void> registerExpenseSchedule() async {
     if (!state.value!.isValid) return;
@@ -101,15 +109,18 @@ class ExpenseScheduleController extends _$ExpenseScheduleController {
     //   password: state.password.value,
     // );
 
-    // _isNew
-    //     ? await ref
-    //         .read(registerExpenseScheduleRepositoryProvider)
-    //         .registerExpenseSchedule(_registerRequest())
-    //     : await ref
-    //         .read(updateExpenseScheduleRepositoryProvider)
-    //         .updateExpenseSchedule(_updateRequest());
+    final String timezone =
+        await ref.read(localTimezoneProvider.future) ?? 'UTC';
 
-    ref.read(reloadTransactionsProvider.notifier).reload();
+    _isNew
+        ? await ref
+            .read(registerExpenseScheduleRepositoryProvider)
+            .registerExpenseSchedule(_registerRequest(timezone))
+        : await ref
+            .read(updateExpenseScheduleRepositoryProvider)
+            .updateExpenseSchedule(_updateRequest(timezone));
+
+    ref.read(reloadSchedulesProvider.notifier).reload();
 
     state = AsyncValue.data(
         state.value!.copyWith(submissionStatus: FormzSubmissionStatus.success));

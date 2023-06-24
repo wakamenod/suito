@@ -1599,7 +1599,6 @@
       },
       "model.ExpenseCategory": {
         "required": [
-          "id",
           "name"
         ],
         "type": "object",
@@ -1614,7 +1613,6 @@
       },
       "model.ExpenseLocation": {
         "required": [
-          "id",
           "name"
         ],
         "type": "object",

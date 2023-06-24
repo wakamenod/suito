@@ -8,7 +8,7 @@ part of 'model_expense_category.dart';
 
 class _$ModelExpenseCategory extends ModelExpenseCategory {
   @override
-  final String id;
+  final String? id;
   @override
   final String name;
 
@@ -16,8 +16,7 @@ class _$ModelExpenseCategory extends ModelExpenseCategory {
           [void Function(ModelExpenseCategoryBuilder)? updates]) =>
       (new ModelExpenseCategoryBuilder()..update(updates))._build();
 
-  _$ModelExpenseCategory._({required this.id, required this.name}) : super._() {
-    BuiltValueNullFieldError.checkNotNull(id, r'ModelExpenseCategory', 'id');
+  _$ModelExpenseCategory._({this.id, required this.name}) : super._() {
     BuiltValueNullFieldError.checkNotNull(
         name, r'ModelExpenseCategory', 'name');
   }
@@ -100,8 +99,7 @@ class ModelExpenseCategoryBuilder
   _$ModelExpenseCategory _build() {
     final _$result = _$v ??
         new _$ModelExpenseCategory._(
-            id: BuiltValueNullFieldError.checkNotNull(
-                id, r'ModelExpenseCategory', 'id'),
+            id: id,
             name: BuiltValueNullFieldError.checkNotNull(
                 name, r'ModelExpenseCategory', 'name'));
     replace(_$result);
