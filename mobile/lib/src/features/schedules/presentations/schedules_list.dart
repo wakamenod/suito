@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:suito/i18n/translations.g.dart';
 import 'package:suito/src/common_widgets/async_value_widget.dart';
-import 'package:suito/src/features/schedules/repositories/fake_schedules_repository.dart';
 import 'package:suito/src/features/schedules/services/schedule_service.dart';
 import 'package:suito/src/features/transactions/services/transaction_service.dart';
 import 'package:suito/src/routing/app_router.dart';
@@ -27,7 +26,7 @@ class SchedulesList extends ConsumerWidget {
           children: schedules[index]
               .items
               .map<Widget>(
-                (FakeScheduleItem item) => Dismissible(
+                (item) => Dismissible(
                   key: Key(item.id),
                   onDismissed: (direction) async {
                     final ScaffoldMessengerState state =

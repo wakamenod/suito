@@ -17,7 +17,7 @@ class FakeIncomeScheduleDetailRepository
   @override
   Future<FakeIncomeScheduleDetailRes> fetchIncomeScheduleDetail(
       String id) async {
-    return Future.value(kFakeSchedulesResponse.incomeSchedules
+    return Future.value(kFakeIncomeSchedules
         .map(
             (m) => FakeIncomeScheduleDetailRes(m.id, m.title, m.amount, m.memo))
         .firstWhere((s) => s.id == id));
