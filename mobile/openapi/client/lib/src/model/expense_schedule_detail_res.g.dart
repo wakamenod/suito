@@ -8,15 +8,15 @@ part of 'expense_schedule_detail_res.dart';
 
 class _$ExpenseScheduleDetailRes extends ExpenseScheduleDetailRes {
   @override
-  final ModelExpenseSchedule expenseShcedule;
+  final ModelExpenseSchedule expenseSchedule;
 
   factory _$ExpenseScheduleDetailRes(
           [void Function(ExpenseScheduleDetailResBuilder)? updates]) =>
       (new ExpenseScheduleDetailResBuilder()..update(updates))._build();
 
-  _$ExpenseScheduleDetailRes._({required this.expenseShcedule}) : super._() {
+  _$ExpenseScheduleDetailRes._({required this.expenseSchedule}) : super._() {
     BuiltValueNullFieldError.checkNotNull(
-        expenseShcedule, r'ExpenseScheduleDetailRes', 'expenseShcedule');
+        expenseSchedule, r'ExpenseScheduleDetailRes', 'expenseSchedule');
   }
 
   @override
@@ -32,13 +32,13 @@ class _$ExpenseScheduleDetailRes extends ExpenseScheduleDetailRes {
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
     return other is ExpenseScheduleDetailRes &&
-        expenseShcedule == other.expenseShcedule;
+        expenseSchedule == other.expenseSchedule;
   }
 
   @override
   int get hashCode {
     var _$hash = 0;
-    _$hash = $jc(_$hash, expenseShcedule.hashCode);
+    _$hash = $jc(_$hash, expenseSchedule.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -46,7 +46,7 @@ class _$ExpenseScheduleDetailRes extends ExpenseScheduleDetailRes {
   @override
   String toString() {
     return (newBuiltValueToStringHelper(r'ExpenseScheduleDetailRes')
-          ..add('expenseShcedule', expenseShcedule))
+          ..add('expenseSchedule', expenseSchedule))
         .toString();
   }
 }
@@ -56,11 +56,11 @@ class ExpenseScheduleDetailResBuilder
         Builder<ExpenseScheduleDetailRes, ExpenseScheduleDetailResBuilder> {
   _$ExpenseScheduleDetailRes? _$v;
 
-  ModelExpenseScheduleBuilder? _expenseShcedule;
-  ModelExpenseScheduleBuilder get expenseShcedule =>
-      _$this._expenseShcedule ??= new ModelExpenseScheduleBuilder();
-  set expenseShcedule(ModelExpenseScheduleBuilder? expenseShcedule) =>
-      _$this._expenseShcedule = expenseShcedule;
+  ModelExpenseScheduleBuilder? _expenseSchedule;
+  ModelExpenseScheduleBuilder get expenseSchedule =>
+      _$this._expenseSchedule ??= new ModelExpenseScheduleBuilder();
+  set expenseSchedule(ModelExpenseScheduleBuilder? expenseSchedule) =>
+      _$this._expenseSchedule = expenseSchedule;
 
   ExpenseScheduleDetailResBuilder() {
     ExpenseScheduleDetailRes._defaults(this);
@@ -69,7 +69,7 @@ class ExpenseScheduleDetailResBuilder
   ExpenseScheduleDetailResBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _expenseShcedule = $v.expenseShcedule.toBuilder();
+      _expenseSchedule = $v.expenseSchedule.toBuilder();
       _$v = null;
     }
     return this;
@@ -94,12 +94,12 @@ class ExpenseScheduleDetailResBuilder
     try {
       _$result = _$v ??
           new _$ExpenseScheduleDetailRes._(
-              expenseShcedule: expenseShcedule.build());
+              expenseSchedule: expenseSchedule.build());
     } catch (_) {
       late String _$failedField;
       try {
-        _$failedField = 'expenseShcedule';
-        expenseShcedule.build();
+        _$failedField = 'expenseSchedule';
+        expenseSchedule.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             r'ExpenseScheduleDetailRes', _$failedField, e.toString());

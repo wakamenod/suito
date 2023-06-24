@@ -145,7 +145,7 @@ paths:
     put:
       tags:
       - suito.expenseSchedule
-      summary: Update expense shcedule
+      summary: Update expense schedule
       description: 支出スケジュール情報を更新します
       operationId: updateExpenseSchedule
       requestBody:
@@ -706,10 +706,10 @@ components:
           type: string
     ExpenseScheduleDetailRes:
       required:
-      - expenseShcedule
+      - expenseSchedule
       type: object
       properties:
-        expenseShcedule:
+        expenseSchedule:
           $ref: '#/components/schemas/model.ExpenseSchedule'
     GetColumnChartDataRes:
       required:

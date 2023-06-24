@@ -1,6 +1,6 @@
 import 'package:formz/formz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:suito/src/features/schedules/repositories/fake_income_schedule_detail_repository.dart';
+import 'package:openapi/openapi.dart';
 import 'package:suito/src/formz/amount.dart';
 import 'package:suito/src/formz/title.dart';
 
@@ -26,12 +26,12 @@ class IncomeSchedule with _$IncomeSchedule {
         submissionStatus: FormzSubmissionStatus.initial,
       );
 
-  static IncomeSchedule fromModel(FakeIncomeScheduleDetailRes res) =>
+  static IncomeSchedule fromModel(IncomeScheduleDetailRes res) =>
       IncomeSchedule(
-        id: res.id,
-        title: Title.dirty(res.title),
-        amount: Amount.dirty(res.amount),
-        memo: res.memo,
+        id: res.incomeSchedule.id,
+        title: Title.dirty(res.incomeSchedule.incomeType.name),
+        amount: Amount.dirty(res.incomeSchedule.amount),
+        memo: res.incomeSchedule.memo,
         isValid: true,
         submissionStatus: FormzSubmissionStatus.initial,
       );

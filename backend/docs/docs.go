@@ -223,7 +223,7 @@ const docTemplate = `{
                 "tags": [
                     "suito.expenseSchedule"
                 ],
-                "summary": "Update expense shcedule",
+                "summary": "Update expense schedule",
                 "operationId": "updateExpenseSchedule",
                 "parameters": [
                     {
@@ -1044,10 +1044,10 @@ const docTemplate = `{
         "ExpenseScheduleDetailRes": {
             "type": "object",
             "required": [
-                "expenseShcedule"
+                "expenseSchedule"
             ],
             "properties": {
-                "expenseShcedule": {
+                "expenseSchedule": {
                     "$ref": "#/definitions/model.ExpenseSchedule"
                 }
             }
