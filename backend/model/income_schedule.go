@@ -13,7 +13,7 @@ type IncomeSchedule struct {
 	IncomeTypeID string     `gorm:"type:varchar(20)" json:"-"`
 	Amount       int        `validate:"required"`
 	Memo         string     `gorm:"type:varchar(512)"`
-	Timezone     string     `gorm:"type:varchar(64)" json:"-"`
+	Timezone     string     `gorm:"type:varchar(64)"`
 	ScheduleType int8
 
 	DeletedAt gorm.DeletedAt

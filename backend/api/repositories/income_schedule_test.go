@@ -134,3 +134,26 @@ func TestDeleteIncomeSchedule(t *testing.T) {
 	require.NoError(t, tx.Where("id = ? AND uid = ?", id, userID).Unscoped().First(&found).Error)
 	require.NotNil(t, found.DeletedAt)
 }
+
+func TestCreateScheduleIncome(t *testing.T) {
+	tx := begin()
+	defer rollback(tx)
+	// setup
+	userID := "user1"
+	incomeSchedule := model.IncomeSchedule{
+		Amount:       2000,
+		IncomeTypeID: "income_type_id",
+		Timezone:     "Asia/Tokyo",
+		Memo:         "test memo",
+	}
+	// run
+	res, err := NewSuitoRepository(tx).CreateIncomeSchedule(userID, incomeSchedule)
+	// check
+	require.NoError(t, err)
+	require.NotEmpty(t, res.ID)
+	require.Equal(t, userID, res.UID)
+	require.Equal(t, incomeSchedule.Amount, res.Amount)
+	require.Equal(t, incomeSchedule.IncomeTypeID, res.IncomeTypeID)
+	require.Equal(t, incomeSchedule.Timezone, res.Timezone)
+	require.Equal(t, incomeSchedule.Memo, res.Memo)
+}

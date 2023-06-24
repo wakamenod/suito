@@ -42,6 +42,11 @@ void main() {
       // TODO
     });
 
+    // String timezone
+    test('to test the property `timezone`', () async {
+      // TODO
+    });
+
     // String updatedAt
     test('to test the property `updatedAt`', () async {
       // TODO

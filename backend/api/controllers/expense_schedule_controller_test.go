@@ -101,9 +101,10 @@ func TestUpdateExpenseScheduleHandler_Success(t *testing.T) {
 	e.Validator = validate.NewValidator()
 	jsonReq, err := json.Marshal(UpdateExpenseScheduleReq{
 		ExpenseSchedule: model.ExpenseSchedule{
-			ID:     "update_target_id",
-			Title:  "testTitle",
-			Amount: 9999,
+			ID:       "update_target_id",
+			Title:    "testTitle",
+			Amount:   9999,
+			Timezone: "Asia/Tokyo",
 		}})
 	require.NoError(t, err)
 	req := httptest.NewRequest(http.MethodPut, "/", bytes.NewReader(jsonReq))
@@ -156,4 +157,57 @@ func TestDeleteExpenseScheduleHandler_Success(t *testing.T) {
 
 	var res DeleteExpenseScheduleRes
 	require.NoError(t, json.Unmarshal(rec.Body.Bytes(), &res))
+}
+
+func TestRegisterExpenseScheduleHandler_ErrorValidate(t *testing.T) {
+	// Setup
+	e := echo.New()
+	e.Validator = validate.NewValidator()
+	req := httptest.NewRequest(http.MethodPost, "/", nil)
+	rec := httptest.NewRecorder()
+	c := e.NewContext(req, rec)
+	c.Set(middleware.UIDKey, "user1")
+
+	// Assertions
+	err := esCon.RegisterExpenseScheduleHandler(c)
+	var appErr *apperrors.SuitoError
+	require.ErrorAs(t, err, &appErr)
+	require.Equal(t, apperrors.InvalidParameter, appErr.ErrCode)
+}
+
+func TestRegisterExpenseScheduleHandler_Success(t *testing.T) {
+	// Setup
+	e := echo.New()
+	e.Validator = validate.NewValidator()
+	jsonReq, err := json.Marshal(RegisterExpenseScheduleReq{
+		ExpenseSchedule: model.ExpenseSchedule{
+			Title:  "testTitle",
+			Amount: 9999,
+			ExpenseCategory: model.ExpenseCategory{
+				Name: "new category",
+			},
+			ExpenseLocation: model.ExpenseLocation{
+				Name: "new location",
+			},
+			Timezone: "Asia/Tokyo",
+		}})
+	require.NoError(t, err)
+	req := httptest.NewRequest(http.MethodPost, "/", bytes.NewReader(jsonReq))
+	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+	rec := httptest.NewRecorder()
+	c := e.NewContext(req, rec)
+	c.Set(middleware.UIDKey, "user1")
+
+	// Assertions
+	require.NoError(t, esCon.RegisterExpenseScheduleHandler(c))
+	require.Equal(t, http.StatusOK, rec.Code)
+
+	var res RegisterExpenseScheduleRes
+	require.NoError(t, json.Unmarshal(rec.Body.Bytes(), &res))
+	require.Equal(t, "new_expense_schedule_id", res.NewExpenseSchedule.ID)
+	require.Equal(t, "new category", res.NewExpenseSchedule.ExpenseCategory.Name)
+	require.Equal(t, "new location", res.NewExpenseSchedule.ExpenseLocation.Name)
+	require.Equal(t, "Asia/Tokyo", res.NewExpenseSchedule.Timezone)
+	require.Equal(t, 9999, res.NewExpenseSchedule.Amount)
+	require.Equal(t, "testTitle", res.NewExpenseSchedule.Title)
 }

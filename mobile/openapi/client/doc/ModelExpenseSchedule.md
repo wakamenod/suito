@@ -16,6 +16,7 @@ Name | Type | Description | Notes
 **id** | **String** |  | 
 **memo** | **String** |  | 
 **scheduleType** | **int** |  | [optional] 
+**timezone** | **String** |  | 
 **title** | **String** |  | 
 **updatedAt** | **String** |  | [optional] 
 

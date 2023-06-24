@@ -54,10 +54,10 @@ var TestRepositoryMock = srepositories.RepositoryMock{
 		return incomeTypeTestData, nil
 	},
 	FindOrCreateExpenseCategoryFunc: func(uid string, name string) (model.ExpenseCategory, error) {
-		return model.ExpenseCategory{ID: "TEST_CATEGORY_ID"}, nil
+		return model.ExpenseCategory{ID: "TEST_CATEGORY_ID", Name: name}, nil
 	},
 	FindOrCreateExpenseLocationFunc: func(uid string, name string) (model.ExpenseLocation, error) {
-		return model.ExpenseLocation{ID: "TEST_LOCATION_ID"}, nil
+		return model.ExpenseLocation{ID: "TEST_LOCATION_ID", Name: name}, nil
 	},
 	FindExpenseCategoryFunc: func(id string, uid string) (model.ExpenseCategory, error) {
 		return model.ExpenseCategory{ID: "TEST_CATEGORY_ID", Name: "Test Category"}, nil
@@ -166,5 +166,13 @@ var TestRepositoryMock = srepositories.RepositoryMock{
 	},
 	DeleteIncomeScheduleFunc: func(id string, uid string) error {
 		return nil
+	},
+	CreateExpenseScheduleFunc: func(uid string, expenseSchedule model.ExpenseSchedule) (model.ExpenseSchedule, error) {
+		expenseSchedule.ID = "new_expense_schedule_id"
+		return expenseSchedule, nil
+	},
+	CreateIncomeScheduleFunc: func(uid string, incomeSchedule model.IncomeSchedule) (model.IncomeSchedule, error) {
+		incomeSchedule.ID = "new_income_schedule_id"
+		return incomeSchedule, nil
 	},
 }

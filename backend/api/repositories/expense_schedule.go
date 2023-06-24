@@ -2,6 +2,7 @@ package repositories
 
 import (
 	"github.com/pkg/errors"
+	"github.com/rs/xid"
 	"github.com/wakamenod/suito/model"
 )
 
@@ -43,4 +44,15 @@ func (r *SuitoRepository) DeleteExpenseSchedule(id string, uid string) error {
 		return errors.Wrap(err, "failed to delete expense schedule")
 	}
 	return nil
+}
+
+func (r *SuitoRepository) CreateExpenseSchedule(uid string, expenseSchedule model.ExpenseSchedule) (model.ExpenseSchedule, error) {
+	expenseSchedule.ID = xid.New().String()
+	expenseSchedule.UID = uid
+
+	if err := r.db.Create(&expenseSchedule).Error; err != nil {
+		return expenseSchedule, errors.Wrap(err, "failed to create expense schedule")
+	}
+
+	return expenseSchedule, nil
 }

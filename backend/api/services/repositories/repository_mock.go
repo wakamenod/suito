@@ -24,8 +24,14 @@ var _ Repository = &RepositoryMock{}
 //			CreateExpenseFunc: func(uid string, expense model.Expense) (model.Expense, error) {
 //				panic("mock out the CreateExpense method")
 //			},
+//			CreateExpenseScheduleFunc: func(uid string, expenseSchedule model.ExpenseSchedule) (model.ExpenseSchedule, error) {
+//				panic("mock out the CreateExpenseSchedule method")
+//			},
 //			CreateIncomeFunc: func(uid string, income model.Income) (model.Income, error) {
 //				panic("mock out the CreateIncome method")
+//			},
+//			CreateIncomeScheduleFunc: func(uid string, incomeSchedule model.IncomeSchedule) (model.IncomeSchedule, error) {
+//				panic("mock out the CreateIncomeSchedule method")
 //			},
 //			DeleteExpenseFunc: func(id string, uid string) error {
 //				panic("mock out the DeleteExpense method")
@@ -142,8 +148,14 @@ type RepositoryMock struct {
 	// CreateExpenseFunc mocks the CreateExpense method.
 	CreateExpenseFunc func(uid string, expense model.Expense) (model.Expense, error)
 
+	// CreateExpenseScheduleFunc mocks the CreateExpenseSchedule method.
+	CreateExpenseScheduleFunc func(uid string, expenseSchedule model.ExpenseSchedule) (model.ExpenseSchedule, error)
+
 	// CreateIncomeFunc mocks the CreateIncome method.
 	CreateIncomeFunc func(uid string, income model.Income) (model.Income, error)
+
+	// CreateIncomeScheduleFunc mocks the CreateIncomeSchedule method.
+	CreateIncomeScheduleFunc func(uid string, incomeSchedule model.IncomeSchedule) (model.IncomeSchedule, error)
 
 	// DeleteExpenseFunc mocks the DeleteExpense method.
 	DeleteExpenseFunc func(id string, uid string) error
@@ -259,12 +271,26 @@ type RepositoryMock struct {
 			// Expense is the expense argument value.
 			Expense model.Expense
 		}
+		// CreateExpenseSchedule holds details about calls to the CreateExpenseSchedule method.
+		CreateExpenseSchedule []struct {
+			// UID is the uid argument value.
+			UID string
+			// ExpenseSchedule is the expenseSchedule argument value.
+			ExpenseSchedule model.ExpenseSchedule
+		}
 		// CreateIncome holds details about calls to the CreateIncome method.
 		CreateIncome []struct {
 			// UID is the uid argument value.
 			UID string
 			// Income is the income argument value.
 			Income model.Income
+		}
+		// CreateIncomeSchedule holds details about calls to the CreateIncomeSchedule method.
+		CreateIncomeSchedule []struct {
+			// UID is the uid argument value.
+			UID string
+			// IncomeSchedule is the incomeSchedule argument value.
+			IncomeSchedule model.IncomeSchedule
 		}
 		// DeleteExpense holds details about calls to the DeleteExpense method.
 		DeleteExpense []struct {
@@ -491,7 +517,9 @@ type RepositoryMock struct {
 		}
 	}
 	lockCreateExpense                      sync.RWMutex
+	lockCreateExpenseSchedule              sync.RWMutex
 	lockCreateIncome                       sync.RWMutex
+	lockCreateIncomeSchedule               sync.RWMutex
 	lockDeleteExpense                      sync.RWMutex
 	lockDeleteExpenseSchedule              sync.RWMutex
 	lockDeleteIncomeSchedule               sync.RWMutex
@@ -565,6 +593,42 @@ func (mock *RepositoryMock) CreateExpenseCalls() []struct {
 	return calls
 }
 
+// CreateExpenseSchedule calls CreateExpenseScheduleFunc.
+func (mock *RepositoryMock) CreateExpenseSchedule(uid string, expenseSchedule model.ExpenseSchedule) (model.ExpenseSchedule, error) {
+	if mock.CreateExpenseScheduleFunc == nil {
+		panic("RepositoryMock.CreateExpenseScheduleFunc: method is nil but Repository.CreateExpenseSchedule was just called")
+	}
+	callInfo := struct {
+		UID             string
+		ExpenseSchedule model.ExpenseSchedule
+	}{
+		UID:             uid,
+		ExpenseSchedule: expenseSchedule,
+	}
+	mock.lockCreateExpenseSchedule.Lock()
+	mock.calls.CreateExpenseSchedule = append(mock.calls.CreateExpenseSchedule, callInfo)
+	mock.lockCreateExpenseSchedule.Unlock()
+	return mock.CreateExpenseScheduleFunc(uid, expenseSchedule)
+}
+
+// CreateExpenseScheduleCalls gets all the calls that were made to CreateExpenseSchedule.
+// Check the length with:
+//
+//	len(mockedRepository.CreateExpenseScheduleCalls())
+func (mock *RepositoryMock) CreateExpenseScheduleCalls() []struct {
+	UID             string
+	ExpenseSchedule model.ExpenseSchedule
+} {
+	var calls []struct {
+		UID             string
+		ExpenseSchedule model.ExpenseSchedule
+	}
+	mock.lockCreateExpenseSchedule.RLock()
+	calls = mock.calls.CreateExpenseSchedule
+	mock.lockCreateExpenseSchedule.RUnlock()
+	return calls
+}
+
 // CreateIncome calls CreateIncomeFunc.
 func (mock *RepositoryMock) CreateIncome(uid string, income model.Income) (model.Income, error) {
 	if mock.CreateIncomeFunc == nil {
@@ -598,6 +662,42 @@ func (mock *RepositoryMock) CreateIncomeCalls() []struct {
 	mock.lockCreateIncome.RLock()
 	calls = mock.calls.CreateIncome
 	mock.lockCreateIncome.RUnlock()
+	return calls
+}
+
+// CreateIncomeSchedule calls CreateIncomeScheduleFunc.
+func (mock *RepositoryMock) CreateIncomeSchedule(uid string, incomeSchedule model.IncomeSchedule) (model.IncomeSchedule, error) {
+	if mock.CreateIncomeScheduleFunc == nil {
+		panic("RepositoryMock.CreateIncomeScheduleFunc: method is nil but Repository.CreateIncomeSchedule was just called")
+	}
+	callInfo := struct {
+		UID            string
+		IncomeSchedule model.IncomeSchedule
+	}{
+		UID:            uid,
+		IncomeSchedule: incomeSchedule,
+	}
+	mock.lockCreateIncomeSchedule.Lock()
+	mock.calls.CreateIncomeSchedule = append(mock.calls.CreateIncomeSchedule, callInfo)
+	mock.lockCreateIncomeSchedule.Unlock()
+	return mock.CreateIncomeScheduleFunc(uid, incomeSchedule)
+}
+
+// CreateIncomeScheduleCalls gets all the calls that were made to CreateIncomeSchedule.
+// Check the length with:
+//
+//	len(mockedRepository.CreateIncomeScheduleCalls())
+func (mock *RepositoryMock) CreateIncomeScheduleCalls() []struct {
+	UID            string
+	IncomeSchedule model.IncomeSchedule
+} {
+	var calls []struct {
+		UID            string
+		IncomeSchedule model.IncomeSchedule
+	}
+	mock.lockCreateIncomeSchedule.RLock()
+	calls = mock.calls.CreateIncomeSchedule
+	mock.lockCreateIncomeSchedule.RUnlock()
 	return calls
 }
 

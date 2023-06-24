@@ -2,6 +2,7 @@ package repositories
 
 import (
 	"github.com/pkg/errors"
+	"github.com/rs/xid"
 	"github.com/wakamenod/suito/model"
 )
 
@@ -40,4 +41,15 @@ func (r *SuitoRepository) DeleteIncomeSchedule(id string, uid string) error {
 		return errors.Wrap(err, "failed to delete income schedule")
 	}
 	return nil
+}
+
+func (r *SuitoRepository) CreateIncomeSchedule(uid string, incomeSchedule model.IncomeSchedule) (model.IncomeSchedule, error) {
+	incomeSchedule.ID = xid.New().String()
+	incomeSchedule.UID = uid
+
+	if err := r.db.Create(&incomeSchedule).Error; err != nil {
+		return incomeSchedule, errors.Wrap(err, "failed to create income schedule")
+	}
+
+	return incomeSchedule, nil
 }
