@@ -8,7 +8,7 @@ part of 'model_income_schedule.dart';
 
 class _$ModelIncomeSchedule extends ModelIncomeSchedule {
   @override
-  final int? amount;
+  final int amount;
   @override
   final String? createdAt;
   @override
@@ -22,8 +22,6 @@ class _$ModelIncomeSchedule extends ModelIncomeSchedule {
   @override
   final int? scheduleType;
   @override
-  final String uid;
-  @override
   final String? updatedAt;
 
   factory _$ModelIncomeSchedule(
@@ -31,21 +29,21 @@ class _$ModelIncomeSchedule extends ModelIncomeSchedule {
       (new ModelIncomeScheduleBuilder()..update(updates))._build();
 
   _$ModelIncomeSchedule._(
-      {this.amount,
+      {required this.amount,
       this.createdAt,
       this.deletedAt,
       required this.id,
       required this.incomeType,
       required this.memo,
       this.scheduleType,
-      required this.uid,
       this.updatedAt})
       : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        amount, r'ModelIncomeSchedule', 'amount');
     BuiltValueNullFieldError.checkNotNull(id, r'ModelIncomeSchedule', 'id');
     BuiltValueNullFieldError.checkNotNull(
         incomeType, r'ModelIncomeSchedule', 'incomeType');
     BuiltValueNullFieldError.checkNotNull(memo, r'ModelIncomeSchedule', 'memo');
-    BuiltValueNullFieldError.checkNotNull(uid, r'ModelIncomeSchedule', 'uid');
   }
 
   @override
@@ -68,7 +66,6 @@ class _$ModelIncomeSchedule extends ModelIncomeSchedule {
         incomeType == other.incomeType &&
         memo == other.memo &&
         scheduleType == other.scheduleType &&
-        uid == other.uid &&
         updatedAt == other.updatedAt;
   }
 
@@ -82,7 +79,6 @@ class _$ModelIncomeSchedule extends ModelIncomeSchedule {
     _$hash = $jc(_$hash, incomeType.hashCode);
     _$hash = $jc(_$hash, memo.hashCode);
     _$hash = $jc(_$hash, scheduleType.hashCode);
-    _$hash = $jc(_$hash, uid.hashCode);
     _$hash = $jc(_$hash, updatedAt.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
@@ -98,7 +94,6 @@ class _$ModelIncomeSchedule extends ModelIncomeSchedule {
           ..add('incomeType', incomeType)
           ..add('memo', memo)
           ..add('scheduleType', scheduleType)
-          ..add('uid', uid)
           ..add('updatedAt', updatedAt))
         .toString();
   }
@@ -140,10 +135,6 @@ class ModelIncomeScheduleBuilder
   int? get scheduleType => _$this._scheduleType;
   set scheduleType(int? scheduleType) => _$this._scheduleType = scheduleType;
 
-  String? _uid;
-  String? get uid => _$this._uid;
-  set uid(String? uid) => _$this._uid = uid;
-
   String? _updatedAt;
   String? get updatedAt => _$this._updatedAt;
   set updatedAt(String? updatedAt) => _$this._updatedAt = updatedAt;
@@ -162,7 +153,6 @@ class ModelIncomeScheduleBuilder
       _incomeType = $v.incomeType.toBuilder();
       _memo = $v.memo;
       _scheduleType = $v.scheduleType;
-      _uid = $v.uid;
       _updatedAt = $v.updatedAt;
       _$v = null;
     }
@@ -188,7 +178,8 @@ class ModelIncomeScheduleBuilder
     try {
       _$result = _$v ??
           new _$ModelIncomeSchedule._(
-              amount: amount,
+              amount: BuiltValueNullFieldError.checkNotNull(
+                  amount, r'ModelIncomeSchedule', 'amount'),
               createdAt: createdAt,
               deletedAt: _deletedAt?.build(),
               id: BuiltValueNullFieldError.checkNotNull(
@@ -197,8 +188,6 @@ class ModelIncomeScheduleBuilder
               memo: BuiltValueNullFieldError.checkNotNull(
                   memo, r'ModelIncomeSchedule', 'memo'),
               scheduleType: scheduleType,
-              uid: BuiltValueNullFieldError.checkNotNull(
-                  uid, r'ModelIncomeSchedule', 'uid'),
               updatedAt: updatedAt);
     } catch (_) {
       late String _$failedField;

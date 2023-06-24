@@ -155,4 +155,10 @@ var TestRepositoryMock = srepositories.RepositoryMock{
 		}
 		return model.IncomeSchedule{}, gorm.ErrRecordNotFound
 	},
+	UpdateExpenseScheduleFunc: func(uid string, schedule model.ExpenseSchedule) (model.ExpenseSchedule, error) {
+		return schedule, nil
+	},
+	UpdateIncomeScheduleFunc: func(uid string, schedule model.IncomeSchedule) (model.IncomeSchedule, error) {
+		return schedule, nil
+	},
 }

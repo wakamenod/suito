@@ -24,10 +24,12 @@ type ExpenseService interface {
 
 type ExpenseScheduleService interface {
 	FindExpenseScheduleService(id, uid string) (model.ExpenseSchedule, error)
+	UpdateExpenseScheduleService(uid string, expenseSchedule model.ExpenseSchedule) (model.ExpenseSchedule, error)
 }
 
 type IncomeScheduleService interface {
 	FindIncomeScheduleService(id, uid string) (model.IncomeSchedule, error)
+	UpdateIncomeScheduleService(uid string, incomeSchedule model.IncomeSchedule) (model.IncomeSchedule, error)
 }
 
 type IncomeService interface {

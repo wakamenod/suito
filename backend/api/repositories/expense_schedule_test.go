@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/stretchr/testify/require"
+	"github.com/wakamenod/suito/model"
 	"github.com/wakamenod/suito/utils/testutils"
 	"gorm.io/gorm"
 )
@@ -98,4 +99,37 @@ func TestFindExpenseSchedule_ErrorNotFound(t *testing.T) {
 	// check
 	require.Error(t, err)
 	require.ErrorIs(t, err, gorm.ErrRecordNotFound)
+}
+
+func TestUpdateExpenseSchedule(t *testing.T) {
+	tx := begin()
+	defer rollback(tx)
+	// setup
+	userID := "user1"
+	i := testutils.NewTestDataInserter(t, tx)
+	id := i.InsertExpenseSchedule(userID, "title01", "Asia/Tokyo").ID
+	i.InsertExpenseSchedule("user99", "title99", "Asia/Tokyo")
+	i.InsertExpenseSchedule(userID, "title01_2", "Asia/Tokyo")
+	categoryID := i.InsertExpenseCategory(userID, "Test Category").ID
+	locationID := i.InsertExpenseLocation(userID, "Test Location").ID
+	targetExpenseSchedule := model.ExpenseSchedule{
+		ID:                id,
+		Title:             "update title",
+		Amount:            2000,
+		ExpenseCategoryID: categoryID,
+		ExpenseLocationID: locationID,
+	}
+	// run
+	_, err := NewSuitoRepository(tx).UpdateExpenseSchedule(userID, targetExpenseSchedule)
+	// check
+	require.NoError(t, err)
+
+	found, err := NewSuitoRepository(tx).FindExpenseSchedule(id, userID)
+	require.NoError(t, err)
+	require.Equal(t, targetExpenseSchedule.Title, found.Title)
+	require.Equal(t, targetExpenseSchedule.Amount, found.Amount)
+	require.Equal(t, targetExpenseSchedule.ExpenseCategoryID, found.ExpenseCategoryID)
+	require.Equal(t, targetExpenseSchedule.ExpenseLocationID, found.ExpenseLocationID)
+	require.Equal(t, "Test Category", found.ExpenseCategory.Name)
+	require.Equal(t, "Test Location", found.ExpenseLocation.Name)
 }

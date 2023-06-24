@@ -42,11 +42,6 @@ void main() {
       // TODO
     });
 
-    // String uid
-    test('to test the property `uid`', () async {
-      // TODO
-    });
-
     // String updatedAt
     test('to test the property `updatedAt`', () async {
       // TODO

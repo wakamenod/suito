@@ -30,3 +30,10 @@ func (r *SuitoRepository) FindExpenseSchedule(id, uid string) (model.ExpenseSche
 
 	return res, nil
 }
+
+func (r *SuitoRepository) UpdateExpenseSchedule(uid string, expenseSchedule model.ExpenseSchedule) (model.ExpenseSchedule, error) {
+	if err := r.db.Where("uid = ?", uid).Updates(&expenseSchedule).Error; err != nil {
+		return expenseSchedule, errors.Wrap(err, "failed to update expense schedule")
+	}
+	return expenseSchedule, nil
+}

@@ -9,10 +9,19 @@ void main() {
   group(SuitoIncomeScheduleApi, () {
     // Get income schedule detail
     //
-    // 購入スケジュール詳細情報を取得します.
+    // 収入スケジュール詳細情報を取得します.
     //
     //Future<IncomeScheduleDetailRes> incomeScheduleDetail(IncomeScheduleDetailReq request) async
     test('test incomeScheduleDetail', () async {
+      // TODO
+    });
+
+    // Update income schedule
+    //
+    // 収入スケジュール情報を更新します
+    //
+    //Future<UpdateIncomeScheduleRes> updateIncomeSchedule(UpdateIncomeScheduleReq request) async
+    test('test updateIncomeSchedule', () async {
       // TODO
     });
 

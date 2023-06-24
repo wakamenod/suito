@@ -223,13 +223,57 @@
         "x-codegen-request-body-name": "request"
       }
     },
+    "/expense-schedule": {
+      "put": {
+        "tags": [
+          "suito.expenseSchedule"
+        ],
+        "summary": "Update expense shcedule",
+        "description": "支出スケジュール情報を更新します",
+        "operationId": "updateExpenseSchedule",
+        "requestBody": {
+          "description": "update expenseSchedule req",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateExpenseScheduleReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateExpenseScheduleRes"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unknown Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuitoError"
+                }
+              }
+            }
+          }
+        },
+        "x-codegen-request-body-name": "request"
+      }
+    },
     "/expense-schedule/detail": {
       "post": {
         "tags": [
           "suito.expenseSchedule"
         ],
         "summary": "Get expense schedule detail",
-        "description": "購入スケジュール詳細情報を取得します.",
+        "description": "支出スケジュール詳細情報を取得します.",
         "operationId": "expenseScheduleDetail",
         "requestBody": {
           "description": "expense detail req",
@@ -461,13 +505,57 @@
         "x-codegen-request-body-name": "request"
       }
     },
+    "/income-schedule": {
+      "put": {
+        "tags": [
+          "suito.incomeSchedule"
+        ],
+        "summary": "Update income schedule",
+        "description": "収入スケジュール情報を更新します",
+        "operationId": "updateIncomeSchedule",
+        "requestBody": {
+          "description": "update incomeSchedule req",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateIncomeScheduleReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateIncomeScheduleRes"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unknown Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuitoError"
+                }
+              }
+            }
+          }
+        },
+        "x-codegen-request-body-name": "request"
+      }
+    },
     "/income-schedule/detail": {
       "post": {
         "tags": [
           "suito.incomeSchedule"
         ],
         "summary": "Get income schedule detail",
-        "description": "購入スケジュール詳細情報を取得します.",
+        "description": "収入スケジュール詳細情報を取得します.",
         "operationId": "incomeScheduleDetail",
         "requestBody": {
           "description": "income detail req",
@@ -910,11 +998,11 @@
       },
       "IncomeScheduleDetailRes": {
         "required": [
-          "incomeShcedule"
+          "incomeSchedule"
         ],
         "type": "object",
         "properties": {
-          "incomeShcedule": {
+          "incomeSchedule": {
             "$ref": "#/components/schemas/model.IncomeSchedule"
           }
         }
@@ -1164,6 +1252,28 @@
           }
         }
       },
+      "UpdateExpenseScheduleReq": {
+        "required": [
+          "expenseSchedule"
+        ],
+        "type": "object",
+        "properties": {
+          "expenseSchedule": {
+            "$ref": "#/components/schemas/model.ExpenseSchedule"
+          }
+        }
+      },
+      "UpdateExpenseScheduleRes": {
+        "required": [
+          "updatedExpenseSchedule"
+        ],
+        "type": "object",
+        "properties": {
+          "updatedExpenseSchedule": {
+            "$ref": "#/components/schemas/model.ExpenseSchedule"
+          }
+        }
+      },
       "UpdateIncomeReq": {
         "required": [
           "income"
@@ -1183,6 +1293,28 @@
         "properties": {
           "updatedIncome": {
             "$ref": "#/components/schemas/model.Income"
+          }
+        }
+      },
+      "UpdateIncomeScheduleReq": {
+        "required": [
+          "incomeSchedule"
+        ],
+        "type": "object",
+        "properties": {
+          "incomeSchedule": {
+            "$ref": "#/components/schemas/model.IncomeSchedule"
+          }
+        }
+      },
+      "UpdateIncomeScheduleRes": {
+        "required": [
+          "updatedIncomeSchedule"
+        ],
+        "type": "object",
+        "properties": {
+          "updatedIncomeSchedule": {
+            "$ref": "#/components/schemas/model.IncomeSchedule"
           }
         }
       },
@@ -1257,14 +1389,12 @@
       },
       "model.ExpenseSchedule": {
         "required": [
+          "amount",
           "expenseCategory",
-          "expenseCategoryID",
           "expenseLocation",
-          "expenseLocationID",
           "id",
           "memo",
-          "title",
-          "uid"
+          "title"
         ],
         "type": "object",
         "properties": {
@@ -1280,14 +1410,8 @@
           "expenseCategory": {
             "$ref": "#/components/schemas/model.ExpenseCategory"
           },
-          "expenseCategoryID": {
-            "type": "string"
-          },
           "expenseLocation": {
             "$ref": "#/components/schemas/model.ExpenseLocation"
-          },
-          "expenseLocationID": {
-            "type": "string"
           },
           "id": {
             "type": "string"
@@ -1299,9 +1423,6 @@
             "type": "integer"
           },
           "title": {
-            "type": "string"
-          },
-          "uid": {
             "type": "string"
           },
           "updatedAt": {
@@ -1338,10 +1459,10 @@
       },
       "model.IncomeSchedule": {
         "required": [
+          "amount",
           "id",
-          "income_type",
-          "memo",
-          "uid"
+          "incomeType",
+          "memo"
         ],
         "type": "object",
         "properties": {
@@ -1357,7 +1478,7 @@
           "id": {
             "type": "string"
           },
-          "income_type": {
+          "incomeType": {
             "$ref": "#/components/schemas/model.IncomeType"
           },
           "memo": {
@@ -1365,9 +1486,6 @@
           },
           "scheduleType": {
             "type": "integer"
-          },
-          "uid": {
-            "type": "string"
           },
           "updatedAt": {
             "type": "string"

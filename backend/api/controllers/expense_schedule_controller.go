@@ -26,10 +26,18 @@ type (
 	ExpenseScheduleDetailRes struct {
 		ExpenseShcedule model.ExpenseSchedule `json:"expenseShcedule"`
 	} // @Name ExpenseScheduleDetailRes
+
+	UpdateExpenseScheduleReq struct {
+		ExpenseSchedule model.ExpenseSchedule `json:"expenseSchedule" validate:"required"`
+	} // @Name UpdateExpenseScheduleReq
+	UpdateExpenseScheduleRes struct {
+		UpdatedExpenseSchedule model.ExpenseSchedule `json:"updatedExpenseSchedule"`
+	} // @Name UpdateExpenseScheduleRes
+
 )
 
 // @Summary     Get expense schedule detail
-// @Description 購入スケジュール詳細情報を取得します.
+// @Description 支出スケジュール詳細情報を取得します.
 // @Tags        suito.expenseSchedule
 // @ID          expenseScheduleDetail
 // @Accept      json
@@ -56,5 +64,37 @@ func (s *ExpenseScheduleController) ExpenseScheduleDetailHandler(c echo.Context)
 
 	var res ExpenseScheduleDetailRes
 	res.ExpenseShcedule = expenseSchedule
+	return webutils.Response(c, http.StatusOK, res)
+}
+
+// @Summary     Update expense shcedule
+// @Description 支出スケジュール情報を更新します
+// @Tags        suito.expenseSchedule
+// @ID          updateExpenseSchedule
+// @Accept      json
+// @Produce     json
+// @Param       request body     UpdateExpenseScheduleReq     true           "update expenseSchedule req"
+// @Success     200     {object} UpdateExpenseScheduleRes     "Success"
+// @Failure     500     {object} apperrors.SuitoError "Unknown Error"
+// @Router      /expense-schedule [PUT]
+func (s *ExpenseScheduleController) UpdateExpenseScheduleHandler(c echo.Context) error {
+	var req UpdateExpenseScheduleReq
+
+	if err := c.Bind(&req); err != nil {
+		return errors.Wrap(err, "failed bind")
+	}
+	if err := c.Validate(req); err != nil {
+		return err
+	}
+
+	uid := c.Get(middleware.UIDKey).(string)
+	updatedExpenseSchedule, err := s.service.UpdateExpenseScheduleService(uid, req.ExpenseSchedule)
+	if err != nil {
+		return err
+	}
+
+	var res UpdateExpenseScheduleRes
+	res.UpdatedExpenseSchedule = updatedExpenseSchedule
+
 	return webutils.Response(c, http.StatusOK, res)
 }

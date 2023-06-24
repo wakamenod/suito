@@ -117,8 +117,14 @@ var _ Repository = &RepositoryMock{}
 //			UpdateExpenseFunc: func(uid string, expense model.Expense) (model.Expense, error) {
 //				panic("mock out the UpdateExpense method")
 //			},
+//			UpdateExpenseScheduleFunc: func(uid string, schedule model.ExpenseSchedule) (model.ExpenseSchedule, error) {
+//				panic("mock out the UpdateExpenseSchedule method")
+//			},
 //			UpdateIncomeFunc: func(uid string, income model.Income) (model.Income, error) {
 //				panic("mock out the UpdateIncome method")
+//			},
+//			UpdateIncomeScheduleFunc: func(uid string, schedule model.IncomeSchedule) (model.IncomeSchedule, error) {
+//				panic("mock out the UpdateIncomeSchedule method")
 //			},
 //		}
 //
@@ -223,8 +229,14 @@ type RepositoryMock struct {
 	// UpdateExpenseFunc mocks the UpdateExpense method.
 	UpdateExpenseFunc func(uid string, expense model.Expense) (model.Expense, error)
 
+	// UpdateExpenseScheduleFunc mocks the UpdateExpenseSchedule method.
+	UpdateExpenseScheduleFunc func(uid string, schedule model.ExpenseSchedule) (model.ExpenseSchedule, error)
+
 	// UpdateIncomeFunc mocks the UpdateIncome method.
 	UpdateIncomeFunc func(uid string, income model.Income) (model.Income, error)
+
+	// UpdateIncomeScheduleFunc mocks the UpdateIncomeSchedule method.
+	UpdateIncomeScheduleFunc func(uid string, schedule model.IncomeSchedule) (model.IncomeSchedule, error)
 
 	// calls tracks calls to the methods.
 	calls struct {
@@ -430,12 +442,26 @@ type RepositoryMock struct {
 			// Expense is the expense argument value.
 			Expense model.Expense
 		}
+		// UpdateExpenseSchedule holds details about calls to the UpdateExpenseSchedule method.
+		UpdateExpenseSchedule []struct {
+			// UID is the uid argument value.
+			UID string
+			// Schedule is the schedule argument value.
+			Schedule model.ExpenseSchedule
+		}
 		// UpdateIncome holds details about calls to the UpdateIncome method.
 		UpdateIncome []struct {
 			// UID is the uid argument value.
 			UID string
 			// Income is the income argument value.
 			Income model.Income
+		}
+		// UpdateIncomeSchedule holds details about calls to the UpdateIncomeSchedule method.
+		UpdateIncomeSchedule []struct {
+			// UID is the uid argument value.
+			UID string
+			// Schedule is the schedule argument value.
+			Schedule model.IncomeSchedule
 		}
 	}
 	lockCreateExpense                      sync.RWMutex
@@ -470,7 +496,9 @@ type RepositoryMock struct {
 	lockHardDeleteAllUserIncomes           sync.RWMutex
 	lockTransaction                        sync.RWMutex
 	lockUpdateExpense                      sync.RWMutex
+	lockUpdateExpenseSchedule              sync.RWMutex
 	lockUpdateIncome                       sync.RWMutex
+	lockUpdateIncomeSchedule               sync.RWMutex
 }
 
 // CreateExpense calls CreateExpenseFunc.
@@ -1580,6 +1608,42 @@ func (mock *RepositoryMock) UpdateExpenseCalls() []struct {
 	return calls
 }
 
+// UpdateExpenseSchedule calls UpdateExpenseScheduleFunc.
+func (mock *RepositoryMock) UpdateExpenseSchedule(uid string, schedule model.ExpenseSchedule) (model.ExpenseSchedule, error) {
+	if mock.UpdateExpenseScheduleFunc == nil {
+		panic("RepositoryMock.UpdateExpenseScheduleFunc: method is nil but Repository.UpdateExpenseSchedule was just called")
+	}
+	callInfo := struct {
+		UID      string
+		Schedule model.ExpenseSchedule
+	}{
+		UID:      uid,
+		Schedule: schedule,
+	}
+	mock.lockUpdateExpenseSchedule.Lock()
+	mock.calls.UpdateExpenseSchedule = append(mock.calls.UpdateExpenseSchedule, callInfo)
+	mock.lockUpdateExpenseSchedule.Unlock()
+	return mock.UpdateExpenseScheduleFunc(uid, schedule)
+}
+
+// UpdateExpenseScheduleCalls gets all the calls that were made to UpdateExpenseSchedule.
+// Check the length with:
+//
+//	len(mockedRepository.UpdateExpenseScheduleCalls())
+func (mock *RepositoryMock) UpdateExpenseScheduleCalls() []struct {
+	UID      string
+	Schedule model.ExpenseSchedule
+} {
+	var calls []struct {
+		UID      string
+		Schedule model.ExpenseSchedule
+	}
+	mock.lockUpdateExpenseSchedule.RLock()
+	calls = mock.calls.UpdateExpenseSchedule
+	mock.lockUpdateExpenseSchedule.RUnlock()
+	return calls
+}
+
 // UpdateIncome calls UpdateIncomeFunc.
 func (mock *RepositoryMock) UpdateIncome(uid string, income model.Income) (model.Income, error) {
 	if mock.UpdateIncomeFunc == nil {
@@ -1613,5 +1677,41 @@ func (mock *RepositoryMock) UpdateIncomeCalls() []struct {
 	mock.lockUpdateIncome.RLock()
 	calls = mock.calls.UpdateIncome
 	mock.lockUpdateIncome.RUnlock()
+	return calls
+}
+
+// UpdateIncomeSchedule calls UpdateIncomeScheduleFunc.
+func (mock *RepositoryMock) UpdateIncomeSchedule(uid string, schedule model.IncomeSchedule) (model.IncomeSchedule, error) {
+	if mock.UpdateIncomeScheduleFunc == nil {
+		panic("RepositoryMock.UpdateIncomeScheduleFunc: method is nil but Repository.UpdateIncomeSchedule was just called")
+	}
+	callInfo := struct {
+		UID      string
+		Schedule model.IncomeSchedule
+	}{
+		UID:      uid,
+		Schedule: schedule,
+	}
+	mock.lockUpdateIncomeSchedule.Lock()
+	mock.calls.UpdateIncomeSchedule = append(mock.calls.UpdateIncomeSchedule, callInfo)
+	mock.lockUpdateIncomeSchedule.Unlock()
+	return mock.UpdateIncomeScheduleFunc(uid, schedule)
+}
+
+// UpdateIncomeScheduleCalls gets all the calls that were made to UpdateIncomeSchedule.
+// Check the length with:
+//
+//	len(mockedRepository.UpdateIncomeScheduleCalls())
+func (mock *RepositoryMock) UpdateIncomeScheduleCalls() []struct {
+	UID      string
+	Schedule model.IncomeSchedule
+} {
+	var calls []struct {
+		UID      string
+		Schedule model.IncomeSchedule
+	}
+	mock.lockUpdateIncomeSchedule.RLock()
+	calls = mock.calls.UpdateIncomeSchedule
+	mock.lockUpdateIncomeSchedule.RUnlock()
 	return calls
 }

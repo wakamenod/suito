@@ -1,12 +1,12 @@
 import 'package:test/test.dart';
 import 'package:openapi/openapi.dart';
 
-// tests for IncomeScheduleDetailRes
+// tests for UpdateIncomeScheduleReq
 void main() {
-  final instance = IncomeScheduleDetailResBuilder();
+  final instance = UpdateIncomeScheduleReqBuilder();
   // TODO add properties to the builder and call build()
 
-  group(IncomeScheduleDetailRes, () {
+  group(UpdateIncomeScheduleReq, () {
     // ModelIncomeSchedule incomeSchedule
     test('to test the property `incomeSchedule`', () async {
       // TODO
