@@ -30,3 +30,11 @@ func (s *SuitoService) UpdateIncomeScheduleService(uid string, incomeSchedule mo
 	}
 	return incomeSchedule, nil
 }
+
+func (s *SuitoService) DeleteIncomeScheduleService(id, uid string) error {
+	err := s.repo.DeleteIncomeSchedule(id, uid)
+	if err != nil {
+		return err
+	}
+	return nil
+}

@@ -38,3 +38,11 @@ func (s *SuitoService) UpdateExpenseScheduleService(uid string, expenseSchedule 
 	}
 	return expenseSchedule, nil
 }
+
+func (s *SuitoService) DeleteExpenseScheduleService(id, uid string) error {
+	err := s.repo.DeleteExpenseSchedule(id, uid)
+	if err != nil {
+		return err
+	}
+	return nil
+}

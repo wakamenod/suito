@@ -115,3 +115,22 @@ func TestUpdateIncomeSchedule(t *testing.T) {
 	require.Equal(t, "Test income type", found.IncomeType.Name)
 	require.Equal(t, targetIncomeSchedule.Amount, found.Amount)
 }
+
+func TestDeleteIncomeSchedule(t *testing.T) {
+	tx := begin()
+	defer rollback(tx)
+	// setup
+	userID := "user1"
+	i := testutils.NewTestDataInserter(t, tx)
+	id := i.InsertIncomeSchedule(userID, "Asia/Tokyo").ID
+	i.InsertIncomeSchedule("user99", "Asia/Tokyo")
+	i.InsertIncomeSchedule(userID, "Asia/Tokyo")
+	// run
+	err := NewSuitoRepository(tx).DeleteIncomeSchedule(id, userID)
+	// check
+	require.NoError(t, err)
+
+	var found model.IncomeSchedule
+	require.NoError(t, tx.Where("id = ? AND uid = ?", id, userID).Unscoped().First(&found).Error)
+	require.NotNil(t, found.DeletedAt)
+}

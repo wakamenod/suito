@@ -34,3 +34,10 @@ func (r *SuitoRepository) UpdateIncomeSchedule(uid string, incomeSchedule model.
 	}
 	return incomeSchedule, nil
 }
+
+func (r *SuitoRepository) DeleteIncomeSchedule(id string, uid string) error {
+	if err := r.db.Where("id = ? AND uid = ?", id, uid).Delete(&model.IncomeSchedule{}).Error; err != nil {
+		return errors.Wrap(err, "failed to delete income schedule")
+	}
+	return nil
+}

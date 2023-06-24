@@ -34,6 +34,12 @@ type (
 		UpdatedExpenseSchedule model.ExpenseSchedule `json:"updatedExpenseSchedule"`
 	} // @Name UpdateExpenseScheduleRes
 
+	DeleteExpenseScheduleReq struct {
+		ExpenseScheduleID string `json:"expenseScheduleId" validate:"required"`
+	} // @Name DeleteExpenseScheduleReq
+	DeleteExpenseScheduleRes struct {
+	} // @Name DeleteExpenseScheduleRes
+
 )
 
 // @Summary     Get expense schedule detail
@@ -96,5 +102,35 @@ func (s *ExpenseScheduleController) UpdateExpenseScheduleHandler(c echo.Context)
 	var res UpdateExpenseScheduleRes
 	res.UpdatedExpenseSchedule = updatedExpenseSchedule
 
+	return webutils.Response(c, http.StatusOK, res)
+}
+
+// @Summary     Delete expense schedule
+// @Description 支出スケジュール情報を削除します
+// @Tags        suito.expenseSchedule
+// @ID          deleteExpenseSchedule
+// @Accept      json
+// @Produce     json
+// @Param       request body     DeleteExpenseScheduleReq     true           "delete expenseSchedule req"
+// @Success     200     {object} DeleteExpenseScheduleRes     "Success"
+// @Failure     500     {object} apperrors.SuitoError "Unknown Error"
+// @Router      /expense-schedule [DELETE]
+func (s *ExpenseScheduleController) DeleteExpenseScheduleHandler(c echo.Context) error {
+	var req DeleteExpenseScheduleReq
+
+	if err := c.Bind(&req); err != nil {
+		return errors.Wrap(err, "failed bind")
+	}
+	if err := c.Validate(req); err != nil {
+		return err
+	}
+
+	uid := c.Get(middleware.UIDKey).(string)
+	err := s.service.DeleteExpenseScheduleService(req.ExpenseScheduleID, uid)
+	if err != nil {
+		return err
+	}
+
+	var res DeleteExpenseScheduleRes
 	return webutils.Response(c, http.StatusOK, res)
 }
