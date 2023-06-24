@@ -12,11 +12,11 @@ part 'expense_schedule_detail_res.g.dart';
 /// ExpenseScheduleDetailRes
 ///
 /// Properties:
-/// * [expenseShcedule] 
+/// * [expenseSchedule] 
 @BuiltValue()
 abstract class ExpenseScheduleDetailRes implements Built<ExpenseScheduleDetailRes, ExpenseScheduleDetailResBuilder> {
-  @BuiltValueField(wireName: r'expenseShcedule')
-  ModelExpenseSchedule get expenseShcedule;
+  @BuiltValueField(wireName: r'expenseSchedule')
+  ModelExpenseSchedule get expenseSchedule;
 
   ExpenseScheduleDetailRes._();
 
@@ -41,9 +41,9 @@ class _$ExpenseScheduleDetailResSerializer implements PrimitiveSerializer<Expens
     ExpenseScheduleDetailRes object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'expenseShcedule';
+    yield r'expenseSchedule';
     yield serializers.serialize(
-      object.expenseShcedule,
+      object.expenseSchedule,
       specifiedType: const FullType(ModelExpenseSchedule),
     );
   }
@@ -69,12 +69,12 @@ class _$ExpenseScheduleDetailResSerializer implements PrimitiveSerializer<Expens
       final key = serializedList[i] as String;
       final value = serializedList[i + 1];
       switch (key) {
-        case r'expenseShcedule':
+        case r'expenseSchedule':
           final valueDes = serializers.deserialize(
             value,
             specifiedType: const FullType(ModelExpenseSchedule),
           ) as ModelExpenseSchedule;
-          result.expenseShcedule.replace(valueDes);
+          result.expenseSchedule.replace(valueDes);
           break;
         default:
           unhandled.add(key);

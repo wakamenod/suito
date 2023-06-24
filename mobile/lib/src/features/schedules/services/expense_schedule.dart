@@ -1,6 +1,6 @@
 import 'package:formz/formz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:suito/src/features/schedules/repositories/fake_expense_schedule_detail_repository.dart';
+import 'package:openapi/openapi.dart';
 import 'package:suito/src/formz/amount.dart';
 import 'package:suito/src/formz/title.dart';
 
@@ -30,14 +30,14 @@ class ExpenseSchedule with _$ExpenseSchedule {
         submissionStatus: FormzSubmissionStatus.initial,
       );
 
-  static ExpenseSchedule fromModel(FakeExpenseScheduleDetailRes res) =>
+  static ExpenseSchedule fromModel(ExpenseScheduleDetailRes res) =>
       ExpenseSchedule(
-        id: res.id,
-        title: Title.dirty(res.title),
-        amount: Amount.dirty(res.amount),
-        category: res.category,
-        location: res.location,
-        memo: res.memo,
+        id: res.expenseSchedule.id,
+        title: Title.dirty(res.expenseSchedule.title),
+        amount: Amount.dirty(res.expenseSchedule.amount),
+        category: res.expenseSchedule.expenseCategory.name,
+        location: res.expenseSchedule.expenseLocation.name,
+        memo: res.expenseSchedule.memo,
         isValid: true,
         submissionStatus: FormzSubmissionStatus.initial,
       );

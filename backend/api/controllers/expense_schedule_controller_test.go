@@ -73,9 +73,9 @@ func TestExpenseScheduleDetailHandler_Success(t *testing.T) {
 	// Response
 	var res ExpenseScheduleDetailRes
 	require.NoError(t, json.Unmarshal(rec.Body.Bytes(), &res))
-	require.Equal(t, "EXPENSE_SCHEDULE_ID1", res.ExpenseShcedule.ID)
-	require.Equal(t, "Test Category", res.ExpenseShcedule.ExpenseCategory.Name)
-	require.Equal(t, "Test Location", res.ExpenseShcedule.ExpenseLocation.Name)
+	require.Equal(t, "EXPENSE_SCHEDULE_ID1", res.ExpenseSchedule.ID)
+	require.Equal(t, "Test Category", res.ExpenseSchedule.ExpenseCategory.Name)
+	require.Equal(t, "Test Location", res.ExpenseSchedule.ExpenseLocation.Name)
 }
 
 func TestUpdateExpenseScheduleHandler_ErrorValidate(t *testing.T) {

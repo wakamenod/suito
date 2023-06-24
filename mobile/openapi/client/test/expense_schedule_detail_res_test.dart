@@ -7,8 +7,8 @@ void main() {
   // TODO add properties to the builder and call build()
 
   group(ExpenseScheduleDetailRes, () {
-    // ModelExpenseSchedule expenseShcedule
-    test('to test the property `expenseShcedule`', () async {
+    // ModelExpenseSchedule expenseSchedule
+    test('to test the property `expenseSchedule`', () async {
       // TODO
     });
 

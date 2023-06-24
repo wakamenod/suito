@@ -76,7 +76,7 @@ Class | Method | HTTP request | Description
 [*SuitoExpenseScheduleApi*](doc/SuitoExpenseScheduleApi.md) | [**deleteExpenseSchedule**](doc/SuitoExpenseScheduleApi.md#deleteexpenseschedule) | **DELETE** /expense-schedule | Delete expense schedule
 [*SuitoExpenseScheduleApi*](doc/SuitoExpenseScheduleApi.md) | [**expenseScheduleDetail**](doc/SuitoExpenseScheduleApi.md#expensescheduledetail) | **POST** /expense-schedule/detail | Get expense schedule detail
 [*SuitoExpenseScheduleApi*](doc/SuitoExpenseScheduleApi.md) | [**registerExpenseSchedule**](doc/SuitoExpenseScheduleApi.md#registerexpenseschedule) | **POST** /expense-schedule | Register expense schedule
-[*SuitoExpenseScheduleApi*](doc/SuitoExpenseScheduleApi.md) | [**updateExpenseSchedule**](doc/SuitoExpenseScheduleApi.md#updateexpenseschedule) | **PUT** /expense-schedule | Update expense shcedule
+[*SuitoExpenseScheduleApi*](doc/SuitoExpenseScheduleApi.md) | [**updateExpenseSchedule**](doc/SuitoExpenseScheduleApi.md#updateexpenseschedule) | **PUT** /expense-schedule | Update expense schedule
 [*SuitoIncomeApi*](doc/SuitoIncomeApi.md) | [**incomeDetail**](doc/SuitoIncomeApi.md#incomedetail) | **POST** /income/detail | Get income detail
 [*SuitoIncomeApi*](doc/SuitoIncomeApi.md) | [**listIncomeTypes**](doc/SuitoIncomeApi.md#listincometypes) | **GET** /income/types | List income types
 [*SuitoIncomeApi*](doc/SuitoIncomeApi.md) | [**registerIncome**](doc/SuitoIncomeApi.md#registerincome) | **POST** /income | Register income

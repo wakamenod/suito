@@ -304,7 +304,7 @@ class SuitoExpenseScheduleApi {
     );
   }
 
-  /// Update expense shcedule
+  /// Update expense schedule
   /// 支出スケジュール情報を更新します
   ///
   /// Parameters:

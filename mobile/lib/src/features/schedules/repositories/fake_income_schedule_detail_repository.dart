@@ -1,3 +1,4 @@
+import 'package:openapi/openapi.dart';
 import 'package:suito/src/features/schedules/repositories/fake_schedules_repository.dart';
 import 'package:suito/src/features/schedules/repositories/income_schedule_detail_repository.dart';
 
@@ -15,11 +16,13 @@ class FakeIncomeScheduleDetailRepository
   FakeIncomeScheduleDetailRepository();
 
   @override
-  Future<FakeIncomeScheduleDetailRes> fetchIncomeScheduleDetail(
-      String id) async {
-    return Future.value(kFakeIncomeSchedules
-        .map(
-            (m) => FakeIncomeScheduleDetailRes(m.id, m.title, m.amount, m.memo))
-        .firstWhere((s) => s.id == id));
+  Future<IncomeScheduleDetailRes> fetchIncomeScheduleDetail(String id) async {
+    final f = kFakeIncomeSchedules.firstWhere((el) => el.id == id);
+    return Future.value(IncomeScheduleDetailRes((b) => b
+      ..incomeSchedule.replace(ModelIncomeSchedule((s) => s
+        ..id = f.id
+        ..amount = f.amount
+        ..memo = f.memo
+        ..incomeType.replace(ModelIncomeType((c) => c..name = f.title))))));
   }
 }

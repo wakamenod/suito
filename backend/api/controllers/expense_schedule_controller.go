@@ -24,7 +24,7 @@ type (
 		ID string `json:"id" validate:"required"`
 	} // @Name ExpenseScheduleDetailReq
 	ExpenseScheduleDetailRes struct {
-		ExpenseShcedule model.ExpenseSchedule `json:"expenseShcedule"`
+		ExpenseSchedule model.ExpenseSchedule `json:"expenseSchedule"`
 	} // @Name ExpenseScheduleDetailRes
 
 	UpdateExpenseScheduleReq struct {
@@ -75,11 +75,11 @@ func (s *ExpenseScheduleController) ExpenseScheduleDetailHandler(c echo.Context)
 	}
 
 	var res ExpenseScheduleDetailRes
-	res.ExpenseShcedule = expenseSchedule
+	res.ExpenseSchedule = expenseSchedule
 	return webutils.Response(c, http.StatusOK, res)
 }
 
-// @Summary     Update expense shcedule
+// @Summary     Update expense schedule
 // @Description 支出スケジュール情報を更新します
 // @Tags        suito.expenseSchedule
 // @ID          updateExpenseSchedule

@@ -12,7 +12,7 @@ Method | HTTP request | Description
 [**deleteExpenseSchedule**](SuitoExpenseScheduleApi.md#deleteexpenseschedule) | **DELETE** /expense-schedule | Delete expense schedule
 [**expenseScheduleDetail**](SuitoExpenseScheduleApi.md#expensescheduledetail) | **POST** /expense-schedule/detail | Get expense schedule detail
 [**registerExpenseSchedule**](SuitoExpenseScheduleApi.md#registerexpenseschedule) | **POST** /expense-schedule | Register expense schedule
-[**updateExpenseSchedule**](SuitoExpenseScheduleApi.md#updateexpenseschedule) | **PUT** /expense-schedule | Update expense shcedule
+[**updateExpenseSchedule**](SuitoExpenseScheduleApi.md#updateexpenseschedule) | **PUT** /expense-schedule | Update expense schedule
 
 
 # **deleteExpenseSchedule**
@@ -147,7 +147,7 @@ No authorization required
 # **updateExpenseSchedule**
 > UpdateExpenseScheduleRes updateExpenseSchedule(request)
 
-Update expense shcedule
+Update expense schedule
 
 支出スケジュール情報を更新します
 

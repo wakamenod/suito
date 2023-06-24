@@ -1,29 +1,24 @@
 import 'package:openapi/openapi.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-import 'fake_income_schedule_detail_repository.dart';
+import 'package:suito/src/data/openapi_provider.dart';
 
 part 'income_schedule_detail_repository.g.dart';
 
 class IncomeScheduleDetailRepository {
   IncomeScheduleDetailRepository(this._openapi);
-  // ignore: unused_field, TODO
   final Openapi _openapi;
 
-  Future<FakeIncomeScheduleDetailRes> fetchIncomeScheduleDetail(
-      String id) async {
-    // final api = _openapi.getSuitoIncomeScheduleApi();
-    // final response = await api.incomeScheduleDetail(
-    //     request: FakeIncomeScheduleDetailReq((r) => r.id = id));
-    // return response.data ?? FakeIncomeScheduleDetailRes();
-    return FakeIncomeScheduleDetailRes('', '', 0, '');
+  Future<IncomeScheduleDetailRes> fetchIncomeScheduleDetail(String id) async {
+    final api = _openapi.getSuitoIncomeScheduleApi();
+    final response = await api.incomeScheduleDetail(
+        request: IncomeScheduleDetailReq((r) => r.id = id));
+    return response.data ?? IncomeScheduleDetailRes();
   }
 }
 
 @Riverpod(keepAlive: true)
 IncomeScheduleDetailRepository incomeScheduleDetailRepository(
     IncomeScheduleDetailRepositoryRef ref) {
-  // final openapi = ref.watch(openApiProvider);
-  // return IncomeScheduleDetailRepository(openapi);
-  throw UnimplementedError();
+  final openapi = ref.watch(openApiProvider);
+  return IncomeScheduleDetailRepository(openapi);
 }
