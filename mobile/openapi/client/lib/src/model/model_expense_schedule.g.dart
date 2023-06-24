@@ -8,7 +8,7 @@ part of 'model_expense_schedule.dart';
 
 class _$ModelExpenseSchedule extends ModelExpenseSchedule {
   @override
-  final int? amount;
+  final int amount;
   @override
   final String? createdAt;
   @override
@@ -16,11 +16,7 @@ class _$ModelExpenseSchedule extends ModelExpenseSchedule {
   @override
   final ModelExpenseCategory expenseCategory;
   @override
-  final String expenseCategoryID;
-  @override
   final ModelExpenseLocation expenseLocation;
-  @override
-  final String expenseLocationID;
   @override
   final String id;
   @override
@@ -30,8 +26,6 @@ class _$ModelExpenseSchedule extends ModelExpenseSchedule {
   @override
   final String title;
   @override
-  final String uid;
-  @override
   final String? updatedAt;
 
   factory _$ModelExpenseSchedule(
@@ -39,34 +33,28 @@ class _$ModelExpenseSchedule extends ModelExpenseSchedule {
       (new ModelExpenseScheduleBuilder()..update(updates))._build();
 
   _$ModelExpenseSchedule._(
-      {this.amount,
+      {required this.amount,
       this.createdAt,
       this.deletedAt,
       required this.expenseCategory,
-      required this.expenseCategoryID,
       required this.expenseLocation,
-      required this.expenseLocationID,
       required this.id,
       required this.memo,
       this.scheduleType,
       required this.title,
-      required this.uid,
       this.updatedAt})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
+        amount, r'ModelExpenseSchedule', 'amount');
+    BuiltValueNullFieldError.checkNotNull(
         expenseCategory, r'ModelExpenseSchedule', 'expenseCategory');
     BuiltValueNullFieldError.checkNotNull(
-        expenseCategoryID, r'ModelExpenseSchedule', 'expenseCategoryID');
-    BuiltValueNullFieldError.checkNotNull(
         expenseLocation, r'ModelExpenseSchedule', 'expenseLocation');
-    BuiltValueNullFieldError.checkNotNull(
-        expenseLocationID, r'ModelExpenseSchedule', 'expenseLocationID');
     BuiltValueNullFieldError.checkNotNull(id, r'ModelExpenseSchedule', 'id');
     BuiltValueNullFieldError.checkNotNull(
         memo, r'ModelExpenseSchedule', 'memo');
     BuiltValueNullFieldError.checkNotNull(
         title, r'ModelExpenseSchedule', 'title');
-    BuiltValueNullFieldError.checkNotNull(uid, r'ModelExpenseSchedule', 'uid');
   }
 
   @override
@@ -86,14 +74,11 @@ class _$ModelExpenseSchedule extends ModelExpenseSchedule {
         createdAt == other.createdAt &&
         deletedAt == other.deletedAt &&
         expenseCategory == other.expenseCategory &&
-        expenseCategoryID == other.expenseCategoryID &&
         expenseLocation == other.expenseLocation &&
-        expenseLocationID == other.expenseLocationID &&
         id == other.id &&
         memo == other.memo &&
         scheduleType == other.scheduleType &&
         title == other.title &&
-        uid == other.uid &&
         updatedAt == other.updatedAt;
   }
 
@@ -104,14 +89,11 @@ class _$ModelExpenseSchedule extends ModelExpenseSchedule {
     _$hash = $jc(_$hash, createdAt.hashCode);
     _$hash = $jc(_$hash, deletedAt.hashCode);
     _$hash = $jc(_$hash, expenseCategory.hashCode);
-    _$hash = $jc(_$hash, expenseCategoryID.hashCode);
     _$hash = $jc(_$hash, expenseLocation.hashCode);
-    _$hash = $jc(_$hash, expenseLocationID.hashCode);
     _$hash = $jc(_$hash, id.hashCode);
     _$hash = $jc(_$hash, memo.hashCode);
     _$hash = $jc(_$hash, scheduleType.hashCode);
     _$hash = $jc(_$hash, title.hashCode);
-    _$hash = $jc(_$hash, uid.hashCode);
     _$hash = $jc(_$hash, updatedAt.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
@@ -124,14 +106,11 @@ class _$ModelExpenseSchedule extends ModelExpenseSchedule {
           ..add('createdAt', createdAt)
           ..add('deletedAt', deletedAt)
           ..add('expenseCategory', expenseCategory)
-          ..add('expenseCategoryID', expenseCategoryID)
           ..add('expenseLocation', expenseLocation)
-          ..add('expenseLocationID', expenseLocationID)
           ..add('id', id)
           ..add('memo', memo)
           ..add('scheduleType', scheduleType)
           ..add('title', title)
-          ..add('uid', uid)
           ..add('updatedAt', updatedAt))
         .toString();
   }
@@ -161,21 +140,11 @@ class ModelExpenseScheduleBuilder
   set expenseCategory(ModelExpenseCategoryBuilder? expenseCategory) =>
       _$this._expenseCategory = expenseCategory;
 
-  String? _expenseCategoryID;
-  String? get expenseCategoryID => _$this._expenseCategoryID;
-  set expenseCategoryID(String? expenseCategoryID) =>
-      _$this._expenseCategoryID = expenseCategoryID;
-
   ModelExpenseLocationBuilder? _expenseLocation;
   ModelExpenseLocationBuilder get expenseLocation =>
       _$this._expenseLocation ??= new ModelExpenseLocationBuilder();
   set expenseLocation(ModelExpenseLocationBuilder? expenseLocation) =>
       _$this._expenseLocation = expenseLocation;
-
-  String? _expenseLocationID;
-  String? get expenseLocationID => _$this._expenseLocationID;
-  set expenseLocationID(String? expenseLocationID) =>
-      _$this._expenseLocationID = expenseLocationID;
 
   String? _id;
   String? get id => _$this._id;
@@ -193,10 +162,6 @@ class ModelExpenseScheduleBuilder
   String? get title => _$this._title;
   set title(String? title) => _$this._title = title;
 
-  String? _uid;
-  String? get uid => _$this._uid;
-  set uid(String? uid) => _$this._uid = uid;
-
   String? _updatedAt;
   String? get updatedAt => _$this._updatedAt;
   set updatedAt(String? updatedAt) => _$this._updatedAt = updatedAt;
@@ -212,14 +177,11 @@ class ModelExpenseScheduleBuilder
       _createdAt = $v.createdAt;
       _deletedAt = $v.deletedAt?.toBuilder();
       _expenseCategory = $v.expenseCategory.toBuilder();
-      _expenseCategoryID = $v.expenseCategoryID;
       _expenseLocation = $v.expenseLocation.toBuilder();
-      _expenseLocationID = $v.expenseLocationID;
       _id = $v.id;
       _memo = $v.memo;
       _scheduleType = $v.scheduleType;
       _title = $v.title;
-      _uid = $v.uid;
       _updatedAt = $v.updatedAt;
       _$v = null;
     }
@@ -245,19 +207,12 @@ class ModelExpenseScheduleBuilder
     try {
       _$result = _$v ??
           new _$ModelExpenseSchedule._(
-              amount: amount,
+              amount: BuiltValueNullFieldError.checkNotNull(
+                  amount, r'ModelExpenseSchedule', 'amount'),
               createdAt: createdAt,
               deletedAt: _deletedAt?.build(),
               expenseCategory: expenseCategory.build(),
-              expenseCategoryID: BuiltValueNullFieldError.checkNotNull(
-                  expenseCategoryID,
-                  r'ModelExpenseSchedule',
-                  'expenseCategoryID'),
               expenseLocation: expenseLocation.build(),
-              expenseLocationID: BuiltValueNullFieldError.checkNotNull(
-                  expenseLocationID,
-                  r'ModelExpenseSchedule',
-                  'expenseLocationID'),
               id: BuiltValueNullFieldError.checkNotNull(
                   id, r'ModelExpenseSchedule', 'id'),
               memo: BuiltValueNullFieldError.checkNotNull(
@@ -265,8 +220,6 @@ class ModelExpenseScheduleBuilder
               scheduleType: scheduleType,
               title: BuiltValueNullFieldError.checkNotNull(
                   title, r'ModelExpenseSchedule', 'title'),
-              uid: BuiltValueNullFieldError.checkNotNull(
-                  uid, r'ModelExpenseSchedule', 'uid'),
               updatedAt: updatedAt);
     } catch (_) {
       late String _$failedField;
@@ -275,7 +228,6 @@ class ModelExpenseScheduleBuilder
         _deletedAt?.build();
         _$failedField = 'expenseCategory';
         expenseCategory.build();
-
         _$failedField = 'expenseLocation';
         expenseLocation.build();
       } catch (e) {

@@ -27,18 +27,8 @@ void main() {
       // TODO
     });
 
-    // String expenseCategoryID
-    test('to test the property `expenseCategoryID`', () async {
-      // TODO
-    });
-
     // ModelExpenseLocation expenseLocation
     test('to test the property `expenseLocation`', () async {
-      // TODO
-    });
-
-    // String expenseLocationID
-    test('to test the property `expenseLocationID`', () async {
       // TODO
     });
 
@@ -59,11 +49,6 @@ void main() {
 
     // String title
     test('to test the property `title`', () async {
-      // TODO
-    });
-
-    // String uid
-    test('to test the property `uid`', () async {
       // TODO
     });
 

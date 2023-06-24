@@ -42,4 +42,6 @@ type Repository interface {
 	FindIncomeSchedules(uid string) ([]model.IncomeSchedule, error)
 	FindExpenseSchedule(id, uid string) (model.ExpenseSchedule, error)
 	FindIncomeSchedule(id, uid string) (model.IncomeSchedule, error)
+	UpdateExpenseSchedule(uid string, schedule model.ExpenseSchedule) (model.ExpenseSchedule, error)
+	UpdateIncomeSchedule(uid string, schedule model.IncomeSchedule) (model.IncomeSchedule, error)
 }

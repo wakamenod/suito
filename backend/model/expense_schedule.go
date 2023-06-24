@@ -7,15 +7,15 @@ import (
 )
 
 type ExpenseSchedule struct {
-	ID                string `gorm:"type:varchar(20);primaryKey"`
-	UID               string `gorm:"type:varchar(128)"`
-	Title             string `gorm:"type:varchar(256)"`
-	Amount            int
+	ID                string          `gorm:"type:varchar(20);primaryKey"`
+	UID               string          `gorm:"type:varchar(128)" json:"-"`
+	Title             string          `gorm:"type:varchar(256)" validate:"required"`
+	Amount            int             `validate:"required"`
 	Memo              string          `gorm:"type:varchar(512)"`
 	ExpenseCategory   ExpenseCategory `gorm:"foreignKey:ExpenseCategoryID;" json:"expenseCategory"`
-	ExpenseCategoryID string          `gorm:"type:varchar(20)"`
+	ExpenseCategoryID string          `gorm:"type:varchar(20)" json:"-"`
 	ExpenseLocation   ExpenseLocation `gorm:"foreignKey:ExpenseLocationID;" json:"expenseLocation"`
-	ExpenseLocationID string          `gorm:"type:varchar(20)"`
+	ExpenseLocationID string          `gorm:"type:varchar(20)" json:"-"`
 	ScheduleType      int8
 	Timezone          string `gorm:"type:varchar(64)" json:"-"`
 

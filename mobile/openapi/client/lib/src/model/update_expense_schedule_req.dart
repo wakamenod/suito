@@ -3,55 +3,55 @@
 //
 
 // ignore_for_file: unused_element
-import 'package:openapi/src/model/model_income_schedule.dart';
+import 'package:openapi/src/model/model_expense_schedule.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
-part 'income_schedule_detail_res.g.dart';
+part 'update_expense_schedule_req.g.dart';
 
-/// IncomeScheduleDetailRes
+/// UpdateExpenseScheduleReq
 ///
 /// Properties:
-/// * [incomeSchedule] 
+/// * [expenseSchedule] 
 @BuiltValue()
-abstract class IncomeScheduleDetailRes implements Built<IncomeScheduleDetailRes, IncomeScheduleDetailResBuilder> {
-  @BuiltValueField(wireName: r'incomeSchedule')
-  ModelIncomeSchedule get incomeSchedule;
+abstract class UpdateExpenseScheduleReq implements Built<UpdateExpenseScheduleReq, UpdateExpenseScheduleReqBuilder> {
+  @BuiltValueField(wireName: r'expenseSchedule')
+  ModelExpenseSchedule get expenseSchedule;
 
-  IncomeScheduleDetailRes._();
+  UpdateExpenseScheduleReq._();
 
-  factory IncomeScheduleDetailRes([void updates(IncomeScheduleDetailResBuilder b)]) = _$IncomeScheduleDetailRes;
+  factory UpdateExpenseScheduleReq([void updates(UpdateExpenseScheduleReqBuilder b)]) = _$UpdateExpenseScheduleReq;
 
   @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(IncomeScheduleDetailResBuilder b) => b;
+  static void _defaults(UpdateExpenseScheduleReqBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<IncomeScheduleDetailRes> get serializer => _$IncomeScheduleDetailResSerializer();
+  static Serializer<UpdateExpenseScheduleReq> get serializer => _$UpdateExpenseScheduleReqSerializer();
 }
 
-class _$IncomeScheduleDetailResSerializer implements PrimitiveSerializer<IncomeScheduleDetailRes> {
+class _$UpdateExpenseScheduleReqSerializer implements PrimitiveSerializer<UpdateExpenseScheduleReq> {
   @override
-  final Iterable<Type> types = const [IncomeScheduleDetailRes, _$IncomeScheduleDetailRes];
+  final Iterable<Type> types = const [UpdateExpenseScheduleReq, _$UpdateExpenseScheduleReq];
 
   @override
-  final String wireName = r'IncomeScheduleDetailRes';
+  final String wireName = r'UpdateExpenseScheduleReq';
 
   Iterable<Object?> _serializeProperties(
     Serializers serializers,
-    IncomeScheduleDetailRes object, {
+    UpdateExpenseScheduleReq object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'incomeSchedule';
+    yield r'expenseSchedule';
     yield serializers.serialize(
-      object.incomeSchedule,
-      specifiedType: const FullType(ModelIncomeSchedule),
+      object.expenseSchedule,
+      specifiedType: const FullType(ModelExpenseSchedule),
     );
   }
 
   @override
   Object serialize(
     Serializers serializers,
-    IncomeScheduleDetailRes object, {
+    UpdateExpenseScheduleReq object, {
     FullType specifiedType = FullType.unspecified,
   }) {
     return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
@@ -62,19 +62,19 @@ class _$IncomeScheduleDetailResSerializer implements PrimitiveSerializer<IncomeS
     Object serialized, {
     FullType specifiedType = FullType.unspecified,
     required List<Object?> serializedList,
-    required IncomeScheduleDetailResBuilder result,
+    required UpdateExpenseScheduleReqBuilder result,
     required List<Object?> unhandled,
   }) {
     for (var i = 0; i < serializedList.length; i += 2) {
       final key = serializedList[i] as String;
       final value = serializedList[i + 1];
       switch (key) {
-        case r'incomeSchedule':
+        case r'expenseSchedule':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(ModelIncomeSchedule),
-          ) as ModelIncomeSchedule;
-          result.incomeSchedule.replace(valueDes);
+            specifiedType: const FullType(ModelExpenseSchedule),
+          ) as ModelExpenseSchedule;
+          result.expenseSchedule.replace(valueDes);
           break;
         default:
           unhandled.add(key);
@@ -85,12 +85,12 @@ class _$IncomeScheduleDetailResSerializer implements PrimitiveSerializer<IncomeS
   }
 
   @override
-  IncomeScheduleDetailRes deserialize(
+  UpdateExpenseScheduleReq deserialize(
     Serializers serializers,
     Object serialized, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    final result = IncomeScheduleDetailResBuilder();
+    final result = UpdateExpenseScheduleReqBuilder();
     final serializedList = (serialized as Iterable<Object?>).toList();
     final unhandled = <Object?>[];
     _deserializeProperties(

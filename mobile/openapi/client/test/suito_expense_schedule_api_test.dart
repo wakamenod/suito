@@ -9,10 +9,19 @@ void main() {
   group(SuitoExpenseScheduleApi, () {
     // Get expense schedule detail
     //
-    // 購入スケジュール詳細情報を取得します.
+    // 支出スケジュール詳細情報を取得します.
     //
     //Future<ExpenseScheduleDetailRes> expenseScheduleDetail(ExpenseScheduleDetailReq request) async
     test('test expenseScheduleDetail', () async {
+      // TODO
+    });
+
+    // Update expense shcedule
+    //
+    // 支出スケジュール情報を更新します
+    //
+    //Future<UpdateExpenseScheduleRes> updateExpenseSchedule(UpdateExpenseScheduleReq request) async
+    test('test updateExpenseSchedule', () async {
       // TODO
     });
 

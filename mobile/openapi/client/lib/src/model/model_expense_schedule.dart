@@ -18,19 +18,16 @@ part 'model_expense_schedule.g.dart';
 /// * [createdAt] 
 /// * [deletedAt] 
 /// * [expenseCategory] 
-/// * [expenseCategoryID] 
 /// * [expenseLocation] 
-/// * [expenseLocationID] 
 /// * [id] 
 /// * [memo] 
 /// * [scheduleType] 
 /// * [title] 
-/// * [uid] 
 /// * [updatedAt] 
 @BuiltValue()
 abstract class ModelExpenseSchedule implements Built<ModelExpenseSchedule, ModelExpenseScheduleBuilder> {
   @BuiltValueField(wireName: r'amount')
-  int? get amount;
+  int get amount;
 
   @BuiltValueField(wireName: r'createdAt')
   String? get createdAt;
@@ -41,14 +38,8 @@ abstract class ModelExpenseSchedule implements Built<ModelExpenseSchedule, Model
   @BuiltValueField(wireName: r'expenseCategory')
   ModelExpenseCategory get expenseCategory;
 
-  @BuiltValueField(wireName: r'expenseCategoryID')
-  String get expenseCategoryID;
-
   @BuiltValueField(wireName: r'expenseLocation')
   ModelExpenseLocation get expenseLocation;
-
-  @BuiltValueField(wireName: r'expenseLocationID')
-  String get expenseLocationID;
 
   @BuiltValueField(wireName: r'id')
   String get id;
@@ -61,9 +52,6 @@ abstract class ModelExpenseSchedule implements Built<ModelExpenseSchedule, Model
 
   @BuiltValueField(wireName: r'title')
   String get title;
-
-  @BuiltValueField(wireName: r'uid')
-  String get uid;
 
   @BuiltValueField(wireName: r'updatedAt')
   String? get updatedAt;
@@ -91,13 +79,11 @@ class _$ModelExpenseScheduleSerializer implements PrimitiveSerializer<ModelExpen
     ModelExpenseSchedule object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    if (object.amount != null) {
-      yield r'amount';
-      yield serializers.serialize(
-        object.amount,
-        specifiedType: const FullType(int),
-      );
-    }
+    yield r'amount';
+    yield serializers.serialize(
+      object.amount,
+      specifiedType: const FullType(int),
+    );
     if (object.createdAt != null) {
       yield r'createdAt';
       yield serializers.serialize(
@@ -117,20 +103,10 @@ class _$ModelExpenseScheduleSerializer implements PrimitiveSerializer<ModelExpen
       object.expenseCategory,
       specifiedType: const FullType(ModelExpenseCategory),
     );
-    yield r'expenseCategoryID';
-    yield serializers.serialize(
-      object.expenseCategoryID,
-      specifiedType: const FullType(String),
-    );
     yield r'expenseLocation';
     yield serializers.serialize(
       object.expenseLocation,
       specifiedType: const FullType(ModelExpenseLocation),
-    );
-    yield r'expenseLocationID';
-    yield serializers.serialize(
-      object.expenseLocationID,
-      specifiedType: const FullType(String),
     );
     yield r'id';
     yield serializers.serialize(
@@ -152,11 +128,6 @@ class _$ModelExpenseScheduleSerializer implements PrimitiveSerializer<ModelExpen
     yield r'title';
     yield serializers.serialize(
       object.title,
-      specifiedType: const FullType(String),
-    );
-    yield r'uid';
-    yield serializers.serialize(
-      object.uid,
       specifiedType: const FullType(String),
     );
     if (object.updatedAt != null) {
@@ -217,26 +188,12 @@ class _$ModelExpenseScheduleSerializer implements PrimitiveSerializer<ModelExpen
           ) as ModelExpenseCategory;
           result.expenseCategory.replace(valueDes);
           break;
-        case r'expenseCategoryID':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.expenseCategoryID = valueDes;
-          break;
         case r'expenseLocation':
           final valueDes = serializers.deserialize(
             value,
             specifiedType: const FullType(ModelExpenseLocation),
           ) as ModelExpenseLocation;
           result.expenseLocation.replace(valueDes);
-          break;
-        case r'expenseLocationID':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.expenseLocationID = valueDes;
           break;
         case r'id':
           final valueDes = serializers.deserialize(
@@ -265,13 +222,6 @@ class _$ModelExpenseScheduleSerializer implements PrimitiveSerializer<ModelExpen
             specifiedType: const FullType(String),
           ) as String;
           result.title = valueDes;
-          break;
-        case r'uid':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.uid = valueDes;
           break;
         case r'updatedAt':
           final valueDes = serializers.deserialize(

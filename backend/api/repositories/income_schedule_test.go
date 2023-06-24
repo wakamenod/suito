@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/stretchr/testify/require"
+	"github.com/wakamenod/suito/model"
 	"github.com/wakamenod/suito/utils/testutils"
 	"gorm.io/gorm"
 )
@@ -87,4 +88,30 @@ func TestFindIncomeSchedule_ErrorNotFound(t *testing.T) {
 	// check
 	require.Error(t, err)
 	require.ErrorIs(t, err, gorm.ErrRecordNotFound)
+}
+
+func TestUpdateIncomeSchedule(t *testing.T) {
+	tx := begin()
+	defer rollback(tx)
+	// setup
+	userID := "user1"
+	i := testutils.NewTestDataInserter(t, tx)
+	id := i.InsertIncomeSchedule(userID, "Asia/Tokyo").ID
+	i.InsertIncomeSchedule("user99", "Asia/Tokyo")
+	i.InsertIncomeSchedule(userID, "Asia/Tokyo")
+	typeID := i.InsertIncomeType(userID, "Test income type").ID
+	targetIncomeSchedule := model.IncomeSchedule{
+		ID:           id,
+		Amount:       2000,
+		IncomeTypeID: typeID,
+	}
+	// run
+	_, err := NewSuitoRepository(tx).UpdateIncomeSchedule(userID, targetIncomeSchedule)
+	// check
+	require.NoError(t, err)
+
+	found, err := NewSuitoRepository(tx).FindIncomeSchedule(id, userID)
+	require.NoError(t, err)
+	require.Equal(t, "Test income type", found.IncomeType.Name)
+	require.Equal(t, targetIncomeSchedule.Amount, found.Amount)
 }

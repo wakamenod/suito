@@ -211,9 +211,50 @@ const docTemplate = `{
                 }
             }
         },
+        "/expense-schedule": {
+            "put": {
+                "description": "支出スケジュール情報を更新します",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "suito.expenseSchedule"
+                ],
+                "summary": "Update expense shcedule",
+                "operationId": "updateExpenseSchedule",
+                "parameters": [
+                    {
+                        "description": "update expenseSchedule req",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/UpdateExpenseScheduleReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/UpdateExpenseScheduleRes"
+                        }
+                    },
+                    "500": {
+                        "description": "Unknown Error",
+                        "schema": {
+                            "$ref": "#/definitions/SuitoError"
+                        }
+                    }
+                }
+            }
+        },
         "/expense-schedule/detail": {
             "post": {
-                "description": "購入スケジュール詳細情報を取得します.",
+                "description": "支出スケジュール詳細情報を取得します.",
                 "consumes": [
                     "application/json"
                 ],
@@ -433,9 +474,50 @@ const docTemplate = `{
                 }
             }
         },
+        "/income-schedule": {
+            "put": {
+                "description": "収入スケジュール情報を更新します",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "suito.incomeSchedule"
+                ],
+                "summary": "Update income schedule",
+                "operationId": "updateIncomeSchedule",
+                "parameters": [
+                    {
+                        "description": "update incomeSchedule req",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/UpdateIncomeScheduleReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/UpdateIncomeScheduleRes"
+                        }
+                    },
+                    "500": {
+                        "description": "Unknown Error",
+                        "schema": {
+                            "$ref": "#/definitions/SuitoError"
+                        }
+                    }
+                }
+            }
+        },
         "/income-schedule/detail": {
             "post": {
-                "description": "購入スケジュール詳細情報を取得します.",
+                "description": "収入スケジュール詳細情報を取得します.",
                 "consumes": [
                     "application/json"
                 ],
@@ -864,10 +946,10 @@ const docTemplate = `{
         "IncomeScheduleDetailRes": {
             "type": "object",
             "required": [
-                "incomeShcedule"
+                "incomeSchedule"
             ],
             "properties": {
-                "incomeShcedule": {
+                "incomeSchedule": {
                     "$ref": "#/definitions/model.IncomeSchedule"
                 }
             }
@@ -1121,6 +1203,28 @@ const docTemplate = `{
                 }
             }
         },
+        "UpdateExpenseScheduleReq": {
+            "type": "object",
+            "required": [
+                "expenseSchedule"
+            ],
+            "properties": {
+                "expenseSchedule": {
+                    "$ref": "#/definitions/model.ExpenseSchedule"
+                }
+            }
+        },
+        "UpdateExpenseScheduleRes": {
+            "type": "object",
+            "required": [
+                "updatedExpenseSchedule"
+            ],
+            "properties": {
+                "updatedExpenseSchedule": {
+                    "$ref": "#/definitions/model.ExpenseSchedule"
+                }
+            }
+        },
         "UpdateIncomeReq": {
             "type": "object",
             "required": [
@@ -1140,6 +1244,28 @@ const docTemplate = `{
             "properties": {
                 "updatedIncome": {
                     "$ref": "#/definitions/model.Income"
+                }
+            }
+        },
+        "UpdateIncomeScheduleReq": {
+            "type": "object",
+            "required": [
+                "incomeSchedule"
+            ],
+            "properties": {
+                "incomeSchedule": {
+                    "$ref": "#/definitions/model.IncomeSchedule"
+                }
+            }
+        },
+        "UpdateIncomeScheduleRes": {
+            "type": "object",
+            "required": [
+                "updatedIncomeSchedule"
+            ],
+            "properties": {
+                "updatedIncomeSchedule": {
+                    "$ref": "#/definitions/model.IncomeSchedule"
                 }
             }
         },
@@ -1215,14 +1341,12 @@ const docTemplate = `{
         "model.ExpenseSchedule": {
             "type": "object",
             "required": [
+                "amount",
                 "expenseCategory",
-                "expenseCategoryID",
                 "expenseLocation",
-                "expenseLocationID",
                 "id",
                 "memo",
-                "title",
-                "uid"
+                "title"
             ],
             "properties": {
                 "amount": {
@@ -1237,14 +1361,8 @@ const docTemplate = `{
                 "expenseCategory": {
                     "$ref": "#/definitions/model.ExpenseCategory"
                 },
-                "expenseCategoryID": {
-                    "type": "string"
-                },
                 "expenseLocation": {
                     "$ref": "#/definitions/model.ExpenseLocation"
-                },
-                "expenseLocationID": {
-                    "type": "string"
                 },
                 "id": {
                     "type": "string"
@@ -1256,9 +1374,6 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "title": {
-                    "type": "string"
-                },
-                "uid": {
                     "type": "string"
                 },
                 "updatedAt": {
@@ -1296,10 +1411,10 @@ const docTemplate = `{
         "model.IncomeSchedule": {
             "type": "object",
             "required": [
+                "amount",
                 "id",
-                "income_type",
-                "memo",
-                "uid"
+                "incomeType",
+                "memo"
             ],
             "properties": {
                 "amount": {
@@ -1314,7 +1429,7 @@ const docTemplate = `{
                 "id": {
                     "type": "string"
                 },
-                "income_type": {
+                "incomeType": {
                     "$ref": "#/definitions/model.IncomeType"
                 },
                 "memo": {
@@ -1322,9 +1437,6 @@ const docTemplate = `{
                 },
                 "scheduleType": {
                     "type": "integer"
-                },
-                "uid": {
-                    "type": "string"
                 },
                 "updatedAt": {
                     "type": "string"

@@ -27,3 +27,10 @@ func (r *SuitoRepository) FindIncomeSchedule(id, uid string) (model.IncomeSchedu
 
 	return res, nil
 }
+
+func (r *SuitoRepository) UpdateIncomeSchedule(uid string, incomeSchedule model.IncomeSchedule) (model.IncomeSchedule, error) {
+	if err := r.db.Where("uid = ?", uid).Updates(&incomeSchedule).Error; err != nil {
+		return incomeSchedule, errors.Wrap(err, "failed to update incomeSchedule")
+	}
+	return incomeSchedule, nil
+}

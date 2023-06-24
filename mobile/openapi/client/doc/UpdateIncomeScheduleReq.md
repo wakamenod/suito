@@ -1,4 +1,4 @@
-# openapi.model.IncomeScheduleDetailRes
+# openapi.model.UpdateIncomeScheduleReq
 
 ## Load the model package
 ```dart

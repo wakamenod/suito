@@ -1,37 +1,37 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'income_schedule_detail_res.dart';
+part of 'update_income_schedule_req.dart';
 
 // **************************************************************************
 // BuiltValueGenerator
 // **************************************************************************
 
-class _$IncomeScheduleDetailRes extends IncomeScheduleDetailRes {
+class _$UpdateIncomeScheduleReq extends UpdateIncomeScheduleReq {
   @override
   final ModelIncomeSchedule incomeSchedule;
 
-  factory _$IncomeScheduleDetailRes(
-          [void Function(IncomeScheduleDetailResBuilder)? updates]) =>
-      (new IncomeScheduleDetailResBuilder()..update(updates))._build();
+  factory _$UpdateIncomeScheduleReq(
+          [void Function(UpdateIncomeScheduleReqBuilder)? updates]) =>
+      (new UpdateIncomeScheduleReqBuilder()..update(updates))._build();
 
-  _$IncomeScheduleDetailRes._({required this.incomeSchedule}) : super._() {
+  _$UpdateIncomeScheduleReq._({required this.incomeSchedule}) : super._() {
     BuiltValueNullFieldError.checkNotNull(
-        incomeSchedule, r'IncomeScheduleDetailRes', 'incomeSchedule');
+        incomeSchedule, r'UpdateIncomeScheduleReq', 'incomeSchedule');
   }
 
   @override
-  IncomeScheduleDetailRes rebuild(
-          void Function(IncomeScheduleDetailResBuilder) updates) =>
+  UpdateIncomeScheduleReq rebuild(
+          void Function(UpdateIncomeScheduleReqBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  IncomeScheduleDetailResBuilder toBuilder() =>
-      new IncomeScheduleDetailResBuilder()..replace(this);
+  UpdateIncomeScheduleReqBuilder toBuilder() =>
+      new UpdateIncomeScheduleReqBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is IncomeScheduleDetailRes &&
+    return other is UpdateIncomeScheduleReq &&
         incomeSchedule == other.incomeSchedule;
   }
 
@@ -45,16 +45,16 @@ class _$IncomeScheduleDetailRes extends IncomeScheduleDetailRes {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(r'IncomeScheduleDetailRes')
+    return (newBuiltValueToStringHelper(r'UpdateIncomeScheduleReq')
           ..add('incomeSchedule', incomeSchedule))
         .toString();
   }
 }
 
-class IncomeScheduleDetailResBuilder
+class UpdateIncomeScheduleReqBuilder
     implements
-        Builder<IncomeScheduleDetailRes, IncomeScheduleDetailResBuilder> {
-  _$IncomeScheduleDetailRes? _$v;
+        Builder<UpdateIncomeScheduleReq, UpdateIncomeScheduleReqBuilder> {
+  _$UpdateIncomeScheduleReq? _$v;
 
   ModelIncomeScheduleBuilder? _incomeSchedule;
   ModelIncomeScheduleBuilder get incomeSchedule =>
@@ -62,11 +62,11 @@ class IncomeScheduleDetailResBuilder
   set incomeSchedule(ModelIncomeScheduleBuilder? incomeSchedule) =>
       _$this._incomeSchedule = incomeSchedule;
 
-  IncomeScheduleDetailResBuilder() {
-    IncomeScheduleDetailRes._defaults(this);
+  UpdateIncomeScheduleReqBuilder() {
+    UpdateIncomeScheduleReq._defaults(this);
   }
 
-  IncomeScheduleDetailResBuilder get _$this {
+  UpdateIncomeScheduleReqBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
       _incomeSchedule = $v.incomeSchedule.toBuilder();
@@ -76,24 +76,24 @@ class IncomeScheduleDetailResBuilder
   }
 
   @override
-  void replace(IncomeScheduleDetailRes other) {
+  void replace(UpdateIncomeScheduleReq other) {
     ArgumentError.checkNotNull(other, 'other');
-    _$v = other as _$IncomeScheduleDetailRes;
+    _$v = other as _$UpdateIncomeScheduleReq;
   }
 
   @override
-  void update(void Function(IncomeScheduleDetailResBuilder)? updates) {
+  void update(void Function(UpdateIncomeScheduleReqBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
   @override
-  IncomeScheduleDetailRes build() => _build();
+  UpdateIncomeScheduleReq build() => _build();
 
-  _$IncomeScheduleDetailRes _build() {
-    _$IncomeScheduleDetailRes _$result;
+  _$UpdateIncomeScheduleReq _build() {
+    _$UpdateIncomeScheduleReq _$result;
     try {
       _$result = _$v ??
-          new _$IncomeScheduleDetailRes._(
+          new _$UpdateIncomeScheduleReq._(
               incomeSchedule: incomeSchedule.build());
     } catch (_) {
       late String _$failedField;
@@ -102,7 +102,7 @@ class IncomeScheduleDetailResBuilder
         incomeSchedule.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
-            r'IncomeScheduleDetailRes', _$failedField, e.toString());
+            r'UpdateIncomeScheduleReq', _$failedField, e.toString());
       }
       rethrow;
     }

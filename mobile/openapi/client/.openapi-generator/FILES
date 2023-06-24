@@ -47,8 +47,12 @@ doc/TransactionMonthsRes.md
 doc/TransactionSchedule.md
 doc/UpdateExpenseReq.md
 doc/UpdateExpenseRes.md
+doc/UpdateExpenseScheduleReq.md
+doc/UpdateExpenseScheduleRes.md
 doc/UpdateIncomeReq.md
 doc/UpdateIncomeRes.md
+doc/UpdateIncomeScheduleReq.md
+doc/UpdateIncomeScheduleRes.md
 lib/openapi.dart
 lib/src/api.dart
 lib/src/api/suito_chart_api.dart
@@ -104,8 +108,12 @@ lib/src/model/transaction_months_res.dart
 lib/src/model/transaction_schedule.dart
 lib/src/model/update_expense_req.dart
 lib/src/model/update_expense_res.dart
+lib/src/model/update_expense_schedule_req.dart
+lib/src/model/update_expense_schedule_res.dart
 lib/src/model/update_income_req.dart
 lib/src/model/update_income_res.dart
+lib/src/model/update_income_schedule_req.dart
+lib/src/model/update_income_schedule_res.dart
 lib/src/serializers.dart
 pubspec.yaml
 test/column_chart_category_data_test.dart
@@ -153,5 +161,9 @@ test/transaction_schedule_test.dart
 test/transaction_test.dart
 test/update_expense_req_test.dart
 test/update_expense_res_test.dart
+test/update_expense_schedule_req_test.dart
+test/update_expense_schedule_res_test.dart
 test/update_income_req_test.dart
 test/update_income_res_test.dart
+test/update_income_schedule_req_test.dart
+test/update_income_schedule_res_test.dart

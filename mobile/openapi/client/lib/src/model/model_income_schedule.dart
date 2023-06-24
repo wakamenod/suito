@@ -20,12 +20,11 @@ part 'model_income_schedule.g.dart';
 /// * [incomeType] 
 /// * [memo] 
 /// * [scheduleType] 
-/// * [uid] 
 /// * [updatedAt] 
 @BuiltValue()
 abstract class ModelIncomeSchedule implements Built<ModelIncomeSchedule, ModelIncomeScheduleBuilder> {
   @BuiltValueField(wireName: r'amount')
-  int? get amount;
+  int get amount;
 
   @BuiltValueField(wireName: r'createdAt')
   String? get createdAt;
@@ -36,7 +35,7 @@ abstract class ModelIncomeSchedule implements Built<ModelIncomeSchedule, ModelIn
   @BuiltValueField(wireName: r'id')
   String get id;
 
-  @BuiltValueField(wireName: r'income_type')
+  @BuiltValueField(wireName: r'incomeType')
   ModelIncomeType get incomeType;
 
   @BuiltValueField(wireName: r'memo')
@@ -44,9 +43,6 @@ abstract class ModelIncomeSchedule implements Built<ModelIncomeSchedule, ModelIn
 
   @BuiltValueField(wireName: r'scheduleType')
   int? get scheduleType;
-
-  @BuiltValueField(wireName: r'uid')
-  String get uid;
 
   @BuiltValueField(wireName: r'updatedAt')
   String? get updatedAt;
@@ -74,13 +70,11 @@ class _$ModelIncomeScheduleSerializer implements PrimitiveSerializer<ModelIncome
     ModelIncomeSchedule object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    if (object.amount != null) {
-      yield r'amount';
-      yield serializers.serialize(
-        object.amount,
-        specifiedType: const FullType(int),
-      );
-    }
+    yield r'amount';
+    yield serializers.serialize(
+      object.amount,
+      specifiedType: const FullType(int),
+    );
     if (object.createdAt != null) {
       yield r'createdAt';
       yield serializers.serialize(
@@ -100,7 +94,7 @@ class _$ModelIncomeScheduleSerializer implements PrimitiveSerializer<ModelIncome
       object.id,
       specifiedType: const FullType(String),
     );
-    yield r'income_type';
+    yield r'incomeType';
     yield serializers.serialize(
       object.incomeType,
       specifiedType: const FullType(ModelIncomeType),
@@ -117,11 +111,6 @@ class _$ModelIncomeScheduleSerializer implements PrimitiveSerializer<ModelIncome
         specifiedType: const FullType(int),
       );
     }
-    yield r'uid';
-    yield serializers.serialize(
-      object.uid,
-      specifiedType: const FullType(String),
-    );
     if (object.updatedAt != null) {
       yield r'updatedAt';
       yield serializers.serialize(
@@ -180,7 +169,7 @@ class _$ModelIncomeScheduleSerializer implements PrimitiveSerializer<ModelIncome
           ) as String;
           result.id = valueDes;
           break;
-        case r'income_type':
+        case r'incomeType':
           final valueDes = serializers.deserialize(
             value,
             specifiedType: const FullType(ModelIncomeType),
@@ -200,13 +189,6 @@ class _$ModelIncomeScheduleSerializer implements PrimitiveSerializer<ModelIncome
             specifiedType: const FullType(int),
           ) as int;
           result.scheduleType = valueDes;
-          break;
-        case r'uid':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.uid = valueDes;
           break;
         case r'updatedAt':
           final valueDes = serializers.deserialize(
