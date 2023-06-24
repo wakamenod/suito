@@ -120,3 +120,50 @@ func TestUpdateIncomeScheduleHandler_Success(t *testing.T) {
 	var res UpdateIncomeScheduleRes
 	require.NoError(t, json.Unmarshal(rec.Body.Bytes(), &res))
 }
+
+func TestRegisterIncomeScheduleHandler_ErrorValidate(t *testing.T) {
+	// Setup
+	e := echo.New()
+	e.Validator = validate.NewValidator()
+	req := httptest.NewRequest(http.MethodPost, "/", nil)
+	rec := httptest.NewRecorder()
+	c := e.NewContext(req, rec)
+	c.Set(middleware.UIDKey, "user1")
+
+	// Assertions
+	err := isCon.RegisterIncomeScheduleHandler(c)
+	var appErr *apperrors.SuitoError
+	require.ErrorAs(t, err, &appErr)
+	require.Equal(t, apperrors.InvalidParameter, appErr.ErrCode)
+}
+
+func TestRegisterIncomeScheduleHandler_Success(t *testing.T) {
+	// Setup
+	e := echo.New()
+	e.Validator = validate.NewValidator()
+	jsonReq, err := json.Marshal(RegisterIncomeScheduleReq{
+		IncomeSchedule: model.IncomeSchedule{
+			Amount: 9999,
+			IncomeType: model.IncomeType{
+				Name: "new type",
+			},
+			Timezone: "Asia/Tokyo",
+		}})
+	require.NoError(t, err)
+	req := httptest.NewRequest(http.MethodPost, "/", bytes.NewReader(jsonReq))
+	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+	rec := httptest.NewRecorder()
+	c := e.NewContext(req, rec)
+	c.Set(middleware.UIDKey, "user1")
+
+	// Assertions
+	require.NoError(t, isCon.RegisterIncomeScheduleHandler(c))
+	require.Equal(t, http.StatusOK, rec.Code)
+
+	var res RegisterIncomeScheduleRes
+	require.NoError(t, json.Unmarshal(rec.Body.Bytes(), &res))
+	require.Equal(t, "new_income_schedule_id", res.NewIncomeSchedule.ID)
+	require.Equal(t, "new type", res.NewIncomeSchedule.IncomeType.Name)
+	require.Equal(t, "Asia/Tokyo", res.NewIncomeSchedule.Timezone)
+	require.Equal(t, 9999, res.NewIncomeSchedule.Amount)
+}

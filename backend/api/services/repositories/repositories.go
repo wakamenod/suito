@@ -46,4 +46,6 @@ type Repository interface {
 	UpdateIncomeSchedule(uid string, schedule model.IncomeSchedule) (model.IncomeSchedule, error)
 	DeleteExpenseSchedule(id, uid string) error
 	DeleteIncomeSchedule(id, uid string) error
+	CreateExpenseSchedule(uid string, expenseSchedule model.ExpenseSchedule) (model.ExpenseSchedule, error)
+	CreateIncomeSchedule(uid string, incomeSchedule model.IncomeSchedule) (model.IncomeSchedule, error)
 }

@@ -11,6 +11,8 @@ import 'package:built_value/json_object.dart';
 import 'package:openapi/src/model/delete_expense_schedule_req.dart';
 import 'package:openapi/src/model/expense_schedule_detail_req.dart';
 import 'package:openapi/src/model/expense_schedule_detail_res.dart';
+import 'package:openapi/src/model/register_expense_schedule_req.dart';
+import 'package:openapi/src/model/register_expense_schedule_res.dart';
 import 'package:openapi/src/model/suito_error.dart';
 import 'package:openapi/src/model/update_expense_schedule_req.dart';
 import 'package:openapi/src/model/update_expense_schedule_res.dart';
@@ -198,6 +200,99 @@ class SuitoExpenseScheduleApi {
     }
 
     return Response<ExpenseScheduleDetailRes>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      requestOptions: _response.requestOptions,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );
+  }
+
+  /// Register expense schedule
+  /// 支出スケジュール情報を登録します
+  ///
+  /// Parameters:
+  /// * [request] - register expenseSchedule req
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future] containing a [Response] with a [RegisterExpenseScheduleRes] as data
+  /// Throws [DioError] if API call or serialization fails
+  Future<Response<RegisterExpenseScheduleRes>> registerExpenseSchedule({ 
+    required RegisterExpenseScheduleReq request,
+    CancelToken? cancelToken,
+    Map<String, dynamic>? headers,
+    Map<String, dynamic>? extra,
+    ValidateStatus? validateStatus,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
+    final _path = r'/expense-schedule';
+    final _options = Options(
+      method: r'POST',
+      headers: <String, dynamic>{
+        ...?headers,
+      },
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[],
+        ...?extra,
+      },
+      contentType: 'application/json',
+      validateStatus: validateStatus,
+    );
+
+    dynamic _bodyData;
+
+    try {
+      const _type = FullType(RegisterExpenseScheduleReq);
+      _bodyData = _serializers.serialize(request, specifiedType: _type);
+
+    } catch(error, stackTrace) {
+      throw DioError(
+         requestOptions: _options.compose(
+          _dio.options,
+          _path,
+        ),
+        type: DioErrorType.other,
+        error: error,
+      )..stackTrace = stackTrace;
+    }
+
+    final _response = await _dio.request<Object>(
+      _path,
+      data: _bodyData,
+      options: _options,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
+
+    RegisterExpenseScheduleRes _responseData;
+
+    try {
+      const _responseType = FullType(RegisterExpenseScheduleRes);
+      _responseData = _serializers.deserialize(
+        _response.data!,
+        specifiedType: _responseType,
+      ) as RegisterExpenseScheduleRes;
+
+    } catch (error, stackTrace) {
+      throw DioError(
+        requestOptions: _response.requestOptions,
+        response: _response,
+        type: DioErrorType.other,
+        error: error,
+      )..stackTrace = stackTrace;
+    }
+
+    return Response<RegisterExpenseScheduleRes>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,

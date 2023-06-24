@@ -20,6 +20,7 @@ part 'model_income_schedule.g.dart';
 /// * [incomeType] 
 /// * [memo] 
 /// * [scheduleType] 
+/// * [timezone] 
 /// * [updatedAt] 
 @BuiltValue()
 abstract class ModelIncomeSchedule implements Built<ModelIncomeSchedule, ModelIncomeScheduleBuilder> {
@@ -43,6 +44,9 @@ abstract class ModelIncomeSchedule implements Built<ModelIncomeSchedule, ModelIn
 
   @BuiltValueField(wireName: r'scheduleType')
   int? get scheduleType;
+
+  @BuiltValueField(wireName: r'timezone')
+  String get timezone;
 
   @BuiltValueField(wireName: r'updatedAt')
   String? get updatedAt;
@@ -111,6 +115,11 @@ class _$ModelIncomeScheduleSerializer implements PrimitiveSerializer<ModelIncome
         specifiedType: const FullType(int),
       );
     }
+    yield r'timezone';
+    yield serializers.serialize(
+      object.timezone,
+      specifiedType: const FullType(String),
+    );
     if (object.updatedAt != null) {
       yield r'updatedAt';
       yield serializers.serialize(
@@ -189,6 +198,13 @@ class _$ModelIncomeScheduleSerializer implements PrimitiveSerializer<ModelIncome
             specifiedType: const FullType(int),
           ) as int;
           result.scheduleType = valueDes;
+          break;
+        case r'timezone':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.timezone = valueDes;
           break;
         case r'updatedAt':
           final valueDes = serializers.deserialize(

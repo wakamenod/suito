@@ -17,7 +17,7 @@ type ExpenseSchedule struct {
 	ExpenseLocation   ExpenseLocation `gorm:"foreignKey:ExpenseLocationID;" json:"expenseLocation"`
 	ExpenseLocationID string          `gorm:"type:varchar(20)" json:"-"`
 	ScheduleType      int8
-	Timezone          string `gorm:"type:varchar(64)" json:"-"`
+	Timezone          string `gorm:"type:varchar(64)" validate:"required"`
 
 	DeletedAt gorm.DeletedAt
 	CreatedAt time.Time

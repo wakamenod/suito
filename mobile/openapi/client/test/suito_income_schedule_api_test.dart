@@ -25,6 +25,15 @@ void main() {
       // TODO
     });
 
+    // Register income schedule
+    //
+    // 収入スケジュール情報を登録します
+    //
+    //Future<RegisterIncomeScheduleRes> registerIncomeSchedule(RegisterIncomeScheduleReq request) async
+    test('test registerIncomeSchedule', () async {
+      // TODO
+    });
+
     // Update income schedule
     //
     // 収入スケジュール情報を更新します

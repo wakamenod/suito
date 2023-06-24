@@ -152,3 +152,30 @@ func TestDeleteExpenseSchedule(t *testing.T) {
 	require.NoError(t, tx.Where("id = ? AND uid = ?", id, userID).Unscoped().First(&found).Error)
 	require.NotNil(t, found.DeletedAt)
 }
+
+func TestCreateScheduleExpense(t *testing.T) {
+	tx := begin()
+	defer rollback(tx)
+	// setup
+	userID := "user1"
+	expenseSchedule := model.ExpenseSchedule{
+		Title:             "title",
+		Amount:            2000,
+		ExpenseCategoryID: "category_id",
+		ExpenseLocationID: "location_id",
+		Timezone:          "Asia/Tokyo",
+		Memo:              "test memo",
+	}
+	// run
+	res, err := NewSuitoRepository(tx).CreateExpenseSchedule(userID, expenseSchedule)
+	// check
+	require.NoError(t, err)
+	require.NotEmpty(t, res.ID)
+	require.Equal(t, userID, res.UID)
+	require.Equal(t, expenseSchedule.Title, res.Title)
+	require.Equal(t, expenseSchedule.Amount, res.Amount)
+	require.Equal(t, expenseSchedule.ExpenseCategoryID, res.ExpenseCategoryID)
+	require.Equal(t, expenseSchedule.ExpenseLocationID, res.ExpenseLocationID)
+	require.Equal(t, expenseSchedule.Timezone, res.Timezone)
+	require.Equal(t, expenseSchedule.Memo, res.Memo)
+}

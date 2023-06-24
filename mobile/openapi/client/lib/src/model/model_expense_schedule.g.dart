@@ -24,6 +24,8 @@ class _$ModelExpenseSchedule extends ModelExpenseSchedule {
   @override
   final int? scheduleType;
   @override
+  final String timezone;
+  @override
   final String title;
   @override
   final String? updatedAt;
@@ -41,6 +43,7 @@ class _$ModelExpenseSchedule extends ModelExpenseSchedule {
       required this.id,
       required this.memo,
       this.scheduleType,
+      required this.timezone,
       required this.title,
       this.updatedAt})
       : super._() {
@@ -53,6 +56,8 @@ class _$ModelExpenseSchedule extends ModelExpenseSchedule {
     BuiltValueNullFieldError.checkNotNull(id, r'ModelExpenseSchedule', 'id');
     BuiltValueNullFieldError.checkNotNull(
         memo, r'ModelExpenseSchedule', 'memo');
+    BuiltValueNullFieldError.checkNotNull(
+        timezone, r'ModelExpenseSchedule', 'timezone');
     BuiltValueNullFieldError.checkNotNull(
         title, r'ModelExpenseSchedule', 'title');
   }
@@ -78,6 +83,7 @@ class _$ModelExpenseSchedule extends ModelExpenseSchedule {
         id == other.id &&
         memo == other.memo &&
         scheduleType == other.scheduleType &&
+        timezone == other.timezone &&
         title == other.title &&
         updatedAt == other.updatedAt;
   }
@@ -93,6 +99,7 @@ class _$ModelExpenseSchedule extends ModelExpenseSchedule {
     _$hash = $jc(_$hash, id.hashCode);
     _$hash = $jc(_$hash, memo.hashCode);
     _$hash = $jc(_$hash, scheduleType.hashCode);
+    _$hash = $jc(_$hash, timezone.hashCode);
     _$hash = $jc(_$hash, title.hashCode);
     _$hash = $jc(_$hash, updatedAt.hashCode);
     _$hash = $jf(_$hash);
@@ -110,6 +117,7 @@ class _$ModelExpenseSchedule extends ModelExpenseSchedule {
           ..add('id', id)
           ..add('memo', memo)
           ..add('scheduleType', scheduleType)
+          ..add('timezone', timezone)
           ..add('title', title)
           ..add('updatedAt', updatedAt))
         .toString();
@@ -158,6 +166,10 @@ class ModelExpenseScheduleBuilder
   int? get scheduleType => _$this._scheduleType;
   set scheduleType(int? scheduleType) => _$this._scheduleType = scheduleType;
 
+  String? _timezone;
+  String? get timezone => _$this._timezone;
+  set timezone(String? timezone) => _$this._timezone = timezone;
+
   String? _title;
   String? get title => _$this._title;
   set title(String? title) => _$this._title = title;
@@ -181,6 +193,7 @@ class ModelExpenseScheduleBuilder
       _id = $v.id;
       _memo = $v.memo;
       _scheduleType = $v.scheduleType;
+      _timezone = $v.timezone;
       _title = $v.title;
       _updatedAt = $v.updatedAt;
       _$v = null;
@@ -218,6 +231,8 @@ class ModelExpenseScheduleBuilder
               memo: BuiltValueNullFieldError.checkNotNull(
                   memo, r'ModelExpenseSchedule', 'memo'),
               scheduleType: scheduleType,
+              timezone: BuiltValueNullFieldError.checkNotNull(
+                  timezone, r'ModelExpenseSchedule', 'timezone'),
               title: BuiltValueNullFieldError.checkNotNull(
                   title, r'ModelExpenseSchedule', 'title'),
               updatedAt: updatedAt);

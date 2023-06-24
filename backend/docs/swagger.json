@@ -266,6 +266,48 @@
         },
         "x-codegen-request-body-name": "request"
       },
+      "post": {
+        "tags": [
+          "suito.expenseSchedule"
+        ],
+        "summary": "Register expense schedule",
+        "description": "支出スケジュール情報を登録します",
+        "operationId": "registerExpenseSchedule",
+        "requestBody": {
+          "description": "register expenseSchedule req",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterExpenseScheduleReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegisterExpenseScheduleRes"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unknown Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuitoError"
+                }
+              }
+            }
+          }
+        },
+        "x-codegen-request-body-name": "request"
+      },
       "delete": {
         "tags": [
           "suito.expenseSchedule"
@@ -573,6 +615,48 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/UpdateIncomeScheduleRes"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unknown Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuitoError"
+                }
+              }
+            }
+          }
+        },
+        "x-codegen-request-body-name": "request"
+      },
+      "post": {
+        "tags": [
+          "suito.incomeSchedule"
+        ],
+        "summary": "Register income schedule",
+        "description": "収入スケジュール情報を登録します",
+        "operationId": "registerIncomeSchedule",
+        "requestBody": {
+          "description": "register incomeSchedule req",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterIncomeScheduleReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegisterIncomeScheduleRes"
                 }
               }
             }
@@ -1241,6 +1325,28 @@
           }
         }
       },
+      "RegisterExpenseScheduleReq": {
+        "required": [
+          "expenseSchedule"
+        ],
+        "type": "object",
+        "properties": {
+          "expenseSchedule": {
+            "$ref": "#/components/schemas/model.ExpenseSchedule"
+          }
+        }
+      },
+      "RegisterExpenseScheduleRes": {
+        "required": [
+          "newExpenseSchedule"
+        ],
+        "type": "object",
+        "properties": {
+          "newExpenseSchedule": {
+            "$ref": "#/components/schemas/model.ExpenseSchedule"
+          }
+        }
+      },
       "RegisterIncomeReq": {
         "required": [
           "income"
@@ -1260,6 +1366,28 @@
         "properties": {
           "newIncome": {
             "$ref": "#/components/schemas/model.Income"
+          }
+        }
+      },
+      "RegisterIncomeScheduleReq": {
+        "required": [
+          "incomeSchedule"
+        ],
+        "type": "object",
+        "properties": {
+          "incomeSchedule": {
+            "$ref": "#/components/schemas/model.IncomeSchedule"
+          }
+        }
+      },
+      "RegisterIncomeScheduleRes": {
+        "required": [
+          "newIncomeSchedule"
+        ],
+        "type": "object",
+        "properties": {
+          "newIncomeSchedule": {
+            "$ref": "#/components/schemas/model.IncomeSchedule"
           }
         }
       },
@@ -1506,6 +1634,7 @@
           "expenseLocation",
           "id",
           "memo",
+          "timezone",
           "title"
         ],
         "type": "object",
@@ -1533,6 +1662,9 @@
           },
           "scheduleType": {
             "type": "integer"
+          },
+          "timezone": {
+            "type": "string"
           },
           "title": {
             "type": "string"
@@ -1574,7 +1706,8 @@
           "amount",
           "id",
           "incomeType",
-          "memo"
+          "memo",
+          "timezone"
         ],
         "type": "object",
         "properties": {
@@ -1598,6 +1731,9 @@
           },
           "scheduleType": {
             "type": "integer"
+          },
+          "timezone": {
+            "type": "string"
           },
           "updatedAt": {
             "type": "string"

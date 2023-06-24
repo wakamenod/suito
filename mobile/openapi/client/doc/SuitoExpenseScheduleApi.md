@@ -11,6 +11,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**deleteExpenseSchedule**](SuitoExpenseScheduleApi.md#deleteexpenseschedule) | **DELETE** /expense-schedule | Delete expense schedule
 [**expenseScheduleDetail**](SuitoExpenseScheduleApi.md#expensescheduledetail) | **POST** /expense-schedule/detail | Get expense schedule detail
+[**registerExpenseSchedule**](SuitoExpenseScheduleApi.md#registerexpenseschedule) | **POST** /expense-schedule | Register expense schedule
 [**updateExpenseSchedule**](SuitoExpenseScheduleApi.md#updateexpenseschedule) | **PUT** /expense-schedule | Update expense shcedule
 
 
@@ -88,6 +89,49 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**ExpenseScheduleDetailRes**](ExpenseScheduleDetailRes.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **registerExpenseSchedule**
+> RegisterExpenseScheduleRes registerExpenseSchedule(request)
+
+Register expense schedule
+
+支出スケジュール情報を登録します
+
+### Example
+```dart
+import 'package:openapi/api.dart';
+
+final api = Openapi().getSuitoExpenseScheduleApi();
+final RegisterExpenseScheduleReq request = ; // RegisterExpenseScheduleReq | register expenseSchedule req
+
+try {
+    final response = api.registerExpenseSchedule(request);
+    print(response);
+} catch on DioError (e) {
+    print('Exception when calling SuitoExpenseScheduleApi->registerExpenseSchedule: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request** | [**RegisterExpenseScheduleReq**](RegisterExpenseScheduleReq.md)| register expenseSchedule req | 
+
+### Return type
+
+[**RegisterExpenseScheduleRes**](RegisterExpenseScheduleRes.md)
 
 ### Authorization
 

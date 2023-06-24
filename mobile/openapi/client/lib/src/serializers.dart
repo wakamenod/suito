@@ -45,8 +45,12 @@ import 'package:openapi/src/model/model_income_type.dart';
 import 'package:openapi/src/model/pie_chart_data.dart';
 import 'package:openapi/src/model/register_expense_req.dart';
 import 'package:openapi/src/model/register_expense_res.dart';
+import 'package:openapi/src/model/register_expense_schedule_req.dart';
+import 'package:openapi/src/model/register_expense_schedule_res.dart';
 import 'package:openapi/src/model/register_income_req.dart';
 import 'package:openapi/src/model/register_income_res.dart';
+import 'package:openapi/src/model/register_income_schedule_req.dart';
+import 'package:openapi/src/model/register_income_schedule_res.dart';
 import 'package:openapi/src/model/suito_error.dart';
 import 'package:openapi/src/model/transaction.dart';
 import 'package:openapi/src/model/transaction_months_res.dart';
@@ -94,8 +98,12 @@ part 'serializers.g.dart';
   PieChartData,
   RegisterExpenseReq,
   RegisterExpenseRes,
+  RegisterExpenseScheduleReq,
+  RegisterExpenseScheduleRes,
   RegisterIncomeReq,
   RegisterIncomeRes,
+  RegisterIncomeScheduleReq,
+  RegisterIncomeScheduleRes,
   SuitoError,
   Transaction,
   TransactionMonthsRes,

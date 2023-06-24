@@ -251,6 +251,45 @@ const docTemplate = `{
                     }
                 }
             },
+            "post": {
+                "description": "支出スケジュール情報を登録します",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "suito.expenseSchedule"
+                ],
+                "summary": "Register expense schedule",
+                "operationId": "registerExpenseSchedule",
+                "parameters": [
+                    {
+                        "description": "register expenseSchedule req",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/RegisterExpenseScheduleReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/RegisterExpenseScheduleRes"
+                        }
+                    },
+                    "500": {
+                        "description": "Unknown Error",
+                        "schema": {
+                            "$ref": "#/definitions/SuitoError"
+                        }
+                    }
+                }
+            },
             "delete": {
                 "description": "支出スケジュール情報を削除します",
                 "consumes": [
@@ -543,6 +582,45 @@ const docTemplate = `{
                         "description": "Success",
                         "schema": {
                             "$ref": "#/definitions/UpdateIncomeScheduleRes"
+                        }
+                    },
+                    "500": {
+                        "description": "Unknown Error",
+                        "schema": {
+                            "$ref": "#/definitions/SuitoError"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "収入スケジュール情報を登録します",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "suito.incomeSchedule"
+                ],
+                "summary": "Register income schedule",
+                "operationId": "registerIncomeSchedule",
+                "parameters": [
+                    {
+                        "description": "register incomeSchedule req",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/RegisterIncomeScheduleReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/RegisterIncomeScheduleRes"
                         }
                     },
                     "500": {
@@ -1182,6 +1260,28 @@ const docTemplate = `{
                 }
             }
         },
+        "RegisterExpenseScheduleReq": {
+            "type": "object",
+            "required": [
+                "expenseSchedule"
+            ],
+            "properties": {
+                "expenseSchedule": {
+                    "$ref": "#/definitions/model.ExpenseSchedule"
+                }
+            }
+        },
+        "RegisterExpenseScheduleRes": {
+            "type": "object",
+            "required": [
+                "newExpenseSchedule"
+            ],
+            "properties": {
+                "newExpenseSchedule": {
+                    "$ref": "#/definitions/model.ExpenseSchedule"
+                }
+            }
+        },
         "RegisterIncomeReq": {
             "type": "object",
             "required": [
@@ -1201,6 +1301,28 @@ const docTemplate = `{
             "properties": {
                 "newIncome": {
                     "$ref": "#/definitions/model.Income"
+                }
+            }
+        },
+        "RegisterIncomeScheduleReq": {
+            "type": "object",
+            "required": [
+                "incomeSchedule"
+            ],
+            "properties": {
+                "incomeSchedule": {
+                    "$ref": "#/definitions/model.IncomeSchedule"
+                }
+            }
+        },
+        "RegisterIncomeScheduleRes": {
+            "type": "object",
+            "required": [
+                "newIncomeSchedule"
+            ],
+            "properties": {
+                "newIncomeSchedule": {
+                    "$ref": "#/definitions/model.IncomeSchedule"
                 }
             }
         },
@@ -1452,6 +1574,7 @@ const docTemplate = `{
                 "expenseLocation",
                 "id",
                 "memo",
+                "timezone",
                 "title"
             ],
             "properties": {
@@ -1478,6 +1601,9 @@ const docTemplate = `{
                 },
                 "scheduleType": {
                     "type": "integer"
+                },
+                "timezone": {
+                    "type": "string"
                 },
                 "title": {
                     "type": "string"
@@ -1520,7 +1646,8 @@ const docTemplate = `{
                 "amount",
                 "id",
                 "incomeType",
-                "memo"
+                "memo",
+                "timezone"
             ],
             "properties": {
                 "amount": {
@@ -1543,6 +1670,9 @@ const docTemplate = `{
                 },
                 "scheduleType": {
                     "type": "integer"
+                },
+                "timezone": {
+                    "type": "string"
                 },
                 "updatedAt": {
                     "type": "string"

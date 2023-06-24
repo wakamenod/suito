@@ -22,6 +22,7 @@ part 'model_expense_schedule.g.dart';
 /// * [id] 
 /// * [memo] 
 /// * [scheduleType] 
+/// * [timezone] 
 /// * [title] 
 /// * [updatedAt] 
 @BuiltValue()
@@ -49,6 +50,9 @@ abstract class ModelExpenseSchedule implements Built<ModelExpenseSchedule, Model
 
   @BuiltValueField(wireName: r'scheduleType')
   int? get scheduleType;
+
+  @BuiltValueField(wireName: r'timezone')
+  String get timezone;
 
   @BuiltValueField(wireName: r'title')
   String get title;
@@ -125,6 +129,11 @@ class _$ModelExpenseScheduleSerializer implements PrimitiveSerializer<ModelExpen
         specifiedType: const FullType(int),
       );
     }
+    yield r'timezone';
+    yield serializers.serialize(
+      object.timezone,
+      specifiedType: const FullType(String),
+    );
     yield r'title';
     yield serializers.serialize(
       object.title,
@@ -215,6 +224,13 @@ class _$ModelExpenseScheduleSerializer implements PrimitiveSerializer<ModelExpen
             specifiedType: const FullType(int),
           ) as int;
           result.scheduleType = valueDes;
+          break;
+        case r'timezone':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.timezone = valueDes;
           break;
         case r'title':
           final valueDes = serializers.deserialize(

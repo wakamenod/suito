@@ -25,6 +25,15 @@ void main() {
       // TODO
     });
 
+    // Register expense schedule
+    //
+    // 支出スケジュール情報を登録します
+    //
+    //Future<RegisterExpenseScheduleRes> registerExpenseSchedule(RegisterExpenseScheduleReq request) async
+    test('test registerExpenseSchedule', () async {
+      // TODO
+    });
+
     // Update expense shcedule
     //
     // 支出スケジュール情報を更新します

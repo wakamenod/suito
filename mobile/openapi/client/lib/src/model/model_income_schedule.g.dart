@@ -22,6 +22,8 @@ class _$ModelIncomeSchedule extends ModelIncomeSchedule {
   @override
   final int? scheduleType;
   @override
+  final String timezone;
+  @override
   final String? updatedAt;
 
   factory _$ModelIncomeSchedule(
@@ -36,6 +38,7 @@ class _$ModelIncomeSchedule extends ModelIncomeSchedule {
       required this.incomeType,
       required this.memo,
       this.scheduleType,
+      required this.timezone,
       this.updatedAt})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
@@ -44,6 +47,8 @@ class _$ModelIncomeSchedule extends ModelIncomeSchedule {
     BuiltValueNullFieldError.checkNotNull(
         incomeType, r'ModelIncomeSchedule', 'incomeType');
     BuiltValueNullFieldError.checkNotNull(memo, r'ModelIncomeSchedule', 'memo');
+    BuiltValueNullFieldError.checkNotNull(
+        timezone, r'ModelIncomeSchedule', 'timezone');
   }
 
   @override
@@ -66,6 +71,7 @@ class _$ModelIncomeSchedule extends ModelIncomeSchedule {
         incomeType == other.incomeType &&
         memo == other.memo &&
         scheduleType == other.scheduleType &&
+        timezone == other.timezone &&
         updatedAt == other.updatedAt;
   }
 
@@ -79,6 +85,7 @@ class _$ModelIncomeSchedule extends ModelIncomeSchedule {
     _$hash = $jc(_$hash, incomeType.hashCode);
     _$hash = $jc(_$hash, memo.hashCode);
     _$hash = $jc(_$hash, scheduleType.hashCode);
+    _$hash = $jc(_$hash, timezone.hashCode);
     _$hash = $jc(_$hash, updatedAt.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
@@ -94,6 +101,7 @@ class _$ModelIncomeSchedule extends ModelIncomeSchedule {
           ..add('incomeType', incomeType)
           ..add('memo', memo)
           ..add('scheduleType', scheduleType)
+          ..add('timezone', timezone)
           ..add('updatedAt', updatedAt))
         .toString();
   }
@@ -135,6 +143,10 @@ class ModelIncomeScheduleBuilder
   int? get scheduleType => _$this._scheduleType;
   set scheduleType(int? scheduleType) => _$this._scheduleType = scheduleType;
 
+  String? _timezone;
+  String? get timezone => _$this._timezone;
+  set timezone(String? timezone) => _$this._timezone = timezone;
+
   String? _updatedAt;
   String? get updatedAt => _$this._updatedAt;
   set updatedAt(String? updatedAt) => _$this._updatedAt = updatedAt;
@@ -153,6 +165,7 @@ class ModelIncomeScheduleBuilder
       _incomeType = $v.incomeType.toBuilder();
       _memo = $v.memo;
       _scheduleType = $v.scheduleType;
+      _timezone = $v.timezone;
       _updatedAt = $v.updatedAt;
       _$v = null;
     }
@@ -188,6 +201,8 @@ class ModelIncomeScheduleBuilder
               memo: BuiltValueNullFieldError.checkNotNull(
                   memo, r'ModelIncomeSchedule', 'memo'),
               scheduleType: scheduleType,
+              timezone: BuiltValueNullFieldError.checkNotNull(
+                  timezone, r'ModelIncomeSchedule', 'timezone'),
               updatedAt: updatedAt);
     } catch (_) {
       late String _$failedField;
