@@ -9,9 +9,53 @@ All URIs are relative to *http://localhost:8009/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**deleteExpenseSchedule**](SuitoExpenseScheduleApi.md#deleteexpenseschedule) | **DELETE** /expense-schedule | Delete expense schedule
 [**expenseScheduleDetail**](SuitoExpenseScheduleApi.md#expensescheduledetail) | **POST** /expense-schedule/detail | Get expense schedule detail
 [**updateExpenseSchedule**](SuitoExpenseScheduleApi.md#updateexpenseschedule) | **PUT** /expense-schedule | Update expense shcedule
 
+
+# **deleteExpenseSchedule**
+> JsonObject deleteExpenseSchedule(request)
+
+Delete expense schedule
+
+支出スケジュール情報を削除します
+
+### Example
+```dart
+import 'package:openapi/api.dart';
+
+final api = Openapi().getSuitoExpenseScheduleApi();
+final DeleteExpenseScheduleReq request = ; // DeleteExpenseScheduleReq | delete expenseSchedule req
+
+try {
+    final response = api.deleteExpenseSchedule(request);
+    print(response);
+} catch on DioError (e) {
+    print('Exception when calling SuitoExpenseScheduleApi->deleteExpenseSchedule: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request** | [**DeleteExpenseScheduleReq**](DeleteExpenseScheduleReq.md)| delete expenseSchedule req | 
+
+### Return type
+
+[**JsonObject**](JsonObject.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **expenseScheduleDetail**
 > ExpenseScheduleDetailRes expenseScheduleDetail(request)

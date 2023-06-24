@@ -33,6 +33,13 @@ type (
 	UpdateIncomeScheduleRes struct {
 		UpdatedIncomeSchedule model.IncomeSchedule `json:"updatedIncomeSchedule"`
 	} // @Name UpdateIncomeScheduleRes
+
+	DeleteIncomeScheduleReq struct {
+		IncomeScheduleID string `json:"incomeScheduleId" validate:"required"`
+	} // @Name DeleteIncomeScheduleReq
+	DeleteIncomeScheduleRes struct {
+	} // @Name DeleteIncomeScheduleRes
+
 )
 
 // @Summary     Get income schedule detail
@@ -95,5 +102,35 @@ func (s *IncomeScheduleController) UpdateIncomeScheduleHandler(c echo.Context) e
 	var res UpdateIncomeScheduleRes
 	res.UpdatedIncomeSchedule = updatedIncomeSchedule
 
+	return webutils.Response(c, http.StatusOK, res)
+}
+
+// @Summary     Delete income schedule
+// @Description 収入スケジュール情報を削除します
+// @Tags        suito.incomeSchedule
+// @ID          deleteIncomeSchedule
+// @Accept      json
+// @Produce     json
+// @Param       request body     DeleteIncomeScheduleReq     true           "delete incomeSchedule req"
+// @Success     200     {object} DeleteIncomeScheduleRes     "Success"
+// @Failure     500     {object} apperrors.SuitoError "Unknown Error"
+// @Router      /income-schedule [DELETE]
+func (s *IncomeScheduleController) DeleteIncomeScheduleHandler(c echo.Context) error {
+	var req DeleteIncomeScheduleReq
+
+	if err := c.Bind(&req); err != nil {
+		return errors.Wrap(err, "failed bind")
+	}
+	if err := c.Validate(req); err != nil {
+		return err
+	}
+
+	uid := c.Get(middleware.UIDKey).(string)
+	err := s.service.DeleteIncomeScheduleService(req.IncomeScheduleID, uid)
+	if err != nil {
+		return err
+	}
+
+	var res DeleteIncomeScheduleRes
 	return webutils.Response(c, http.StatusOK, res)
 }

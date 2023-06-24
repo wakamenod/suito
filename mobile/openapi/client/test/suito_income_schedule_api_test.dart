@@ -7,6 +7,15 @@ void main() {
   final instance = Openapi().getSuitoIncomeScheduleApi();
 
   group(SuitoIncomeScheduleApi, () {
+    // Delete income schedule
+    //
+    // 収入スケジュール情報を削除します
+    //
+    //Future<JsonObject> deleteIncomeSchedule(DeleteIncomeScheduleReq request) async
+    test('test deleteIncomeSchedule', () async {
+      // TODO
+    });
+
     // Get income schedule detail
     //
     // 収入スケジュール詳細情報を取得します.

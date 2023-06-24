@@ -30,6 +30,12 @@ var _ Repository = &RepositoryMock{}
 //			DeleteExpenseFunc: func(id string, uid string) error {
 //				panic("mock out the DeleteExpense method")
 //			},
+//			DeleteExpenseScheduleFunc: func(id string, uid string) error {
+//				panic("mock out the DeleteExpenseSchedule method")
+//			},
+//			DeleteIncomeScheduleFunc: func(id string, uid string) error {
+//				panic("mock out the DeleteIncomeSchedule method")
+//			},
 //			FindAllUIDsFunc: func() ([]string, error) {
 //				panic("mock out the FindAllUIDs method")
 //			},
@@ -141,6 +147,12 @@ type RepositoryMock struct {
 
 	// DeleteExpenseFunc mocks the DeleteExpense method.
 	DeleteExpenseFunc func(id string, uid string) error
+
+	// DeleteExpenseScheduleFunc mocks the DeleteExpenseSchedule method.
+	DeleteExpenseScheduleFunc func(id string, uid string) error
+
+	// DeleteIncomeScheduleFunc mocks the DeleteIncomeSchedule method.
+	DeleteIncomeScheduleFunc func(id string, uid string) error
 
 	// FindAllUIDsFunc mocks the FindAllUIDs method.
 	FindAllUIDsFunc func() ([]string, error)
@@ -256,6 +268,20 @@ type RepositoryMock struct {
 		}
 		// DeleteExpense holds details about calls to the DeleteExpense method.
 		DeleteExpense []struct {
+			// ID is the id argument value.
+			ID string
+			// UID is the uid argument value.
+			UID string
+		}
+		// DeleteExpenseSchedule holds details about calls to the DeleteExpenseSchedule method.
+		DeleteExpenseSchedule []struct {
+			// ID is the id argument value.
+			ID string
+			// UID is the uid argument value.
+			UID string
+		}
+		// DeleteIncomeSchedule holds details about calls to the DeleteIncomeSchedule method.
+		DeleteIncomeSchedule []struct {
 			// ID is the id argument value.
 			ID string
 			// UID is the uid argument value.
@@ -467,6 +493,8 @@ type RepositoryMock struct {
 	lockCreateExpense                      sync.RWMutex
 	lockCreateIncome                       sync.RWMutex
 	lockDeleteExpense                      sync.RWMutex
+	lockDeleteExpenseSchedule              sync.RWMutex
+	lockDeleteIncomeSchedule               sync.RWMutex
 	lockFindAllUIDs                        sync.RWMutex
 	lockFindColumnChartExpenseData         sync.RWMutex
 	lockFindColumnChartIncomeData          sync.RWMutex
@@ -606,6 +634,78 @@ func (mock *RepositoryMock) DeleteExpenseCalls() []struct {
 	mock.lockDeleteExpense.RLock()
 	calls = mock.calls.DeleteExpense
 	mock.lockDeleteExpense.RUnlock()
+	return calls
+}
+
+// DeleteExpenseSchedule calls DeleteExpenseScheduleFunc.
+func (mock *RepositoryMock) DeleteExpenseSchedule(id string, uid string) error {
+	if mock.DeleteExpenseScheduleFunc == nil {
+		panic("RepositoryMock.DeleteExpenseScheduleFunc: method is nil but Repository.DeleteExpenseSchedule was just called")
+	}
+	callInfo := struct {
+		ID  string
+		UID string
+	}{
+		ID:  id,
+		UID: uid,
+	}
+	mock.lockDeleteExpenseSchedule.Lock()
+	mock.calls.DeleteExpenseSchedule = append(mock.calls.DeleteExpenseSchedule, callInfo)
+	mock.lockDeleteExpenseSchedule.Unlock()
+	return mock.DeleteExpenseScheduleFunc(id, uid)
+}
+
+// DeleteExpenseScheduleCalls gets all the calls that were made to DeleteExpenseSchedule.
+// Check the length with:
+//
+//	len(mockedRepository.DeleteExpenseScheduleCalls())
+func (mock *RepositoryMock) DeleteExpenseScheduleCalls() []struct {
+	ID  string
+	UID string
+} {
+	var calls []struct {
+		ID  string
+		UID string
+	}
+	mock.lockDeleteExpenseSchedule.RLock()
+	calls = mock.calls.DeleteExpenseSchedule
+	mock.lockDeleteExpenseSchedule.RUnlock()
+	return calls
+}
+
+// DeleteIncomeSchedule calls DeleteIncomeScheduleFunc.
+func (mock *RepositoryMock) DeleteIncomeSchedule(id string, uid string) error {
+	if mock.DeleteIncomeScheduleFunc == nil {
+		panic("RepositoryMock.DeleteIncomeScheduleFunc: method is nil but Repository.DeleteIncomeSchedule was just called")
+	}
+	callInfo := struct {
+		ID  string
+		UID string
+	}{
+		ID:  id,
+		UID: uid,
+	}
+	mock.lockDeleteIncomeSchedule.Lock()
+	mock.calls.DeleteIncomeSchedule = append(mock.calls.DeleteIncomeSchedule, callInfo)
+	mock.lockDeleteIncomeSchedule.Unlock()
+	return mock.DeleteIncomeScheduleFunc(id, uid)
+}
+
+// DeleteIncomeScheduleCalls gets all the calls that were made to DeleteIncomeSchedule.
+// Check the length with:
+//
+//	len(mockedRepository.DeleteIncomeScheduleCalls())
+func (mock *RepositoryMock) DeleteIncomeScheduleCalls() []struct {
+	ID  string
+	UID string
+} {
+	var calls []struct {
+		ID  string
+		UID string
+	}
+	mock.lockDeleteIncomeSchedule.RLock()
+	calls = mock.calls.DeleteIncomeSchedule
+	mock.lockDeleteIncomeSchedule.RUnlock()
 	return calls
 }
 

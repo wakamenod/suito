@@ -17,6 +17,8 @@ import 'package:openapi/src/model/date.dart';
 import 'package:openapi/src/model/column_chart_category_data.dart';
 import 'package:openapi/src/model/column_chart_data.dart';
 import 'package:openapi/src/model/delete_expense_req.dart';
+import 'package:openapi/src/model/delete_expense_schedule_req.dart';
+import 'package:openapi/src/model/delete_income_schedule_req.dart';
 import 'package:openapi/src/model/expense_detail_req.dart';
 import 'package:openapi/src/model/expense_detail_res.dart';
 import 'package:openapi/src/model/expense_schedule_detail_req.dart';
@@ -64,6 +66,8 @@ part 'serializers.g.dart';
   ColumnChartCategoryData,
   ColumnChartData,
   DeleteExpenseReq,
+  DeleteExpenseScheduleReq,
+  DeleteIncomeScheduleReq,
   ExpenseDetailReq,
   ExpenseDetailRes,
   ExpenseScheduleDetailReq,

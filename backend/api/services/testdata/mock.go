@@ -161,4 +161,10 @@ var TestRepositoryMock = srepositories.RepositoryMock{
 	UpdateIncomeScheduleFunc: func(uid string, schedule model.IncomeSchedule) (model.IncomeSchedule, error) {
 		return schedule, nil
 	},
+	DeleteExpenseScheduleFunc: func(id string, uid string) error {
+		return nil
+	},
+	DeleteIncomeScheduleFunc: func(id string, uid string) error {
+		return nil
+	},
 }

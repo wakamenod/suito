@@ -265,6 +265,48 @@
           }
         },
         "x-codegen-request-body-name": "request"
+      },
+      "delete": {
+        "tags": [
+          "suito.expenseSchedule"
+        ],
+        "summary": "Delete expense schedule",
+        "description": "支出スケジュール情報を削除します",
+        "operationId": "deleteExpenseSchedule",
+        "requestBody": {
+          "description": "delete expenseSchedule req",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteExpenseScheduleReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteExpenseScheduleRes"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unknown Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuitoError"
+                }
+              }
+            }
+          }
+        },
+        "x-codegen-request-body-name": "request"
       }
     },
     "/expense-schedule/detail": {
@@ -531,6 +573,48 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/UpdateIncomeScheduleRes"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unknown Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuitoError"
+                }
+              }
+            }
+          }
+        },
+        "x-codegen-request-body-name": "request"
+      },
+      "delete": {
+        "tags": [
+          "suito.incomeSchedule"
+        ],
+        "summary": "Delete income schedule",
+        "description": "収入スケジュール情報を削除します",
+        "operationId": "deleteIncomeSchedule",
+        "requestBody": {
+          "description": "delete incomeSchedule req",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteIncomeScheduleReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteIncomeScheduleRes"
                 }
               }
             }
@@ -867,6 +951,34 @@
         }
       },
       "DeleteExpenseRes": {
+        "type": "object"
+      },
+      "DeleteExpenseScheduleReq": {
+        "required": [
+          "expenseScheduleId"
+        ],
+        "type": "object",
+        "properties": {
+          "expenseScheduleId": {
+            "type": "string"
+          }
+        }
+      },
+      "DeleteExpenseScheduleRes": {
+        "type": "object"
+      },
+      "DeleteIncomeScheduleReq": {
+        "required": [
+          "incomeScheduleId"
+        ],
+        "type": "object",
+        "properties": {
+          "incomeScheduleId": {
+            "type": "string"
+          }
+        }
+      },
+      "DeleteIncomeScheduleRes": {
         "type": "object"
       },
       "ExpenseDetailReq": {

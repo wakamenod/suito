@@ -250,6 +250,45 @@ const docTemplate = `{
                         }
                     }
                 }
+            },
+            "delete": {
+                "description": "支出スケジュール情報を削除します",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "suito.expenseSchedule"
+                ],
+                "summary": "Delete expense schedule",
+                "operationId": "deleteExpenseSchedule",
+                "parameters": [
+                    {
+                        "description": "delete expenseSchedule req",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/DeleteExpenseScheduleReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/DeleteExpenseScheduleRes"
+                        }
+                    },
+                    "500": {
+                        "description": "Unknown Error",
+                        "schema": {
+                            "$ref": "#/definitions/SuitoError"
+                        }
+                    }
+                }
             }
         },
         "/expense-schedule/detail": {
@@ -504,6 +543,45 @@ const docTemplate = `{
                         "description": "Success",
                         "schema": {
                             "$ref": "#/definitions/UpdateIncomeScheduleRes"
+                        }
+                    },
+                    "500": {
+                        "description": "Unknown Error",
+                        "schema": {
+                            "$ref": "#/definitions/SuitoError"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "収入スケジュール情報を削除します",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "suito.incomeSchedule"
+                ],
+                "summary": "Delete income schedule",
+                "operationId": "deleteIncomeSchedule",
+                "parameters": [
+                    {
+                        "description": "delete incomeSchedule req",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/DeleteIncomeScheduleReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/DeleteIncomeScheduleRes"
                         }
                     },
                     "500": {
@@ -814,6 +892,34 @@ const docTemplate = `{
             }
         },
         "DeleteExpenseRes": {
+            "type": "object"
+        },
+        "DeleteExpenseScheduleReq": {
+            "type": "object",
+            "required": [
+                "expenseScheduleId"
+            ],
+            "properties": {
+                "expenseScheduleId": {
+                    "type": "string"
+                }
+            }
+        },
+        "DeleteExpenseScheduleRes": {
+            "type": "object"
+        },
+        "DeleteIncomeScheduleReq": {
+            "type": "object",
+            "required": [
+                "incomeScheduleId"
+            ],
+            "properties": {
+                "incomeScheduleId": {
+                    "type": "string"
+                }
+            }
+        },
+        "DeleteIncomeScheduleRes": {
             "type": "object"
         },
         "ExpenseDetailReq": {

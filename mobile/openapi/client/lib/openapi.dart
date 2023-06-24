@@ -21,6 +21,8 @@ export 'package:openapi/src/api/suito_transactions_api.dart';
 export 'package:openapi/src/model/column_chart_category_data.dart';
 export 'package:openapi/src/model/column_chart_data.dart';
 export 'package:openapi/src/model/delete_expense_req.dart';
+export 'package:openapi/src/model/delete_expense_schedule_req.dart';
+export 'package:openapi/src/model/delete_income_schedule_req.dart';
 export 'package:openapi/src/model/expense_detail_req.dart';
 export 'package:openapi/src/model/expense_detail_res.dart';
 export 'package:openapi/src/model/expense_schedule_detail_req.dart';

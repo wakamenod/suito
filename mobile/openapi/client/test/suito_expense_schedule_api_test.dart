@@ -7,6 +7,15 @@ void main() {
   final instance = Openapi().getSuitoExpenseScheduleApi();
 
   group(SuitoExpenseScheduleApi, () {
+    // Delete expense schedule
+    //
+    // 支出スケジュール情報を削除します
+    //
+    //Future<JsonObject> deleteExpenseSchedule(DeleteExpenseScheduleReq request) async
+    test('test deleteExpenseSchedule', () async {
+      // TODO
+    });
+
     // Get expense schedule detail
     //
     // 支出スケジュール詳細情報を取得します.

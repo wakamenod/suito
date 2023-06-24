@@ -133,3 +133,22 @@ func TestUpdateExpenseSchedule(t *testing.T) {
 	require.Equal(t, "Test Category", found.ExpenseCategory.Name)
 	require.Equal(t, "Test Location", found.ExpenseLocation.Name)
 }
+
+func TestDeleteExpenseSchedule(t *testing.T) {
+	tx := begin()
+	defer rollback(tx)
+	// setup
+	userID := "user1"
+	i := testutils.NewTestDataInserter(t, tx)
+	id := i.InsertExpenseSchedule(userID, "title01", "Asia/Tokyo").ID
+	i.InsertExpenseSchedule("user99", "title99", "Asia/Tokyo")
+	i.InsertExpenseSchedule(userID, "title01_2", "Asia/Tokyo")
+	// run
+	err := NewSuitoRepository(tx).DeleteExpenseSchedule(id, userID)
+	// check
+	require.NoError(t, err)
+
+	var found model.ExpenseSchedule
+	require.NoError(t, tx.Where("id = ? AND uid = ?", id, userID).Unscoped().First(&found).Error)
+	require.NotNil(t, found.DeletedAt)
+}

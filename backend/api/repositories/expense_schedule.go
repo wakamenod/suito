@@ -37,3 +37,10 @@ func (r *SuitoRepository) UpdateExpenseSchedule(uid string, expenseSchedule mode
 	}
 	return expenseSchedule, nil
 }
+
+func (r *SuitoRepository) DeleteExpenseSchedule(id string, uid string) error {
+	if err := r.db.Where("id = ? AND uid = ?", id, uid).Delete(&model.ExpenseSchedule{}).Error; err != nil {
+		return errors.Wrap(err, "failed to delete expense schedule")
+	}
+	return nil
+}

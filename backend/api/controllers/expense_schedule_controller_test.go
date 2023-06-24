@@ -119,3 +119,41 @@ func TestUpdateExpenseScheduleHandler_Success(t *testing.T) {
 	var res UpdateExpenseScheduleRes
 	require.NoError(t, json.Unmarshal(rec.Body.Bytes(), &res))
 }
+
+func TestDeleteExpenseScheduleHandler_ErrorValidate(t *testing.T) {
+	// Setup
+	e := echo.New()
+	e.Validator = validate.NewValidator()
+	req := httptest.NewRequest(http.MethodDelete, "/", nil)
+	rec := httptest.NewRecorder()
+	c := e.NewContext(req, rec)
+	c.Set(middleware.UIDKey, "user1")
+
+	// Assertions
+	err := esCon.DeleteExpenseScheduleHandler(c)
+	var appErr *apperrors.SuitoError
+	require.ErrorAs(t, err, &appErr)
+	require.Equal(t, apperrors.InvalidParameter, appErr.ErrCode)
+}
+
+func TestDeleteExpenseScheduleHandler_Success(t *testing.T) {
+	// Setup
+	e := echo.New()
+	e.Validator = validate.NewValidator()
+	jsonReq, err := json.Marshal(DeleteExpenseScheduleReq{
+		ExpenseScheduleID: "expenseSchedule_id",
+	})
+	require.NoError(t, err)
+	req := httptest.NewRequest(http.MethodDelete, "/", bytes.NewReader(jsonReq))
+	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+	rec := httptest.NewRecorder()
+	c := e.NewContext(req, rec)
+	c.Set(middleware.UIDKey, "user1")
+
+	// Assertions
+	require.NoError(t, esCon.DeleteExpenseScheduleHandler(c))
+	require.Equal(t, http.StatusOK, rec.Code)
+
+	var res DeleteExpenseScheduleRes
+	require.NoError(t, json.Unmarshal(rec.Body.Bytes(), &res))
+}
