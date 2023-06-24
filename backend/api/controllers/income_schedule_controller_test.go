@@ -105,6 +105,7 @@ func TestUpdateIncomeScheduleHandler_Success(t *testing.T) {
 			IncomeType: model.IncomeType{
 				Name: "income title 01",
 			},
+			Timezone: "Asia/Tokyo",
 		}})
 	require.NoError(t, err)
 	req := httptest.NewRequest(http.MethodPut, "/", bytes.NewReader(jsonReq))

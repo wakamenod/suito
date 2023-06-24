@@ -1028,7 +1028,6 @@ components:
           type: string
     model.ExpenseCategory:
       required:
-      - id
       - name
       type: object
       properties:
@@ -1038,7 +1037,6 @@ components:
           type: string
     model.ExpenseLocation:
       required:
-      - id
       - name
       type: object
       properties:

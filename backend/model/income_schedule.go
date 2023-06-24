@@ -7,13 +7,13 @@ import (
 )
 
 type IncomeSchedule struct {
-	ID           string     `gorm:"type:varchar(20);primaryKey"`
+	ID           string     `gorm:"type:varchar(20);primaryKey" json:"id"`
 	UID          string     `gorm:"type:varchar(128)" json:"-"`
 	IncomeType   IncomeType `gorm:"foreignKey:IncomeTypeID;" json:"incomeType"`
 	IncomeTypeID string     `gorm:"type:varchar(20)" json:"-"`
-	Amount       int        `validate:"required"`
-	Memo         string     `gorm:"type:varchar(512)"`
-	Timezone     string     `gorm:"type:varchar(64)"`
+	Amount       int        `gorm:"type:int" json:"amount" validate:"required"`
+	Memo         string     `gorm:"type:varchar(512)" json:"memo"`
+	Timezone     string     `gorm:"type:varchar(64)" json:"timezone" validate:"required"`
 	ScheduleType int8
 
 	DeletedAt gorm.DeletedAt

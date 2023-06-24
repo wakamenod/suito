@@ -28,7 +28,7 @@ class ScheduleScreen extends ConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          context.goNamed(AppRoute.transactionDetail.name);
+          context.goNamed(AppRoute.scheduleDetail.name);
         },
         backgroundColor: Colors.blueAccent,
         child: const Icon(Icons.add),

@@ -8,7 +8,7 @@ part of 'schedule_service.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$fetchSchedulesHash() => r'37c0be1cddd679bb93dca28a0dab7cacc51fda91';
+String _$fetchSchedulesHash() => r'e54d8082c1e4cf84741690392dc31e9d43d2c229';
 
 /// See also [fetchSchedules].
 @ProviderFor(fetchSchedules)
@@ -24,4 +24,20 @@ final fetchSchedulesProvider =
 );
 
 typedef FetchSchedulesRef = AutoDisposeFutureProviderRef<List<Schedules>>;
+String _$reloadSchedulesHash() => r'506b7787a0faa62b67f0486b5b55c6b0ce3c9521';
+
+/// See also [ReloadSchedules].
+@ProviderFor(ReloadSchedules)
+final reloadSchedulesProvider =
+    AutoDisposeNotifierProvider<ReloadSchedules, int>.internal(
+  ReloadSchedules.new,
+  name: r'reloadSchedulesProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$reloadSchedulesHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$ReloadSchedules = AutoDisposeNotifier<int>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

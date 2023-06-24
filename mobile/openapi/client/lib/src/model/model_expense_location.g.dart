@@ -8,7 +8,7 @@ part of 'model_expense_location.dart';
 
 class _$ModelExpenseLocation extends ModelExpenseLocation {
   @override
-  final String id;
+  final String? id;
   @override
   final String name;
 
@@ -16,8 +16,7 @@ class _$ModelExpenseLocation extends ModelExpenseLocation {
           [void Function(ModelExpenseLocationBuilder)? updates]) =>
       (new ModelExpenseLocationBuilder()..update(updates))._build();
 
-  _$ModelExpenseLocation._({required this.id, required this.name}) : super._() {
-    BuiltValueNullFieldError.checkNotNull(id, r'ModelExpenseLocation', 'id');
+  _$ModelExpenseLocation._({this.id, required this.name}) : super._() {
     BuiltValueNullFieldError.checkNotNull(
         name, r'ModelExpenseLocation', 'name');
   }
@@ -100,8 +99,7 @@ class ModelExpenseLocationBuilder
   _$ModelExpenseLocation _build() {
     final _$result = _$v ??
         new _$ModelExpenseLocation._(
-            id: BuiltValueNullFieldError.checkNotNull(
-                id, r'ModelExpenseLocation', 'id'),
+            id: id,
             name: BuiltValueNullFieldError.checkNotNull(
                 name, r'ModelExpenseLocation', 'name'));
     replace(_$result);

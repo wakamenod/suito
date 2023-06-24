@@ -18,13 +18,13 @@ class IncomeScheduleDetailView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final incomeController =
+    final incomeScheduleController =
         ref.watch(incomeScheduleControllerProvider(incomeScheduleID).notifier);
-    final incomeValue =
+    final incomeScheduleValue =
         ref.watch(incomeScheduleControllerProvider(incomeScheduleID));
 
     return AsyncValueWidget<IncomeSchedule>(
-      value: incomeValue,
+      value: incomeScheduleValue,
       data: (income) => Scaffold(
           appBar: AppBar(
             title: Text(t.transactions.detail.title),
@@ -36,22 +36,22 @@ class IncomeScheduleDetailView extends ConsumerWidget {
                     initialValue: income.title.value,
                     labelText: t.transactions.detail.inputLabels.title,
                     route: AppRoute.incomeType,
-                    onChanged: incomeController.onChangeTitle),
+                    onChanged: incomeScheduleController.onChangeTitle),
                 CurrencyInputField(
                   formatter: ref.watch(currencyFormatterProvider),
                   initialValue: income.amount.value,
                   errorText: Amount.showAmountErrorMessage(income.amount.error),
                   labelText: t.transactions.detail.inputLabels.amount,
-                  onChanged: incomeController.onChangeAmount,
+                  onChanged: incomeScheduleController.onChangeAmount,
                 ),
                 TransitionTextField(
                     initialValue: income.memo,
                     labelText: t.transactions.detail.inputLabels.memo,
                     route: AppRoute.memo,
-                    onChanged: incomeController.onChangeMemo),
+                    onChanged: incomeScheduleController.onChangeMemo),
                 ElevatedButton(
                   onPressed: () async {
-                    await incomeController.registerIncome();
+                    await incomeScheduleController.registerIncome();
                     if (context.mounted) context.pop();
                   },
                   child: Text(

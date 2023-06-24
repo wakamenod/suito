@@ -1539,7 +1539,6 @@ const docTemplate = `{
         "model.ExpenseCategory": {
             "type": "object",
             "required": [
-                "id",
                 "name"
             ],
             "properties": {
@@ -1554,7 +1553,6 @@ const docTemplate = `{
         "model.ExpenseLocation": {
             "type": "object",
             "required": [
-                "id",
                 "name"
             ],
             "properties": {

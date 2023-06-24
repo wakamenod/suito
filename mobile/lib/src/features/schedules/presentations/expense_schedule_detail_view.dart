@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:suito/i18n/translations.g.dart';
 import 'package:suito/src/common_widgets/async_value_widget.dart';
 import 'package:suito/src/common_widgets/currency_input_field.dart';
@@ -19,13 +20,13 @@ class ExpenseScheduleDetailView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final expenseController = ref
+    final expenseScheduleController = ref
         .watch(expenseScheduleControllerProvider(expenseScheduleID).notifier);
-    final expenseValue =
+    final expenseScheduleValue =
         ref.watch(expenseScheduleControllerProvider(expenseScheduleID));
 
     return AsyncValueWidget<ExpenseSchedule>(
-      value: expenseValue,
+      value: expenseScheduleValue,
       data: (expense) => Scaffold(
           appBar: AppBar(
             title: Text(t.transactions.detail.title),
@@ -38,34 +39,34 @@ class ExpenseScheduleDetailView extends ConsumerWidget {
                     errorText:
                         stitle.Title.showTitleErrorMessage(expense.title.error),
                     labelText: t.transactions.detail.inputLabels.title,
-                    onChanged: expenseController.onChangeTitle),
+                    onChanged: expenseScheduleController.onChangeTitle),
                 CurrencyInputField(
                   formatter: ref.watch(currencyFormatterProvider),
                   initialValue: expense.amount.value,
                   errorText:
                       Amount.showAmountErrorMessage(expense.amount.error),
                   labelText: t.transactions.detail.inputLabels.amount,
-                  onChanged: expenseController.onChangeAmount,
+                  onChanged: expenseScheduleController.onChangeAmount,
                 ),
                 TransitionTextField(
                     initialValue: expense.category,
                     labelText: t.transactions.detail.inputLabels.category,
                     route: AppRoute.category,
-                    onChanged: expenseController.onChangeCategory),
+                    onChanged: expenseScheduleController.onChangeCategory),
                 TransitionTextField(
                     initialValue: expense.location,
                     labelText: t.transactions.detail.inputLabels.location,
                     route: AppRoute.location,
-                    onChanged: expenseController.onChangeLocation),
+                    onChanged: expenseScheduleController.onChangeLocation),
                 TransitionTextField(
                     initialValue: expense.memo,
                     labelText: t.transactions.detail.inputLabels.memo,
                     route: AppRoute.memo,
-                    onChanged: expenseController.onChangeMemo),
+                    onChanged: expenseScheduleController.onChangeMemo),
                 ElevatedButton(
                   onPressed: () async {
-                    // await expenseController.registerExpense();
-                    // if (context.mounted) context.pop();
+                    await expenseScheduleController.registerExpenseSchedule();
+                    if (context.mounted) context.pop();
                   },
                   child: Text(
                     t.transactions.buttons.post,
