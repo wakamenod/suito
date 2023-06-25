@@ -66,9 +66,7 @@ class SchedulesList extends ConsumerWidget {
                       final ScaffoldMessengerState state =
                           ScaffoldMessenger.of(context);
 
-                      // await ref
-                      //     .read(deleteExpenseControllerProvider.notifier)
-                      //     .deleteExpense(schedule.id);
+                      await schedules[index].onDismissed(item.id);
 
                       // Show a snackbar.
                       state.showSnackBar(SnackBar(
