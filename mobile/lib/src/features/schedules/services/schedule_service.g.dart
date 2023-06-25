@@ -8,7 +8,7 @@ part of 'schedule_service.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$fetchSchedulesHash() => r'e54d8082c1e4cf84741690392dc31e9d43d2c229';
+String _$fetchSchedulesHash() => r'ebee31ec832cf95fb372c3271455423b3b37ce54';
 
 /// See also [fetchSchedules].
 @ProviderFor(fetchSchedules)
