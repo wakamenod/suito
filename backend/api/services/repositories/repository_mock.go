@@ -4,7 +4,6 @@
 package repositories
 
 import (
-	"database/sql"
 	"github.com/wakamenod/suito/api/repositories"
 	"github.com/wakamenod/suito/model"
 	"sync"
@@ -27,11 +26,17 @@ var _ Repository = &RepositoryMock{}
 //			CreateExpenseScheduleFunc: func(uid string, expenseSchedule model.ExpenseSchedule) (model.ExpenseSchedule, error) {
 //				panic("mock out the CreateExpenseSchedule method")
 //			},
+//			CreateExpensesFromScheduledQueueFunc: func(queues []model.ScheduledExpenseQueue) error {
+//				panic("mock out the CreateExpensesFromScheduledQueue method")
+//			},
 //			CreateIncomeFunc: func(uid string, income model.Income) (model.Income, error) {
 //				panic("mock out the CreateIncome method")
 //			},
 //			CreateIncomeScheduleFunc: func(uid string, incomeSchedule model.IncomeSchedule) (model.IncomeSchedule, error) {
 //				panic("mock out the CreateIncomeSchedule method")
+//			},
+//			CreateIncomesFromScheduledQueueFunc: func(queues []model.ScheduledIncomeQueue) error {
+//				panic("mock out the CreateIncomesFromScheduledQueue method")
 //			},
 //			DeleteExpenseFunc: func(id string, uid string) error {
 //				panic("mock out the DeleteExpense method")
@@ -41,6 +46,18 @@ var _ Repository = &RepositoryMock{}
 //			},
 //			DeleteIncomeScheduleFunc: func(id string, uid string) error {
 //				panic("mock out the DeleteIncomeSchedule method")
+//			},
+//			DeleteScheduledExpenseQueuesFunc: func(queues []model.ScheduledExpenseQueue) error {
+//				panic("mock out the DeleteScheduledExpenseQueues method")
+//			},
+//			DeleteScheduledIncomeQueuesFunc: func(queues []model.ScheduledIncomeQueue) error {
+//				panic("mock out the DeleteScheduledIncomeQueues method")
+//			},
+//			EnqueueExpenseScheduleFunc: func() error {
+//				panic("mock out the EnqueueExpenseSchedule method")
+//			},
+//			EnqueueIncomeScheduleFunc: func() error {
+//				panic("mock out the EnqueueIncomeSchedule method")
 //			},
 //			FindAllUIDsFunc: func() ([]string, error) {
 //				panic("mock out the FindAllUIDs method")
@@ -108,6 +125,12 @@ var _ Repository = &RepositoryMock{}
 //			FindPieChartLocationDataFunc: func(uid string, start *time.Time, end *time.Time) ([]repositories.PieChartData, error) {
 //				panic("mock out the FindPieChartLocationData method")
 //			},
+//			FindScheduledDueExpenseQueuesFunc: func() ([]model.ScheduledExpenseQueue, error) {
+//				panic("mock out the FindScheduledDueExpenseQueues method")
+//			},
+//			FindScheduledDueIncomeQueuesFunc: func() ([]model.ScheduledIncomeQueue, error) {
+//				panic("mock out the FindScheduledDueIncomeQueues method")
+//			},
 //			FindTransactionMonthsFunc: func(uid string) ([]string, error) {
 //				panic("mock out the FindTransactionMonths method")
 //			},
@@ -122,9 +145,6 @@ var _ Repository = &RepositoryMock{}
 //			},
 //			HardDeleteAllUserIncomesFunc: func(uid string) error {
 //				panic("mock out the HardDeleteAllUserIncomes method")
-//			},
-//			TransactionFunc: func(fc func(txRepo *repositories.SuitoRepository) error, opts ...*sql.TxOptions) error {
-//				panic("mock out the Transaction method")
 //			},
 //			UpdateExpenseFunc: func(uid string, expense model.Expense) (model.Expense, error) {
 //				panic("mock out the UpdateExpense method")
@@ -151,11 +171,17 @@ type RepositoryMock struct {
 	// CreateExpenseScheduleFunc mocks the CreateExpenseSchedule method.
 	CreateExpenseScheduleFunc func(uid string, expenseSchedule model.ExpenseSchedule) (model.ExpenseSchedule, error)
 
+	// CreateExpensesFromScheduledQueueFunc mocks the CreateExpensesFromScheduledQueue method.
+	CreateExpensesFromScheduledQueueFunc func(queues []model.ScheduledExpenseQueue) error
+
 	// CreateIncomeFunc mocks the CreateIncome method.
 	CreateIncomeFunc func(uid string, income model.Income) (model.Income, error)
 
 	// CreateIncomeScheduleFunc mocks the CreateIncomeSchedule method.
 	CreateIncomeScheduleFunc func(uid string, incomeSchedule model.IncomeSchedule) (model.IncomeSchedule, error)
+
+	// CreateIncomesFromScheduledQueueFunc mocks the CreateIncomesFromScheduledQueue method.
+	CreateIncomesFromScheduledQueueFunc func(queues []model.ScheduledIncomeQueue) error
 
 	// DeleteExpenseFunc mocks the DeleteExpense method.
 	DeleteExpenseFunc func(id string, uid string) error
@@ -165,6 +191,18 @@ type RepositoryMock struct {
 
 	// DeleteIncomeScheduleFunc mocks the DeleteIncomeSchedule method.
 	DeleteIncomeScheduleFunc func(id string, uid string) error
+
+	// DeleteScheduledExpenseQueuesFunc mocks the DeleteScheduledExpenseQueues method.
+	DeleteScheduledExpenseQueuesFunc func(queues []model.ScheduledExpenseQueue) error
+
+	// DeleteScheduledIncomeQueuesFunc mocks the DeleteScheduledIncomeQueues method.
+	DeleteScheduledIncomeQueuesFunc func(queues []model.ScheduledIncomeQueue) error
+
+	// EnqueueExpenseScheduleFunc mocks the EnqueueExpenseSchedule method.
+	EnqueueExpenseScheduleFunc func() error
+
+	// EnqueueIncomeScheduleFunc mocks the EnqueueIncomeSchedule method.
+	EnqueueIncomeScheduleFunc func() error
 
 	// FindAllUIDsFunc mocks the FindAllUIDs method.
 	FindAllUIDsFunc func() ([]string, error)
@@ -232,6 +270,12 @@ type RepositoryMock struct {
 	// FindPieChartLocationDataFunc mocks the FindPieChartLocationData method.
 	FindPieChartLocationDataFunc func(uid string, start *time.Time, end *time.Time) ([]repositories.PieChartData, error)
 
+	// FindScheduledDueExpenseQueuesFunc mocks the FindScheduledDueExpenseQueues method.
+	FindScheduledDueExpenseQueuesFunc func() ([]model.ScheduledExpenseQueue, error)
+
+	// FindScheduledDueIncomeQueuesFunc mocks the FindScheduledDueIncomeQueues method.
+	FindScheduledDueIncomeQueuesFunc func() ([]model.ScheduledIncomeQueue, error)
+
 	// FindTransactionMonthsFunc mocks the FindTransactionMonths method.
 	FindTransactionMonthsFunc func(uid string) ([]string, error)
 
@@ -246,9 +290,6 @@ type RepositoryMock struct {
 
 	// HardDeleteAllUserIncomesFunc mocks the HardDeleteAllUserIncomes method.
 	HardDeleteAllUserIncomesFunc func(uid string) error
-
-	// TransactionFunc mocks the Transaction method.
-	TransactionFunc func(fc func(txRepo *repositories.SuitoRepository) error, opts ...*sql.TxOptions) error
 
 	// UpdateExpenseFunc mocks the UpdateExpense method.
 	UpdateExpenseFunc func(uid string, expense model.Expense) (model.Expense, error)
@@ -278,6 +319,11 @@ type RepositoryMock struct {
 			// ExpenseSchedule is the expenseSchedule argument value.
 			ExpenseSchedule model.ExpenseSchedule
 		}
+		// CreateExpensesFromScheduledQueue holds details about calls to the CreateExpensesFromScheduledQueue method.
+		CreateExpensesFromScheduledQueue []struct {
+			// Queues is the queues argument value.
+			Queues []model.ScheduledExpenseQueue
+		}
 		// CreateIncome holds details about calls to the CreateIncome method.
 		CreateIncome []struct {
 			// UID is the uid argument value.
@@ -291,6 +337,11 @@ type RepositoryMock struct {
 			UID string
 			// IncomeSchedule is the incomeSchedule argument value.
 			IncomeSchedule model.IncomeSchedule
+		}
+		// CreateIncomesFromScheduledQueue holds details about calls to the CreateIncomesFromScheduledQueue method.
+		CreateIncomesFromScheduledQueue []struct {
+			// Queues is the queues argument value.
+			Queues []model.ScheduledIncomeQueue
 		}
 		// DeleteExpense holds details about calls to the DeleteExpense method.
 		DeleteExpense []struct {
@@ -312,6 +363,22 @@ type RepositoryMock struct {
 			ID string
 			// UID is the uid argument value.
 			UID string
+		}
+		// DeleteScheduledExpenseQueues holds details about calls to the DeleteScheduledExpenseQueues method.
+		DeleteScheduledExpenseQueues []struct {
+			// Queues is the queues argument value.
+			Queues []model.ScheduledExpenseQueue
+		}
+		// DeleteScheduledIncomeQueues holds details about calls to the DeleteScheduledIncomeQueues method.
+		DeleteScheduledIncomeQueues []struct {
+			// Queues is the queues argument value.
+			Queues []model.ScheduledIncomeQueue
+		}
+		// EnqueueExpenseSchedule holds details about calls to the EnqueueExpenseSchedule method.
+		EnqueueExpenseSchedule []struct {
+		}
+		// EnqueueIncomeSchedule holds details about calls to the EnqueueIncomeSchedule method.
+		EnqueueIncomeSchedule []struct {
 		}
 		// FindAllUIDs holds details about calls to the FindAllUIDs method.
 		FindAllUIDs []struct {
@@ -455,6 +522,12 @@ type RepositoryMock struct {
 			// End is the end argument value.
 			End *time.Time
 		}
+		// FindScheduledDueExpenseQueues holds details about calls to the FindScheduledDueExpenseQueues method.
+		FindScheduledDueExpenseQueues []struct {
+		}
+		// FindScheduledDueIncomeQueues holds details about calls to the FindScheduledDueIncomeQueues method.
+		FindScheduledDueIncomeQueues []struct {
+		}
 		// FindTransactionMonths holds details about calls to the FindTransactionMonths method.
 		FindTransactionMonths []struct {
 			// UID is the uid argument value.
@@ -479,13 +552,6 @@ type RepositoryMock struct {
 		HardDeleteAllUserIncomes []struct {
 			// UID is the uid argument value.
 			UID string
-		}
-		// Transaction holds details about calls to the Transaction method.
-		Transaction []struct {
-			// Fc is the fc argument value.
-			Fc func(txRepo *repositories.SuitoRepository) error
-			// Opts is the opts argument value.
-			Opts []*sql.TxOptions
 		}
 		// UpdateExpense holds details about calls to the UpdateExpense method.
 		UpdateExpense []struct {
@@ -518,11 +584,17 @@ type RepositoryMock struct {
 	}
 	lockCreateExpense                      sync.RWMutex
 	lockCreateExpenseSchedule              sync.RWMutex
+	lockCreateExpensesFromScheduledQueue   sync.RWMutex
 	lockCreateIncome                       sync.RWMutex
 	lockCreateIncomeSchedule               sync.RWMutex
+	lockCreateIncomesFromScheduledQueue    sync.RWMutex
 	lockDeleteExpense                      sync.RWMutex
 	lockDeleteExpenseSchedule              sync.RWMutex
 	lockDeleteIncomeSchedule               sync.RWMutex
+	lockDeleteScheduledExpenseQueues       sync.RWMutex
+	lockDeleteScheduledIncomeQueues        sync.RWMutex
+	lockEnqueueExpenseSchedule             sync.RWMutex
+	lockEnqueueIncomeSchedule              sync.RWMutex
 	lockFindAllUIDs                        sync.RWMutex
 	lockFindColumnChartExpenseData         sync.RWMutex
 	lockFindColumnChartIncomeData          sync.RWMutex
@@ -545,12 +617,13 @@ type RepositoryMock struct {
 	lockFindOrCreateUser                   sync.RWMutex
 	lockFindPieChartCategoryData           sync.RWMutex
 	lockFindPieChartLocationData           sync.RWMutex
+	lockFindScheduledDueExpenseQueues      sync.RWMutex
+	lockFindScheduledDueIncomeQueues       sync.RWMutex
 	lockFindTransactionMonths              sync.RWMutex
 	lockHardDeleteAllUserExpenseCategories sync.RWMutex
 	lockHardDeleteAllUserExpenseLocations  sync.RWMutex
 	lockHardDeleteAllUserExpenses          sync.RWMutex
 	lockHardDeleteAllUserIncomes           sync.RWMutex
-	lockTransaction                        sync.RWMutex
 	lockUpdateExpense                      sync.RWMutex
 	lockUpdateExpenseSchedule              sync.RWMutex
 	lockUpdateIncome                       sync.RWMutex
@@ -629,6 +702,38 @@ func (mock *RepositoryMock) CreateExpenseScheduleCalls() []struct {
 	return calls
 }
 
+// CreateExpensesFromScheduledQueue calls CreateExpensesFromScheduledQueueFunc.
+func (mock *RepositoryMock) CreateExpensesFromScheduledQueue(queues []model.ScheduledExpenseQueue) error {
+	if mock.CreateExpensesFromScheduledQueueFunc == nil {
+		panic("RepositoryMock.CreateExpensesFromScheduledQueueFunc: method is nil but Repository.CreateExpensesFromScheduledQueue was just called")
+	}
+	callInfo := struct {
+		Queues []model.ScheduledExpenseQueue
+	}{
+		Queues: queues,
+	}
+	mock.lockCreateExpensesFromScheduledQueue.Lock()
+	mock.calls.CreateExpensesFromScheduledQueue = append(mock.calls.CreateExpensesFromScheduledQueue, callInfo)
+	mock.lockCreateExpensesFromScheduledQueue.Unlock()
+	return mock.CreateExpensesFromScheduledQueueFunc(queues)
+}
+
+// CreateExpensesFromScheduledQueueCalls gets all the calls that were made to CreateExpensesFromScheduledQueue.
+// Check the length with:
+//
+//	len(mockedRepository.CreateExpensesFromScheduledQueueCalls())
+func (mock *RepositoryMock) CreateExpensesFromScheduledQueueCalls() []struct {
+	Queues []model.ScheduledExpenseQueue
+} {
+	var calls []struct {
+		Queues []model.ScheduledExpenseQueue
+	}
+	mock.lockCreateExpensesFromScheduledQueue.RLock()
+	calls = mock.calls.CreateExpensesFromScheduledQueue
+	mock.lockCreateExpensesFromScheduledQueue.RUnlock()
+	return calls
+}
+
 // CreateIncome calls CreateIncomeFunc.
 func (mock *RepositoryMock) CreateIncome(uid string, income model.Income) (model.Income, error) {
 	if mock.CreateIncomeFunc == nil {
@@ -698,6 +803,38 @@ func (mock *RepositoryMock) CreateIncomeScheduleCalls() []struct {
 	mock.lockCreateIncomeSchedule.RLock()
 	calls = mock.calls.CreateIncomeSchedule
 	mock.lockCreateIncomeSchedule.RUnlock()
+	return calls
+}
+
+// CreateIncomesFromScheduledQueue calls CreateIncomesFromScheduledQueueFunc.
+func (mock *RepositoryMock) CreateIncomesFromScheduledQueue(queues []model.ScheduledIncomeQueue) error {
+	if mock.CreateIncomesFromScheduledQueueFunc == nil {
+		panic("RepositoryMock.CreateIncomesFromScheduledQueueFunc: method is nil but Repository.CreateIncomesFromScheduledQueue was just called")
+	}
+	callInfo := struct {
+		Queues []model.ScheduledIncomeQueue
+	}{
+		Queues: queues,
+	}
+	mock.lockCreateIncomesFromScheduledQueue.Lock()
+	mock.calls.CreateIncomesFromScheduledQueue = append(mock.calls.CreateIncomesFromScheduledQueue, callInfo)
+	mock.lockCreateIncomesFromScheduledQueue.Unlock()
+	return mock.CreateIncomesFromScheduledQueueFunc(queues)
+}
+
+// CreateIncomesFromScheduledQueueCalls gets all the calls that were made to CreateIncomesFromScheduledQueue.
+// Check the length with:
+//
+//	len(mockedRepository.CreateIncomesFromScheduledQueueCalls())
+func (mock *RepositoryMock) CreateIncomesFromScheduledQueueCalls() []struct {
+	Queues []model.ScheduledIncomeQueue
+} {
+	var calls []struct {
+		Queues []model.ScheduledIncomeQueue
+	}
+	mock.lockCreateIncomesFromScheduledQueue.RLock()
+	calls = mock.calls.CreateIncomesFromScheduledQueue
+	mock.lockCreateIncomesFromScheduledQueue.RUnlock()
 	return calls
 }
 
@@ -806,6 +943,124 @@ func (mock *RepositoryMock) DeleteIncomeScheduleCalls() []struct {
 	mock.lockDeleteIncomeSchedule.RLock()
 	calls = mock.calls.DeleteIncomeSchedule
 	mock.lockDeleteIncomeSchedule.RUnlock()
+	return calls
+}
+
+// DeleteScheduledExpenseQueues calls DeleteScheduledExpenseQueuesFunc.
+func (mock *RepositoryMock) DeleteScheduledExpenseQueues(queues []model.ScheduledExpenseQueue) error {
+	if mock.DeleteScheduledExpenseQueuesFunc == nil {
+		panic("RepositoryMock.DeleteScheduledExpenseQueuesFunc: method is nil but Repository.DeleteScheduledExpenseQueues was just called")
+	}
+	callInfo := struct {
+		Queues []model.ScheduledExpenseQueue
+	}{
+		Queues: queues,
+	}
+	mock.lockDeleteScheduledExpenseQueues.Lock()
+	mock.calls.DeleteScheduledExpenseQueues = append(mock.calls.DeleteScheduledExpenseQueues, callInfo)
+	mock.lockDeleteScheduledExpenseQueues.Unlock()
+	return mock.DeleteScheduledExpenseQueuesFunc(queues)
+}
+
+// DeleteScheduledExpenseQueuesCalls gets all the calls that were made to DeleteScheduledExpenseQueues.
+// Check the length with:
+//
+//	len(mockedRepository.DeleteScheduledExpenseQueuesCalls())
+func (mock *RepositoryMock) DeleteScheduledExpenseQueuesCalls() []struct {
+	Queues []model.ScheduledExpenseQueue
+} {
+	var calls []struct {
+		Queues []model.ScheduledExpenseQueue
+	}
+	mock.lockDeleteScheduledExpenseQueues.RLock()
+	calls = mock.calls.DeleteScheduledExpenseQueues
+	mock.lockDeleteScheduledExpenseQueues.RUnlock()
+	return calls
+}
+
+// DeleteScheduledIncomeQueues calls DeleteScheduledIncomeQueuesFunc.
+func (mock *RepositoryMock) DeleteScheduledIncomeQueues(queues []model.ScheduledIncomeQueue) error {
+	if mock.DeleteScheduledIncomeQueuesFunc == nil {
+		panic("RepositoryMock.DeleteScheduledIncomeQueuesFunc: method is nil but Repository.DeleteScheduledIncomeQueues was just called")
+	}
+	callInfo := struct {
+		Queues []model.ScheduledIncomeQueue
+	}{
+		Queues: queues,
+	}
+	mock.lockDeleteScheduledIncomeQueues.Lock()
+	mock.calls.DeleteScheduledIncomeQueues = append(mock.calls.DeleteScheduledIncomeQueues, callInfo)
+	mock.lockDeleteScheduledIncomeQueues.Unlock()
+	return mock.DeleteScheduledIncomeQueuesFunc(queues)
+}
+
+// DeleteScheduledIncomeQueuesCalls gets all the calls that were made to DeleteScheduledIncomeQueues.
+// Check the length with:
+//
+//	len(mockedRepository.DeleteScheduledIncomeQueuesCalls())
+func (mock *RepositoryMock) DeleteScheduledIncomeQueuesCalls() []struct {
+	Queues []model.ScheduledIncomeQueue
+} {
+	var calls []struct {
+		Queues []model.ScheduledIncomeQueue
+	}
+	mock.lockDeleteScheduledIncomeQueues.RLock()
+	calls = mock.calls.DeleteScheduledIncomeQueues
+	mock.lockDeleteScheduledIncomeQueues.RUnlock()
+	return calls
+}
+
+// EnqueueExpenseSchedule calls EnqueueExpenseScheduleFunc.
+func (mock *RepositoryMock) EnqueueExpenseSchedule() error {
+	if mock.EnqueueExpenseScheduleFunc == nil {
+		panic("RepositoryMock.EnqueueExpenseScheduleFunc: method is nil but Repository.EnqueueExpenseSchedule was just called")
+	}
+	callInfo := struct {
+	}{}
+	mock.lockEnqueueExpenseSchedule.Lock()
+	mock.calls.EnqueueExpenseSchedule = append(mock.calls.EnqueueExpenseSchedule, callInfo)
+	mock.lockEnqueueExpenseSchedule.Unlock()
+	return mock.EnqueueExpenseScheduleFunc()
+}
+
+// EnqueueExpenseScheduleCalls gets all the calls that were made to EnqueueExpenseSchedule.
+// Check the length with:
+//
+//	len(mockedRepository.EnqueueExpenseScheduleCalls())
+func (mock *RepositoryMock) EnqueueExpenseScheduleCalls() []struct {
+} {
+	var calls []struct {
+	}
+	mock.lockEnqueueExpenseSchedule.RLock()
+	calls = mock.calls.EnqueueExpenseSchedule
+	mock.lockEnqueueExpenseSchedule.RUnlock()
+	return calls
+}
+
+// EnqueueIncomeSchedule calls EnqueueIncomeScheduleFunc.
+func (mock *RepositoryMock) EnqueueIncomeSchedule() error {
+	if mock.EnqueueIncomeScheduleFunc == nil {
+		panic("RepositoryMock.EnqueueIncomeScheduleFunc: method is nil but Repository.EnqueueIncomeSchedule was just called")
+	}
+	callInfo := struct {
+	}{}
+	mock.lockEnqueueIncomeSchedule.Lock()
+	mock.calls.EnqueueIncomeSchedule = append(mock.calls.EnqueueIncomeSchedule, callInfo)
+	mock.lockEnqueueIncomeSchedule.Unlock()
+	return mock.EnqueueIncomeScheduleFunc()
+}
+
+// EnqueueIncomeScheduleCalls gets all the calls that were made to EnqueueIncomeSchedule.
+// Check the length with:
+//
+//	len(mockedRepository.EnqueueIncomeScheduleCalls())
+func (mock *RepositoryMock) EnqueueIncomeScheduleCalls() []struct {
+} {
+	var calls []struct {
+	}
+	mock.lockEnqueueIncomeSchedule.RLock()
+	calls = mock.calls.EnqueueIncomeSchedule
+	mock.lockEnqueueIncomeSchedule.RUnlock()
 	return calls
 }
 
@@ -1576,6 +1831,60 @@ func (mock *RepositoryMock) FindPieChartLocationDataCalls() []struct {
 	return calls
 }
 
+// FindScheduledDueExpenseQueues calls FindScheduledDueExpenseQueuesFunc.
+func (mock *RepositoryMock) FindScheduledDueExpenseQueues() ([]model.ScheduledExpenseQueue, error) {
+	if mock.FindScheduledDueExpenseQueuesFunc == nil {
+		panic("RepositoryMock.FindScheduledDueExpenseQueuesFunc: method is nil but Repository.FindScheduledDueExpenseQueues was just called")
+	}
+	callInfo := struct {
+	}{}
+	mock.lockFindScheduledDueExpenseQueues.Lock()
+	mock.calls.FindScheduledDueExpenseQueues = append(mock.calls.FindScheduledDueExpenseQueues, callInfo)
+	mock.lockFindScheduledDueExpenseQueues.Unlock()
+	return mock.FindScheduledDueExpenseQueuesFunc()
+}
+
+// FindScheduledDueExpenseQueuesCalls gets all the calls that were made to FindScheduledDueExpenseQueues.
+// Check the length with:
+//
+//	len(mockedRepository.FindScheduledDueExpenseQueuesCalls())
+func (mock *RepositoryMock) FindScheduledDueExpenseQueuesCalls() []struct {
+} {
+	var calls []struct {
+	}
+	mock.lockFindScheduledDueExpenseQueues.RLock()
+	calls = mock.calls.FindScheduledDueExpenseQueues
+	mock.lockFindScheduledDueExpenseQueues.RUnlock()
+	return calls
+}
+
+// FindScheduledDueIncomeQueues calls FindScheduledDueIncomeQueuesFunc.
+func (mock *RepositoryMock) FindScheduledDueIncomeQueues() ([]model.ScheduledIncomeQueue, error) {
+	if mock.FindScheduledDueIncomeQueuesFunc == nil {
+		panic("RepositoryMock.FindScheduledDueIncomeQueuesFunc: method is nil but Repository.FindScheduledDueIncomeQueues was just called")
+	}
+	callInfo := struct {
+	}{}
+	mock.lockFindScheduledDueIncomeQueues.Lock()
+	mock.calls.FindScheduledDueIncomeQueues = append(mock.calls.FindScheduledDueIncomeQueues, callInfo)
+	mock.lockFindScheduledDueIncomeQueues.Unlock()
+	return mock.FindScheduledDueIncomeQueuesFunc()
+}
+
+// FindScheduledDueIncomeQueuesCalls gets all the calls that were made to FindScheduledDueIncomeQueues.
+// Check the length with:
+//
+//	len(mockedRepository.FindScheduledDueIncomeQueuesCalls())
+func (mock *RepositoryMock) FindScheduledDueIncomeQueuesCalls() []struct {
+} {
+	var calls []struct {
+	}
+	mock.lockFindScheduledDueIncomeQueues.RLock()
+	calls = mock.calls.FindScheduledDueIncomeQueues
+	mock.lockFindScheduledDueIncomeQueues.RUnlock()
+	return calls
+}
+
 // FindTransactionMonths calls FindTransactionMonthsFunc.
 func (mock *RepositoryMock) FindTransactionMonths(uid string) ([]string, error) {
 	if mock.FindTransactionMonthsFunc == nil {
@@ -1733,42 +2042,6 @@ func (mock *RepositoryMock) HardDeleteAllUserIncomesCalls() []struct {
 	mock.lockHardDeleteAllUserIncomes.RLock()
 	calls = mock.calls.HardDeleteAllUserIncomes
 	mock.lockHardDeleteAllUserIncomes.RUnlock()
-	return calls
-}
-
-// Transaction calls TransactionFunc.
-func (mock *RepositoryMock) Transaction(fc func(txRepo *repositories.SuitoRepository) error, opts ...*sql.TxOptions) error {
-	if mock.TransactionFunc == nil {
-		panic("RepositoryMock.TransactionFunc: method is nil but Repository.Transaction was just called")
-	}
-	callInfo := struct {
-		Fc   func(txRepo *repositories.SuitoRepository) error
-		Opts []*sql.TxOptions
-	}{
-		Fc:   fc,
-		Opts: opts,
-	}
-	mock.lockTransaction.Lock()
-	mock.calls.Transaction = append(mock.calls.Transaction, callInfo)
-	mock.lockTransaction.Unlock()
-	return mock.TransactionFunc(fc, opts...)
-}
-
-// TransactionCalls gets all the calls that were made to Transaction.
-// Check the length with:
-//
-//	len(mockedRepository.TransactionCalls())
-func (mock *RepositoryMock) TransactionCalls() []struct {
-	Fc   func(txRepo *repositories.SuitoRepository) error
-	Opts []*sql.TxOptions
-} {
-	var calls []struct {
-		Fc   func(txRepo *repositories.SuitoRepository) error
-		Opts []*sql.TxOptions
-	}
-	mock.lockTransaction.RLock()
-	calls = mock.calls.Transaction
-	mock.lockTransaction.RUnlock()
 	return calls
 }
 

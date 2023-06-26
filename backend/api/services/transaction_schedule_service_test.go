@@ -6,9 +6,9 @@ import (
 
 	"github.com/stretchr/testify/require"
 	"github.com/wakamenod/suito/api/repositories"
+	"github.com/wakamenod/suito/db/transaction"
 	"github.com/wakamenod/suito/model"
 	"github.com/wakamenod/suito/utils/testutils"
-	"gorm.io/gorm"
 )
 
 func TestCreateTransactionsService(t *testing.T) {
@@ -19,7 +19,7 @@ func TestCreateTransactionsService(t *testing.T) {
 	userID := "userID1"
 	{
 		id := i.InsertExpenseSchedule(userID, "title01", "America/New_York").ID
-		i.InsertScheduledExpenseQueue(id, time.Date(2023, 5, 1, 10, 0, 0, 0, time.UTC), gorm.DeletedAt{})
+		i.InsertScheduledExpenseQueue(id, time.Date(2023, 5, 1, 10, 0, 0, 0, time.UTC))
 	}
 	{
 		id := i.InsertExpenseSchedule(userID, "title02", "Asia/Tokyo",
@@ -28,11 +28,11 @@ func TestCreateTransactionsService(t *testing.T) {
 			i.WithExpenseCategoryID("CID1"),
 			i.WithExpenseLocationID("LID1"),
 		).ID
-		i.InsertScheduledExpenseQueue(id, time.Date(2023, 4, 30, 16, 0, 0, 0, time.UTC), gorm.DeletedAt{})
+		i.InsertScheduledExpenseQueue(id, time.Date(2023, 4, 30, 16, 0, 0, 0, time.UTC))
 	}
 	{
 		id := i.InsertIncomeSchedule(userID, "America/New_York").ID
-		i.InsertScheduledIncomeQueue(id, time.Date(2023, 5, 1, 10, 0, 0, 0, time.UTC), gorm.DeletedAt{})
+		i.InsertScheduledIncomeQueue(id, time.Date(2023, 5, 1, 10, 0, 0, 0, time.UTC))
 	}
 	{
 		id := i.InsertIncomeSchedule(userID, "Asia/Tokyo",
@@ -40,9 +40,13 @@ func TestCreateTransactionsService(t *testing.T) {
 			i.WithIncomeAmount(400),
 			i.WithIncomeTypeID("TID1"),
 		).ID
-		i.InsertScheduledIncomeQueue(id, time.Date(2023, 4, 30, 16, 0, 0, 0, time.UTC), gorm.DeletedAt{})
+		i.InsertScheduledIncomeQueue(id, time.Date(2023, 4, 30, 16, 0, 0, 0, time.UTC))
 	}
-	require.NoError(t, NewSuitoJobService(repositories.NewSuitoRepository(tx), nil).CreateTransactionsService())
+	require.NoError(t, NewSuitoJobService(
+		repositories.NewSuitoRepository(tx),
+		transaction.NewSuitoTransactionProvider(tx),
+		nil,
+	).CreateTransactionsService())
 	// Check
 	{
 		var founds []model.Expense
@@ -69,10 +73,8 @@ func TestCreateTransactionsService(t *testing.T) {
 			require.False(t, found.DeletedAt.Valid)
 		}
 		var deletedSchedules []model.ScheduledExpenseQueue
-		require.NoError(t, tx.Unscoped().Find(&deletedSchedules).Order("id").Error)
-		require.Equal(t, 2, len((deletedSchedules)))
-		require.True(t, deletedSchedules[0].DeletedAt.Valid)
-		require.True(t, deletedSchedules[1].DeletedAt.Valid)
+		require.NoError(t, tx.Find(&deletedSchedules).Order("id").Error)
+		require.Equal(t, 0, len((deletedSchedules)))
 	}
 	{
 		var founds []model.Income
@@ -95,10 +97,8 @@ func TestCreateTransactionsService(t *testing.T) {
 			require.False(t, found.DeletedAt.Valid)
 		}
 		var deletedSchedules []model.ScheduledIncomeQueue
-		require.NoError(t, tx.Unscoped().Find(&deletedSchedules).Order("id").Error)
-		require.Equal(t, 2, len((deletedSchedules)))
-		require.True(t, deletedSchedules[0].DeletedAt.Valid)
-		require.True(t, deletedSchedules[1].DeletedAt.Valid)
+		require.NoError(t, tx.Find(&deletedSchedules).Order("id").Error)
+		require.Equal(t, 0, len((deletedSchedules)))
 	}
 
 }

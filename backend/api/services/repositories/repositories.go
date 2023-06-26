@@ -6,10 +6,28 @@ import (
 
 	"github.com/wakamenod/suito/api/repositories"
 	"github.com/wakamenod/suito/model"
+	"gorm.io/gorm"
 )
 
+type TransactionProvider interface {
+	Transaction(fc func(txRepo Repository) error, opts ...*sql.TxOptions) error
+}
+
+type SuitoTransactionProvider struct {
+	db *gorm.DB
+}
+
+func NewSuitoTransactionProvider(db *gorm.DB) TransactionProvider {
+	return &SuitoTransactionProvider{db: db}
+}
+
+func (p *SuitoTransactionProvider) Transaction(fc func(txRepo Repository) error, opts ...*sql.TxOptions) error {
+	return p.db.Transaction(func(tx *gorm.DB) error {
+		return fc(repositories.NewSuitoRepository(tx))
+	})
+}
+
 type Repository interface {
-	Transaction(fc func(txRepo *repositories.SuitoRepository) error, opts ...*sql.TxOptions) (err error)
 	FindExpense(id, uid string) (model.Expense, error)
 	FindExpenses(uid string, start, end *time.Time) ([]model.Expense, error)
 	FindIncome(id, uid string) (model.Income, error)
@@ -48,4 +66,12 @@ type Repository interface {
 	DeleteIncomeSchedule(id, uid string) error
 	CreateExpenseSchedule(uid string, expenseSchedule model.ExpenseSchedule) (model.ExpenseSchedule, error)
 	CreateIncomeSchedule(uid string, incomeSchedule model.IncomeSchedule) (model.IncomeSchedule, error)
+	EnqueueExpenseSchedule() error
+	EnqueueIncomeSchedule() error
+	FindScheduledDueExpenseQueues() ([]model.ScheduledExpenseQueue, error)
+	CreateExpensesFromScheduledQueue(queues []model.ScheduledExpenseQueue) error
+	DeleteScheduledExpenseQueues(queues []model.ScheduledExpenseQueue) error
+	FindScheduledDueIncomeQueues() ([]model.ScheduledIncomeQueue, error)
+	CreateIncomesFromScheduledQueue(queues []model.ScheduledIncomeQueue) error
+	DeleteScheduledIncomeQueues(queues []model.ScheduledIncomeQueue) error
 }

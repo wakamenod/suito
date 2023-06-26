@@ -120,14 +120,3 @@ WHERE id = ?
 
 	return nil
 }
-
-func (r *SuitoRepository) DeleteScheduledIncomeQueues(queues []model.ScheduledIncomeQueue) error {
-	var ids []string
-	for _, q := range queues {
-		ids = append(ids, q.ID)
-	}
-	if err := r.db.Where("id IN ?", ids).Delete(&model.ScheduledIncomeQueue{}).Error; err != nil {
-		return errors.Wrap(err, "failed to delete schedule income queue")
-	}
-	return nil
-}

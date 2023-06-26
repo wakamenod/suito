@@ -1,7 +1,6 @@
 package testdata
 
 import (
-	"database/sql"
 	"time"
 
 	"github.com/wakamenod/suito/api/repositories"
@@ -70,9 +69,6 @@ var TestRepositoryMock = srepositories.RepositoryMock{
 	},
 	DeleteExpenseFunc: func(id string, uid string) error {
 		return nil
-	},
-	TransactionFunc: func(fc func(txRepo *repositories.SuitoRepository) error, opts ...*sql.TxOptions) error {
-		return fc(repositories.NewSuitoRepository(nil))
 	},
 	FindColumnChartExpenseDataFunc: func(uid string) ([]repositories.ColumnChartData, error) {
 		return []repositories.ColumnChartData{
@@ -174,5 +170,11 @@ var TestRepositoryMock = srepositories.RepositoryMock{
 	CreateIncomeScheduleFunc: func(uid string, incomeSchedule model.IncomeSchedule) (model.IncomeSchedule, error) {
 		incomeSchedule.ID = "new_income_schedule_id"
 		return incomeSchedule, nil
+	},
+	EnqueueExpenseScheduleFunc: func() error {
+		return nil
+	},
+	EnqueueIncomeScheduleFunc: func() error {
+		return nil
 	},
 }

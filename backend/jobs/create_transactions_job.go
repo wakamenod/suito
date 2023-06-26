@@ -5,6 +5,7 @@ import (
 	"github.com/pkg/errors"
 	"github.com/wakamenod/suito/api/repositories"
 	"github.com/wakamenod/suito/api/services"
+	"github.com/wakamenod/suito/db/transaction"
 	"github.com/wakamenod/suito/log"
 	"gorm.io/gorm"
 )
@@ -12,18 +13,19 @@ import (
 type (
 	createTransactionsJob struct {
 		repo *repositories.SuitoRepository
+		transaction.Provider
 	}
 )
 
-func newCreateTransactionsJob(repo *repositories.SuitoRepository) *createTransactionsJob {
-	return &createTransactionsJob{repo: repo}
+func newCreateTransactionsJob(repo *repositories.SuitoRepository, provider transaction.Provider) *createTransactionsJob {
+	return &createTransactionsJob{repo: repo, Provider: provider}
 }
 
 func (j *createTransactionsJob) do() {
 	log.Info("=== start createTransactionsJob ===", nil)
 	defer log.Info("=== end createTransactionsJob ===", nil)
 
-	err := services.NewSuitoJobService(j.repo, nil).CreateTransactionsService()
+	err := services.NewSuitoJobService(j.repo, j.Provider, nil).CreateTransactionsService()
 	if err != nil {
 		log.Warn("err CreateTransactionssJobService", log.Fields{"err": err})
 	}
@@ -45,6 +47,7 @@ func scheduleCreateTransactionsWithJob(job *createTransactionsJob) error {
 }
 
 func scheduleCreateTransactionsJob(db *gorm.DB) error {
-	job := newCreateTransactionsJob(repositories.NewSuitoRepository(db))
+	provider := transaction.NewSuitoTransactionProvider(db)
+	job := newCreateTransactionsJob(repositories.NewSuitoRepository(db), provider)
 	return scheduleCreateTransactionsWithJob(job)
 }

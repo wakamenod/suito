@@ -139,23 +139,19 @@ func (e *TestDataInserter) InsertUser(uid string, deletedAt gorm.DeletedAt) mode
 	return user
 }
 
-func (e *TestDataInserter) InsertScheduledExpenseQueue(scheduleID string, scheduledAt time.Time, deletedAt gorm.DeletedAt) model.ScheduledExpenseQueue {
+func (e *TestDataInserter) InsertScheduledExpenseQueue(scheduleID string, scheduledAt time.Time) model.ScheduledExpenseQueue {
 	q := model.ScheduledExpenseQueue{
-		ID:                xid.New().String(),
 		ExpenseScheduleID: scheduleID,
 		ScheduledAt:       scheduledAt,
-		DeletedAt:         deletedAt,
 	}
 	require.NoError(e.t, e.db.Create(&q).Error, "failed to insert scheduled_expense_queue")
 	return q
 }
 
-func (e *TestDataInserter) InsertScheduledIncomeQueue(scheduleID string, scheduledAt time.Time, deletedAt gorm.DeletedAt) model.ScheduledIncomeQueue {
+func (e *TestDataInserter) InsertScheduledIncomeQueue(scheduleID string, scheduledAt time.Time) model.ScheduledIncomeQueue {
 	q := model.ScheduledIncomeQueue{
-		ID:               xid.New().String(),
 		IncomeScheduleID: scheduleID,
 		ScheduledAt:      scheduledAt,
-		DeletedAt:        deletedAt,
 	}
 	require.NoError(e.t, e.db.Create(&q).Error, "failed to insert scheduled_income_queue")
 	return q

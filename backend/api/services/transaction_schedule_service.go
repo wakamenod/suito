@@ -2,7 +2,7 @@ package services
 
 import (
 	"github.com/pkg/errors"
-	"github.com/wakamenod/suito/api/repositories"
+	"github.com/wakamenod/suito/api/services/repositories"
 )
 
 type (
@@ -14,9 +14,9 @@ type (
 )
 
 func (s *SuitoJobService) CreateTransactionsService() error {
-	err := s.repo.Transaction(func(txRepo *repositories.SuitoRepository) error {
+	err := s.Transaction(func(txRepo repositories.Repository) error {
 		{ // expense
-			queues, err := txRepo.FindScheduledExpenseQueues()
+			queues, err := txRepo.FindScheduledDueExpenseQueues()
 			if err != nil {
 				return err
 			}
@@ -30,7 +30,7 @@ func (s *SuitoJobService) CreateTransactionsService() error {
 			}
 		}
 		{ // income
-			queues, err := txRepo.FindScheduledIncomeQueues()
+			queues, err := txRepo.FindScheduledDueIncomeQueues()
 			if err != nil {
 				return err
 			}
@@ -81,4 +81,21 @@ func (s *SuitoService) ListTransactionSchedulesService(uid string) ([]Transactio
 	}
 
 	return resExpenses, resIncomes, nil
+}
+
+func (s *SuitoJobService) EnqueueTransactionSchedulesService() error {
+	err := s.Transaction(func(txRepo repositories.Repository) error {
+		if err := txRepo.EnqueueExpenseSchedule(); err != nil {
+			return err
+		}
+		if err := txRepo.EnqueueIncomeSchedule(); err != nil {
+			return err
+		}
+		return nil
+	})
+	if err != nil {
+		return errors.Wrap(err, "err EnqueueTransactionSchedulesService")
+	}
+
+	return nil
 }

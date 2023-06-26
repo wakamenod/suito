@@ -377,7 +377,7 @@ func TestCreateExpensesFromScheduledQueue(t *testing.T) {
 	var params []model.ScheduledExpenseQueue
 	{
 		id := i.InsertExpenseSchedule(userID, "title01", "America/New_York").ID
-		q := i.InsertScheduledExpenseQueue(id, time.Date(2023, 5, 1, 10, 0, 0, 0, time.UTC), gorm.DeletedAt{})
+		q := i.InsertScheduledExpenseQueue(id, time.Date(2023, 5, 1, 10, 0, 0, 0, time.UTC))
 		params = append(params, q)
 	}
 	{
@@ -387,7 +387,7 @@ func TestCreateExpensesFromScheduledQueue(t *testing.T) {
 			i.WithExpenseCategoryID("CID1"),
 			i.WithExpenseLocationID("LID1"),
 		).ID
-		q := i.InsertScheduledExpenseQueue(id, time.Date(2023, 4, 30, 16, 0, 0, 0, time.UTC), gorm.DeletedAt{})
+		q := i.InsertScheduledExpenseQueue(id, time.Date(2023, 4, 30, 16, 0, 0, 0, time.UTC))
 		params = append(params, q)
 	}
 	// run

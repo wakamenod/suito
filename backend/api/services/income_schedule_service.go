@@ -3,7 +3,7 @@ package services
 import (
 	"strings"
 
-	"github.com/wakamenod/suito/api/repositories"
+	"github.com/wakamenod/suito/api/services/repositories"
 	"github.com/wakamenod/suito/model"
 )
 
@@ -43,21 +43,26 @@ func (s *SuitoService) DeleteIncomeScheduleService(id, uid string) error {
 func (s *SuitoService) CreateIncomeScheduleService(uid string, incomeSchedule model.IncomeSchedule) (model.IncomeSchedule, error) {
 	var res model.IncomeSchedule
 
-	err := s.repo.Transaction(func(txRepo *repositories.SuitoRepository) error {
+	err := s.Transaction(func(txRepo repositories.Repository) error {
 		incomeType := incomeSchedule.IncomeType.Name
 		if incomeType != "" {
-			incomeType, err := s.repo.FindOrCreateIncomeType(uid, strings.TrimSpace(incomeType))
+			incomeType, err := txRepo.FindOrCreateIncomeType(uid, strings.TrimSpace(incomeType))
 			if err != nil {
 				return err
 			}
 			incomeSchedule.IncomeType = incomeType
 			incomeSchedule.IncomeTypeID = incomeType.ID
 		}
-		incomeSchedule, err := s.repo.CreateIncomeSchedule(uid, incomeSchedule)
+		incomeSchedule, err := txRepo.CreateIncomeSchedule(uid, incomeSchedule)
 		if err != nil {
 			return err
 		}
 		res = incomeSchedule
+
+		if err := txRepo.EnqueueIncomeSchedule(); err != nil {
+			return err
+		}
+
 		return nil
 	})
 	if err != nil {
