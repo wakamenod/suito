@@ -3,7 +3,7 @@ package services
 import (
 	"strings"
 
-	"github.com/wakamenod/suito/api/repositories"
+	"github.com/wakamenod/suito/api/services/repositories"
 	"github.com/wakamenod/suito/model"
 )
 
@@ -26,9 +26,9 @@ func (s *SuitoService) ListIncomeTypesService(uid string) ([]model.IncomeType, e
 func (s *SuitoService) CreateIncomeService(uid string, income model.Income) (model.Income, error) {
 	var res model.Income
 
-	err := s.repo.Transaction(func(txRepo *repositories.SuitoRepository) error {
+	err := s.Transaction(func(txRepo repositories.Repository) error {
 		if income.IncomeType.Name != "" {
-			incomeType, err := s.repo.FindOrCreateIncomeType(uid, strings.TrimSpace(income.IncomeType.Name))
+			incomeType, err := txRepo.FindOrCreateIncomeType(uid, strings.TrimSpace(income.IncomeType.Name))
 			if err != nil {
 				return err
 			}
@@ -36,7 +36,7 @@ func (s *SuitoService) CreateIncomeService(uid string, income model.Income) (mod
 			income.IncomeType = incomeType
 		}
 
-		income, err := s.repo.CreateIncome(uid, income)
+		income, err := txRepo.CreateIncome(uid, income)
 		if err != nil {
 			return err
 		}
@@ -52,9 +52,9 @@ func (s *SuitoService) CreateIncomeService(uid string, income model.Income) (mod
 func (s *SuitoService) UpdateIncomeService(uid string, income model.Income) (model.Income, error) {
 	var res model.Income
 
-	err := s.repo.Transaction(func(txRepo *repositories.SuitoRepository) error {
+	err := s.Transaction(func(txRepo repositories.Repository) error {
 		if income.IncomeType.Name != "" {
-			incomeType, err := s.repo.FindOrCreateIncomeType(uid, strings.TrimSpace(income.IncomeType.Name))
+			incomeType, err := txRepo.FindOrCreateIncomeType(uid, strings.TrimSpace(income.IncomeType.Name))
 			if err != nil {
 				return err
 			}
@@ -62,7 +62,7 @@ func (s *SuitoService) UpdateIncomeService(uid string, income model.Income) (mod
 			income.IncomeType = incomeType
 		}
 
-		income, err := s.repo.UpdateIncome(uid, income)
+		income, err := txRepo.UpdateIncome(uid, income)
 		if err != nil {
 			return err
 		}

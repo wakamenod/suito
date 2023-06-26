@@ -2,16 +2,12 @@ package model
 
 import (
 	"time"
-
-	"gorm.io/gorm"
 )
 
 type ScheduledIncomeQueue struct {
-	ID               string `gorm:"type:varchar(20);primaryKey"`
-	IncomeScheduleID string `gorm:"type:varchar(20)"`
+	IncomeScheduleID string `gorm:"type:varchar(20);primaryKey"`
 	ScheduledAt      time.Time
 
-	DeletedAt gorm.DeletedAt
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }

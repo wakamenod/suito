@@ -4,6 +4,8 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/require"
+	"github.com/wakamenod/suito/api/repositories"
+	"github.com/wakamenod/suito/db/transaction"
 	"github.com/wakamenod/suito/model"
 )
 
@@ -59,4 +61,31 @@ func TestCreateIncomeScheduleService(t *testing.T) {
 	require.NoError(t, err)
 	require.Equal(t, "new_income_schedule_id", newIncomeSchedule.ID)
 	require.Equal(t, "NewIncomeTypeID", newIncomeSchedule.IncomeTypeID)
+}
+
+func TestCreateIncomeScheduleService_DBRepository(t *testing.T) {
+	tx := begin()
+	defer rollback(tx)
+
+	userID := "user1"
+
+	incomeSchedule := model.IncomeSchedule{
+		Amount: 2000,
+		Memo:   "test_memo",
+		IncomeType: model.IncomeType{
+			Name: "new income type",
+		},
+		Timezone: "Asia/Tokyo",
+	}
+
+	res, err := NewSuitoService(
+		repositories.NewSuitoRepository(tx),
+		transaction.NewSuitoTransactionProvider(tx),
+	).CreateIncomeScheduleService(userID, incomeSchedule)
+	require.NoError(t, err)
+
+	var founds []model.ScheduledIncomeQueue
+	require.NoError(t, tx.Where("income_schedule_id = ?", res.ID).Find(&founds).
+		Order("income_schedule_id").Error)
+	require.Equal(t, 1, len((founds)))
 }

@@ -8,6 +8,7 @@ import (
 	"github.com/wakamenod/suito/api/controllers"
 	"github.com/wakamenod/suito/api/repositories"
 	"github.com/wakamenod/suito/api/services"
+	"github.com/wakamenod/suito/db/transaction"
 	"github.com/wakamenod/suito/env"
 	"gorm.io/gorm"
 )
@@ -18,7 +19,7 @@ func InitRoute(e *echo.Echo, db *gorm.DB) *echo.Echo {
 	g := e.Group(apiBasePath)
 
 	repo := repositories.NewSuitoRepository(db)
-	ser := services.NewSuitoService(repo)
+	ser := services.NewSuitoService(repo, transaction.NewSuitoTransactionProvider(db))
 	tCon := controllers.NewTransactionController(ser)
 	iCon := controllers.NewIncomeController(ser)
 	eCon := controllers.NewExpenseController(ser)

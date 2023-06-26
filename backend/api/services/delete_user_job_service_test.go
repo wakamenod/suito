@@ -11,6 +11,7 @@ import (
 	"github.com/wakamenod/suito/api/repositories"
 	"github.com/wakamenod/suito/client"
 	"github.com/wakamenod/suito/db"
+	"github.com/wakamenod/suito/db/transaction"
 	"github.com/wakamenod/suito/log"
 	"github.com/wakamenod/suito/model"
 	"github.com/wakamenod/suito/utils/testutils"
@@ -144,7 +145,11 @@ func TestDoDeleteUserJob(t *testing.T) {
 		},
 	}
 
-	require.NoError(t, NewSuitoJobService(repositories.NewSuitoRepository(tx), authClientMock).DeleteUsersJobService())
+	require.NoError(t, NewSuitoJobService(
+		repositories.NewSuitoRepository(tx),
+		transaction.NewSuitoTransactionProvider(tx),
+		authClientMock,
+	).DeleteUsersJobService())
 
 	// check
 	var cnt int64

@@ -110,32 +110,26 @@ CREATE TABLE `income_schedule` (
 
 -- Sheduled Expense Queue
 CREATE TABLE `scheduled_expense_queue` (
-  -- ID
-  `id` VARCHAR(20) NOT NULL,
   -- expense_schedule_id
   `expense_schedule_id` VARCHAR(20) NOT NULL,
   -- scheduled_at
   `scheduled_at` DATETIME NOT NULL,
 
-  `deleted_at` DATETIME,
   `created_at` DATETIME NOT NULL,
   `updated_at` DATETIME NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`expense_schedule_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- Sheduled Income Queue
 CREATE TABLE `scheduled_income_queue` (
-  -- ID
-  `id` VARCHAR(20) NOT NULL,
   -- income_schedule_id
   `income_schedule_id` VARCHAR(20) NOT NULL,
   -- scheduled_at
   `scheduled_at` DATETIME NOT NULL,
 
-  `deleted_at` DATETIME,
   `created_at` DATETIME NOT NULL,
   `updated_at` DATETIME NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`income_schedule_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- Expense Location

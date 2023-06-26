@@ -5,8 +5,7 @@ import (
 	"fmt"
 
 	"github.com/pkg/errors"
-	"github.com/wakamenod/suito/api/repositories"
-	srepositories "github.com/wakamenod/suito/api/services/repositories"
+	"github.com/wakamenod/suito/api/services/repositories"
 	"github.com/wakamenod/suito/client"
 	"github.com/wakamenod/suito/log"
 	"google.golang.org/api/iterator"
@@ -26,16 +25,16 @@ func (s *SuitoJobService) DeleteUsersJobService() error {
 	nonExistentUIDs := getNonExistentUsersIDs(uids, firebaseUsers)
 
 	log.Info("delete user targets", log.Fields{"uids": nonExistentUIDs})
-	if err := deleteAllUserData(s.repo, nonExistentUIDs); err != nil {
+	if err := s.deleteAllUserData(nonExistentUIDs); err != nil {
 		log.Warn("err deleteAllUserData", log.Fields{"err": err})
 	}
 
 	return nil
 }
 
-func deleteAllUserData(repo srepositories.Repository, uids []string) error {
+func (s *SuitoJobService) deleteAllUserData(uids []string) error {
 	for _, uid := range uids {
-		err := repo.Transaction(func(txRepo *repositories.SuitoRepository) error {
+		err := s.Transaction(func(txRepo repositories.Repository) error {
 			if err := txRepo.HardDeleteAllUserExpenseCategories(uid); err != nil {
 				return err
 			}

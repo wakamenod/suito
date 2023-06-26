@@ -10,6 +10,7 @@ import (
 	"github.com/wakamenod/suito/api/repositories"
 	"github.com/wakamenod/suito/api/services"
 	"github.com/wakamenod/suito/client"
+	"github.com/wakamenod/suito/db/transaction"
 	"github.com/wakamenod/suito/log"
 )
 
@@ -21,18 +22,19 @@ type (
 	deleteUserJob struct {
 		authClient client.AuthClient
 		repo       *repositories.SuitoRepository
+		transaction.Provider
 	}
 )
 
-func newDeleteUserJob(client client.AuthClient, repo *repositories.SuitoRepository) *deleteUserJob {
-	return &deleteUserJob{authClient: client, repo: repo}
+func newDeleteUserJob(client client.AuthClient, repo *repositories.SuitoRepository, provider transaction.Provider) *deleteUserJob {
+	return &deleteUserJob{authClient: client, repo: repo, Provider: provider}
 }
 
 func (j *deleteUserJob) do() {
 	log.Info("=== start deleteUserJob ===", nil)
 	defer log.Info("=== end deleteUserJob ===", nil)
 
-	err := services.NewSuitoJobService(j.repo, j.authClient).DeleteUsersJobService()
+	err := services.NewSuitoJobService(j.repo, j.Provider, j.authClient).DeleteUsersJobService()
 	if err != nil {
 		log.Warn("err DeleteUsersJobService", log.Fields{"err": err})
 	}
@@ -54,6 +56,7 @@ func scheduleDeleteUserWithJob(job *deleteUserJob) error {
 }
 
 func scheduleDeleteUserJob(authClient client.AuthClient, db *gorm.DB) error {
-	job := newDeleteUserJob(authClient, repositories.NewSuitoRepository(db))
+	provider := transaction.NewSuitoTransactionProvider(db)
+	job := newDeleteUserJob(authClient, repositories.NewSuitoRepository(db), provider)
 	return scheduleDeleteUserWithJob(job)
 }

@@ -12,5 +12,8 @@ func ScheduleAllJobs(authClient client.AuthClient, db *gorm.DB) error {
 	if err := scheduleCreateTransactionsJob(db); err != nil {
 		return err
 	}
+	if err := scheduleEnqueueTransactionScheduleJob(db); err != nil {
+		return err
+	}
 	return nil
 }
