@@ -52,7 +52,7 @@ class TransactionDatePicker extends StatelessWidget {
                 child: CupertinoDatePicker(
                   initialDateTime: DateTime.parse(date),
                   mode: CupertinoDatePickerMode.date,
-                  showDayOfWeek: false,
+                  showDayOfWeek: true,
                   onDateTimeChanged: (DateTime newDate) {
                     final val = newDate.toString();
                     onChanged(val);
