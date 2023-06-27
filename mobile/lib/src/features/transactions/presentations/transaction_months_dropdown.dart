@@ -36,35 +36,49 @@ class _TransactinoMonthsDropdown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButtonHideUnderline(
-      child: DropdownButton2(
-        hint: Text(
-          t.transactions.months.hintText,
-          style: TextStyle(
-            fontSize: 14,
-            color: Theme.of(context).hintColor,
-          ),
-        ),
-        items: yearMonthItems
-            .map((item) => DropdownMenuItem<String>(
-                  value: item,
-                  child: Text(
-                    item,
-                    style: const TextStyle(
+    return Padding(
+      padding: const EdgeInsets.only(left: 8.0),
+      child: Row(
+        children: [
+          const Icon(Icons.calendar_today),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: SizedBox(
+              width: 90,
+              child: DropdownButtonHideUnderline(
+                child: DropdownButton2(
+                  hint: Text(
+                    t.transactions.months.hintText,
+                    style: TextStyle(
                       fontSize: 14,
+                      color: Theme.of(context).hintColor,
                     ),
                   ),
-                ))
-            .toList(),
-        value: initialValue,
-        onChanged: onChanged,
-        buttonStyleData: const ButtonStyleData(
-          height: 40,
-          width: 140,
-        ),
-        menuItemStyleData: const MenuItemStyleData(
-          height: 40,
-        ),
+                  items: yearMonthItems
+                      .map((item) => DropdownMenuItem<String>(
+                            value: item,
+                            child: Text(
+                              item,
+                              style: const TextStyle(
+                                fontSize: 14,
+                              ),
+                            ),
+                          ))
+                      .toList(),
+                  value: initialValue,
+                  onChanged: onChanged,
+                  buttonStyleData: const ButtonStyleData(
+                    height: 40,
+                    width: 140,
+                  ),
+                  menuItemStyleData: const MenuItemStyleData(
+                    height: 40,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -11,73 +11,73 @@ class TransactionsTotalAmounts extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final totalAmounts = ref.watch(transactionsTotalAmountsProvider);
     final currencyFormatter = ref.watch(currencyFormatterProvider);
-    return SizedBox(
-      height: 120,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            _SummaryCard(
-              title: t.transactions.totalAmounts.balance,
-              amount: currencyFormatter.format(totalAmounts.balance),
-              height: 100,
-              width: 150,
-            ),
-            Column(
-              children: [
-                _SummaryCard(
-                  title: t.transactions.totalAmounts.income,
-                  amount: currencyFormatter.format(totalAmounts.income),
-                  height: 52,
-                  width: 150,
-                ),
-                _SummaryCard(
-                  title: t.transactions.totalAmounts.expense,
-                  amount: currencyFormatter.format(totalAmounts.expense),
-                  height: 52,
-                  width: 150,
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
 
-class _SummaryCard extends StatelessWidget {
-  final String title;
-  final String amount;
-  final double width;
-  final double height;
-
-  const _SummaryCard(
-      {required this.title,
-      required this.amount,
-      required this.width,
-      required this.height});
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: width,
-      height: height,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: Card(
-        elevation: 0,
-        color: Colors.grey,
+        color: Colors.white,
+        elevation: 0.5,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(3.0),
+          borderRadius: BorderRadius.circular(0),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(3.0),
+          padding: const EdgeInsets.all(8.0),
           child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(title, style: const TextStyle(fontSize: 12)),
-              // TODO amount formatter
-              Text(amount, style: const TextStyle(fontSize: 12)),
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    t.transactions.totalAmounts.balance,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15.0,
+                    ),
+                  ),
+                  Text(
+                    currencyFormatter.format(totalAmounts.balance),
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15.0,
+                    ),
+                  ),
+                ],
+              ),
+              const Divider(
+                color: Colors.grey,
+                thickness: 0.5,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    t.transactions.totalAmounts.income,
+                    style: const TextStyle(
+                      fontSize: 15.0,
+                    ),
+                  ),
+                  Text(
+                    currencyFormatter.format(totalAmounts.income),
+                    style: const TextStyle(fontSize: 15.0, color: Colors.green),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    t.transactions.totalAmounts.expense,
+                    style: const TextStyle(
+                      fontSize: 15.0,
+                    ),
+                  ),
+                  Text(
+                    currencyFormatter.format(totalAmounts.expense),
+                    style: const TextStyle(fontSize: 15.0, color: Colors.red),
+                  ),
+                ],
+              ),
             ],
           ),
         ),

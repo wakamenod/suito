@@ -36,8 +36,10 @@ class MyApp extends ConsumerWidget {
       ],
       supportedLocales: AppLocaleUtils.supportedLocales,
       theme: ThemeData(
+        appBarTheme: const AppBarTheme(color: Color(0xff258DBA)),
+        scaffoldBackgroundColor: const Color(0xfff2f4f5),
         fontFamily: 'NotoSerifJP',
-        useMaterial3: false,
+        useMaterial3: true,
         primarySwatch: Colors.grey,
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
