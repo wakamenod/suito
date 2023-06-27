@@ -33,6 +33,7 @@ class ShellScreen extends StatelessWidget {
     return Scaffold(
       body: child,
       bottomNavigationBar: NavigationBar(
+        backgroundColor: const Color(0XFFF5F5F5),
         destinations: [
           for (final r in NavigationBarRoute.values)
             NavigationDestination(

@@ -21,6 +21,13 @@ class TransactionsScreen extends ConsumerWidget {
         children: [
           const TransactionMonthsDropdown(),
           const TransactionsTotalAmounts(),
+          const Padding(
+            padding:
+                EdgeInsets.only(right: 12.0, left: 12.0, top: 8.0, bottom: 3.0),
+            child: Row(
+              children: [Icon(Icons.sort)],
+            ),
+          ),
           Expanded(child: TransactionsList())
         ],
       ),
@@ -28,7 +35,7 @@ class TransactionsScreen extends ConsumerWidget {
         onPressed: () {
           context.goNamed(AppRoute.transactionDetail.name);
         },
-        backgroundColor: Colors.blueAccent,
+        backgroundColor: const Color(0xff2CAAE0),
         child: const Icon(Icons.add),
       ),
     );

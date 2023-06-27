@@ -76,38 +76,71 @@ class TransactionsList extends ConsumerWidget {
                 ),
               ),
             ),
-            child: SizedBox(
-              height: 50,
-              child: GestureDetector(
-                  onTap: () {
-                    context.goNamed(AppRoute.transactionDetail.name,
-                        queryParameters: {
-                          'id': transaction.id,
-                          'type': transaction.type.toString()
-                        });
-                  },
+            child: GestureDetector(
+              onTap: () {
+                context.goNamed(AppRoute.transactionDetail.name,
+                    queryParameters: {
+                      'id': transaction.id,
+                      'type': transaction.type.toString()
+                    });
+              },
+              child: Card(
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(0),
+                ),
+                child: SizedBox(
+                  height: 55,
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 40),
-                    child: Row(children: [
-                      Text(_dateFormatter
-                          .format(DateTime.parse(transaction.localDate))),
-                      const SizedBox(width: 20),
-                      SizedBox(
-                          width: 60,
-                          child: Align(
-                            alignment: Alignment.centerRight,
-                            child: Text(
-                                currencyFormatter.format(transaction.amount),
-                                style: TextStyle(
-                                    color: TransactionType.isExpense(
-                                            transaction.type)
-                                        ? Colors.red
-                                        : Colors.green)),
-                          )),
-                      const SizedBox(width: 20),
-                      Text(transaction.title)
-                    ]),
-                  )),
+                    padding: const EdgeInsets.only(
+                        top: 8, bottom: 8, left: 10, right: 10),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                flex: 5,
+                                child: Text(
+                                  transaction.title,
+                                  textAlign: TextAlign.left,
+                                ),
+                              ),
+                              const SizedBox(width: 20),
+                              Expanded(
+                                flex: 3,
+                                child: Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Text(
+                                      currencyFormatter
+                                          .format(transaction.amount),
+                                      textAlign: TextAlign.right,
+                                      style: TextStyle(
+                                          color: TransactionType.isExpense(
+                                                  transaction.type)
+                                              ? Colors.red
+                                              : Colors.green)),
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 50,
+                                child: Icon(Icons.more_vert),
+                              ),
+                            ]),
+                        Row(children: [
+                          Text(
+                            _dateFormatter.format(DateTime.parse(
+                              transaction.localDate,
+                            )),
+                            style: const TextStyle(fontSize: 10),
+                          ),
+                        ]),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
             ),
           );
         },
