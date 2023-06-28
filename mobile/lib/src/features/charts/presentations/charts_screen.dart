@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:suito/i18n/translations.g.dart';
 import 'package:suito/src/features/charts/presentations/column_chart_view.dart';
 import 'package:suito/src/features/charts/presentations/pie_chart_view.dart';
 
@@ -12,17 +13,23 @@ class ChartsScreen extends ConsumerWidget {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          bottom: TabBar(
-            indicatorWeight: 1,
-            indicator: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                color: Colors.white70), //
-            tabs: const [
-              Tab(icon: Icon(Icons.stacked_bar_chart)),
-              Tab(icon: Icon(Icons.pie_chart)),
-            ],
+          bottom: const PreferredSize(
+            preferredSize: Size.fromHeight(48.0),
+            child: Material(
+              color: Color(0xFFE5F3F9),
+              child: TabBar(
+                indicatorSize: TabBarIndicatorSize.label,
+                indicatorColor: Color(0xFF63AECE),
+                labelColor: Color(0xFF63AECE),
+                unselectedLabelColor: Color(0xFFBEE4F4),
+                tabs: [
+                  Tab(icon: Icon(Icons.stacked_bar_chart)),
+                  Tab(icon: Icon(Icons.pie_chart)),
+                ],
+              ),
+            ),
           ),
-          title: const Text('Charts'),
+          title: Text(t.charts.abbBar),
         ),
         body: const TabBarView(
           physics: NeverScrollableScrollPhysics(),

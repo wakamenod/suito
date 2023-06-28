@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 enum NavigationBarRoute {
   transactions(
       path: '/transactions', icon: Icons.list_alt, labelName: 'Transactions'),
-  charts(path: '/charts', icon: Icons.stacked_bar_chart, labelName: 'Charts'),
+  charts(path: '/charts', icon: Icons.stacked_bar_chart, labelName: 'Reports'),
   schedule(path: '/schedule', icon: Icons.schedule, labelName: 'Schedule');
 
   const NavigationBarRoute(

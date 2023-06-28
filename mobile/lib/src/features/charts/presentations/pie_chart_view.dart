@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_toggle_tab/flutter_toggle_tab.dart';
 import 'package:openapi/openapi.dart';
+import 'package:suito/i18n/translations.g.dart';
 import 'package:suito/src/common_widgets/async_value_widget.dart';
 import 'package:suito/src/features/charts/services/pie_chart.dart';
 import 'package:suito/src/features/charts/services/pie_chart_service.dart';
 import 'package:suito/src/utils/currency_formatter.dart';
 import 'package:suito/src/utils/datetime_utils.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:toggle_switch/toggle_switch.dart';
 
 class PieChartView extends ConsumerWidget {
   const PieChartView({super.key});
@@ -22,11 +23,11 @@ class PieChartView extends ConsumerWidget {
         data: (chartData) {
           return Column(
             children: [
-              Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 12.0),
-                    child: Row(
+              Padding(
+                padding: const EdgeInsets.only(top: 12.0),
+                child: Row(
+                  children: [
+                    Row(
                       children: [
                         IconButton(
                           icon: const Icon(Icons.calendar_today),
@@ -52,28 +53,37 @@ class PieChartView extends ConsumerWidget {
                         )
                       ],
                     ),
-                  ),
-                  ToggleSwitch(
-                    minWidth: 90.0,
-                    cornerRadius: 20.0,
-                    activeBgColors: [
-                      [Colors.green[800]!],
-                      [Colors.red[800]!]
-                    ],
-                    activeFgColor: Colors.white,
-                    inactiveBgColor: Colors.grey,
-                    inactiveFgColor: Colors.white,
-                    initialLabelIndex: chartData.type.index,
-                    totalSwitches: 2,
-                    labels: const ['Category', 'Location'],
-                    radiusStyle: true,
-                    onToggle: (index) {
-                      ref
-                          .read(pieChartControllerProvider.notifier)
-                          .updateType(index);
-                    },
-                  )
-                ],
+                    FlutterToggleTab(
+                      width: 40,
+                      borderRadius: 10,
+                      height: 40,
+                      selectedIndex: chartData.type.index,
+                      selectedBackgroundColors: const [
+                        Colors.blue,
+                        Colors.blueAccent
+                      ],
+                      selectedTextStyle: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700),
+                      unSelectedTextStyle: const TextStyle(
+                          color: Colors.black87,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500),
+                      labels: [
+                        t.charts.toggle.category,
+                        t.charts.toggle.location
+                      ],
+                      marginSelected: const EdgeInsets.symmetric(
+                          horizontal: 2, vertical: 2),
+                      selectedLabelIndex: (index) {
+                        ref
+                            .read(pieChartControllerProvider.notifier)
+                            .updateType(index);
+                      },
+                    ),
+                  ],
+                ),
               ),
               Expanded(
                 child: Center(
