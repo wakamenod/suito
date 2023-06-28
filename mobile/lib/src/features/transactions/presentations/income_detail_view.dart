@@ -5,6 +5,7 @@ import 'package:suito/i18n/translations.g.dart';
 import 'package:suito/src/common_widgets/async_value_widget.dart';
 import 'package:suito/src/common_widgets/currency_input_field.dart';
 import 'package:suito/src/common_widgets/transition_text_field.dart';
+import 'package:suito/src/constants/app_sizes.dart';
 import 'package:suito/src/features/transactions/presentations/transaction_date_picker.dart';
 import 'package:suito/src/features/transactions/services/income.dart';
 import 'package:suito/src/features/transactions/services/income_service.dart';
@@ -33,8 +34,7 @@ class IncomeDetailView extends ConsumerWidget {
             child: ListBody(
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 10.0, horizontal: 5.0),
+                  padding: const EdgeInsets.only(top: 10.0, bottom: 14.0),
                   child: TransactionDatePicker(
                       date: income.date,
                       onChanged: incomeController.onChangeDate),
@@ -44,6 +44,7 @@ class IncomeDetailView extends ConsumerWidget {
                     labelText: t.transactions.detail.inputLabels.title,
                     route: AppRoute.incomeType,
                     onChanged: incomeController.onChangeTitle),
+                gapH12,
                 CurrencyInputField(
                   formatter: ref.watch(currencyFormatterProvider),
                   initialValue: income.amount.value,
@@ -51,12 +52,20 @@ class IncomeDetailView extends ConsumerWidget {
                   labelText: t.transactions.detail.inputLabels.amount,
                   onChanged: incomeController.onChangeAmount,
                 ),
+                gapH12,
                 TransitionTextField(
                     initialValue: income.memo,
                     labelText: t.transactions.detail.inputLabels.memo,
                     route: AppRoute.memo,
                     onChanged: incomeController.onChangeMemo),
+                gapH12,
                 ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(3.0),
+                    ),
+                    backgroundColor: const Color(0xff1D7094),
+                  ),
                   onPressed: () async {
                     await incomeController.registerIncome();
                     if (context.mounted) context.pop();

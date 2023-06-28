@@ -6,6 +6,7 @@ import 'package:suito/src/common_widgets/async_value_widget.dart';
 import 'package:suito/src/common_widgets/currency_input_field.dart';
 import 'package:suito/src/common_widgets/text_input_field.dart';
 import 'package:suito/src/common_widgets/transition_text_field.dart';
+import 'package:suito/src/constants/app_sizes.dart';
 import 'package:suito/src/features/schedules/services/expense_schedule.dart';
 import 'package:suito/src/features/schedules/services/expense_schedule_service.dart';
 import 'package:suito/src/formz/amount.dart';
@@ -34,12 +35,14 @@ class ExpenseScheduleDetailView extends ConsumerWidget {
           body: SingleChildScrollView(
             child: ListBody(
               children: [
+                gapH12,
                 TextInputField(
                     initialValue: expense.title.value,
                     errorText:
                         stitle.Title.showTitleErrorMessage(expense.title),
                     labelText: t.transactions.detail.inputLabels.title,
                     onChanged: expenseScheduleController.onChangeTitle),
+                gapH12,
                 CurrencyInputField(
                   formatter: ref.watch(currencyFormatterProvider),
                   initialValue: expense.amount.value,
@@ -47,22 +50,32 @@ class ExpenseScheduleDetailView extends ConsumerWidget {
                   labelText: t.transactions.detail.inputLabels.amount,
                   onChanged: expenseScheduleController.onChangeAmount,
                 ),
+                gapH12,
                 TransitionTextField(
                     initialValue: expense.category,
                     labelText: t.transactions.detail.inputLabels.category,
                     route: AppRoute.category,
                     onChanged: expenseScheduleController.onChangeCategory),
+                gapH12,
                 TransitionTextField(
                     initialValue: expense.location,
                     labelText: t.transactions.detail.inputLabels.location,
                     route: AppRoute.location,
                     onChanged: expenseScheduleController.onChangeLocation),
+                gapH12,
                 TransitionTextField(
                     initialValue: expense.memo,
                     labelText: t.transactions.detail.inputLabels.memo,
                     route: AppRoute.memo,
                     onChanged: expenseScheduleController.onChangeMemo),
+                gapH12,
                 ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(3.0),
+                    ),
+                    backgroundColor: const Color(0xff1D7094),
+                  ),
                   onPressed: () async {
                     await expenseScheduleController.registerExpenseSchedule();
                     if (context.mounted) context.pop();
