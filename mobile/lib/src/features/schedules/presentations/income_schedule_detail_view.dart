@@ -5,6 +5,7 @@ import 'package:suito/i18n/translations.g.dart';
 import 'package:suito/src/common_widgets/async_value_widget.dart';
 import 'package:suito/src/common_widgets/currency_input_field.dart';
 import 'package:suito/src/common_widgets/transition_text_field.dart';
+import 'package:suito/src/constants/app_sizes.dart';
 import 'package:suito/src/features/schedules/services/income_schedule.dart';
 import 'package:suito/src/features/schedules/services/income_schedule_service.dart';
 import 'package:suito/src/formz/amount.dart';
@@ -32,11 +33,13 @@ class IncomeScheduleDetailView extends ConsumerWidget {
           body: SingleChildScrollView(
             child: ListBody(
               children: [
+                gapH12,
                 TransitionTextField(
                     initialValue: income.title.value,
                     labelText: t.transactions.detail.inputLabels.title,
                     route: AppRoute.incomeType,
                     onChanged: incomeScheduleController.onChangeTitle),
+                gapH12,
                 CurrencyInputField(
                   formatter: ref.watch(currencyFormatterProvider),
                   initialValue: income.amount.value,
@@ -44,12 +47,20 @@ class IncomeScheduleDetailView extends ConsumerWidget {
                   labelText: t.transactions.detail.inputLabels.amount,
                   onChanged: incomeScheduleController.onChangeAmount,
                 ),
+                gapH12,
                 TransitionTextField(
                     initialValue: income.memo,
                     labelText: t.transactions.detail.inputLabels.memo,
                     route: AppRoute.memo,
                     onChanged: incomeScheduleController.onChangeMemo),
+                gapH12,
                 ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(3.0),
+                    ),
+                    backgroundColor: const Color(0xff1D7094),
+                  ),
                   onPressed: () async {
                     await incomeScheduleController.registerIncome();
                     if (context.mounted) context.pop();

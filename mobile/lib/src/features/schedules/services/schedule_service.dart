@@ -11,13 +11,13 @@ part 'schedule_service.g.dart';
 
 class Schedules {
   final String headerText;
-  final Color textColor;
+  final Color mainColor;
   final List<TransactionSchedule> items;
   final Future<void> Function(String id) onDismissed;
 
   Schedules(
       {required this.headerText,
-      required this.textColor,
+      required this.mainColor,
       required this.items,
       required this.onDismissed});
 }
@@ -43,7 +43,7 @@ Future<List<Schedules>> fetchSchedules(FetchSchedulesRef ref) async {
   return [
     Schedules(
         headerText: t.schedules.expansionTile.expenseHeader,
-        textColor: Colors.green,
+        mainColor: Colors.red,
         items: res.expenseSchedules.toList(),
         onDismissed: (id) async {
           await ref
@@ -52,7 +52,7 @@ Future<List<Schedules>> fetchSchedules(FetchSchedulesRef ref) async {
         }),
     Schedules(
         headerText: t.schedules.expansionTile.incomeHeader,
-        textColor: Colors.red,
+        mainColor: Colors.green,
         items: res.incomeSchedules.toList(),
         onDismissed: (id) async {
           await ref
