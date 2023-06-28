@@ -5,8 +5,8 @@ import 'package:intl/intl.dart';
 import 'package:openapi/openapi.dart';
 import 'package:suito/i18n/translations.g.dart';
 import 'package:suito/src/common_widgets/async_value_widget.dart';
-import 'package:suito/src/features/transactions/services/delete_expense_controller.dart';
-import 'package:suito/src/features/transactions/services/transaction_service.dart';
+import 'package:suito/src/features/transactions/services/expense/delete_expense_controller.dart';
+import 'package:suito/src/features/transactions/services/transaction/transaction_service.dart';
 import 'package:suito/src/routing/app_router.dart';
 import 'package:suito/src/utils/currency_formatter.dart';
 

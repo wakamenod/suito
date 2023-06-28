@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:suito/src/features/transactions/repositories/transaction_months_repository.dart';
+import 'package:suito/src/features/transactions/repositories/transaction/transaction_months_repository.dart';
 import 'package:suito/src/utils/datetime_utils.dart';
 
 part 'transaction_year_months.g.dart';

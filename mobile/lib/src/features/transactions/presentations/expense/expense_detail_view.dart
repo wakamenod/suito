@@ -7,14 +7,13 @@ import 'package:suito/src/common_widgets/currency_input_field.dart';
 import 'package:suito/src/common_widgets/text_input_field.dart';
 import 'package:suito/src/common_widgets/transition_text_field.dart';
 import 'package:suito/src/constants/app_sizes.dart';
-import 'package:suito/src/features/transactions/services/expense.dart';
-import 'package:suito/src/features/transactions/services/expense_service.dart';
+import 'package:suito/src/features/transactions/presentations/widgets/transaction_date_picker.dart';
+import 'package:suito/src/features/transactions/services/expense/expense.dart';
+import 'package:suito/src/features/transactions/services/expense/expense_service.dart';
 import 'package:suito/src/formz/amount.dart';
 import 'package:suito/src/formz/title.dart' as stitle;
 import 'package:suito/src/routing/app_router.dart';
 import 'package:suito/src/utils/currency_formatter.dart';
-
-import 'transaction_date_picker.dart';
 
 class ExpenseDetailView extends ConsumerWidget {
   final String expenseID;

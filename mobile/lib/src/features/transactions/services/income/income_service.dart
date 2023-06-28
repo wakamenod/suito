@@ -1,29 +1,29 @@
 import 'package:formz/formz.dart';
 import 'package:openapi/openapi.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:suito/src/features/transactions/repositories/expense_detail_repository.dart';
-import 'package:suito/src/features/transactions/repositories/register_expense_repository.dart';
-import 'package:suito/src/features/transactions/repositories/update_expense_repository.dart';
-import 'package:suito/src/features/transactions/services/transaction_service.dart';
+import 'package:suito/src/features/transactions/repositories/income/income_detail_repository.dart';
+import 'package:suito/src/features/transactions/repositories/income/register_income_repository.dart';
+import 'package:suito/src/features/transactions/repositories/income/update_income_repository.dart';
+import 'package:suito/src/features/transactions/services/transaction/transaction_service.dart';
 import 'package:suito/src/formz/amount.dart';
 import 'package:suito/src/formz/title.dart' as formz_title;
 import 'package:suito/src/utils/datetime_utils.dart';
 
-import 'expense.dart';
+import 'income.dart';
 
-part 'expense_service.g.dart';
+part 'income_service.g.dart';
 
 // FIXME; there should be a better way than using unnecessary AsyncValues...
 @riverpod
-class ExpenseController extends _$ExpenseController {
+class IncomeController extends _$IncomeController {
   @override
-  FutureOr<Expense> build(String arg) async {
+  FutureOr<Income> build(String arg) async {
     if (arg.isEmpty) {
-      return Expense.init();
+      return Income.init();
     }
     final modelRes =
-        await ref.read(expenseDetailRepositoryProvider).fetchExpenseDetail(arg);
-    return Expense.fromModel(modelRes);
+        await ref.read(incomeDetailRepositoryProvider).fetchIncomeDetail(arg);
+    return Income.fromModel(modelRes);
   }
 
   bool get _isNew => state.value!.id == '';
@@ -58,65 +58,48 @@ class ExpenseController extends _$ExpenseController {
     ));
   }
 
-  void onChangeCategory(String value) {
-    state = AsyncValue.data(state.value!.copyWith(
-      category: value,
-    ));
-  }
-
-  void onChangeLocation(String value) {
-    state = AsyncValue.data(state.value!.copyWith(
-      location: value,
-    ));
-  }
-
   void onChangeMemo(String value) {
     state = AsyncValue.data(state.value!.copyWith(
       memo: value,
     ));
   }
 
-  RegisterExpenseReq _registerRequest() {
-    // todo category_id, location_id
-    return RegisterExpenseReq((r) => r
-      ..expense.replace(ModelExpense((e) => e
+  RegisterIncomeReq _registerRequest() {
+    return RegisterIncomeReq((r) => r
+      ..income.replace(ModelIncome((e) => e
         ..id = ''
-        ..title = state.value!.title.value
+        ..incomeType
+            .replace(ModelIncomeType((t) => t..name = state.value!.title.value))
         ..localDate = DateTime.parse(state.value!.date).toRfc3339()
         ..memo = state.value!.memo
         ..amount = state.value!.amount.value)));
   }
 
-  UpdateExpenseReq _updateRequest() {
-    // todo category_id, location_id
-    return UpdateExpenseReq((r) => r
-      ..expense.replace(ModelExpense((e) => e
+  UpdateIncomeReq _updateRequest() {
+    return UpdateIncomeReq((r) => r
+      ..income.replace(ModelIncome((e) => e
         ..id = state.value!.id
-        ..title = state.value!.title.value
+        ..incomeType
+            .replace(ModelIncomeType((t) => t..name = state.value!.title.value))
         ..localDate = DateTime.parse(state.value!.date).toRfc3339()
         ..memo = state.value!.memo
         ..amount = state.value!.amount.value)));
   }
 
-  Future<void> registerExpense() async {
+  Future<void> registerIncome() async {
     if (!state.value!.isValid) return;
     state = const AsyncValue.loading();
 
     // TODO エラーハンドリング
     // TODO submissionStatusをUI側で監視し送信中を表す
     // try {
-    // await _authenticationRepository.signUpWithEmailAndPassword(
-    //   email: state.email.value,
-    //   password: state.password.value,
-    // );
-
     _isNew
         ? await ref
-            .read(registerExpenseRepositoryProvider)
-            .registerExpense(_registerRequest())
+            .read(registerIncomeRepositoryProvider)
+            .registerIncome(_registerRequest())
         : await ref
-            .read(updateExpenseRepositoryProvider)
-            .updateExpense(_updateRequest());
+            .read(updateIncomeRepositoryProvider)
+            .updateIncome(_updateRequest());
 
     ref.read(reloadTransactionsProvider.notifier).reload();
 

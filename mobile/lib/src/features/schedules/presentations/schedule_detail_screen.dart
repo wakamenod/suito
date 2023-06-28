@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:suito/src/features/transactions/services/transaction_service.dart';
+import 'package:suito/src/features/transactions/services/transaction/transaction_service.dart';
 
 import 'expense_schedule_detail_view.dart';
 import 'income_schedule_detail_view.dart';

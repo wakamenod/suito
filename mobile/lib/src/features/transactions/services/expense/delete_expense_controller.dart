@@ -1,7 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:suito/src/features/transactions/repositories/delete_expense_repository.dart';
-
-import 'transaction_service.dart';
+import 'package:suito/src/features/transactions/repositories/expense/delete_expense_repository.dart';
+import 'package:suito/src/features/transactions/services/transaction/transaction_service.dart';
 
 part 'delete_expense_controller.g.dart';
 
