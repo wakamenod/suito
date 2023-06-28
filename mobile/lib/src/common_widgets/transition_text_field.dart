@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:suito/src/common_widgets/base_input_decoration.dart';
 import 'package:suito/src/routing/app_router.dart';
 
-// TODO 見直し
 class TransitionTextField extends StatefulWidget {
   final AppRoute route;
   final String initialValue;
@@ -37,36 +37,17 @@ class TransitionTextFieldState extends State<TransitionTextField> {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          padding: const EdgeInsets.only(left: 16, right: 16),
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(
-                color: const Color.fromRGBO(208, 208, 208, 1.0),
-                width: 1.5,
-              )),
-          child: TextField(
-            controller: _textEditingController,
-            readOnly: true,
-            onTap: () async {
-              final val =
-                  await context.pushNamed<String>(widget.route.name) ?? '';
-              _textEditingController.text = val;
-              widget.onChanged(val);
-            },
-            //          obscureText: obscureText,
-            decoration: InputDecoration(
-              labelText: widget.labelText,
-              border: InputBorder.none,
-              hintText: widget.labelText,
-              hintStyle: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-                color: Color.fromRGBO(194, 194, 194, 1.0),
-              ),
-            ),
-          ),
+        TextField(
+          controller: _textEditingController,
+          readOnly: true,
+          onTap: () async {
+            final val =
+                await context.pushNamed<String>(widget.route.name) ?? '';
+            _textEditingController.text = val;
+            widget.onChanged(val);
+          },
+          decoration: baseInputDecoration(
+              labelText: widget.labelText, context: context),
         ),
       ],
     );
