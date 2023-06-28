@@ -16,8 +16,8 @@ class Title extends FormzInput<String, TitleValidationError> {
     }
   }
 
-  static String? showTitleErrorMessage(TitleValidationError? error) {
-    if (error == TitleValidationError.empty) {
+  static String? showTitleErrorMessage(Title title) {
+    if (!title.isPure && title.error == TitleValidationError.empty) {
       return t.forms.errors.emptyTitle;
     } else {
       return null;

@@ -47,7 +47,7 @@ class IncomeDetailView extends ConsumerWidget {
                 CurrencyInputField(
                   formatter: ref.watch(currencyFormatterProvider),
                   initialValue: income.amount.value,
-                  errorText: Amount.showAmountErrorMessage(income.amount.error),
+                  errorText: Amount.showAmountErrorMessage(income.amount),
                   labelText: t.transactions.detail.inputLabels.amount,
                   onChanged: incomeController.onChangeAmount,
                 ),

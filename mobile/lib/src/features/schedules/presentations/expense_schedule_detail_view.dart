@@ -37,14 +37,13 @@ class ExpenseScheduleDetailView extends ConsumerWidget {
                 TextInputField(
                     initialValue: expense.title.value,
                     errorText:
-                        stitle.Title.showTitleErrorMessage(expense.title.error),
+                        stitle.Title.showTitleErrorMessage(expense.title),
                     labelText: t.transactions.detail.inputLabels.title,
                     onChanged: expenseScheduleController.onChangeTitle),
                 CurrencyInputField(
                   formatter: ref.watch(currencyFormatterProvider),
                   initialValue: expense.amount.value,
-                  errorText:
-                      Amount.showAmountErrorMessage(expense.amount.error),
+                  errorText: Amount.showAmountErrorMessage(expense.amount),
                   labelText: t.transactions.detail.inputLabels.amount,
                   onChanged: expenseScheduleController.onChangeAmount,
                 ),

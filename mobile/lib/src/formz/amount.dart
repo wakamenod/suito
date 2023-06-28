@@ -16,8 +16,8 @@ class Amount extends FormzInput<int, AmountValidationError> {
     }
   }
 
-  static String? showAmountErrorMessage(AmountValidationError? error) {
-    if (error == AmountValidationError.empty) {
+  static String? showAmountErrorMessage(Amount amount) {
+    if (!amount.isPure && amount.error == AmountValidationError.empty) {
       return t.forms.errors.emptyAmount;
     } else {
       return null;
