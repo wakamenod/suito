@@ -8,7 +8,7 @@ const DEBUG = true
 var (
 	TEST       = ""
 	Name       = "debug"
-	Version    = "1.0.1"
+	Version    = "1.0.2"
 	CommitHash = "XXXX"
 )
 
