@@ -22,6 +22,9 @@ class ColumnChartView extends ConsumerWidget {
           return Scaffold(
               body: Center(
                   child: SfCartesianChart(
+                      legend: Legend(
+                          isVisible: true,
+                          overflowMode: LegendItemOverflowMode.wrap),
                       // onTooltipRender: (TooltipArgs args) {
                       //   // print('pointIndex:${args.pointIndex}, seriesIndex:${args.seriesIndex}');
                       //   // TODO ここでヘッダーにトータルを入れるか検討
@@ -45,10 +48,10 @@ class ColumnChartView extends ConsumerWidget {
                           duration: 10000,
                           textStyle: const TextStyle(
                               fontFamily: 'NotoSerifJP', fontSize: 9),
-                          tooltipPosition: TooltipPosition.pointer),
+                          tooltipPosition: TooltipPosition.auto),
                       zoomPanBehavior: ZoomPanBehavior(
                           enablePanning: true,
-                          enablePinching: true,
+                          // enablePinching: true,
                           zoomMode: ZoomMode.x),
                       primaryYAxis: NumericAxis(
                         // interval: 10000,
@@ -66,19 +69,17 @@ class ColumnChartView extends ConsumerWidget {
                           // labelIntersectAction: AxisLabelIntersectAction.hide,
                           // labelRotation: 270,
                           labelAlignment: LabelAlignment.center,
-                          dateFormat: DateFormat.yM(),
+                          dateFormat: DateFormat.yM(
+                              Localizations.localeOf(context).toLanguageTag()),
                           autoScrollingDeltaType: DateTimeIntervalType.months,
-                          // visibleMinimum: (chartData.length - 5)
-                          //     .toDouble(), // set the visible minimum as the 15 chart data index from the last value.
-                          // visibleMaximum: (chartData.length - 1)
-                          //     .toDouble(), // set the visible minimum as the last value's chart data index.
-                          maximumLabels: 10),
+                          maximumLabels: 7),
                       series: <ChartSeries<ColumnChartData, DateTime>>[
                 for (var data in chartData.expenseData)
                   StackedColumnSeries<ColumnChartData, DateTime>(
+                      legendIconType: LegendIconType.rectangle,
                       groupName: 'GroupExpense',
                       dataLabelSettings: const DataLabelSettings(
-                          isVisible: true, showCumulativeValues: true),
+                          isVisible: false, showCumulativeValues: true),
                       dataSource: data.columnChartData.toList(),
                       name: data.categoryName,
                       xValueMapper: (ColumnChartData value, _) => DateTime(
@@ -87,9 +88,10 @@ class ColumnChartView extends ConsumerWidget {
                       yValueMapper: (ColumnChartData value, _) => value.amount),
                 for (var data in chartData.incomeData)
                   StackedColumnSeries<ColumnChartData, DateTime>(
+                      legendIconType: LegendIconType.circle,
                       groupName: 'GroupIncome',
                       dataLabelSettings: const DataLabelSettings(
-                          isVisible: true, showCumulativeValues: true),
+                          isVisible: false, showCumulativeValues: false),
                       dataSource: data.columnChartData.toList(),
                       name: data.categoryName,
                       xValueMapper: (ColumnChartData value, _) => DateTime(

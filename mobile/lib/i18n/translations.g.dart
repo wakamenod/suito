@@ -1,9 +1,9 @@
 /// Generated file. Do not edit.
 ///
 /// Locales: 2
-/// Strings: 66 (33 per locale)
+/// Strings: 72 (36 per locale)
 ///
-/// Built on 2023-06-23 at 05:11 UTC
+/// Built on 2023-06-28 at 10:42 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -189,6 +189,7 @@ class _TranslationsEn implements BaseTranslations<AppLocale, _TranslationsEn> {
   late final _TranslationsGeneralEn general = _TranslationsGeneralEn._(_root);
   late final _TranslationsSchedulesEn schedules =
       _TranslationsSchedulesEn._(_root);
+  late final _TranslationsChartsEn charts = _TranslationsChartsEn._(_root);
   late final _TranslationsTransactionsEn transactions =
       _TranslationsTransactionsEn._(_root);
   late final _TranslationsFormsEn forms = _TranslationsFormsEn._(_root);
@@ -219,6 +220,18 @@ class _TranslationsSchedulesEn {
       'The expenses/incomes registered on this screen will be automatically recorded at the beginning of each month.';
   late final _TranslationsSchedulesExpansionTileEn expansionTile =
       _TranslationsSchedulesExpansionTileEn._(_root);
+}
+
+// Path: charts
+class _TranslationsChartsEn {
+  _TranslationsChartsEn._(this._root);
+
+  final _TranslationsEn _root; // ignore: unused_field
+
+  // Translations
+  String get abbBar => 'Reports';
+  late final _TranslationsChartsToggleEn toggle =
+      _TranslationsChartsToggleEn._(_root);
 }
 
 // Path: transactions
@@ -295,6 +308,17 @@ class _TranslationsSchedulesExpansionTileEn {
   // Translations
   String get expenseHeader => 'Expense';
   String get incomeHeader => 'Income';
+}
+
+// Path: charts.toggle
+class _TranslationsChartsToggleEn {
+  _TranslationsChartsToggleEn._(this._root);
+
+  final _TranslationsEn _root; // ignore: unused_field
+
+  // Translations
+  String get category => 'Category';
+  String get location => 'Location';
 }
 
 // Path: transactions.incomeType
@@ -449,6 +473,8 @@ class _TranslationsJa implements _TranslationsEn {
   late final _TranslationsTransactionsJa transactions =
       _TranslationsTransactionsJa._(_root);
   @override
+  late final _TranslationsChartsJa charts = _TranslationsChartsJa._(_root);
+  @override
   late final _TranslationsFormsJa forms = _TranslationsFormsJa._(_root);
 }
 
@@ -519,6 +545,21 @@ class _TranslationsTransactionsJa implements _TranslationsTransactionsEn {
   @override
   late final _TranslationsTransactionsButtonsJa buttons =
       _TranslationsTransactionsButtonsJa._(_root);
+}
+
+// Path: charts
+class _TranslationsChartsJa implements _TranslationsChartsEn {
+  _TranslationsChartsJa._(this._root);
+
+  @override
+  final _TranslationsJa _root; // ignore: unused_field
+
+  // Translations
+  @override
+  String get abbBar => 'レポート';
+  @override
+  late final _TranslationsChartsToggleJa toggle =
+      _TranslationsChartsToggleJa._(_root);
 }
 
 // Path: forms
@@ -703,6 +744,20 @@ class _TranslationsTransactionsButtonsJa
   String get post => '登録';
 }
 
+// Path: charts.toggle
+class _TranslationsChartsToggleJa implements _TranslationsChartsToggleEn {
+  _TranslationsChartsToggleJa._(this._root);
+
+  @override
+  final _TranslationsJa _root; // ignore: unused_field
+
+  // Translations
+  @override
+  String get category => 'カテゴリ';
+  @override
+  String get location => '購入場所';
+}
+
 // Path: forms.errors
 class _TranslationsFormsErrorsJa implements _TranslationsFormsErrorsEn {
   _TranslationsFormsErrorsJa._(this._root);
@@ -771,6 +826,12 @@ extension on _TranslationsEn {
         return 'Expense';
       case 'schedules.expansionTile.incomeHeader':
         return 'Income';
+      case 'charts.abbBar':
+        return 'Reports';
+      case 'charts.toggle.category':
+        return 'Category';
+      case 'charts.toggle.location':
+        return 'Location';
       case 'transactions.abbBar':
         return 'Transactions';
       case 'transactions.incomeType.title':
@@ -885,6 +946,12 @@ extension on _TranslationsJa {
         return '閉じる';
       case 'transactions.buttons.post':
         return '登録';
+      case 'charts.abbBar':
+        return 'レポート';
+      case 'charts.toggle.category':
+        return 'カテゴリ';
+      case 'charts.toggle.location':
+        return '購入場所';
       case 'forms.errors.emptyTitle':
         return '品目が未入力です';
       case 'forms.errors.emptyAmount':

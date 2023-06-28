@@ -36,7 +36,8 @@ class MyApp extends ConsumerWidget {
       ],
       supportedLocales: AppLocaleUtils.supportedLocales,
       theme: ThemeData(
-        appBarTheme: const AppBarTheme(color: Color(0xff258DBA)),
+        appBarTheme:
+            const AppBarTheme(color: Color(0xff63AECE), toolbarHeight: 50),
         scaffoldBackgroundColor: const Color(0xfff2f4f5),
         fontFamily: 'NotoSerifJP',
         useMaterial3: true,
