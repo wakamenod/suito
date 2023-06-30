@@ -29,18 +29,14 @@ type (
 	} // @Name ListExpenseLocationsRes
 
 	RegisterExpenseReq struct {
-		Expense  model.Expense `json:"expense" validate:"required"`
-		Category string        `json:"category"`
-		Location string        `json:"location"`
+		Expense model.Expense `json:"expense" validate:"required"`
 	} // @Name RegisterExpenseReq
 	RegisterExpenseRes struct {
 		NewExpense model.Expense `json:"newExpense"`
 	} // @Name RegisterExpenseRes
 
 	UpdateExpenseReq struct {
-		Expense  model.Expense `json:"expense" validate:"required"`
-		Category string        `json:"category"`
-		Location string        `json:"location"`
+		Expense model.Expense `json:"expense" validate:"required"`
 	} // @Name UpdateExpenseReq
 	UpdateExpenseRes struct {
 		UpdatedExpense model.Expense `json:"updatedExpense"`
@@ -162,7 +158,7 @@ func (s *ExpenseController) RegisterExpenseHandler(c echo.Context) error {
 	}
 
 	uid := c.Get(middleware.UIDKey).(string)
-	newExpense, err := s.service.CreateExpenseService(uid, req.Expense, req.Category, req.Location)
+	newExpense, err := s.service.CreateExpenseService(uid, req.Expense)
 	if err != nil {
 		return err
 	}
@@ -194,7 +190,7 @@ func (s *ExpenseController) UpdateExpenseHandler(c echo.Context) error {
 	}
 
 	uid := c.Get(middleware.UIDKey).(string)
-	updatedExpense, err := s.service.UpdateExpenseService(uid, req.Expense, req.Category, req.Location)
+	updatedExpense, err := s.service.UpdateExpenseService(uid, req.Expense)
 	if err != nil {
 		return err
 	}

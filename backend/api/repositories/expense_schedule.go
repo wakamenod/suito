@@ -33,7 +33,15 @@ func (r *SuitoRepository) FindExpenseSchedule(id, uid string) (model.ExpenseSche
 }
 
 func (r *SuitoRepository) UpdateExpenseSchedule(uid string, expenseSchedule model.ExpenseSchedule) (model.ExpenseSchedule, error) {
-	if err := r.db.Where("uid = ?", uid).Updates(&expenseSchedule).Error; err != nil {
+	if err := r.db.Model(&model.ExpenseSchedule{}).
+		Where("id = ? AND uid = ?", expenseSchedule.ID, uid).
+		Updates(map[string]any{
+			"title":               expenseSchedule.Title,
+			"amount":              expenseSchedule.Amount,
+			"memo":                expenseSchedule.Memo,
+			"expense_category_id": expenseSchedule.ExpenseCategoryID,
+			"expense_location_id": expenseSchedule.ExpenseLocationID,
+		}).Error; err != nil {
 		return expenseSchedule, errors.Wrap(err, "failed to update expense schedule")
 	}
 	return expenseSchedule, nil

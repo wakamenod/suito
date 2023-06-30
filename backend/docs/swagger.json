@@ -1297,20 +1297,12 @@
       },
       "RegisterExpenseReq": {
         "required": [
-          "category",
-          "expense",
-          "location"
+          "expense"
         ],
         "type": "object",
         "properties": {
-          "category": {
-            "type": "string"
-          },
           "expense": {
             "$ref": "#/components/schemas/model.Expense"
-          },
-          "location": {
-            "type": "string"
           }
         }
       },
@@ -1464,20 +1456,12 @@
       },
       "UpdateExpenseReq": {
         "required": [
-          "category",
-          "expense",
-          "location"
+          "expense"
         ],
         "type": "object",
         "properties": {
-          "category": {
-            "type": "string"
-          },
           "expense": {
             "$ref": "#/components/schemas/model.Expense"
-          },
-          "location": {
-            "type": "string"
           }
         }
       },

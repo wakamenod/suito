@@ -55,7 +55,16 @@ func (r *SuitoRepository) CreateExpense(uid string, expense model.Expense) (mode
 }
 
 func (r *SuitoRepository) UpdateExpense(uid string, expense model.Expense) (model.Expense, error) {
-	if err := r.db.Where("uid = ?", uid).Updates(&expense).Error; err != nil {
+	if err := r.db.Model(&model.Expense{}).
+		Where("id = ? AND uid = ?", expense.ID, uid).
+		Updates(map[string]any{
+			"title":               expense.Title,
+			"amount":              expense.Amount,
+			"memo":                expense.Memo,
+			"expense_category_id": expense.ExpenseCategoryID,
+			"expense_location_id": expense.ExpenseLocationID,
+			"local_date":          expense.LocalDate,
+		}).Error; err != nil {
 		return expense, errors.Wrap(err, "failed to update expenses")
 	}
 	return expense, nil

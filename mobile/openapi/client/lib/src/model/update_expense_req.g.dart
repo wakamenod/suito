@@ -8,25 +8,15 @@ part of 'update_expense_req.dart';
 
 class _$UpdateExpenseReq extends UpdateExpenseReq {
   @override
-  final String category;
-  @override
   final ModelExpense expense;
-  @override
-  final String location;
 
   factory _$UpdateExpenseReq(
           [void Function(UpdateExpenseReqBuilder)? updates]) =>
       (new UpdateExpenseReqBuilder()..update(updates))._build();
 
-  _$UpdateExpenseReq._(
-      {required this.category, required this.expense, required this.location})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        category, r'UpdateExpenseReq', 'category');
+  _$UpdateExpenseReq._({required this.expense}) : super._() {
     BuiltValueNullFieldError.checkNotNull(
         expense, r'UpdateExpenseReq', 'expense');
-    BuiltValueNullFieldError.checkNotNull(
-        location, r'UpdateExpenseReq', 'location');
   }
 
   @override
@@ -40,18 +30,13 @@ class _$UpdateExpenseReq extends UpdateExpenseReq {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is UpdateExpenseReq &&
-        category == other.category &&
-        expense == other.expense &&
-        location == other.location;
+    return other is UpdateExpenseReq && expense == other.expense;
   }
 
   @override
   int get hashCode {
     var _$hash = 0;
-    _$hash = $jc(_$hash, category.hashCode);
     _$hash = $jc(_$hash, expense.hashCode);
-    _$hash = $jc(_$hash, location.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -59,9 +44,7 @@ class _$UpdateExpenseReq extends UpdateExpenseReq {
   @override
   String toString() {
     return (newBuiltValueToStringHelper(r'UpdateExpenseReq')
-          ..add('category', category)
-          ..add('expense', expense)
-          ..add('location', location))
+          ..add('expense', expense))
         .toString();
   }
 }
@@ -70,18 +53,10 @@ class UpdateExpenseReqBuilder
     implements Builder<UpdateExpenseReq, UpdateExpenseReqBuilder> {
   _$UpdateExpenseReq? _$v;
 
-  String? _category;
-  String? get category => _$this._category;
-  set category(String? category) => _$this._category = category;
-
   ModelExpenseBuilder? _expense;
   ModelExpenseBuilder get expense =>
       _$this._expense ??= new ModelExpenseBuilder();
   set expense(ModelExpenseBuilder? expense) => _$this._expense = expense;
-
-  String? _location;
-  String? get location => _$this._location;
-  set location(String? location) => _$this._location = location;
 
   UpdateExpenseReqBuilder() {
     UpdateExpenseReq._defaults(this);
@@ -90,9 +65,7 @@ class UpdateExpenseReqBuilder
   UpdateExpenseReqBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _category = $v.category;
       _expense = $v.expense.toBuilder();
-      _location = $v.location;
       _$v = null;
     }
     return this;
@@ -115,13 +88,7 @@ class UpdateExpenseReqBuilder
   _$UpdateExpenseReq _build() {
     _$UpdateExpenseReq _$result;
     try {
-      _$result = _$v ??
-          new _$UpdateExpenseReq._(
-              category: BuiltValueNullFieldError.checkNotNull(
-                  category, r'UpdateExpenseReq', 'category'),
-              expense: expense.build(),
-              location: BuiltValueNullFieldError.checkNotNull(
-                  location, r'UpdateExpenseReq', 'location'));
+      _$result = _$v ?? new _$UpdateExpenseReq._(expense: expense.build());
     } catch (_) {
       late String _$failedField;
       try {

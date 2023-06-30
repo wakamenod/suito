@@ -1,8 +1,6 @@
 package services
 
 import (
-	"strings"
-
 	"github.com/wakamenod/suito/api/services/repositories"
 	"github.com/wakamenod/suito/model"
 )
@@ -16,15 +14,6 @@ func (s *SuitoService) FindIncomeScheduleService(id, uid string) (model.IncomeSc
 }
 
 func (s *SuitoService) UpdateIncomeScheduleService(uid string, incomeSchedule model.IncomeSchedule) (model.IncomeSchedule, error) {
-	if incomeSchedule.IncomeType.Name != "" {
-		incomeType, err := s.repo.FindOrCreateIncomeType(uid, strings.TrimSpace(incomeSchedule.IncomeType.Name))
-		if err != nil {
-			return model.IncomeSchedule{}, err
-		}
-		incomeSchedule.IncomeType = incomeType
-		incomeSchedule.IncomeTypeID = incomeType.ID
-	}
-
 	incomeSchedule, err := s.repo.UpdateIncomeSchedule(uid, incomeSchedule)
 	if err != nil {
 		return incomeSchedule, err
@@ -44,15 +33,6 @@ func (s *SuitoService) CreateIncomeScheduleService(uid string, incomeSchedule mo
 	var res model.IncomeSchedule
 
 	err := s.Transaction(func(txRepo repositories.Repository) error {
-		incomeType := incomeSchedule.IncomeType.Name
-		if incomeType != "" {
-			incomeType, err := txRepo.FindOrCreateIncomeType(uid, strings.TrimSpace(incomeType))
-			if err != nil {
-				return err
-			}
-			incomeSchedule.IncomeType = incomeType
-			incomeSchedule.IncomeTypeID = incomeType.ID
-		}
 		incomeSchedule, err := txRepo.CreateIncomeSchedule(uid, incomeSchedule)
 		if err != nil {
 			return err

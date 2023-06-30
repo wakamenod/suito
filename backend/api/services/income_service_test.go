@@ -23,20 +23,17 @@ func TestCreateIncomeService_NoIncomeType(t *testing.T) {
 
 func TestCreateIncomeService(t *testing.T) {
 	income := model.Income{
-		LocalDate: time.Date(2023, 5, 3, 0, 0, 0, 0, time.UTC),
-		IncomeType: model.IncomeType{
-			Name: "test income name",
-		},
-		Amount: 2000,
-		Memo:   "test_memo",
+		LocalDate:    time.Date(2023, 5, 3, 0, 0, 0, 0, time.UTC),
+		Amount:       2000,
+		Memo:         "test_memo",
+		IncomeTypeID: "NewIncomeTypeID",
 	}
 	newIncome, err := aSer.CreateIncomeService("user1", income)
 	require.NoError(t, err)
 	require.Equal(t, "new_income_id", newIncome.ID)
 	require.Equal(t, income.IncomeType.Name, newIncome.IncomeType.Name)
-	require.Equal(t, "user1", newIncome.IncomeType.UID)
-	require.Equal(t, "NewIncomeTypeID", newIncome.IncomeType.ID)
-	require.Equal(t, "NewIncomeTypeID", newIncome.IncomeTypeID)
+	require.Equal(t, income.IncomeType.ID, newIncome.IncomeType.ID)
+	require.Equal(t, income.IncomeTypeID, newIncome.IncomeTypeID)
 }
 
 func TestUpdateIncomeService_NoIncomeType(t *testing.T) {
@@ -64,7 +61,5 @@ func TestUpdateIncomeService(t *testing.T) {
 	updateIncome, err := aSer.UpdateIncomeService("user1", income)
 	require.NoError(t, err)
 	require.Equal(t, income.ID, updateIncome.ID)
-	require.Equal(t, "NewIncomeTypeID", updateIncome.IncomeTypeID)
-	require.Equal(t, "NewIncomeTypeID", updateIncome.IncomeType.ID)
-	require.Equal(t, income.IncomeType.Name, updateIncome.IncomeType.Name)
+	require.Equal(t, income.IncomeTypeID, updateIncome.IncomeTypeID)
 }

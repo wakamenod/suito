@@ -118,6 +118,7 @@ func TestUpdateExpenseSchedule(t *testing.T) {
 		Amount:            2000,
 		ExpenseCategoryID: categoryID,
 		ExpenseLocationID: locationID,
+		Memo:              "update memo",
 	}
 	// run
 	_, err := NewSuitoRepository(tx).UpdateExpenseSchedule(userID, targetExpenseSchedule)
@@ -128,10 +129,41 @@ func TestUpdateExpenseSchedule(t *testing.T) {
 	require.NoError(t, err)
 	require.Equal(t, targetExpenseSchedule.Title, found.Title)
 	require.Equal(t, targetExpenseSchedule.Amount, found.Amount)
+	require.Equal(t, targetExpenseSchedule.Memo, found.Memo)
 	require.Equal(t, targetExpenseSchedule.ExpenseCategoryID, found.ExpenseCategoryID)
 	require.Equal(t, targetExpenseSchedule.ExpenseLocationID, found.ExpenseLocationID)
 	require.Equal(t, "Test Category", found.ExpenseCategory.Name)
 	require.Equal(t, "Test Location", found.ExpenseLocation.Name)
+}
+
+func TestUpdateExpenseSchedule_Deselect(t *testing.T) {
+	tx := begin()
+	defer rollback(tx)
+	// setup
+	userID := "user1"
+	i := testutils.NewTestDataInserter(t, tx)
+	categoryID := i.InsertExpenseCategory(userID, "Test Category").ID
+	locationID := i.InsertExpenseLocation(userID, "Test Location").ID
+	id := i.InsertExpenseSchedule(userID, "title01", "Asia/Tokyo",
+		i.WithExpenseCategoryID(categoryID),
+		i.WithExpenseLocationID(locationID),
+	).ID
+	targetExpenseSchedule := model.ExpenseSchedule{
+		ID:     id,
+		Title:  "update title",
+		Amount: 2000,
+	}
+	// run
+	_, err := NewSuitoRepository(tx).UpdateExpenseSchedule(userID, targetExpenseSchedule)
+	// check
+	require.NoError(t, err)
+
+	found, err := NewSuitoRepository(tx).FindExpenseSchedule(id, userID)
+	require.NoError(t, err)
+	require.Empty(t, found.ExpenseCategoryID)
+	require.Empty(t, found.ExpenseLocationID)
+	require.Empty(t, found.ExpenseCategory.Name)
+	require.Empty(t, found.ExpenseLocation.Name)
 }
 
 func TestDeleteExpenseSchedule(t *testing.T) {

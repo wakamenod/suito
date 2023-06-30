@@ -1233,19 +1233,11 @@ const docTemplate = `{
         "RegisterExpenseReq": {
             "type": "object",
             "required": [
-                "category",
-                "expense",
-                "location"
+                "expense"
             ],
             "properties": {
-                "category": {
-                    "type": "string"
-                },
                 "expense": {
                     "$ref": "#/definitions/model.Expense"
-                },
-                "location": {
-                    "type": "string"
                 }
             }
         },
@@ -1404,19 +1396,11 @@ const docTemplate = `{
         "UpdateExpenseReq": {
             "type": "object",
             "required": [
-                "category",
-                "expense",
-                "location"
+                "expense"
             ],
             "properties": {
-                "category": {
-                    "type": "string"
-                },
                 "expense": {
                     "$ref": "#/definitions/model.Expense"
-                },
-                "location": {
-                    "type": "string"
                 }
             }
         },

@@ -23,19 +23,32 @@ func TestUpdateIncomeScheduleService_NoIncomeType(t *testing.T) {
 
 func TestUpdateIncomeScheduleService(t *testing.T) {
 	incomeSchedule := model.IncomeSchedule{
+		ID:           "update_target_incomeSchedule_id",
+		Amount:       2000,
+		Memo:         "test_memo",
+		IncomeTypeID: "NewIncomeTypeID",
+	}
+	updateIncomeSchedule, err := aSer.UpdateIncomeScheduleService("user1", incomeSchedule)
+	require.NoError(t, err)
+	require.Equal(t, incomeSchedule.ID, updateIncomeSchedule.ID)
+	require.Equal(t, incomeSchedule.IncomeTypeID, updateIncomeSchedule.IncomeTypeID)
+}
+
+func TestUpdateIncomeService_Deselect(t *testing.T) {
+	incomeSchedule := model.IncomeSchedule{
 		ID:     "update_target_incomeSchedule_id",
 		Amount: 2000,
 		Memo:   "test_memo",
 		IncomeType: model.IncomeType{
-			Name: "new type",
+			Name: "",
 		},
 	}
 	updateIncomeSchedule, err := aSer.UpdateIncomeScheduleService("user1", incomeSchedule)
 	require.NoError(t, err)
 	require.Equal(t, incomeSchedule.ID, updateIncomeSchedule.ID)
-	require.Equal(t, "NewIncomeTypeID", updateIncomeSchedule.IncomeTypeID)
-	require.Equal(t, "NewIncomeTypeID", updateIncomeSchedule.IncomeType.ID)
-	require.Equal(t, incomeSchedule.IncomeType.Name, updateIncomeSchedule.IncomeType.Name)
+	require.Empty(t, updateIncomeSchedule.IncomeTypeID)
+	require.Empty(t, updateIncomeSchedule.IncomeType.ID)
+	require.Empty(t, updateIncomeSchedule.IncomeType.Name)
 }
 
 func TestCreateIncomeScheduleService_NoCategoryLocation(t *testing.T) {
@@ -51,16 +64,14 @@ func TestCreateIncomeScheduleService_NoCategoryLocation(t *testing.T) {
 
 func TestCreateIncomeScheduleService(t *testing.T) {
 	incomeSchedule := model.IncomeSchedule{
-		Amount: 2000,
-		Memo:   "test_memo",
-		IncomeType: model.IncomeType{
-			Name: "new income type",
-		},
+		Amount:       2000,
+		Memo:         "test_memo",
+		IncomeTypeID: "NewIncomeTypeID",
 	}
 	newIncomeSchedule, err := aSer.CreateIncomeScheduleService("user1", incomeSchedule)
 	require.NoError(t, err)
 	require.Equal(t, "new_income_schedule_id", newIncomeSchedule.ID)
-	require.Equal(t, "NewIncomeTypeID", newIncomeSchedule.IncomeTypeID)
+	require.Equal(t, incomeSchedule.IncomeTypeID, newIncomeSchedule.IncomeTypeID)
 }
 
 func TestCreateIncomeScheduleService_DBRepository(t *testing.T) {

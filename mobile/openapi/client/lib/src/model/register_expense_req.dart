@@ -12,19 +12,11 @@ part 'register_expense_req.g.dart';
 /// RegisterExpenseReq
 ///
 /// Properties:
-/// * [category] 
 /// * [expense] 
-/// * [location] 
 @BuiltValue()
 abstract class RegisterExpenseReq implements Built<RegisterExpenseReq, RegisterExpenseReqBuilder> {
-  @BuiltValueField(wireName: r'category')
-  String get category;
-
   @BuiltValueField(wireName: r'expense')
   ModelExpense get expense;
-
-  @BuiltValueField(wireName: r'location')
-  String get location;
 
   RegisterExpenseReq._();
 
@@ -49,20 +41,10 @@ class _$RegisterExpenseReqSerializer implements PrimitiveSerializer<RegisterExpe
     RegisterExpenseReq object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'category';
-    yield serializers.serialize(
-      object.category,
-      specifiedType: const FullType(String),
-    );
     yield r'expense';
     yield serializers.serialize(
       object.expense,
       specifiedType: const FullType(ModelExpense),
-    );
-    yield r'location';
-    yield serializers.serialize(
-      object.location,
-      specifiedType: const FullType(String),
     );
   }
 
@@ -87,26 +69,12 @@ class _$RegisterExpenseReqSerializer implements PrimitiveSerializer<RegisterExpe
       final key = serializedList[i] as String;
       final value = serializedList[i + 1];
       switch (key) {
-        case r'category':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.category = valueDes;
-          break;
         case r'expense':
           final valueDes = serializers.deserialize(
             value,
             specifiedType: const FullType(ModelExpense),
           ) as ModelExpense;
           result.expense.replace(valueDes);
-          break;
-        case r'location':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.location = valueDes;
           break;
         default:
           unhandled.add(key);
