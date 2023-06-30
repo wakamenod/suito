@@ -1,8 +1,6 @@
 package services
 
 import (
-	"strings"
-
 	"github.com/wakamenod/suito/api/services/repositories"
 	"github.com/wakamenod/suito/model"
 )
@@ -16,23 +14,6 @@ func (s *SuitoService) FindExpenseScheduleService(id, uid string) (model.Expense
 }
 
 func (s *SuitoService) UpdateExpenseScheduleService(uid string, expenseSchedule model.ExpenseSchedule) (model.ExpenseSchedule, error) {
-	if expenseSchedule.ExpenseCategory.Name != "" {
-		category, err := s.repo.FindOrCreateExpenseCategory(uid, strings.TrimSpace(expenseSchedule.ExpenseCategory.Name))
-		if err != nil {
-			return model.ExpenseSchedule{}, err
-		}
-		expenseSchedule.ExpenseCategory = category
-		expenseSchedule.ExpenseCategoryID = category.ID
-	}
-	if expenseSchedule.ExpenseLocation.Name != "" {
-		location, err := s.repo.FindOrCreateExpenseLocation(uid, strings.TrimSpace(expenseSchedule.ExpenseLocation.Name))
-		if err != nil {
-			return model.ExpenseSchedule{}, err
-		}
-		expenseSchedule.ExpenseLocation = location
-		expenseSchedule.ExpenseLocationID = location.ID
-	}
-
 	expenseSchedule, err := s.repo.UpdateExpenseSchedule(uid, expenseSchedule)
 	if err != nil {
 		return expenseSchedule, err
@@ -52,25 +33,6 @@ func (s *SuitoService) CreateExpenseScheduleService(uid string, expenseSchedule 
 	var res model.ExpenseSchedule
 
 	err := s.Transaction(func(txRepo repositories.Repository) error {
-		categoryName := expenseSchedule.ExpenseCategory.Name
-		if categoryName != "" {
-			category, err := txRepo.FindOrCreateExpenseCategory(uid, strings.TrimSpace(categoryName))
-			if err != nil {
-				return err
-			}
-			expenseSchedule.ExpenseCategory = category
-			expenseSchedule.ExpenseCategoryID = category.ID
-		}
-		locationName := expenseSchedule.ExpenseLocation.Name
-		if locationName != "" {
-			location, err := txRepo.FindOrCreateExpenseLocation(uid, strings.TrimSpace(locationName))
-			if err != nil {
-				return err
-			}
-			expenseSchedule.ExpenseLocation = location
-			expenseSchedule.ExpenseLocationID = location.ID
-		}
-
 		expenseSchedule, err := txRepo.CreateExpenseSchedule(uid, expenseSchedule)
 		if err != nil {
 			return err

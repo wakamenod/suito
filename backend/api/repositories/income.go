@@ -43,7 +43,14 @@ func (r *SuitoRepository) CreateIncome(uid string, income model.Income) (model.I
 }
 
 func (r *SuitoRepository) UpdateIncome(uid string, income model.Income) (model.Income, error) {
-	if err := r.db.Where("uid = ?", uid).Updates(&income).Error; err != nil {
+	if err := r.db.Model(&model.Income{}).
+		Where("id = ? AND uid = ?", income.ID, uid).
+		Updates(map[string]any{
+			"amount":         income.Amount,
+			"memo":           income.Memo,
+			"income_type_id": income.IncomeTypeID,
+			"local_date":     income.LocalDate,
+		}).Error; err != nil {
 		return income, errors.Wrap(err, "failed to update incomes")
 	}
 	return income, nil

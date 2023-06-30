@@ -829,17 +829,11 @@ components:
           type: string
     RegisterExpenseReq:
       required:
-      - category
       - expense
-      - location
       type: object
       properties:
-        category:
-          type: string
         expense:
           $ref: '#/components/schemas/model.Expense'
-        location:
-          type: string
     RegisterExpenseRes:
       required:
       - newExpense
@@ -939,17 +933,11 @@ components:
           type: string
     UpdateExpenseReq:
       required:
-      - category
       - expense
-      - location
       type: object
       properties:
-        category:
-          type: string
         expense:
           $ref: '#/components/schemas/model.Expense'
-        location:
-          type: string
     UpdateExpenseRes:
       required:
       - updatedExpense

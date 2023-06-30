@@ -77,27 +77,25 @@ class ExpenseController extends _$ExpenseController {
   }
 
   RegisterExpenseReq _registerRequest() {
+    // todo category_id, location_id
     return RegisterExpenseReq((r) => r
-      ..category = state.value!.category
       ..expense.replace(ModelExpense((e) => e
         ..id = ''
         ..title = state.value!.title.value
         ..localDate = DateTime.parse(state.value!.date).toRfc3339()
         ..memo = state.value!.memo
-        ..amount = state.value!.amount.value))
-      ..location = state.value!.location);
+        ..amount = state.value!.amount.value)));
   }
 
   UpdateExpenseReq _updateRequest() {
+    // todo category_id, location_id
     return UpdateExpenseReq((r) => r
-      ..category = state.value!.category
       ..expense.replace(ModelExpense((e) => e
         ..id = state.value!.id
         ..title = state.value!.title.value
         ..localDate = DateTime.parse(state.value!.date).toRfc3339()
         ..memo = state.value!.memo
-        ..amount = state.value!.amount.value))
-      ..location = state.value!.location);
+        ..amount = state.value!.amount.value)));
   }
 
   Future<void> registerExpense() async {

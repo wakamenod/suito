@@ -203,10 +203,33 @@ func TestUpdateExpense(t *testing.T) {
 	require.NoError(t, err)
 	require.Equal(t, targetExpense.Title, found.Title)
 	require.Equal(t, targetExpense.Amount, found.Amount)
+	require.Equal(t, targetExpense.Memo, found.Memo)
 	layout := "2006-01-02"
 	require.Equal(t, targetExpense.LocalDate.Format(layout), found.LocalDate.Format(layout))
 	require.Equal(t, targetExpense.ExpenseCategoryID, found.ExpenseCategoryID)
 	require.Equal(t, targetExpense.ExpenseLocationID, found.ExpenseLocationID)
+}
+
+func TestUpdateExpense_Deselect(t *testing.T) {
+	tx := begin()
+	defer rollback(tx)
+	// setup
+	i := testutils.NewTestDataInserter(t, tx)
+	id := i.InsertExpense("user1", "2023-05-01", "title01", "location_id", "category_id")
+	targetExpense := model.Expense{
+		ID:     id,
+		Title:  "update title",
+		Amount: 2000, LocalDate: time.Date(2022, 6, 1, 0, 0, 0, 0, time.UTC),
+	}
+	// run
+	_, err := NewSuitoRepository(tx).UpdateExpense("user1", targetExpense)
+	// check
+	require.NoError(t, err)
+
+	found, err := NewSuitoRepository(tx).FindExpense(id, "user1")
+	require.NoError(t, err)
+	require.Empty(t, found.ExpenseCategoryID)
+	require.Empty(t, found.ExpenseLocationID)
 }
 
 func TestDeleteExpense(t *testing.T) {
