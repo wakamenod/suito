@@ -22,7 +22,7 @@ func TestFindIncomeTypes(t *testing.T) {
 	i.InsertIncomeType("user99", "IncomeType_01 Other User")
 	i.InsertIncomeType(uid, "IncomeType_02")
 	// run
-	res, err := NewSuitoRepository(tx).FindIncomeTypes(uid)
+	res, err := NewSuitoIncomeTypeRepository(tx).FindIncomeTypes(uid)
 	// check
 	require.NoError(t, err)
 	require.Equal(t, 2, len(res))
@@ -40,7 +40,7 @@ func TestFindOrCreateIncomeType_New(t *testing.T) {
 
 	uid := "user01"
 	// run
-	res, err := NewSuitoRepository(tx).FindOrCreateIncomeType(uid, "INCOME_TYPE")
+	res, err := NewSuitoIncomeTypeRepository(tx).FindOrCreateIncomeType(uid, "INCOME_TYPE")
 	// check
 	require.NoError(t, err)
 	require.Equal(t, "INCOME_TYPE", res.Name)
@@ -62,7 +62,7 @@ func TestFindOrCreateIncomeType_Created(t *testing.T) {
 
 	incomeType := i.InsertIncomeType("user01", "Income_type_02")
 	// run
-	res, err := NewSuitoRepository(tx).FindOrCreateIncomeType(incomeType.UID, incomeType.Name)
+	res, err := NewSuitoIncomeTypeRepository(tx).FindOrCreateIncomeType(incomeType.UID, incomeType.Name)
 	// check
 	require.NoError(t, err)
 	require.Equal(t, incomeType.Name, res.Name)
@@ -103,7 +103,7 @@ func TestFindOrCreateIncomeType_DuplicatedError(t *testing.T) {
 				updatedAt))
 
 	// run
-	_, err = NewSuitoRepository(db).FindOrCreateIncomeType(userID, incomeTypeName)
+	_, err = NewSuitoIncomeTypeRepository(db).FindOrCreateIncomeType(userID, incomeTypeName)
 	require.NoError(t, err)
 	if err := mock.ExpectationsWereMet(); err != nil {
 		t.Errorf("there were unfulfilled expectations: %s", err)
@@ -128,7 +128,7 @@ func TestFindOrCreateIncomeType_OtherError(t *testing.T) {
 		WillReturnError(errors.New("some unknown error"))
 
 	// run
-	_, err = NewSuitoRepository(db).FindOrCreateIncomeType(userID, incomeTypeName)
+	_, err = NewSuitoIncomeTypeRepository(db).FindOrCreateIncomeType(userID, incomeTypeName)
 	require.Error(t, err)
 	if err := mock.ExpectationsWereMet(); err != nil {
 		t.Errorf("there were unfulfilled expectations: %s", err)

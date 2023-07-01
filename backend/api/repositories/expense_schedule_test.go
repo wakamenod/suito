@@ -16,7 +16,7 @@ func TestFindExpenseSchedules(t *testing.T) {
 	defer rollback(tx)
 
 	// run
-	res, err := NewSuitoRepository(tx).FindExpenseSchedules("")
+	res, err := NewSuitoExpenseScheduleRepository(tx).FindExpenseSchedules("")
 	// check
 	require.NoError(t, err)
 	require.Empty(t, res)
@@ -41,7 +41,7 @@ func TestFindExpenseSchedules2(t *testing.T) {
 		i.WithExpenseScheduleDeletedAt(gorm.DeletedAt{Valid: true, Time: time.Now()}),
 	)
 	// run
-	res, err := NewSuitoRepository(tx).FindExpenseSchedules(userID)
+	res, err := NewSuitoExpenseScheduleRepository(tx).FindExpenseSchedules(userID)
 	// check
 	require.NoError(t, err)
 	require.Equal(t, 2, len(res))
@@ -79,7 +79,7 @@ func TestFindExpenseSchedule(t *testing.T) {
 		i.WithExpenseLocationID(locationID),
 	).ID
 	// run
-	res, err := NewSuitoRepository(tx).FindExpenseSchedule(id, userID)
+	res, err := NewSuitoExpenseScheduleRepository(tx).FindExpenseSchedule(id, userID)
 	// check
 	require.NoError(t, err)
 	require.Equal(t, id, res.ID)
@@ -95,7 +95,7 @@ func TestFindExpenseSchedule_ErrorNotFound(t *testing.T) {
 	// setup test data
 	// i := testutils.NewTestDataInserter(t, tx)
 	// run
-	_, err := NewSuitoRepository(tx).FindExpenseSchedule("scheduleID", "user1")
+	_, err := NewSuitoExpenseScheduleRepository(tx).FindExpenseSchedule("scheduleID", "user1")
 	// check
 	require.Error(t, err)
 	require.ErrorIs(t, err, gorm.ErrRecordNotFound)
@@ -121,11 +121,11 @@ func TestUpdateExpenseSchedule(t *testing.T) {
 		Memo:              "update memo",
 	}
 	// run
-	_, err := NewSuitoRepository(tx).UpdateExpenseSchedule(userID, targetExpenseSchedule)
+	_, err := NewSuitoExpenseScheduleRepository(tx).UpdateExpenseSchedule(userID, targetExpenseSchedule)
 	// check
 	require.NoError(t, err)
 
-	found, err := NewSuitoRepository(tx).FindExpenseSchedule(id, userID)
+	found, err := NewSuitoExpenseScheduleRepository(tx).FindExpenseSchedule(id, userID)
 	require.NoError(t, err)
 	require.Equal(t, targetExpenseSchedule.Title, found.Title)
 	require.Equal(t, targetExpenseSchedule.Amount, found.Amount)
@@ -154,11 +154,11 @@ func TestUpdateExpenseSchedule_Deselect(t *testing.T) {
 		Amount: 2000,
 	}
 	// run
-	_, err := NewSuitoRepository(tx).UpdateExpenseSchedule(userID, targetExpenseSchedule)
+	_, err := NewSuitoExpenseScheduleRepository(tx).UpdateExpenseSchedule(userID, targetExpenseSchedule)
 	// check
 	require.NoError(t, err)
 
-	found, err := NewSuitoRepository(tx).FindExpenseSchedule(id, userID)
+	found, err := NewSuitoExpenseScheduleRepository(tx).FindExpenseSchedule(id, userID)
 	require.NoError(t, err)
 	require.Empty(t, found.ExpenseCategoryID)
 	require.Empty(t, found.ExpenseLocationID)
@@ -176,7 +176,7 @@ func TestDeleteExpenseSchedule(t *testing.T) {
 	i.InsertExpenseSchedule("user99", "title99", "Asia/Tokyo")
 	i.InsertExpenseSchedule(userID, "title01_2", "Asia/Tokyo")
 	// run
-	err := NewSuitoRepository(tx).DeleteExpenseSchedule(id, userID)
+	err := NewSuitoExpenseScheduleRepository(tx).DeleteExpenseSchedule(id, userID)
 	// check
 	require.NoError(t, err)
 
@@ -199,7 +199,7 @@ func TestCreateScheduleExpense(t *testing.T) {
 		Memo:              "test memo",
 	}
 	// run
-	res, err := NewSuitoRepository(tx).CreateExpenseSchedule(userID, expenseSchedule)
+	res, err := NewSuitoExpenseScheduleRepository(tx).CreateExpenseSchedule(userID, expenseSchedule)
 	// check
 	require.NoError(t, err)
 	require.NotEmpty(t, res.ID)
@@ -210,4 +210,59 @@ func TestCreateScheduleExpense(t *testing.T) {
 	require.Equal(t, expenseSchedule.ExpenseLocationID, res.ExpenseLocationID)
 	require.Equal(t, expenseSchedule.Timezone, res.Timezone)
 	require.Equal(t, expenseSchedule.Memo, res.Memo)
+}
+
+func TestFindScheduledExpenseQueues(t *testing.T) {
+	tx := begin()
+	defer rollback(tx)
+	// setup test data
+	i := testutils.NewTestDataInserter(t, tx)
+	now := time.Now().UTC()
+	i.InsertScheduledExpenseQueue("schedule_01", now.Add(time.Hour*3))
+	i.InsertScheduledExpenseQueue("schedule_02", now.Add(-time.Hour*3))
+	// run
+	res, err := NewSuitoExpenseScheduleRepository(tx).FindScheduledDueExpenseQueues()
+	// check
+	require.NoError(t, err)
+	require.Equal(t, 1, len(res))
+	require.Equal(t, "schedule_02", res[0].ExpenseScheduleID)
+}
+
+func TestDeleteScheduledExpenseQueues(t *testing.T) {
+	tx := begin()
+	defer rollback(tx)
+	// setup test data
+	i := testutils.NewTestDataInserter(t, tx)
+	var params []model.ScheduledExpenseQueue
+	params = append(params, i.InsertScheduledExpenseQueue("schedule_01", time.Now()))
+	params = append(params, i.InsertScheduledExpenseQueue("schedule_02", time.Now()))
+	// run
+	err := NewSuitoExpenseScheduleRepository(tx).DeleteScheduledExpenseQueues(params)
+	// check
+	require.NoError(t, err)
+
+	var founds []model.ScheduledExpenseQueue
+	require.NoError(t, tx.Find(&founds).Order("expense_schedule_id").Error)
+	require.Equal(t, 0, len((founds)))
+}
+
+func TestEnqueuedExpenseSchedule(t *testing.T) {
+	tx := begin()
+	defer rollback(tx)
+	// setup test data
+	i := testutils.NewTestDataInserter(t, tx)
+	id1 := i.InsertExpenseSchedule("user1", "title1", "America/New_York").ID
+	id2 := i.InsertExpenseSchedule("user1", "title2", "America/New_York").ID
+	id3 := i.InsertExpenseSchedule("user99", "title3", "America/New_York").ID
+	// run
+	err := NewSuitoExpenseScheduleRepository(tx).EnqueueExpenseSchedule()
+	// check
+	require.NoError(t, err)
+
+	var founds []model.ScheduledExpenseQueue
+	require.NoError(t, tx.Find(&founds).Order("expense_schedule_id").Error)
+	require.Equal(t, 3, len((founds)))
+	require.Equal(t, id1, founds[0].ExpenseScheduleID)
+	require.Equal(t, id2, founds[1].ExpenseScheduleID)
+	require.Equal(t, id3, founds[2].ExpenseScheduleID)
 }

@@ -11,6 +11,7 @@ linters-settings:
       - name: early-return
       - name: superfluous-else
       - name: var-naming
+      - name: unused-parameter
   staticcheck:
     checks: ["all"]
 linters:

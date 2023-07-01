@@ -145,11 +145,14 @@ func TestDoDeleteUserJob(t *testing.T) {
 		},
 	}
 
-	require.NoError(t, NewSuitoJobService(
-		repositories.NewSuitoRepository(tx),
-		transaction.NewSuitoTransactionProvider(tx),
-		authClientMock,
-	).DeleteUsersJobService())
+	categoryRepo := repositories.NewSuitoExpenseCategoryRepository(tx)
+	locationRepo := repositories.NewSuitoExpenseLocationRepository(tx)
+	incomeRepo := repositories.NewSuitoIncomeRepository(tx)
+	expenseRepo := repositories.NewSuitoExpenseRepository(tx)
+	userRepo := repositories.NewSuitoUserRepository(tx)
+	transactionProvider := transaction.NewSuitoTransactionProvider(tx)
+
+	require.NoError(t, NewSuitoDeleteUserJobService(categoryRepo, locationRepo, expenseRepo, incomeRepo, userRepo, transactionProvider, authClientMock).DeleteUsersJobService())
 
 	// check
 	var cnt int64
@@ -176,5 +179,91 @@ func TestDoDeleteUserJob(t *testing.T) {
 
 	var deletedUser model.User
 	require.NoError(t, tx.Unscoped().Where("uid = ?", userDeleted.UID).First(&deletedUser).Error)
-	require.NotNil(t, deletedUser.DeletedAt)
+	require.True(t, deletedUser.DeletedAt.Valid)
+}
+
+func TestDoDeleteUserJob_CheckTransaction(t *testing.T) {
+	tx := begin()
+	defer rollback(tx)
+
+	i := testutils.NewTestDataInserter(t, tx)
+	user1 := i.InsertUser("user1", gorm.DeletedAt{})
+	user2 := i.InsertUser("user2", gorm.DeletedAt{})
+	userDeleted := i.InsertUser("user_deleted", gorm.DeletedAt{})
+	{
+		i.InsertExpense(user1.UID, "2023-05-01", "Expense 1")
+		i.InsertExpense(user2.UID, "2023-05-01", "Expense 2")
+		i.InsertExpense(userDeleted.UID, "2023-05-01", "Expense 3")
+	}
+	{
+		i.InsertIncome(user1.UID, "2023-05-01", "Income 1")
+		i.InsertIncome(user2.UID, "2023-05-01", "Income 2")
+		i.InsertIncome(userDeleted.UID, "2023-05-01", "Income 3")
+	}
+	{
+		i.InsertExpenseCategory(user1.UID, "Category 1")
+		i.InsertExpenseCategory(user2.UID, "Category 2")
+		i.InsertExpenseCategory(userDeleted.UID, "Category 3")
+	}
+	{
+		i.InsertExpenseLocation(user1.UID, "Location 1")
+		i.InsertExpenseLocation(user2.UID, "Location 2")
+		i.InsertExpenseLocation(userDeleted.UID, "Location 3")
+		i.InsertExpenseLocation(user2.UID, "Location 4")
+	}
+
+	q := userQueue{
+		&auth.ExportedUserRecord{UserRecord: &auth.UserRecord{UserInfo: &auth.UserInfo{UID: user1.UID}}},
+		&auth.ExportedUserRecord{UserRecord: &auth.UserRecord{UserInfo: &auth.UserInfo{UID: user2.UID}}},
+	}
+	authIteratorMock := client.AuthUserIteratorMock{
+		NextFunc: func() (*auth.ExportedUserRecord, error) {
+			res := q.deq()
+			if res == nil {
+				return nil, iterator.Done
+			}
+			return res, nil
+		},
+	}
+	authClientMock := &client.AuthClientMock{
+		UsersFunc: func(ctx context.Context, nextPageToken string) client.AuthUserIterator {
+			return &authIteratorMock
+		},
+	}
+
+	categoryRepo := repositories.NewSuitoExpenseCategoryRepository(tx)
+	locationRepo := repositories.NewSuitoExpenseLocationRepository(tx)
+	incomeRepo := repositories.NewSuitoIncomeRepository(tx)
+	expenseRepo := repositories.NewSuitoExpenseRepository(tx)
+	userRepo := repositories.NewSuitoUserRepository(tx)
+	transactionProvider := transaction.NewTestErrorTransactionProvider(tx)
+
+	require.Error(t, NewSuitoDeleteUserJobService(categoryRepo, locationRepo, expenseRepo, incomeRepo, userRepo, transactionProvider, authClientMock).DeleteUsersJobService())
+
+	// check
+	var cnt int64
+	{
+		require.NoError(t, tx.Unscoped().Where("uid = ?", userDeleted.UID).First(&model.Expense{}).Error)
+		tx.Model(&model.Expense{}).Count(&cnt)
+		require.EqualValues(t, 3, cnt)
+	}
+	{
+		require.NoError(t, tx.Unscoped().Where("uid = ?", userDeleted.UID).First(&model.Income{}).Error)
+		tx.Model(&model.Income{}).Count(&cnt)
+		require.EqualValues(t, 3, cnt)
+	}
+	{
+		require.NoError(t, tx.Unscoped().Where("uid = ?", userDeleted.UID).First(&model.ExpenseCategory{}).Error)
+		tx.Model(&model.ExpenseCategory{}).Count(&cnt)
+		require.EqualValues(t, 3, cnt)
+	}
+	{
+		require.NoError(t, tx.Unscoped().Where("uid = ?", userDeleted.UID).First(&model.ExpenseLocation{}).Error)
+		tx.Model(&model.ExpenseLocation{}).Count(&cnt)
+		require.EqualValues(t, 4, cnt)
+	}
+
+	var deletedUser model.User
+	require.NoError(t, tx.Unscoped().Where("uid = ?", userDeleted.UID).First(&deletedUser).Error)
+	require.False(t, deletedUser.DeletedAt.Valid)
 }

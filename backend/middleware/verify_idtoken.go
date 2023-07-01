@@ -12,7 +12,7 @@ import (
 
 const UIDKey = "uidKey"
 
-func VerifyIDTokenMiddleware(authClient client.AuthClient, repository repositories.Repository) echo.MiddlewareFunc {
+func VerifyIDTokenMiddleware(authClient client.AuthClient, repository repositories.UserRepository) echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
 			if c.Request().URL.Path == "/ping" || c.Request().URL.Path == "/api/v1/version" {

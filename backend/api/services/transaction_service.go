@@ -25,12 +25,12 @@ type (
 	} // @Name Transaction
 )
 
-func (s *SuitoService) ListTransactionsService(uid string, start, end *time.Time) ([]Transaction, error) {
-	expenses, err := s.repo.FindExpenses(uid, start, end)
+func (s *SuitoTransactionService) ListTransactionsService(uid string, start, end *time.Time) ([]Transaction, error) {
+	expenses, err := s.expenseRepo.FindExpenses(uid, start, end)
 	if err != nil {
 		return nil, err
 	}
-	incomes, err := s.repo.FindIncomes(uid, start, end)
+	incomes, err := s.incomeRepo.FindIncomes(uid, start, end)
 	if err != nil {
 		return nil, err
 	}
@@ -61,8 +61,8 @@ func (s *SuitoService) ListTransactionsService(uid string, start, end *time.Time
 	return transactions, nil
 }
 
-func (s *SuitoService) TransactionMonthsService(uid string) ([]string, error) {
-	months, err := s.repo.FindTransactionMonths(uid)
+func (s *SuitoTransactionService) TransactionMonthsService(uid string) ([]string, error) {
+	months, err := s.transactionMonthsRepo.FindTransactionMonths(uid)
 	if err != nil {
 		return nil, err
 	}

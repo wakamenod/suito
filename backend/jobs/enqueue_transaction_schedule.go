@@ -3,29 +3,25 @@ package jobs
 import (
 	"github.com/go-co-op/gocron"
 	"github.com/pkg/errors"
-	"github.com/wakamenod/suito/api/repositories"
 	"github.com/wakamenod/suito/api/services"
-	"github.com/wakamenod/suito/db/transaction"
 	"github.com/wakamenod/suito/log"
-	"gorm.io/gorm"
 )
 
 type (
 	enqueueTransactionScheduleJob struct {
-		repo *repositories.SuitoRepository
-		transaction.Provider
+		service *services.SuitoScheduleJobService
 	}
 )
 
-func newEnqueueTransactionScheduleJob(repo *repositories.SuitoRepository, provider transaction.Provider) *enqueueTransactionScheduleJob {
-	return &enqueueTransactionScheduleJob{repo: repo, Provider: provider}
+func newEnqueueTransactionScheduleJob(service *services.SuitoScheduleJobService) *enqueueTransactionScheduleJob {
+	return &enqueueTransactionScheduleJob{service: service}
 }
 
 func (j *enqueueTransactionScheduleJob) do() {
 	log.Info("=== start enqueueTransactionScheduleJob ===", nil)
 	defer log.Info("=== end enqueueTransactionScheduleJob ===", nil)
 
-	err := services.NewSuitoJobService(j.repo, j.Provider, nil).EnqueueTransactionSchedulesService()
+	err := j.service.EnqueueTransactionSchedulesService()
 	if err != nil {
 		log.Warn("err EnqueueTransactionSchedulesJobService", log.Fields{"err": err})
 	}
@@ -46,8 +42,7 @@ func scheduleEnqueueTransactionScheduleWithJob(job *enqueueTransactionScheduleJo
 	return nil
 }
 
-func scheduleEnqueueTransactionScheduleJob(db *gorm.DB) error {
-	provider := transaction.NewSuitoTransactionProvider(db)
-	job := newEnqueueTransactionScheduleJob(repositories.NewSuitoRepository(db), provider)
+func scheduleEnqueueTransactionScheduleJob(service *services.SuitoScheduleJobService) error {
+	job := newEnqueueTransactionScheduleJob(service)
 	return scheduleEnqueueTransactionScheduleWithJob(job)
 }

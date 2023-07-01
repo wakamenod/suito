@@ -19,7 +19,7 @@ func TestFindTransactionMonths(t *testing.T) {
 	i.InsertExpense("user2", "2023-05-02", "title02")
 	i.InsertExpense("user1", "2021-06-03", "title03")
 	// run
-	res, err := NewSuitoRepository(tx).FindTransactionMonths("user1")
+	res, err := NewSuitoTransactionMonthsRepository(tx).FindTransactionMonths("user1")
 	// check
 	require.NoError(t, err)
 	require.Equal(t, 3, len(res))

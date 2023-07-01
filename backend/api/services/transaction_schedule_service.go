@@ -1,63 +1,11 @@
 package services
 
-import (
-	"github.com/pkg/errors"
-	"github.com/wakamenod/suito/api/services/repositories"
-)
-
-type (
-	TransactionSchedule struct {
-		ID     string `json:"id"`
-		Title  string `json:"title"`
-		Amount int    `json:"amount"`
-	} // @Name TransactionSchedule
-)
-
-func (s *SuitoJobService) CreateTransactionsService() error {
-	err := s.Transaction(func(txRepo repositories.Repository) error {
-		{ // expense
-			queues, err := txRepo.FindScheduledDueExpenseQueues()
-			if err != nil {
-				return err
-			}
-			if len(queues) > 0 {
-				if err := txRepo.CreateExpensesFromScheduledQueue(queues); err != nil {
-					return err
-				}
-				if err := txRepo.DeleteScheduledExpenseQueues(queues); err != nil {
-					return err
-				}
-			}
-		}
-		{ // income
-			queues, err := txRepo.FindScheduledDueIncomeQueues()
-			if err != nil {
-				return err
-			}
-			if len(queues) > 0 {
-				if err := txRepo.CreateIncomesFromScheduledQueue(queues); err != nil {
-					return err
-				}
-				if err := txRepo.DeleteScheduledIncomeQueues(queues); err != nil {
-					return err
-				}
-			}
-		}
-		return nil
-	})
-	if err != nil {
-		return errors.Wrap(err, "err CreateTransactionsService")
-	}
-
-	return nil
-}
-
-func (s *SuitoService) ListTransactionSchedulesService(uid string) ([]TransactionSchedule, []TransactionSchedule, error) {
-	expenses, err := s.repo.FindExpenseSchedules(uid)
+func (s *SuitoTransactionScheduleService) ListTransactionSchedulesService(uid string) ([]TransactionSchedule, []TransactionSchedule, error) {
+	expenses, err := s.expenseScheduleRepo.FindExpenseSchedules(uid)
 	if err != nil {
 		return nil, nil, err
 	}
-	incomes, err := s.repo.FindIncomeSchedules(uid)
+	incomes, err := s.incomeScheduleRepo.FindIncomeSchedules(uid)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -81,21 +29,4 @@ func (s *SuitoService) ListTransactionSchedulesService(uid string) ([]Transactio
 	}
 
 	return resExpenses, resIncomes, nil
-}
-
-func (s *SuitoJobService) EnqueueTransactionSchedulesService() error {
-	err := s.Transaction(func(txRepo repositories.Repository) error {
-		if err := txRepo.EnqueueExpenseSchedule(); err != nil {
-			return err
-		}
-		if err := txRepo.EnqueueIncomeSchedule(); err != nil {
-			return err
-		}
-		return nil
-	})
-	if err != nil {
-		return errors.Wrap(err, "err EnqueueTransactionSchedulesService")
-	}
-
-	return nil
 }

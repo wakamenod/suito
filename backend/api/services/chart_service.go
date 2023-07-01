@@ -19,12 +19,12 @@ type (
 	} // @name ColumnChartCategoryData
 )
 
-func (s *SuitoService) ColumnChartService(uid string) ([]ColumnChartCategoryData, []ColumnChartCategoryData, error) {
-	expenseData, err := s.repo.FindColumnChartExpenseData(uid)
+func (s *SuitoChartService) ColumnChartService(uid string) ([]ColumnChartCategoryData, []ColumnChartCategoryData, error) {
+	expenseData, err := s.expenseRepo.FindColumnChartExpenseData(uid)
 	if err != nil {
 		return nil, nil, err
 	}
-	incomeData, err := s.repo.FindColumnChartIncomeData(uid)
+	incomeData, err := s.incomeRepo.FindColumnChartIncomeData(uid)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -79,12 +79,12 @@ func groupByCategory(data []repositories.ColumnChartData, months []string) []Col
 	return res
 }
 
-func (s *SuitoService) PieChartService(uid string, start, end *time.Time) ([]repositories.PieChartData, []repositories.PieChartData, error) {
-	categoryData, err := s.repo.FindPieChartCategoryData(uid, start, end)
+func (s *SuitoChartService) PieChartService(uid string, start, end *time.Time) ([]repositories.PieChartData, []repositories.PieChartData, error) {
+	categoryData, err := s.expenseRepo.FindPieChartCategoryData(uid, start, end)
 	if err != nil {
 		return nil, nil, err
 	}
-	locationData, err := s.repo.FindPieChartLocationData(uid, start, end)
+	locationData, err := s.expenseRepo.FindPieChartLocationData(uid, start, end)
 	if err != nil {
 		return nil, nil, err
 	}

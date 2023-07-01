@@ -22,17 +22,22 @@ func (l *EchoLogger) Level() log.Lvl {
 	return 0
 }
 
-func (l *EchoLogger) SetOutput(w io.Writer) {}
+// nolint:revive
+func (l *EchoLogger) SetOutput(w io.Writer) {
+}
 
+// nolint:revive
 func (l *EchoLogger) SetLevel(v log.Lvl) {}
 
 func (l *EchoLogger) Prefix() string {
 	return ""
 }
 
+// nolint:revive
 func (l *EchoLogger) SetPrefix(p string) {
 }
 
+// nolint:revive
 func (l *EchoLogger) SetHeader(h string) {
 }
 

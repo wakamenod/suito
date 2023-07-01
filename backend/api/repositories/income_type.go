@@ -7,7 +7,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func (r *SuitoRepository) FindIncomeTypes(uid string) ([]model.IncomeType, error) {
+func (r *SuitoIncomeTypeRepository) FindIncomeTypes(uid string) ([]model.IncomeType, error) {
 	var res []model.IncomeType
 
 	if err := r.db.Where("uid = ?", uid).
@@ -19,7 +19,7 @@ func (r *SuitoRepository) FindIncomeTypes(uid string) ([]model.IncomeType, error
 	return res, nil
 }
 
-func (r *SuitoRepository) FindOrCreateIncomeType(uid string, name string) (model.IncomeType, error) {
+func (r *SuitoIncomeTypeRepository) FindOrCreateIncomeType(uid string, name string) (model.IncomeType, error) {
 	var res model.IncomeType
 
 	err := r.db.Transaction(func(tx *gorm.DB) error {

@@ -8,7 +8,7 @@ import (
 	"github.com/wakamenod/suito/model"
 )
 
-func (r *SuitoRepository) FindIncomes(uid string, start, end *time.Time) ([]model.Income, error) {
+func (r *SuitoIncomeRepository) FindIncomes(uid string, start, end *time.Time) ([]model.Income, error) {
 	var incomes []model.Income
 
 	if err := r.db.Preload("IncomeType").Where("uid = ? AND local_date >= ? AND local_date < ?", uid, start, end).
@@ -20,7 +20,7 @@ func (r *SuitoRepository) FindIncomes(uid string, start, end *time.Time) ([]mode
 	return incomes, nil
 }
 
-func (r *SuitoRepository) FindIncome(id, uid string) (model.Income, error) {
+func (r *SuitoIncomeRepository) FindIncome(id, uid string) (model.Income, error) {
 	var income model.Income
 
 	if err := r.db.Preload("IncomeType").Where("id = ? AND uid = ?", id, uid).
@@ -31,7 +31,7 @@ func (r *SuitoRepository) FindIncome(id, uid string) (model.Income, error) {
 	return income, nil
 }
 
-func (r *SuitoRepository) CreateIncome(uid string, income model.Income) (model.Income, error) {
+func (r *SuitoIncomeRepository) CreateIncome(uid string, income model.Income) (model.Income, error) {
 	income.ID = xid.New().String()
 	income.UID = uid
 
@@ -42,7 +42,7 @@ func (r *SuitoRepository) CreateIncome(uid string, income model.Income) (model.I
 	return income, nil
 }
 
-func (r *SuitoRepository) UpdateIncome(uid string, income model.Income) (model.Income, error) {
+func (r *SuitoIncomeRepository) UpdateIncome(uid string, income model.Income) (model.Income, error) {
 	if err := r.db.Model(&model.Income{}).
 		Where("id = ? AND uid = ?", income.ID, uid).
 		Updates(map[string]any{
@@ -56,14 +56,14 @@ func (r *SuitoRepository) UpdateIncome(uid string, income model.Income) (model.I
 	return income, nil
 }
 
-func (r *SuitoRepository) HardDeleteAllUserIncomes(uid string) error {
+func (r *SuitoIncomeRepository) HardDeleteAllUserIncomes(uid string) error {
 	if err := r.db.Unscoped().Where("uid = ?", uid).Delete(&model.Income{}).Error; err != nil {
 		return errors.Wrap(err, "failed to hard delete incomes")
 	}
 	return nil
 }
 
-func (r *SuitoRepository) FindColumnChartIncomeData(uid string) ([]ColumnChartData, error) {
+func (r *SuitoIncomeRepository) FindColumnChartIncomeData(uid string) ([]ColumnChartData, error) {
 	var months []ColumnChartData
 
 	if err := r.db.Raw(`
@@ -93,7 +93,7 @@ ORDER BY
 
 // queueのScheduledAtは現地時間の月の初日を表す日時でUTCとして登録されている
 // これをincome_scheduleテーブルのタイムゾーンを使って現地日付に変換しlocal_dateとして登録する
-func (r *SuitoRepository) CreateIncomesFromScheduledQueue(queues []model.ScheduledIncomeQueue) error {
+func (r *SuitoIncomeRepository) CreateIncomesFromScheduledQueue(queues []model.ScheduledIncomeQueue) error {
 	for _, q := range queues {
 		if err := r.db.Exec(`
 INSERT INTO income

@@ -16,7 +16,7 @@ func TestFindIncomeSchedules(t *testing.T) {
 	defer rollback(tx)
 
 	// run
-	res, err := NewSuitoRepository(tx).FindIncomeSchedules("")
+	res, err := NewSuitoIncomeScheduleRepository(tx).FindIncomeSchedules("")
 	// check
 	require.NoError(t, err)
 	require.Empty(t, res)
@@ -41,7 +41,7 @@ func TestFindIncomeSchedules2(t *testing.T) {
 		i.WithIncomeScheduleDeletedAt(gorm.DeletedAt{Valid: true, Time: time.Now()}),
 	)
 	// run
-	res, err := NewSuitoRepository(tx).FindIncomeSchedules(userID)
+	res, err := NewSuitoIncomeScheduleRepository(tx).FindIncomeSchedules(userID)
 	// check
 	require.NoError(t, err)
 	require.Equal(t, 2, len(res))
@@ -70,7 +70,7 @@ func TestFindIncomeSchedule(t *testing.T) {
 	typeID := i.InsertIncomeType(userID, "Income Type").ID
 	id := i.InsertIncomeSchedule(userID, "Asia/Tokyo", i.WithIncomeTypeID(typeID)).ID
 	// run
-	res, err := NewSuitoRepository(tx).FindIncomeSchedule(id, userID)
+	res, err := NewSuitoIncomeScheduleRepository(tx).FindIncomeSchedule(id, userID)
 	// check
 	require.NoError(t, err)
 	require.Equal(t, id, res.ID)
@@ -84,7 +84,7 @@ func TestFindIncomeSchedule_ErrorNotFound(t *testing.T) {
 	// setup test data
 	// i := testutils.NewTestDataInserter(t, tx)
 	// run
-	_, err := NewSuitoRepository(tx).FindIncomeSchedule("scheduleID", "user1")
+	_, err := NewSuitoIncomeScheduleRepository(tx).FindIncomeSchedule("scheduleID", "user1")
 	// check
 	require.Error(t, err)
 	require.ErrorIs(t, err, gorm.ErrRecordNotFound)
@@ -106,11 +106,11 @@ func TestUpdateIncomeSchedule(t *testing.T) {
 		IncomeTypeID: typeID,
 	}
 	// run
-	_, err := NewSuitoRepository(tx).UpdateIncomeSchedule(userID, targetIncomeSchedule)
+	_, err := NewSuitoIncomeScheduleRepository(tx).UpdateIncomeSchedule(userID, targetIncomeSchedule)
 	// check
 	require.NoError(t, err)
 
-	found, err := NewSuitoRepository(tx).FindIncomeSchedule(id, userID)
+	found, err := NewSuitoIncomeScheduleRepository(tx).FindIncomeSchedule(id, userID)
 	require.NoError(t, err)
 	require.Equal(t, "Test income type", found.IncomeType.Name)
 	require.Equal(t, targetIncomeSchedule.Amount, found.Amount)
@@ -128,11 +128,11 @@ func TestUpdateIncomeSchedule_Deselect(t *testing.T) {
 		Amount: 2000,
 	}
 	// run
-	_, err := NewSuitoRepository(tx).UpdateIncomeSchedule(userID, targetIncomeSchedule)
+	_, err := NewSuitoIncomeScheduleRepository(tx).UpdateIncomeSchedule(userID, targetIncomeSchedule)
 	// check
 	require.NoError(t, err)
 
-	found, err := NewSuitoRepository(tx).FindIncomeSchedule(id, userID)
+	found, err := NewSuitoIncomeScheduleRepository(tx).FindIncomeSchedule(id, userID)
 	require.NoError(t, err)
 	require.Empty(t, found.IncomeType.Name)
 	require.Empty(t, found.IncomeTypeID)
@@ -148,7 +148,7 @@ func TestDeleteIncomeSchedule(t *testing.T) {
 	i.InsertIncomeSchedule("user99", "Asia/Tokyo")
 	i.InsertIncomeSchedule(userID, "Asia/Tokyo")
 	// run
-	err := NewSuitoRepository(tx).DeleteIncomeSchedule(id, userID)
+	err := NewSuitoIncomeScheduleRepository(tx).DeleteIncomeSchedule(id, userID)
 	// check
 	require.NoError(t, err)
 
@@ -169,7 +169,7 @@ func TestCreateScheduleIncome(t *testing.T) {
 		Memo:         "test memo",
 	}
 	// run
-	res, err := NewSuitoRepository(tx).CreateIncomeSchedule(userID, incomeSchedule)
+	res, err := NewSuitoIncomeScheduleRepository(tx).CreateIncomeSchedule(userID, incomeSchedule)
 	// check
 	require.NoError(t, err)
 	require.NotEmpty(t, res.ID)
@@ -178,4 +178,58 @@ func TestCreateScheduleIncome(t *testing.T) {
 	require.Equal(t, incomeSchedule.IncomeTypeID, res.IncomeTypeID)
 	require.Equal(t, incomeSchedule.Timezone, res.Timezone)
 	require.Equal(t, incomeSchedule.Memo, res.Memo)
+}
+
+func TestFindScheduledIncomeQueues(t *testing.T) {
+	tx := begin()
+	defer rollback(tx)
+	// setup test data
+	i := testutils.NewTestDataInserter(t, tx)
+	now := time.Now().UTC()
+	i.InsertScheduledIncomeQueue("schedule_01", now.Add(time.Hour*3))
+	i.InsertScheduledIncomeQueue("schedule_02", now.Add(-time.Hour*3))
+	// run
+	res, err := NewSuitoIncomeScheduleRepository(tx).FindScheduledDueIncomeQueues()
+	// check
+	require.NoError(t, err)
+	require.Equal(t, 1, len(res))
+}
+
+func TestDeleteScheduledIncomeQueues(t *testing.T) {
+	tx := begin()
+	defer rollback(tx)
+	// setup test data
+	i := testutils.NewTestDataInserter(t, tx)
+	var params []model.ScheduledIncomeQueue
+	params = append(params, i.InsertScheduledIncomeQueue("schedule_01", time.Now()))
+	params = append(params, i.InsertScheduledIncomeQueue("schedule_02", time.Now()))
+	// run
+	err := NewSuitoIncomeScheduleRepository(tx).DeleteScheduledIncomeQueues(params)
+	// check
+	require.NoError(t, err)
+
+	var founds []model.ScheduledIncomeQueue
+	require.NoError(t, tx.Find(&founds).Order("income_schedule_id").Error)
+	require.Equal(t, 0, len((founds)))
+}
+
+func TestEnqueuedIncomeSchedule(t *testing.T) {
+	tx := begin()
+	defer rollback(tx)
+	// setup test data
+	i := testutils.NewTestDataInserter(t, tx)
+	id1 := i.InsertIncomeSchedule("user1", "America/New_York").ID
+	id2 := i.InsertIncomeSchedule("user1", "America/New_York").ID
+	id3 := i.InsertIncomeSchedule("user99", "America/New_York").ID
+	// run
+	err := NewSuitoIncomeScheduleRepository(tx).EnqueueIncomeSchedule()
+	// check
+	require.NoError(t, err)
+
+	var founds []model.ScheduledIncomeQueue
+	require.NoError(t, tx.Find(&founds).Order("income_schedule_id").Error)
+	require.Equal(t, 3, len((founds)))
+	require.Equal(t, id1, founds[0].IncomeScheduleID)
+	require.Equal(t, id2, founds[1].IncomeScheduleID)
+	require.Equal(t, id3, founds[2].IncomeScheduleID)
 }

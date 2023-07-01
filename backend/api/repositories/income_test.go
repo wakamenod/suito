@@ -20,7 +20,7 @@ func TestFindIncomes(t *testing.T) {
 	// run
 	start, end, err := dateutils.YearMonthDateRange("2023-05")
 	require.NoError(t, err)
-	res, err := NewSuitoRepository(tx).FindIncomes("", start, end)
+	res, err := NewSuitoIncomeRepository(tx).FindIncomes("", start, end)
 	// check
 	require.NoError(t, err)
 	require.Empty(t, res)
@@ -53,7 +53,7 @@ func TestFindIncomes2(t *testing.T) {
 	// run
 	start, end, err := dateutils.YearMonthDateRange("2023-05")
 	require.NoError(t, err)
-	res, err := NewSuitoRepository(tx).FindIncomes("user1", start, end)
+	res, err := NewSuitoIncomeRepository(tx).FindIncomes("user1", start, end)
 	// check
 	require.NoError(t, err)
 	require.Equal(t, 2, len(res))
@@ -82,7 +82,7 @@ func TestFindIncomes3(t *testing.T) {
 	// run
 	start, end, err := dateutils.YearMonthDateRange("2023-05")
 	require.NoError(t, err)
-	res, err := NewSuitoRepository(tx).FindIncomes("user1", start, end)
+	res, err := NewSuitoIncomeRepository(tx).FindIncomes("user1", start, end)
 	// check
 	require.NoError(t, err)
 	require.Equal(t, 2, len(res))
@@ -98,7 +98,7 @@ func TestFindIncome(t *testing.T) {
 	incomeType := i.InsertIncomeType("user2", "title02")
 	id := i.InsertIncome("user2", "2023-05-02", incomeType.ID)
 	// run
-	res, err := NewSuitoRepository(tx).FindIncome(id, "user2")
+	res, err := NewSuitoIncomeRepository(tx).FindIncome(id, "user2")
 	// check
 	require.NoError(t, err)
 	require.Equal(t, id, res.ID)
@@ -112,7 +112,7 @@ func TestFindIncome_ErrorNotFound(t *testing.T) {
 	i := testutils.NewTestDataInserter(t, tx)
 	id := i.InsertIncome("user2", "2023-05-02", "title02")
 	// run
-	_, err := NewSuitoRepository(tx).FindIncome(id, "user1")
+	_, err := NewSuitoIncomeRepository(tx).FindIncome(id, "user1")
 	// check
 	require.Error(t, err)
 	require.ErrorIs(t, err, gorm.ErrRecordNotFound)
@@ -124,7 +124,7 @@ func TestCreateIncome(t *testing.T) {
 	// setup
 	income := model.Income{IncomeType: model.IncomeType{Name: "title"}, Amount: 2000, LocalDate: time.Date(2023, 5, 1, 0, 0, 0, 0, time.UTC)}
 	// run
-	res, err := NewSuitoRepository(tx).CreateIncome("user1", income)
+	res, err := NewSuitoIncomeRepository(tx).CreateIncome("user1", income)
 	// check
 	require.NoError(t, err)
 	require.NotEmpty(t, res.ID)
@@ -138,21 +138,21 @@ func TestHardDeleteAllUserIncomes(t *testing.T) {
 	defer rollback(tx)
 	// setup
 	i := testutils.NewTestDataInserter(t, tx)
-	i.InsertExpense("user1", "2023-05-01", "title01")
-	i.InsertExpense("user99", "2023-05-01", "title99")
-	i.InsertExpense("user1", "2023-05-01", "title01_2")
+	i.InsertIncome("user1", "2023-05-01")
+	i.InsertIncome("user99", "2023-05-01")
+	i.InsertIncome("user1", "2023-05-01")
 	// run
-	err := NewSuitoRepository(tx).HardDeleteAllUserExpenses("user1")
+	err := NewSuitoIncomeRepository(tx).HardDeleteAllUserIncomes("user1")
 	// check
 	require.NoError(t, err)
 
-	var found model.Expense
+	var found model.Income
 	err = tx.Where("uid = ?", "user1").Unscoped().First(&found).Error
 	require.Error(t, err)
 	require.ErrorIs(t, err, gorm.ErrRecordNotFound)
 
 	var cnt int64
-	tx.Model(&model.Expense{}).Count(&cnt)
+	tx.Model(&model.Income{}).Count(&cnt)
 	require.EqualValues(t, 1, cnt)
 }
 
@@ -170,7 +170,7 @@ func TestFindColumnChartIncomeData(t *testing.T) {
 	i.InsertIncome("user99", "2023-05-01", salary.ID)
 	i.InsertIncome(userID, "2023-05-01", salary.ID)
 	// run
-	res, err := NewSuitoRepository(tx).FindColumnChartIncomeData(userID)
+	res, err := NewSuitoIncomeRepository(tx).FindColumnChartIncomeData(userID)
 	// check
 	require.NoError(t, err)
 
@@ -219,10 +219,10 @@ func TestUpdateIncome(t *testing.T) {
 		Memo: "updated memo",
 	}
 	// run
-	_, err := NewSuitoRepository(tx).UpdateIncome("user1", targetIncome)
+	_, err := NewSuitoIncomeRepository(tx).UpdateIncome("user1", targetIncome)
 	// check
 	require.NoError(t, err)
-	found, err := NewSuitoRepository(tx).FindIncome(id, "user1")
+	found, err := NewSuitoIncomeRepository(tx).FindIncome(id, "user1")
 	require.NoError(t, err)
 	// require.Equal(t, targetIncome.IncomeType.Name, found.IncomeType.Name)
 	require.Equal(t, targetIncome.Amount, found.Amount)
@@ -246,10 +246,10 @@ func TestUpdateIncome_Deselect(t *testing.T) {
 		Amount: 2000, LocalDate: time.Date(2022, 6, 1, 0, 0, 0, 0, time.UTC),
 	}
 	// run
-	_, err := NewSuitoRepository(tx).UpdateIncome("user1", targetIncome)
+	_, err := NewSuitoIncomeRepository(tx).UpdateIncome("user1", targetIncome)
 	// check
 	require.NoError(t, err)
-	found, err := NewSuitoRepository(tx).FindIncome(id, "user1")
+	found, err := NewSuitoIncomeRepository(tx).FindIncome(id, "user1")
 	require.NoError(t, err)
 	require.Equal(t, targetIncome.Amount, found.Amount)
 	require.Empty(t, found.IncomeTypeID)
@@ -279,7 +279,7 @@ func TestCreateIncomesFromScheduledQueue(t *testing.T) {
 		params = append(params, q)
 	}
 	// run
-	err := NewSuitoRepository(tx).CreateIncomesFromScheduledQueue(params)
+	err := NewSuitoIncomeRepository(tx).CreateIncomesFromScheduledQueue(params)
 	// check
 	require.NoError(t, err)
 

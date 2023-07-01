@@ -1,11 +1,9 @@
 package controllers
 
 import (
-	"database/sql"
 	"testing"
 
 	"github.com/wakamenod/suito/api/services"
-	"github.com/wakamenod/suito/api/services/repositories"
 	"github.com/wakamenod/suito/api/services/testdata"
 	"github.com/wakamenod/suito/db/transaction"
 )
@@ -19,18 +17,27 @@ var esCon *ExpenseScheduleController
 var isCon *IncomeScheduleController
 
 func TestMain(m *testing.M) {
-	ser := services.NewSuitoService(&testdata.TestRepositoryMock, &transaction.ProviderMock{
-		TransactionFunc: func(fc func(txRepo repositories.Repository) error, opts ...*sql.TxOptions) error {
-			return fc(&testdata.TestRepositoryMock)
+	mockTransactionProvider := transaction.ProviderMock{
+		TransactionFunc: func(fc func() error, handlers ...transaction.TransactionHandler) error {
+			return fc()
 		},
-	})
-	tCon = NewTransactionController(ser)
-	eCon = NewExpenseController(ser)
-	iCon = NewIncomeController(ser)
-	cCon = NewChartController(ser)
-	sCon = NewTransactionScheduleController(ser)
-	esCon = NewExpenseScheduleController(ser)
-	isCon = NewIncomeScheduleController(ser)
+	}
+
+	transactionSer := services.NewSuitoTransactionService(&testdata.ExpenseRepositoryMock, &testdata.IncomeRepositoryMock, &testdata.TransactionMonthsRepositoryMock)
+	expenseSer := services.NewSuitoExpenseService(&testdata.ExpenseRepositoryMock, &testdata.ExpenseCategoryRepositoryMock, &testdata.ExpenseLocationRepositoryMock)
+	incomeSer := services.NewSuitoIncomeService(&testdata.IncomeRepositoryMock, &testdata.IncomeTypeRepositoryMock)
+	chartSer := services.NewSuitoChartService(&testdata.ExpenseRepositoryMock, &testdata.IncomeRepositoryMock)
+	transactionScheduleSer := services.NewSuitoTransactionScheduleService(&testdata.ExpenseScheduleRepositoryMock, &testdata.IncomeScheduleRepositoryMock)
+	expenseScheduleSer := services.NewSuitoExpenseScheduleService(&testdata.ExpenseScheduleRepositoryMock, &mockTransactionProvider)
+	incomeScheduleSer := services.NewSuitoIncomeScheduleService(&testdata.IncomeScheduleRepositoryMock, &mockTransactionProvider)
+
+	tCon = NewTransactionController(transactionSer)
+	eCon = NewExpenseController(expenseSer)
+	iCon = NewIncomeController(incomeSer)
+	cCon = NewChartController(chartSer)
+	sCon = NewTransactionScheduleController(transactionScheduleSer)
+	esCon = NewExpenseScheduleController(expenseScheduleSer)
+	isCon = NewIncomeScheduleController(incomeScheduleSer)
 
 	m.Run()
 }
