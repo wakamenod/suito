@@ -23,10 +23,7 @@ func (r *SuitoExpenseScheduleRepository) FindExpenseSchedules(uid string) ([]mod
 func (r *SuitoExpenseScheduleRepository) FindExpenseSchedule(id, uid string) (model.ExpenseSchedule, error) {
 	var res model.ExpenseSchedule
 
-	if err := r.db.
-		Preload("ExpenseCategory").
-		Preload("ExpenseLocation").
-		Where("id = ? AND uid = ?", id, uid).
+	if err := r.db.Where("id = ? AND uid = ?", id, uid).
 		First(&res).Error; err != nil {
 		return res, errors.Wrap(err, "failed to find expense schedule")
 	}

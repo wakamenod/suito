@@ -22,13 +22,13 @@ void main() {
       // TODO
     });
 
-    // ModelExpenseCategory expenseCategory
-    test('to test the property `expenseCategory`', () async {
+    // String expenseCategoryID
+    test('to test the property `expenseCategoryID`', () async {
       // TODO
     });
 
-    // ModelExpenseLocation expenseLocation
-    test('to test the property `expenseLocation`', () async {
+    // String expenseLocationID
+    test('to test the property `expenseLocationID`', () async {
       // TODO
     });
 

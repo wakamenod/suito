@@ -13,12 +13,12 @@ class FakeScheduleItem {
   final String id;
   final String title;
   final int amount;
-  final String category;
-  final String location;
+  final String categoryID;
+  final String locationID;
   final String memo;
 
-  const FakeScheduleItem(this.id, this.title, this.amount, this.category,
-      this.location, this.memo);
+  const FakeScheduleItem(this.id, this.title, this.amount, this.categoryID,
+      this.locationID, this.memo);
 }
 
 final kFakeSchedulesResponse = ListTransactionSchedulesRes((b) => b

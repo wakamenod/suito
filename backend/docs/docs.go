@@ -381,7 +381,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "suito.expense"
+                    "suito.expenseCategory"
                 ],
                 "summary": "List expense categories",
                 "operationId": "listExpenseCategories",
@@ -390,6 +390,45 @@ const docTemplate = `{
                         "description": "Success",
                         "schema": {
                             "$ref": "#/definitions/ListExpenseCategoriesRes"
+                        }
+                    },
+                    "500": {
+                        "description": "Unknown Error",
+                        "schema": {
+                            "$ref": "#/definitions/SuitoError"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "支出カテゴリー情報を登録します",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "suito.expenseCategory"
+                ],
+                "summary": "Register expense category",
+                "operationId": "registerExpenseCategory",
+                "parameters": [
+                    {
+                        "description": "register expenseCategory req",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/RegisterExpenseCategoryReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/RegisterExpenseCategoryRes"
                         }
                     },
                     "500": {
@@ -1230,6 +1269,28 @@ const docTemplate = `{
                 }
             }
         },
+        "RegisterExpenseCategoryReq": {
+            "type": "object",
+            "required": [
+                "expenseCategory"
+            ],
+            "properties": {
+                "expenseCategory": {
+                    "$ref": "#/definitions/model.ExpenseCategory"
+                }
+            }
+        },
+        "RegisterExpenseCategoryRes": {
+            "type": "object",
+            "required": [
+                "newExpenseCategory"
+            ],
+            "properties": {
+                "newExpenseCategory": {
+                    "$ref": "#/definitions/model.ExpenseCategory"
+                }
+            }
+        },
         "RegisterExpenseReq": {
             "type": "object",
             "required": [
@@ -1552,8 +1613,8 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "amount",
-                "expenseCategory",
-                "expenseLocation",
+                "expenseCategoryID",
+                "expenseLocationID",
                 "id",
                 "memo",
                 "timezone",
@@ -1569,11 +1630,11 @@ const docTemplate = `{
                 "deletedAt": {
                     "$ref": "#/definitions/gorm.DeletedAt"
                 },
-                "expenseCategory": {
-                    "$ref": "#/definitions/model.ExpenseCategory"
+                "expenseCategoryID": {
+                    "type": "string"
                 },
-                "expenseLocation": {
-                    "$ref": "#/definitions/model.ExpenseLocation"
+                "expenseLocationID": {
+                    "type": "string"
                 },
                 "id": {
                     "type": "string"

@@ -11,8 +11,8 @@ Name | Type | Description | Notes
 **amount** | **int** |  | 
 **createdAt** | **String** |  | [optional] 
 **deletedAt** | [**GormDeletedAt**](GormDeletedAt.md) |  | [optional] 
-**expenseCategory** | [**ModelExpenseCategory**](ModelExpenseCategory.md) |  | 
-**expenseLocation** | [**ModelExpenseLocation**](ModelExpenseLocation.md) |  | 
+**expenseCategoryID** | **String** |  | 
+**expenseLocationID** | **String** |  | 
 **id** | **String** |  | 
 **memo** | **String** |  | 
 **scheduleType** | **int** |  | [optional] 

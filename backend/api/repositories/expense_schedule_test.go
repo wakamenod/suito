@@ -85,8 +85,8 @@ func TestFindExpenseSchedule(t *testing.T) {
 	require.Equal(t, id, res.ID)
 	require.Equal(t, "title01", res.Title)
 	require.Equal(t, 200, res.Amount)
-	require.Equal(t, "CategoryName", res.ExpenseCategory.Name)
-	require.Equal(t, "LocationName", res.ExpenseLocation.Name)
+	require.Equal(t, categoryID, res.ExpenseCategoryID)
+	require.Equal(t, locationID, res.ExpenseLocationID)
 }
 
 func TestFindExpenseSchedule_ErrorNotFound(t *testing.T) {
@@ -132,8 +132,6 @@ func TestUpdateExpenseSchedule(t *testing.T) {
 	require.Equal(t, targetExpenseSchedule.Memo, found.Memo)
 	require.Equal(t, targetExpenseSchedule.ExpenseCategoryID, found.ExpenseCategoryID)
 	require.Equal(t, targetExpenseSchedule.ExpenseLocationID, found.ExpenseLocationID)
-	require.Equal(t, "Test Category", found.ExpenseCategory.Name)
-	require.Equal(t, "Test Location", found.ExpenseLocation.Name)
 }
 
 func TestUpdateExpenseSchedule_Deselect(t *testing.T) {
@@ -162,8 +160,6 @@ func TestUpdateExpenseSchedule_Deselect(t *testing.T) {
 	require.NoError(t, err)
 	require.Empty(t, found.ExpenseCategoryID)
 	require.Empty(t, found.ExpenseLocationID)
-	require.Empty(t, found.ExpenseCategory.Name)
-	require.Empty(t, found.ExpenseLocation.Name)
 }
 
 func TestDeleteExpenseSchedule(t *testing.T) {

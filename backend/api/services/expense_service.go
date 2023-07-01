@@ -29,14 +29,6 @@ func (s *SuitoExpenseService) FindExpenseService(id, uid string) (model.Expense,
 	return expense, categoryName, locationName, nil
 }
 
-func (s *SuitoExpenseService) ListExpenseCategoryService(uid string) ([]model.ExpenseCategory, error) {
-	categories, err := s.expenseCategoryRepo.FindExpenseCategories(uid)
-	if err != nil {
-		return nil, err
-	}
-	return categories, nil
-}
-
 func (s *SuitoExpenseService) ListExpenseLocationService(uid string) ([]model.ExpenseLocation, error) {
 	locations, err := s.expenseLocationRepo.FindExpenseLocations(uid)
 	if err != nil {

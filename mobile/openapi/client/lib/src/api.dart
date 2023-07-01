@@ -12,6 +12,7 @@ import 'package:openapi/src/auth/oauth.dart';
 import 'package:openapi/src/api/suito_chart_api.dart';
 import 'package:openapi/src/api/suito_default_api.dart';
 import 'package:openapi/src/api/suito_expense_api.dart';
+import 'package:openapi/src/api/suito_expense_category_api.dart';
 import 'package:openapi/src/api/suito_expense_schedule_api.dart';
 import 'package:openapi/src/api/suito_income_api.dart';
 import 'package:openapi/src/api/suito_income_schedule_api.dart';
@@ -88,6 +89,12 @@ class Openapi {
   /// by doing that all interceptors will not be executed
   SuitoExpenseApi getSuitoExpenseApi() {
     return SuitoExpenseApi(dio, serializers);
+  }
+
+  /// Get SuitoExpenseCategoryApi instance, base route and serializer can be overridden by a given but be careful,
+  /// by doing that all interceptors will not be executed
+  SuitoExpenseCategoryApi getSuitoExpenseCategoryApi() {
+    return SuitoExpenseCategoryApi(dio, serializers);
   }
 
   /// Get SuitoExpenseScheduleApi instance, base route and serializer can be overridden by a given but be careful,

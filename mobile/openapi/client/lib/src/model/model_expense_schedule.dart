@@ -3,8 +3,6 @@
 //
 
 // ignore_for_file: unused_element
-import 'package:openapi/src/model/model_expense_category.dart';
-import 'package:openapi/src/model/model_expense_location.dart';
 import 'package:openapi/src/model/gorm_deleted_at.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
@@ -17,8 +15,8 @@ part 'model_expense_schedule.g.dart';
 /// * [amount] 
 /// * [createdAt] 
 /// * [deletedAt] 
-/// * [expenseCategory] 
-/// * [expenseLocation] 
+/// * [expenseCategoryID] 
+/// * [expenseLocationID] 
 /// * [id] 
 /// * [memo] 
 /// * [scheduleType] 
@@ -36,11 +34,11 @@ abstract class ModelExpenseSchedule implements Built<ModelExpenseSchedule, Model
   @BuiltValueField(wireName: r'deletedAt')
   GormDeletedAt? get deletedAt;
 
-  @BuiltValueField(wireName: r'expenseCategory')
-  ModelExpenseCategory get expenseCategory;
+  @BuiltValueField(wireName: r'expenseCategoryID')
+  String get expenseCategoryID;
 
-  @BuiltValueField(wireName: r'expenseLocation')
-  ModelExpenseLocation get expenseLocation;
+  @BuiltValueField(wireName: r'expenseLocationID')
+  String get expenseLocationID;
 
   @BuiltValueField(wireName: r'id')
   String get id;
@@ -102,15 +100,15 @@ class _$ModelExpenseScheduleSerializer implements PrimitiveSerializer<ModelExpen
         specifiedType: const FullType(GormDeletedAt),
       );
     }
-    yield r'expenseCategory';
+    yield r'expenseCategoryID';
     yield serializers.serialize(
-      object.expenseCategory,
-      specifiedType: const FullType(ModelExpenseCategory),
+      object.expenseCategoryID,
+      specifiedType: const FullType(String),
     );
-    yield r'expenseLocation';
+    yield r'expenseLocationID';
     yield serializers.serialize(
-      object.expenseLocation,
-      specifiedType: const FullType(ModelExpenseLocation),
+      object.expenseLocationID,
+      specifiedType: const FullType(String),
     );
     yield r'id';
     yield serializers.serialize(
@@ -190,19 +188,19 @@ class _$ModelExpenseScheduleSerializer implements PrimitiveSerializer<ModelExpen
           ) as GormDeletedAt;
           result.deletedAt.replace(valueDes);
           break;
-        case r'expenseCategory':
+        case r'expenseCategoryID':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(ModelExpenseCategory),
-          ) as ModelExpenseCategory;
-          result.expenseCategory.replace(valueDes);
+            specifiedType: const FullType(String),
+          ) as String;
+          result.expenseCategoryID = valueDes;
           break;
-        case r'expenseLocation':
+        case r'expenseLocationID':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(ModelExpenseLocation),
-          ) as ModelExpenseLocation;
-          result.expenseLocation.replace(valueDes);
+            specifiedType: const FullType(String),
+          ) as String;
+          result.expenseLocationID = valueDes;
           break;
         case r'id':
           final valueDes = serializers.deserialize(

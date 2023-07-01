@@ -61,6 +61,10 @@ type SuitoTransactionScheduleService struct {
 	incomeScheduleRepo  repositories.IncomeScheduleRepository
 }
 
+type SuitoExpenseCategoryService struct {
+	expenseCategoryRepo repositories.ExpenseCategoryRepository
+}
+
 func NewSuitoChartService(exRepo repositories.ExpenseRepository, inRepo repositories.IncomeRepository) *SuitoChartService {
 	return &SuitoChartService{expenseRepo: exRepo, incomeRepo: inRepo}
 }
@@ -162,5 +166,13 @@ func NewSuitoTransactionScheduleService(
 	return &SuitoTransactionScheduleService{
 		expenseScheduleRepo: expenseScheduleRepo,
 		incomeScheduleRepo:  incomeScheduleRepo,
+	}
+}
+
+func NewSuitoExpenseCategoryService(
+	expenseCategoryRepo repositories.ExpenseCategoryRepository,
+) *SuitoExpenseCategoryService {
+	return &SuitoExpenseCategoryService{
+		expenseCategoryRepo: expenseCategoryRepo,
 	}
 }

@@ -19,6 +19,11 @@ var ExpenseCategoryRepositoryMock = srepositories.ExpenseCategoryRepositoryMock{
 	FindExpenseCategoryFunc: func(id string, uid string) (model.ExpenseCategory, error) {
 		return model.ExpenseCategory{ID: "TEST_CATEGORY_ID", Name: "Test Category"}, nil
 	},
+	CreateExpenseCategoryFunc: func(uid string, expense model.ExpenseCategory) (model.ExpenseCategory, error) {
+		expense.UID = uid
+		expense.ID = "TEST_NEW_CATEGORY_ID"
+		return expense, nil
+	},
 }
 
 var ExpenseLocationRepositoryMock = srepositories.ExpenseLocationRepositoryMock{
