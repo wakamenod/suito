@@ -17,3 +17,11 @@ func (s *SuitoIncomeTypeService) ListIncomeTypesService(uid string) ([]model.Inc
 	}
 	return incomeTypes, nil
 }
+
+func (s *SuitoIncomeTypeService) UpdateIncomeTypeService(uid string, incomeType model.IncomeType) (model.IncomeType, error) {
+	incomeType, err := s.incomeTypeRepo.UpdateIncomeType(uid, incomeType)
+	if err != nil {
+		return incomeType, err
+	}
+	return incomeType, nil
+}

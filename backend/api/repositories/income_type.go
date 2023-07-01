@@ -18,6 +18,17 @@ func (r *SuitoIncomeTypeRepository) CreateIncomeType(uid string, incomeType mode
 	return incomeType, nil
 }
 
+func (r *SuitoIncomeTypeRepository) UpdateIncomeType(uid string, IncomeType model.IncomeType) (model.IncomeType, error) {
+	if err := r.db.Model(&model.IncomeType{}).
+		Where("id = ? AND uid = ?", IncomeType.ID, uid).
+		Updates(map[string]any{
+			"name": IncomeType.Name,
+		}).Error; err != nil {
+		return IncomeType, errors.Wrap(err, "failed to update IncomeTypes")
+	}
+	return IncomeType, nil
+}
+
 func (r *SuitoIncomeTypeRepository) FindIncomeTypes(uid string) ([]model.IncomeType, error) {
 	var res []model.IncomeType
 

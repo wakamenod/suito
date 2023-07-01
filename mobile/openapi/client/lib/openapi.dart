@@ -82,3 +82,5 @@ export 'package:openapi/src/model/update_income_req.dart';
 export 'package:openapi/src/model/update_income_res.dart';
 export 'package:openapi/src/model/update_income_schedule_req.dart';
 export 'package:openapi/src/model/update_income_schedule_res.dart';
+export 'package:openapi/src/model/update_income_type_req.dart';
+export 'package:openapi/src/model/update_income_type_res.dart';

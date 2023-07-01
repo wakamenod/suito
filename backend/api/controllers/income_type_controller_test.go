@@ -74,3 +74,45 @@ func TestRegisterIncomeTypeHandler_Success(t *testing.T) {
 	require.Equal(t, "TEST_NEW_INCOME_TYPE_ID", res.NewIncomeType.ID)
 	require.Equal(t, "TestIncomeType", res.NewIncomeType.Name)
 }
+
+func TestUpdateIncomeTypeHandler_ValidationError(t *testing.T) {
+	// Setup
+	e := echo.New()
+	e.Validator = validate.NewValidator()
+	req := httptest.NewRequest(http.MethodPut, "/types", nil)
+	rec := httptest.NewRecorder()
+	c := e.NewContext(req, rec)
+	c.Set(middleware.UIDKey, "user1")
+
+	// Assertions
+	err := incomeTypeCon.UpdateIncomeTypeHandler(c)
+	var appErr *apperrors.SuitoError
+	require.ErrorAs(t, err, &appErr)
+	require.Equal(t, apperrors.InvalidParameter, appErr.ErrCode)
+}
+
+func TestUpdateIncomeTypeHandler_Success(t *testing.T) {
+	// Setup
+	e := echo.New()
+	e.Validator = validate.NewValidator()
+	jsonReq, err := json.Marshal(UpdateIncomeTypeReq{
+		IncomeType: model.IncomeType{
+			ID:   "incomeTypeID",
+			Name: "TestIncomeType",
+		}})
+	require.NoError(t, err)
+	req := httptest.NewRequest(http.MethodPut, "/types", bytes.NewReader(jsonReq))
+	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+	rec := httptest.NewRecorder()
+	c := e.NewContext(req, rec)
+	c.Set(middleware.UIDKey, "user1")
+
+	// Assertions
+	require.NoError(t, incomeTypeCon.UpdateIncomeTypeHandler(c))
+	require.Equal(t, http.StatusOK, rec.Code)
+
+	var res UpdateIncomeTypeRes
+	require.NoError(t, json.Unmarshal(rec.Body.Bytes(), &res))
+	require.Equal(t, "incomeTypeID", res.UpdatedIncomeType.ID)
+	require.Equal(t, "TestIncomeType", res.UpdatedIncomeType.Name)
+}

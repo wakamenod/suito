@@ -74,6 +74,8 @@ doc/UpdateIncomeReq.md
 doc/UpdateIncomeRes.md
 doc/UpdateIncomeScheduleReq.md
 doc/UpdateIncomeScheduleRes.md
+doc/UpdateIncomeTypeReq.md
+doc/UpdateIncomeTypeRes.md
 lib/openapi.dart
 lib/src/api.dart
 lib/src/api/suito_chart_api.dart
@@ -156,6 +158,8 @@ lib/src/model/update_income_req.dart
 lib/src/model/update_income_res.dart
 lib/src/model/update_income_schedule_req.dart
 lib/src/model/update_income_schedule_res.dart
+lib/src/model/update_income_type_req.dart
+lib/src/model/update_income_type_res.dart
 lib/src/serializers.dart
 pubspec.yaml
 test/column_chart_category_data_test.dart
@@ -230,3 +234,5 @@ test/update_income_req_test.dart
 test/update_income_res_test.dart
 test/update_income_schedule_req_test.dart
 test/update_income_schedule_res_test.dart
+test/update_income_type_req_test.dart
+test/update_income_type_res_test.dart

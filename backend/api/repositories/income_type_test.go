@@ -148,3 +148,26 @@ func TestCreateIncomeType(t *testing.T) {
 	require.Equal(t, "user1", res.UID)
 	require.Equal(t, incomeType.Name, res.Name)
 }
+
+func TestUpdateIncomeType(t *testing.T) {
+	tx := begin()
+	defer rollback(tx)
+	// setup
+	i := testutils.NewTestDataInserter(t, tx)
+	id := i.InsertIncomeType("user1", "Location01").ID
+	i.InsertIncomeType("user99", "Other users location")
+	i.InsertIncomeType("user1", "Location02")
+	targetIncomeType := model.IncomeType{
+		ID:   id,
+		Name: "update name",
+	}
+	// run
+	_, err := NewSuitoIncomeTypeRepository(tx).UpdateIncomeType("user1", targetIncomeType)
+	// check
+	require.NoError(t, err)
+
+	var found model.IncomeType
+	require.NoError(t, tx.Where(model.IncomeType{ID: id, UID: "user1"}).
+		First(&found).Error)
+	require.Equal(t, targetIncomeType.Name, found.Name)
+}
