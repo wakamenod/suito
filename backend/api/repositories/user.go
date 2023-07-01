@@ -7,7 +7,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func (r *SuitoRepository) FindAllUIDs() ([]string, error) {
+func (r *SuitoUserRepository) FindAllUIDs() ([]string, error) {
 	var uids []string
 	if err := r.db.Model(&model.User{}).Pluck("uid", &uids).Error; err != nil {
 		return nil, errors.Wrap(err, "failed to pluck user uids")
@@ -15,14 +15,14 @@ func (r *SuitoRepository) FindAllUIDs() ([]string, error) {
 	return uids, nil
 }
 
-func (r *SuitoRepository) DeleteUsers(uids []string) error {
+func (r *SuitoUserRepository) DeleteUsers(uids []string) error {
 	if err := r.db.Where("uid IN ?", uids).Delete(&model.User{}).Error; err != nil {
 		return errors.Wrap(err, "failed to delete users")
 	}
 	return nil
 }
 
-func (r *SuitoRepository) FindOrCreateUser(uid string) (model.User, error) {
+func (r *SuitoUserRepository) FindOrCreateUser(uid string) (model.User, error) {
 	var res model.User
 
 	err := r.db.Transaction(func(tx *gorm.DB) error {

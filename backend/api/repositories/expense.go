@@ -20,7 +20,7 @@ type (
 	} // @name PieChartData
 )
 
-func (r *SuitoRepository) FindExpenses(uid string, start, end *time.Time) ([]model.Expense, error) {
+func (r *SuitoExpenseRepository) FindExpenses(uid string, start, end *time.Time) ([]model.Expense, error) {
 	var expenses []model.Expense
 
 	if err := r.db.Where("uid = ? AND local_date >= ? AND local_date < ?", uid, start, end).
@@ -32,7 +32,7 @@ func (r *SuitoRepository) FindExpenses(uid string, start, end *time.Time) ([]mod
 	return expenses, nil
 }
 
-func (r *SuitoRepository) FindExpense(id, uid string) (model.Expense, error) {
+func (r *SuitoExpenseRepository) FindExpense(id, uid string) (model.Expense, error) {
 	var expense model.Expense
 
 	if err := r.db.Where("id = ? AND uid = ?", id, uid).
@@ -43,7 +43,7 @@ func (r *SuitoRepository) FindExpense(id, uid string) (model.Expense, error) {
 	return expense, nil
 }
 
-func (r *SuitoRepository) CreateExpense(uid string, expense model.Expense) (model.Expense, error) {
+func (r *SuitoExpenseRepository) CreateExpense(uid string, expense model.Expense) (model.Expense, error) {
 	expense.ID = xid.New().String()
 	expense.UID = uid
 
@@ -54,7 +54,7 @@ func (r *SuitoRepository) CreateExpense(uid string, expense model.Expense) (mode
 	return expense, nil
 }
 
-func (r *SuitoRepository) UpdateExpense(uid string, expense model.Expense) (model.Expense, error) {
+func (r *SuitoExpenseRepository) UpdateExpense(uid string, expense model.Expense) (model.Expense, error) {
 	if err := r.db.Model(&model.Expense{}).
 		Where("id = ? AND uid = ?", expense.ID, uid).
 		Updates(map[string]any{
@@ -70,21 +70,21 @@ func (r *SuitoRepository) UpdateExpense(uid string, expense model.Expense) (mode
 	return expense, nil
 }
 
-func (r *SuitoRepository) DeleteExpense(id string, uid string) error {
+func (r *SuitoExpenseRepository) DeleteExpense(id string, uid string) error {
 	if err := r.db.Where("id = ? AND uid = ?", id, uid).Delete(&model.Expense{}).Error; err != nil {
 		return errors.Wrap(err, "failed to delete expenses")
 	}
 	return nil
 }
 
-func (r *SuitoRepository) HardDeleteAllUserExpenses(uid string) error {
+func (r *SuitoExpenseRepository) HardDeleteAllUserExpenses(uid string) error {
 	if err := r.db.Unscoped().Where("uid = ?", uid).Delete(&model.Expense{}).Error; err != nil {
 		return errors.Wrap(err, "failed to hard delete expenses")
 	}
 	return nil
 }
 
-func (r *SuitoRepository) FindColumnChartExpenseData(uid string) ([]ColumnChartData, error) {
+func (r *SuitoExpenseRepository) FindColumnChartExpenseData(uid string) ([]ColumnChartData, error) {
 	var res []ColumnChartData
 
 	if err := r.db.Raw(`
@@ -112,7 +112,7 @@ ORDER BY
 	return res, nil
 }
 
-func (r *SuitoRepository) FindPieChartCategoryData(uid string, start, end *time.Time) ([]PieChartData, error) {
+func (r *SuitoExpenseRepository) FindPieChartCategoryData(uid string, start, end *time.Time) ([]PieChartData, error) {
 	var res []PieChartData
 
 	if err := r.db.Raw(`
@@ -138,7 +138,7 @@ ORDER BY
 	return res, nil
 }
 
-func (r *SuitoRepository) FindPieChartLocationData(uid string, start, end *time.Time) ([]PieChartData, error) {
+func (r *SuitoExpenseRepository) FindPieChartLocationData(uid string, start, end *time.Time) ([]PieChartData, error) {
 	var res []PieChartData
 
 	if err := r.db.Raw(`
@@ -166,7 +166,7 @@ ORDER BY
 
 // queueのScheduledAtは現地時間の月の初日を表す日時でUTCとして登録されている
 // これをexpense_scheduleテーブルのタイムゾーンを使って現地日付に変換しlocal_dateとして登録する
-func (r *SuitoRepository) CreateExpensesFromScheduledQueue(queues []model.ScheduledExpenseQueue) error {
+func (r *SuitoExpenseRepository) CreateExpensesFromScheduledQueue(queues []model.ScheduledExpenseQueue) error {
 	for _, q := range queues {
 		if err := r.db.Exec(`
 INSERT INTO expense

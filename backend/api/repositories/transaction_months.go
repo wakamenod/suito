@@ -4,7 +4,7 @@ import (
 	"github.com/pkg/errors"
 )
 
-func (r *SuitoRepository) FindTransactionMonths(uid string) ([]string, error) {
+func (r *SuitoTransactionMonthsRepository) FindTransactionMonths(uid string) ([]string, error) {
 	var months []string
 
 	if err := r.db.Raw(`

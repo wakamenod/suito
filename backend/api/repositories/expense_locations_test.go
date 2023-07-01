@@ -22,7 +22,7 @@ func TestFindExpenseLocations(t *testing.T) {
 	i.InsertExpenseLocation("user99", "Location_01 Other User")
 	i.InsertExpenseLocation(uid, "Location_02")
 	// run
-	res, err := NewSuitoRepository(tx).FindExpenseLocations(uid)
+	res, err := NewSuitoExpenseLocationRepository(tx).FindExpenseLocations(uid)
 	// check
 	require.NoError(t, err)
 	require.Equal(t, 2, len(res))
@@ -40,7 +40,7 @@ func TestFindOrCreateExpenseLocation_New(t *testing.T) {
 
 	uid := "user01"
 	// run
-	res, err := NewSuitoRepository(tx).FindOrCreateExpenseLocation(uid, "NEW_LOCATION")
+	res, err := NewSuitoExpenseLocationRepository(tx).FindOrCreateExpenseLocation(uid, "NEW_LOCATION")
 	// check
 	require.NoError(t, err)
 	require.Equal(t, "NEW_LOCATION", res.Name)
@@ -62,7 +62,7 @@ func TestFindOrCreateExpenseLocation_Created(t *testing.T) {
 
 	location := i.InsertExpenseLocation("user01", "Location_02")
 	// run
-	res, err := NewSuitoRepository(tx).FindOrCreateExpenseLocation(location.UID, location.Name)
+	res, err := NewSuitoExpenseLocationRepository(tx).FindOrCreateExpenseLocation(location.UID, location.Name)
 	// check
 	require.NoError(t, err)
 	require.Equal(t, location.Name, res.Name)
@@ -103,7 +103,7 @@ func TestFindOrCreateExpenseLocation_DuplicatedError(t *testing.T) {
 				updatedAt))
 
 	// run
-	_, err = NewSuitoRepository(db).FindOrCreateExpenseLocation(userID, locationName)
+	_, err = NewSuitoExpenseLocationRepository(db).FindOrCreateExpenseLocation(userID, locationName)
 	require.NoError(t, err)
 	if err := mock.ExpectationsWereMet(); err != nil {
 		t.Errorf("there were unfulfilled expectations: %s", err)
@@ -128,7 +128,7 @@ func TestFindOrCreateExpenseLocation_OtherError(t *testing.T) {
 		WillReturnError(errors.New("some unknown error"))
 
 	// run
-	_, err = NewSuitoRepository(db).FindOrCreateExpenseLocation(userID, locationName)
+	_, err = NewSuitoExpenseLocationRepository(db).FindOrCreateExpenseLocation(userID, locationName)
 	require.Error(t, err)
 	if err := mock.ExpectationsWereMet(); err != nil {
 		t.Errorf("there were unfulfilled expectations: %s", err)
@@ -142,7 +142,7 @@ func TestFindExpenseLocation(t *testing.T) {
 	i := testutils.NewTestDataInserter(t, tx)
 	location := i.InsertExpenseLocation("user01", "Location_02")
 	// run
-	res, err := NewSuitoRepository(tx).FindExpenseLocation(location.ID, location.UID)
+	res, err := NewSuitoExpenseLocationRepository(tx).FindExpenseLocation(location.ID, location.UID)
 	// check
 	require.NoError(t, err)
 	require.Equal(t, location.Name, res.Name)
@@ -157,7 +157,7 @@ func TestFindExpenseLocation_NotFound(t *testing.T) {
 	i := testutils.NewTestDataInserter(t, tx)
 	location := i.InsertExpenseLocation("user01", "Location_02")
 	// run
-	_, err := NewSuitoRepository(tx).FindExpenseLocation(location.ID, "user99")
+	_, err := NewSuitoExpenseLocationRepository(tx).FindExpenseLocation(location.ID, "user99")
 	// check
 	require.Error(t, err)
 	require.ErrorIs(t, err, gorm.ErrRecordNotFound)
@@ -173,7 +173,7 @@ func TestHardDeleteAllUserExpenseLocations(t *testing.T) {
 	i.InsertExpenseLocation(userID, "Location_02")
 	i.InsertExpenseLocation("user99", "Location_03")
 	// run
-	err := NewSuitoRepository(tx).HardDeleteAllUserExpenseLocations(userID)
+	err := NewSuitoExpenseLocationRepository(tx).HardDeleteAllUserExpenseLocations(userID)
 	// check
 	require.NoError(t, err)
 

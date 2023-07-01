@@ -40,7 +40,7 @@ func TestVerifyIDTokenSucess(t *testing.T) {
 		return nil
 	}
 
-	repositoryMock := repositories.RepositoryMock{
+	repositoryMock := repositories.UserRepositoryMock{
 		FindOrCreateUserFunc: func(uid string) (model.User, error) {
 			return model.User{UID: "user1", ID: "user1_id"}, nil
 		},
@@ -79,7 +79,7 @@ func TestVerifyIDTokenEmpty(t *testing.T) {
 		return nil
 	}
 
-	repositoryMock := repositories.RepositoryMock{
+	repositoryMock := repositories.UserRepositoryMock{
 		FindOrCreateUserFunc: func(uid string) (model.User, error) {
 			return model.User{UID: "user1", ID: "user1_id"}, nil
 		},
@@ -121,7 +121,7 @@ func TestVerifyIDTokenSkip(t *testing.T) {
 		return nil
 	}
 
-	repositoryMock := repositories.RepositoryMock{
+	repositoryMock := repositories.UserRepositoryMock{
 		FindOrCreateUserFunc: func(uid string) (model.User, error) {
 			return model.User{UID: "user1", ID: "user1_id"}, nil
 		},

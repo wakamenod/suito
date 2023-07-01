@@ -7,7 +7,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func (r *SuitoRepository) FindExpenseLocations(uid string) ([]model.ExpenseLocation, error) {
+func (r *SuitoExpenseLocationRepository) FindExpenseLocations(uid string) ([]model.ExpenseLocation, error) {
 	var res []model.ExpenseLocation
 
 	if err := r.db.Where("uid = ?", uid).
@@ -19,7 +19,7 @@ func (r *SuitoRepository) FindExpenseLocations(uid string) ([]model.ExpenseLocat
 	return res, nil
 }
 
-func (r *SuitoRepository) FindExpenseLocation(id string, uid string) (model.ExpenseLocation, error) {
+func (r *SuitoExpenseLocationRepository) FindExpenseLocation(id string, uid string) (model.ExpenseLocation, error) {
 	var res model.ExpenseLocation
 
 	if err := r.db.Where(model.ExpenseLocation{ID: id, UID: uid}).
@@ -30,7 +30,7 @@ func (r *SuitoRepository) FindExpenseLocation(id string, uid string) (model.Expe
 	return res, nil
 }
 
-func (r *SuitoRepository) FindOrCreateExpenseLocation(uid string, name string) (model.ExpenseLocation, error) {
+func (r *SuitoExpenseLocationRepository) FindOrCreateExpenseLocation(uid string, name string) (model.ExpenseLocation, error) {
 	var res model.ExpenseLocation
 
 	err := r.db.Transaction(func(tx *gorm.DB) error {
@@ -56,7 +56,7 @@ func (r *SuitoRepository) FindOrCreateExpenseLocation(uid string, name string) (
 	return res, nil
 }
 
-func (r *SuitoRepository) HardDeleteAllUserExpenseLocations(uid string) error {
+func (r *SuitoExpenseLocationRepository) HardDeleteAllUserExpenseLocations(uid string) error {
 	if err := r.db.Unscoped().Where("uid = ?", uid).Delete(&model.ExpenseLocation{}).Error; err != nil {
 		return errors.Wrap(err, "failed to hard delete expense locations")
 	}

@@ -7,7 +7,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func (r *SuitoRepository) FindExpenseCategories(uid string) ([]model.ExpenseCategory, error) {
+func (r *SuitoExpenseCategoryRepository) FindExpenseCategories(uid string) ([]model.ExpenseCategory, error) {
 	var res []model.ExpenseCategory
 
 	if err := r.db.Where("uid = ?", uid).
@@ -19,7 +19,7 @@ func (r *SuitoRepository) FindExpenseCategories(uid string) ([]model.ExpenseCate
 	return res, nil
 }
 
-func (r *SuitoRepository) FindExpenseCategory(id string, uid string) (model.ExpenseCategory, error) {
+func (r *SuitoExpenseCategoryRepository) FindExpenseCategory(id string, uid string) (model.ExpenseCategory, error) {
 	var res model.ExpenseCategory
 
 	if err := r.db.Where(model.ExpenseCategory{ID: id, UID: uid}).
@@ -30,7 +30,18 @@ func (r *SuitoRepository) FindExpenseCategory(id string, uid string) (model.Expe
 	return res, nil
 }
 
-func (r *SuitoRepository) FindOrCreateExpenseCategory(uid string, name string) (model.ExpenseCategory, error) {
+func (r *SuitoExpenseCategoryRepository) CreateExpenseCategory(uid string, category model.ExpenseCategory) (model.ExpenseCategory, error) {
+	category.ID = xid.New().String()
+	category.UID = uid
+
+	if err := r.db.Create(&category).Error; err != nil {
+		return category, errors.Wrap(err, "failed to create expense category")
+	}
+
+	return category, nil
+}
+
+func (r *SuitoExpenseCategoryRepository) FindOrCreateExpenseCategory(uid string, name string) (model.ExpenseCategory, error) {
 	var res model.ExpenseCategory
 
 	err := r.db.Transaction(func(tx *gorm.DB) error {
@@ -56,7 +67,7 @@ func (r *SuitoRepository) FindOrCreateExpenseCategory(uid string, name string) (
 	return res, nil
 }
 
-func (r *SuitoRepository) HardDeleteAllUserExpenseCategories(uid string) error {
+func (r *SuitoExpenseCategoryRepository) HardDeleteAllUserExpenseCategories(uid string) error {
 	if err := r.db.Unscoped().Where("uid = ?", uid).Delete(&model.ExpenseCategory{}).Error; err != nil {
 		return errors.Wrap(err, "failed to hard delete expense categories")
 	}

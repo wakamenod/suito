@@ -3,29 +3,25 @@ package jobs
 import (
 	"github.com/go-co-op/gocron"
 	"github.com/pkg/errors"
-	"github.com/wakamenod/suito/api/repositories"
 	"github.com/wakamenod/suito/api/services"
-	"github.com/wakamenod/suito/db/transaction"
 	"github.com/wakamenod/suito/log"
-	"gorm.io/gorm"
 )
 
 type (
 	createTransactionsJob struct {
-		repo *repositories.SuitoRepository
-		transaction.Provider
+		service *services.SuitoScheduleJobService
 	}
 )
 
-func newCreateTransactionsJob(repo *repositories.SuitoRepository, provider transaction.Provider) *createTransactionsJob {
-	return &createTransactionsJob{repo: repo, Provider: provider}
+func newCreateTransactionsJob(service *services.SuitoScheduleJobService) *createTransactionsJob {
+	return &createTransactionsJob{service: service}
 }
 
 func (j *createTransactionsJob) do() {
 	log.Info("=== start createTransactionsJob ===", nil)
 	defer log.Info("=== end createTransactionsJob ===", nil)
 
-	err := services.NewSuitoJobService(j.repo, j.Provider, nil).CreateTransactionsService()
+	err := j.service.CreateTransactionsService()
 	if err != nil {
 		log.Warn("err CreateTransactionssJobService", log.Fields{"err": err})
 	}
@@ -46,8 +42,7 @@ func scheduleCreateTransactionsWithJob(job *createTransactionsJob) error {
 	return nil
 }
 
-func scheduleCreateTransactionsJob(db *gorm.DB) error {
-	provider := transaction.NewSuitoTransactionProvider(db)
-	job := newCreateTransactionsJob(repositories.NewSuitoRepository(db), provider)
+func scheduleCreateTransactionsJob(service *services.SuitoScheduleJobService) error {
+	job := newCreateTransactionsJob(service)
 	return scheduleCreateTransactionsWithJob(job)
 }

@@ -1,77 +1,91 @@
 package repositories
 
 import (
-	"database/sql"
 	"time"
 
 	"github.com/wakamenod/suito/api/repositories"
+	"github.com/wakamenod/suito/db/transaction"
 	"github.com/wakamenod/suito/model"
-	"gorm.io/gorm"
 )
 
-type TransactionProvider interface {
-	Transaction(fc func(txRepo Repository) error, opts ...*sql.TxOptions) error
+type ExpenseCategoryRepository interface {
+	FindExpenseCategories(uid string) ([]model.ExpenseCategory, error)
+	FindExpenseCategory(id string, uid string) (model.ExpenseCategory, error)
+	CreateExpenseCategory(uid string, expense model.ExpenseCategory) (model.ExpenseCategory, error)
+	FindOrCreateExpenseCategory(uid string, name string) (model.ExpenseCategory, error)
+	HardDeleteAllUserExpenseCategories(uid string) error
+	transaction.TransactionHandler
 }
 
-type SuitoTransactionProvider struct {
-	db *gorm.DB
+type ExpenseLocationRepository interface {
+	FindExpenseLocations(uid string) ([]model.ExpenseLocation, error)
+	FindExpenseLocation(id string, uid string) (model.ExpenseLocation, error)
+	FindOrCreateExpenseLocation(uid string, name string) (model.ExpenseLocation, error)
+	HardDeleteAllUserExpenseLocations(uid string) error
+	transaction.TransactionHandler
 }
 
-func NewSuitoTransactionProvider(db *gorm.DB) TransactionProvider {
-	return &SuitoTransactionProvider{db: db}
+type ExpenseScheduleRepository interface {
+	FindExpenseSchedules(uid string) ([]model.ExpenseSchedule, error)
+	FindExpenseSchedule(id, uid string) (model.ExpenseSchedule, error)
+	UpdateExpenseSchedule(uid string, schedule model.ExpenseSchedule) (model.ExpenseSchedule, error)
+	DeleteExpenseSchedule(id, uid string) error
+	CreateExpenseSchedule(uid string, expenseSchedule model.ExpenseSchedule) (model.ExpenseSchedule, error)
+	FindScheduledDueExpenseQueues() ([]model.ScheduledExpenseQueue, error)
+	DeleteScheduledExpenseQueues(queues []model.ScheduledExpenseQueue) error
+	EnqueueExpenseSchedule() error
+	transaction.TransactionHandler
 }
 
-func (p *SuitoTransactionProvider) Transaction(fc func(txRepo Repository) error, opts ...*sql.TxOptions) error {
-	return p.db.Transaction(func(tx *gorm.DB) error {
-		return fc(repositories.NewSuitoRepository(tx))
-	})
+type IncomeScheduleRepository interface {
+	FindIncomeSchedules(uid string) ([]model.IncomeSchedule, error)
+	FindIncomeSchedule(id, uid string) (model.IncomeSchedule, error)
+	UpdateIncomeSchedule(uid string, schedule model.IncomeSchedule) (model.IncomeSchedule, error)
+	DeleteIncomeSchedule(id, uid string) error
+	CreateIncomeSchedule(uid string, incomeSchedule model.IncomeSchedule) (model.IncomeSchedule, error)
+	FindScheduledDueIncomeQueues() ([]model.ScheduledIncomeQueue, error)
+	DeleteScheduledIncomeQueues(queues []model.ScheduledIncomeQueue) error
+	EnqueueIncomeSchedule() error
+	transaction.TransactionHandler
 }
 
-type Repository interface {
+type ExpenseRepository interface {
 	FindExpense(id, uid string) (model.Expense, error)
 	FindExpenses(uid string, start, end *time.Time) ([]model.Expense, error)
-	FindIncome(id, uid string) (model.Income, error)
-	FindIncomes(uid string, start, end *time.Time) ([]model.Income, error)
-	FindIncomeTypes(uid string) ([]model.IncomeType, error)
-	FindTransactionMonths(uid string) ([]string, error)
-	FindExpenseCategories(uid string) ([]model.ExpenseCategory, error)
-	FindExpenseLocations(uid string) ([]model.ExpenseLocation, error)
 	CreateExpense(uid string, expense model.Expense) (model.Expense, error)
-	CreateIncome(uid string, income model.Income) (model.Income, error)
-	UpdateIncome(uid string, income model.Income) (model.Income, error)
-	FindOrCreateExpenseCategory(uid string, name string) (model.ExpenseCategory, error)
-	FindOrCreateExpenseLocation(uid string, name string) (model.ExpenseLocation, error)
-	FindOrCreateIncomeType(uid string, name string) (model.IncomeType, error)
-	FindExpenseCategory(id string, uid string) (model.ExpenseCategory, error)
-	FindExpenseLocation(id string, uid string) (model.ExpenseLocation, error)
 	UpdateExpense(uid string, expense model.Expense) (model.Expense, error)
 	DeleteExpense(id, uid string) error
+	HardDeleteAllUserExpenses(uid string) error
+	FindColumnChartExpenseData(uid string) ([]repositories.ColumnChartData, error)
+	FindPieChartLocationData(uid string, start, end *time.Time) ([]repositories.PieChartData, error)
+	FindPieChartCategoryData(uid string, start, end *time.Time) ([]repositories.PieChartData, error)
+	CreateExpensesFromScheduledQueue(queues []model.ScheduledExpenseQueue) error
+	transaction.TransactionHandler
+}
+
+type IncomeRepository interface {
+	FindIncome(id, uid string) (model.Income, error)
+	FindIncomes(uid string, start, end *time.Time) ([]model.Income, error)
+	CreateIncome(uid string, income model.Income) (model.Income, error)
+	UpdateIncome(uid string, income model.Income) (model.Income, error)
+	HardDeleteAllUserIncomes(uid string) error
+	FindColumnChartIncomeData(uid string) ([]repositories.ColumnChartData, error)
+	CreateIncomesFromScheduledQueue(queues []model.ScheduledIncomeQueue) error
+	transaction.TransactionHandler
+}
+
+type IncomeTypeRepository interface {
+	FindIncomeTypes(uid string) ([]model.IncomeType, error)
+	FindOrCreateIncomeType(uid string, name string) (model.IncomeType, error)
+}
+
+type TransactionMonthsRepository interface {
+	FindTransactionMonths(uid string) ([]string, error)
+}
+
+type UserRepository interface {
 	FindOrCreateUser(uid string) (model.User, error)
 	FindAllUIDs() ([]string, error)
-	HardDeleteAllUserExpenseCategories(uid string) error
-	HardDeleteAllUserExpenseLocations(uid string) error
-	HardDeleteAllUserExpenses(uid string) error
-	HardDeleteAllUserIncomes(uid string) error
-	FindColumnChartExpenseData(uid string) ([]repositories.ColumnChartData, error)
-	FindColumnChartIncomeData(uid string) ([]repositories.ColumnChartData, error)
-	FindPieChartCategoryData(uid string, start, end *time.Time) ([]repositories.PieChartData, error)
-	FindPieChartLocationData(uid string, start, end *time.Time) ([]repositories.PieChartData, error)
-	FindExpenseSchedules(uid string) ([]model.ExpenseSchedule, error)
-	FindIncomeSchedules(uid string) ([]model.IncomeSchedule, error)
-	FindExpenseSchedule(id, uid string) (model.ExpenseSchedule, error)
-	FindIncomeSchedule(id, uid string) (model.IncomeSchedule, error)
-	UpdateExpenseSchedule(uid string, schedule model.ExpenseSchedule) (model.ExpenseSchedule, error)
-	UpdateIncomeSchedule(uid string, schedule model.IncomeSchedule) (model.IncomeSchedule, error)
-	DeleteExpenseSchedule(id, uid string) error
-	DeleteIncomeSchedule(id, uid string) error
-	CreateExpenseSchedule(uid string, expenseSchedule model.ExpenseSchedule) (model.ExpenseSchedule, error)
-	CreateIncomeSchedule(uid string, incomeSchedule model.IncomeSchedule) (model.IncomeSchedule, error)
-	EnqueueExpenseSchedule() error
-	EnqueueIncomeSchedule() error
-	FindScheduledDueExpenseQueues() ([]model.ScheduledExpenseQueue, error)
-	CreateExpensesFromScheduledQueue(queues []model.ScheduledExpenseQueue) error
-	DeleteScheduledExpenseQueues(queues []model.ScheduledExpenseQueue) error
-	FindScheduledDueIncomeQueues() ([]model.ScheduledIncomeQueue, error)
-	CreateIncomesFromScheduledQueue(queues []model.ScheduledIncomeQueue) error
-	DeleteScheduledIncomeQueues(queues []model.ScheduledIncomeQueue) error
+	DeleteUsers(uids []string) error
+	transaction.TransactionHandler
 }

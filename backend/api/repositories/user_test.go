@@ -21,7 +21,7 @@ func TestFindAllUIDs(t *testing.T) {
 	i.InsertUser("user2", gorm.DeletedAt{})
 	i.InsertUser("deleted_user", gorm.DeletedAt{Valid: true, Time: time.Date(2023, 5, 1, 0, 0, 0, 0, time.UTC)})
 	// run
-	res, err := NewSuitoRepository(tx).FindAllUIDs()
+	res, err := NewSuitoUserRepository(tx).FindAllUIDs()
 	// check
 	require.NoError(t, err)
 	require.Equal(t, 2, len(res))
@@ -37,7 +37,7 @@ func TestDeleteUsers(t *testing.T) {
 	i.InsertUser("user1", gorm.DeletedAt{})
 	i.InsertUser("user2", gorm.DeletedAt{})
 	// run
-	err := NewSuitoRepository(tx).DeleteUsers([]string{"user1", "user2"})
+	err := NewSuitoUserRepository(tx).DeleteUsers([]string{"user1", "user2"})
 	// check
 	require.NoError(t, err)
 
@@ -59,7 +59,7 @@ func TestFindOrCreateUser_New(t *testing.T) {
 
 	uid := "user01"
 	// run
-	res, err := NewSuitoRepository(tx).FindOrCreateUser(uid)
+	res, err := NewSuitoUserRepository(tx).FindOrCreateUser(uid)
 	// check
 	require.NoError(t, err)
 	require.Equal(t, uid, res.UID)
@@ -80,7 +80,7 @@ func TestFindOrCreateUser_Created(t *testing.T) {
 
 	user := i.InsertUser("user01", gorm.DeletedAt{})
 	// run
-	res, err := NewSuitoRepository(tx).FindOrCreateUser(user.UID)
+	res, err := NewSuitoUserRepository(tx).FindOrCreateUser(user.UID)
 	// check
 	require.NoError(t, err)
 	require.Equal(t, user.UID, res.UID)
@@ -98,7 +98,7 @@ func TestFindOrCreateUser_Deleted(t *testing.T) {
 	i := testutils.NewTestDataInserter(t, tx)
 	user := i.InsertUser("user01", gorm.DeletedAt{Valid: true, Time: time.Date(2023, 5, 1, 0, 0, 0, 0, time.UTC)})
 	// run
-	res, err := NewSuitoRepository(tx).FindOrCreateUser(user.UID)
+	res, err := NewSuitoUserRepository(tx).FindOrCreateUser(user.UID)
 	// check
 	require.NoError(t, err)
 	require.Equal(t, user.UID, res.UID)
@@ -137,7 +137,7 @@ func TestFindOrCreateUser_DuplicatedError(t *testing.T) {
 				updatedAt))
 
 	// run
-	_, err = NewSuitoRepository(db).FindOrCreateUser(userID)
+	_, err = NewSuitoUserRepository(db).FindOrCreateUser(userID)
 	require.NoError(t, err)
 	if err := mock.ExpectationsWereMet(); err != nil {
 		t.Errorf("there were unfulfilled expectations: %s", err)
@@ -161,7 +161,7 @@ func TestFindOrCreateUser_OtherError(t *testing.T) {
 		WillReturnError(errors.New("some unknown error"))
 
 	// run
-	_, err = NewSuitoRepository(db).FindOrCreateUser(userID)
+	_, err = NewSuitoUserRepository(db).FindOrCreateUser(userID)
 	require.Error(t, err)
 	if err := mock.ExpectationsWereMet(); err != nil {
 		t.Errorf("there were unfulfilled expectations: %s", err)

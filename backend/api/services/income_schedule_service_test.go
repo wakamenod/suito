@@ -15,7 +15,7 @@ func TestUpdateIncomeScheduleService_NoIncomeType(t *testing.T) {
 		Amount: 2000,
 		Memo:   "test_memo",
 	}
-	newIncomeSchedule, err := aSer.UpdateIncomeScheduleService("user1", incomeSchedule)
+	newIncomeSchedule, err := incomeScheduleSer.UpdateIncomeScheduleService("user1", incomeSchedule)
 	require.NoError(t, err)
 	require.Equal(t, incomeSchedule.ID, newIncomeSchedule.ID)
 	require.Empty(t, newIncomeSchedule.IncomeTypeID)
@@ -28,7 +28,7 @@ func TestUpdateIncomeScheduleService(t *testing.T) {
 		Memo:         "test_memo",
 		IncomeTypeID: "NewIncomeTypeID",
 	}
-	updateIncomeSchedule, err := aSer.UpdateIncomeScheduleService("user1", incomeSchedule)
+	updateIncomeSchedule, err := incomeScheduleSer.UpdateIncomeScheduleService("user1", incomeSchedule)
 	require.NoError(t, err)
 	require.Equal(t, incomeSchedule.ID, updateIncomeSchedule.ID)
 	require.Equal(t, incomeSchedule.IncomeTypeID, updateIncomeSchedule.IncomeTypeID)
@@ -43,7 +43,7 @@ func TestUpdateIncomeService_Deselect(t *testing.T) {
 			Name: "",
 		},
 	}
-	updateIncomeSchedule, err := aSer.UpdateIncomeScheduleService("user1", incomeSchedule)
+	updateIncomeSchedule, err := incomeScheduleSer.UpdateIncomeScheduleService("user1", incomeSchedule)
 	require.NoError(t, err)
 	require.Equal(t, incomeSchedule.ID, updateIncomeSchedule.ID)
 	require.Empty(t, updateIncomeSchedule.IncomeTypeID)
@@ -56,7 +56,7 @@ func TestCreateIncomeScheduleService_NoCategoryLocation(t *testing.T) {
 		Amount: 2000,
 		Memo:   "test_memo",
 	}
-	newIncomeSchedule, err := aSer.CreateIncomeScheduleService("user1", incomeSchedule)
+	newIncomeSchedule, err := incomeScheduleSer.CreateIncomeScheduleService("user1", incomeSchedule)
 	require.NoError(t, err)
 	require.Equal(t, "new_income_schedule_id", newIncomeSchedule.ID)
 	require.Empty(t, newIncomeSchedule.IncomeTypeID)
@@ -68,7 +68,7 @@ func TestCreateIncomeScheduleService(t *testing.T) {
 		Memo:         "test_memo",
 		IncomeTypeID: "NewIncomeTypeID",
 	}
-	newIncomeSchedule, err := aSer.CreateIncomeScheduleService("user1", incomeSchedule)
+	newIncomeSchedule, err := incomeScheduleSer.CreateIncomeScheduleService("user1", incomeSchedule)
 	require.NoError(t, err)
 	require.Equal(t, "new_income_schedule_id", newIncomeSchedule.ID)
 	require.Equal(t, incomeSchedule.IncomeTypeID, newIncomeSchedule.IncomeTypeID)
@@ -89,8 +89,8 @@ func TestCreateIncomeScheduleService_DBRepository(t *testing.T) {
 		Timezone: "Asia/Tokyo",
 	}
 
-	res, err := NewSuitoService(
-		repositories.NewSuitoRepository(tx),
+	res, err := NewSuitoIncomeScheduleService(
+		repositories.NewSuitoIncomeScheduleRepository(tx),
 		transaction.NewSuitoTransactionProvider(tx),
 	).CreateIncomeScheduleService(userID, incomeSchedule)
 	require.NoError(t, err)

@@ -40,7 +40,7 @@ func New(authClient client.AuthClient, db *gorm.DB) Server {
 	e.Validator = validate.NewValidator()
 	e.HTTPErrorHandler = apperrors.HTTPErrorHandler
 
-	e.Use(middleware.VerifyIDTokenMiddleware(authClient, repositories.NewSuitoRepository(db)))
+	e.Use(middleware.VerifyIDTokenMiddleware(authClient, repositories.NewSuitoUserRepository(db)))
 	e.Use(middleware.Logger())
 	e.Use(emiddleware.BodyDump(func(c echo.Context, reqBody, resBody []byte) {
 		c.Set(middleware.ReqBodyLogKey, string(reqBody))

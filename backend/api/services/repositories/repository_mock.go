@@ -6,70 +6,26 @@ package repositories
 import (
 	"github.com/wakamenod/suito/api/repositories"
 	"github.com/wakamenod/suito/model"
+	"gorm.io/gorm"
 	"sync"
 	"time"
 )
 
-// Ensure, that RepositoryMock does implement Repository.
+// Ensure, that ExpenseCategoryRepositoryMock does implement ExpenseCategoryRepository.
 // If this is not the case, regenerate this file with moq.
-var _ Repository = &RepositoryMock{}
+var _ ExpenseCategoryRepository = &ExpenseCategoryRepositoryMock{}
 
-// RepositoryMock is a mock implementation of Repository.
+// ExpenseCategoryRepositoryMock is a mock implementation of ExpenseCategoryRepository.
 //
-//	func TestSomethingThatUsesRepository(t *testing.T) {
+//	func TestSomethingThatUsesExpenseCategoryRepository(t *testing.T) {
 //
-//		// make and configure a mocked Repository
-//		mockedRepository := &RepositoryMock{
-//			CreateExpenseFunc: func(uid string, expense model.Expense) (model.Expense, error) {
-//				panic("mock out the CreateExpense method")
+//		// make and configure a mocked ExpenseCategoryRepository
+//		mockedExpenseCategoryRepository := &ExpenseCategoryRepositoryMock{
+//			CreateExpenseCategoryFunc: func(uid string, expense model.ExpenseCategory) (model.ExpenseCategory, error) {
+//				panic("mock out the CreateExpenseCategory method")
 //			},
-//			CreateExpenseScheduleFunc: func(uid string, expenseSchedule model.ExpenseSchedule) (model.ExpenseSchedule, error) {
-//				panic("mock out the CreateExpenseSchedule method")
-//			},
-//			CreateExpensesFromScheduledQueueFunc: func(queues []model.ScheduledExpenseQueue) error {
-//				panic("mock out the CreateExpensesFromScheduledQueue method")
-//			},
-//			CreateIncomeFunc: func(uid string, income model.Income) (model.Income, error) {
-//				panic("mock out the CreateIncome method")
-//			},
-//			CreateIncomeScheduleFunc: func(uid string, incomeSchedule model.IncomeSchedule) (model.IncomeSchedule, error) {
-//				panic("mock out the CreateIncomeSchedule method")
-//			},
-//			CreateIncomesFromScheduledQueueFunc: func(queues []model.ScheduledIncomeQueue) error {
-//				panic("mock out the CreateIncomesFromScheduledQueue method")
-//			},
-//			DeleteExpenseFunc: func(id string, uid string) error {
-//				panic("mock out the DeleteExpense method")
-//			},
-//			DeleteExpenseScheduleFunc: func(id string, uid string) error {
-//				panic("mock out the DeleteExpenseSchedule method")
-//			},
-//			DeleteIncomeScheduleFunc: func(id string, uid string) error {
-//				panic("mock out the DeleteIncomeSchedule method")
-//			},
-//			DeleteScheduledExpenseQueuesFunc: func(queues []model.ScheduledExpenseQueue) error {
-//				panic("mock out the DeleteScheduledExpenseQueues method")
-//			},
-//			DeleteScheduledIncomeQueuesFunc: func(queues []model.ScheduledIncomeQueue) error {
-//				panic("mock out the DeleteScheduledIncomeQueues method")
-//			},
-//			EnqueueExpenseScheduleFunc: func() error {
-//				panic("mock out the EnqueueExpenseSchedule method")
-//			},
-//			EnqueueIncomeScheduleFunc: func() error {
-//				panic("mock out the EnqueueIncomeSchedule method")
-//			},
-//			FindAllUIDsFunc: func() ([]string, error) {
-//				panic("mock out the FindAllUIDs method")
-//			},
-//			FindColumnChartExpenseDataFunc: func(uid string) ([]repositories.ColumnChartData, error) {
-//				panic("mock out the FindColumnChartExpenseData method")
-//			},
-//			FindColumnChartIncomeDataFunc: func(uid string) ([]repositories.ColumnChartData, error) {
-//				panic("mock out the FindColumnChartIncomeData method")
-//			},
-//			FindExpenseFunc: func(id string, uid string) (model.Expense, error) {
-//				panic("mock out the FindExpense method")
+//			EndTxFunc: func(db *gorm.DB)  {
+//				panic("mock out the EndTx method")
 //			},
 //			FindExpenseCategoriesFunc: func(uid string) ([]model.ExpenseCategory, error) {
 //				panic("mock out the FindExpenseCategories method")
@@ -77,144 +33,27 @@ var _ Repository = &RepositoryMock{}
 //			FindExpenseCategoryFunc: func(id string, uid string) (model.ExpenseCategory, error) {
 //				panic("mock out the FindExpenseCategory method")
 //			},
-//			FindExpenseLocationFunc: func(id string, uid string) (model.ExpenseLocation, error) {
-//				panic("mock out the FindExpenseLocation method")
-//			},
-//			FindExpenseLocationsFunc: func(uid string) ([]model.ExpenseLocation, error) {
-//				panic("mock out the FindExpenseLocations method")
-//			},
-//			FindExpenseScheduleFunc: func(id string, uid string) (model.ExpenseSchedule, error) {
-//				panic("mock out the FindExpenseSchedule method")
-//			},
-//			FindExpenseSchedulesFunc: func(uid string) ([]model.ExpenseSchedule, error) {
-//				panic("mock out the FindExpenseSchedules method")
-//			},
-//			FindExpensesFunc: func(uid string, start *time.Time, end *time.Time) ([]model.Expense, error) {
-//				panic("mock out the FindExpenses method")
-//			},
-//			FindIncomeFunc: func(id string, uid string) (model.Income, error) {
-//				panic("mock out the FindIncome method")
-//			},
-//			FindIncomeScheduleFunc: func(id string, uid string) (model.IncomeSchedule, error) {
-//				panic("mock out the FindIncomeSchedule method")
-//			},
-//			FindIncomeSchedulesFunc: func(uid string) ([]model.IncomeSchedule, error) {
-//				panic("mock out the FindIncomeSchedules method")
-//			},
-//			FindIncomeTypesFunc: func(uid string) ([]model.IncomeType, error) {
-//				panic("mock out the FindIncomeTypes method")
-//			},
-//			FindIncomesFunc: func(uid string, start *time.Time, end *time.Time) ([]model.Income, error) {
-//				panic("mock out the FindIncomes method")
-//			},
 //			FindOrCreateExpenseCategoryFunc: func(uid string, name string) (model.ExpenseCategory, error) {
 //				panic("mock out the FindOrCreateExpenseCategory method")
-//			},
-//			FindOrCreateExpenseLocationFunc: func(uid string, name string) (model.ExpenseLocation, error) {
-//				panic("mock out the FindOrCreateExpenseLocation method")
-//			},
-//			FindOrCreateIncomeTypeFunc: func(uid string, name string) (model.IncomeType, error) {
-//				panic("mock out the FindOrCreateIncomeType method")
-//			},
-//			FindOrCreateUserFunc: func(uid string) (model.User, error) {
-//				panic("mock out the FindOrCreateUser method")
-//			},
-//			FindPieChartCategoryDataFunc: func(uid string, start *time.Time, end *time.Time) ([]repositories.PieChartData, error) {
-//				panic("mock out the FindPieChartCategoryData method")
-//			},
-//			FindPieChartLocationDataFunc: func(uid string, start *time.Time, end *time.Time) ([]repositories.PieChartData, error) {
-//				panic("mock out the FindPieChartLocationData method")
-//			},
-//			FindScheduledDueExpenseQueuesFunc: func() ([]model.ScheduledExpenseQueue, error) {
-//				panic("mock out the FindScheduledDueExpenseQueues method")
-//			},
-//			FindScheduledDueIncomeQueuesFunc: func() ([]model.ScheduledIncomeQueue, error) {
-//				panic("mock out the FindScheduledDueIncomeQueues method")
-//			},
-//			FindTransactionMonthsFunc: func(uid string) ([]string, error) {
-//				panic("mock out the FindTransactionMonths method")
 //			},
 //			HardDeleteAllUserExpenseCategoriesFunc: func(uid string) error {
 //				panic("mock out the HardDeleteAllUserExpenseCategories method")
 //			},
-//			HardDeleteAllUserExpenseLocationsFunc: func(uid string) error {
-//				panic("mock out the HardDeleteAllUserExpenseLocations method")
-//			},
-//			HardDeleteAllUserExpensesFunc: func(uid string) error {
-//				panic("mock out the HardDeleteAllUserExpenses method")
-//			},
-//			HardDeleteAllUserIncomesFunc: func(uid string) error {
-//				panic("mock out the HardDeleteAllUserIncomes method")
-//			},
-//			UpdateExpenseFunc: func(uid string, expense model.Expense) (model.Expense, error) {
-//				panic("mock out the UpdateExpense method")
-//			},
-//			UpdateExpenseScheduleFunc: func(uid string, schedule model.ExpenseSchedule) (model.ExpenseSchedule, error) {
-//				panic("mock out the UpdateExpenseSchedule method")
-//			},
-//			UpdateIncomeFunc: func(uid string, income model.Income) (model.Income, error) {
-//				panic("mock out the UpdateIncome method")
-//			},
-//			UpdateIncomeScheduleFunc: func(uid string, schedule model.IncomeSchedule) (model.IncomeSchedule, error) {
-//				panic("mock out the UpdateIncomeSchedule method")
+//			StartTxFunc: func(tx *gorm.DB)  {
+//				panic("mock out the StartTx method")
 //			},
 //		}
 //
-//		// use mockedRepository in code that requires Repository
+//		// use mockedExpenseCategoryRepository in code that requires ExpenseCategoryRepository
 //		// and then make assertions.
 //
 //	}
-type RepositoryMock struct {
-	// CreateExpenseFunc mocks the CreateExpense method.
-	CreateExpenseFunc func(uid string, expense model.Expense) (model.Expense, error)
+type ExpenseCategoryRepositoryMock struct {
+	// CreateExpenseCategoryFunc mocks the CreateExpenseCategory method.
+	CreateExpenseCategoryFunc func(uid string, expense model.ExpenseCategory) (model.ExpenseCategory, error)
 
-	// CreateExpenseScheduleFunc mocks the CreateExpenseSchedule method.
-	CreateExpenseScheduleFunc func(uid string, expenseSchedule model.ExpenseSchedule) (model.ExpenseSchedule, error)
-
-	// CreateExpensesFromScheduledQueueFunc mocks the CreateExpensesFromScheduledQueue method.
-	CreateExpensesFromScheduledQueueFunc func(queues []model.ScheduledExpenseQueue) error
-
-	// CreateIncomeFunc mocks the CreateIncome method.
-	CreateIncomeFunc func(uid string, income model.Income) (model.Income, error)
-
-	// CreateIncomeScheduleFunc mocks the CreateIncomeSchedule method.
-	CreateIncomeScheduleFunc func(uid string, incomeSchedule model.IncomeSchedule) (model.IncomeSchedule, error)
-
-	// CreateIncomesFromScheduledQueueFunc mocks the CreateIncomesFromScheduledQueue method.
-	CreateIncomesFromScheduledQueueFunc func(queues []model.ScheduledIncomeQueue) error
-
-	// DeleteExpenseFunc mocks the DeleteExpense method.
-	DeleteExpenseFunc func(id string, uid string) error
-
-	// DeleteExpenseScheduleFunc mocks the DeleteExpenseSchedule method.
-	DeleteExpenseScheduleFunc func(id string, uid string) error
-
-	// DeleteIncomeScheduleFunc mocks the DeleteIncomeSchedule method.
-	DeleteIncomeScheduleFunc func(id string, uid string) error
-
-	// DeleteScheduledExpenseQueuesFunc mocks the DeleteScheduledExpenseQueues method.
-	DeleteScheduledExpenseQueuesFunc func(queues []model.ScheduledExpenseQueue) error
-
-	// DeleteScheduledIncomeQueuesFunc mocks the DeleteScheduledIncomeQueues method.
-	DeleteScheduledIncomeQueuesFunc func(queues []model.ScheduledIncomeQueue) error
-
-	// EnqueueExpenseScheduleFunc mocks the EnqueueExpenseSchedule method.
-	EnqueueExpenseScheduleFunc func() error
-
-	// EnqueueIncomeScheduleFunc mocks the EnqueueIncomeSchedule method.
-	EnqueueIncomeScheduleFunc func() error
-
-	// FindAllUIDsFunc mocks the FindAllUIDs method.
-	FindAllUIDsFunc func() ([]string, error)
-
-	// FindColumnChartExpenseDataFunc mocks the FindColumnChartExpenseData method.
-	FindColumnChartExpenseDataFunc func(uid string) ([]repositories.ColumnChartData, error)
-
-	// FindColumnChartIncomeDataFunc mocks the FindColumnChartIncomeData method.
-	FindColumnChartIncomeDataFunc func(uid string) ([]repositories.ColumnChartData, error)
-
-	// FindExpenseFunc mocks the FindExpense method.
-	FindExpenseFunc func(id string, uid string) (model.Expense, error)
+	// EndTxFunc mocks the EndTx method.
+	EndTxFunc func(db *gorm.DB)
 
 	// FindExpenseCategoriesFunc mocks the FindExpenseCategories method.
 	FindExpenseCategoriesFunc func(uid string) ([]model.ExpenseCategory, error)
@@ -222,183 +61,28 @@ type RepositoryMock struct {
 	// FindExpenseCategoryFunc mocks the FindExpenseCategory method.
 	FindExpenseCategoryFunc func(id string, uid string) (model.ExpenseCategory, error)
 
-	// FindExpenseLocationFunc mocks the FindExpenseLocation method.
-	FindExpenseLocationFunc func(id string, uid string) (model.ExpenseLocation, error)
-
-	// FindExpenseLocationsFunc mocks the FindExpenseLocations method.
-	FindExpenseLocationsFunc func(uid string) ([]model.ExpenseLocation, error)
-
-	// FindExpenseScheduleFunc mocks the FindExpenseSchedule method.
-	FindExpenseScheduleFunc func(id string, uid string) (model.ExpenseSchedule, error)
-
-	// FindExpenseSchedulesFunc mocks the FindExpenseSchedules method.
-	FindExpenseSchedulesFunc func(uid string) ([]model.ExpenseSchedule, error)
-
-	// FindExpensesFunc mocks the FindExpenses method.
-	FindExpensesFunc func(uid string, start *time.Time, end *time.Time) ([]model.Expense, error)
-
-	// FindIncomeFunc mocks the FindIncome method.
-	FindIncomeFunc func(id string, uid string) (model.Income, error)
-
-	// FindIncomeScheduleFunc mocks the FindIncomeSchedule method.
-	FindIncomeScheduleFunc func(id string, uid string) (model.IncomeSchedule, error)
-
-	// FindIncomeSchedulesFunc mocks the FindIncomeSchedules method.
-	FindIncomeSchedulesFunc func(uid string) ([]model.IncomeSchedule, error)
-
-	// FindIncomeTypesFunc mocks the FindIncomeTypes method.
-	FindIncomeTypesFunc func(uid string) ([]model.IncomeType, error)
-
-	// FindIncomesFunc mocks the FindIncomes method.
-	FindIncomesFunc func(uid string, start *time.Time, end *time.Time) ([]model.Income, error)
-
 	// FindOrCreateExpenseCategoryFunc mocks the FindOrCreateExpenseCategory method.
 	FindOrCreateExpenseCategoryFunc func(uid string, name string) (model.ExpenseCategory, error)
-
-	// FindOrCreateExpenseLocationFunc mocks the FindOrCreateExpenseLocation method.
-	FindOrCreateExpenseLocationFunc func(uid string, name string) (model.ExpenseLocation, error)
-
-	// FindOrCreateIncomeTypeFunc mocks the FindOrCreateIncomeType method.
-	FindOrCreateIncomeTypeFunc func(uid string, name string) (model.IncomeType, error)
-
-	// FindOrCreateUserFunc mocks the FindOrCreateUser method.
-	FindOrCreateUserFunc func(uid string) (model.User, error)
-
-	// FindPieChartCategoryDataFunc mocks the FindPieChartCategoryData method.
-	FindPieChartCategoryDataFunc func(uid string, start *time.Time, end *time.Time) ([]repositories.PieChartData, error)
-
-	// FindPieChartLocationDataFunc mocks the FindPieChartLocationData method.
-	FindPieChartLocationDataFunc func(uid string, start *time.Time, end *time.Time) ([]repositories.PieChartData, error)
-
-	// FindScheduledDueExpenseQueuesFunc mocks the FindScheduledDueExpenseQueues method.
-	FindScheduledDueExpenseQueuesFunc func() ([]model.ScheduledExpenseQueue, error)
-
-	// FindScheduledDueIncomeQueuesFunc mocks the FindScheduledDueIncomeQueues method.
-	FindScheduledDueIncomeQueuesFunc func() ([]model.ScheduledIncomeQueue, error)
-
-	// FindTransactionMonthsFunc mocks the FindTransactionMonths method.
-	FindTransactionMonthsFunc func(uid string) ([]string, error)
 
 	// HardDeleteAllUserExpenseCategoriesFunc mocks the HardDeleteAllUserExpenseCategories method.
 	HardDeleteAllUserExpenseCategoriesFunc func(uid string) error
 
-	// HardDeleteAllUserExpenseLocationsFunc mocks the HardDeleteAllUserExpenseLocations method.
-	HardDeleteAllUserExpenseLocationsFunc func(uid string) error
-
-	// HardDeleteAllUserExpensesFunc mocks the HardDeleteAllUserExpenses method.
-	HardDeleteAllUserExpensesFunc func(uid string) error
-
-	// HardDeleteAllUserIncomesFunc mocks the HardDeleteAllUserIncomes method.
-	HardDeleteAllUserIncomesFunc func(uid string) error
-
-	// UpdateExpenseFunc mocks the UpdateExpense method.
-	UpdateExpenseFunc func(uid string, expense model.Expense) (model.Expense, error)
-
-	// UpdateExpenseScheduleFunc mocks the UpdateExpenseSchedule method.
-	UpdateExpenseScheduleFunc func(uid string, schedule model.ExpenseSchedule) (model.ExpenseSchedule, error)
-
-	// UpdateIncomeFunc mocks the UpdateIncome method.
-	UpdateIncomeFunc func(uid string, income model.Income) (model.Income, error)
-
-	// UpdateIncomeScheduleFunc mocks the UpdateIncomeSchedule method.
-	UpdateIncomeScheduleFunc func(uid string, schedule model.IncomeSchedule) (model.IncomeSchedule, error)
+	// StartTxFunc mocks the StartTx method.
+	StartTxFunc func(tx *gorm.DB)
 
 	// calls tracks calls to the methods.
 	calls struct {
-		// CreateExpense holds details about calls to the CreateExpense method.
-		CreateExpense []struct {
+		// CreateExpenseCategory holds details about calls to the CreateExpenseCategory method.
+		CreateExpenseCategory []struct {
 			// UID is the uid argument value.
 			UID string
 			// Expense is the expense argument value.
-			Expense model.Expense
+			Expense model.ExpenseCategory
 		}
-		// CreateExpenseSchedule holds details about calls to the CreateExpenseSchedule method.
-		CreateExpenseSchedule []struct {
-			// UID is the uid argument value.
-			UID string
-			// ExpenseSchedule is the expenseSchedule argument value.
-			ExpenseSchedule model.ExpenseSchedule
-		}
-		// CreateExpensesFromScheduledQueue holds details about calls to the CreateExpensesFromScheduledQueue method.
-		CreateExpensesFromScheduledQueue []struct {
-			// Queues is the queues argument value.
-			Queues []model.ScheduledExpenseQueue
-		}
-		// CreateIncome holds details about calls to the CreateIncome method.
-		CreateIncome []struct {
-			// UID is the uid argument value.
-			UID string
-			// Income is the income argument value.
-			Income model.Income
-		}
-		// CreateIncomeSchedule holds details about calls to the CreateIncomeSchedule method.
-		CreateIncomeSchedule []struct {
-			// UID is the uid argument value.
-			UID string
-			// IncomeSchedule is the incomeSchedule argument value.
-			IncomeSchedule model.IncomeSchedule
-		}
-		// CreateIncomesFromScheduledQueue holds details about calls to the CreateIncomesFromScheduledQueue method.
-		CreateIncomesFromScheduledQueue []struct {
-			// Queues is the queues argument value.
-			Queues []model.ScheduledIncomeQueue
-		}
-		// DeleteExpense holds details about calls to the DeleteExpense method.
-		DeleteExpense []struct {
-			// ID is the id argument value.
-			ID string
-			// UID is the uid argument value.
-			UID string
-		}
-		// DeleteExpenseSchedule holds details about calls to the DeleteExpenseSchedule method.
-		DeleteExpenseSchedule []struct {
-			// ID is the id argument value.
-			ID string
-			// UID is the uid argument value.
-			UID string
-		}
-		// DeleteIncomeSchedule holds details about calls to the DeleteIncomeSchedule method.
-		DeleteIncomeSchedule []struct {
-			// ID is the id argument value.
-			ID string
-			// UID is the uid argument value.
-			UID string
-		}
-		// DeleteScheduledExpenseQueues holds details about calls to the DeleteScheduledExpenseQueues method.
-		DeleteScheduledExpenseQueues []struct {
-			// Queues is the queues argument value.
-			Queues []model.ScheduledExpenseQueue
-		}
-		// DeleteScheduledIncomeQueues holds details about calls to the DeleteScheduledIncomeQueues method.
-		DeleteScheduledIncomeQueues []struct {
-			// Queues is the queues argument value.
-			Queues []model.ScheduledIncomeQueue
-		}
-		// EnqueueExpenseSchedule holds details about calls to the EnqueueExpenseSchedule method.
-		EnqueueExpenseSchedule []struct {
-		}
-		// EnqueueIncomeSchedule holds details about calls to the EnqueueIncomeSchedule method.
-		EnqueueIncomeSchedule []struct {
-		}
-		// FindAllUIDs holds details about calls to the FindAllUIDs method.
-		FindAllUIDs []struct {
-		}
-		// FindColumnChartExpenseData holds details about calls to the FindColumnChartExpenseData method.
-		FindColumnChartExpenseData []struct {
-			// UID is the uid argument value.
-			UID string
-		}
-		// FindColumnChartIncomeData holds details about calls to the FindColumnChartIncomeData method.
-		FindColumnChartIncomeData []struct {
-			// UID is the uid argument value.
-			UID string
-		}
-		// FindExpense holds details about calls to the FindExpense method.
-		FindExpense []struct {
-			// ID is the id argument value.
-			ID string
-			// UID is the uid argument value.
-			UID string
+		// EndTx holds details about calls to the EndTx method.
+		EndTx []struct {
+			// Db is the db argument value.
+			Db *gorm.DB
 		}
 		// FindExpenseCategories holds details about calls to the FindExpenseCategories method.
 		FindExpenseCategories []struct {
@@ -412,6 +96,329 @@ type RepositoryMock struct {
 			// UID is the uid argument value.
 			UID string
 		}
+		// FindOrCreateExpenseCategory holds details about calls to the FindOrCreateExpenseCategory method.
+		FindOrCreateExpenseCategory []struct {
+			// UID is the uid argument value.
+			UID string
+			// Name is the name argument value.
+			Name string
+		}
+		// HardDeleteAllUserExpenseCategories holds details about calls to the HardDeleteAllUserExpenseCategories method.
+		HardDeleteAllUserExpenseCategories []struct {
+			// UID is the uid argument value.
+			UID string
+		}
+		// StartTx holds details about calls to the StartTx method.
+		StartTx []struct {
+			// Tx is the tx argument value.
+			Tx *gorm.DB
+		}
+	}
+	lockCreateExpenseCategory              sync.RWMutex
+	lockEndTx                              sync.RWMutex
+	lockFindExpenseCategories              sync.RWMutex
+	lockFindExpenseCategory                sync.RWMutex
+	lockFindOrCreateExpenseCategory        sync.RWMutex
+	lockHardDeleteAllUserExpenseCategories sync.RWMutex
+	lockStartTx                            sync.RWMutex
+}
+
+// CreateExpenseCategory calls CreateExpenseCategoryFunc.
+func (mock *ExpenseCategoryRepositoryMock) CreateExpenseCategory(uid string, expense model.ExpenseCategory) (model.ExpenseCategory, error) {
+	if mock.CreateExpenseCategoryFunc == nil {
+		panic("ExpenseCategoryRepositoryMock.CreateExpenseCategoryFunc: method is nil but ExpenseCategoryRepository.CreateExpenseCategory was just called")
+	}
+	callInfo := struct {
+		UID     string
+		Expense model.ExpenseCategory
+	}{
+		UID:     uid,
+		Expense: expense,
+	}
+	mock.lockCreateExpenseCategory.Lock()
+	mock.calls.CreateExpenseCategory = append(mock.calls.CreateExpenseCategory, callInfo)
+	mock.lockCreateExpenseCategory.Unlock()
+	return mock.CreateExpenseCategoryFunc(uid, expense)
+}
+
+// CreateExpenseCategoryCalls gets all the calls that were made to CreateExpenseCategory.
+// Check the length with:
+//
+//	len(mockedExpenseCategoryRepository.CreateExpenseCategoryCalls())
+func (mock *ExpenseCategoryRepositoryMock) CreateExpenseCategoryCalls() []struct {
+	UID     string
+	Expense model.ExpenseCategory
+} {
+	var calls []struct {
+		UID     string
+		Expense model.ExpenseCategory
+	}
+	mock.lockCreateExpenseCategory.RLock()
+	calls = mock.calls.CreateExpenseCategory
+	mock.lockCreateExpenseCategory.RUnlock()
+	return calls
+}
+
+// EndTx calls EndTxFunc.
+func (mock *ExpenseCategoryRepositoryMock) EndTx(db *gorm.DB) {
+	if mock.EndTxFunc == nil {
+		panic("ExpenseCategoryRepositoryMock.EndTxFunc: method is nil but ExpenseCategoryRepository.EndTx was just called")
+	}
+	callInfo := struct {
+		Db *gorm.DB
+	}{
+		Db: db,
+	}
+	mock.lockEndTx.Lock()
+	mock.calls.EndTx = append(mock.calls.EndTx, callInfo)
+	mock.lockEndTx.Unlock()
+	mock.EndTxFunc(db)
+}
+
+// EndTxCalls gets all the calls that were made to EndTx.
+// Check the length with:
+//
+//	len(mockedExpenseCategoryRepository.EndTxCalls())
+func (mock *ExpenseCategoryRepositoryMock) EndTxCalls() []struct {
+	Db *gorm.DB
+} {
+	var calls []struct {
+		Db *gorm.DB
+	}
+	mock.lockEndTx.RLock()
+	calls = mock.calls.EndTx
+	mock.lockEndTx.RUnlock()
+	return calls
+}
+
+// FindExpenseCategories calls FindExpenseCategoriesFunc.
+func (mock *ExpenseCategoryRepositoryMock) FindExpenseCategories(uid string) ([]model.ExpenseCategory, error) {
+	if mock.FindExpenseCategoriesFunc == nil {
+		panic("ExpenseCategoryRepositoryMock.FindExpenseCategoriesFunc: method is nil but ExpenseCategoryRepository.FindExpenseCategories was just called")
+	}
+	callInfo := struct {
+		UID string
+	}{
+		UID: uid,
+	}
+	mock.lockFindExpenseCategories.Lock()
+	mock.calls.FindExpenseCategories = append(mock.calls.FindExpenseCategories, callInfo)
+	mock.lockFindExpenseCategories.Unlock()
+	return mock.FindExpenseCategoriesFunc(uid)
+}
+
+// FindExpenseCategoriesCalls gets all the calls that were made to FindExpenseCategories.
+// Check the length with:
+//
+//	len(mockedExpenseCategoryRepository.FindExpenseCategoriesCalls())
+func (mock *ExpenseCategoryRepositoryMock) FindExpenseCategoriesCalls() []struct {
+	UID string
+} {
+	var calls []struct {
+		UID string
+	}
+	mock.lockFindExpenseCategories.RLock()
+	calls = mock.calls.FindExpenseCategories
+	mock.lockFindExpenseCategories.RUnlock()
+	return calls
+}
+
+// FindExpenseCategory calls FindExpenseCategoryFunc.
+func (mock *ExpenseCategoryRepositoryMock) FindExpenseCategory(id string, uid string) (model.ExpenseCategory, error) {
+	if mock.FindExpenseCategoryFunc == nil {
+		panic("ExpenseCategoryRepositoryMock.FindExpenseCategoryFunc: method is nil but ExpenseCategoryRepository.FindExpenseCategory was just called")
+	}
+	callInfo := struct {
+		ID  string
+		UID string
+	}{
+		ID:  id,
+		UID: uid,
+	}
+	mock.lockFindExpenseCategory.Lock()
+	mock.calls.FindExpenseCategory = append(mock.calls.FindExpenseCategory, callInfo)
+	mock.lockFindExpenseCategory.Unlock()
+	return mock.FindExpenseCategoryFunc(id, uid)
+}
+
+// FindExpenseCategoryCalls gets all the calls that were made to FindExpenseCategory.
+// Check the length with:
+//
+//	len(mockedExpenseCategoryRepository.FindExpenseCategoryCalls())
+func (mock *ExpenseCategoryRepositoryMock) FindExpenseCategoryCalls() []struct {
+	ID  string
+	UID string
+} {
+	var calls []struct {
+		ID  string
+		UID string
+	}
+	mock.lockFindExpenseCategory.RLock()
+	calls = mock.calls.FindExpenseCategory
+	mock.lockFindExpenseCategory.RUnlock()
+	return calls
+}
+
+// FindOrCreateExpenseCategory calls FindOrCreateExpenseCategoryFunc.
+func (mock *ExpenseCategoryRepositoryMock) FindOrCreateExpenseCategory(uid string, name string) (model.ExpenseCategory, error) {
+	if mock.FindOrCreateExpenseCategoryFunc == nil {
+		panic("ExpenseCategoryRepositoryMock.FindOrCreateExpenseCategoryFunc: method is nil but ExpenseCategoryRepository.FindOrCreateExpenseCategory was just called")
+	}
+	callInfo := struct {
+		UID  string
+		Name string
+	}{
+		UID:  uid,
+		Name: name,
+	}
+	mock.lockFindOrCreateExpenseCategory.Lock()
+	mock.calls.FindOrCreateExpenseCategory = append(mock.calls.FindOrCreateExpenseCategory, callInfo)
+	mock.lockFindOrCreateExpenseCategory.Unlock()
+	return mock.FindOrCreateExpenseCategoryFunc(uid, name)
+}
+
+// FindOrCreateExpenseCategoryCalls gets all the calls that were made to FindOrCreateExpenseCategory.
+// Check the length with:
+//
+//	len(mockedExpenseCategoryRepository.FindOrCreateExpenseCategoryCalls())
+func (mock *ExpenseCategoryRepositoryMock) FindOrCreateExpenseCategoryCalls() []struct {
+	UID  string
+	Name string
+} {
+	var calls []struct {
+		UID  string
+		Name string
+	}
+	mock.lockFindOrCreateExpenseCategory.RLock()
+	calls = mock.calls.FindOrCreateExpenseCategory
+	mock.lockFindOrCreateExpenseCategory.RUnlock()
+	return calls
+}
+
+// HardDeleteAllUserExpenseCategories calls HardDeleteAllUserExpenseCategoriesFunc.
+func (mock *ExpenseCategoryRepositoryMock) HardDeleteAllUserExpenseCategories(uid string) error {
+	if mock.HardDeleteAllUserExpenseCategoriesFunc == nil {
+		panic("ExpenseCategoryRepositoryMock.HardDeleteAllUserExpenseCategoriesFunc: method is nil but ExpenseCategoryRepository.HardDeleteAllUserExpenseCategories was just called")
+	}
+	callInfo := struct {
+		UID string
+	}{
+		UID: uid,
+	}
+	mock.lockHardDeleteAllUserExpenseCategories.Lock()
+	mock.calls.HardDeleteAllUserExpenseCategories = append(mock.calls.HardDeleteAllUserExpenseCategories, callInfo)
+	mock.lockHardDeleteAllUserExpenseCategories.Unlock()
+	return mock.HardDeleteAllUserExpenseCategoriesFunc(uid)
+}
+
+// HardDeleteAllUserExpenseCategoriesCalls gets all the calls that were made to HardDeleteAllUserExpenseCategories.
+// Check the length with:
+//
+//	len(mockedExpenseCategoryRepository.HardDeleteAllUserExpenseCategoriesCalls())
+func (mock *ExpenseCategoryRepositoryMock) HardDeleteAllUserExpenseCategoriesCalls() []struct {
+	UID string
+} {
+	var calls []struct {
+		UID string
+	}
+	mock.lockHardDeleteAllUserExpenseCategories.RLock()
+	calls = mock.calls.HardDeleteAllUserExpenseCategories
+	mock.lockHardDeleteAllUserExpenseCategories.RUnlock()
+	return calls
+}
+
+// StartTx calls StartTxFunc.
+func (mock *ExpenseCategoryRepositoryMock) StartTx(tx *gorm.DB) {
+	if mock.StartTxFunc == nil {
+		panic("ExpenseCategoryRepositoryMock.StartTxFunc: method is nil but ExpenseCategoryRepository.StartTx was just called")
+	}
+	callInfo := struct {
+		Tx *gorm.DB
+	}{
+		Tx: tx,
+	}
+	mock.lockStartTx.Lock()
+	mock.calls.StartTx = append(mock.calls.StartTx, callInfo)
+	mock.lockStartTx.Unlock()
+	mock.StartTxFunc(tx)
+}
+
+// StartTxCalls gets all the calls that were made to StartTx.
+// Check the length with:
+//
+//	len(mockedExpenseCategoryRepository.StartTxCalls())
+func (mock *ExpenseCategoryRepositoryMock) StartTxCalls() []struct {
+	Tx *gorm.DB
+} {
+	var calls []struct {
+		Tx *gorm.DB
+	}
+	mock.lockStartTx.RLock()
+	calls = mock.calls.StartTx
+	mock.lockStartTx.RUnlock()
+	return calls
+}
+
+// Ensure, that ExpenseLocationRepositoryMock does implement ExpenseLocationRepository.
+// If this is not the case, regenerate this file with moq.
+var _ ExpenseLocationRepository = &ExpenseLocationRepositoryMock{}
+
+// ExpenseLocationRepositoryMock is a mock implementation of ExpenseLocationRepository.
+//
+//	func TestSomethingThatUsesExpenseLocationRepository(t *testing.T) {
+//
+//		// make and configure a mocked ExpenseLocationRepository
+//		mockedExpenseLocationRepository := &ExpenseLocationRepositoryMock{
+//			EndTxFunc: func(db *gorm.DB)  {
+//				panic("mock out the EndTx method")
+//			},
+//			FindExpenseLocationFunc: func(id string, uid string) (model.ExpenseLocation, error) {
+//				panic("mock out the FindExpenseLocation method")
+//			},
+//			FindExpenseLocationsFunc: func(uid string) ([]model.ExpenseLocation, error) {
+//				panic("mock out the FindExpenseLocations method")
+//			},
+//			FindOrCreateExpenseLocationFunc: func(uid string, name string) (model.ExpenseLocation, error) {
+//				panic("mock out the FindOrCreateExpenseLocation method")
+//			},
+//			HardDeleteAllUserExpenseLocationsFunc: func(uid string) error {
+//				panic("mock out the HardDeleteAllUserExpenseLocations method")
+//			},
+//			StartTxFunc: func(tx *gorm.DB)  {
+//				panic("mock out the StartTx method")
+//			},
+//		}
+//
+//		// use mockedExpenseLocationRepository in code that requires ExpenseLocationRepository
+//		// and then make assertions.
+//
+//	}
+type ExpenseLocationRepositoryMock struct {
+	// EndTxFunc mocks the EndTx method.
+	EndTxFunc func(db *gorm.DB)
+
+	// FindExpenseLocationFunc mocks the FindExpenseLocation method.
+	FindExpenseLocationFunc func(id string, uid string) (model.ExpenseLocation, error)
+
+	// FindExpenseLocationsFunc mocks the FindExpenseLocations method.
+	FindExpenseLocationsFunc func(uid string) ([]model.ExpenseLocation, error)
+
+	// FindOrCreateExpenseLocationFunc mocks the FindOrCreateExpenseLocation method.
+	FindOrCreateExpenseLocationFunc func(uid string, name string) (model.ExpenseLocation, error)
+
+	// HardDeleteAllUserExpenseLocationsFunc mocks the HardDeleteAllUserExpenseLocations method.
+	HardDeleteAllUserExpenseLocationsFunc func(uid string) error
+
+	// StartTxFunc mocks the StartTx method.
+	StartTxFunc func(tx *gorm.DB)
+
+	// calls tracks calls to the methods.
+	calls struct {
+		// EndTx holds details about calls to the EndTx method.
+		EndTx []struct {
+			// Db is the db argument value.
+			Db *gorm.DB
+		}
 		// FindExpenseLocation holds details about calls to the FindExpenseLocation method.
 		FindExpenseLocation []struct {
 			// ID is the id argument value.
@@ -423,6 +430,338 @@ type RepositoryMock struct {
 		FindExpenseLocations []struct {
 			// UID is the uid argument value.
 			UID string
+		}
+		// FindOrCreateExpenseLocation holds details about calls to the FindOrCreateExpenseLocation method.
+		FindOrCreateExpenseLocation []struct {
+			// UID is the uid argument value.
+			UID string
+			// Name is the name argument value.
+			Name string
+		}
+		// HardDeleteAllUserExpenseLocations holds details about calls to the HardDeleteAllUserExpenseLocations method.
+		HardDeleteAllUserExpenseLocations []struct {
+			// UID is the uid argument value.
+			UID string
+		}
+		// StartTx holds details about calls to the StartTx method.
+		StartTx []struct {
+			// Tx is the tx argument value.
+			Tx *gorm.DB
+		}
+	}
+	lockEndTx                             sync.RWMutex
+	lockFindExpenseLocation               sync.RWMutex
+	lockFindExpenseLocations              sync.RWMutex
+	lockFindOrCreateExpenseLocation       sync.RWMutex
+	lockHardDeleteAllUserExpenseLocations sync.RWMutex
+	lockStartTx                           sync.RWMutex
+}
+
+// EndTx calls EndTxFunc.
+func (mock *ExpenseLocationRepositoryMock) EndTx(db *gorm.DB) {
+	if mock.EndTxFunc == nil {
+		panic("ExpenseLocationRepositoryMock.EndTxFunc: method is nil but ExpenseLocationRepository.EndTx was just called")
+	}
+	callInfo := struct {
+		Db *gorm.DB
+	}{
+		Db: db,
+	}
+	mock.lockEndTx.Lock()
+	mock.calls.EndTx = append(mock.calls.EndTx, callInfo)
+	mock.lockEndTx.Unlock()
+	mock.EndTxFunc(db)
+}
+
+// EndTxCalls gets all the calls that were made to EndTx.
+// Check the length with:
+//
+//	len(mockedExpenseLocationRepository.EndTxCalls())
+func (mock *ExpenseLocationRepositoryMock) EndTxCalls() []struct {
+	Db *gorm.DB
+} {
+	var calls []struct {
+		Db *gorm.DB
+	}
+	mock.lockEndTx.RLock()
+	calls = mock.calls.EndTx
+	mock.lockEndTx.RUnlock()
+	return calls
+}
+
+// FindExpenseLocation calls FindExpenseLocationFunc.
+func (mock *ExpenseLocationRepositoryMock) FindExpenseLocation(id string, uid string) (model.ExpenseLocation, error) {
+	if mock.FindExpenseLocationFunc == nil {
+		panic("ExpenseLocationRepositoryMock.FindExpenseLocationFunc: method is nil but ExpenseLocationRepository.FindExpenseLocation was just called")
+	}
+	callInfo := struct {
+		ID  string
+		UID string
+	}{
+		ID:  id,
+		UID: uid,
+	}
+	mock.lockFindExpenseLocation.Lock()
+	mock.calls.FindExpenseLocation = append(mock.calls.FindExpenseLocation, callInfo)
+	mock.lockFindExpenseLocation.Unlock()
+	return mock.FindExpenseLocationFunc(id, uid)
+}
+
+// FindExpenseLocationCalls gets all the calls that were made to FindExpenseLocation.
+// Check the length with:
+//
+//	len(mockedExpenseLocationRepository.FindExpenseLocationCalls())
+func (mock *ExpenseLocationRepositoryMock) FindExpenseLocationCalls() []struct {
+	ID  string
+	UID string
+} {
+	var calls []struct {
+		ID  string
+		UID string
+	}
+	mock.lockFindExpenseLocation.RLock()
+	calls = mock.calls.FindExpenseLocation
+	mock.lockFindExpenseLocation.RUnlock()
+	return calls
+}
+
+// FindExpenseLocations calls FindExpenseLocationsFunc.
+func (mock *ExpenseLocationRepositoryMock) FindExpenseLocations(uid string) ([]model.ExpenseLocation, error) {
+	if mock.FindExpenseLocationsFunc == nil {
+		panic("ExpenseLocationRepositoryMock.FindExpenseLocationsFunc: method is nil but ExpenseLocationRepository.FindExpenseLocations was just called")
+	}
+	callInfo := struct {
+		UID string
+	}{
+		UID: uid,
+	}
+	mock.lockFindExpenseLocations.Lock()
+	mock.calls.FindExpenseLocations = append(mock.calls.FindExpenseLocations, callInfo)
+	mock.lockFindExpenseLocations.Unlock()
+	return mock.FindExpenseLocationsFunc(uid)
+}
+
+// FindExpenseLocationsCalls gets all the calls that were made to FindExpenseLocations.
+// Check the length with:
+//
+//	len(mockedExpenseLocationRepository.FindExpenseLocationsCalls())
+func (mock *ExpenseLocationRepositoryMock) FindExpenseLocationsCalls() []struct {
+	UID string
+} {
+	var calls []struct {
+		UID string
+	}
+	mock.lockFindExpenseLocations.RLock()
+	calls = mock.calls.FindExpenseLocations
+	mock.lockFindExpenseLocations.RUnlock()
+	return calls
+}
+
+// FindOrCreateExpenseLocation calls FindOrCreateExpenseLocationFunc.
+func (mock *ExpenseLocationRepositoryMock) FindOrCreateExpenseLocation(uid string, name string) (model.ExpenseLocation, error) {
+	if mock.FindOrCreateExpenseLocationFunc == nil {
+		panic("ExpenseLocationRepositoryMock.FindOrCreateExpenseLocationFunc: method is nil but ExpenseLocationRepository.FindOrCreateExpenseLocation was just called")
+	}
+	callInfo := struct {
+		UID  string
+		Name string
+	}{
+		UID:  uid,
+		Name: name,
+	}
+	mock.lockFindOrCreateExpenseLocation.Lock()
+	mock.calls.FindOrCreateExpenseLocation = append(mock.calls.FindOrCreateExpenseLocation, callInfo)
+	mock.lockFindOrCreateExpenseLocation.Unlock()
+	return mock.FindOrCreateExpenseLocationFunc(uid, name)
+}
+
+// FindOrCreateExpenseLocationCalls gets all the calls that were made to FindOrCreateExpenseLocation.
+// Check the length with:
+//
+//	len(mockedExpenseLocationRepository.FindOrCreateExpenseLocationCalls())
+func (mock *ExpenseLocationRepositoryMock) FindOrCreateExpenseLocationCalls() []struct {
+	UID  string
+	Name string
+} {
+	var calls []struct {
+		UID  string
+		Name string
+	}
+	mock.lockFindOrCreateExpenseLocation.RLock()
+	calls = mock.calls.FindOrCreateExpenseLocation
+	mock.lockFindOrCreateExpenseLocation.RUnlock()
+	return calls
+}
+
+// HardDeleteAllUserExpenseLocations calls HardDeleteAllUserExpenseLocationsFunc.
+func (mock *ExpenseLocationRepositoryMock) HardDeleteAllUserExpenseLocations(uid string) error {
+	if mock.HardDeleteAllUserExpenseLocationsFunc == nil {
+		panic("ExpenseLocationRepositoryMock.HardDeleteAllUserExpenseLocationsFunc: method is nil but ExpenseLocationRepository.HardDeleteAllUserExpenseLocations was just called")
+	}
+	callInfo := struct {
+		UID string
+	}{
+		UID: uid,
+	}
+	mock.lockHardDeleteAllUserExpenseLocations.Lock()
+	mock.calls.HardDeleteAllUserExpenseLocations = append(mock.calls.HardDeleteAllUserExpenseLocations, callInfo)
+	mock.lockHardDeleteAllUserExpenseLocations.Unlock()
+	return mock.HardDeleteAllUserExpenseLocationsFunc(uid)
+}
+
+// HardDeleteAllUserExpenseLocationsCalls gets all the calls that were made to HardDeleteAllUserExpenseLocations.
+// Check the length with:
+//
+//	len(mockedExpenseLocationRepository.HardDeleteAllUserExpenseLocationsCalls())
+func (mock *ExpenseLocationRepositoryMock) HardDeleteAllUserExpenseLocationsCalls() []struct {
+	UID string
+} {
+	var calls []struct {
+		UID string
+	}
+	mock.lockHardDeleteAllUserExpenseLocations.RLock()
+	calls = mock.calls.HardDeleteAllUserExpenseLocations
+	mock.lockHardDeleteAllUserExpenseLocations.RUnlock()
+	return calls
+}
+
+// StartTx calls StartTxFunc.
+func (mock *ExpenseLocationRepositoryMock) StartTx(tx *gorm.DB) {
+	if mock.StartTxFunc == nil {
+		panic("ExpenseLocationRepositoryMock.StartTxFunc: method is nil but ExpenseLocationRepository.StartTx was just called")
+	}
+	callInfo := struct {
+		Tx *gorm.DB
+	}{
+		Tx: tx,
+	}
+	mock.lockStartTx.Lock()
+	mock.calls.StartTx = append(mock.calls.StartTx, callInfo)
+	mock.lockStartTx.Unlock()
+	mock.StartTxFunc(tx)
+}
+
+// StartTxCalls gets all the calls that were made to StartTx.
+// Check the length with:
+//
+//	len(mockedExpenseLocationRepository.StartTxCalls())
+func (mock *ExpenseLocationRepositoryMock) StartTxCalls() []struct {
+	Tx *gorm.DB
+} {
+	var calls []struct {
+		Tx *gorm.DB
+	}
+	mock.lockStartTx.RLock()
+	calls = mock.calls.StartTx
+	mock.lockStartTx.RUnlock()
+	return calls
+}
+
+// Ensure, that ExpenseScheduleRepositoryMock does implement ExpenseScheduleRepository.
+// If this is not the case, regenerate this file with moq.
+var _ ExpenseScheduleRepository = &ExpenseScheduleRepositoryMock{}
+
+// ExpenseScheduleRepositoryMock is a mock implementation of ExpenseScheduleRepository.
+//
+//	func TestSomethingThatUsesExpenseScheduleRepository(t *testing.T) {
+//
+//		// make and configure a mocked ExpenseScheduleRepository
+//		mockedExpenseScheduleRepository := &ExpenseScheduleRepositoryMock{
+//			CreateExpenseScheduleFunc: func(uid string, expenseSchedule model.ExpenseSchedule) (model.ExpenseSchedule, error) {
+//				panic("mock out the CreateExpenseSchedule method")
+//			},
+//			DeleteExpenseScheduleFunc: func(id string, uid string) error {
+//				panic("mock out the DeleteExpenseSchedule method")
+//			},
+//			DeleteScheduledExpenseQueuesFunc: func(queues []model.ScheduledExpenseQueue) error {
+//				panic("mock out the DeleteScheduledExpenseQueues method")
+//			},
+//			EndTxFunc: func(db *gorm.DB)  {
+//				panic("mock out the EndTx method")
+//			},
+//			EnqueueExpenseScheduleFunc: func() error {
+//				panic("mock out the EnqueueExpenseSchedule method")
+//			},
+//			FindExpenseScheduleFunc: func(id string, uid string) (model.ExpenseSchedule, error) {
+//				panic("mock out the FindExpenseSchedule method")
+//			},
+//			FindExpenseSchedulesFunc: func(uid string) ([]model.ExpenseSchedule, error) {
+//				panic("mock out the FindExpenseSchedules method")
+//			},
+//			FindScheduledDueExpenseQueuesFunc: func() ([]model.ScheduledExpenseQueue, error) {
+//				panic("mock out the FindScheduledDueExpenseQueues method")
+//			},
+//			StartTxFunc: func(tx *gorm.DB)  {
+//				panic("mock out the StartTx method")
+//			},
+//			UpdateExpenseScheduleFunc: func(uid string, schedule model.ExpenseSchedule) (model.ExpenseSchedule, error) {
+//				panic("mock out the UpdateExpenseSchedule method")
+//			},
+//		}
+//
+//		// use mockedExpenseScheduleRepository in code that requires ExpenseScheduleRepository
+//		// and then make assertions.
+//
+//	}
+type ExpenseScheduleRepositoryMock struct {
+	// CreateExpenseScheduleFunc mocks the CreateExpenseSchedule method.
+	CreateExpenseScheduleFunc func(uid string, expenseSchedule model.ExpenseSchedule) (model.ExpenseSchedule, error)
+
+	// DeleteExpenseScheduleFunc mocks the DeleteExpenseSchedule method.
+	DeleteExpenseScheduleFunc func(id string, uid string) error
+
+	// DeleteScheduledExpenseQueuesFunc mocks the DeleteScheduledExpenseQueues method.
+	DeleteScheduledExpenseQueuesFunc func(queues []model.ScheduledExpenseQueue) error
+
+	// EndTxFunc mocks the EndTx method.
+	EndTxFunc func(db *gorm.DB)
+
+	// EnqueueExpenseScheduleFunc mocks the EnqueueExpenseSchedule method.
+	EnqueueExpenseScheduleFunc func() error
+
+	// FindExpenseScheduleFunc mocks the FindExpenseSchedule method.
+	FindExpenseScheduleFunc func(id string, uid string) (model.ExpenseSchedule, error)
+
+	// FindExpenseSchedulesFunc mocks the FindExpenseSchedules method.
+	FindExpenseSchedulesFunc func(uid string) ([]model.ExpenseSchedule, error)
+
+	// FindScheduledDueExpenseQueuesFunc mocks the FindScheduledDueExpenseQueues method.
+	FindScheduledDueExpenseQueuesFunc func() ([]model.ScheduledExpenseQueue, error)
+
+	// StartTxFunc mocks the StartTx method.
+	StartTxFunc func(tx *gorm.DB)
+
+	// UpdateExpenseScheduleFunc mocks the UpdateExpenseSchedule method.
+	UpdateExpenseScheduleFunc func(uid string, schedule model.ExpenseSchedule) (model.ExpenseSchedule, error)
+
+	// calls tracks calls to the methods.
+	calls struct {
+		// CreateExpenseSchedule holds details about calls to the CreateExpenseSchedule method.
+		CreateExpenseSchedule []struct {
+			// UID is the uid argument value.
+			UID string
+			// ExpenseSchedule is the expenseSchedule argument value.
+			ExpenseSchedule model.ExpenseSchedule
+		}
+		// DeleteExpenseSchedule holds details about calls to the DeleteExpenseSchedule method.
+		DeleteExpenseSchedule []struct {
+			// ID is the id argument value.
+			ID string
+			// UID is the uid argument value.
+			UID string
+		}
+		// DeleteScheduledExpenseQueues holds details about calls to the DeleteScheduledExpenseQueues method.
+		DeleteScheduledExpenseQueues []struct {
+			// Queues is the queues argument value.
+			Queues []model.ScheduledExpenseQueue
+		}
+		// EndTx holds details about calls to the EndTx method.
+		EndTx []struct {
+			// Db is the db argument value.
+			Db *gorm.DB
+		}
+		// EnqueueExpenseSchedule holds details about calls to the EnqueueExpenseSchedule method.
+		EnqueueExpenseSchedule []struct {
 		}
 		// FindExpenseSchedule holds details about calls to the FindExpenseSchedule method.
 		FindExpenseSchedule []struct {
@@ -436,6 +775,487 @@ type RepositoryMock struct {
 			// UID is the uid argument value.
 			UID string
 		}
+		// FindScheduledDueExpenseQueues holds details about calls to the FindScheduledDueExpenseQueues method.
+		FindScheduledDueExpenseQueues []struct {
+		}
+		// StartTx holds details about calls to the StartTx method.
+		StartTx []struct {
+			// Tx is the tx argument value.
+			Tx *gorm.DB
+		}
+		// UpdateExpenseSchedule holds details about calls to the UpdateExpenseSchedule method.
+		UpdateExpenseSchedule []struct {
+			// UID is the uid argument value.
+			UID string
+			// Schedule is the schedule argument value.
+			Schedule model.ExpenseSchedule
+		}
+	}
+	lockCreateExpenseSchedule         sync.RWMutex
+	lockDeleteExpenseSchedule         sync.RWMutex
+	lockDeleteScheduledExpenseQueues  sync.RWMutex
+	lockEndTx                         sync.RWMutex
+	lockEnqueueExpenseSchedule        sync.RWMutex
+	lockFindExpenseSchedule           sync.RWMutex
+	lockFindExpenseSchedules          sync.RWMutex
+	lockFindScheduledDueExpenseQueues sync.RWMutex
+	lockStartTx                       sync.RWMutex
+	lockUpdateExpenseSchedule         sync.RWMutex
+}
+
+// CreateExpenseSchedule calls CreateExpenseScheduleFunc.
+func (mock *ExpenseScheduleRepositoryMock) CreateExpenseSchedule(uid string, expenseSchedule model.ExpenseSchedule) (model.ExpenseSchedule, error) {
+	if mock.CreateExpenseScheduleFunc == nil {
+		panic("ExpenseScheduleRepositoryMock.CreateExpenseScheduleFunc: method is nil but ExpenseScheduleRepository.CreateExpenseSchedule was just called")
+	}
+	callInfo := struct {
+		UID             string
+		ExpenseSchedule model.ExpenseSchedule
+	}{
+		UID:             uid,
+		ExpenseSchedule: expenseSchedule,
+	}
+	mock.lockCreateExpenseSchedule.Lock()
+	mock.calls.CreateExpenseSchedule = append(mock.calls.CreateExpenseSchedule, callInfo)
+	mock.lockCreateExpenseSchedule.Unlock()
+	return mock.CreateExpenseScheduleFunc(uid, expenseSchedule)
+}
+
+// CreateExpenseScheduleCalls gets all the calls that were made to CreateExpenseSchedule.
+// Check the length with:
+//
+//	len(mockedExpenseScheduleRepository.CreateExpenseScheduleCalls())
+func (mock *ExpenseScheduleRepositoryMock) CreateExpenseScheduleCalls() []struct {
+	UID             string
+	ExpenseSchedule model.ExpenseSchedule
+} {
+	var calls []struct {
+		UID             string
+		ExpenseSchedule model.ExpenseSchedule
+	}
+	mock.lockCreateExpenseSchedule.RLock()
+	calls = mock.calls.CreateExpenseSchedule
+	mock.lockCreateExpenseSchedule.RUnlock()
+	return calls
+}
+
+// DeleteExpenseSchedule calls DeleteExpenseScheduleFunc.
+func (mock *ExpenseScheduleRepositoryMock) DeleteExpenseSchedule(id string, uid string) error {
+	if mock.DeleteExpenseScheduleFunc == nil {
+		panic("ExpenseScheduleRepositoryMock.DeleteExpenseScheduleFunc: method is nil but ExpenseScheduleRepository.DeleteExpenseSchedule was just called")
+	}
+	callInfo := struct {
+		ID  string
+		UID string
+	}{
+		ID:  id,
+		UID: uid,
+	}
+	mock.lockDeleteExpenseSchedule.Lock()
+	mock.calls.DeleteExpenseSchedule = append(mock.calls.DeleteExpenseSchedule, callInfo)
+	mock.lockDeleteExpenseSchedule.Unlock()
+	return mock.DeleteExpenseScheduleFunc(id, uid)
+}
+
+// DeleteExpenseScheduleCalls gets all the calls that were made to DeleteExpenseSchedule.
+// Check the length with:
+//
+//	len(mockedExpenseScheduleRepository.DeleteExpenseScheduleCalls())
+func (mock *ExpenseScheduleRepositoryMock) DeleteExpenseScheduleCalls() []struct {
+	ID  string
+	UID string
+} {
+	var calls []struct {
+		ID  string
+		UID string
+	}
+	mock.lockDeleteExpenseSchedule.RLock()
+	calls = mock.calls.DeleteExpenseSchedule
+	mock.lockDeleteExpenseSchedule.RUnlock()
+	return calls
+}
+
+// DeleteScheduledExpenseQueues calls DeleteScheduledExpenseQueuesFunc.
+func (mock *ExpenseScheduleRepositoryMock) DeleteScheduledExpenseQueues(queues []model.ScheduledExpenseQueue) error {
+	if mock.DeleteScheduledExpenseQueuesFunc == nil {
+		panic("ExpenseScheduleRepositoryMock.DeleteScheduledExpenseQueuesFunc: method is nil but ExpenseScheduleRepository.DeleteScheduledExpenseQueues was just called")
+	}
+	callInfo := struct {
+		Queues []model.ScheduledExpenseQueue
+	}{
+		Queues: queues,
+	}
+	mock.lockDeleteScheduledExpenseQueues.Lock()
+	mock.calls.DeleteScheduledExpenseQueues = append(mock.calls.DeleteScheduledExpenseQueues, callInfo)
+	mock.lockDeleteScheduledExpenseQueues.Unlock()
+	return mock.DeleteScheduledExpenseQueuesFunc(queues)
+}
+
+// DeleteScheduledExpenseQueuesCalls gets all the calls that were made to DeleteScheduledExpenseQueues.
+// Check the length with:
+//
+//	len(mockedExpenseScheduleRepository.DeleteScheduledExpenseQueuesCalls())
+func (mock *ExpenseScheduleRepositoryMock) DeleteScheduledExpenseQueuesCalls() []struct {
+	Queues []model.ScheduledExpenseQueue
+} {
+	var calls []struct {
+		Queues []model.ScheduledExpenseQueue
+	}
+	mock.lockDeleteScheduledExpenseQueues.RLock()
+	calls = mock.calls.DeleteScheduledExpenseQueues
+	mock.lockDeleteScheduledExpenseQueues.RUnlock()
+	return calls
+}
+
+// EndTx calls EndTxFunc.
+func (mock *ExpenseScheduleRepositoryMock) EndTx(db *gorm.DB) {
+	if mock.EndTxFunc == nil {
+		panic("ExpenseScheduleRepositoryMock.EndTxFunc: method is nil but ExpenseScheduleRepository.EndTx was just called")
+	}
+	callInfo := struct {
+		Db *gorm.DB
+	}{
+		Db: db,
+	}
+	mock.lockEndTx.Lock()
+	mock.calls.EndTx = append(mock.calls.EndTx, callInfo)
+	mock.lockEndTx.Unlock()
+	mock.EndTxFunc(db)
+}
+
+// EndTxCalls gets all the calls that were made to EndTx.
+// Check the length with:
+//
+//	len(mockedExpenseScheduleRepository.EndTxCalls())
+func (mock *ExpenseScheduleRepositoryMock) EndTxCalls() []struct {
+	Db *gorm.DB
+} {
+	var calls []struct {
+		Db *gorm.DB
+	}
+	mock.lockEndTx.RLock()
+	calls = mock.calls.EndTx
+	mock.lockEndTx.RUnlock()
+	return calls
+}
+
+// EnqueueExpenseSchedule calls EnqueueExpenseScheduleFunc.
+func (mock *ExpenseScheduleRepositoryMock) EnqueueExpenseSchedule() error {
+	if mock.EnqueueExpenseScheduleFunc == nil {
+		panic("ExpenseScheduleRepositoryMock.EnqueueExpenseScheduleFunc: method is nil but ExpenseScheduleRepository.EnqueueExpenseSchedule was just called")
+	}
+	callInfo := struct {
+	}{}
+	mock.lockEnqueueExpenseSchedule.Lock()
+	mock.calls.EnqueueExpenseSchedule = append(mock.calls.EnqueueExpenseSchedule, callInfo)
+	mock.lockEnqueueExpenseSchedule.Unlock()
+	return mock.EnqueueExpenseScheduleFunc()
+}
+
+// EnqueueExpenseScheduleCalls gets all the calls that were made to EnqueueExpenseSchedule.
+// Check the length with:
+//
+//	len(mockedExpenseScheduleRepository.EnqueueExpenseScheduleCalls())
+func (mock *ExpenseScheduleRepositoryMock) EnqueueExpenseScheduleCalls() []struct {
+} {
+	var calls []struct {
+	}
+	mock.lockEnqueueExpenseSchedule.RLock()
+	calls = mock.calls.EnqueueExpenseSchedule
+	mock.lockEnqueueExpenseSchedule.RUnlock()
+	return calls
+}
+
+// FindExpenseSchedule calls FindExpenseScheduleFunc.
+func (mock *ExpenseScheduleRepositoryMock) FindExpenseSchedule(id string, uid string) (model.ExpenseSchedule, error) {
+	if mock.FindExpenseScheduleFunc == nil {
+		panic("ExpenseScheduleRepositoryMock.FindExpenseScheduleFunc: method is nil but ExpenseScheduleRepository.FindExpenseSchedule was just called")
+	}
+	callInfo := struct {
+		ID  string
+		UID string
+	}{
+		ID:  id,
+		UID: uid,
+	}
+	mock.lockFindExpenseSchedule.Lock()
+	mock.calls.FindExpenseSchedule = append(mock.calls.FindExpenseSchedule, callInfo)
+	mock.lockFindExpenseSchedule.Unlock()
+	return mock.FindExpenseScheduleFunc(id, uid)
+}
+
+// FindExpenseScheduleCalls gets all the calls that were made to FindExpenseSchedule.
+// Check the length with:
+//
+//	len(mockedExpenseScheduleRepository.FindExpenseScheduleCalls())
+func (mock *ExpenseScheduleRepositoryMock) FindExpenseScheduleCalls() []struct {
+	ID  string
+	UID string
+} {
+	var calls []struct {
+		ID  string
+		UID string
+	}
+	mock.lockFindExpenseSchedule.RLock()
+	calls = mock.calls.FindExpenseSchedule
+	mock.lockFindExpenseSchedule.RUnlock()
+	return calls
+}
+
+// FindExpenseSchedules calls FindExpenseSchedulesFunc.
+func (mock *ExpenseScheduleRepositoryMock) FindExpenseSchedules(uid string) ([]model.ExpenseSchedule, error) {
+	if mock.FindExpenseSchedulesFunc == nil {
+		panic("ExpenseScheduleRepositoryMock.FindExpenseSchedulesFunc: method is nil but ExpenseScheduleRepository.FindExpenseSchedules was just called")
+	}
+	callInfo := struct {
+		UID string
+	}{
+		UID: uid,
+	}
+	mock.lockFindExpenseSchedules.Lock()
+	mock.calls.FindExpenseSchedules = append(mock.calls.FindExpenseSchedules, callInfo)
+	mock.lockFindExpenseSchedules.Unlock()
+	return mock.FindExpenseSchedulesFunc(uid)
+}
+
+// FindExpenseSchedulesCalls gets all the calls that were made to FindExpenseSchedules.
+// Check the length with:
+//
+//	len(mockedExpenseScheduleRepository.FindExpenseSchedulesCalls())
+func (mock *ExpenseScheduleRepositoryMock) FindExpenseSchedulesCalls() []struct {
+	UID string
+} {
+	var calls []struct {
+		UID string
+	}
+	mock.lockFindExpenseSchedules.RLock()
+	calls = mock.calls.FindExpenseSchedules
+	mock.lockFindExpenseSchedules.RUnlock()
+	return calls
+}
+
+// FindScheduledDueExpenseQueues calls FindScheduledDueExpenseQueuesFunc.
+func (mock *ExpenseScheduleRepositoryMock) FindScheduledDueExpenseQueues() ([]model.ScheduledExpenseQueue, error) {
+	if mock.FindScheduledDueExpenseQueuesFunc == nil {
+		panic("ExpenseScheduleRepositoryMock.FindScheduledDueExpenseQueuesFunc: method is nil but ExpenseScheduleRepository.FindScheduledDueExpenseQueues was just called")
+	}
+	callInfo := struct {
+	}{}
+	mock.lockFindScheduledDueExpenseQueues.Lock()
+	mock.calls.FindScheduledDueExpenseQueues = append(mock.calls.FindScheduledDueExpenseQueues, callInfo)
+	mock.lockFindScheduledDueExpenseQueues.Unlock()
+	return mock.FindScheduledDueExpenseQueuesFunc()
+}
+
+// FindScheduledDueExpenseQueuesCalls gets all the calls that were made to FindScheduledDueExpenseQueues.
+// Check the length with:
+//
+//	len(mockedExpenseScheduleRepository.FindScheduledDueExpenseQueuesCalls())
+func (mock *ExpenseScheduleRepositoryMock) FindScheduledDueExpenseQueuesCalls() []struct {
+} {
+	var calls []struct {
+	}
+	mock.lockFindScheduledDueExpenseQueues.RLock()
+	calls = mock.calls.FindScheduledDueExpenseQueues
+	mock.lockFindScheduledDueExpenseQueues.RUnlock()
+	return calls
+}
+
+// StartTx calls StartTxFunc.
+func (mock *ExpenseScheduleRepositoryMock) StartTx(tx *gorm.DB) {
+	if mock.StartTxFunc == nil {
+		panic("ExpenseScheduleRepositoryMock.StartTxFunc: method is nil but ExpenseScheduleRepository.StartTx was just called")
+	}
+	callInfo := struct {
+		Tx *gorm.DB
+	}{
+		Tx: tx,
+	}
+	mock.lockStartTx.Lock()
+	mock.calls.StartTx = append(mock.calls.StartTx, callInfo)
+	mock.lockStartTx.Unlock()
+	mock.StartTxFunc(tx)
+}
+
+// StartTxCalls gets all the calls that were made to StartTx.
+// Check the length with:
+//
+//	len(mockedExpenseScheduleRepository.StartTxCalls())
+func (mock *ExpenseScheduleRepositoryMock) StartTxCalls() []struct {
+	Tx *gorm.DB
+} {
+	var calls []struct {
+		Tx *gorm.DB
+	}
+	mock.lockStartTx.RLock()
+	calls = mock.calls.StartTx
+	mock.lockStartTx.RUnlock()
+	return calls
+}
+
+// UpdateExpenseSchedule calls UpdateExpenseScheduleFunc.
+func (mock *ExpenseScheduleRepositoryMock) UpdateExpenseSchedule(uid string, schedule model.ExpenseSchedule) (model.ExpenseSchedule, error) {
+	if mock.UpdateExpenseScheduleFunc == nil {
+		panic("ExpenseScheduleRepositoryMock.UpdateExpenseScheduleFunc: method is nil but ExpenseScheduleRepository.UpdateExpenseSchedule was just called")
+	}
+	callInfo := struct {
+		UID      string
+		Schedule model.ExpenseSchedule
+	}{
+		UID:      uid,
+		Schedule: schedule,
+	}
+	mock.lockUpdateExpenseSchedule.Lock()
+	mock.calls.UpdateExpenseSchedule = append(mock.calls.UpdateExpenseSchedule, callInfo)
+	mock.lockUpdateExpenseSchedule.Unlock()
+	return mock.UpdateExpenseScheduleFunc(uid, schedule)
+}
+
+// UpdateExpenseScheduleCalls gets all the calls that were made to UpdateExpenseSchedule.
+// Check the length with:
+//
+//	len(mockedExpenseScheduleRepository.UpdateExpenseScheduleCalls())
+func (mock *ExpenseScheduleRepositoryMock) UpdateExpenseScheduleCalls() []struct {
+	UID      string
+	Schedule model.ExpenseSchedule
+} {
+	var calls []struct {
+		UID      string
+		Schedule model.ExpenseSchedule
+	}
+	mock.lockUpdateExpenseSchedule.RLock()
+	calls = mock.calls.UpdateExpenseSchedule
+	mock.lockUpdateExpenseSchedule.RUnlock()
+	return calls
+}
+
+// Ensure, that ExpenseRepositoryMock does implement ExpenseRepository.
+// If this is not the case, regenerate this file with moq.
+var _ ExpenseRepository = &ExpenseRepositoryMock{}
+
+// ExpenseRepositoryMock is a mock implementation of ExpenseRepository.
+//
+//	func TestSomethingThatUsesExpenseRepository(t *testing.T) {
+//
+//		// make and configure a mocked ExpenseRepository
+//		mockedExpenseRepository := &ExpenseRepositoryMock{
+//			CreateExpenseFunc: func(uid string, expense model.Expense) (model.Expense, error) {
+//				panic("mock out the CreateExpense method")
+//			},
+//			CreateExpensesFromScheduledQueueFunc: func(queues []model.ScheduledExpenseQueue) error {
+//				panic("mock out the CreateExpensesFromScheduledQueue method")
+//			},
+//			DeleteExpenseFunc: func(id string, uid string) error {
+//				panic("mock out the DeleteExpense method")
+//			},
+//			EndTxFunc: func(db *gorm.DB)  {
+//				panic("mock out the EndTx method")
+//			},
+//			FindColumnChartExpenseDataFunc: func(uid string) ([]repositories.ColumnChartData, error) {
+//				panic("mock out the FindColumnChartExpenseData method")
+//			},
+//			FindExpenseFunc: func(id string, uid string) (model.Expense, error) {
+//				panic("mock out the FindExpense method")
+//			},
+//			FindExpensesFunc: func(uid string, start *time.Time, end *time.Time) ([]model.Expense, error) {
+//				panic("mock out the FindExpenses method")
+//			},
+//			FindPieChartCategoryDataFunc: func(uid string, start *time.Time, end *time.Time) ([]repositories.PieChartData, error) {
+//				panic("mock out the FindPieChartCategoryData method")
+//			},
+//			FindPieChartLocationDataFunc: func(uid string, start *time.Time, end *time.Time) ([]repositories.PieChartData, error) {
+//				panic("mock out the FindPieChartLocationData method")
+//			},
+//			HardDeleteAllUserExpensesFunc: func(uid string) error {
+//				panic("mock out the HardDeleteAllUserExpenses method")
+//			},
+//			StartTxFunc: func(tx *gorm.DB)  {
+//				panic("mock out the StartTx method")
+//			},
+//			UpdateExpenseFunc: func(uid string, expense model.Expense) (model.Expense, error) {
+//				panic("mock out the UpdateExpense method")
+//			},
+//		}
+//
+//		// use mockedExpenseRepository in code that requires ExpenseRepository
+//		// and then make assertions.
+//
+//	}
+type ExpenseRepositoryMock struct {
+	// CreateExpenseFunc mocks the CreateExpense method.
+	CreateExpenseFunc func(uid string, expense model.Expense) (model.Expense, error)
+
+	// CreateExpensesFromScheduledQueueFunc mocks the CreateExpensesFromScheduledQueue method.
+	CreateExpensesFromScheduledQueueFunc func(queues []model.ScheduledExpenseQueue) error
+
+	// DeleteExpenseFunc mocks the DeleteExpense method.
+	DeleteExpenseFunc func(id string, uid string) error
+
+	// EndTxFunc mocks the EndTx method.
+	EndTxFunc func(db *gorm.DB)
+
+	// FindColumnChartExpenseDataFunc mocks the FindColumnChartExpenseData method.
+	FindColumnChartExpenseDataFunc func(uid string) ([]repositories.ColumnChartData, error)
+
+	// FindExpenseFunc mocks the FindExpense method.
+	FindExpenseFunc func(id string, uid string) (model.Expense, error)
+
+	// FindExpensesFunc mocks the FindExpenses method.
+	FindExpensesFunc func(uid string, start *time.Time, end *time.Time) ([]model.Expense, error)
+
+	// FindPieChartCategoryDataFunc mocks the FindPieChartCategoryData method.
+	FindPieChartCategoryDataFunc func(uid string, start *time.Time, end *time.Time) ([]repositories.PieChartData, error)
+
+	// FindPieChartLocationDataFunc mocks the FindPieChartLocationData method.
+	FindPieChartLocationDataFunc func(uid string, start *time.Time, end *time.Time) ([]repositories.PieChartData, error)
+
+	// HardDeleteAllUserExpensesFunc mocks the HardDeleteAllUserExpenses method.
+	HardDeleteAllUserExpensesFunc func(uid string) error
+
+	// StartTxFunc mocks the StartTx method.
+	StartTxFunc func(tx *gorm.DB)
+
+	// UpdateExpenseFunc mocks the UpdateExpense method.
+	UpdateExpenseFunc func(uid string, expense model.Expense) (model.Expense, error)
+
+	// calls tracks calls to the methods.
+	calls struct {
+		// CreateExpense holds details about calls to the CreateExpense method.
+		CreateExpense []struct {
+			// UID is the uid argument value.
+			UID string
+			// Expense is the expense argument value.
+			Expense model.Expense
+		}
+		// CreateExpensesFromScheduledQueue holds details about calls to the CreateExpensesFromScheduledQueue method.
+		CreateExpensesFromScheduledQueue []struct {
+			// Queues is the queues argument value.
+			Queues []model.ScheduledExpenseQueue
+		}
+		// DeleteExpense holds details about calls to the DeleteExpense method.
+		DeleteExpense []struct {
+			// ID is the id argument value.
+			ID string
+			// UID is the uid argument value.
+			UID string
+		}
+		// EndTx holds details about calls to the EndTx method.
+		EndTx []struct {
+			// Db is the db argument value.
+			Db *gorm.DB
+		}
+		// FindColumnChartExpenseData holds details about calls to the FindColumnChartExpenseData method.
+		FindColumnChartExpenseData []struct {
+			// UID is the uid argument value.
+			UID string
+		}
+		// FindExpense holds details about calls to the FindExpense method.
+		FindExpense []struct {
+			// ID is the id argument value.
+			ID string
+			// UID is the uid argument value.
+			UID string
+		}
 		// FindExpenses holds details about calls to the FindExpenses method.
 		FindExpenses []struct {
 			// UID is the uid argument value.
@@ -444,65 +1264,6 @@ type RepositoryMock struct {
 			Start *time.Time
 			// End is the end argument value.
 			End *time.Time
-		}
-		// FindIncome holds details about calls to the FindIncome method.
-		FindIncome []struct {
-			// ID is the id argument value.
-			ID string
-			// UID is the uid argument value.
-			UID string
-		}
-		// FindIncomeSchedule holds details about calls to the FindIncomeSchedule method.
-		FindIncomeSchedule []struct {
-			// ID is the id argument value.
-			ID string
-			// UID is the uid argument value.
-			UID string
-		}
-		// FindIncomeSchedules holds details about calls to the FindIncomeSchedules method.
-		FindIncomeSchedules []struct {
-			// UID is the uid argument value.
-			UID string
-		}
-		// FindIncomeTypes holds details about calls to the FindIncomeTypes method.
-		FindIncomeTypes []struct {
-			// UID is the uid argument value.
-			UID string
-		}
-		// FindIncomes holds details about calls to the FindIncomes method.
-		FindIncomes []struct {
-			// UID is the uid argument value.
-			UID string
-			// Start is the start argument value.
-			Start *time.Time
-			// End is the end argument value.
-			End *time.Time
-		}
-		// FindOrCreateExpenseCategory holds details about calls to the FindOrCreateExpenseCategory method.
-		FindOrCreateExpenseCategory []struct {
-			// UID is the uid argument value.
-			UID string
-			// Name is the name argument value.
-			Name string
-		}
-		// FindOrCreateExpenseLocation holds details about calls to the FindOrCreateExpenseLocation method.
-		FindOrCreateExpenseLocation []struct {
-			// UID is the uid argument value.
-			UID string
-			// Name is the name argument value.
-			Name string
-		}
-		// FindOrCreateIncomeType holds details about calls to the FindOrCreateIncomeType method.
-		FindOrCreateIncomeType []struct {
-			// UID is the uid argument value.
-			UID string
-			// Name is the name argument value.
-			Name string
-		}
-		// FindOrCreateUser holds details about calls to the FindOrCreateUser method.
-		FindOrCreateUser []struct {
-			// UID is the uid argument value.
-			UID string
 		}
 		// FindPieChartCategoryData holds details about calls to the FindPieChartCategoryData method.
 		FindPieChartCategoryData []struct {
@@ -522,36 +1283,15 @@ type RepositoryMock struct {
 			// End is the end argument value.
 			End *time.Time
 		}
-		// FindScheduledDueExpenseQueues holds details about calls to the FindScheduledDueExpenseQueues method.
-		FindScheduledDueExpenseQueues []struct {
-		}
-		// FindScheduledDueIncomeQueues holds details about calls to the FindScheduledDueIncomeQueues method.
-		FindScheduledDueIncomeQueues []struct {
-		}
-		// FindTransactionMonths holds details about calls to the FindTransactionMonths method.
-		FindTransactionMonths []struct {
-			// UID is the uid argument value.
-			UID string
-		}
-		// HardDeleteAllUserExpenseCategories holds details about calls to the HardDeleteAllUserExpenseCategories method.
-		HardDeleteAllUserExpenseCategories []struct {
-			// UID is the uid argument value.
-			UID string
-		}
-		// HardDeleteAllUserExpenseLocations holds details about calls to the HardDeleteAllUserExpenseLocations method.
-		HardDeleteAllUserExpenseLocations []struct {
-			// UID is the uid argument value.
-			UID string
-		}
 		// HardDeleteAllUserExpenses holds details about calls to the HardDeleteAllUserExpenses method.
 		HardDeleteAllUserExpenses []struct {
 			// UID is the uid argument value.
 			UID string
 		}
-		// HardDeleteAllUserIncomes holds details about calls to the HardDeleteAllUserIncomes method.
-		HardDeleteAllUserIncomes []struct {
-			// UID is the uid argument value.
-			UID string
+		// StartTx holds details about calls to the StartTx method.
+		StartTx []struct {
+			// Tx is the tx argument value.
+			Tx *gorm.DB
 		}
 		// UpdateExpense holds details about calls to the UpdateExpense method.
 		UpdateExpense []struct {
@@ -560,80 +1300,25 @@ type RepositoryMock struct {
 			// Expense is the expense argument value.
 			Expense model.Expense
 		}
-		// UpdateExpenseSchedule holds details about calls to the UpdateExpenseSchedule method.
-		UpdateExpenseSchedule []struct {
-			// UID is the uid argument value.
-			UID string
-			// Schedule is the schedule argument value.
-			Schedule model.ExpenseSchedule
-		}
-		// UpdateIncome holds details about calls to the UpdateIncome method.
-		UpdateIncome []struct {
-			// UID is the uid argument value.
-			UID string
-			// Income is the income argument value.
-			Income model.Income
-		}
-		// UpdateIncomeSchedule holds details about calls to the UpdateIncomeSchedule method.
-		UpdateIncomeSchedule []struct {
-			// UID is the uid argument value.
-			UID string
-			// Schedule is the schedule argument value.
-			Schedule model.IncomeSchedule
-		}
 	}
-	lockCreateExpense                      sync.RWMutex
-	lockCreateExpenseSchedule              sync.RWMutex
-	lockCreateExpensesFromScheduledQueue   sync.RWMutex
-	lockCreateIncome                       sync.RWMutex
-	lockCreateIncomeSchedule               sync.RWMutex
-	lockCreateIncomesFromScheduledQueue    sync.RWMutex
-	lockDeleteExpense                      sync.RWMutex
-	lockDeleteExpenseSchedule              sync.RWMutex
-	lockDeleteIncomeSchedule               sync.RWMutex
-	lockDeleteScheduledExpenseQueues       sync.RWMutex
-	lockDeleteScheduledIncomeQueues        sync.RWMutex
-	lockEnqueueExpenseSchedule             sync.RWMutex
-	lockEnqueueIncomeSchedule              sync.RWMutex
-	lockFindAllUIDs                        sync.RWMutex
-	lockFindColumnChartExpenseData         sync.RWMutex
-	lockFindColumnChartIncomeData          sync.RWMutex
-	lockFindExpense                        sync.RWMutex
-	lockFindExpenseCategories              sync.RWMutex
-	lockFindExpenseCategory                sync.RWMutex
-	lockFindExpenseLocation                sync.RWMutex
-	lockFindExpenseLocations               sync.RWMutex
-	lockFindExpenseSchedule                sync.RWMutex
-	lockFindExpenseSchedules               sync.RWMutex
-	lockFindExpenses                       sync.RWMutex
-	lockFindIncome                         sync.RWMutex
-	lockFindIncomeSchedule                 sync.RWMutex
-	lockFindIncomeSchedules                sync.RWMutex
-	lockFindIncomeTypes                    sync.RWMutex
-	lockFindIncomes                        sync.RWMutex
-	lockFindOrCreateExpenseCategory        sync.RWMutex
-	lockFindOrCreateExpenseLocation        sync.RWMutex
-	lockFindOrCreateIncomeType             sync.RWMutex
-	lockFindOrCreateUser                   sync.RWMutex
-	lockFindPieChartCategoryData           sync.RWMutex
-	lockFindPieChartLocationData           sync.RWMutex
-	lockFindScheduledDueExpenseQueues      sync.RWMutex
-	lockFindScheduledDueIncomeQueues       sync.RWMutex
-	lockFindTransactionMonths              sync.RWMutex
-	lockHardDeleteAllUserExpenseCategories sync.RWMutex
-	lockHardDeleteAllUserExpenseLocations  sync.RWMutex
-	lockHardDeleteAllUserExpenses          sync.RWMutex
-	lockHardDeleteAllUserIncomes           sync.RWMutex
-	lockUpdateExpense                      sync.RWMutex
-	lockUpdateExpenseSchedule              sync.RWMutex
-	lockUpdateIncome                       sync.RWMutex
-	lockUpdateIncomeSchedule               sync.RWMutex
+	lockCreateExpense                    sync.RWMutex
+	lockCreateExpensesFromScheduledQueue sync.RWMutex
+	lockDeleteExpense                    sync.RWMutex
+	lockEndTx                            sync.RWMutex
+	lockFindColumnChartExpenseData       sync.RWMutex
+	lockFindExpense                      sync.RWMutex
+	lockFindExpenses                     sync.RWMutex
+	lockFindPieChartCategoryData         sync.RWMutex
+	lockFindPieChartLocationData         sync.RWMutex
+	lockHardDeleteAllUserExpenses        sync.RWMutex
+	lockStartTx                          sync.RWMutex
+	lockUpdateExpense                    sync.RWMutex
 }
 
 // CreateExpense calls CreateExpenseFunc.
-func (mock *RepositoryMock) CreateExpense(uid string, expense model.Expense) (model.Expense, error) {
+func (mock *ExpenseRepositoryMock) CreateExpense(uid string, expense model.Expense) (model.Expense, error) {
 	if mock.CreateExpenseFunc == nil {
-		panic("RepositoryMock.CreateExpenseFunc: method is nil but Repository.CreateExpense was just called")
+		panic("ExpenseRepositoryMock.CreateExpenseFunc: method is nil but ExpenseRepository.CreateExpense was just called")
 	}
 	callInfo := struct {
 		UID     string
@@ -651,8 +1336,8 @@ func (mock *RepositoryMock) CreateExpense(uid string, expense model.Expense) (mo
 // CreateExpenseCalls gets all the calls that were made to CreateExpense.
 // Check the length with:
 //
-//	len(mockedRepository.CreateExpenseCalls())
-func (mock *RepositoryMock) CreateExpenseCalls() []struct {
+//	len(mockedExpenseRepository.CreateExpenseCalls())
+func (mock *ExpenseRepositoryMock) CreateExpenseCalls() []struct {
 	UID     string
 	Expense model.Expense
 } {
@@ -666,46 +1351,10 @@ func (mock *RepositoryMock) CreateExpenseCalls() []struct {
 	return calls
 }
 
-// CreateExpenseSchedule calls CreateExpenseScheduleFunc.
-func (mock *RepositoryMock) CreateExpenseSchedule(uid string, expenseSchedule model.ExpenseSchedule) (model.ExpenseSchedule, error) {
-	if mock.CreateExpenseScheduleFunc == nil {
-		panic("RepositoryMock.CreateExpenseScheduleFunc: method is nil but Repository.CreateExpenseSchedule was just called")
-	}
-	callInfo := struct {
-		UID             string
-		ExpenseSchedule model.ExpenseSchedule
-	}{
-		UID:             uid,
-		ExpenseSchedule: expenseSchedule,
-	}
-	mock.lockCreateExpenseSchedule.Lock()
-	mock.calls.CreateExpenseSchedule = append(mock.calls.CreateExpenseSchedule, callInfo)
-	mock.lockCreateExpenseSchedule.Unlock()
-	return mock.CreateExpenseScheduleFunc(uid, expenseSchedule)
-}
-
-// CreateExpenseScheduleCalls gets all the calls that were made to CreateExpenseSchedule.
-// Check the length with:
-//
-//	len(mockedRepository.CreateExpenseScheduleCalls())
-func (mock *RepositoryMock) CreateExpenseScheduleCalls() []struct {
-	UID             string
-	ExpenseSchedule model.ExpenseSchedule
-} {
-	var calls []struct {
-		UID             string
-		ExpenseSchedule model.ExpenseSchedule
-	}
-	mock.lockCreateExpenseSchedule.RLock()
-	calls = mock.calls.CreateExpenseSchedule
-	mock.lockCreateExpenseSchedule.RUnlock()
-	return calls
-}
-
 // CreateExpensesFromScheduledQueue calls CreateExpensesFromScheduledQueueFunc.
-func (mock *RepositoryMock) CreateExpensesFromScheduledQueue(queues []model.ScheduledExpenseQueue) error {
+func (mock *ExpenseRepositoryMock) CreateExpensesFromScheduledQueue(queues []model.ScheduledExpenseQueue) error {
 	if mock.CreateExpensesFromScheduledQueueFunc == nil {
-		panic("RepositoryMock.CreateExpensesFromScheduledQueueFunc: method is nil but Repository.CreateExpensesFromScheduledQueue was just called")
+		panic("ExpenseRepositoryMock.CreateExpensesFromScheduledQueueFunc: method is nil but ExpenseRepository.CreateExpensesFromScheduledQueue was just called")
 	}
 	callInfo := struct {
 		Queues []model.ScheduledExpenseQueue
@@ -721,8 +1370,8 @@ func (mock *RepositoryMock) CreateExpensesFromScheduledQueue(queues []model.Sche
 // CreateExpensesFromScheduledQueueCalls gets all the calls that were made to CreateExpensesFromScheduledQueue.
 // Check the length with:
 //
-//	len(mockedRepository.CreateExpensesFromScheduledQueueCalls())
-func (mock *RepositoryMock) CreateExpensesFromScheduledQueueCalls() []struct {
+//	len(mockedExpenseRepository.CreateExpensesFromScheduledQueueCalls())
+func (mock *ExpenseRepositoryMock) CreateExpensesFromScheduledQueueCalls() []struct {
 	Queues []model.ScheduledExpenseQueue
 } {
 	var calls []struct {
@@ -734,114 +1383,10 @@ func (mock *RepositoryMock) CreateExpensesFromScheduledQueueCalls() []struct {
 	return calls
 }
 
-// CreateIncome calls CreateIncomeFunc.
-func (mock *RepositoryMock) CreateIncome(uid string, income model.Income) (model.Income, error) {
-	if mock.CreateIncomeFunc == nil {
-		panic("RepositoryMock.CreateIncomeFunc: method is nil but Repository.CreateIncome was just called")
-	}
-	callInfo := struct {
-		UID    string
-		Income model.Income
-	}{
-		UID:    uid,
-		Income: income,
-	}
-	mock.lockCreateIncome.Lock()
-	mock.calls.CreateIncome = append(mock.calls.CreateIncome, callInfo)
-	mock.lockCreateIncome.Unlock()
-	return mock.CreateIncomeFunc(uid, income)
-}
-
-// CreateIncomeCalls gets all the calls that were made to CreateIncome.
-// Check the length with:
-//
-//	len(mockedRepository.CreateIncomeCalls())
-func (mock *RepositoryMock) CreateIncomeCalls() []struct {
-	UID    string
-	Income model.Income
-} {
-	var calls []struct {
-		UID    string
-		Income model.Income
-	}
-	mock.lockCreateIncome.RLock()
-	calls = mock.calls.CreateIncome
-	mock.lockCreateIncome.RUnlock()
-	return calls
-}
-
-// CreateIncomeSchedule calls CreateIncomeScheduleFunc.
-func (mock *RepositoryMock) CreateIncomeSchedule(uid string, incomeSchedule model.IncomeSchedule) (model.IncomeSchedule, error) {
-	if mock.CreateIncomeScheduleFunc == nil {
-		panic("RepositoryMock.CreateIncomeScheduleFunc: method is nil but Repository.CreateIncomeSchedule was just called")
-	}
-	callInfo := struct {
-		UID            string
-		IncomeSchedule model.IncomeSchedule
-	}{
-		UID:            uid,
-		IncomeSchedule: incomeSchedule,
-	}
-	mock.lockCreateIncomeSchedule.Lock()
-	mock.calls.CreateIncomeSchedule = append(mock.calls.CreateIncomeSchedule, callInfo)
-	mock.lockCreateIncomeSchedule.Unlock()
-	return mock.CreateIncomeScheduleFunc(uid, incomeSchedule)
-}
-
-// CreateIncomeScheduleCalls gets all the calls that were made to CreateIncomeSchedule.
-// Check the length with:
-//
-//	len(mockedRepository.CreateIncomeScheduleCalls())
-func (mock *RepositoryMock) CreateIncomeScheduleCalls() []struct {
-	UID            string
-	IncomeSchedule model.IncomeSchedule
-} {
-	var calls []struct {
-		UID            string
-		IncomeSchedule model.IncomeSchedule
-	}
-	mock.lockCreateIncomeSchedule.RLock()
-	calls = mock.calls.CreateIncomeSchedule
-	mock.lockCreateIncomeSchedule.RUnlock()
-	return calls
-}
-
-// CreateIncomesFromScheduledQueue calls CreateIncomesFromScheduledQueueFunc.
-func (mock *RepositoryMock) CreateIncomesFromScheduledQueue(queues []model.ScheduledIncomeQueue) error {
-	if mock.CreateIncomesFromScheduledQueueFunc == nil {
-		panic("RepositoryMock.CreateIncomesFromScheduledQueueFunc: method is nil but Repository.CreateIncomesFromScheduledQueue was just called")
-	}
-	callInfo := struct {
-		Queues []model.ScheduledIncomeQueue
-	}{
-		Queues: queues,
-	}
-	mock.lockCreateIncomesFromScheduledQueue.Lock()
-	mock.calls.CreateIncomesFromScheduledQueue = append(mock.calls.CreateIncomesFromScheduledQueue, callInfo)
-	mock.lockCreateIncomesFromScheduledQueue.Unlock()
-	return mock.CreateIncomesFromScheduledQueueFunc(queues)
-}
-
-// CreateIncomesFromScheduledQueueCalls gets all the calls that were made to CreateIncomesFromScheduledQueue.
-// Check the length with:
-//
-//	len(mockedRepository.CreateIncomesFromScheduledQueueCalls())
-func (mock *RepositoryMock) CreateIncomesFromScheduledQueueCalls() []struct {
-	Queues []model.ScheduledIncomeQueue
-} {
-	var calls []struct {
-		Queues []model.ScheduledIncomeQueue
-	}
-	mock.lockCreateIncomesFromScheduledQueue.RLock()
-	calls = mock.calls.CreateIncomesFromScheduledQueue
-	mock.lockCreateIncomesFromScheduledQueue.RUnlock()
-	return calls
-}
-
 // DeleteExpense calls DeleteExpenseFunc.
-func (mock *RepositoryMock) DeleteExpense(id string, uid string) error {
+func (mock *ExpenseRepositoryMock) DeleteExpense(id string, uid string) error {
 	if mock.DeleteExpenseFunc == nil {
-		panic("RepositoryMock.DeleteExpenseFunc: method is nil but Repository.DeleteExpense was just called")
+		panic("ExpenseRepositoryMock.DeleteExpenseFunc: method is nil but ExpenseRepository.DeleteExpense was just called")
 	}
 	callInfo := struct {
 		ID  string
@@ -859,8 +1404,8 @@ func (mock *RepositoryMock) DeleteExpense(id string, uid string) error {
 // DeleteExpenseCalls gets all the calls that were made to DeleteExpense.
 // Check the length with:
 //
-//	len(mockedRepository.DeleteExpenseCalls())
-func (mock *RepositoryMock) DeleteExpenseCalls() []struct {
+//	len(mockedExpenseRepository.DeleteExpenseCalls())
+func (mock *ExpenseRepositoryMock) DeleteExpenseCalls() []struct {
 	ID  string
 	UID string
 } {
@@ -874,227 +1419,42 @@ func (mock *RepositoryMock) DeleteExpenseCalls() []struct {
 	return calls
 }
 
-// DeleteExpenseSchedule calls DeleteExpenseScheduleFunc.
-func (mock *RepositoryMock) DeleteExpenseSchedule(id string, uid string) error {
-	if mock.DeleteExpenseScheduleFunc == nil {
-		panic("RepositoryMock.DeleteExpenseScheduleFunc: method is nil but Repository.DeleteExpenseSchedule was just called")
+// EndTx calls EndTxFunc.
+func (mock *ExpenseRepositoryMock) EndTx(db *gorm.DB) {
+	if mock.EndTxFunc == nil {
+		panic("ExpenseRepositoryMock.EndTxFunc: method is nil but ExpenseRepository.EndTx was just called")
 	}
 	callInfo := struct {
-		ID  string
-		UID string
+		Db *gorm.DB
 	}{
-		ID:  id,
-		UID: uid,
+		Db: db,
 	}
-	mock.lockDeleteExpenseSchedule.Lock()
-	mock.calls.DeleteExpenseSchedule = append(mock.calls.DeleteExpenseSchedule, callInfo)
-	mock.lockDeleteExpenseSchedule.Unlock()
-	return mock.DeleteExpenseScheduleFunc(id, uid)
+	mock.lockEndTx.Lock()
+	mock.calls.EndTx = append(mock.calls.EndTx, callInfo)
+	mock.lockEndTx.Unlock()
+	mock.EndTxFunc(db)
 }
 
-// DeleteExpenseScheduleCalls gets all the calls that were made to DeleteExpenseSchedule.
+// EndTxCalls gets all the calls that were made to EndTx.
 // Check the length with:
 //
-//	len(mockedRepository.DeleteExpenseScheduleCalls())
-func (mock *RepositoryMock) DeleteExpenseScheduleCalls() []struct {
-	ID  string
-	UID string
+//	len(mockedExpenseRepository.EndTxCalls())
+func (mock *ExpenseRepositoryMock) EndTxCalls() []struct {
+	Db *gorm.DB
 } {
 	var calls []struct {
-		ID  string
-		UID string
+		Db *gorm.DB
 	}
-	mock.lockDeleteExpenseSchedule.RLock()
-	calls = mock.calls.DeleteExpenseSchedule
-	mock.lockDeleteExpenseSchedule.RUnlock()
-	return calls
-}
-
-// DeleteIncomeSchedule calls DeleteIncomeScheduleFunc.
-func (mock *RepositoryMock) DeleteIncomeSchedule(id string, uid string) error {
-	if mock.DeleteIncomeScheduleFunc == nil {
-		panic("RepositoryMock.DeleteIncomeScheduleFunc: method is nil but Repository.DeleteIncomeSchedule was just called")
-	}
-	callInfo := struct {
-		ID  string
-		UID string
-	}{
-		ID:  id,
-		UID: uid,
-	}
-	mock.lockDeleteIncomeSchedule.Lock()
-	mock.calls.DeleteIncomeSchedule = append(mock.calls.DeleteIncomeSchedule, callInfo)
-	mock.lockDeleteIncomeSchedule.Unlock()
-	return mock.DeleteIncomeScheduleFunc(id, uid)
-}
-
-// DeleteIncomeScheduleCalls gets all the calls that were made to DeleteIncomeSchedule.
-// Check the length with:
-//
-//	len(mockedRepository.DeleteIncomeScheduleCalls())
-func (mock *RepositoryMock) DeleteIncomeScheduleCalls() []struct {
-	ID  string
-	UID string
-} {
-	var calls []struct {
-		ID  string
-		UID string
-	}
-	mock.lockDeleteIncomeSchedule.RLock()
-	calls = mock.calls.DeleteIncomeSchedule
-	mock.lockDeleteIncomeSchedule.RUnlock()
-	return calls
-}
-
-// DeleteScheduledExpenseQueues calls DeleteScheduledExpenseQueuesFunc.
-func (mock *RepositoryMock) DeleteScheduledExpenseQueues(queues []model.ScheduledExpenseQueue) error {
-	if mock.DeleteScheduledExpenseQueuesFunc == nil {
-		panic("RepositoryMock.DeleteScheduledExpenseQueuesFunc: method is nil but Repository.DeleteScheduledExpenseQueues was just called")
-	}
-	callInfo := struct {
-		Queues []model.ScheduledExpenseQueue
-	}{
-		Queues: queues,
-	}
-	mock.lockDeleteScheduledExpenseQueues.Lock()
-	mock.calls.DeleteScheduledExpenseQueues = append(mock.calls.DeleteScheduledExpenseQueues, callInfo)
-	mock.lockDeleteScheduledExpenseQueues.Unlock()
-	return mock.DeleteScheduledExpenseQueuesFunc(queues)
-}
-
-// DeleteScheduledExpenseQueuesCalls gets all the calls that were made to DeleteScheduledExpenseQueues.
-// Check the length with:
-//
-//	len(mockedRepository.DeleteScheduledExpenseQueuesCalls())
-func (mock *RepositoryMock) DeleteScheduledExpenseQueuesCalls() []struct {
-	Queues []model.ScheduledExpenseQueue
-} {
-	var calls []struct {
-		Queues []model.ScheduledExpenseQueue
-	}
-	mock.lockDeleteScheduledExpenseQueues.RLock()
-	calls = mock.calls.DeleteScheduledExpenseQueues
-	mock.lockDeleteScheduledExpenseQueues.RUnlock()
-	return calls
-}
-
-// DeleteScheduledIncomeQueues calls DeleteScheduledIncomeQueuesFunc.
-func (mock *RepositoryMock) DeleteScheduledIncomeQueues(queues []model.ScheduledIncomeQueue) error {
-	if mock.DeleteScheduledIncomeQueuesFunc == nil {
-		panic("RepositoryMock.DeleteScheduledIncomeQueuesFunc: method is nil but Repository.DeleteScheduledIncomeQueues was just called")
-	}
-	callInfo := struct {
-		Queues []model.ScheduledIncomeQueue
-	}{
-		Queues: queues,
-	}
-	mock.lockDeleteScheduledIncomeQueues.Lock()
-	mock.calls.DeleteScheduledIncomeQueues = append(mock.calls.DeleteScheduledIncomeQueues, callInfo)
-	mock.lockDeleteScheduledIncomeQueues.Unlock()
-	return mock.DeleteScheduledIncomeQueuesFunc(queues)
-}
-
-// DeleteScheduledIncomeQueuesCalls gets all the calls that were made to DeleteScheduledIncomeQueues.
-// Check the length with:
-//
-//	len(mockedRepository.DeleteScheduledIncomeQueuesCalls())
-func (mock *RepositoryMock) DeleteScheduledIncomeQueuesCalls() []struct {
-	Queues []model.ScheduledIncomeQueue
-} {
-	var calls []struct {
-		Queues []model.ScheduledIncomeQueue
-	}
-	mock.lockDeleteScheduledIncomeQueues.RLock()
-	calls = mock.calls.DeleteScheduledIncomeQueues
-	mock.lockDeleteScheduledIncomeQueues.RUnlock()
-	return calls
-}
-
-// EnqueueExpenseSchedule calls EnqueueExpenseScheduleFunc.
-func (mock *RepositoryMock) EnqueueExpenseSchedule() error {
-	if mock.EnqueueExpenseScheduleFunc == nil {
-		panic("RepositoryMock.EnqueueExpenseScheduleFunc: method is nil but Repository.EnqueueExpenseSchedule was just called")
-	}
-	callInfo := struct {
-	}{}
-	mock.lockEnqueueExpenseSchedule.Lock()
-	mock.calls.EnqueueExpenseSchedule = append(mock.calls.EnqueueExpenseSchedule, callInfo)
-	mock.lockEnqueueExpenseSchedule.Unlock()
-	return mock.EnqueueExpenseScheduleFunc()
-}
-
-// EnqueueExpenseScheduleCalls gets all the calls that were made to EnqueueExpenseSchedule.
-// Check the length with:
-//
-//	len(mockedRepository.EnqueueExpenseScheduleCalls())
-func (mock *RepositoryMock) EnqueueExpenseScheduleCalls() []struct {
-} {
-	var calls []struct {
-	}
-	mock.lockEnqueueExpenseSchedule.RLock()
-	calls = mock.calls.EnqueueExpenseSchedule
-	mock.lockEnqueueExpenseSchedule.RUnlock()
-	return calls
-}
-
-// EnqueueIncomeSchedule calls EnqueueIncomeScheduleFunc.
-func (mock *RepositoryMock) EnqueueIncomeSchedule() error {
-	if mock.EnqueueIncomeScheduleFunc == nil {
-		panic("RepositoryMock.EnqueueIncomeScheduleFunc: method is nil but Repository.EnqueueIncomeSchedule was just called")
-	}
-	callInfo := struct {
-	}{}
-	mock.lockEnqueueIncomeSchedule.Lock()
-	mock.calls.EnqueueIncomeSchedule = append(mock.calls.EnqueueIncomeSchedule, callInfo)
-	mock.lockEnqueueIncomeSchedule.Unlock()
-	return mock.EnqueueIncomeScheduleFunc()
-}
-
-// EnqueueIncomeScheduleCalls gets all the calls that were made to EnqueueIncomeSchedule.
-// Check the length with:
-//
-//	len(mockedRepository.EnqueueIncomeScheduleCalls())
-func (mock *RepositoryMock) EnqueueIncomeScheduleCalls() []struct {
-} {
-	var calls []struct {
-	}
-	mock.lockEnqueueIncomeSchedule.RLock()
-	calls = mock.calls.EnqueueIncomeSchedule
-	mock.lockEnqueueIncomeSchedule.RUnlock()
-	return calls
-}
-
-// FindAllUIDs calls FindAllUIDsFunc.
-func (mock *RepositoryMock) FindAllUIDs() ([]string, error) {
-	if mock.FindAllUIDsFunc == nil {
-		panic("RepositoryMock.FindAllUIDsFunc: method is nil but Repository.FindAllUIDs was just called")
-	}
-	callInfo := struct {
-	}{}
-	mock.lockFindAllUIDs.Lock()
-	mock.calls.FindAllUIDs = append(mock.calls.FindAllUIDs, callInfo)
-	mock.lockFindAllUIDs.Unlock()
-	return mock.FindAllUIDsFunc()
-}
-
-// FindAllUIDsCalls gets all the calls that were made to FindAllUIDs.
-// Check the length with:
-//
-//	len(mockedRepository.FindAllUIDsCalls())
-func (mock *RepositoryMock) FindAllUIDsCalls() []struct {
-} {
-	var calls []struct {
-	}
-	mock.lockFindAllUIDs.RLock()
-	calls = mock.calls.FindAllUIDs
-	mock.lockFindAllUIDs.RUnlock()
+	mock.lockEndTx.RLock()
+	calls = mock.calls.EndTx
+	mock.lockEndTx.RUnlock()
 	return calls
 }
 
 // FindColumnChartExpenseData calls FindColumnChartExpenseDataFunc.
-func (mock *RepositoryMock) FindColumnChartExpenseData(uid string) ([]repositories.ColumnChartData, error) {
+func (mock *ExpenseRepositoryMock) FindColumnChartExpenseData(uid string) ([]repositories.ColumnChartData, error) {
 	if mock.FindColumnChartExpenseDataFunc == nil {
-		panic("RepositoryMock.FindColumnChartExpenseDataFunc: method is nil but Repository.FindColumnChartExpenseData was just called")
+		panic("ExpenseRepositoryMock.FindColumnChartExpenseDataFunc: method is nil but ExpenseRepository.FindColumnChartExpenseData was just called")
 	}
 	callInfo := struct {
 		UID string
@@ -1110,8 +1470,8 @@ func (mock *RepositoryMock) FindColumnChartExpenseData(uid string) ([]repositori
 // FindColumnChartExpenseDataCalls gets all the calls that were made to FindColumnChartExpenseData.
 // Check the length with:
 //
-//	len(mockedRepository.FindColumnChartExpenseDataCalls())
-func (mock *RepositoryMock) FindColumnChartExpenseDataCalls() []struct {
+//	len(mockedExpenseRepository.FindColumnChartExpenseDataCalls())
+func (mock *ExpenseRepositoryMock) FindColumnChartExpenseDataCalls() []struct {
 	UID string
 } {
 	var calls []struct {
@@ -1123,42 +1483,10 @@ func (mock *RepositoryMock) FindColumnChartExpenseDataCalls() []struct {
 	return calls
 }
 
-// FindColumnChartIncomeData calls FindColumnChartIncomeDataFunc.
-func (mock *RepositoryMock) FindColumnChartIncomeData(uid string) ([]repositories.ColumnChartData, error) {
-	if mock.FindColumnChartIncomeDataFunc == nil {
-		panic("RepositoryMock.FindColumnChartIncomeDataFunc: method is nil but Repository.FindColumnChartIncomeData was just called")
-	}
-	callInfo := struct {
-		UID string
-	}{
-		UID: uid,
-	}
-	mock.lockFindColumnChartIncomeData.Lock()
-	mock.calls.FindColumnChartIncomeData = append(mock.calls.FindColumnChartIncomeData, callInfo)
-	mock.lockFindColumnChartIncomeData.Unlock()
-	return mock.FindColumnChartIncomeDataFunc(uid)
-}
-
-// FindColumnChartIncomeDataCalls gets all the calls that were made to FindColumnChartIncomeData.
-// Check the length with:
-//
-//	len(mockedRepository.FindColumnChartIncomeDataCalls())
-func (mock *RepositoryMock) FindColumnChartIncomeDataCalls() []struct {
-	UID string
-} {
-	var calls []struct {
-		UID string
-	}
-	mock.lockFindColumnChartIncomeData.RLock()
-	calls = mock.calls.FindColumnChartIncomeData
-	mock.lockFindColumnChartIncomeData.RUnlock()
-	return calls
-}
-
 // FindExpense calls FindExpenseFunc.
-func (mock *RepositoryMock) FindExpense(id string, uid string) (model.Expense, error) {
+func (mock *ExpenseRepositoryMock) FindExpense(id string, uid string) (model.Expense, error) {
 	if mock.FindExpenseFunc == nil {
-		panic("RepositoryMock.FindExpenseFunc: method is nil but Repository.FindExpense was just called")
+		panic("ExpenseRepositoryMock.FindExpenseFunc: method is nil but ExpenseRepository.FindExpense was just called")
 	}
 	callInfo := struct {
 		ID  string
@@ -1176,8 +1504,8 @@ func (mock *RepositoryMock) FindExpense(id string, uid string) (model.Expense, e
 // FindExpenseCalls gets all the calls that were made to FindExpense.
 // Check the length with:
 //
-//	len(mockedRepository.FindExpenseCalls())
-func (mock *RepositoryMock) FindExpenseCalls() []struct {
+//	len(mockedExpenseRepository.FindExpenseCalls())
+func (mock *ExpenseRepositoryMock) FindExpenseCalls() []struct {
 	ID  string
 	UID string
 } {
@@ -1191,214 +1519,10 @@ func (mock *RepositoryMock) FindExpenseCalls() []struct {
 	return calls
 }
 
-// FindExpenseCategories calls FindExpenseCategoriesFunc.
-func (mock *RepositoryMock) FindExpenseCategories(uid string) ([]model.ExpenseCategory, error) {
-	if mock.FindExpenseCategoriesFunc == nil {
-		panic("RepositoryMock.FindExpenseCategoriesFunc: method is nil but Repository.FindExpenseCategories was just called")
-	}
-	callInfo := struct {
-		UID string
-	}{
-		UID: uid,
-	}
-	mock.lockFindExpenseCategories.Lock()
-	mock.calls.FindExpenseCategories = append(mock.calls.FindExpenseCategories, callInfo)
-	mock.lockFindExpenseCategories.Unlock()
-	return mock.FindExpenseCategoriesFunc(uid)
-}
-
-// FindExpenseCategoriesCalls gets all the calls that were made to FindExpenseCategories.
-// Check the length with:
-//
-//	len(mockedRepository.FindExpenseCategoriesCalls())
-func (mock *RepositoryMock) FindExpenseCategoriesCalls() []struct {
-	UID string
-} {
-	var calls []struct {
-		UID string
-	}
-	mock.lockFindExpenseCategories.RLock()
-	calls = mock.calls.FindExpenseCategories
-	mock.lockFindExpenseCategories.RUnlock()
-	return calls
-}
-
-// FindExpenseCategory calls FindExpenseCategoryFunc.
-func (mock *RepositoryMock) FindExpenseCategory(id string, uid string) (model.ExpenseCategory, error) {
-	if mock.FindExpenseCategoryFunc == nil {
-		panic("RepositoryMock.FindExpenseCategoryFunc: method is nil but Repository.FindExpenseCategory was just called")
-	}
-	callInfo := struct {
-		ID  string
-		UID string
-	}{
-		ID:  id,
-		UID: uid,
-	}
-	mock.lockFindExpenseCategory.Lock()
-	mock.calls.FindExpenseCategory = append(mock.calls.FindExpenseCategory, callInfo)
-	mock.lockFindExpenseCategory.Unlock()
-	return mock.FindExpenseCategoryFunc(id, uid)
-}
-
-// FindExpenseCategoryCalls gets all the calls that were made to FindExpenseCategory.
-// Check the length with:
-//
-//	len(mockedRepository.FindExpenseCategoryCalls())
-func (mock *RepositoryMock) FindExpenseCategoryCalls() []struct {
-	ID  string
-	UID string
-} {
-	var calls []struct {
-		ID  string
-		UID string
-	}
-	mock.lockFindExpenseCategory.RLock()
-	calls = mock.calls.FindExpenseCategory
-	mock.lockFindExpenseCategory.RUnlock()
-	return calls
-}
-
-// FindExpenseLocation calls FindExpenseLocationFunc.
-func (mock *RepositoryMock) FindExpenseLocation(id string, uid string) (model.ExpenseLocation, error) {
-	if mock.FindExpenseLocationFunc == nil {
-		panic("RepositoryMock.FindExpenseLocationFunc: method is nil but Repository.FindExpenseLocation was just called")
-	}
-	callInfo := struct {
-		ID  string
-		UID string
-	}{
-		ID:  id,
-		UID: uid,
-	}
-	mock.lockFindExpenseLocation.Lock()
-	mock.calls.FindExpenseLocation = append(mock.calls.FindExpenseLocation, callInfo)
-	mock.lockFindExpenseLocation.Unlock()
-	return mock.FindExpenseLocationFunc(id, uid)
-}
-
-// FindExpenseLocationCalls gets all the calls that were made to FindExpenseLocation.
-// Check the length with:
-//
-//	len(mockedRepository.FindExpenseLocationCalls())
-func (mock *RepositoryMock) FindExpenseLocationCalls() []struct {
-	ID  string
-	UID string
-} {
-	var calls []struct {
-		ID  string
-		UID string
-	}
-	mock.lockFindExpenseLocation.RLock()
-	calls = mock.calls.FindExpenseLocation
-	mock.lockFindExpenseLocation.RUnlock()
-	return calls
-}
-
-// FindExpenseLocations calls FindExpenseLocationsFunc.
-func (mock *RepositoryMock) FindExpenseLocations(uid string) ([]model.ExpenseLocation, error) {
-	if mock.FindExpenseLocationsFunc == nil {
-		panic("RepositoryMock.FindExpenseLocationsFunc: method is nil but Repository.FindExpenseLocations was just called")
-	}
-	callInfo := struct {
-		UID string
-	}{
-		UID: uid,
-	}
-	mock.lockFindExpenseLocations.Lock()
-	mock.calls.FindExpenseLocations = append(mock.calls.FindExpenseLocations, callInfo)
-	mock.lockFindExpenseLocations.Unlock()
-	return mock.FindExpenseLocationsFunc(uid)
-}
-
-// FindExpenseLocationsCalls gets all the calls that were made to FindExpenseLocations.
-// Check the length with:
-//
-//	len(mockedRepository.FindExpenseLocationsCalls())
-func (mock *RepositoryMock) FindExpenseLocationsCalls() []struct {
-	UID string
-} {
-	var calls []struct {
-		UID string
-	}
-	mock.lockFindExpenseLocations.RLock()
-	calls = mock.calls.FindExpenseLocations
-	mock.lockFindExpenseLocations.RUnlock()
-	return calls
-}
-
-// FindExpenseSchedule calls FindExpenseScheduleFunc.
-func (mock *RepositoryMock) FindExpenseSchedule(id string, uid string) (model.ExpenseSchedule, error) {
-	if mock.FindExpenseScheduleFunc == nil {
-		panic("RepositoryMock.FindExpenseScheduleFunc: method is nil but Repository.FindExpenseSchedule was just called")
-	}
-	callInfo := struct {
-		ID  string
-		UID string
-	}{
-		ID:  id,
-		UID: uid,
-	}
-	mock.lockFindExpenseSchedule.Lock()
-	mock.calls.FindExpenseSchedule = append(mock.calls.FindExpenseSchedule, callInfo)
-	mock.lockFindExpenseSchedule.Unlock()
-	return mock.FindExpenseScheduleFunc(id, uid)
-}
-
-// FindExpenseScheduleCalls gets all the calls that were made to FindExpenseSchedule.
-// Check the length with:
-//
-//	len(mockedRepository.FindExpenseScheduleCalls())
-func (mock *RepositoryMock) FindExpenseScheduleCalls() []struct {
-	ID  string
-	UID string
-} {
-	var calls []struct {
-		ID  string
-		UID string
-	}
-	mock.lockFindExpenseSchedule.RLock()
-	calls = mock.calls.FindExpenseSchedule
-	mock.lockFindExpenseSchedule.RUnlock()
-	return calls
-}
-
-// FindExpenseSchedules calls FindExpenseSchedulesFunc.
-func (mock *RepositoryMock) FindExpenseSchedules(uid string) ([]model.ExpenseSchedule, error) {
-	if mock.FindExpenseSchedulesFunc == nil {
-		panic("RepositoryMock.FindExpenseSchedulesFunc: method is nil but Repository.FindExpenseSchedules was just called")
-	}
-	callInfo := struct {
-		UID string
-	}{
-		UID: uid,
-	}
-	mock.lockFindExpenseSchedules.Lock()
-	mock.calls.FindExpenseSchedules = append(mock.calls.FindExpenseSchedules, callInfo)
-	mock.lockFindExpenseSchedules.Unlock()
-	return mock.FindExpenseSchedulesFunc(uid)
-}
-
-// FindExpenseSchedulesCalls gets all the calls that were made to FindExpenseSchedules.
-// Check the length with:
-//
-//	len(mockedRepository.FindExpenseSchedulesCalls())
-func (mock *RepositoryMock) FindExpenseSchedulesCalls() []struct {
-	UID string
-} {
-	var calls []struct {
-		UID string
-	}
-	mock.lockFindExpenseSchedules.RLock()
-	calls = mock.calls.FindExpenseSchedules
-	mock.lockFindExpenseSchedules.RUnlock()
-	return calls
-}
-
 // FindExpenses calls FindExpensesFunc.
-func (mock *RepositoryMock) FindExpenses(uid string, start *time.Time, end *time.Time) ([]model.Expense, error) {
+func (mock *ExpenseRepositoryMock) FindExpenses(uid string, start *time.Time, end *time.Time) ([]model.Expense, error) {
 	if mock.FindExpensesFunc == nil {
-		panic("RepositoryMock.FindExpensesFunc: method is nil but Repository.FindExpenses was just called")
+		panic("ExpenseRepositoryMock.FindExpensesFunc: method is nil but ExpenseRepository.FindExpenses was just called")
 	}
 	callInfo := struct {
 		UID   string
@@ -1418,8 +1542,8 @@ func (mock *RepositoryMock) FindExpenses(uid string, start *time.Time, end *time
 // FindExpensesCalls gets all the calls that were made to FindExpenses.
 // Check the length with:
 //
-//	len(mockedRepository.FindExpensesCalls())
-func (mock *RepositoryMock) FindExpensesCalls() []struct {
+//	len(mockedExpenseRepository.FindExpensesCalls())
+func (mock *ExpenseRepositoryMock) FindExpensesCalls() []struct {
 	UID   string
 	Start *time.Time
 	End   *time.Time
@@ -1435,326 +1559,10 @@ func (mock *RepositoryMock) FindExpensesCalls() []struct {
 	return calls
 }
 
-// FindIncome calls FindIncomeFunc.
-func (mock *RepositoryMock) FindIncome(id string, uid string) (model.Income, error) {
-	if mock.FindIncomeFunc == nil {
-		panic("RepositoryMock.FindIncomeFunc: method is nil but Repository.FindIncome was just called")
-	}
-	callInfo := struct {
-		ID  string
-		UID string
-	}{
-		ID:  id,
-		UID: uid,
-	}
-	mock.lockFindIncome.Lock()
-	mock.calls.FindIncome = append(mock.calls.FindIncome, callInfo)
-	mock.lockFindIncome.Unlock()
-	return mock.FindIncomeFunc(id, uid)
-}
-
-// FindIncomeCalls gets all the calls that were made to FindIncome.
-// Check the length with:
-//
-//	len(mockedRepository.FindIncomeCalls())
-func (mock *RepositoryMock) FindIncomeCalls() []struct {
-	ID  string
-	UID string
-} {
-	var calls []struct {
-		ID  string
-		UID string
-	}
-	mock.lockFindIncome.RLock()
-	calls = mock.calls.FindIncome
-	mock.lockFindIncome.RUnlock()
-	return calls
-}
-
-// FindIncomeSchedule calls FindIncomeScheduleFunc.
-func (mock *RepositoryMock) FindIncomeSchedule(id string, uid string) (model.IncomeSchedule, error) {
-	if mock.FindIncomeScheduleFunc == nil {
-		panic("RepositoryMock.FindIncomeScheduleFunc: method is nil but Repository.FindIncomeSchedule was just called")
-	}
-	callInfo := struct {
-		ID  string
-		UID string
-	}{
-		ID:  id,
-		UID: uid,
-	}
-	mock.lockFindIncomeSchedule.Lock()
-	mock.calls.FindIncomeSchedule = append(mock.calls.FindIncomeSchedule, callInfo)
-	mock.lockFindIncomeSchedule.Unlock()
-	return mock.FindIncomeScheduleFunc(id, uid)
-}
-
-// FindIncomeScheduleCalls gets all the calls that were made to FindIncomeSchedule.
-// Check the length with:
-//
-//	len(mockedRepository.FindIncomeScheduleCalls())
-func (mock *RepositoryMock) FindIncomeScheduleCalls() []struct {
-	ID  string
-	UID string
-} {
-	var calls []struct {
-		ID  string
-		UID string
-	}
-	mock.lockFindIncomeSchedule.RLock()
-	calls = mock.calls.FindIncomeSchedule
-	mock.lockFindIncomeSchedule.RUnlock()
-	return calls
-}
-
-// FindIncomeSchedules calls FindIncomeSchedulesFunc.
-func (mock *RepositoryMock) FindIncomeSchedules(uid string) ([]model.IncomeSchedule, error) {
-	if mock.FindIncomeSchedulesFunc == nil {
-		panic("RepositoryMock.FindIncomeSchedulesFunc: method is nil but Repository.FindIncomeSchedules was just called")
-	}
-	callInfo := struct {
-		UID string
-	}{
-		UID: uid,
-	}
-	mock.lockFindIncomeSchedules.Lock()
-	mock.calls.FindIncomeSchedules = append(mock.calls.FindIncomeSchedules, callInfo)
-	mock.lockFindIncomeSchedules.Unlock()
-	return mock.FindIncomeSchedulesFunc(uid)
-}
-
-// FindIncomeSchedulesCalls gets all the calls that were made to FindIncomeSchedules.
-// Check the length with:
-//
-//	len(mockedRepository.FindIncomeSchedulesCalls())
-func (mock *RepositoryMock) FindIncomeSchedulesCalls() []struct {
-	UID string
-} {
-	var calls []struct {
-		UID string
-	}
-	mock.lockFindIncomeSchedules.RLock()
-	calls = mock.calls.FindIncomeSchedules
-	mock.lockFindIncomeSchedules.RUnlock()
-	return calls
-}
-
-// FindIncomeTypes calls FindIncomeTypesFunc.
-func (mock *RepositoryMock) FindIncomeTypes(uid string) ([]model.IncomeType, error) {
-	if mock.FindIncomeTypesFunc == nil {
-		panic("RepositoryMock.FindIncomeTypesFunc: method is nil but Repository.FindIncomeTypes was just called")
-	}
-	callInfo := struct {
-		UID string
-	}{
-		UID: uid,
-	}
-	mock.lockFindIncomeTypes.Lock()
-	mock.calls.FindIncomeTypes = append(mock.calls.FindIncomeTypes, callInfo)
-	mock.lockFindIncomeTypes.Unlock()
-	return mock.FindIncomeTypesFunc(uid)
-}
-
-// FindIncomeTypesCalls gets all the calls that were made to FindIncomeTypes.
-// Check the length with:
-//
-//	len(mockedRepository.FindIncomeTypesCalls())
-func (mock *RepositoryMock) FindIncomeTypesCalls() []struct {
-	UID string
-} {
-	var calls []struct {
-		UID string
-	}
-	mock.lockFindIncomeTypes.RLock()
-	calls = mock.calls.FindIncomeTypes
-	mock.lockFindIncomeTypes.RUnlock()
-	return calls
-}
-
-// FindIncomes calls FindIncomesFunc.
-func (mock *RepositoryMock) FindIncomes(uid string, start *time.Time, end *time.Time) ([]model.Income, error) {
-	if mock.FindIncomesFunc == nil {
-		panic("RepositoryMock.FindIncomesFunc: method is nil but Repository.FindIncomes was just called")
-	}
-	callInfo := struct {
-		UID   string
-		Start *time.Time
-		End   *time.Time
-	}{
-		UID:   uid,
-		Start: start,
-		End:   end,
-	}
-	mock.lockFindIncomes.Lock()
-	mock.calls.FindIncomes = append(mock.calls.FindIncomes, callInfo)
-	mock.lockFindIncomes.Unlock()
-	return mock.FindIncomesFunc(uid, start, end)
-}
-
-// FindIncomesCalls gets all the calls that were made to FindIncomes.
-// Check the length with:
-//
-//	len(mockedRepository.FindIncomesCalls())
-func (mock *RepositoryMock) FindIncomesCalls() []struct {
-	UID   string
-	Start *time.Time
-	End   *time.Time
-} {
-	var calls []struct {
-		UID   string
-		Start *time.Time
-		End   *time.Time
-	}
-	mock.lockFindIncomes.RLock()
-	calls = mock.calls.FindIncomes
-	mock.lockFindIncomes.RUnlock()
-	return calls
-}
-
-// FindOrCreateExpenseCategory calls FindOrCreateExpenseCategoryFunc.
-func (mock *RepositoryMock) FindOrCreateExpenseCategory(uid string, name string) (model.ExpenseCategory, error) {
-	if mock.FindOrCreateExpenseCategoryFunc == nil {
-		panic("RepositoryMock.FindOrCreateExpenseCategoryFunc: method is nil but Repository.FindOrCreateExpenseCategory was just called")
-	}
-	callInfo := struct {
-		UID  string
-		Name string
-	}{
-		UID:  uid,
-		Name: name,
-	}
-	mock.lockFindOrCreateExpenseCategory.Lock()
-	mock.calls.FindOrCreateExpenseCategory = append(mock.calls.FindOrCreateExpenseCategory, callInfo)
-	mock.lockFindOrCreateExpenseCategory.Unlock()
-	return mock.FindOrCreateExpenseCategoryFunc(uid, name)
-}
-
-// FindOrCreateExpenseCategoryCalls gets all the calls that were made to FindOrCreateExpenseCategory.
-// Check the length with:
-//
-//	len(mockedRepository.FindOrCreateExpenseCategoryCalls())
-func (mock *RepositoryMock) FindOrCreateExpenseCategoryCalls() []struct {
-	UID  string
-	Name string
-} {
-	var calls []struct {
-		UID  string
-		Name string
-	}
-	mock.lockFindOrCreateExpenseCategory.RLock()
-	calls = mock.calls.FindOrCreateExpenseCategory
-	mock.lockFindOrCreateExpenseCategory.RUnlock()
-	return calls
-}
-
-// FindOrCreateExpenseLocation calls FindOrCreateExpenseLocationFunc.
-func (mock *RepositoryMock) FindOrCreateExpenseLocation(uid string, name string) (model.ExpenseLocation, error) {
-	if mock.FindOrCreateExpenseLocationFunc == nil {
-		panic("RepositoryMock.FindOrCreateExpenseLocationFunc: method is nil but Repository.FindOrCreateExpenseLocation was just called")
-	}
-	callInfo := struct {
-		UID  string
-		Name string
-	}{
-		UID:  uid,
-		Name: name,
-	}
-	mock.lockFindOrCreateExpenseLocation.Lock()
-	mock.calls.FindOrCreateExpenseLocation = append(mock.calls.FindOrCreateExpenseLocation, callInfo)
-	mock.lockFindOrCreateExpenseLocation.Unlock()
-	return mock.FindOrCreateExpenseLocationFunc(uid, name)
-}
-
-// FindOrCreateExpenseLocationCalls gets all the calls that were made to FindOrCreateExpenseLocation.
-// Check the length with:
-//
-//	len(mockedRepository.FindOrCreateExpenseLocationCalls())
-func (mock *RepositoryMock) FindOrCreateExpenseLocationCalls() []struct {
-	UID  string
-	Name string
-} {
-	var calls []struct {
-		UID  string
-		Name string
-	}
-	mock.lockFindOrCreateExpenseLocation.RLock()
-	calls = mock.calls.FindOrCreateExpenseLocation
-	mock.lockFindOrCreateExpenseLocation.RUnlock()
-	return calls
-}
-
-// FindOrCreateIncomeType calls FindOrCreateIncomeTypeFunc.
-func (mock *RepositoryMock) FindOrCreateIncomeType(uid string, name string) (model.IncomeType, error) {
-	if mock.FindOrCreateIncomeTypeFunc == nil {
-		panic("RepositoryMock.FindOrCreateIncomeTypeFunc: method is nil but Repository.FindOrCreateIncomeType was just called")
-	}
-	callInfo := struct {
-		UID  string
-		Name string
-	}{
-		UID:  uid,
-		Name: name,
-	}
-	mock.lockFindOrCreateIncomeType.Lock()
-	mock.calls.FindOrCreateIncomeType = append(mock.calls.FindOrCreateIncomeType, callInfo)
-	mock.lockFindOrCreateIncomeType.Unlock()
-	return mock.FindOrCreateIncomeTypeFunc(uid, name)
-}
-
-// FindOrCreateIncomeTypeCalls gets all the calls that were made to FindOrCreateIncomeType.
-// Check the length with:
-//
-//	len(mockedRepository.FindOrCreateIncomeTypeCalls())
-func (mock *RepositoryMock) FindOrCreateIncomeTypeCalls() []struct {
-	UID  string
-	Name string
-} {
-	var calls []struct {
-		UID  string
-		Name string
-	}
-	mock.lockFindOrCreateIncomeType.RLock()
-	calls = mock.calls.FindOrCreateIncomeType
-	mock.lockFindOrCreateIncomeType.RUnlock()
-	return calls
-}
-
-// FindOrCreateUser calls FindOrCreateUserFunc.
-func (mock *RepositoryMock) FindOrCreateUser(uid string) (model.User, error) {
-	if mock.FindOrCreateUserFunc == nil {
-		panic("RepositoryMock.FindOrCreateUserFunc: method is nil but Repository.FindOrCreateUser was just called")
-	}
-	callInfo := struct {
-		UID string
-	}{
-		UID: uid,
-	}
-	mock.lockFindOrCreateUser.Lock()
-	mock.calls.FindOrCreateUser = append(mock.calls.FindOrCreateUser, callInfo)
-	mock.lockFindOrCreateUser.Unlock()
-	return mock.FindOrCreateUserFunc(uid)
-}
-
-// FindOrCreateUserCalls gets all the calls that were made to FindOrCreateUser.
-// Check the length with:
-//
-//	len(mockedRepository.FindOrCreateUserCalls())
-func (mock *RepositoryMock) FindOrCreateUserCalls() []struct {
-	UID string
-} {
-	var calls []struct {
-		UID string
-	}
-	mock.lockFindOrCreateUser.RLock()
-	calls = mock.calls.FindOrCreateUser
-	mock.lockFindOrCreateUser.RUnlock()
-	return calls
-}
-
 // FindPieChartCategoryData calls FindPieChartCategoryDataFunc.
-func (mock *RepositoryMock) FindPieChartCategoryData(uid string, start *time.Time, end *time.Time) ([]repositories.PieChartData, error) {
+func (mock *ExpenseRepositoryMock) FindPieChartCategoryData(uid string, start *time.Time, end *time.Time) ([]repositories.PieChartData, error) {
 	if mock.FindPieChartCategoryDataFunc == nil {
-		panic("RepositoryMock.FindPieChartCategoryDataFunc: method is nil but Repository.FindPieChartCategoryData was just called")
+		panic("ExpenseRepositoryMock.FindPieChartCategoryDataFunc: method is nil but ExpenseRepository.FindPieChartCategoryData was just called")
 	}
 	callInfo := struct {
 		UID   string
@@ -1774,8 +1582,8 @@ func (mock *RepositoryMock) FindPieChartCategoryData(uid string, start *time.Tim
 // FindPieChartCategoryDataCalls gets all the calls that were made to FindPieChartCategoryData.
 // Check the length with:
 //
-//	len(mockedRepository.FindPieChartCategoryDataCalls())
-func (mock *RepositoryMock) FindPieChartCategoryDataCalls() []struct {
+//	len(mockedExpenseRepository.FindPieChartCategoryDataCalls())
+func (mock *ExpenseRepositoryMock) FindPieChartCategoryDataCalls() []struct {
 	UID   string
 	Start *time.Time
 	End   *time.Time
@@ -1792,9 +1600,9 @@ func (mock *RepositoryMock) FindPieChartCategoryDataCalls() []struct {
 }
 
 // FindPieChartLocationData calls FindPieChartLocationDataFunc.
-func (mock *RepositoryMock) FindPieChartLocationData(uid string, start *time.Time, end *time.Time) ([]repositories.PieChartData, error) {
+func (mock *ExpenseRepositoryMock) FindPieChartLocationData(uid string, start *time.Time, end *time.Time) ([]repositories.PieChartData, error) {
 	if mock.FindPieChartLocationDataFunc == nil {
-		panic("RepositoryMock.FindPieChartLocationDataFunc: method is nil but Repository.FindPieChartLocationData was just called")
+		panic("ExpenseRepositoryMock.FindPieChartLocationDataFunc: method is nil but ExpenseRepository.FindPieChartLocationData was just called")
 	}
 	callInfo := struct {
 		UID   string
@@ -1814,8 +1622,8 @@ func (mock *RepositoryMock) FindPieChartLocationData(uid string, start *time.Tim
 // FindPieChartLocationDataCalls gets all the calls that were made to FindPieChartLocationData.
 // Check the length with:
 //
-//	len(mockedRepository.FindPieChartLocationDataCalls())
-func (mock *RepositoryMock) FindPieChartLocationDataCalls() []struct {
+//	len(mockedExpenseRepository.FindPieChartLocationDataCalls())
+func (mock *ExpenseRepositoryMock) FindPieChartLocationDataCalls() []struct {
 	UID   string
 	Start *time.Time
 	End   *time.Time
@@ -1831,160 +1639,10 @@ func (mock *RepositoryMock) FindPieChartLocationDataCalls() []struct {
 	return calls
 }
 
-// FindScheduledDueExpenseQueues calls FindScheduledDueExpenseQueuesFunc.
-func (mock *RepositoryMock) FindScheduledDueExpenseQueues() ([]model.ScheduledExpenseQueue, error) {
-	if mock.FindScheduledDueExpenseQueuesFunc == nil {
-		panic("RepositoryMock.FindScheduledDueExpenseQueuesFunc: method is nil but Repository.FindScheduledDueExpenseQueues was just called")
-	}
-	callInfo := struct {
-	}{}
-	mock.lockFindScheduledDueExpenseQueues.Lock()
-	mock.calls.FindScheduledDueExpenseQueues = append(mock.calls.FindScheduledDueExpenseQueues, callInfo)
-	mock.lockFindScheduledDueExpenseQueues.Unlock()
-	return mock.FindScheduledDueExpenseQueuesFunc()
-}
-
-// FindScheduledDueExpenseQueuesCalls gets all the calls that were made to FindScheduledDueExpenseQueues.
-// Check the length with:
-//
-//	len(mockedRepository.FindScheduledDueExpenseQueuesCalls())
-func (mock *RepositoryMock) FindScheduledDueExpenseQueuesCalls() []struct {
-} {
-	var calls []struct {
-	}
-	mock.lockFindScheduledDueExpenseQueues.RLock()
-	calls = mock.calls.FindScheduledDueExpenseQueues
-	mock.lockFindScheduledDueExpenseQueues.RUnlock()
-	return calls
-}
-
-// FindScheduledDueIncomeQueues calls FindScheduledDueIncomeQueuesFunc.
-func (mock *RepositoryMock) FindScheduledDueIncomeQueues() ([]model.ScheduledIncomeQueue, error) {
-	if mock.FindScheduledDueIncomeQueuesFunc == nil {
-		panic("RepositoryMock.FindScheduledDueIncomeQueuesFunc: method is nil but Repository.FindScheduledDueIncomeQueues was just called")
-	}
-	callInfo := struct {
-	}{}
-	mock.lockFindScheduledDueIncomeQueues.Lock()
-	mock.calls.FindScheduledDueIncomeQueues = append(mock.calls.FindScheduledDueIncomeQueues, callInfo)
-	mock.lockFindScheduledDueIncomeQueues.Unlock()
-	return mock.FindScheduledDueIncomeQueuesFunc()
-}
-
-// FindScheduledDueIncomeQueuesCalls gets all the calls that were made to FindScheduledDueIncomeQueues.
-// Check the length with:
-//
-//	len(mockedRepository.FindScheduledDueIncomeQueuesCalls())
-func (mock *RepositoryMock) FindScheduledDueIncomeQueuesCalls() []struct {
-} {
-	var calls []struct {
-	}
-	mock.lockFindScheduledDueIncomeQueues.RLock()
-	calls = mock.calls.FindScheduledDueIncomeQueues
-	mock.lockFindScheduledDueIncomeQueues.RUnlock()
-	return calls
-}
-
-// FindTransactionMonths calls FindTransactionMonthsFunc.
-func (mock *RepositoryMock) FindTransactionMonths(uid string) ([]string, error) {
-	if mock.FindTransactionMonthsFunc == nil {
-		panic("RepositoryMock.FindTransactionMonthsFunc: method is nil but Repository.FindTransactionMonths was just called")
-	}
-	callInfo := struct {
-		UID string
-	}{
-		UID: uid,
-	}
-	mock.lockFindTransactionMonths.Lock()
-	mock.calls.FindTransactionMonths = append(mock.calls.FindTransactionMonths, callInfo)
-	mock.lockFindTransactionMonths.Unlock()
-	return mock.FindTransactionMonthsFunc(uid)
-}
-
-// FindTransactionMonthsCalls gets all the calls that were made to FindTransactionMonths.
-// Check the length with:
-//
-//	len(mockedRepository.FindTransactionMonthsCalls())
-func (mock *RepositoryMock) FindTransactionMonthsCalls() []struct {
-	UID string
-} {
-	var calls []struct {
-		UID string
-	}
-	mock.lockFindTransactionMonths.RLock()
-	calls = mock.calls.FindTransactionMonths
-	mock.lockFindTransactionMonths.RUnlock()
-	return calls
-}
-
-// HardDeleteAllUserExpenseCategories calls HardDeleteAllUserExpenseCategoriesFunc.
-func (mock *RepositoryMock) HardDeleteAllUserExpenseCategories(uid string) error {
-	if mock.HardDeleteAllUserExpenseCategoriesFunc == nil {
-		panic("RepositoryMock.HardDeleteAllUserExpenseCategoriesFunc: method is nil but Repository.HardDeleteAllUserExpenseCategories was just called")
-	}
-	callInfo := struct {
-		UID string
-	}{
-		UID: uid,
-	}
-	mock.lockHardDeleteAllUserExpenseCategories.Lock()
-	mock.calls.HardDeleteAllUserExpenseCategories = append(mock.calls.HardDeleteAllUserExpenseCategories, callInfo)
-	mock.lockHardDeleteAllUserExpenseCategories.Unlock()
-	return mock.HardDeleteAllUserExpenseCategoriesFunc(uid)
-}
-
-// HardDeleteAllUserExpenseCategoriesCalls gets all the calls that were made to HardDeleteAllUserExpenseCategories.
-// Check the length with:
-//
-//	len(mockedRepository.HardDeleteAllUserExpenseCategoriesCalls())
-func (mock *RepositoryMock) HardDeleteAllUserExpenseCategoriesCalls() []struct {
-	UID string
-} {
-	var calls []struct {
-		UID string
-	}
-	mock.lockHardDeleteAllUserExpenseCategories.RLock()
-	calls = mock.calls.HardDeleteAllUserExpenseCategories
-	mock.lockHardDeleteAllUserExpenseCategories.RUnlock()
-	return calls
-}
-
-// HardDeleteAllUserExpenseLocations calls HardDeleteAllUserExpenseLocationsFunc.
-func (mock *RepositoryMock) HardDeleteAllUserExpenseLocations(uid string) error {
-	if mock.HardDeleteAllUserExpenseLocationsFunc == nil {
-		panic("RepositoryMock.HardDeleteAllUserExpenseLocationsFunc: method is nil but Repository.HardDeleteAllUserExpenseLocations was just called")
-	}
-	callInfo := struct {
-		UID string
-	}{
-		UID: uid,
-	}
-	mock.lockHardDeleteAllUserExpenseLocations.Lock()
-	mock.calls.HardDeleteAllUserExpenseLocations = append(mock.calls.HardDeleteAllUserExpenseLocations, callInfo)
-	mock.lockHardDeleteAllUserExpenseLocations.Unlock()
-	return mock.HardDeleteAllUserExpenseLocationsFunc(uid)
-}
-
-// HardDeleteAllUserExpenseLocationsCalls gets all the calls that were made to HardDeleteAllUserExpenseLocations.
-// Check the length with:
-//
-//	len(mockedRepository.HardDeleteAllUserExpenseLocationsCalls())
-func (mock *RepositoryMock) HardDeleteAllUserExpenseLocationsCalls() []struct {
-	UID string
-} {
-	var calls []struct {
-		UID string
-	}
-	mock.lockHardDeleteAllUserExpenseLocations.RLock()
-	calls = mock.calls.HardDeleteAllUserExpenseLocations
-	mock.lockHardDeleteAllUserExpenseLocations.RUnlock()
-	return calls
-}
-
 // HardDeleteAllUserExpenses calls HardDeleteAllUserExpensesFunc.
-func (mock *RepositoryMock) HardDeleteAllUserExpenses(uid string) error {
+func (mock *ExpenseRepositoryMock) HardDeleteAllUserExpenses(uid string) error {
 	if mock.HardDeleteAllUserExpensesFunc == nil {
-		panic("RepositoryMock.HardDeleteAllUserExpensesFunc: method is nil but Repository.HardDeleteAllUserExpenses was just called")
+		panic("ExpenseRepositoryMock.HardDeleteAllUserExpensesFunc: method is nil but ExpenseRepository.HardDeleteAllUserExpenses was just called")
 	}
 	callInfo := struct {
 		UID string
@@ -2000,8 +1658,8 @@ func (mock *RepositoryMock) HardDeleteAllUserExpenses(uid string) error {
 // HardDeleteAllUserExpensesCalls gets all the calls that were made to HardDeleteAllUserExpenses.
 // Check the length with:
 //
-//	len(mockedRepository.HardDeleteAllUserExpensesCalls())
-func (mock *RepositoryMock) HardDeleteAllUserExpensesCalls() []struct {
+//	len(mockedExpenseRepository.HardDeleteAllUserExpensesCalls())
+func (mock *ExpenseRepositoryMock) HardDeleteAllUserExpensesCalls() []struct {
 	UID string
 } {
 	var calls []struct {
@@ -2013,42 +1671,42 @@ func (mock *RepositoryMock) HardDeleteAllUserExpensesCalls() []struct {
 	return calls
 }
 
-// HardDeleteAllUserIncomes calls HardDeleteAllUserIncomesFunc.
-func (mock *RepositoryMock) HardDeleteAllUserIncomes(uid string) error {
-	if mock.HardDeleteAllUserIncomesFunc == nil {
-		panic("RepositoryMock.HardDeleteAllUserIncomesFunc: method is nil but Repository.HardDeleteAllUserIncomes was just called")
+// StartTx calls StartTxFunc.
+func (mock *ExpenseRepositoryMock) StartTx(tx *gorm.DB) {
+	if mock.StartTxFunc == nil {
+		panic("ExpenseRepositoryMock.StartTxFunc: method is nil but ExpenseRepository.StartTx was just called")
 	}
 	callInfo := struct {
-		UID string
+		Tx *gorm.DB
 	}{
-		UID: uid,
+		Tx: tx,
 	}
-	mock.lockHardDeleteAllUserIncomes.Lock()
-	mock.calls.HardDeleteAllUserIncomes = append(mock.calls.HardDeleteAllUserIncomes, callInfo)
-	mock.lockHardDeleteAllUserIncomes.Unlock()
-	return mock.HardDeleteAllUserIncomesFunc(uid)
+	mock.lockStartTx.Lock()
+	mock.calls.StartTx = append(mock.calls.StartTx, callInfo)
+	mock.lockStartTx.Unlock()
+	mock.StartTxFunc(tx)
 }
 
-// HardDeleteAllUserIncomesCalls gets all the calls that were made to HardDeleteAllUserIncomes.
+// StartTxCalls gets all the calls that were made to StartTx.
 // Check the length with:
 //
-//	len(mockedRepository.HardDeleteAllUserIncomesCalls())
-func (mock *RepositoryMock) HardDeleteAllUserIncomesCalls() []struct {
-	UID string
+//	len(mockedExpenseRepository.StartTxCalls())
+func (mock *ExpenseRepositoryMock) StartTxCalls() []struct {
+	Tx *gorm.DB
 } {
 	var calls []struct {
-		UID string
+		Tx *gorm.DB
 	}
-	mock.lockHardDeleteAllUserIncomes.RLock()
-	calls = mock.calls.HardDeleteAllUserIncomes
-	mock.lockHardDeleteAllUserIncomes.RUnlock()
+	mock.lockStartTx.RLock()
+	calls = mock.calls.StartTx
+	mock.lockStartTx.RUnlock()
 	return calls
 }
 
 // UpdateExpense calls UpdateExpenseFunc.
-func (mock *RepositoryMock) UpdateExpense(uid string, expense model.Expense) (model.Expense, error) {
+func (mock *ExpenseRepositoryMock) UpdateExpense(uid string, expense model.Expense) (model.Expense, error) {
 	if mock.UpdateExpenseFunc == nil {
-		panic("RepositoryMock.UpdateExpenseFunc: method is nil but Repository.UpdateExpense was just called")
+		panic("ExpenseRepositoryMock.UpdateExpenseFunc: method is nil but ExpenseRepository.UpdateExpense was just called")
 	}
 	callInfo := struct {
 		UID     string
@@ -2066,8 +1724,8 @@ func (mock *RepositoryMock) UpdateExpense(uid string, expense model.Expense) (mo
 // UpdateExpenseCalls gets all the calls that were made to UpdateExpense.
 // Check the length with:
 //
-//	len(mockedRepository.UpdateExpenseCalls())
-func (mock *RepositoryMock) UpdateExpenseCalls() []struct {
+//	len(mockedExpenseRepository.UpdateExpenseCalls())
+func (mock *ExpenseRepositoryMock) UpdateExpenseCalls() []struct {
 	UID     string
 	Expense model.Expense
 } {
@@ -2081,46 +1739,422 @@ func (mock *RepositoryMock) UpdateExpenseCalls() []struct {
 	return calls
 }
 
-// UpdateExpenseSchedule calls UpdateExpenseScheduleFunc.
-func (mock *RepositoryMock) UpdateExpenseSchedule(uid string, schedule model.ExpenseSchedule) (model.ExpenseSchedule, error) {
-	if mock.UpdateExpenseScheduleFunc == nil {
-		panic("RepositoryMock.UpdateExpenseScheduleFunc: method is nil but Repository.UpdateExpenseSchedule was just called")
+// Ensure, that IncomeRepositoryMock does implement IncomeRepository.
+// If this is not the case, regenerate this file with moq.
+var _ IncomeRepository = &IncomeRepositoryMock{}
+
+// IncomeRepositoryMock is a mock implementation of IncomeRepository.
+//
+//	func TestSomethingThatUsesIncomeRepository(t *testing.T) {
+//
+//		// make and configure a mocked IncomeRepository
+//		mockedIncomeRepository := &IncomeRepositoryMock{
+//			CreateIncomeFunc: func(uid string, income model.Income) (model.Income, error) {
+//				panic("mock out the CreateIncome method")
+//			},
+//			CreateIncomesFromScheduledQueueFunc: func(queues []model.ScheduledIncomeQueue) error {
+//				panic("mock out the CreateIncomesFromScheduledQueue method")
+//			},
+//			EndTxFunc: func(db *gorm.DB)  {
+//				panic("mock out the EndTx method")
+//			},
+//			FindColumnChartIncomeDataFunc: func(uid string) ([]repositories.ColumnChartData, error) {
+//				panic("mock out the FindColumnChartIncomeData method")
+//			},
+//			FindIncomeFunc: func(id string, uid string) (model.Income, error) {
+//				panic("mock out the FindIncome method")
+//			},
+//			FindIncomesFunc: func(uid string, start *time.Time, end *time.Time) ([]model.Income, error) {
+//				panic("mock out the FindIncomes method")
+//			},
+//			HardDeleteAllUserIncomesFunc: func(uid string) error {
+//				panic("mock out the HardDeleteAllUserIncomes method")
+//			},
+//			StartTxFunc: func(tx *gorm.DB)  {
+//				panic("mock out the StartTx method")
+//			},
+//			UpdateIncomeFunc: func(uid string, income model.Income) (model.Income, error) {
+//				panic("mock out the UpdateIncome method")
+//			},
+//		}
+//
+//		// use mockedIncomeRepository in code that requires IncomeRepository
+//		// and then make assertions.
+//
+//	}
+type IncomeRepositoryMock struct {
+	// CreateIncomeFunc mocks the CreateIncome method.
+	CreateIncomeFunc func(uid string, income model.Income) (model.Income, error)
+
+	// CreateIncomesFromScheduledQueueFunc mocks the CreateIncomesFromScheduledQueue method.
+	CreateIncomesFromScheduledQueueFunc func(queues []model.ScheduledIncomeQueue) error
+
+	// EndTxFunc mocks the EndTx method.
+	EndTxFunc func(db *gorm.DB)
+
+	// FindColumnChartIncomeDataFunc mocks the FindColumnChartIncomeData method.
+	FindColumnChartIncomeDataFunc func(uid string) ([]repositories.ColumnChartData, error)
+
+	// FindIncomeFunc mocks the FindIncome method.
+	FindIncomeFunc func(id string, uid string) (model.Income, error)
+
+	// FindIncomesFunc mocks the FindIncomes method.
+	FindIncomesFunc func(uid string, start *time.Time, end *time.Time) ([]model.Income, error)
+
+	// HardDeleteAllUserIncomesFunc mocks the HardDeleteAllUserIncomes method.
+	HardDeleteAllUserIncomesFunc func(uid string) error
+
+	// StartTxFunc mocks the StartTx method.
+	StartTxFunc func(tx *gorm.DB)
+
+	// UpdateIncomeFunc mocks the UpdateIncome method.
+	UpdateIncomeFunc func(uid string, income model.Income) (model.Income, error)
+
+	// calls tracks calls to the methods.
+	calls struct {
+		// CreateIncome holds details about calls to the CreateIncome method.
+		CreateIncome []struct {
+			// UID is the uid argument value.
+			UID string
+			// Income is the income argument value.
+			Income model.Income
+		}
+		// CreateIncomesFromScheduledQueue holds details about calls to the CreateIncomesFromScheduledQueue method.
+		CreateIncomesFromScheduledQueue []struct {
+			// Queues is the queues argument value.
+			Queues []model.ScheduledIncomeQueue
+		}
+		// EndTx holds details about calls to the EndTx method.
+		EndTx []struct {
+			// Db is the db argument value.
+			Db *gorm.DB
+		}
+		// FindColumnChartIncomeData holds details about calls to the FindColumnChartIncomeData method.
+		FindColumnChartIncomeData []struct {
+			// UID is the uid argument value.
+			UID string
+		}
+		// FindIncome holds details about calls to the FindIncome method.
+		FindIncome []struct {
+			// ID is the id argument value.
+			ID string
+			// UID is the uid argument value.
+			UID string
+		}
+		// FindIncomes holds details about calls to the FindIncomes method.
+		FindIncomes []struct {
+			// UID is the uid argument value.
+			UID string
+			// Start is the start argument value.
+			Start *time.Time
+			// End is the end argument value.
+			End *time.Time
+		}
+		// HardDeleteAllUserIncomes holds details about calls to the HardDeleteAllUserIncomes method.
+		HardDeleteAllUserIncomes []struct {
+			// UID is the uid argument value.
+			UID string
+		}
+		// StartTx holds details about calls to the StartTx method.
+		StartTx []struct {
+			// Tx is the tx argument value.
+			Tx *gorm.DB
+		}
+		// UpdateIncome holds details about calls to the UpdateIncome method.
+		UpdateIncome []struct {
+			// UID is the uid argument value.
+			UID string
+			// Income is the income argument value.
+			Income model.Income
+		}
 	}
-	callInfo := struct {
-		UID      string
-		Schedule model.ExpenseSchedule
-	}{
-		UID:      uid,
-		Schedule: schedule,
-	}
-	mock.lockUpdateExpenseSchedule.Lock()
-	mock.calls.UpdateExpenseSchedule = append(mock.calls.UpdateExpenseSchedule, callInfo)
-	mock.lockUpdateExpenseSchedule.Unlock()
-	return mock.UpdateExpenseScheduleFunc(uid, schedule)
+	lockCreateIncome                    sync.RWMutex
+	lockCreateIncomesFromScheduledQueue sync.RWMutex
+	lockEndTx                           sync.RWMutex
+	lockFindColumnChartIncomeData       sync.RWMutex
+	lockFindIncome                      sync.RWMutex
+	lockFindIncomes                     sync.RWMutex
+	lockHardDeleteAllUserIncomes        sync.RWMutex
+	lockStartTx                         sync.RWMutex
+	lockUpdateIncome                    sync.RWMutex
 }
 
-// UpdateExpenseScheduleCalls gets all the calls that were made to UpdateExpenseSchedule.
+// CreateIncome calls CreateIncomeFunc.
+func (mock *IncomeRepositoryMock) CreateIncome(uid string, income model.Income) (model.Income, error) {
+	if mock.CreateIncomeFunc == nil {
+		panic("IncomeRepositoryMock.CreateIncomeFunc: method is nil but IncomeRepository.CreateIncome was just called")
+	}
+	callInfo := struct {
+		UID    string
+		Income model.Income
+	}{
+		UID:    uid,
+		Income: income,
+	}
+	mock.lockCreateIncome.Lock()
+	mock.calls.CreateIncome = append(mock.calls.CreateIncome, callInfo)
+	mock.lockCreateIncome.Unlock()
+	return mock.CreateIncomeFunc(uid, income)
+}
+
+// CreateIncomeCalls gets all the calls that were made to CreateIncome.
 // Check the length with:
 //
-//	len(mockedRepository.UpdateExpenseScheduleCalls())
-func (mock *RepositoryMock) UpdateExpenseScheduleCalls() []struct {
-	UID      string
-	Schedule model.ExpenseSchedule
+//	len(mockedIncomeRepository.CreateIncomeCalls())
+func (mock *IncomeRepositoryMock) CreateIncomeCalls() []struct {
+	UID    string
+	Income model.Income
 } {
 	var calls []struct {
-		UID      string
-		Schedule model.ExpenseSchedule
+		UID    string
+		Income model.Income
 	}
-	mock.lockUpdateExpenseSchedule.RLock()
-	calls = mock.calls.UpdateExpenseSchedule
-	mock.lockUpdateExpenseSchedule.RUnlock()
+	mock.lockCreateIncome.RLock()
+	calls = mock.calls.CreateIncome
+	mock.lockCreateIncome.RUnlock()
+	return calls
+}
+
+// CreateIncomesFromScheduledQueue calls CreateIncomesFromScheduledQueueFunc.
+func (mock *IncomeRepositoryMock) CreateIncomesFromScheduledQueue(queues []model.ScheduledIncomeQueue) error {
+	if mock.CreateIncomesFromScheduledQueueFunc == nil {
+		panic("IncomeRepositoryMock.CreateIncomesFromScheduledQueueFunc: method is nil but IncomeRepository.CreateIncomesFromScheduledQueue was just called")
+	}
+	callInfo := struct {
+		Queues []model.ScheduledIncomeQueue
+	}{
+		Queues: queues,
+	}
+	mock.lockCreateIncomesFromScheduledQueue.Lock()
+	mock.calls.CreateIncomesFromScheduledQueue = append(mock.calls.CreateIncomesFromScheduledQueue, callInfo)
+	mock.lockCreateIncomesFromScheduledQueue.Unlock()
+	return mock.CreateIncomesFromScheduledQueueFunc(queues)
+}
+
+// CreateIncomesFromScheduledQueueCalls gets all the calls that were made to CreateIncomesFromScheduledQueue.
+// Check the length with:
+//
+//	len(mockedIncomeRepository.CreateIncomesFromScheduledQueueCalls())
+func (mock *IncomeRepositoryMock) CreateIncomesFromScheduledQueueCalls() []struct {
+	Queues []model.ScheduledIncomeQueue
+} {
+	var calls []struct {
+		Queues []model.ScheduledIncomeQueue
+	}
+	mock.lockCreateIncomesFromScheduledQueue.RLock()
+	calls = mock.calls.CreateIncomesFromScheduledQueue
+	mock.lockCreateIncomesFromScheduledQueue.RUnlock()
+	return calls
+}
+
+// EndTx calls EndTxFunc.
+func (mock *IncomeRepositoryMock) EndTx(db *gorm.DB) {
+	if mock.EndTxFunc == nil {
+		panic("IncomeRepositoryMock.EndTxFunc: method is nil but IncomeRepository.EndTx was just called")
+	}
+	callInfo := struct {
+		Db *gorm.DB
+	}{
+		Db: db,
+	}
+	mock.lockEndTx.Lock()
+	mock.calls.EndTx = append(mock.calls.EndTx, callInfo)
+	mock.lockEndTx.Unlock()
+	mock.EndTxFunc(db)
+}
+
+// EndTxCalls gets all the calls that were made to EndTx.
+// Check the length with:
+//
+//	len(mockedIncomeRepository.EndTxCalls())
+func (mock *IncomeRepositoryMock) EndTxCalls() []struct {
+	Db *gorm.DB
+} {
+	var calls []struct {
+		Db *gorm.DB
+	}
+	mock.lockEndTx.RLock()
+	calls = mock.calls.EndTx
+	mock.lockEndTx.RUnlock()
+	return calls
+}
+
+// FindColumnChartIncomeData calls FindColumnChartIncomeDataFunc.
+func (mock *IncomeRepositoryMock) FindColumnChartIncomeData(uid string) ([]repositories.ColumnChartData, error) {
+	if mock.FindColumnChartIncomeDataFunc == nil {
+		panic("IncomeRepositoryMock.FindColumnChartIncomeDataFunc: method is nil but IncomeRepository.FindColumnChartIncomeData was just called")
+	}
+	callInfo := struct {
+		UID string
+	}{
+		UID: uid,
+	}
+	mock.lockFindColumnChartIncomeData.Lock()
+	mock.calls.FindColumnChartIncomeData = append(mock.calls.FindColumnChartIncomeData, callInfo)
+	mock.lockFindColumnChartIncomeData.Unlock()
+	return mock.FindColumnChartIncomeDataFunc(uid)
+}
+
+// FindColumnChartIncomeDataCalls gets all the calls that were made to FindColumnChartIncomeData.
+// Check the length with:
+//
+//	len(mockedIncomeRepository.FindColumnChartIncomeDataCalls())
+func (mock *IncomeRepositoryMock) FindColumnChartIncomeDataCalls() []struct {
+	UID string
+} {
+	var calls []struct {
+		UID string
+	}
+	mock.lockFindColumnChartIncomeData.RLock()
+	calls = mock.calls.FindColumnChartIncomeData
+	mock.lockFindColumnChartIncomeData.RUnlock()
+	return calls
+}
+
+// FindIncome calls FindIncomeFunc.
+func (mock *IncomeRepositoryMock) FindIncome(id string, uid string) (model.Income, error) {
+	if mock.FindIncomeFunc == nil {
+		panic("IncomeRepositoryMock.FindIncomeFunc: method is nil but IncomeRepository.FindIncome was just called")
+	}
+	callInfo := struct {
+		ID  string
+		UID string
+	}{
+		ID:  id,
+		UID: uid,
+	}
+	mock.lockFindIncome.Lock()
+	mock.calls.FindIncome = append(mock.calls.FindIncome, callInfo)
+	mock.lockFindIncome.Unlock()
+	return mock.FindIncomeFunc(id, uid)
+}
+
+// FindIncomeCalls gets all the calls that were made to FindIncome.
+// Check the length with:
+//
+//	len(mockedIncomeRepository.FindIncomeCalls())
+func (mock *IncomeRepositoryMock) FindIncomeCalls() []struct {
+	ID  string
+	UID string
+} {
+	var calls []struct {
+		ID  string
+		UID string
+	}
+	mock.lockFindIncome.RLock()
+	calls = mock.calls.FindIncome
+	mock.lockFindIncome.RUnlock()
+	return calls
+}
+
+// FindIncomes calls FindIncomesFunc.
+func (mock *IncomeRepositoryMock) FindIncomes(uid string, start *time.Time, end *time.Time) ([]model.Income, error) {
+	if mock.FindIncomesFunc == nil {
+		panic("IncomeRepositoryMock.FindIncomesFunc: method is nil but IncomeRepository.FindIncomes was just called")
+	}
+	callInfo := struct {
+		UID   string
+		Start *time.Time
+		End   *time.Time
+	}{
+		UID:   uid,
+		Start: start,
+		End:   end,
+	}
+	mock.lockFindIncomes.Lock()
+	mock.calls.FindIncomes = append(mock.calls.FindIncomes, callInfo)
+	mock.lockFindIncomes.Unlock()
+	return mock.FindIncomesFunc(uid, start, end)
+}
+
+// FindIncomesCalls gets all the calls that were made to FindIncomes.
+// Check the length with:
+//
+//	len(mockedIncomeRepository.FindIncomesCalls())
+func (mock *IncomeRepositoryMock) FindIncomesCalls() []struct {
+	UID   string
+	Start *time.Time
+	End   *time.Time
+} {
+	var calls []struct {
+		UID   string
+		Start *time.Time
+		End   *time.Time
+	}
+	mock.lockFindIncomes.RLock()
+	calls = mock.calls.FindIncomes
+	mock.lockFindIncomes.RUnlock()
+	return calls
+}
+
+// HardDeleteAllUserIncomes calls HardDeleteAllUserIncomesFunc.
+func (mock *IncomeRepositoryMock) HardDeleteAllUserIncomes(uid string) error {
+	if mock.HardDeleteAllUserIncomesFunc == nil {
+		panic("IncomeRepositoryMock.HardDeleteAllUserIncomesFunc: method is nil but IncomeRepository.HardDeleteAllUserIncomes was just called")
+	}
+	callInfo := struct {
+		UID string
+	}{
+		UID: uid,
+	}
+	mock.lockHardDeleteAllUserIncomes.Lock()
+	mock.calls.HardDeleteAllUserIncomes = append(mock.calls.HardDeleteAllUserIncomes, callInfo)
+	mock.lockHardDeleteAllUserIncomes.Unlock()
+	return mock.HardDeleteAllUserIncomesFunc(uid)
+}
+
+// HardDeleteAllUserIncomesCalls gets all the calls that were made to HardDeleteAllUserIncomes.
+// Check the length with:
+//
+//	len(mockedIncomeRepository.HardDeleteAllUserIncomesCalls())
+func (mock *IncomeRepositoryMock) HardDeleteAllUserIncomesCalls() []struct {
+	UID string
+} {
+	var calls []struct {
+		UID string
+	}
+	mock.lockHardDeleteAllUserIncomes.RLock()
+	calls = mock.calls.HardDeleteAllUserIncomes
+	mock.lockHardDeleteAllUserIncomes.RUnlock()
+	return calls
+}
+
+// StartTx calls StartTxFunc.
+func (mock *IncomeRepositoryMock) StartTx(tx *gorm.DB) {
+	if mock.StartTxFunc == nil {
+		panic("IncomeRepositoryMock.StartTxFunc: method is nil but IncomeRepository.StartTx was just called")
+	}
+	callInfo := struct {
+		Tx *gorm.DB
+	}{
+		Tx: tx,
+	}
+	mock.lockStartTx.Lock()
+	mock.calls.StartTx = append(mock.calls.StartTx, callInfo)
+	mock.lockStartTx.Unlock()
+	mock.StartTxFunc(tx)
+}
+
+// StartTxCalls gets all the calls that were made to StartTx.
+// Check the length with:
+//
+//	len(mockedIncomeRepository.StartTxCalls())
+func (mock *IncomeRepositoryMock) StartTxCalls() []struct {
+	Tx *gorm.DB
+} {
+	var calls []struct {
+		Tx *gorm.DB
+	}
+	mock.lockStartTx.RLock()
+	calls = mock.calls.StartTx
+	mock.lockStartTx.RUnlock()
 	return calls
 }
 
 // UpdateIncome calls UpdateIncomeFunc.
-func (mock *RepositoryMock) UpdateIncome(uid string, income model.Income) (model.Income, error) {
+func (mock *IncomeRepositoryMock) UpdateIncome(uid string, income model.Income) (model.Income, error) {
 	if mock.UpdateIncomeFunc == nil {
-		panic("RepositoryMock.UpdateIncomeFunc: method is nil but Repository.UpdateIncome was just called")
+		panic("IncomeRepositoryMock.UpdateIncomeFunc: method is nil but IncomeRepository.UpdateIncome was just called")
 	}
 	callInfo := struct {
 		UID    string
@@ -2138,8 +2172,8 @@ func (mock *RepositoryMock) UpdateIncome(uid string, income model.Income) (model
 // UpdateIncomeCalls gets all the calls that were made to UpdateIncome.
 // Check the length with:
 //
-//	len(mockedRepository.UpdateIncomeCalls())
-func (mock *RepositoryMock) UpdateIncomeCalls() []struct {
+//	len(mockedIncomeRepository.UpdateIncomeCalls())
+func (mock *IncomeRepositoryMock) UpdateIncomeCalls() []struct {
 	UID    string
 	Income model.Income
 } {
@@ -2153,10 +2187,446 @@ func (mock *RepositoryMock) UpdateIncomeCalls() []struct {
 	return calls
 }
 
+// Ensure, that IncomeScheduleRepositoryMock does implement IncomeScheduleRepository.
+// If this is not the case, regenerate this file with moq.
+var _ IncomeScheduleRepository = &IncomeScheduleRepositoryMock{}
+
+// IncomeScheduleRepositoryMock is a mock implementation of IncomeScheduleRepository.
+//
+//	func TestSomethingThatUsesIncomeScheduleRepository(t *testing.T) {
+//
+//		// make and configure a mocked IncomeScheduleRepository
+//		mockedIncomeScheduleRepository := &IncomeScheduleRepositoryMock{
+//			CreateIncomeScheduleFunc: func(uid string, incomeSchedule model.IncomeSchedule) (model.IncomeSchedule, error) {
+//				panic("mock out the CreateIncomeSchedule method")
+//			},
+//			DeleteIncomeScheduleFunc: func(id string, uid string) error {
+//				panic("mock out the DeleteIncomeSchedule method")
+//			},
+//			DeleteScheduledIncomeQueuesFunc: func(queues []model.ScheduledIncomeQueue) error {
+//				panic("mock out the DeleteScheduledIncomeQueues method")
+//			},
+//			EndTxFunc: func(db *gorm.DB)  {
+//				panic("mock out the EndTx method")
+//			},
+//			EnqueueIncomeScheduleFunc: func() error {
+//				panic("mock out the EnqueueIncomeSchedule method")
+//			},
+//			FindIncomeScheduleFunc: func(id string, uid string) (model.IncomeSchedule, error) {
+//				panic("mock out the FindIncomeSchedule method")
+//			},
+//			FindIncomeSchedulesFunc: func(uid string) ([]model.IncomeSchedule, error) {
+//				panic("mock out the FindIncomeSchedules method")
+//			},
+//			FindScheduledDueIncomeQueuesFunc: func() ([]model.ScheduledIncomeQueue, error) {
+//				panic("mock out the FindScheduledDueIncomeQueues method")
+//			},
+//			StartTxFunc: func(tx *gorm.DB)  {
+//				panic("mock out the StartTx method")
+//			},
+//			UpdateIncomeScheduleFunc: func(uid string, schedule model.IncomeSchedule) (model.IncomeSchedule, error) {
+//				panic("mock out the UpdateIncomeSchedule method")
+//			},
+//		}
+//
+//		// use mockedIncomeScheduleRepository in code that requires IncomeScheduleRepository
+//		// and then make assertions.
+//
+//	}
+type IncomeScheduleRepositoryMock struct {
+	// CreateIncomeScheduleFunc mocks the CreateIncomeSchedule method.
+	CreateIncomeScheduleFunc func(uid string, incomeSchedule model.IncomeSchedule) (model.IncomeSchedule, error)
+
+	// DeleteIncomeScheduleFunc mocks the DeleteIncomeSchedule method.
+	DeleteIncomeScheduleFunc func(id string, uid string) error
+
+	// DeleteScheduledIncomeQueuesFunc mocks the DeleteScheduledIncomeQueues method.
+	DeleteScheduledIncomeQueuesFunc func(queues []model.ScheduledIncomeQueue) error
+
+	// EndTxFunc mocks the EndTx method.
+	EndTxFunc func(db *gorm.DB)
+
+	// EnqueueIncomeScheduleFunc mocks the EnqueueIncomeSchedule method.
+	EnqueueIncomeScheduleFunc func() error
+
+	// FindIncomeScheduleFunc mocks the FindIncomeSchedule method.
+	FindIncomeScheduleFunc func(id string, uid string) (model.IncomeSchedule, error)
+
+	// FindIncomeSchedulesFunc mocks the FindIncomeSchedules method.
+	FindIncomeSchedulesFunc func(uid string) ([]model.IncomeSchedule, error)
+
+	// FindScheduledDueIncomeQueuesFunc mocks the FindScheduledDueIncomeQueues method.
+	FindScheduledDueIncomeQueuesFunc func() ([]model.ScheduledIncomeQueue, error)
+
+	// StartTxFunc mocks the StartTx method.
+	StartTxFunc func(tx *gorm.DB)
+
+	// UpdateIncomeScheduleFunc mocks the UpdateIncomeSchedule method.
+	UpdateIncomeScheduleFunc func(uid string, schedule model.IncomeSchedule) (model.IncomeSchedule, error)
+
+	// calls tracks calls to the methods.
+	calls struct {
+		// CreateIncomeSchedule holds details about calls to the CreateIncomeSchedule method.
+		CreateIncomeSchedule []struct {
+			// UID is the uid argument value.
+			UID string
+			// IncomeSchedule is the incomeSchedule argument value.
+			IncomeSchedule model.IncomeSchedule
+		}
+		// DeleteIncomeSchedule holds details about calls to the DeleteIncomeSchedule method.
+		DeleteIncomeSchedule []struct {
+			// ID is the id argument value.
+			ID string
+			// UID is the uid argument value.
+			UID string
+		}
+		// DeleteScheduledIncomeQueues holds details about calls to the DeleteScheduledIncomeQueues method.
+		DeleteScheduledIncomeQueues []struct {
+			// Queues is the queues argument value.
+			Queues []model.ScheduledIncomeQueue
+		}
+		// EndTx holds details about calls to the EndTx method.
+		EndTx []struct {
+			// Db is the db argument value.
+			Db *gorm.DB
+		}
+		// EnqueueIncomeSchedule holds details about calls to the EnqueueIncomeSchedule method.
+		EnqueueIncomeSchedule []struct {
+		}
+		// FindIncomeSchedule holds details about calls to the FindIncomeSchedule method.
+		FindIncomeSchedule []struct {
+			// ID is the id argument value.
+			ID string
+			// UID is the uid argument value.
+			UID string
+		}
+		// FindIncomeSchedules holds details about calls to the FindIncomeSchedules method.
+		FindIncomeSchedules []struct {
+			// UID is the uid argument value.
+			UID string
+		}
+		// FindScheduledDueIncomeQueues holds details about calls to the FindScheduledDueIncomeQueues method.
+		FindScheduledDueIncomeQueues []struct {
+		}
+		// StartTx holds details about calls to the StartTx method.
+		StartTx []struct {
+			// Tx is the tx argument value.
+			Tx *gorm.DB
+		}
+		// UpdateIncomeSchedule holds details about calls to the UpdateIncomeSchedule method.
+		UpdateIncomeSchedule []struct {
+			// UID is the uid argument value.
+			UID string
+			// Schedule is the schedule argument value.
+			Schedule model.IncomeSchedule
+		}
+	}
+	lockCreateIncomeSchedule         sync.RWMutex
+	lockDeleteIncomeSchedule         sync.RWMutex
+	lockDeleteScheduledIncomeQueues  sync.RWMutex
+	lockEndTx                        sync.RWMutex
+	lockEnqueueIncomeSchedule        sync.RWMutex
+	lockFindIncomeSchedule           sync.RWMutex
+	lockFindIncomeSchedules          sync.RWMutex
+	lockFindScheduledDueIncomeQueues sync.RWMutex
+	lockStartTx                      sync.RWMutex
+	lockUpdateIncomeSchedule         sync.RWMutex
+}
+
+// CreateIncomeSchedule calls CreateIncomeScheduleFunc.
+func (mock *IncomeScheduleRepositoryMock) CreateIncomeSchedule(uid string, incomeSchedule model.IncomeSchedule) (model.IncomeSchedule, error) {
+	if mock.CreateIncomeScheduleFunc == nil {
+		panic("IncomeScheduleRepositoryMock.CreateIncomeScheduleFunc: method is nil but IncomeScheduleRepository.CreateIncomeSchedule was just called")
+	}
+	callInfo := struct {
+		UID            string
+		IncomeSchedule model.IncomeSchedule
+	}{
+		UID:            uid,
+		IncomeSchedule: incomeSchedule,
+	}
+	mock.lockCreateIncomeSchedule.Lock()
+	mock.calls.CreateIncomeSchedule = append(mock.calls.CreateIncomeSchedule, callInfo)
+	mock.lockCreateIncomeSchedule.Unlock()
+	return mock.CreateIncomeScheduleFunc(uid, incomeSchedule)
+}
+
+// CreateIncomeScheduleCalls gets all the calls that were made to CreateIncomeSchedule.
+// Check the length with:
+//
+//	len(mockedIncomeScheduleRepository.CreateIncomeScheduleCalls())
+func (mock *IncomeScheduleRepositoryMock) CreateIncomeScheduleCalls() []struct {
+	UID            string
+	IncomeSchedule model.IncomeSchedule
+} {
+	var calls []struct {
+		UID            string
+		IncomeSchedule model.IncomeSchedule
+	}
+	mock.lockCreateIncomeSchedule.RLock()
+	calls = mock.calls.CreateIncomeSchedule
+	mock.lockCreateIncomeSchedule.RUnlock()
+	return calls
+}
+
+// DeleteIncomeSchedule calls DeleteIncomeScheduleFunc.
+func (mock *IncomeScheduleRepositoryMock) DeleteIncomeSchedule(id string, uid string) error {
+	if mock.DeleteIncomeScheduleFunc == nil {
+		panic("IncomeScheduleRepositoryMock.DeleteIncomeScheduleFunc: method is nil but IncomeScheduleRepository.DeleteIncomeSchedule was just called")
+	}
+	callInfo := struct {
+		ID  string
+		UID string
+	}{
+		ID:  id,
+		UID: uid,
+	}
+	mock.lockDeleteIncomeSchedule.Lock()
+	mock.calls.DeleteIncomeSchedule = append(mock.calls.DeleteIncomeSchedule, callInfo)
+	mock.lockDeleteIncomeSchedule.Unlock()
+	return mock.DeleteIncomeScheduleFunc(id, uid)
+}
+
+// DeleteIncomeScheduleCalls gets all the calls that were made to DeleteIncomeSchedule.
+// Check the length with:
+//
+//	len(mockedIncomeScheduleRepository.DeleteIncomeScheduleCalls())
+func (mock *IncomeScheduleRepositoryMock) DeleteIncomeScheduleCalls() []struct {
+	ID  string
+	UID string
+} {
+	var calls []struct {
+		ID  string
+		UID string
+	}
+	mock.lockDeleteIncomeSchedule.RLock()
+	calls = mock.calls.DeleteIncomeSchedule
+	mock.lockDeleteIncomeSchedule.RUnlock()
+	return calls
+}
+
+// DeleteScheduledIncomeQueues calls DeleteScheduledIncomeQueuesFunc.
+func (mock *IncomeScheduleRepositoryMock) DeleteScheduledIncomeQueues(queues []model.ScheduledIncomeQueue) error {
+	if mock.DeleteScheduledIncomeQueuesFunc == nil {
+		panic("IncomeScheduleRepositoryMock.DeleteScheduledIncomeQueuesFunc: method is nil but IncomeScheduleRepository.DeleteScheduledIncomeQueues was just called")
+	}
+	callInfo := struct {
+		Queues []model.ScheduledIncomeQueue
+	}{
+		Queues: queues,
+	}
+	mock.lockDeleteScheduledIncomeQueues.Lock()
+	mock.calls.DeleteScheduledIncomeQueues = append(mock.calls.DeleteScheduledIncomeQueues, callInfo)
+	mock.lockDeleteScheduledIncomeQueues.Unlock()
+	return mock.DeleteScheduledIncomeQueuesFunc(queues)
+}
+
+// DeleteScheduledIncomeQueuesCalls gets all the calls that were made to DeleteScheduledIncomeQueues.
+// Check the length with:
+//
+//	len(mockedIncomeScheduleRepository.DeleteScheduledIncomeQueuesCalls())
+func (mock *IncomeScheduleRepositoryMock) DeleteScheduledIncomeQueuesCalls() []struct {
+	Queues []model.ScheduledIncomeQueue
+} {
+	var calls []struct {
+		Queues []model.ScheduledIncomeQueue
+	}
+	mock.lockDeleteScheduledIncomeQueues.RLock()
+	calls = mock.calls.DeleteScheduledIncomeQueues
+	mock.lockDeleteScheduledIncomeQueues.RUnlock()
+	return calls
+}
+
+// EndTx calls EndTxFunc.
+func (mock *IncomeScheduleRepositoryMock) EndTx(db *gorm.DB) {
+	if mock.EndTxFunc == nil {
+		panic("IncomeScheduleRepositoryMock.EndTxFunc: method is nil but IncomeScheduleRepository.EndTx was just called")
+	}
+	callInfo := struct {
+		Db *gorm.DB
+	}{
+		Db: db,
+	}
+	mock.lockEndTx.Lock()
+	mock.calls.EndTx = append(mock.calls.EndTx, callInfo)
+	mock.lockEndTx.Unlock()
+	mock.EndTxFunc(db)
+}
+
+// EndTxCalls gets all the calls that were made to EndTx.
+// Check the length with:
+//
+//	len(mockedIncomeScheduleRepository.EndTxCalls())
+func (mock *IncomeScheduleRepositoryMock) EndTxCalls() []struct {
+	Db *gorm.DB
+} {
+	var calls []struct {
+		Db *gorm.DB
+	}
+	mock.lockEndTx.RLock()
+	calls = mock.calls.EndTx
+	mock.lockEndTx.RUnlock()
+	return calls
+}
+
+// EnqueueIncomeSchedule calls EnqueueIncomeScheduleFunc.
+func (mock *IncomeScheduleRepositoryMock) EnqueueIncomeSchedule() error {
+	if mock.EnqueueIncomeScheduleFunc == nil {
+		panic("IncomeScheduleRepositoryMock.EnqueueIncomeScheduleFunc: method is nil but IncomeScheduleRepository.EnqueueIncomeSchedule was just called")
+	}
+	callInfo := struct {
+	}{}
+	mock.lockEnqueueIncomeSchedule.Lock()
+	mock.calls.EnqueueIncomeSchedule = append(mock.calls.EnqueueIncomeSchedule, callInfo)
+	mock.lockEnqueueIncomeSchedule.Unlock()
+	return mock.EnqueueIncomeScheduleFunc()
+}
+
+// EnqueueIncomeScheduleCalls gets all the calls that were made to EnqueueIncomeSchedule.
+// Check the length with:
+//
+//	len(mockedIncomeScheduleRepository.EnqueueIncomeScheduleCalls())
+func (mock *IncomeScheduleRepositoryMock) EnqueueIncomeScheduleCalls() []struct {
+} {
+	var calls []struct {
+	}
+	mock.lockEnqueueIncomeSchedule.RLock()
+	calls = mock.calls.EnqueueIncomeSchedule
+	mock.lockEnqueueIncomeSchedule.RUnlock()
+	return calls
+}
+
+// FindIncomeSchedule calls FindIncomeScheduleFunc.
+func (mock *IncomeScheduleRepositoryMock) FindIncomeSchedule(id string, uid string) (model.IncomeSchedule, error) {
+	if mock.FindIncomeScheduleFunc == nil {
+		panic("IncomeScheduleRepositoryMock.FindIncomeScheduleFunc: method is nil but IncomeScheduleRepository.FindIncomeSchedule was just called")
+	}
+	callInfo := struct {
+		ID  string
+		UID string
+	}{
+		ID:  id,
+		UID: uid,
+	}
+	mock.lockFindIncomeSchedule.Lock()
+	mock.calls.FindIncomeSchedule = append(mock.calls.FindIncomeSchedule, callInfo)
+	mock.lockFindIncomeSchedule.Unlock()
+	return mock.FindIncomeScheduleFunc(id, uid)
+}
+
+// FindIncomeScheduleCalls gets all the calls that were made to FindIncomeSchedule.
+// Check the length with:
+//
+//	len(mockedIncomeScheduleRepository.FindIncomeScheduleCalls())
+func (mock *IncomeScheduleRepositoryMock) FindIncomeScheduleCalls() []struct {
+	ID  string
+	UID string
+} {
+	var calls []struct {
+		ID  string
+		UID string
+	}
+	mock.lockFindIncomeSchedule.RLock()
+	calls = mock.calls.FindIncomeSchedule
+	mock.lockFindIncomeSchedule.RUnlock()
+	return calls
+}
+
+// FindIncomeSchedules calls FindIncomeSchedulesFunc.
+func (mock *IncomeScheduleRepositoryMock) FindIncomeSchedules(uid string) ([]model.IncomeSchedule, error) {
+	if mock.FindIncomeSchedulesFunc == nil {
+		panic("IncomeScheduleRepositoryMock.FindIncomeSchedulesFunc: method is nil but IncomeScheduleRepository.FindIncomeSchedules was just called")
+	}
+	callInfo := struct {
+		UID string
+	}{
+		UID: uid,
+	}
+	mock.lockFindIncomeSchedules.Lock()
+	mock.calls.FindIncomeSchedules = append(mock.calls.FindIncomeSchedules, callInfo)
+	mock.lockFindIncomeSchedules.Unlock()
+	return mock.FindIncomeSchedulesFunc(uid)
+}
+
+// FindIncomeSchedulesCalls gets all the calls that were made to FindIncomeSchedules.
+// Check the length with:
+//
+//	len(mockedIncomeScheduleRepository.FindIncomeSchedulesCalls())
+func (mock *IncomeScheduleRepositoryMock) FindIncomeSchedulesCalls() []struct {
+	UID string
+} {
+	var calls []struct {
+		UID string
+	}
+	mock.lockFindIncomeSchedules.RLock()
+	calls = mock.calls.FindIncomeSchedules
+	mock.lockFindIncomeSchedules.RUnlock()
+	return calls
+}
+
+// FindScheduledDueIncomeQueues calls FindScheduledDueIncomeQueuesFunc.
+func (mock *IncomeScheduleRepositoryMock) FindScheduledDueIncomeQueues() ([]model.ScheduledIncomeQueue, error) {
+	if mock.FindScheduledDueIncomeQueuesFunc == nil {
+		panic("IncomeScheduleRepositoryMock.FindScheduledDueIncomeQueuesFunc: method is nil but IncomeScheduleRepository.FindScheduledDueIncomeQueues was just called")
+	}
+	callInfo := struct {
+	}{}
+	mock.lockFindScheduledDueIncomeQueues.Lock()
+	mock.calls.FindScheduledDueIncomeQueues = append(mock.calls.FindScheduledDueIncomeQueues, callInfo)
+	mock.lockFindScheduledDueIncomeQueues.Unlock()
+	return mock.FindScheduledDueIncomeQueuesFunc()
+}
+
+// FindScheduledDueIncomeQueuesCalls gets all the calls that were made to FindScheduledDueIncomeQueues.
+// Check the length with:
+//
+//	len(mockedIncomeScheduleRepository.FindScheduledDueIncomeQueuesCalls())
+func (mock *IncomeScheduleRepositoryMock) FindScheduledDueIncomeQueuesCalls() []struct {
+} {
+	var calls []struct {
+	}
+	mock.lockFindScheduledDueIncomeQueues.RLock()
+	calls = mock.calls.FindScheduledDueIncomeQueues
+	mock.lockFindScheduledDueIncomeQueues.RUnlock()
+	return calls
+}
+
+// StartTx calls StartTxFunc.
+func (mock *IncomeScheduleRepositoryMock) StartTx(tx *gorm.DB) {
+	if mock.StartTxFunc == nil {
+		panic("IncomeScheduleRepositoryMock.StartTxFunc: method is nil but IncomeScheduleRepository.StartTx was just called")
+	}
+	callInfo := struct {
+		Tx *gorm.DB
+	}{
+		Tx: tx,
+	}
+	mock.lockStartTx.Lock()
+	mock.calls.StartTx = append(mock.calls.StartTx, callInfo)
+	mock.lockStartTx.Unlock()
+	mock.StartTxFunc(tx)
+}
+
+// StartTxCalls gets all the calls that were made to StartTx.
+// Check the length with:
+//
+//	len(mockedIncomeScheduleRepository.StartTxCalls())
+func (mock *IncomeScheduleRepositoryMock) StartTxCalls() []struct {
+	Tx *gorm.DB
+} {
+	var calls []struct {
+		Tx *gorm.DB
+	}
+	mock.lockStartTx.RLock()
+	calls = mock.calls.StartTx
+	mock.lockStartTx.RUnlock()
+	return calls
+}
+
 // UpdateIncomeSchedule calls UpdateIncomeScheduleFunc.
-func (mock *RepositoryMock) UpdateIncomeSchedule(uid string, schedule model.IncomeSchedule) (model.IncomeSchedule, error) {
+func (mock *IncomeScheduleRepositoryMock) UpdateIncomeSchedule(uid string, schedule model.IncomeSchedule) (model.IncomeSchedule, error) {
 	if mock.UpdateIncomeScheduleFunc == nil {
-		panic("RepositoryMock.UpdateIncomeScheduleFunc: method is nil but Repository.UpdateIncomeSchedule was just called")
+		panic("IncomeScheduleRepositoryMock.UpdateIncomeScheduleFunc: method is nil but IncomeScheduleRepository.UpdateIncomeSchedule was just called")
 	}
 	callInfo := struct {
 		UID      string
@@ -2174,8 +2644,8 @@ func (mock *RepositoryMock) UpdateIncomeSchedule(uid string, schedule model.Inco
 // UpdateIncomeScheduleCalls gets all the calls that were made to UpdateIncomeSchedule.
 // Check the length with:
 //
-//	len(mockedRepository.UpdateIncomeScheduleCalls())
-func (mock *RepositoryMock) UpdateIncomeScheduleCalls() []struct {
+//	len(mockedIncomeScheduleRepository.UpdateIncomeScheduleCalls())
+func (mock *IncomeScheduleRepositoryMock) UpdateIncomeScheduleCalls() []struct {
 	UID      string
 	Schedule model.IncomeSchedule
 } {
@@ -2186,5 +2656,422 @@ func (mock *RepositoryMock) UpdateIncomeScheduleCalls() []struct {
 	mock.lockUpdateIncomeSchedule.RLock()
 	calls = mock.calls.UpdateIncomeSchedule
 	mock.lockUpdateIncomeSchedule.RUnlock()
+	return calls
+}
+
+// Ensure, that IncomeTypeRepositoryMock does implement IncomeTypeRepository.
+// If this is not the case, regenerate this file with moq.
+var _ IncomeTypeRepository = &IncomeTypeRepositoryMock{}
+
+// IncomeTypeRepositoryMock is a mock implementation of IncomeTypeRepository.
+//
+//	func TestSomethingThatUsesIncomeTypeRepository(t *testing.T) {
+//
+//		// make and configure a mocked IncomeTypeRepository
+//		mockedIncomeTypeRepository := &IncomeTypeRepositoryMock{
+//			FindIncomeTypesFunc: func(uid string) ([]model.IncomeType, error) {
+//				panic("mock out the FindIncomeTypes method")
+//			},
+//			FindOrCreateIncomeTypeFunc: func(uid string, name string) (model.IncomeType, error) {
+//				panic("mock out the FindOrCreateIncomeType method")
+//			},
+//		}
+//
+//		// use mockedIncomeTypeRepository in code that requires IncomeTypeRepository
+//		// and then make assertions.
+//
+//	}
+type IncomeTypeRepositoryMock struct {
+	// FindIncomeTypesFunc mocks the FindIncomeTypes method.
+	FindIncomeTypesFunc func(uid string) ([]model.IncomeType, error)
+
+	// FindOrCreateIncomeTypeFunc mocks the FindOrCreateIncomeType method.
+	FindOrCreateIncomeTypeFunc func(uid string, name string) (model.IncomeType, error)
+
+	// calls tracks calls to the methods.
+	calls struct {
+		// FindIncomeTypes holds details about calls to the FindIncomeTypes method.
+		FindIncomeTypes []struct {
+			// UID is the uid argument value.
+			UID string
+		}
+		// FindOrCreateIncomeType holds details about calls to the FindOrCreateIncomeType method.
+		FindOrCreateIncomeType []struct {
+			// UID is the uid argument value.
+			UID string
+			// Name is the name argument value.
+			Name string
+		}
+	}
+	lockFindIncomeTypes        sync.RWMutex
+	lockFindOrCreateIncomeType sync.RWMutex
+}
+
+// FindIncomeTypes calls FindIncomeTypesFunc.
+func (mock *IncomeTypeRepositoryMock) FindIncomeTypes(uid string) ([]model.IncomeType, error) {
+	if mock.FindIncomeTypesFunc == nil {
+		panic("IncomeTypeRepositoryMock.FindIncomeTypesFunc: method is nil but IncomeTypeRepository.FindIncomeTypes was just called")
+	}
+	callInfo := struct {
+		UID string
+	}{
+		UID: uid,
+	}
+	mock.lockFindIncomeTypes.Lock()
+	mock.calls.FindIncomeTypes = append(mock.calls.FindIncomeTypes, callInfo)
+	mock.lockFindIncomeTypes.Unlock()
+	return mock.FindIncomeTypesFunc(uid)
+}
+
+// FindIncomeTypesCalls gets all the calls that were made to FindIncomeTypes.
+// Check the length with:
+//
+//	len(mockedIncomeTypeRepository.FindIncomeTypesCalls())
+func (mock *IncomeTypeRepositoryMock) FindIncomeTypesCalls() []struct {
+	UID string
+} {
+	var calls []struct {
+		UID string
+	}
+	mock.lockFindIncomeTypes.RLock()
+	calls = mock.calls.FindIncomeTypes
+	mock.lockFindIncomeTypes.RUnlock()
+	return calls
+}
+
+// FindOrCreateIncomeType calls FindOrCreateIncomeTypeFunc.
+func (mock *IncomeTypeRepositoryMock) FindOrCreateIncomeType(uid string, name string) (model.IncomeType, error) {
+	if mock.FindOrCreateIncomeTypeFunc == nil {
+		panic("IncomeTypeRepositoryMock.FindOrCreateIncomeTypeFunc: method is nil but IncomeTypeRepository.FindOrCreateIncomeType was just called")
+	}
+	callInfo := struct {
+		UID  string
+		Name string
+	}{
+		UID:  uid,
+		Name: name,
+	}
+	mock.lockFindOrCreateIncomeType.Lock()
+	mock.calls.FindOrCreateIncomeType = append(mock.calls.FindOrCreateIncomeType, callInfo)
+	mock.lockFindOrCreateIncomeType.Unlock()
+	return mock.FindOrCreateIncomeTypeFunc(uid, name)
+}
+
+// FindOrCreateIncomeTypeCalls gets all the calls that were made to FindOrCreateIncomeType.
+// Check the length with:
+//
+//	len(mockedIncomeTypeRepository.FindOrCreateIncomeTypeCalls())
+func (mock *IncomeTypeRepositoryMock) FindOrCreateIncomeTypeCalls() []struct {
+	UID  string
+	Name string
+} {
+	var calls []struct {
+		UID  string
+		Name string
+	}
+	mock.lockFindOrCreateIncomeType.RLock()
+	calls = mock.calls.FindOrCreateIncomeType
+	mock.lockFindOrCreateIncomeType.RUnlock()
+	return calls
+}
+
+// Ensure, that TransactionMonthsRepositoryMock does implement TransactionMonthsRepository.
+// If this is not the case, regenerate this file with moq.
+var _ TransactionMonthsRepository = &TransactionMonthsRepositoryMock{}
+
+// TransactionMonthsRepositoryMock is a mock implementation of TransactionMonthsRepository.
+//
+//	func TestSomethingThatUsesTransactionMonthsRepository(t *testing.T) {
+//
+//		// make and configure a mocked TransactionMonthsRepository
+//		mockedTransactionMonthsRepository := &TransactionMonthsRepositoryMock{
+//			FindTransactionMonthsFunc: func(uid string) ([]string, error) {
+//				panic("mock out the FindTransactionMonths method")
+//			},
+//		}
+//
+//		// use mockedTransactionMonthsRepository in code that requires TransactionMonthsRepository
+//		// and then make assertions.
+//
+//	}
+type TransactionMonthsRepositoryMock struct {
+	// FindTransactionMonthsFunc mocks the FindTransactionMonths method.
+	FindTransactionMonthsFunc func(uid string) ([]string, error)
+
+	// calls tracks calls to the methods.
+	calls struct {
+		// FindTransactionMonths holds details about calls to the FindTransactionMonths method.
+		FindTransactionMonths []struct {
+			// UID is the uid argument value.
+			UID string
+		}
+	}
+	lockFindTransactionMonths sync.RWMutex
+}
+
+// FindTransactionMonths calls FindTransactionMonthsFunc.
+func (mock *TransactionMonthsRepositoryMock) FindTransactionMonths(uid string) ([]string, error) {
+	if mock.FindTransactionMonthsFunc == nil {
+		panic("TransactionMonthsRepositoryMock.FindTransactionMonthsFunc: method is nil but TransactionMonthsRepository.FindTransactionMonths was just called")
+	}
+	callInfo := struct {
+		UID string
+	}{
+		UID: uid,
+	}
+	mock.lockFindTransactionMonths.Lock()
+	mock.calls.FindTransactionMonths = append(mock.calls.FindTransactionMonths, callInfo)
+	mock.lockFindTransactionMonths.Unlock()
+	return mock.FindTransactionMonthsFunc(uid)
+}
+
+// FindTransactionMonthsCalls gets all the calls that were made to FindTransactionMonths.
+// Check the length with:
+//
+//	len(mockedTransactionMonthsRepository.FindTransactionMonthsCalls())
+func (mock *TransactionMonthsRepositoryMock) FindTransactionMonthsCalls() []struct {
+	UID string
+} {
+	var calls []struct {
+		UID string
+	}
+	mock.lockFindTransactionMonths.RLock()
+	calls = mock.calls.FindTransactionMonths
+	mock.lockFindTransactionMonths.RUnlock()
+	return calls
+}
+
+// Ensure, that UserRepositoryMock does implement UserRepository.
+// If this is not the case, regenerate this file with moq.
+var _ UserRepository = &UserRepositoryMock{}
+
+// UserRepositoryMock is a mock implementation of UserRepository.
+//
+//	func TestSomethingThatUsesUserRepository(t *testing.T) {
+//
+//		// make and configure a mocked UserRepository
+//		mockedUserRepository := &UserRepositoryMock{
+//			DeleteUsersFunc: func(uids []string) error {
+//				panic("mock out the DeleteUsers method")
+//			},
+//			EndTxFunc: func(db *gorm.DB)  {
+//				panic("mock out the EndTx method")
+//			},
+//			FindAllUIDsFunc: func() ([]string, error) {
+//				panic("mock out the FindAllUIDs method")
+//			},
+//			FindOrCreateUserFunc: func(uid string) (model.User, error) {
+//				panic("mock out the FindOrCreateUser method")
+//			},
+//			StartTxFunc: func(tx *gorm.DB)  {
+//				panic("mock out the StartTx method")
+//			},
+//		}
+//
+//		// use mockedUserRepository in code that requires UserRepository
+//		// and then make assertions.
+//
+//	}
+type UserRepositoryMock struct {
+	// DeleteUsersFunc mocks the DeleteUsers method.
+	DeleteUsersFunc func(uids []string) error
+
+	// EndTxFunc mocks the EndTx method.
+	EndTxFunc func(db *gorm.DB)
+
+	// FindAllUIDsFunc mocks the FindAllUIDs method.
+	FindAllUIDsFunc func() ([]string, error)
+
+	// FindOrCreateUserFunc mocks the FindOrCreateUser method.
+	FindOrCreateUserFunc func(uid string) (model.User, error)
+
+	// StartTxFunc mocks the StartTx method.
+	StartTxFunc func(tx *gorm.DB)
+
+	// calls tracks calls to the methods.
+	calls struct {
+		// DeleteUsers holds details about calls to the DeleteUsers method.
+		DeleteUsers []struct {
+			// Uids is the uids argument value.
+			Uids []string
+		}
+		// EndTx holds details about calls to the EndTx method.
+		EndTx []struct {
+			// Db is the db argument value.
+			Db *gorm.DB
+		}
+		// FindAllUIDs holds details about calls to the FindAllUIDs method.
+		FindAllUIDs []struct {
+		}
+		// FindOrCreateUser holds details about calls to the FindOrCreateUser method.
+		FindOrCreateUser []struct {
+			// UID is the uid argument value.
+			UID string
+		}
+		// StartTx holds details about calls to the StartTx method.
+		StartTx []struct {
+			// Tx is the tx argument value.
+			Tx *gorm.DB
+		}
+	}
+	lockDeleteUsers      sync.RWMutex
+	lockEndTx            sync.RWMutex
+	lockFindAllUIDs      sync.RWMutex
+	lockFindOrCreateUser sync.RWMutex
+	lockStartTx          sync.RWMutex
+}
+
+// DeleteUsers calls DeleteUsersFunc.
+func (mock *UserRepositoryMock) DeleteUsers(uids []string) error {
+	if mock.DeleteUsersFunc == nil {
+		panic("UserRepositoryMock.DeleteUsersFunc: method is nil but UserRepository.DeleteUsers was just called")
+	}
+	callInfo := struct {
+		Uids []string
+	}{
+		Uids: uids,
+	}
+	mock.lockDeleteUsers.Lock()
+	mock.calls.DeleteUsers = append(mock.calls.DeleteUsers, callInfo)
+	mock.lockDeleteUsers.Unlock()
+	return mock.DeleteUsersFunc(uids)
+}
+
+// DeleteUsersCalls gets all the calls that were made to DeleteUsers.
+// Check the length with:
+//
+//	len(mockedUserRepository.DeleteUsersCalls())
+func (mock *UserRepositoryMock) DeleteUsersCalls() []struct {
+	Uids []string
+} {
+	var calls []struct {
+		Uids []string
+	}
+	mock.lockDeleteUsers.RLock()
+	calls = mock.calls.DeleteUsers
+	mock.lockDeleteUsers.RUnlock()
+	return calls
+}
+
+// EndTx calls EndTxFunc.
+func (mock *UserRepositoryMock) EndTx(db *gorm.DB) {
+	if mock.EndTxFunc == nil {
+		panic("UserRepositoryMock.EndTxFunc: method is nil but UserRepository.EndTx was just called")
+	}
+	callInfo := struct {
+		Db *gorm.DB
+	}{
+		Db: db,
+	}
+	mock.lockEndTx.Lock()
+	mock.calls.EndTx = append(mock.calls.EndTx, callInfo)
+	mock.lockEndTx.Unlock()
+	mock.EndTxFunc(db)
+}
+
+// EndTxCalls gets all the calls that were made to EndTx.
+// Check the length with:
+//
+//	len(mockedUserRepository.EndTxCalls())
+func (mock *UserRepositoryMock) EndTxCalls() []struct {
+	Db *gorm.DB
+} {
+	var calls []struct {
+		Db *gorm.DB
+	}
+	mock.lockEndTx.RLock()
+	calls = mock.calls.EndTx
+	mock.lockEndTx.RUnlock()
+	return calls
+}
+
+// FindAllUIDs calls FindAllUIDsFunc.
+func (mock *UserRepositoryMock) FindAllUIDs() ([]string, error) {
+	if mock.FindAllUIDsFunc == nil {
+		panic("UserRepositoryMock.FindAllUIDsFunc: method is nil but UserRepository.FindAllUIDs was just called")
+	}
+	callInfo := struct {
+	}{}
+	mock.lockFindAllUIDs.Lock()
+	mock.calls.FindAllUIDs = append(mock.calls.FindAllUIDs, callInfo)
+	mock.lockFindAllUIDs.Unlock()
+	return mock.FindAllUIDsFunc()
+}
+
+// FindAllUIDsCalls gets all the calls that were made to FindAllUIDs.
+// Check the length with:
+//
+//	len(mockedUserRepository.FindAllUIDsCalls())
+func (mock *UserRepositoryMock) FindAllUIDsCalls() []struct {
+} {
+	var calls []struct {
+	}
+	mock.lockFindAllUIDs.RLock()
+	calls = mock.calls.FindAllUIDs
+	mock.lockFindAllUIDs.RUnlock()
+	return calls
+}
+
+// FindOrCreateUser calls FindOrCreateUserFunc.
+func (mock *UserRepositoryMock) FindOrCreateUser(uid string) (model.User, error) {
+	if mock.FindOrCreateUserFunc == nil {
+		panic("UserRepositoryMock.FindOrCreateUserFunc: method is nil but UserRepository.FindOrCreateUser was just called")
+	}
+	callInfo := struct {
+		UID string
+	}{
+		UID: uid,
+	}
+	mock.lockFindOrCreateUser.Lock()
+	mock.calls.FindOrCreateUser = append(mock.calls.FindOrCreateUser, callInfo)
+	mock.lockFindOrCreateUser.Unlock()
+	return mock.FindOrCreateUserFunc(uid)
+}
+
+// FindOrCreateUserCalls gets all the calls that were made to FindOrCreateUser.
+// Check the length with:
+//
+//	len(mockedUserRepository.FindOrCreateUserCalls())
+func (mock *UserRepositoryMock) FindOrCreateUserCalls() []struct {
+	UID string
+} {
+	var calls []struct {
+		UID string
+	}
+	mock.lockFindOrCreateUser.RLock()
+	calls = mock.calls.FindOrCreateUser
+	mock.lockFindOrCreateUser.RUnlock()
+	return calls
+}
+
+// StartTx calls StartTxFunc.
+func (mock *UserRepositoryMock) StartTx(tx *gorm.DB) {
+	if mock.StartTxFunc == nil {
+		panic("UserRepositoryMock.StartTxFunc: method is nil but UserRepository.StartTx was just called")
+	}
+	callInfo := struct {
+		Tx *gorm.DB
+	}{
+		Tx: tx,
+	}
+	mock.lockStartTx.Lock()
+	mock.calls.StartTx = append(mock.calls.StartTx, callInfo)
+	mock.lockStartTx.Unlock()
+	mock.StartTxFunc(tx)
+}
+
+// StartTxCalls gets all the calls that were made to StartTx.
+// Check the length with:
+//
+//	len(mockedUserRepository.StartTxCalls())
+func (mock *UserRepositoryMock) StartTxCalls() []struct {
+	Tx *gorm.DB
+} {
+	var calls []struct {
+		Tx *gorm.DB
+	}
+	mock.lockStartTx.RLock()
+	calls = mock.calls.StartTx
+	mock.lockStartTx.RUnlock()
 	return calls
 }

@@ -4,8 +4,6 @@
 package transaction
 
 import (
-	"database/sql"
-	srepositories "github.com/wakamenod/suito/api/services/repositories"
 	"sync"
 )
 
@@ -19,7 +17,7 @@ var _ Provider = &ProviderMock{}
 //
 //		// make and configure a mocked Provider
 //		mockedProvider := &ProviderMock{
-//			TransactionFunc: func(fc func(txRepo srepositories.Repository) error, opts ...*sql.TxOptions) error {
+//			TransactionFunc: func(fc func() error, handlers ...TransactionHandler) error {
 //				panic("mock out the Transaction method")
 //			},
 //		}
@@ -30,37 +28,37 @@ var _ Provider = &ProviderMock{}
 //	}
 type ProviderMock struct {
 	// TransactionFunc mocks the Transaction method.
-	TransactionFunc func(fc func(txRepo srepositories.Repository) error, opts ...*sql.TxOptions) error
+	TransactionFunc func(fc func() error, handlers ...TransactionHandler) error
 
 	// calls tracks calls to the methods.
 	calls struct {
 		// Transaction holds details about calls to the Transaction method.
 		Transaction []struct {
 			// Fc is the fc argument value.
-			Fc func(txRepo srepositories.Repository) error
-			// Opts is the opts argument value.
-			Opts []*sql.TxOptions
+			Fc func() error
+			// Handlers is the handlers argument value.
+			Handlers []TransactionHandler
 		}
 	}
 	lockTransaction sync.RWMutex
 }
 
 // Transaction calls TransactionFunc.
-func (mock *ProviderMock) Transaction(fc func(txRepo srepositories.Repository) error, opts ...*sql.TxOptions) error {
+func (mock *ProviderMock) Transaction(fc func() error, handlers ...TransactionHandler) error {
 	if mock.TransactionFunc == nil {
 		panic("ProviderMock.TransactionFunc: method is nil but Provider.Transaction was just called")
 	}
 	callInfo := struct {
-		Fc   func(txRepo srepositories.Repository) error
-		Opts []*sql.TxOptions
+		Fc       func() error
+		Handlers []TransactionHandler
 	}{
-		Fc:   fc,
-		Opts: opts,
+		Fc:       fc,
+		Handlers: handlers,
 	}
 	mock.lockTransaction.Lock()
 	mock.calls.Transaction = append(mock.calls.Transaction, callInfo)
 	mock.lockTransaction.Unlock()
-	return mock.TransactionFunc(fc, opts...)
+	return mock.TransactionFunc(fc, handlers...)
 }
 
 // TransactionCalls gets all the calls that were made to Transaction.
@@ -68,12 +66,12 @@ func (mock *ProviderMock) Transaction(fc func(txRepo srepositories.Repository) e
 //
 //	len(mockedProvider.TransactionCalls())
 func (mock *ProviderMock) TransactionCalls() []struct {
-	Fc   func(txRepo srepositories.Repository) error
-	Opts []*sql.TxOptions
+	Fc       func() error
+	Handlers []TransactionHandler
 } {
 	var calls []struct {
-		Fc   func(txRepo srepositories.Repository) error
-		Opts []*sql.TxOptions
+		Fc       func() error
+		Handlers []TransactionHandler
 	}
 	mock.lockTransaction.RLock()
 	calls = mock.calls.Transaction

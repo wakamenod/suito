@@ -54,7 +54,7 @@ func TestFindExpensesUsingMock(t *testing.T) {
 
 	start, end, err = dateutils.YearMonthDateRange("2023-05")
 	require.NoError(t, err)
-	expenses, err := NewSuitoRepository(db).FindExpenses("user1", start, end)
+	expenses, err := NewSuitoExpenseRepository(db).FindExpenses("user1", start, end)
 	require.NoError(t, err)
 	require.NotNil(t, expenses)
 	require.Len(t, expenses, 2)
@@ -90,7 +90,7 @@ func TestFindExpenses(t *testing.T) {
 	// run
 	start, end, err := dateutils.YearMonthDateRange("2023-05")
 	require.NoError(t, err)
-	res, err := NewSuitoRepository(tx).FindExpenses("", start, end)
+	res, err := NewSuitoExpenseRepository(tx).FindExpenses("", start, end)
 	// check
 	require.NoError(t, err)
 	require.Empty(t, res)
@@ -110,7 +110,7 @@ func TestFindExpenses2(t *testing.T) {
 	// run
 	start, end, err := dateutils.YearMonthDateRange("2023-05")
 	require.NoError(t, err)
-	res, err := NewSuitoRepository(tx).FindExpenses("user1", start, end)
+	res, err := NewSuitoExpenseRepository(tx).FindExpenses("user1", start, end)
 	// check
 	require.NoError(t, err)
 	require.Equal(t, 2, len(res))
@@ -130,7 +130,7 @@ func TestFindExpenses3(t *testing.T) {
 	// run
 	start, end, err := dateutils.YearMonthDateRange("2023-05")
 	require.NoError(t, err)
-	res, err := NewSuitoRepository(tx).FindExpenses("user1", start, end)
+	res, err := NewSuitoExpenseRepository(tx).FindExpenses("user1", start, end)
 	// check
 	require.NoError(t, err)
 	require.Equal(t, 2, len(res))
@@ -145,7 +145,7 @@ func TestFindExpense(t *testing.T) {
 	i := testutils.NewTestDataInserter(t, tx)
 	id := i.InsertExpense("user2", "2023-05-02", "title02")
 	// run
-	res, err := NewSuitoRepository(tx).FindExpense(id, "user2")
+	res, err := NewSuitoExpenseRepository(tx).FindExpense(id, "user2")
 	// check
 	require.NoError(t, err)
 	require.Equal(t, id, res.ID)
@@ -158,7 +158,7 @@ func TestFindExpense_ErrorNotFound(t *testing.T) {
 	i := testutils.NewTestDataInserter(t, tx)
 	id := i.InsertExpense("user2", "2023-05-02", "title02")
 	// run
-	_, err := NewSuitoRepository(tx).FindExpense(id, "user1")
+	_, err := NewSuitoExpenseRepository(tx).FindExpense(id, "user1")
 	// check
 	require.Error(t, err)
 	require.ErrorIs(t, err, gorm.ErrRecordNotFound)
@@ -170,7 +170,7 @@ func TestCreateExpense(t *testing.T) {
 	// setup
 	expense := model.Expense{Title: "title", Amount: 2000, LocalDate: time.Date(2023, 5, 1, 0, 0, 0, 0, time.UTC)}
 	// run
-	res, err := NewSuitoRepository(tx).CreateExpense("user1", expense)
+	res, err := NewSuitoExpenseRepository(tx).CreateExpense("user1", expense)
 	// check
 	require.NoError(t, err)
 	require.NotEmpty(t, res.ID)
@@ -195,11 +195,11 @@ func TestUpdateExpense(t *testing.T) {
 		ExpenseCategoryID: "category_id",
 	}
 	// run
-	_, err := NewSuitoRepository(tx).UpdateExpense("user1", targetExpense)
+	_, err := NewSuitoExpenseRepository(tx).UpdateExpense("user1", targetExpense)
 	// check
 	require.NoError(t, err)
 
-	found, err := NewSuitoRepository(tx).FindExpense(id, "user1")
+	found, err := NewSuitoExpenseRepository(tx).FindExpense(id, "user1")
 	require.NoError(t, err)
 	require.Equal(t, targetExpense.Title, found.Title)
 	require.Equal(t, targetExpense.Amount, found.Amount)
@@ -222,11 +222,11 @@ func TestUpdateExpense_Deselect(t *testing.T) {
 		Amount: 2000, LocalDate: time.Date(2022, 6, 1, 0, 0, 0, 0, time.UTC),
 	}
 	// run
-	_, err := NewSuitoRepository(tx).UpdateExpense("user1", targetExpense)
+	_, err := NewSuitoExpenseRepository(tx).UpdateExpense("user1", targetExpense)
 	// check
 	require.NoError(t, err)
 
-	found, err := NewSuitoRepository(tx).FindExpense(id, "user1")
+	found, err := NewSuitoExpenseRepository(tx).FindExpense(id, "user1")
 	require.NoError(t, err)
 	require.Empty(t, found.ExpenseCategoryID)
 	require.Empty(t, found.ExpenseLocationID)
@@ -241,7 +241,7 @@ func TestDeleteExpense(t *testing.T) {
 	i.InsertExpense("user99", "2023-05-01", "title99")
 	i.InsertExpense("user1", "2023-05-01", "title01_2")
 	// run
-	err := NewSuitoRepository(tx).DeleteExpense(id, "user1")
+	err := NewSuitoExpenseRepository(tx).DeleteExpense(id, "user1")
 	// check
 	require.NoError(t, err)
 
@@ -259,7 +259,7 @@ func TestHardDeleteAllUserExpenses(t *testing.T) {
 	i.InsertExpense("user99", "2023-05-01", "title99")
 	i.InsertExpense("user1", "2023-05-01", "title01_2")
 	// run
-	err := NewSuitoRepository(tx).HardDeleteAllUserExpenses("user1")
+	err := NewSuitoExpenseRepository(tx).HardDeleteAllUserExpenses("user1")
 	// check
 	require.NoError(t, err)
 
@@ -287,7 +287,7 @@ func TestFindColumnChartExpenseData(t *testing.T) {
 	i.InsertExpense("user99", "2023-05-01", "title99", food.ID)
 	i.InsertExpense(userID, "2023-05-01", "title01_2", food.ID)
 	// run
-	res, err := NewSuitoRepository(tx).FindColumnChartExpenseData(userID)
+	res, err := NewSuitoExpenseRepository(tx).FindColumnChartExpenseData(userID)
 	// check
 	require.NoError(t, err)
 
@@ -332,7 +332,7 @@ func TestFindPieChartCategoryData(t *testing.T) {
 	// run
 	start, end, err := dateutils.YearMonthDateRange("2023-05")
 	require.NoError(t, err)
-	res, err := NewSuitoRepository(tx).FindPieChartCategoryData(userID, start, end)
+	res, err := NewSuitoExpenseRepository(tx).FindPieChartCategoryData(userID, start, end)
 	// check
 	require.NoError(t, err)
 
@@ -369,7 +369,7 @@ func TestFindPieChartLocationData(t *testing.T) {
 	// run
 	start, end, err := dateutils.YearMonthDateRange("2023-05")
 	require.NoError(t, err)
-	res, err := NewSuitoRepository(tx).FindPieChartLocationData(userID, start, end)
+	res, err := NewSuitoExpenseRepository(tx).FindPieChartLocationData(userID, start, end)
 	// check
 	require.NoError(t, err)
 
@@ -414,7 +414,7 @@ func TestCreateExpensesFromScheduledQueue(t *testing.T) {
 		params = append(params, q)
 	}
 	// run
-	err := NewSuitoRepository(tx).CreateExpensesFromScheduledQueue(params)
+	err := NewSuitoExpenseRepository(tx).CreateExpensesFromScheduledQueue(params)
 	// check
 	require.NoError(t, err)
 

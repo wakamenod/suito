@@ -2,22 +2,20 @@ package services
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/pkg/errors"
-	"github.com/wakamenod/suito/api/services/repositories"
 	"github.com/wakamenod/suito/client"
 	"github.com/wakamenod/suito/log"
 	"google.golang.org/api/iterator"
 )
 
-func (s *SuitoJobService) DeleteUsersJobService() error {
+func (s *SuitoDeleteUserJobService) DeleteUsersJobService() error {
 	firebaseUsers, err := fetchFirebaseUsers(s.authClient)
 	if err != nil {
 		log.Warn("err fetchFirebaseUsers", log.Fields{"err": err})
 		return errors.Wrap(err, "err fetchFirebaseUsers")
 	}
-	uids, err := s.repo.FindAllUIDs()
+	uids, err := s.userRepo.FindAllUIDs()
 	if err != nil {
 		return errors.Wrap(err, "err FindAllUIDs")
 	}
@@ -25,32 +23,37 @@ func (s *SuitoJobService) DeleteUsersJobService() error {
 	nonExistentUIDs := getNonExistentUsersIDs(uids, firebaseUsers)
 
 	log.Info("delete user targets", log.Fields{"uids": nonExistentUIDs})
-	if err := s.deleteAllUserData(nonExistentUIDs); err != nil {
-		log.Warn("err deleteAllUserData", log.Fields{"err": err})
+
+	err = s.Transaction(func() error {
+		if err := s.deleteAllUserData(nonExistentUIDs); err != nil {
+			return errors.Wrap(err, "err deleteAllUserData")
+		}
+		return nil
+	}, s.expenseCategoryRepo, s.expenseLocationRepo, s.incomeRepo, s.expenseRepo, s.userRepo)
+	if err != nil {
+		log.Warn("err delete user data", log.Fields{"err": err})
+		return err
 	}
 
 	return nil
 }
 
-func (s *SuitoJobService) deleteAllUserData(uids []string) error {
+func (s *SuitoDeleteUserJobService) deleteAllUserData(uids []string) error {
 	for _, uid := range uids {
-		err := s.Transaction(func(txRepo repositories.Repository) error {
-			if err := txRepo.HardDeleteAllUserExpenseCategories(uid); err != nil {
-				return err
-			}
-			if err := txRepo.HardDeleteAllUserExpenseLocations(uid); err != nil {
-				return err
-			}
-			if err := txRepo.HardDeleteAllUserExpenses(uid); err != nil {
-				return err
-			}
-			if err := txRepo.HardDeleteAllUserIncomes(uid); err != nil {
-				return err
-			}
-			return nil
-		})
-		if err != nil {
-			return errors.Wrap(err, fmt.Sprintf("err deleteAllUserData uid=%s\n", uid))
+		if err := s.expenseCategoryRepo.HardDeleteAllUserExpenseCategories(uid); err != nil {
+			return err
+		}
+		if err := s.expenseLocationRepo.HardDeleteAllUserExpenseLocations(uid); err != nil {
+			return err
+		}
+		if err := s.expenseRepo.HardDeleteAllUserExpenses(uid); err != nil {
+			return err
+		}
+		if err := s.incomeRepo.HardDeleteAllUserIncomes(uid); err != nil {
+			return err
+		}
+		if err := s.userRepo.DeleteUsers([]string{uid}); err != nil {
+			return err
 		}
 	}
 

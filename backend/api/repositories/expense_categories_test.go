@@ -22,7 +22,7 @@ func TestFindExpenseCategories(t *testing.T) {
 	i.InsertExpenseCategory("user99", "Category_01 Other User")
 	i.InsertExpenseCategory(uid, "Category_02")
 	// run
-	res, err := NewSuitoRepository(tx).FindExpenseCategories(uid)
+	res, err := NewSuitoExpenseCategoryRepository(tx).FindExpenseCategories(uid)
 	// check
 	require.NoError(t, err)
 	require.Equal(t, 2, len(res))
@@ -40,7 +40,7 @@ func TestFindOrCreateExpenseCategory_New(t *testing.T) {
 
 	uid := "user01"
 	// run
-	res, err := NewSuitoRepository(tx).FindOrCreateExpenseCategory(uid, "NEW_CATEGORY")
+	res, err := NewSuitoExpenseCategoryRepository(tx).FindOrCreateExpenseCategory(uid, "NEW_CATEGORY")
 	// check
 	require.NoError(t, err)
 	require.Equal(t, "NEW_CATEGORY", res.Name)
@@ -62,7 +62,7 @@ func TestFindOrCreateExpenseCategory_Created(t *testing.T) {
 
 	category := i.InsertExpenseCategory("user01", "Category_02")
 	// run
-	res, err := NewSuitoRepository(tx).FindOrCreateExpenseCategory(category.UID, category.Name)
+	res, err := NewSuitoExpenseCategoryRepository(tx).FindOrCreateExpenseCategory(category.UID, category.Name)
 	// check
 	require.NoError(t, err)
 	require.Equal(t, category.Name, res.Name)
@@ -103,7 +103,7 @@ func TestFindOrCreateExpenseCategory_DuplicatedError(t *testing.T) {
 				updatedAt))
 
 	// run
-	_, err = NewSuitoRepository(db).FindOrCreateExpenseCategory(userID, categoryName)
+	_, err = NewSuitoExpenseCategoryRepository(db).FindOrCreateExpenseCategory(userID, categoryName)
 	require.NoError(t, err)
 	if err := mock.ExpectationsWereMet(); err != nil {
 		t.Errorf("there were unfulfilled expectations: %s", err)
@@ -128,7 +128,7 @@ func TestFindOrCreateExpenseCategory_OtherError(t *testing.T) {
 		WillReturnError(errors.New("some unknown error"))
 
 	// run
-	_, err = NewSuitoRepository(db).FindOrCreateExpenseCategory(userID, categoryName)
+	_, err = NewSuitoExpenseCategoryRepository(db).FindOrCreateExpenseCategory(userID, categoryName)
 	require.Error(t, err)
 	if err := mock.ExpectationsWereMet(); err != nil {
 		t.Errorf("there were unfulfilled expectations: %s", err)
@@ -142,7 +142,7 @@ func TestFindExpenseCategory(t *testing.T) {
 	i := testutils.NewTestDataInserter(t, tx)
 	category := i.InsertExpenseCategory("user01", "Category_02")
 	// run
-	res, err := NewSuitoRepository(tx).FindExpenseCategory(category.ID, category.UID)
+	res, err := NewSuitoExpenseCategoryRepository(tx).FindExpenseCategory(category.ID, category.UID)
 	// check
 	require.NoError(t, err)
 	require.Equal(t, category.Name, res.Name)
@@ -157,7 +157,7 @@ func TestFindExpenseCategory_NotFound(t *testing.T) {
 	i := testutils.NewTestDataInserter(t, tx)
 	category := i.InsertExpenseCategory("user01", "Category_02")
 	// run
-	_, err := NewSuitoRepository(tx).FindExpenseCategory(category.ID, "user99")
+	_, err := NewSuitoExpenseCategoryRepository(tx).FindExpenseCategory(category.ID, "user99")
 	// check
 	require.Error(t, err)
 	require.ErrorIs(t, err, gorm.ErrRecordNotFound)
@@ -173,7 +173,7 @@ func TestHardDeleteAllUserExpenseCategories(t *testing.T) {
 	i.InsertExpenseCategory(userID, "Category_02")
 	i.InsertExpenseCategory("user99", "Category_03")
 	// run
-	err := NewSuitoRepository(tx).HardDeleteAllUserExpenseCategories(userID)
+	err := NewSuitoExpenseCategoryRepository(tx).HardDeleteAllUserExpenseCategories(userID)
 	// check
 	require.NoError(t, err)
 
@@ -185,4 +185,18 @@ func TestHardDeleteAllUserExpenseCategories(t *testing.T) {
 	var cnt int64
 	tx.Model(&model.ExpenseCategory{}).Count(&cnt)
 	require.EqualValues(t, 1, cnt)
+}
+
+func TestCreateExpenseCategory(t *testing.T) {
+	tx := begin()
+	defer rollback(tx)
+	// setup
+	category := model.ExpenseCategory{Name: "category name"}
+	// run
+	res, err := NewSuitoExpenseCategoryRepository(tx).CreateExpenseCategory("user1", category)
+	// check
+	require.NoError(t, err)
+	require.NotEmpty(t, res.ID)
+	require.Equal(t, "user1", res.UID)
+	require.Equal(t, category.Name, res.Name)
 }
