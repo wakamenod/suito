@@ -222,3 +222,20 @@ func TestUpdateExpenseLocation(t *testing.T) {
 	require.NoError(t, err)
 	require.Equal(t, targetExpenseLocation.Name, found.Name)
 }
+
+func TestDeleteExpenseLocation(t *testing.T) {
+	tx := begin()
+	defer rollback(tx)
+	// setup
+	i := testutils.NewTestDataInserter(t, tx)
+	id := i.InsertExpenseLocation("user1", "Location01").ID
+	i.InsertExpenseLocation("user99", "Other users location")
+	i.InsertExpenseLocation("user1", "Location02")
+	// run
+	err := NewSuitoExpenseLocationRepository(tx).DeleteExpenseLocation(id, "user1")
+	// check
+	require.NoError(t, err)
+
+	var found model.ExpenseLocation
+	require.Error(t, tx.Where("id = ? AND uid = ?", id, "user1").Unscoped().First(&found).Error)
+}

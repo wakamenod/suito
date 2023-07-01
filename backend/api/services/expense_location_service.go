@@ -25,3 +25,10 @@ func (s *SuitoExpenseLocationService) UpdateExpenseLocationService(uid string, l
 	}
 	return location, nil
 }
+
+func (s *SuitoExpenseLocationService) DeleteExpenseLocationService(id, uid string) error {
+	if err := s.expenseLocationRepo.DeleteExpenseLocation(id, uid); err != nil {
+		return err
+	}
+	return nil
+}

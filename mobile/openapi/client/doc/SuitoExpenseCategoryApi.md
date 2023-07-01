@@ -12,6 +12,7 @@ Method | HTTP request | Description
 [**deleteExpenseCategory**](SuitoExpenseCategoryApi.md#deleteexpensecategory) | **DELETE** /expense/categories | Delete expense category
 [**listExpenseCategories**](SuitoExpenseCategoryApi.md#listexpensecategories) | **GET** /expense/categories | List expense categories
 [**registerExpenseCategory**](SuitoExpenseCategoryApi.md#registerexpensecategory) | **POST** /expense/categories | Register expense category
+[**updateExpenseCategory**](SuitoExpenseCategoryApi.md#updateexpensecategory) | **PUT** /expense/categories | Update expense category
 
 
 # **deleteExpenseCategory**
@@ -127,6 +128,49 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**RegisterExpenseCategoryRes**](RegisterExpenseCategoryRes.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **updateExpenseCategory**
+> UpdateExpenseCategoryRes updateExpenseCategory(request)
+
+Update expense category
+
+支出カテゴリー情報を更新します
+
+### Example
+```dart
+import 'package:openapi/api.dart';
+
+final api = Openapi().getSuitoExpenseCategoryApi();
+final UpdateExpenseCategoryReq request = ; // UpdateExpenseCategoryReq | update expenseCategory req
+
+try {
+    final response = api.updateExpenseCategory(request);
+    print(response);
+} catch on DioError (e) {
+    print('Exception when calling SuitoExpenseCategoryApi->updateExpenseCategory: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request** | [**UpdateExpenseCategoryReq**](UpdateExpenseCategoryReq.md)| update expenseCategory req | 
+
+### Return type
+
+[**UpdateExpenseCategoryRes**](UpdateExpenseCategoryRes.md)
 
 ### Authorization
 

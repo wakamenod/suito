@@ -31,6 +31,7 @@ type ExpenseLocationService interface {
 	ListExpenseLocationService(uid string) ([]model.ExpenseLocation, error)
 	CreateExpenseLocationService(uid string, location model.ExpenseLocation) (model.ExpenseLocation, error)
 	UpdateExpenseLocationService(uid string, location model.ExpenseLocation) (model.ExpenseLocation, error)
+	DeleteExpenseLocationService(id, uid string) error
 }
 
 type ExpenseScheduleService interface {

@@ -52,6 +52,13 @@ func (r *SuitoExpenseLocationRepository) UpdateExpenseLocation(uid string, expen
 	return expenseLocation, nil
 }
 
+func (r *SuitoExpenseLocationRepository) DeleteExpenseLocation(id string, uid string) error {
+	if err := r.db.Where("id = ? AND uid = ?", id, uid).Delete(&model.ExpenseLocation{}).Error; err != nil {
+		return errors.Wrap(err, "failed to delete expenseLocation")
+	}
+	return nil
+}
+
 func (r *SuitoExpenseLocationRepository) FindOrCreateExpenseLocation(uid string, name string) (model.ExpenseLocation, error) {
 	var res model.ExpenseLocation
 

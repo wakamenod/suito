@@ -7,6 +7,15 @@ void main() {
   final instance = Openapi().getSuitoExpenseLocationApi();
 
   group(SuitoExpenseLocationApi, () {
+    // Delete expense location
+    //
+    // 支出場所情報を削除します
+    //
+    //Future<JsonObject> deleteExpenseLocation(DeleteExpenseLocationReq request) async
+    test('test deleteExpenseLocation', () async {
+      // TODO
+    });
+
     // Register expense location
     //
     // 支出場所情報を登録します
@@ -20,7 +29,7 @@ void main() {
     //
     // 支出場所情報を更新します
     //
-    //Future<GithubComWakamenodSuitoApiControllersUpdateExpenseCategoryRes> updateExpenseLocation(UpdateExpenseLocationReq request) async
+    //Future<UpdateExpenseLocationRes> updateExpenseLocation(UpdateExpenseLocationReq request) async
     test('test updateExpenseLocation', () async {
       // TODO
     });

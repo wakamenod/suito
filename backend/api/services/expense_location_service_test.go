@@ -33,3 +33,8 @@ func TestUpdateExpenseLocationService(t *testing.T) {
 	require.Equal(t, expenseLocation.ID, newExpenseLocation.ID)
 	require.Equal(t, expenseLocation.Name, newExpenseLocation.Name)
 }
+
+func TestDeleteExpenseLocationService(t *testing.T) {
+	err := expenseLocationSer.DeleteExpenseLocationService("user1", "location_id")
+	require.NoError(t, err)
+}

@@ -50,6 +50,9 @@ var ExpenseLocationRepositoryMock = srepositories.ExpenseLocationRepositoryMock{
 	FindExpenseLocationFunc: func(id string, uid string) (model.ExpenseLocation, error) {
 		return model.ExpenseLocation{ID: "TEST_LOCATION_ID", Name: "Test Location"}, nil
 	},
+	DeleteExpenseLocationFunc: func(id string, uid string) error {
+		return nil
+	},
 }
 
 var ExpenseScheduleRepositoryMock = srepositories.ExpenseScheduleRepositoryMock{

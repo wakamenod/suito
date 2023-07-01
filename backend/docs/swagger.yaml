@@ -273,16 +273,16 @@ paths:
                 $ref: '#/components/schemas/SuitoError'
     put:
       tags:
-      - suito.expenseLocation
-      summary: Update expense location
-      description: 支出場所情報を更新します
-      operationId: updateExpenseLocation
+      - suito.expenseCategory
+      summary: Update expense category
+      description: 支出カテゴリー情報を更新します
+      operationId: updateExpenseCategory
       requestBody:
-        description: update expenseLocation req
+        description: update expenseCategory req
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UpdateExpenseLocationReq'
+              $ref: '#/components/schemas/UpdateExpenseCategoryReq'
         required: true
       responses:
         200:
@@ -290,7 +290,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/github.com_wakamenod_suito_api_controllers.UpdateExpenseCategoryRes'
+                $ref: '#/components/schemas/UpdateExpenseCategoryRes'
         500:
           description: Unknown Error
           content:
@@ -400,6 +400,33 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuitoError'
+    put:
+      tags:
+      - suito.expenseLocation
+      summary: Update expense location
+      description: 支出場所情報を更新します
+      operationId: updateExpenseLocation
+      requestBody:
+        description: update expenseLocation req
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateExpenseLocationReq'
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateExpenseLocationRes'
+        500:
+          description: Unknown Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuitoError'
+      x-codegen-request-body-name: request
     post:
       tags:
       - suito.expenseLocation
@@ -420,6 +447,33 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RegisterExpenseLocationRes'
+        500:
+          description: Unknown Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuitoError'
+      x-codegen-request-body-name: request
+    delete:
+      tags:
+      - suito.expenseLocation
+      summary: Delete expense location
+      description: 支出場所情報を削除します
+      operationId: deleteExpenseLocation
+      requestBody:
+        description: delete expenseLocation req
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteExpenseLocationReq'
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteExpenseLocationRes'
         500:
           description: Unknown Error
           content:
@@ -767,6 +821,15 @@ components:
           type: string
     DeleteExpenseCategoryRes:
       type: object
+    DeleteExpenseLocationReq:
+      required:
+      - expenseLocationId
+      type: object
+      properties:
+        expenseLocationId:
+          type: string
+    DeleteExpenseLocationRes:
+      type: object
     DeleteExpenseReq:
       required:
       - expenseId
@@ -1083,12 +1146,26 @@ components:
       properties:
         expenseCategory:
           $ref: '#/components/schemas/model.ExpenseCategory'
+    UpdateExpenseCategoryRes:
+      required:
+      - updatedExpenseCategory
+      type: object
+      properties:
+        updatedExpenseCategory:
+          $ref: '#/components/schemas/model.ExpenseCategory'
     UpdateExpenseLocationReq:
       required:
       - expenseLocation
       type: object
       properties:
         expenseLocation:
+          $ref: '#/components/schemas/model.ExpenseLocation'
+    UpdateExpenseLocationRes:
+      required:
+      - updatedExpenseLocation
+      type: object
+      properties:
+        updatedExpenseLocation:
           $ref: '#/components/schemas/model.ExpenseLocation'
     UpdateExpenseReq:
       required:
@@ -1146,13 +1223,6 @@ components:
       properties:
         updatedIncomeSchedule:
           $ref: '#/components/schemas/model.IncomeSchedule'
-    github.com_wakamenod_suito_api_controllers.UpdateExpenseCategoryRes:
-      required:
-      - updatedExpenseCategory
-      type: object
-      properties:
-        updatedExpenseCategory:
-          $ref: '#/components/schemas/model.ExpenseCategory'
     gorm.DeletedAt:
       type: object
       properties:
