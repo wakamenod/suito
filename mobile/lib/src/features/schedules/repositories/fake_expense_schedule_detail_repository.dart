@@ -27,9 +27,7 @@ class FakeExpenseScheduleDetailRepository
         ..title = f.title
         ..amount = f.amount
         ..memo = f.memo
-        ..expenseCategory
-            .replace(ModelExpenseCategory((c) => c..name = f.category))
-        ..expenseLocation
-            .replace(ModelExpenseLocation((c) => c..name = f.location))))));
+        ..expenseCategoryID = f.categoryID
+        ..expenseLocationID = f.locationID))));
   }
 }

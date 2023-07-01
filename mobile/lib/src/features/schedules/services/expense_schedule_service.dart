@@ -55,13 +55,13 @@ class ExpenseScheduleController extends _$ExpenseScheduleController {
 
   void onChangeCategory(String value) {
     state = AsyncValue.data(state.value!.copyWith(
-      category: value,
+      categoryID: value,
     ));
   }
 
   void onChangeLocation(String value) {
     state = AsyncValue.data(state.value!.copyWith(
-      location: value,
+      locationID: value,
     ));
   }
 
@@ -79,10 +79,8 @@ class ExpenseScheduleController extends _$ExpenseScheduleController {
           ..memo = state.value!.memo
           ..amount = state.value!.amount.value
           ..timezone = timezone
-          ..expenseCategory.replace(
-              ModelExpenseCategory((c) => c..name = state.value!.category))
-          ..expenseLocation.replace(
-              ModelExpenseLocation((c) => c..name = state.value!.location)))));
+          ..expenseCategoryID = state.value!.categoryID
+          ..expenseLocationID = state.value!.locationID)));
 
   UpdateExpenseScheduleReq _updateRequest(String timezone) =>
       UpdateExpenseScheduleReq((r) => r
@@ -92,10 +90,8 @@ class ExpenseScheduleController extends _$ExpenseScheduleController {
           ..memo = state.value!.memo
           ..amount = state.value!.amount.value
           ..timezone = timezone
-          ..expenseCategory.replace(
-              ModelExpenseCategory((c) => c..name = state.value!.category))
-          ..expenseLocation.replace(
-              ModelExpenseLocation((c) => c..name = state.value!.location)))));
+          ..expenseCategoryID = state.value!.categoryID
+          ..expenseLocationID = state.value!.locationID)));
 
   Future<void> registerExpenseSchedule() async {
     if (!state.value!.isValid) return;

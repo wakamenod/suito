@@ -14,6 +14,7 @@ var chartSer *SuitoChartService
 var transactionScheduleSer *SuitoTransactionScheduleService
 var expenseScheduleSer *SuitoExpenseScheduleService
 var incomeScheduleSer *SuitoIncomeScheduleService
+var expenseCategorySer *SuitoExpenseCategoryService
 
 func TestMain(m *testing.M) {
 	mockTransactionProvider := transaction.ProviderMock{
@@ -29,6 +30,7 @@ func TestMain(m *testing.M) {
 	transactionScheduleSer = NewSuitoTransactionScheduleService(&testdata.ExpenseScheduleRepositoryMock, &testdata.IncomeScheduleRepositoryMock)
 	expenseScheduleSer = NewSuitoExpenseScheduleService(&testdata.ExpenseScheduleRepositoryMock, &mockTransactionProvider)
 	incomeScheduleSer = NewSuitoIncomeScheduleService(&testdata.IncomeScheduleRepositoryMock, &mockTransactionProvider)
+	expenseCategorySer = NewSuitoExpenseCategoryService(&testdata.ExpenseCategoryRepositoryMock)
 
 	m.Run()
 }

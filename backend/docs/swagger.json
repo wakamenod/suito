@@ -398,7 +398,7 @@
     "/expense/categories": {
       "get": {
         "tags": [
-          "suito.expense"
+          "suito.expenseCategory"
         ],
         "summary": "List expense categories",
         "description": "購入カテゴリー一覧を返却します.",
@@ -425,6 +425,48 @@
             }
           }
         }
+      },
+      "post": {
+        "tags": [
+          "suito.expenseCategory"
+        ],
+        "summary": "Register expense category",
+        "description": "支出カテゴリー情報を登録します",
+        "operationId": "registerExpenseCategory",
+        "requestBody": {
+          "description": "register expenseCategory req",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterExpenseCategoryReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegisterExpenseCategoryRes"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unknown Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuitoError"
+                }
+              }
+            }
+          }
+        },
+        "x-codegen-request-body-name": "request"
       }
     },
     "/expense/detail": {
@@ -1295,6 +1337,28 @@
           }
         }
       },
+      "RegisterExpenseCategoryReq": {
+        "required": [
+          "expenseCategory"
+        ],
+        "type": "object",
+        "properties": {
+          "expenseCategory": {
+            "$ref": "#/components/schemas/model.ExpenseCategory"
+          }
+        }
+      },
+      "RegisterExpenseCategoryRes": {
+        "required": [
+          "newExpenseCategory"
+        ],
+        "type": "object",
+        "properties": {
+          "newExpenseCategory": {
+            "$ref": "#/components/schemas/model.ExpenseCategory"
+          }
+        }
+      },
       "RegisterExpenseReq": {
         "required": [
           "expense"
@@ -1612,8 +1676,8 @@
       "model.ExpenseSchedule": {
         "required": [
           "amount",
-          "expenseCategory",
-          "expenseLocation",
+          "expenseCategoryID",
+          "expenseLocationID",
           "id",
           "memo",
           "timezone",
@@ -1630,11 +1694,11 @@
           "deletedAt": {
             "$ref": "#/components/schemas/gorm.DeletedAt"
           },
-          "expenseCategory": {
-            "$ref": "#/components/schemas/model.ExpenseCategory"
+          "expenseCategoryID": {
+            "type": "string"
           },
-          "expenseLocation": {
-            "$ref": "#/components/schemas/model.ExpenseLocation"
+          "expenseLocationID": {
+            "type": "string"
           },
           "id": {
             "type": "string"

@@ -9,7 +9,7 @@ class ExpenseCategoriesRepository {
   final Openapi _openapi;
 
   Future<List<ModelExpenseCategory>> fetchExpenseCategoriesList() async {
-    final api = _openapi.getSuitoExpenseApi();
+    final api = _openapi.getSuitoExpenseCategoryApi();
     final response = await api.listExpenseCategories();
     return response.data?.expenseCategories.toList() ?? [];
   }

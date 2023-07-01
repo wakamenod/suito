@@ -89,16 +89,12 @@ var expenseLocationTestData = []model.ExpenseLocation{
 
 var expenseSchedulesTestData = []model.ExpenseSchedule{
 	{
-		ID:     "EXPENSE_SCHEDULE_ID1",
-		UID:    "user1",
-		Title:  "Title Expense 1",
-		Amount: 100,
-		ExpenseCategory: model.ExpenseCategory{
-			Name: "Test Category",
-		},
-		ExpenseLocation: model.ExpenseLocation{
-			Name: "Test Location",
-		},
+		ID:                "EXPENSE_SCHEDULE_ID1",
+		UID:               "user1",
+		Title:             "Title Expense 1",
+		Amount:            100,
+		ExpenseCategoryID: "TEST_CATEGORY_ID",
+		ExpenseLocationID: "TEST_LOCATION_ID",
 	},
 	{
 		ID:     "EXPENSE_SCHEDULE_ID2",

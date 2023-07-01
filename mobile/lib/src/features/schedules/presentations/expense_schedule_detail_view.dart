@@ -52,13 +52,13 @@ class ExpenseScheduleDetailView extends ConsumerWidget {
                 ),
                 gapH12,
                 TransitionTextField(
-                    initialValue: expense.category,
+                    initialValue: expense.categoryID,
                     labelText: t.transactions.detail.inputLabels.category,
                     route: AppRoute.category,
                     onChanged: expenseScheduleController.onChangeCategory),
                 gapH12,
                 TransitionTextField(
-                    initialValue: expense.location,
+                    initialValue: expense.locationID,
                     labelText: t.transactions.detail.inputLabels.location,
                     route: AppRoute.location,
                     onChanged: expenseScheduleController.onChangeLocation),

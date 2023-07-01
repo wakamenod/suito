@@ -25,15 +25,6 @@ void main() {
       // TODO
     });
 
-    // List expense categories
-    //
-    // 購入カテゴリー一覧を返却します.
-    //
-    //Future<ListExpenseCategoriesRes> listExpenseCategories() async
-    test('test listExpenseCategories', () async {
-      // TODO
-    });
-
     // List expense locations
     //
     // 購入場所ー一覧を返却します.

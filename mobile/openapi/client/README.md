@@ -69,10 +69,11 @@ Class | Method | HTTP request | Description
 [*SuitoDefaultApi*](doc/SuitoDefaultApi.md) | [**version**](doc/SuitoDefaultApi.md#version) | **GET** /version | Version
 [*SuitoExpenseApi*](doc/SuitoExpenseApi.md) | [**deleteExpense**](doc/SuitoExpenseApi.md#deleteexpense) | **DELETE** /expense | Delete expense
 [*SuitoExpenseApi*](doc/SuitoExpenseApi.md) | [**expenseDetail**](doc/SuitoExpenseApi.md#expensedetail) | **POST** /expense/detail | Get expense detail
-[*SuitoExpenseApi*](doc/SuitoExpenseApi.md) | [**listExpenseCategories**](doc/SuitoExpenseApi.md#listexpensecategories) | **GET** /expense/categories | List expense categories
 [*SuitoExpenseApi*](doc/SuitoExpenseApi.md) | [**listExpenseLocations**](doc/SuitoExpenseApi.md#listexpenselocations) | **GET** /expense/locations | List expense locations
 [*SuitoExpenseApi*](doc/SuitoExpenseApi.md) | [**registerExpense**](doc/SuitoExpenseApi.md#registerexpense) | **POST** /expense | Register expense
 [*SuitoExpenseApi*](doc/SuitoExpenseApi.md) | [**updateExpense**](doc/SuitoExpenseApi.md#updateexpense) | **PUT** /expense | Update expense
+[*SuitoExpenseCategoryApi*](doc/SuitoExpenseCategoryApi.md) | [**listExpenseCategories**](doc/SuitoExpenseCategoryApi.md#listexpensecategories) | **GET** /expense/categories | List expense categories
+[*SuitoExpenseCategoryApi*](doc/SuitoExpenseCategoryApi.md) | [**registerExpenseCategory**](doc/SuitoExpenseCategoryApi.md#registerexpensecategory) | **POST** /expense/categories | Register expense category
 [*SuitoExpenseScheduleApi*](doc/SuitoExpenseScheduleApi.md) | [**deleteExpenseSchedule**](doc/SuitoExpenseScheduleApi.md#deleteexpenseschedule) | **DELETE** /expense-schedule | Delete expense schedule
 [*SuitoExpenseScheduleApi*](doc/SuitoExpenseScheduleApi.md) | [**expenseScheduleDetail**](doc/SuitoExpenseScheduleApi.md#expensescheduledetail) | **POST** /expense-schedule/detail | Get expense schedule detail
 [*SuitoExpenseScheduleApi*](doc/SuitoExpenseScheduleApi.md) | [**registerExpenseSchedule**](doc/SuitoExpenseScheduleApi.md#registerexpenseschedule) | **POST** /expense-schedule | Register expense schedule
@@ -121,6 +122,8 @@ Class | Method | HTTP request | Description
  - [ModelIncomeSchedule](doc/ModelIncomeSchedule.md)
  - [ModelIncomeType](doc/ModelIncomeType.md)
  - [PieChartData](doc/PieChartData.md)
+ - [RegisterExpenseCategoryReq](doc/RegisterExpenseCategoryReq.md)
+ - [RegisterExpenseCategoryRes](doc/RegisterExpenseCategoryRes.md)
  - [RegisterExpenseReq](doc/RegisterExpenseReq.md)
  - [RegisterExpenseRes](doc/RegisterExpenseRes.md)
  - [RegisterExpenseScheduleReq](doc/RegisterExpenseScheduleReq.md)

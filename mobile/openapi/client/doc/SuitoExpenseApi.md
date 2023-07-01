@@ -11,7 +11,6 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**deleteExpense**](SuitoExpenseApi.md#deleteexpense) | **DELETE** /expense | Delete expense
 [**expenseDetail**](SuitoExpenseApi.md#expensedetail) | **POST** /expense/detail | Get expense detail
-[**listExpenseCategories**](SuitoExpenseApi.md#listexpensecategories) | **GET** /expense/categories | List expense categories
 [**listExpenseLocations**](SuitoExpenseApi.md#listexpenselocations) | **GET** /expense/locations | List expense locations
 [**registerExpense**](SuitoExpenseApi.md#registerexpense) | **POST** /expense | Register expense
 [**updateExpense**](SuitoExpenseApi.md#updateexpense) | **PUT** /expense | Update expense
@@ -99,45 +98,6 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **listExpenseCategories**
-> ListExpenseCategoriesRes listExpenseCategories()
-
-List expense categories
-
-購入カテゴリー一覧を返却します.
-
-### Example
-```dart
-import 'package:openapi/api.dart';
-
-final api = Openapi().getSuitoExpenseApi();
-
-try {
-    final response = api.listExpenseCategories();
-    print(response);
-} catch on DioError (e) {
-    print('Exception when calling SuitoExpenseApi->listExpenseCategories: $e\n');
-}
-```
-
-### Parameters
-This endpoint does not need any parameter.
-
-### Return type
-
-[**ListExpenseCategoriesRes**](ListExpenseCategoriesRes.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

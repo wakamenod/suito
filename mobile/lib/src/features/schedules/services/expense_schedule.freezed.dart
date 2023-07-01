@@ -19,8 +19,8 @@ mixin _$ExpenseSchedule {
   String get id => throw _privateConstructorUsedError;
   Title get title => throw _privateConstructorUsedError;
   Amount get amount => throw _privateConstructorUsedError;
-  String get category => throw _privateConstructorUsedError;
-  String get location => throw _privateConstructorUsedError;
+  String get categoryID => throw _privateConstructorUsedError;
+  String get locationID => throw _privateConstructorUsedError;
   String get memo => throw _privateConstructorUsedError;
   bool get isValid => throw _privateConstructorUsedError;
   FormzSubmissionStatus get submissionStatus =>
@@ -41,8 +41,8 @@ abstract class $ExpenseScheduleCopyWith<$Res> {
       {String id,
       Title title,
       Amount amount,
-      String category,
-      String location,
+      String categoryID,
+      String locationID,
       String memo,
       bool isValid,
       FormzSubmissionStatus submissionStatus});
@@ -64,8 +64,8 @@ class _$ExpenseScheduleCopyWithImpl<$Res, $Val extends ExpenseSchedule>
     Object? id = null,
     Object? title = null,
     Object? amount = null,
-    Object? category = null,
-    Object? location = null,
+    Object? categoryID = null,
+    Object? locationID = null,
     Object? memo = null,
     Object? isValid = null,
     Object? submissionStatus = null,
@@ -83,13 +83,13 @@ class _$ExpenseScheduleCopyWithImpl<$Res, $Val extends ExpenseSchedule>
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as Amount,
-      category: null == category
-          ? _value.category
-          : category // ignore: cast_nullable_to_non_nullable
+      categoryID: null == categoryID
+          ? _value.categoryID
+          : categoryID // ignore: cast_nullable_to_non_nullable
               as String,
-      location: null == location
-          ? _value.location
-          : location // ignore: cast_nullable_to_non_nullable
+      locationID: null == locationID
+          ? _value.locationID
+          : locationID // ignore: cast_nullable_to_non_nullable
               as String,
       memo: null == memo
           ? _value.memo
@@ -119,8 +119,8 @@ abstract class _$$_ExpenseScheduleCopyWith<$Res>
       {String id,
       Title title,
       Amount amount,
-      String category,
-      String location,
+      String categoryID,
+      String locationID,
       String memo,
       bool isValid,
       FormzSubmissionStatus submissionStatus});
@@ -140,8 +140,8 @@ class __$$_ExpenseScheduleCopyWithImpl<$Res>
     Object? id = null,
     Object? title = null,
     Object? amount = null,
-    Object? category = null,
-    Object? location = null,
+    Object? categoryID = null,
+    Object? locationID = null,
     Object? memo = null,
     Object? isValid = null,
     Object? submissionStatus = null,
@@ -159,13 +159,13 @@ class __$$_ExpenseScheduleCopyWithImpl<$Res>
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as Amount,
-      category: null == category
-          ? _value.category
-          : category // ignore: cast_nullable_to_non_nullable
+      categoryID: null == categoryID
+          ? _value.categoryID
+          : categoryID // ignore: cast_nullable_to_non_nullable
               as String,
-      location: null == location
-          ? _value.location
-          : location // ignore: cast_nullable_to_non_nullable
+      locationID: null == locationID
+          ? _value.locationID
+          : locationID // ignore: cast_nullable_to_non_nullable
               as String,
       memo: null == memo
           ? _value.memo
@@ -190,8 +190,8 @@ class _$_ExpenseSchedule implements _ExpenseSchedule {
       {required this.id,
       required this.title,
       required this.amount,
-      required this.category,
-      required this.location,
+      required this.categoryID,
+      required this.locationID,
       required this.memo,
       required this.isValid,
       required this.submissionStatus});
@@ -203,9 +203,9 @@ class _$_ExpenseSchedule implements _ExpenseSchedule {
   @override
   final Amount amount;
   @override
-  final String category;
+  final String categoryID;
   @override
-  final String location;
+  final String locationID;
   @override
   final String memo;
   @override
@@ -215,7 +215,7 @@ class _$_ExpenseSchedule implements _ExpenseSchedule {
 
   @override
   String toString() {
-    return 'ExpenseSchedule(id: $id, title: $title, amount: $amount, category: $category, location: $location, memo: $memo, isValid: $isValid, submissionStatus: $submissionStatus)';
+    return 'ExpenseSchedule(id: $id, title: $title, amount: $amount, categoryID: $categoryID, locationID: $locationID, memo: $memo, isValid: $isValid, submissionStatus: $submissionStatus)';
   }
 
   @override
@@ -226,10 +226,10 @@ class _$_ExpenseSchedule implements _ExpenseSchedule {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.amount, amount) || other.amount == amount) &&
-            (identical(other.category, category) ||
-                other.category == category) &&
-            (identical(other.location, location) ||
-                other.location == location) &&
+            (identical(other.categoryID, categoryID) ||
+                other.categoryID == categoryID) &&
+            (identical(other.locationID, locationID) ||
+                other.locationID == locationID) &&
             (identical(other.memo, memo) || other.memo == memo) &&
             (identical(other.isValid, isValid) || other.isValid == isValid) &&
             (identical(other.submissionStatus, submissionStatus) ||
@@ -237,8 +237,8 @@ class _$_ExpenseSchedule implements _ExpenseSchedule {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, title, amount, category,
-      location, memo, isValid, submissionStatus);
+  int get hashCode => Object.hash(runtimeType, id, title, amount, categoryID,
+      locationID, memo, isValid, submissionStatus);
 
   @JsonKey(ignore: true)
   @override
@@ -252,8 +252,8 @@ abstract class _ExpenseSchedule implements ExpenseSchedule {
           {required final String id,
           required final Title title,
           required final Amount amount,
-          required final String category,
-          required final String location,
+          required final String categoryID,
+          required final String locationID,
           required final String memo,
           required final bool isValid,
           required final FormzSubmissionStatus submissionStatus}) =
@@ -266,9 +266,9 @@ abstract class _ExpenseSchedule implements ExpenseSchedule {
   @override
   Amount get amount;
   @override
-  String get category;
+  String get categoryID;
   @override
-  String get location;
+  String get locationID;
   @override
   String get memo;
   @override

@@ -74,8 +74,8 @@ func TestExpenseScheduleDetailHandler_Success(t *testing.T) {
 	var res ExpenseScheduleDetailRes
 	require.NoError(t, json.Unmarshal(rec.Body.Bytes(), &res))
 	require.Equal(t, "EXPENSE_SCHEDULE_ID1", res.ExpenseSchedule.ID)
-	require.Equal(t, "Test Category", res.ExpenseSchedule.ExpenseCategory.Name)
-	require.Equal(t, "Test Location", res.ExpenseSchedule.ExpenseLocation.Name)
+	require.Equal(t, "TEST_CATEGORY_ID", res.ExpenseSchedule.ExpenseCategoryID)
+	require.Equal(t, "TEST_LOCATION_ID", res.ExpenseSchedule.ExpenseLocationID)
 }
 
 func TestUpdateExpenseScheduleHandler_ErrorValidate(t *testing.T) {
@@ -181,15 +181,11 @@ func TestRegisterExpenseScheduleHandler_Success(t *testing.T) {
 	e.Validator = validate.NewValidator()
 	jsonReq, err := json.Marshal(RegisterExpenseScheduleReq{
 		ExpenseSchedule: model.ExpenseSchedule{
-			Title:  "testTitle",
-			Amount: 9999,
-			ExpenseCategory: model.ExpenseCategory{
-				Name: "new category",
-			},
-			ExpenseLocation: model.ExpenseLocation{
-				Name: "new location",
-			},
-			Timezone: "Asia/Tokyo",
+			Title:             "testTitle",
+			Amount:            9999,
+			ExpenseCategoryID: "NEW_CATEGORY_ID",
+			ExpenseLocationID: "NEW_LOCATION_ID",
+			Timezone:          "Asia/Tokyo",
 		}})
 	require.NoError(t, err)
 	req := httptest.NewRequest(http.MethodPost, "/", bytes.NewReader(jsonReq))
@@ -205,8 +201,8 @@ func TestRegisterExpenseScheduleHandler_Success(t *testing.T) {
 	var res RegisterExpenseScheduleRes
 	require.NoError(t, json.Unmarshal(rec.Body.Bytes(), &res))
 	require.Equal(t, "new_expense_schedule_id", res.NewExpenseSchedule.ID)
-	require.Equal(t, "new category", res.NewExpenseSchedule.ExpenseCategory.Name)
-	require.Equal(t, "new location", res.NewExpenseSchedule.ExpenseLocation.Name)
+	require.Equal(t, "NEW_CATEGORY_ID", res.NewExpenseSchedule.ExpenseCategoryID)
+	require.Equal(t, "NEW_LOCATION_ID", res.NewExpenseSchedule.ExpenseLocationID)
 	require.Equal(t, "Asia/Tokyo", res.NewExpenseSchedule.Timezone)
 	require.Equal(t, 9999, res.NewExpenseSchedule.Amount)
 	require.Equal(t, "testTitle", res.NewExpenseSchedule.Title)
