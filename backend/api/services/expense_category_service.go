@@ -18,6 +18,13 @@ func (s *SuitoExpenseCategoryService) UpdateExpenseCategoryService(uid string, c
 	return category, nil
 }
 
+func (s *SuitoExpenseCategoryService) DeleteExpenseCategoryService(id, uid string) error {
+	if err := s.expenseCategoryRepo.DeleteExpenseCategory(id, uid); err != nil {
+		return err
+	}
+	return nil
+}
+
 func (s *SuitoExpenseCategoryService) ListExpenseCategoryService(uid string) ([]model.ExpenseCategory, error) {
 	categories, err := s.expenseCategoryRepo.FindExpenseCategories(uid)
 	if err != nil {

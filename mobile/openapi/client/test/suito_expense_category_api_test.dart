@@ -7,6 +7,15 @@ void main() {
   final instance = Openapi().getSuitoExpenseCategoryApi();
 
   group(SuitoExpenseCategoryApi, () {
+    // Delete expense category
+    //
+    // 支出カテゴリー情報を削除します
+    //
+    //Future<JsonObject> deleteExpenseCategory(DeleteExpenseCategoryReq request) async
+    test('test deleteExpenseCategory', () async {
+      // TODO
+    });
+
     // List expense categories
     //
     // 購入カテゴリー一覧を返却します.

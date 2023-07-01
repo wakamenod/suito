@@ -25,6 +25,7 @@ type ExpenseCategoryService interface {
 	ListExpenseCategoryService(uid string) ([]model.ExpenseCategory, error)
 	CreateExpenseCategoryService(uid string, category model.ExpenseCategory) (model.ExpenseCategory, error)
 	UpdateExpenseCategoryService(uid string, category model.ExpenseCategory) (model.ExpenseCategory, error)
+	DeleteExpenseCategoryService(id, uid string) error
 }
 
 type ExpenseScheduleService interface {

@@ -9,10 +9,54 @@ All URIs are relative to *http://localhost:8009/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**deleteExpenseCategory**](SuitoExpenseCategoryApi.md#deleteexpensecategory) | **DELETE** /expense/categories | Delete expense category
 [**listExpenseCategories**](SuitoExpenseCategoryApi.md#listexpensecategories) | **GET** /expense/categories | List expense categories
 [**registerExpenseCategory**](SuitoExpenseCategoryApi.md#registerexpensecategory) | **POST** /expense/categories | Register expense category
 [**updateExpenseCategory**](SuitoExpenseCategoryApi.md#updateexpensecategory) | **PUT** /expense/categories | Update expense category
 
+
+# **deleteExpenseCategory**
+> JsonObject deleteExpenseCategory(request)
+
+Delete expense category
+
+支出カテゴリー情報を削除します
+
+### Example
+```dart
+import 'package:openapi/api.dart';
+
+final api = Openapi().getSuitoExpenseCategoryApi();
+final DeleteExpenseCategoryReq request = ; // DeleteExpenseCategoryReq | delete expenseCategory req
+
+try {
+    final response = api.deleteExpenseCategory(request);
+    print(response);
+} catch on DioError (e) {
+    print('Exception when calling SuitoExpenseCategoryApi->deleteExpenseCategory: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request** | [**DeleteExpenseCategoryReq**](DeleteExpenseCategoryReq.md)| delete expenseCategory req | 
+
+### Return type
+
+[**JsonObject**](JsonObject.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **listExpenseCategories**
 > ListExpenseCategoriesRes listExpenseCategories()

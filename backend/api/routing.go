@@ -64,6 +64,8 @@ func InitRoute(e *echo.Echo, db *gorm.DB) *echo.Echo {
 			c := a.Group("/categoreis")
 			c.GET("", categoryCon.ExpenseCategoriesHandler)
 			c.POST("", categoryCon.RegisterExpenseCategoryHandler)
+			c.PUT("", categoryCon.UpdateExpenseCategoryHandler)
+			c.DELETE("", categoryCon.DeleteExpenseCategoryHandler)
 		}
 	}
 	{

@@ -13,6 +13,7 @@ type ExpenseCategoryRepository interface {
 	FindExpenseCategory(id string, uid string) (model.ExpenseCategory, error)
 	CreateExpenseCategory(uid string, expenseCategory model.ExpenseCategory) (model.ExpenseCategory, error)
 	UpdateExpenseCategory(uid string, expenseCategory model.ExpenseCategory) (model.ExpenseCategory, error)
+	DeleteExpenseCategory(id, uid string) error
 	FindOrCreateExpenseCategory(uid string, name string) (model.ExpenseCategory, error)
 	HardDeleteAllUserExpenseCategories(uid string) error
 	transaction.TransactionHandler

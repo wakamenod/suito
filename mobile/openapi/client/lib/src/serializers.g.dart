@@ -9,6 +9,7 @@ part of 'serializers.dart';
 Serializers _$serializers = (new Serializers().toBuilder()
       ..add(ColumnChartCategoryData.serializer)
       ..add(ColumnChartData.serializer)
+      ..add(DeleteExpenseCategoryReq.serializer)
       ..add(DeleteExpenseReq.serializer)
       ..add(DeleteExpenseScheduleReq.serializer)
       ..add(DeleteIncomeScheduleReq.serializer)

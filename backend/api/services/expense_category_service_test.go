@@ -27,3 +27,8 @@ func TestUpdateExpenseCategoryService(t *testing.T) {
 	require.Equal(t, expenseCategory.ID, newExpenseCategory.ID)
 	require.Equal(t, expenseCategory.Name, newExpenseCategory.Name)
 }
+
+func TestDeleteExpenseCategoryService(t *testing.T) {
+	err := expenseCategorySer.DeleteExpenseCategoryService("user1", "category_id")
+	require.NoError(t, err)
+}
