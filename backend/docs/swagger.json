@@ -1088,6 +1088,48 @@
           }
         }
       },
+      "put": {
+        "tags": [
+          "suito.incomeType"
+        ],
+        "summary": "Update expense incomeType",
+        "description": "収入種別情報を更新します",
+        "operationId": "updateIncomeType",
+        "requestBody": {
+          "description": "update incomeType req",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateIncomeTypeReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateIncomeTypeRes"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unknown Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuitoError"
+                }
+              }
+            }
+          }
+        },
+        "x-codegen-request-body-name": "request"
+      },
       "post": {
         "tags": [
           "suito.incomeType"
@@ -1971,6 +2013,28 @@
         "properties": {
           "updatedIncomeSchedule": {
             "$ref": "#/components/schemas/model.IncomeSchedule"
+          }
+        }
+      },
+      "UpdateIncomeTypeReq": {
+        "required": [
+          "IncomeType"
+        ],
+        "type": "object",
+        "properties": {
+          "IncomeType": {
+            "$ref": "#/components/schemas/model.IncomeType"
+          }
+        }
+      },
+      "UpdateIncomeTypeRes": {
+        "required": [
+          "updatedIncomeType"
+        ],
+        "type": "object",
+        "properties": {
+          "updatedIncomeType": {
+            "$ref": "#/components/schemas/model.IncomeType"
           }
         }
       },

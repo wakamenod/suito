@@ -22,3 +22,14 @@ func TestListIncomeTypeService(t *testing.T) {
 	require.NoError(t, err)
 	require.Equal(t, 2, len(incomeTypes))
 }
+
+func TestUpdateIncomeTypeService(t *testing.T) {
+	incomeType := model.IncomeType{
+		ID:   "incomeTypeID",
+		Name: "update incomeType",
+	}
+	newIncomeType, err := incomeTypeSer.UpdateIncomeTypeService("user1", incomeType)
+	require.NoError(t, err)
+	require.Equal(t, incomeType.ID, newIncomeType.ID)
+	require.Equal(t, incomeType.Name, newIncomeType.Name)
+}

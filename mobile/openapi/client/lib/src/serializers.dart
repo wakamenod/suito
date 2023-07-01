@@ -75,6 +75,8 @@ import 'package:openapi/src/model/update_income_req.dart';
 import 'package:openapi/src/model/update_income_res.dart';
 import 'package:openapi/src/model/update_income_schedule_req.dart';
 import 'package:openapi/src/model/update_income_schedule_res.dart';
+import 'package:openapi/src/model/update_income_type_req.dart';
+import 'package:openapi/src/model/update_income_type_res.dart';
 
 part 'serializers.g.dart';
 
@@ -140,6 +142,8 @@ part 'serializers.g.dart';
   UpdateIncomeRes,
   UpdateIncomeScheduleReq,
   UpdateIncomeScheduleRes,
+  UpdateIncomeTypeReq,
+  UpdateIncomeTypeRes,
 ])
 Serializers serializers = (_$serializers.toBuilder()
       ..add(const OneOfSerializer())

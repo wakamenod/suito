@@ -16,5 +16,14 @@ void main() {
       // TODO
     });
 
+    // Update expense incomeType
+    //
+    // 収入種別情報を更新します
+    //
+    //Future<UpdateIncomeTypeRes> updateIncomeType(UpdateIncomeTypeReq request) async
+    test('test updateIncomeType', () async {
+      // TODO
+    });
+
   });
 }

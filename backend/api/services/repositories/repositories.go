@@ -81,6 +81,7 @@ type IncomeRepository interface {
 
 type IncomeTypeRepository interface {
 	CreateIncomeType(uid string, incomeType model.IncomeType) (model.IncomeType, error)
+	UpdateIncomeType(uid string, incomeType model.IncomeType) (model.IncomeType, error)
 	FindIncomeTypes(uid string) ([]model.IncomeType, error)
 	FindOrCreateIncomeType(uid string, name string) (model.IncomeType, error)
 }

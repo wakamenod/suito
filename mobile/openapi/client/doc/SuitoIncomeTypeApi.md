@@ -10,6 +10,7 @@ All URIs are relative to *http://localhost:8009/api/v1*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**registerIncomeType**](SuitoIncomeTypeApi.md#registerincometype) | **POST** /income/types | Register income incomeType
+[**updateIncomeType**](SuitoIncomeTypeApi.md#updateincometype) | **PUT** /income/types | Update expense incomeType
 
 
 # **registerIncomeType**
@@ -43,6 +44,49 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**RegisterIncomeTypeRes**](RegisterIncomeTypeRes.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **updateIncomeType**
+> UpdateIncomeTypeRes updateIncomeType(request)
+
+Update expense incomeType
+
+収入種別情報を更新します
+
+### Example
+```dart
+import 'package:openapi/api.dart';
+
+final api = Openapi().getSuitoIncomeTypeApi();
+final UpdateIncomeTypeReq request = ; // UpdateIncomeTypeReq | update incomeType req
+
+try {
+    final response = api.updateIncomeType(request);
+    print(response);
+} catch on DioError (e) {
+    print('Exception when calling SuitoIncomeTypeApi->updateIncomeType: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request** | [**UpdateIncomeTypeReq**](UpdateIncomeTypeReq.md)| update incomeType req | 
+
+### Return type
+
+[**UpdateIncomeTypeRes**](UpdateIncomeTypeRes.md)
 
 ### Authorization
 

@@ -222,6 +222,9 @@ var IncomeTypeRepositoryMock = srepositories.IncomeTypeRepositoryMock{
 		incomeType.ID = "TEST_NEW_INCOME_TYPE_ID"
 		return incomeType, nil
 	},
+	UpdateIncomeTypeFunc: func(uid string, incomeType model.IncomeType) (model.IncomeType, error) {
+		return incomeType, nil
+	},
 }
 
 var TransactionMonthsRepositoryMock = srepositories.TransactionMonthsRepositoryMock{

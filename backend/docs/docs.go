@@ -1016,6 +1016,45 @@ const docTemplate = `{
                     }
                 }
             },
+            "put": {
+                "description": "収入種別情報を更新します",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "suito.incomeType"
+                ],
+                "summary": "Update expense incomeType",
+                "operationId": "updateIncomeType",
+                "parameters": [
+                    {
+                        "description": "update incomeType req",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/UpdateIncomeTypeReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/UpdateIncomeTypeRes"
+                        }
+                    },
+                    "500": {
+                        "description": "Unknown Error",
+                        "schema": {
+                            "$ref": "#/definitions/SuitoError"
+                        }
+                    }
+                }
+            },
             "post": {
                 "description": "収入種別を登録します",
                 "consumes": [
@@ -1889,6 +1928,28 @@ const docTemplate = `{
             "properties": {
                 "updatedIncomeSchedule": {
                     "$ref": "#/definitions/model.IncomeSchedule"
+                }
+            }
+        },
+        "UpdateIncomeTypeReq": {
+            "type": "object",
+            "required": [
+                "IncomeType"
+            ],
+            "properties": {
+                "IncomeType": {
+                    "$ref": "#/definitions/model.IncomeType"
+                }
+            }
+        },
+        "UpdateIncomeTypeRes": {
+            "type": "object",
+            "required": [
+                "updatedIncomeType"
+            ],
+            "properties": {
+                "updatedIncomeType": {
+                    "$ref": "#/definitions/model.IncomeType"
                 }
             }
         },
