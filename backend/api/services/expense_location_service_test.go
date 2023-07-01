@@ -22,3 +22,14 @@ func TestListExpenseLocationService(t *testing.T) {
 	require.NoError(t, err)
 	require.Equal(t, 2, len(expenseLocations))
 }
+
+func TestUpdateExpenseLocationService(t *testing.T) {
+	expenseLocation := model.ExpenseLocation{
+		ID:   "locationID",
+		Name: "update location",
+	}
+	newExpenseLocation, err := expenseLocationSer.UpdateExpenseLocationService("user1", expenseLocation)
+	require.NoError(t, err)
+	require.Equal(t, expenseLocation.ID, newExpenseLocation.ID)
+	require.Equal(t, expenseLocation.Name, newExpenseLocation.Name)
+}

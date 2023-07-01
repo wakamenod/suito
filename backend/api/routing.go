@@ -73,6 +73,7 @@ func InitRoute(e *echo.Echo, db *gorm.DB) *echo.Echo {
 			c := a.Group("/locations")
 			c.GET("", locationCon.ExpenseLocationsHandler)
 			c.POST("", locationCon.RegisterExpenseLocationHandler)
+			c.PUT("", locationCon.UpdateExpenseLocationHandler)
 		}
 	}
 	{

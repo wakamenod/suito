@@ -41,6 +41,17 @@ func (r *SuitoExpenseLocationRepository) CreateExpenseLocation(uid string, locat
 	return location, nil
 }
 
+func (r *SuitoExpenseLocationRepository) UpdateExpenseLocation(uid string, expenseLocation model.ExpenseLocation) (model.ExpenseLocation, error) {
+	if err := r.db.Model(&model.ExpenseLocation{}).
+		Where("id = ? AND uid = ?", expenseLocation.ID, uid).
+		Updates(map[string]any{
+			"name": expenseLocation.Name,
+		}).Error; err != nil {
+		return expenseLocation, errors.Wrap(err, "failed to update expenseLocations")
+	}
+	return expenseLocation, nil
+}
+
 func (r *SuitoExpenseLocationRepository) FindOrCreateExpenseLocation(uid string, name string) (model.ExpenseLocation, error) {
 	var res model.ExpenseLocation
 

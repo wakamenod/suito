@@ -16,5 +16,14 @@ void main() {
       // TODO
     });
 
+    // Update expense location
+    //
+    // 支出場所情報を更新します
+    //
+    //Future<GithubComWakamenodSuitoApiControllersUpdateExpenseCategoryRes> updateExpenseLocation(UpdateExpenseLocationReq request) async
+    test('test updateExpenseLocation', () async {
+      // TODO
+    });
+
   });
 }

@@ -17,3 +17,11 @@ func (s *SuitoExpenseLocationService) ListExpenseLocationService(uid string) ([]
 	}
 	return locations, nil
 }
+
+func (s *SuitoExpenseLocationService) UpdateExpenseLocationService(uid string, location model.ExpenseLocation) (model.ExpenseLocation, error) {
+	location, err := s.expenseLocationRepo.UpdateExpenseLocation(uid, location)
+	if err != nil {
+		return location, err
+	}
+	return location, nil
+}

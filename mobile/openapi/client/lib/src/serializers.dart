@@ -26,6 +26,7 @@ import 'package:openapi/src/model/expense_schedule_detail_req.dart';
 import 'package:openapi/src/model/expense_schedule_detail_res.dart';
 import 'package:openapi/src/model/get_column_chart_data_res.dart';
 import 'package:openapi/src/model/get_pie_chart_data_res.dart';
+import 'package:openapi/src/model/github_com_wakamenod_suito_api_controllers_update_expense_category_res.dart';
 import 'package:openapi/src/model/gorm_deleted_at.dart';
 import 'package:openapi/src/model/income_detail_req.dart';
 import 'package:openapi/src/model/income_detail_res.dart';
@@ -61,7 +62,7 @@ import 'package:openapi/src/model/transaction.dart';
 import 'package:openapi/src/model/transaction_months_res.dart';
 import 'package:openapi/src/model/transaction_schedule.dart';
 import 'package:openapi/src/model/update_expense_category_req.dart';
-import 'package:openapi/src/model/update_expense_category_res.dart';
+import 'package:openapi/src/model/update_expense_location_req.dart';
 import 'package:openapi/src/model/update_expense_req.dart';
 import 'package:openapi/src/model/update_expense_res.dart';
 import 'package:openapi/src/model/update_expense_schedule_req.dart';
@@ -86,6 +87,7 @@ part 'serializers.g.dart';
   ExpenseScheduleDetailRes,
   GetColumnChartDataRes,
   GetPieChartDataRes,
+  GithubComWakamenodSuitoApiControllersUpdateExpenseCategoryRes,
   GormDeletedAt,
   IncomeDetailReq,
   IncomeDetailRes,
@@ -121,7 +123,7 @@ part 'serializers.g.dart';
   TransactionMonthsRes,
   TransactionSchedule,
   UpdateExpenseCategoryReq,
-  UpdateExpenseCategoryRes,
+  UpdateExpenseLocationReq,
   UpdateExpenseReq,
   UpdateExpenseRes,
   UpdateExpenseScheduleReq,

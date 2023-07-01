@@ -401,7 +401,7 @@ const docTemplate = `{
                 }
             },
             "put": {
-                "description": "支出カテゴリー情報を更新します",
+                "description": "支出場所情報を更新します",
                 "consumes": [
                     "application/json"
                 ],
@@ -409,18 +409,18 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "suito.expenseCategory"
+                    "suito.expenseLocation"
                 ],
-                "summary": "Update expense category",
-                "operationId": "updateExpenseCategory",
+                "summary": "Update expense location",
+                "operationId": "updateExpenseLocation",
                 "parameters": [
                     {
-                        "description": "update expenseCategory req",
+                        "description": "update expenseLocation req",
                         "name": "request",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/UpdateExpenseCategoryReq"
+                            "$ref": "#/definitions/UpdateExpenseLocationReq"
                         }
                     }
                 ],
@@ -428,7 +428,7 @@ const docTemplate = `{
                     "200": {
                         "description": "Success",
                         "schema": {
-                            "$ref": "#/definitions/UpdateExpenseCategoryRes"
+                            "$ref": "#/definitions/github.com_wakamenod_suito_api_controllers.UpdateExpenseCategoryRes"
                         }
                     },
                     "500": {
@@ -1618,14 +1618,14 @@ const docTemplate = `{
                 }
             }
         },
-        "UpdateExpenseCategoryRes": {
+        "UpdateExpenseLocationReq": {
             "type": "object",
             "required": [
-                "updatedExpenseCategory"
+                "expenseLocation"
             ],
             "properties": {
-                "updatedExpenseCategory": {
-                    "$ref": "#/definitions/model.ExpenseCategory"
+                "expenseLocation": {
+                    "$ref": "#/definitions/model.ExpenseLocation"
                 }
             }
         },
@@ -1714,6 +1714,17 @@ const docTemplate = `{
             "properties": {
                 "updatedIncomeSchedule": {
                     "$ref": "#/definitions/model.IncomeSchedule"
+                }
+            }
+        },
+        "github.com_wakamenod_suito_api_controllers.UpdateExpenseCategoryRes": {
+            "type": "object",
+            "required": [
+                "updatedExpenseCategory"
+            ],
+            "properties": {
+                "updatedExpenseCategory": {
+                    "$ref": "#/definitions/model.ExpenseCategory"
                 }
             }
         },
