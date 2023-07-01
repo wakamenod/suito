@@ -1093,6 +1093,45 @@ const docTemplate = `{
                         }
                     }
                 }
+            },
+            "delete": {
+                "description": "支出場所情報を削除します",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "suito.IncomeType"
+                ],
+                "summary": "Delete expense incomeType",
+                "operationId": "deleteIncomeType",
+                "parameters": [
+                    {
+                        "description": "delete IncomeType req",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/DeleteIncomeTypeReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/DeleteIncomeTypeRes"
+                        }
+                    },
+                    "500": {
+                        "description": "Unknown Error",
+                        "schema": {
+                            "$ref": "#/definitions/SuitoError"
+                        }
+                    }
+                }
             }
         },
         "/ping": {
@@ -1338,6 +1377,20 @@ const docTemplate = `{
             }
         },
         "DeleteIncomeScheduleRes": {
+            "type": "object"
+        },
+        "DeleteIncomeTypeReq": {
+            "type": "object",
+            "required": [
+                "IncomeTypeId"
+            ],
+            "properties": {
+                "IncomeTypeId": {
+                    "type": "string"
+                }
+            }
+        },
+        "DeleteIncomeTypeRes": {
             "type": "object"
         },
         "ExpenseDetailReq": {

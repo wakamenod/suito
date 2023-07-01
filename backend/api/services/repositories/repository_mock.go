@@ -2922,6 +2922,9 @@ var _ IncomeTypeRepository = &IncomeTypeRepositoryMock{}
 //			CreateIncomeTypeFunc: func(uid string, incomeType model.IncomeType) (model.IncomeType, error) {
 //				panic("mock out the CreateIncomeType method")
 //			},
+//			DeleteIncomeTypeFunc: func(id string, uid string) error {
+//				panic("mock out the DeleteIncomeType method")
+//			},
 //			FindIncomeTypesFunc: func(uid string) ([]model.IncomeType, error) {
 //				panic("mock out the FindIncomeTypes method")
 //			},
@@ -2941,6 +2944,9 @@ type IncomeTypeRepositoryMock struct {
 	// CreateIncomeTypeFunc mocks the CreateIncomeType method.
 	CreateIncomeTypeFunc func(uid string, incomeType model.IncomeType) (model.IncomeType, error)
 
+	// DeleteIncomeTypeFunc mocks the DeleteIncomeType method.
+	DeleteIncomeTypeFunc func(id string, uid string) error
+
 	// FindIncomeTypesFunc mocks the FindIncomeTypes method.
 	FindIncomeTypesFunc func(uid string) ([]model.IncomeType, error)
 
@@ -2958,6 +2964,13 @@ type IncomeTypeRepositoryMock struct {
 			UID string
 			// IncomeType is the incomeType argument value.
 			IncomeType model.IncomeType
+		}
+		// DeleteIncomeType holds details about calls to the DeleteIncomeType method.
+		DeleteIncomeType []struct {
+			// ID is the id argument value.
+			ID string
+			// UID is the uid argument value.
+			UID string
 		}
 		// FindIncomeTypes holds details about calls to the FindIncomeTypes method.
 		FindIncomeTypes []struct {
@@ -2980,6 +2993,7 @@ type IncomeTypeRepositoryMock struct {
 		}
 	}
 	lockCreateIncomeType       sync.RWMutex
+	lockDeleteIncomeType       sync.RWMutex
 	lockFindIncomeTypes        sync.RWMutex
 	lockFindOrCreateIncomeType sync.RWMutex
 	lockUpdateIncomeType       sync.RWMutex
@@ -3018,6 +3032,42 @@ func (mock *IncomeTypeRepositoryMock) CreateIncomeTypeCalls() []struct {
 	mock.lockCreateIncomeType.RLock()
 	calls = mock.calls.CreateIncomeType
 	mock.lockCreateIncomeType.RUnlock()
+	return calls
+}
+
+// DeleteIncomeType calls DeleteIncomeTypeFunc.
+func (mock *IncomeTypeRepositoryMock) DeleteIncomeType(id string, uid string) error {
+	if mock.DeleteIncomeTypeFunc == nil {
+		panic("IncomeTypeRepositoryMock.DeleteIncomeTypeFunc: method is nil but IncomeTypeRepository.DeleteIncomeType was just called")
+	}
+	callInfo := struct {
+		ID  string
+		UID string
+	}{
+		ID:  id,
+		UID: uid,
+	}
+	mock.lockDeleteIncomeType.Lock()
+	mock.calls.DeleteIncomeType = append(mock.calls.DeleteIncomeType, callInfo)
+	mock.lockDeleteIncomeType.Unlock()
+	return mock.DeleteIncomeTypeFunc(id, uid)
+}
+
+// DeleteIncomeTypeCalls gets all the calls that were made to DeleteIncomeType.
+// Check the length with:
+//
+//	len(mockedIncomeTypeRepository.DeleteIncomeTypeCalls())
+func (mock *IncomeTypeRepositoryMock) DeleteIncomeTypeCalls() []struct {
+	ID  string
+	UID string
+} {
+	var calls []struct {
+		ID  string
+		UID string
+	}
+	mock.lockDeleteIncomeType.RLock()
+	calls = mock.calls.DeleteIncomeType
+	mock.lockDeleteIncomeType.RUnlock()
 	return calls
 }
 

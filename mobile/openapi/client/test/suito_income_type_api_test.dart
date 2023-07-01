@@ -7,6 +7,15 @@ void main() {
   final instance = Openapi().getSuitoIncomeTypeApi();
 
   group(SuitoIncomeTypeApi, () {
+    // Delete expense incomeType
+    //
+    // 支出場所情報を削除します
+    //
+    //Future<JsonObject> deleteIncomeType(DeleteIncomeTypeReq request) async
+    test('test deleteIncomeType', () async {
+      // TODO
+    });
+
     // Register income incomeType
     //
     // 収入種別を登録します

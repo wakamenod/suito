@@ -171,3 +171,20 @@ func TestUpdateIncomeType(t *testing.T) {
 		First(&found).Error)
 	require.Equal(t, targetIncomeType.Name, found.Name)
 }
+
+func TestDeleteIncomeType(t *testing.T) {
+	tx := begin()
+	defer rollback(tx)
+	// setup
+	i := testutils.NewTestDataInserter(t, tx)
+	id := i.InsertIncomeType("user1", "IncomeType01").ID
+	i.InsertIncomeType("user99", "Other users incomeType")
+	i.InsertIncomeType("user1", "IncomeType02")
+	// run
+	err := NewSuitoIncomeTypeRepository(tx).DeleteIncomeType(id, "user1")
+	// check
+	require.NoError(t, err)
+
+	var found model.IncomeType
+	require.Error(t, tx.Where("id = ? AND uid = ?", id, "user1").Unscoped().First(&found).Error)
+}

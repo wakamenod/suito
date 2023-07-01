@@ -33,3 +33,8 @@ func TestUpdateIncomeTypeService(t *testing.T) {
 	require.Equal(t, incomeType.ID, newIncomeType.ID)
 	require.Equal(t, incomeType.Name, newIncomeType.Name)
 }
+
+func TestDeleteIncomeTypeService(t *testing.T) {
+	err := incomeTypeSer.DeleteIncomeTypeService("user1", "location_id")
+	require.NoError(t, err)
+}

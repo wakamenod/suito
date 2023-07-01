@@ -29,6 +29,13 @@ func (r *SuitoIncomeTypeRepository) UpdateIncomeType(uid string, IncomeType mode
 	return IncomeType, nil
 }
 
+func (r *SuitoIncomeTypeRepository) DeleteIncomeType(id string, uid string) error {
+	if err := r.db.Where("id = ? AND uid = ?", id, uid).Delete(&model.IncomeType{}).Error; err != nil {
+		return errors.Wrap(err, "failed to delete incomeType")
+	}
+	return nil
+}
+
 func (r *SuitoIncomeTypeRepository) FindIncomeTypes(uid string) ([]model.IncomeType, error) {
 	var res []model.IncomeType
 

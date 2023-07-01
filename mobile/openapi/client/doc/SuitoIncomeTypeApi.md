@@ -9,9 +9,53 @@ All URIs are relative to *http://localhost:8009/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**deleteIncomeType**](SuitoIncomeTypeApi.md#deleteincometype) | **DELETE** /income/types | Delete expense incomeType
 [**registerIncomeType**](SuitoIncomeTypeApi.md#registerincometype) | **POST** /income/types | Register income incomeType
 [**updateIncomeType**](SuitoIncomeTypeApi.md#updateincometype) | **PUT** /income/types | Update expense incomeType
 
+
+# **deleteIncomeType**
+> JsonObject deleteIncomeType(request)
+
+Delete expense incomeType
+
+支出場所情報を削除します
+
+### Example
+```dart
+import 'package:openapi/api.dart';
+
+final api = Openapi().getSuitoIncomeTypeApi();
+final DeleteIncomeTypeReq request = ; // DeleteIncomeTypeReq | delete IncomeType req
+
+try {
+    final response = api.deleteIncomeType(request);
+    print(response);
+} catch on DioError (e) {
+    print('Exception when calling SuitoIncomeTypeApi->deleteIncomeType: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request** | [**DeleteIncomeTypeReq**](DeleteIncomeTypeReq.md)| delete IncomeType req | 
+
+### Return type
+
+[**JsonObject**](JsonObject.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **registerIncomeType**
 > RegisterIncomeTypeRes registerIncomeType(request)

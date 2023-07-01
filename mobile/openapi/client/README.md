@@ -91,6 +91,7 @@ Class | Method | HTTP request | Description
 [*SuitoIncomeScheduleApi*](doc/SuitoIncomeScheduleApi.md) | [**incomeScheduleDetail**](doc/SuitoIncomeScheduleApi.md#incomescheduledetail) | **POST** /income-schedule/detail | Get income schedule detail
 [*SuitoIncomeScheduleApi*](doc/SuitoIncomeScheduleApi.md) | [**registerIncomeSchedule**](doc/SuitoIncomeScheduleApi.md#registerincomeschedule) | **POST** /income-schedule | Register income schedule
 [*SuitoIncomeScheduleApi*](doc/SuitoIncomeScheduleApi.md) | [**updateIncomeSchedule**](doc/SuitoIncomeScheduleApi.md#updateincomeschedule) | **PUT** /income-schedule | Update income schedule
+[*SuitoIncomeTypeApi*](doc/SuitoIncomeTypeApi.md) | [**deleteIncomeType**](doc/SuitoIncomeTypeApi.md#deleteincometype) | **DELETE** /income/types | Delete expense incomeType
 [*SuitoIncomeTypeApi*](doc/SuitoIncomeTypeApi.md) | [**registerIncomeType**](doc/SuitoIncomeTypeApi.md#registerincometype) | **POST** /income/types | Register income incomeType
 [*SuitoIncomeTypeApi*](doc/SuitoIncomeTypeApi.md) | [**updateIncomeType**](doc/SuitoIncomeTypeApi.md#updateincometype) | **PUT** /income/types | Update expense incomeType
 [*SuitoTransactionSchedulesApi*](doc/SuitoTransactionSchedulesApi.md) | [**listTransactionSchedules**](doc/SuitoTransactionSchedulesApi.md#listtransactionschedules) | **GET** /schedules | List transaction schedules
@@ -107,6 +108,7 @@ Class | Method | HTTP request | Description
  - [DeleteExpenseReq](doc/DeleteExpenseReq.md)
  - [DeleteExpenseScheduleReq](doc/DeleteExpenseScheduleReq.md)
  - [DeleteIncomeScheduleReq](doc/DeleteIncomeScheduleReq.md)
+ - [DeleteIncomeTypeReq](doc/DeleteIncomeTypeReq.md)
  - [ExpenseDetailReq](doc/ExpenseDetailReq.md)
  - [ExpenseDetailRes](doc/ExpenseDetailRes.md)
  - [ExpenseScheduleDetailReq](doc/ExpenseScheduleDetailReq.md)

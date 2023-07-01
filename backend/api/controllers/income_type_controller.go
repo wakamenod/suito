@@ -37,6 +37,12 @@ type (
 	UpdateIncomeTypeRes struct {
 		UpdatedIncomeType model.IncomeType `json:"updatedIncomeType"`
 	} // @Name UpdateIncomeTypeRes
+
+	DeleteIncomeTypeReq struct {
+		IncomeTypeID string `json:"IncomeTypeId" validate:"required"`
+	} // @Name DeleteIncomeTypeReq
+	DeleteIncomeTypeRes struct {
+	} // @Name DeleteIncomeTypeRes
 )
 
 // @Summary     List income types
@@ -123,5 +129,35 @@ func (s *IncomeTypeController) UpdateIncomeTypeHandler(c echo.Context) error {
 	var res UpdateIncomeTypeRes
 	res.UpdatedIncomeType = incomeType
 
+	return webutils.Response(c, http.StatusOK, res)
+}
+
+// @Summary     Delete expense incomeType
+// @Description 支出場所情報を削除します
+// @Tags        suito.IncomeType
+// @ID          deleteIncomeType
+// @Accept      json
+// @Produce     json
+// @Param       request body     DeleteIncomeTypeReq   true           "delete IncomeType req"
+// @Success     200     {object} DeleteIncomeTypeRes   "Success"
+// @Failure     500     {object} apperrors.SuitoError  "Unknown Error"
+// @Router      /income/types [DELETE]
+func (s *IncomeTypeController) DeleteIncomeTypeHandler(c echo.Context) error {
+	var req DeleteIncomeTypeReq
+
+	if err := c.Bind(&req); err != nil {
+		return errors.Wrap(err, "failed bind")
+	}
+	if err := c.Validate(req); err != nil {
+		return err
+	}
+
+	uid := c.Get(middleware.UIDKey).(string)
+	err := s.service.DeleteIncomeTypeService(req.IncomeTypeID, uid)
+	if err != nil {
+		return err
+	}
+
+	var res DeleteIncomeTypeRes
 	return webutils.Response(c, http.StatusOK, res)
 }

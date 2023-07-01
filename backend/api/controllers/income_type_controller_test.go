@@ -116,3 +116,25 @@ func TestUpdateIncomeTypeHandler_Success(t *testing.T) {
 	require.Equal(t, "incomeTypeID", res.UpdatedIncomeType.ID)
 	require.Equal(t, "TestIncomeType", res.UpdatedIncomeType.Name)
 }
+
+func TestDeleteIncomeTypeHandler_Success(t *testing.T) {
+	// Setup
+	e := echo.New()
+	e.Validator = validate.NewValidator()
+	jsonReq, err := json.Marshal(DeleteIncomeTypeReq{
+		IncomeTypeID: "incomeType_id",
+	})
+	require.NoError(t, err)
+	req := httptest.NewRequest(http.MethodDelete, "/", bytes.NewReader(jsonReq))
+	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+	rec := httptest.NewRecorder()
+	c := e.NewContext(req, rec)
+	c.Set(middleware.UIDKey, "user1")
+
+	// Assertions
+	require.NoError(t, incomeTypeCon.DeleteIncomeTypeHandler(c))
+	require.Equal(t, http.StatusOK, rec.Code)
+
+	var res DeleteIncomeTypeRes
+	require.NoError(t, json.Unmarshal(rec.Body.Bytes(), &res))
+}

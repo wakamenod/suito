@@ -748,6 +748,33 @@ paths:
               schema:
                 $ref: '#/components/schemas/SuitoError'
       x-codegen-request-body-name: request
+    delete:
+      tags:
+      - suito.IncomeType
+      summary: Delete expense incomeType
+      description: 支出場所情報を削除します
+      operationId: deleteIncomeType
+      requestBody:
+        description: delete IncomeType req
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteIncomeTypeReq'
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteIncomeTypeRes'
+        500:
+          description: Unknown Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuitoError'
+      x-codegen-request-body-name: request
   /ping:
     get:
       tags:
@@ -910,6 +937,15 @@ components:
         incomeScheduleId:
           type: string
     DeleteIncomeScheduleRes:
+      type: object
+    DeleteIncomeTypeReq:
+      required:
+      - IncomeTypeId
+      type: object
+      properties:
+        IncomeTypeId:
+          type: string
+    DeleteIncomeTypeRes:
       type: object
     ExpenseDetailReq:
       required:
