@@ -25,3 +25,10 @@ func (s *SuitoIncomeTypeService) UpdateIncomeTypeService(uid string, incomeType 
 	}
 	return incomeType, nil
 }
+
+func (s *SuitoIncomeTypeService) DeleteIncomeTypeService(id, uid string) error {
+	if err := s.incomeTypeRepo.DeleteIncomeType(id, uid); err != nil {
+		return err
+	}
+	return nil
+}

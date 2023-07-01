@@ -45,6 +45,7 @@ type IncomeTypeService interface {
 	ListIncomeTypesService(uid string) ([]model.IncomeType, error)
 	CreateIncomeTypeService(uid string, location model.IncomeType) (model.IncomeType, error)
 	UpdateIncomeTypeService(uid string, location model.IncomeType) (model.IncomeType, error)
+	DeleteIncomeTypeService(id, uid string) error
 }
 
 type IncomeScheduleService interface {

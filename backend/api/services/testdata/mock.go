@@ -225,6 +225,9 @@ var IncomeTypeRepositoryMock = srepositories.IncomeTypeRepositoryMock{
 	UpdateIncomeTypeFunc: func(uid string, incomeType model.IncomeType) (model.IncomeType, error) {
 		return incomeType, nil
 	},
+	DeleteIncomeTypeFunc: func(id string, uid string) error {
+		return nil
+	},
 }
 
 var TransactionMonthsRepositoryMock = srepositories.TransactionMonthsRepositoryMock{

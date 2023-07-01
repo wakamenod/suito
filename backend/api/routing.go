@@ -89,6 +89,7 @@ func InitRoute(e *echo.Echo, db *gorm.DB) *echo.Echo {
 			c.GET("/types", incomeTypeCon.IncomeTypesHandler)
 			c.POST("", incomeTypeCon.RegisterIncomeTypeHandler)
 			c.PUT("", incomeTypeCon.UpdateIncomeTypeHandler)
+			c.DELETE("", incomeTypeCon.DeleteIncomeTypeHandler)
 		}
 	}
 	{
