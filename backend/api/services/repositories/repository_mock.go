@@ -21,7 +21,7 @@ var _ ExpenseCategoryRepository = &ExpenseCategoryRepositoryMock{}
 //
 //		// make and configure a mocked ExpenseCategoryRepository
 //		mockedExpenseCategoryRepository := &ExpenseCategoryRepositoryMock{
-//			CreateExpenseCategoryFunc: func(uid string, expense model.ExpenseCategory) (model.ExpenseCategory, error) {
+//			CreateExpenseCategoryFunc: func(uid string, expenseCategory model.ExpenseCategory) (model.ExpenseCategory, error) {
 //				panic("mock out the CreateExpenseCategory method")
 //			},
 //			EndTxFunc: func(db *gorm.DB)  {
@@ -42,6 +42,9 @@ var _ ExpenseCategoryRepository = &ExpenseCategoryRepositoryMock{}
 //			StartTxFunc: func(tx *gorm.DB)  {
 //				panic("mock out the StartTx method")
 //			},
+//			UpdateExpenseCategoryFunc: func(uid string, expenseCategory model.ExpenseCategory) (model.ExpenseCategory, error) {
+//				panic("mock out the UpdateExpenseCategory method")
+//			},
 //		}
 //
 //		// use mockedExpenseCategoryRepository in code that requires ExpenseCategoryRepository
@@ -50,7 +53,7 @@ var _ ExpenseCategoryRepository = &ExpenseCategoryRepositoryMock{}
 //	}
 type ExpenseCategoryRepositoryMock struct {
 	// CreateExpenseCategoryFunc mocks the CreateExpenseCategory method.
-	CreateExpenseCategoryFunc func(uid string, expense model.ExpenseCategory) (model.ExpenseCategory, error)
+	CreateExpenseCategoryFunc func(uid string, expenseCategory model.ExpenseCategory) (model.ExpenseCategory, error)
 
 	// EndTxFunc mocks the EndTx method.
 	EndTxFunc func(db *gorm.DB)
@@ -70,14 +73,17 @@ type ExpenseCategoryRepositoryMock struct {
 	// StartTxFunc mocks the StartTx method.
 	StartTxFunc func(tx *gorm.DB)
 
+	// UpdateExpenseCategoryFunc mocks the UpdateExpenseCategory method.
+	UpdateExpenseCategoryFunc func(uid string, expenseCategory model.ExpenseCategory) (model.ExpenseCategory, error)
+
 	// calls tracks calls to the methods.
 	calls struct {
 		// CreateExpenseCategory holds details about calls to the CreateExpenseCategory method.
 		CreateExpenseCategory []struct {
 			// UID is the uid argument value.
 			UID string
-			// Expense is the expense argument value.
-			Expense model.ExpenseCategory
+			// ExpenseCategory is the expenseCategory argument value.
+			ExpenseCategory model.ExpenseCategory
 		}
 		// EndTx holds details about calls to the EndTx method.
 		EndTx []struct {
@@ -113,6 +119,13 @@ type ExpenseCategoryRepositoryMock struct {
 			// Tx is the tx argument value.
 			Tx *gorm.DB
 		}
+		// UpdateExpenseCategory holds details about calls to the UpdateExpenseCategory method.
+		UpdateExpenseCategory []struct {
+			// UID is the uid argument value.
+			UID string
+			// ExpenseCategory is the expenseCategory argument value.
+			ExpenseCategory model.ExpenseCategory
+		}
 	}
 	lockCreateExpenseCategory              sync.RWMutex
 	lockEndTx                              sync.RWMutex
@@ -121,24 +134,25 @@ type ExpenseCategoryRepositoryMock struct {
 	lockFindOrCreateExpenseCategory        sync.RWMutex
 	lockHardDeleteAllUserExpenseCategories sync.RWMutex
 	lockStartTx                            sync.RWMutex
+	lockUpdateExpenseCategory              sync.RWMutex
 }
 
 // CreateExpenseCategory calls CreateExpenseCategoryFunc.
-func (mock *ExpenseCategoryRepositoryMock) CreateExpenseCategory(uid string, expense model.ExpenseCategory) (model.ExpenseCategory, error) {
+func (mock *ExpenseCategoryRepositoryMock) CreateExpenseCategory(uid string, expenseCategory model.ExpenseCategory) (model.ExpenseCategory, error) {
 	if mock.CreateExpenseCategoryFunc == nil {
 		panic("ExpenseCategoryRepositoryMock.CreateExpenseCategoryFunc: method is nil but ExpenseCategoryRepository.CreateExpenseCategory was just called")
 	}
 	callInfo := struct {
-		UID     string
-		Expense model.ExpenseCategory
+		UID             string
+		ExpenseCategory model.ExpenseCategory
 	}{
-		UID:     uid,
-		Expense: expense,
+		UID:             uid,
+		ExpenseCategory: expenseCategory,
 	}
 	mock.lockCreateExpenseCategory.Lock()
 	mock.calls.CreateExpenseCategory = append(mock.calls.CreateExpenseCategory, callInfo)
 	mock.lockCreateExpenseCategory.Unlock()
-	return mock.CreateExpenseCategoryFunc(uid, expense)
+	return mock.CreateExpenseCategoryFunc(uid, expenseCategory)
 }
 
 // CreateExpenseCategoryCalls gets all the calls that were made to CreateExpenseCategory.
@@ -146,12 +160,12 @@ func (mock *ExpenseCategoryRepositoryMock) CreateExpenseCategory(uid string, exp
 //
 //	len(mockedExpenseCategoryRepository.CreateExpenseCategoryCalls())
 func (mock *ExpenseCategoryRepositoryMock) CreateExpenseCategoryCalls() []struct {
-	UID     string
-	Expense model.ExpenseCategory
+	UID             string
+	ExpenseCategory model.ExpenseCategory
 } {
 	var calls []struct {
-		UID     string
-		Expense model.ExpenseCategory
+		UID             string
+		ExpenseCategory model.ExpenseCategory
 	}
 	mock.lockCreateExpenseCategory.RLock()
 	calls = mock.calls.CreateExpenseCategory
@@ -356,6 +370,42 @@ func (mock *ExpenseCategoryRepositoryMock) StartTxCalls() []struct {
 	mock.lockStartTx.RLock()
 	calls = mock.calls.StartTx
 	mock.lockStartTx.RUnlock()
+	return calls
+}
+
+// UpdateExpenseCategory calls UpdateExpenseCategoryFunc.
+func (mock *ExpenseCategoryRepositoryMock) UpdateExpenseCategory(uid string, expenseCategory model.ExpenseCategory) (model.ExpenseCategory, error) {
+	if mock.UpdateExpenseCategoryFunc == nil {
+		panic("ExpenseCategoryRepositoryMock.UpdateExpenseCategoryFunc: method is nil but ExpenseCategoryRepository.UpdateExpenseCategory was just called")
+	}
+	callInfo := struct {
+		UID             string
+		ExpenseCategory model.ExpenseCategory
+	}{
+		UID:             uid,
+		ExpenseCategory: expenseCategory,
+	}
+	mock.lockUpdateExpenseCategory.Lock()
+	mock.calls.UpdateExpenseCategory = append(mock.calls.UpdateExpenseCategory, callInfo)
+	mock.lockUpdateExpenseCategory.Unlock()
+	return mock.UpdateExpenseCategoryFunc(uid, expenseCategory)
+}
+
+// UpdateExpenseCategoryCalls gets all the calls that were made to UpdateExpenseCategory.
+// Check the length with:
+//
+//	len(mockedExpenseCategoryRepository.UpdateExpenseCategoryCalls())
+func (mock *ExpenseCategoryRepositoryMock) UpdateExpenseCategoryCalls() []struct {
+	UID             string
+	ExpenseCategory model.ExpenseCategory
+} {
+	var calls []struct {
+		UID             string
+		ExpenseCategory model.ExpenseCategory
+	}
+	mock.lockUpdateExpenseCategory.RLock()
+	calls = mock.calls.UpdateExpenseCategory
+	mock.lockUpdateExpenseCategory.RUnlock()
 	return calls
 }
 

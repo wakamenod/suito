@@ -400,6 +400,45 @@ const docTemplate = `{
                     }
                 }
             },
+            "put": {
+                "description": "支出カテゴリー情報を更新します",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "suito.expenseCategory"
+                ],
+                "summary": "Update expense category",
+                "operationId": "updateExpenseCategory",
+                "parameters": [
+                    {
+                        "description": "update expenseCategory req",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/UpdateExpenseCategoryReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/UpdateExpenseCategoryRes"
+                        }
+                    },
+                    "500": {
+                        "description": "Unknown Error",
+                        "schema": {
+                            "$ref": "#/definitions/SuitoError"
+                        }
+                    }
+                }
+            },
             "post": {
                 "description": "支出カテゴリー情報を登録します",
                 "consumes": [
@@ -1451,6 +1490,28 @@ const docTemplate = `{
                 },
                 "title": {
                     "type": "string"
+                }
+            }
+        },
+        "UpdateExpenseCategoryReq": {
+            "type": "object",
+            "required": [
+                "expenseCategory"
+            ],
+            "properties": {
+                "expenseCategory": {
+                    "$ref": "#/definitions/model.ExpenseCategory"
+                }
+            }
+        },
+        "UpdateExpenseCategoryRes": {
+            "type": "object",
+            "required": [
+                "updatedExpenseCategory"
+            ],
+            "properties": {
+                "updatedExpenseCategory": {
+                    "$ref": "#/definitions/model.ExpenseCategory"
                 }
             }
         },

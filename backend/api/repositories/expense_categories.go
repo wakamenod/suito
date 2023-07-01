@@ -41,6 +41,17 @@ func (r *SuitoExpenseCategoryRepository) CreateExpenseCategory(uid string, categ
 	return category, nil
 }
 
+func (r *SuitoExpenseCategoryRepository) UpdateExpenseCategory(uid string, expenseCategory model.ExpenseCategory) (model.ExpenseCategory, error) {
+	if err := r.db.Model(&model.ExpenseCategory{}).
+		Where("id = ? AND uid = ?", expenseCategory.ID, uid).
+		Updates(map[string]any{
+			"name": expenseCategory.Name,
+		}).Error; err != nil {
+		return expenseCategory, errors.Wrap(err, "failed to update expenseCategorys")
+	}
+	return expenseCategory, nil
+}
+
 func (r *SuitoExpenseCategoryRepository) FindOrCreateExpenseCategory(uid string, name string) (model.ExpenseCategory, error) {
 	var res model.ExpenseCategory
 

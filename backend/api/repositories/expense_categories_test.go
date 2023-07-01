@@ -200,3 +200,25 @@ func TestCreateExpenseCategory(t *testing.T) {
 	require.Equal(t, "user1", res.UID)
 	require.Equal(t, category.Name, res.Name)
 }
+
+func TestUpdateExpenseCategory(t *testing.T) {
+	tx := begin()
+	defer rollback(tx)
+	// setup
+	i := testutils.NewTestDataInserter(t, tx)
+	id := i.InsertExpenseCategory("user1", "Category01").ID
+	i.InsertExpenseCategory("user99", "Other users category")
+	i.InsertExpenseCategory("user1", "Category02")
+	targetExpenseCategory := model.ExpenseCategory{
+		ID:   id,
+		Name: "update name",
+	}
+	// run
+	_, err := NewSuitoExpenseCategoryRepository(tx).UpdateExpenseCategory("user1", targetExpenseCategory)
+	// check
+	require.NoError(t, err)
+
+	found, err := NewSuitoExpenseCategoryRepository(tx).FindExpenseCategory(id, "user1")
+	require.NoError(t, err)
+	require.Equal(t, targetExpenseCategory.Name, found.Name)
+}
