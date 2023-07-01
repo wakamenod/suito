@@ -45,6 +45,8 @@ doc/RegisterIncomeReq.md
 doc/RegisterIncomeRes.md
 doc/RegisterIncomeScheduleReq.md
 doc/RegisterIncomeScheduleRes.md
+doc/RegisterIncomeTypeReq.md
+doc/RegisterIncomeTypeRes.md
 doc/SuitoChartApi.md
 doc/SuitoDefaultApi.md
 doc/SuitoError.md
@@ -54,6 +56,7 @@ doc/SuitoExpenseLocationApi.md
 doc/SuitoExpenseScheduleApi.md
 doc/SuitoIncomeApi.md
 doc/SuitoIncomeScheduleApi.md
+doc/SuitoIncomeTypeApi.md
 doc/SuitoTransactionSchedulesApi.md
 doc/SuitoTransactionsApi.md
 doc/Transaction.md
@@ -81,6 +84,7 @@ lib/src/api/suito_expense_location_api.dart
 lib/src/api/suito_expense_schedule_api.dart
 lib/src/api/suito_income_api.dart
 lib/src/api/suito_income_schedule_api.dart
+lib/src/api/suito_income_type_api.dart
 lib/src/api/suito_transaction_schedules_api.dart
 lib/src/api/suito_transactions_api.dart
 lib/src/api_util.dart
@@ -134,6 +138,8 @@ lib/src/model/register_income_req.dart
 lib/src/model/register_income_res.dart
 lib/src/model/register_income_schedule_req.dart
 lib/src/model/register_income_schedule_res.dart
+lib/src/model/register_income_type_req.dart
+lib/src/model/register_income_type_res.dart
 lib/src/model/suito_error.dart
 lib/src/model/transaction.dart
 lib/src/model/transaction_months_res.dart
@@ -195,6 +201,8 @@ test/register_income_req_test.dart
 test/register_income_res_test.dart
 test/register_income_schedule_req_test.dart
 test/register_income_schedule_res_test.dart
+test/register_income_type_req_test.dart
+test/register_income_type_res_test.dart
 test/suito_chart_api_test.dart
 test/suito_default_api_test.dart
 test/suito_error_test.dart
@@ -204,6 +212,7 @@ test/suito_expense_location_api_test.dart
 test/suito_expense_schedule_api_test.dart
 test/suito_income_api_test.dart
 test/suito_income_schedule_api_test.dart
+test/suito_income_type_api_test.dart
 test/suito_transaction_schedules_api_test.dart
 test/suito_transactions_api_test.dart
 test/transaction_months_res_test.dart

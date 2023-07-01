@@ -17,6 +17,7 @@ var esCon *ExpenseScheduleController
 var isCon *IncomeScheduleController
 var categoryCon *ExpenseCategoryController
 var locationCon *ExpenseLocationController
+var incomeTypeCon *IncomeTypeController
 
 func TestMain(m *testing.M) {
 	mockTransactionProvider := transaction.ProviderMock{
@@ -27,13 +28,14 @@ func TestMain(m *testing.M) {
 
 	transactionSer := services.NewSuitoTransactionService(&testdata.ExpenseRepositoryMock, &testdata.IncomeRepositoryMock, &testdata.TransactionMonthsRepositoryMock)
 	expenseSer := services.NewSuitoExpenseService(&testdata.ExpenseRepositoryMock, &testdata.ExpenseCategoryRepositoryMock, &testdata.ExpenseLocationRepositoryMock)
-	incomeSer := services.NewSuitoIncomeService(&testdata.IncomeRepositoryMock, &testdata.IncomeTypeRepositoryMock)
+	incomeSer := services.NewSuitoIncomeService(&testdata.IncomeRepositoryMock)
 	chartSer := services.NewSuitoChartService(&testdata.ExpenseRepositoryMock, &testdata.IncomeRepositoryMock)
 	transactionScheduleSer := services.NewSuitoTransactionScheduleService(&testdata.ExpenseScheduleRepositoryMock, &testdata.IncomeScheduleRepositoryMock)
 	expenseScheduleSer := services.NewSuitoExpenseScheduleService(&testdata.ExpenseScheduleRepositoryMock, &mockTransactionProvider)
 	incomeScheduleSer := services.NewSuitoIncomeScheduleService(&testdata.IncomeScheduleRepositoryMock, &mockTransactionProvider)
 	categorySer := services.NewSuitoExpenseCategoryService(&testdata.ExpenseCategoryRepositoryMock)
 	locationSer := services.NewSuitoExpenseLocationService(&testdata.ExpenseLocationRepositoryMock)
+	incomeTypeSer := services.NewSuitoIncomeTypeService(&testdata.IncomeTypeRepositoryMock)
 
 	tCon = NewTransactionController(transactionSer)
 	eCon = NewExpenseController(expenseSer)
@@ -44,6 +46,7 @@ func TestMain(m *testing.M) {
 	isCon = NewIncomeScheduleController(incomeScheduleSer)
 	categoryCon = NewExpenseCategoryController(categorySer)
 	locationCon = NewExpenseLocationController(locationSer)
+	incomeTypeCon = NewIncomeTypeController(incomeTypeSer)
 
 	m.Run()
 }

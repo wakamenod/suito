@@ -134,3 +134,17 @@ func TestFindOrCreateIncomeType_OtherError(t *testing.T) {
 		t.Errorf("there were unfulfilled expectations: %s", err)
 	}
 }
+
+func TestCreateIncomeType(t *testing.T) {
+	tx := begin()
+	defer rollback(tx)
+	// setup
+	incomeType := model.IncomeType{Name: "incomeType name"}
+	// run
+	res, err := NewSuitoIncomeTypeRepository(tx).CreateIncomeType("user1", incomeType)
+	// check
+	require.NoError(t, err)
+	require.NotEmpty(t, res.ID)
+	require.Equal(t, "user1", res.UID)
+	require.Equal(t, incomeType.Name, res.Name)
+}

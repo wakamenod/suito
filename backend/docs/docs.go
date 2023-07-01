@@ -1015,6 +1015,45 @@ const docTemplate = `{
                         }
                     }
                 }
+            },
+            "post": {
+                "description": "収入種別を登録します",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "suito.incomeType"
+                ],
+                "summary": "Register income incomeType",
+                "operationId": "registerIncomeType",
+                "parameters": [
+                    {
+                        "description": "register incomeType req",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/RegisterIncomeTypeReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/RegisterIncomeTypeRes"
+                        }
+                    },
+                    "500": {
+                        "description": "Unknown Error",
+                        "schema": {
+                            "$ref": "#/definitions/SuitoError"
+                        }
+                    }
+                }
             }
         },
         "/ping": {
@@ -1621,6 +1660,28 @@ const docTemplate = `{
             "properties": {
                 "newIncomeSchedule": {
                     "$ref": "#/definitions/model.IncomeSchedule"
+                }
+            }
+        },
+        "RegisterIncomeTypeReq": {
+            "type": "object",
+            "required": [
+                "IncomeType"
+            ],
+            "properties": {
+                "IncomeType": {
+                    "$ref": "#/definitions/model.IncomeType"
+                }
+            }
+        },
+        "RegisterIncomeTypeRes": {
+            "type": "object",
+            "required": [
+                "newIncomeType"
+            ],
+            "properties": {
+                "newIncomeType": {
+                    "$ref": "#/definitions/model.IncomeType"
                 }
             }
         },

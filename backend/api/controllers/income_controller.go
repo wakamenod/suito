@@ -34,10 +34,6 @@ type (
 		Income model.Income `json:"income"`
 	} // @Name IncomeDetailRes
 
-	ListIncomeTypesRes struct {
-		IncomeTypes []model.IncomeType `json:"incomeTypes"`
-	} // @Name ListIncomeTypesRes
-
 	UpdateIncomeReq struct {
 		Income model.Income `json:"income" validate:"required"`
 	} // @Name UpdateIncomeReq
@@ -106,29 +102,6 @@ func (s *IncomeController) RegisterIncomeHandler(c echo.Context) error {
 
 	var res RegisterIncomeRes
 	res.NewIncome = newIncome
-
-	return webutils.Response(c, http.StatusOK, res)
-}
-
-// @Summary     List income types
-// @Description 収入種別一覧を返却します.
-// @Tags        suito.income
-// @ID          listIncomeTypes
-// @Accept      json
-// @Produce     json
-// @Success     200 {object}  ListIncomeTypesRes "Success"
-// @Failure     500 {object}  apperrors.SuitoError "Unknown Error"
-// @Router      /income/types [GET]
-func (s *IncomeController) IncomeTypesHandler(c echo.Context) error {
-	var res ListIncomeTypesRes
-
-	uid := c.Get(middleware.UIDKey).(string)
-
-	categories, err := s.service.ListIncomeTypesService(uid)
-	if err != nil {
-		return err
-	}
-	res.IncomeTypes = categories
 
 	return webutils.Response(c, http.StatusOK, res)
 }

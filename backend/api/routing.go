@@ -30,7 +30,7 @@ func InitRoute(e *echo.Echo, db *gorm.DB) *echo.Echo {
 	transactionProvider := transaction.NewSuitoTransactionProvider(db)
 
 	transactionSer := services.NewSuitoTransactionService(expenseRepo, incomeRepo, transactionMonthsRepo)
-	incomeSer := services.NewSuitoIncomeService(incomeRepo, incomeTypeRepo)
+	incomeSer := services.NewSuitoIncomeService(incomeRepo)
 	expenseSer := services.NewSuitoExpenseService(expenseRepo, categoryRepo, locationRepo)
 	expenseCategorySer := services.NewSuitoExpenseCategoryService(categoryRepo)
 	expenseLocationSer := services.NewSuitoExpenseLocationService(locationRepo)
@@ -38,6 +38,7 @@ func InitRoute(e *echo.Echo, db *gorm.DB) *echo.Echo {
 	transactionScheduleSer := services.NewSuitoTransactionScheduleService(expenseScheduleRepo, incomeScheduleRepo)
 	expenseScheduleSer := services.NewSuitoExpenseScheduleService(expenseScheduleRepo, transactionProvider)
 	incomeScheduleSer := services.NewSuitoIncomeScheduleService(incomeScheduleRepo, transactionProvider)
+	incomeTypeSer := services.NewSuitoIncomeTypeService(incomeTypeRepo)
 
 	tCon := controllers.NewTransactionController(transactionSer)
 	iCon := controllers.NewIncomeController(incomeSer)
@@ -48,6 +49,7 @@ func InitRoute(e *echo.Echo, db *gorm.DB) *echo.Echo {
 	isCon := controllers.NewIncomeScheduleController(incomeScheduleSer)
 	categoryCon := controllers.NewExpenseCategoryController(expenseCategorySer)
 	locationCon := controllers.NewExpenseLocationController(expenseLocationSer)
+	incomeTypeCon := controllers.NewIncomeTypeController(incomeTypeSer)
 
 	{
 		a := g.Group("/transactions")
@@ -81,8 +83,12 @@ func InitRoute(e *echo.Echo, db *gorm.DB) *echo.Echo {
 		a := g.Group("/income")
 		a.POST("/", iCon.RegisterIncomeHandler)
 		a.POST("/detail", iCon.IncomeDetailHandler)
-		a.GET("/types", iCon.IncomeTypesHandler)
 		a.PUT("", iCon.UpdateIncomeHandler)
+		{
+			c := a.Group("/types")
+			c.GET("/types", incomeTypeCon.IncomeTypesHandler)
+			c.POST("", incomeTypeCon.RegisterIncomeTypeHandler)
+		}
 	}
 	{
 		a := g.Group("/chart")

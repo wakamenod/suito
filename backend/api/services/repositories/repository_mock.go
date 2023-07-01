@@ -2919,6 +2919,9 @@ var _ IncomeTypeRepository = &IncomeTypeRepositoryMock{}
 //
 //		// make and configure a mocked IncomeTypeRepository
 //		mockedIncomeTypeRepository := &IncomeTypeRepositoryMock{
+//			CreateIncomeTypeFunc: func(uid string, incomeType model.IncomeType) (model.IncomeType, error) {
+//				panic("mock out the CreateIncomeType method")
+//			},
 //			FindIncomeTypesFunc: func(uid string) ([]model.IncomeType, error) {
 //				panic("mock out the FindIncomeTypes method")
 //			},
@@ -2932,6 +2935,9 @@ var _ IncomeTypeRepository = &IncomeTypeRepositoryMock{}
 //
 //	}
 type IncomeTypeRepositoryMock struct {
+	// CreateIncomeTypeFunc mocks the CreateIncomeType method.
+	CreateIncomeTypeFunc func(uid string, incomeType model.IncomeType) (model.IncomeType, error)
+
 	// FindIncomeTypesFunc mocks the FindIncomeTypes method.
 	FindIncomeTypesFunc func(uid string) ([]model.IncomeType, error)
 
@@ -2940,6 +2946,13 @@ type IncomeTypeRepositoryMock struct {
 
 	// calls tracks calls to the methods.
 	calls struct {
+		// CreateIncomeType holds details about calls to the CreateIncomeType method.
+		CreateIncomeType []struct {
+			// UID is the uid argument value.
+			UID string
+			// IncomeType is the incomeType argument value.
+			IncomeType model.IncomeType
+		}
 		// FindIncomeTypes holds details about calls to the FindIncomeTypes method.
 		FindIncomeTypes []struct {
 			// UID is the uid argument value.
@@ -2953,8 +2966,45 @@ type IncomeTypeRepositoryMock struct {
 			Name string
 		}
 	}
+	lockCreateIncomeType       sync.RWMutex
 	lockFindIncomeTypes        sync.RWMutex
 	lockFindOrCreateIncomeType sync.RWMutex
+}
+
+// CreateIncomeType calls CreateIncomeTypeFunc.
+func (mock *IncomeTypeRepositoryMock) CreateIncomeType(uid string, incomeType model.IncomeType) (model.IncomeType, error) {
+	if mock.CreateIncomeTypeFunc == nil {
+		panic("IncomeTypeRepositoryMock.CreateIncomeTypeFunc: method is nil but IncomeTypeRepository.CreateIncomeType was just called")
+	}
+	callInfo := struct {
+		UID        string
+		IncomeType model.IncomeType
+	}{
+		UID:        uid,
+		IncomeType: incomeType,
+	}
+	mock.lockCreateIncomeType.Lock()
+	mock.calls.CreateIncomeType = append(mock.calls.CreateIncomeType, callInfo)
+	mock.lockCreateIncomeType.Unlock()
+	return mock.CreateIncomeTypeFunc(uid, incomeType)
+}
+
+// CreateIncomeTypeCalls gets all the calls that were made to CreateIncomeType.
+// Check the length with:
+//
+//	len(mockedIncomeTypeRepository.CreateIncomeTypeCalls())
+func (mock *IncomeTypeRepositoryMock) CreateIncomeTypeCalls() []struct {
+	UID        string
+	IncomeType model.IncomeType
+} {
+	var calls []struct {
+		UID        string
+		IncomeType model.IncomeType
+	}
+	mock.lockCreateIncomeType.RLock()
+	calls = mock.calls.CreateIncomeType
+	mock.lockCreateIncomeType.RUnlock()
+	return calls
 }
 
 // FindIncomeTypes calls FindIncomeTypesFunc.
