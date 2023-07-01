@@ -65,6 +65,10 @@ type SuitoExpenseCategoryService struct {
 	expenseCategoryRepo repositories.ExpenseCategoryRepository
 }
 
+type SuitoExpenseLocationService struct {
+	expenseLocationRepo repositories.ExpenseLocationRepository
+}
+
 func NewSuitoChartService(exRepo repositories.ExpenseRepository, inRepo repositories.IncomeRepository) *SuitoChartService {
 	return &SuitoChartService{expenseRepo: exRepo, incomeRepo: inRepo}
 }
@@ -174,5 +178,13 @@ func NewSuitoExpenseCategoryService(
 ) *SuitoExpenseCategoryService {
 	return &SuitoExpenseCategoryService{
 		expenseCategoryRepo: expenseCategoryRepo,
+	}
+}
+
+func NewSuitoExpenseLocationService(
+	expenseLocationRepo repositories.ExpenseLocationRepository,
+) *SuitoExpenseLocationService {
+	return &SuitoExpenseLocationService{
+		expenseLocationRepo: expenseLocationRepo,
 	}
 }

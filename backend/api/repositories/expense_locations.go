@@ -30,6 +30,17 @@ func (r *SuitoExpenseLocationRepository) FindExpenseLocation(id string, uid stri
 	return res, nil
 }
 
+func (r *SuitoExpenseLocationRepository) CreateExpenseLocation(uid string, location model.ExpenseLocation) (model.ExpenseLocation, error) {
+	location.ID = xid.New().String()
+	location.UID = uid
+
+	if err := r.db.Create(&location).Error; err != nil {
+		return location, errors.Wrap(err, "failed to create expense location")
+	}
+
+	return location, nil
+}
+
 func (r *SuitoExpenseLocationRepository) FindOrCreateExpenseLocation(uid string, name string) (model.ExpenseLocation, error) {
 	var res model.ExpenseLocation
 

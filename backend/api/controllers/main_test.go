@@ -16,6 +16,7 @@ var sCon *TransactionScheduleController
 var esCon *ExpenseScheduleController
 var isCon *IncomeScheduleController
 var categoryCon *ExpenseCategoryController
+var locationCon *ExpenseLocationController
 
 func TestMain(m *testing.M) {
 	mockTransactionProvider := transaction.ProviderMock{
@@ -32,6 +33,7 @@ func TestMain(m *testing.M) {
 	expenseScheduleSer := services.NewSuitoExpenseScheduleService(&testdata.ExpenseScheduleRepositoryMock, &mockTransactionProvider)
 	incomeScheduleSer := services.NewSuitoIncomeScheduleService(&testdata.IncomeScheduleRepositoryMock, &mockTransactionProvider)
 	categorySer := services.NewSuitoExpenseCategoryService(&testdata.ExpenseCategoryRepositoryMock)
+	locationSer := services.NewSuitoExpenseLocationService(&testdata.ExpenseLocationRepositoryMock)
 
 	tCon = NewTransactionController(transactionSer)
 	eCon = NewExpenseController(expenseSer)
@@ -41,6 +43,7 @@ func TestMain(m *testing.M) {
 	esCon = NewExpenseScheduleController(expenseScheduleSer)
 	isCon = NewIncomeScheduleController(incomeScheduleSer)
 	categoryCon = NewExpenseCategoryController(categorySer)
+	locationCon = NewExpenseLocationController(locationSer)
 
 	m.Run()
 }

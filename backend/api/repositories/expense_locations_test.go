@@ -186,3 +186,17 @@ func TestHardDeleteAllUserExpenseLocations(t *testing.T) {
 	tx.Model(&model.ExpenseLocation{}).Count(&cnt)
 	require.EqualValues(t, 1, cnt)
 }
+
+func TestCreateExpenseLocation(t *testing.T) {
+	tx := begin()
+	defer rollback(tx)
+	// setup
+	location := model.ExpenseLocation{Name: "location name"}
+	// run
+	res, err := NewSuitoExpenseLocationRepository(tx).CreateExpenseLocation("user1", location)
+	// check
+	require.NoError(t, err)
+	require.NotEmpty(t, res.ID)
+	require.Equal(t, "user1", res.UID)
+	require.Equal(t, location.Name, res.Name)
+}

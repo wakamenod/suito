@@ -33,6 +33,7 @@ func InitRoute(e *echo.Echo, db *gorm.DB) *echo.Echo {
 	incomeSer := services.NewSuitoIncomeService(incomeRepo, incomeTypeRepo)
 	expenseSer := services.NewSuitoExpenseService(expenseRepo, categoryRepo, locationRepo)
 	expenseCategorySer := services.NewSuitoExpenseCategoryService(categoryRepo)
+	expenseLocationSer := services.NewSuitoExpenseLocationService(locationRepo)
 	chartSer := services.NewSuitoChartService(expenseRepo, incomeRepo)
 	transactionScheduleSer := services.NewSuitoTransactionScheduleService(expenseScheduleRepo, incomeScheduleRepo)
 	expenseScheduleSer := services.NewSuitoExpenseScheduleService(expenseScheduleRepo, transactionProvider)
@@ -46,6 +47,8 @@ func InitRoute(e *echo.Echo, db *gorm.DB) *echo.Echo {
 	esCon := controllers.NewExpenseScheduleController(expenseScheduleSer)
 	isCon := controllers.NewIncomeScheduleController(incomeScheduleSer)
 	categoryCon := controllers.NewExpenseCategoryController(expenseCategorySer)
+	locationCon := controllers.NewExpenseLocationController(expenseLocationSer)
+
 	{
 		a := g.Group("/transactions")
 		a.GET("", tCon.TransactionsListHandler)
@@ -55,7 +58,6 @@ func InitRoute(e *echo.Echo, db *gorm.DB) *echo.Echo {
 		a := g.Group("/expense")
 		a.POST("/detail", eCon.ExpenseDetailHandler)
 
-		a.GET("/locations", eCon.ExpenseLocationsHandler)
 		a.POST("", eCon.RegisterExpenseHandler)
 		a.PUT("", eCon.UpdateExpenseHandler)
 		a.DELETE("", eCon.DeleteExpenseHandler)
@@ -66,6 +68,11 @@ func InitRoute(e *echo.Echo, db *gorm.DB) *echo.Echo {
 			c.POST("", categoryCon.RegisterExpenseCategoryHandler)
 			c.PUT("", categoryCon.UpdateExpenseCategoryHandler)
 			c.DELETE("", categoryCon.DeleteExpenseCategoryHandler)
+		}
+		{
+			c := a.Group("/locations")
+			c.GET("", locationCon.ExpenseLocationsHandler)
+			c.POST("", locationCon.RegisterExpenseLocationHandler)
 		}
 	}
 	{

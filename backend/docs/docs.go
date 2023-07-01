@@ -587,6 +587,45 @@ const docTemplate = `{
                         }
                     }
                 }
+            },
+            "post": {
+                "description": "支出場所情報を登録します",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "suito.expenseLocation"
+                ],
+                "summary": "Register expense location",
+                "operationId": "registerExpenseLocation",
+                "parameters": [
+                    {
+                        "description": "register expenseLocation req",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/RegisterExpenseLocationReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/RegisterExpenseLocationRes"
+                        }
+                    },
+                    "500": {
+                        "description": "Unknown Error",
+                        "schema": {
+                            "$ref": "#/definitions/SuitoError"
+                        }
+                    }
+                }
             }
         },
         "/income": {
@@ -1380,6 +1419,28 @@ const docTemplate = `{
             "properties": {
                 "newExpenseCategory": {
                     "$ref": "#/definitions/model.ExpenseCategory"
+                }
+            }
+        },
+        "RegisterExpenseLocationReq": {
+            "type": "object",
+            "required": [
+                "expenseLocation"
+            ],
+            "properties": {
+                "expenseLocation": {
+                    "$ref": "#/definitions/model.ExpenseLocation"
+                }
+            }
+        },
+        "RegisterExpenseLocationRes": {
+            "type": "object",
+            "required": [
+                "newExpenseLocation"
+            ],
+            "properties": {
+                "newExpenseLocation": {
+                    "$ref": "#/definitions/model.ExpenseLocation"
                 }
             }
         },

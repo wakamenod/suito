@@ -46,6 +46,8 @@ import 'package:openapi/src/model/model_income_type.dart';
 import 'package:openapi/src/model/pie_chart_data.dart';
 import 'package:openapi/src/model/register_expense_category_req.dart';
 import 'package:openapi/src/model/register_expense_category_res.dart';
+import 'package:openapi/src/model/register_expense_location_req.dart';
+import 'package:openapi/src/model/register_expense_location_res.dart';
 import 'package:openapi/src/model/register_expense_req.dart';
 import 'package:openapi/src/model/register_expense_res.dart';
 import 'package:openapi/src/model/register_expense_schedule_req.dart';
@@ -104,6 +106,8 @@ part 'serializers.g.dart';
   PieChartData,
   RegisterExpenseCategoryReq,
   RegisterExpenseCategoryRes,
+  RegisterExpenseLocationReq,
+  RegisterExpenseLocationRes,
   RegisterExpenseReq,
   RegisterExpenseRes,
   RegisterExpenseScheduleReq,

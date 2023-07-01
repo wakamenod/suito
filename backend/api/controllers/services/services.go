@@ -14,7 +14,6 @@ type TransactionsService interface {
 }
 
 type ExpenseService interface {
-	ListExpenseLocationService(uid string) ([]model.ExpenseLocation, error)
 	CreateExpenseService(uid string, expense model.Expense) (model.Expense, error)
 	UpdateExpenseService(uid string, expense model.Expense) (model.Expense, error)
 	DeleteExpenseService(id, uid string) error
@@ -26,6 +25,11 @@ type ExpenseCategoryService interface {
 	CreateExpenseCategoryService(uid string, category model.ExpenseCategory) (model.ExpenseCategory, error)
 	UpdateExpenseCategoryService(uid string, category model.ExpenseCategory) (model.ExpenseCategory, error)
 	DeleteExpenseCategoryService(id, uid string) error
+}
+
+type ExpenseLocationService interface {
+	ListExpenseLocationService(uid string) ([]model.ExpenseLocation, error)
+	CreateExpenseLocationService(uid string, location model.ExpenseLocation) (model.ExpenseLocation, error)
 }
 
 type ExpenseScheduleService interface {
