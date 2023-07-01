@@ -91,6 +91,7 @@ Class | Method | HTTP request | Description
 [*SuitoIncomeScheduleApi*](doc/SuitoIncomeScheduleApi.md) | [**incomeScheduleDetail**](doc/SuitoIncomeScheduleApi.md#incomescheduledetail) | **POST** /income-schedule/detail | Get income schedule detail
 [*SuitoIncomeScheduleApi*](doc/SuitoIncomeScheduleApi.md) | [**registerIncomeSchedule**](doc/SuitoIncomeScheduleApi.md#registerincomeschedule) | **POST** /income-schedule | Register income schedule
 [*SuitoIncomeScheduleApi*](doc/SuitoIncomeScheduleApi.md) | [**updateIncomeSchedule**](doc/SuitoIncomeScheduleApi.md#updateincomeschedule) | **PUT** /income-schedule | Update income schedule
+[*SuitoIncomeTypeApi*](doc/SuitoIncomeTypeApi.md) | [**registerIncomeType**](doc/SuitoIncomeTypeApi.md#registerincometype) | **POST** /income/types | Register income incomeType
 [*SuitoTransactionSchedulesApi*](doc/SuitoTransactionSchedulesApi.md) | [**listTransactionSchedules**](doc/SuitoTransactionSchedulesApi.md#listtransactionschedules) | **GET** /schedules | List transaction schedules
 [*SuitoTransactionsApi*](doc/SuitoTransactionsApi.md) | [**listTransactions**](doc/SuitoTransactionsApi.md#listtransactions) | **GET** /transactions | List transactions
 [*SuitoTransactionsApi*](doc/SuitoTransactionsApi.md) | [**transactionMonths**](doc/SuitoTransactionsApi.md#transactionmonths) | **GET** /transactions/months | List transaction months
@@ -141,6 +142,8 @@ Class | Method | HTTP request | Description
  - [RegisterIncomeRes](doc/RegisterIncomeRes.md)
  - [RegisterIncomeScheduleReq](doc/RegisterIncomeScheduleReq.md)
  - [RegisterIncomeScheduleRes](doc/RegisterIncomeScheduleRes.md)
+ - [RegisterIncomeTypeReq](doc/RegisterIncomeTypeReq.md)
+ - [RegisterIncomeTypeRes](doc/RegisterIncomeTypeRes.md)
  - [SuitoError](doc/SuitoError.md)
  - [Transaction](doc/Transaction.md)
  - [TransactionMonthsRes](doc/TransactionMonthsRes.md)

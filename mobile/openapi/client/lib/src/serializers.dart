@@ -57,6 +57,8 @@ import 'package:openapi/src/model/register_income_req.dart';
 import 'package:openapi/src/model/register_income_res.dart';
 import 'package:openapi/src/model/register_income_schedule_req.dart';
 import 'package:openapi/src/model/register_income_schedule_res.dart';
+import 'package:openapi/src/model/register_income_type_req.dart';
+import 'package:openapi/src/model/register_income_type_res.dart';
 import 'package:openapi/src/model/suito_error.dart';
 import 'package:openapi/src/model/transaction.dart';
 import 'package:openapi/src/model/transaction_months_res.dart';
@@ -120,6 +122,8 @@ part 'serializers.g.dart';
   RegisterIncomeRes,
   RegisterIncomeScheduleReq,
   RegisterIncomeScheduleRes,
+  RegisterIncomeTypeReq,
+  RegisterIncomeTypeRes,
   SuitoError,
   Transaction,
   TransactionMonthsRes,

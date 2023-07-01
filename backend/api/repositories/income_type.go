@@ -7,6 +7,17 @@ import (
 	"gorm.io/gorm"
 )
 
+func (r *SuitoIncomeTypeRepository) CreateIncomeType(uid string, incomeType model.IncomeType) (model.IncomeType, error) {
+	incomeType.ID = xid.New().String()
+	incomeType.UID = uid
+
+	if err := r.db.Create(&incomeType).Error; err != nil {
+		return incomeType, errors.Wrap(err, "failed to create expense incomeType")
+	}
+
+	return incomeType, nil
+}
+
 func (r *SuitoIncomeTypeRepository) FindIncomeTypes(uid string) ([]model.IncomeType, error) {
 	var res []model.IncomeType
 

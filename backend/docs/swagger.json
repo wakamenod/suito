@@ -1087,6 +1087,48 @@
             }
           }
         }
+      },
+      "post": {
+        "tags": [
+          "suito.incomeType"
+        ],
+        "summary": "Register income incomeType",
+        "description": "収入種別を登録します",
+        "operationId": "registerIncomeType",
+        "requestBody": {
+          "description": "register incomeType req",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterIncomeTypeReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegisterIncomeTypeRes"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unknown Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuitoError"
+                }
+              }
+            }
+          }
+        },
+        "x-codegen-request-body-name": "request"
       }
     },
     "/ping": {
@@ -1704,6 +1746,28 @@
         "properties": {
           "newIncomeSchedule": {
             "$ref": "#/components/schemas/model.IncomeSchedule"
+          }
+        }
+      },
+      "RegisterIncomeTypeReq": {
+        "required": [
+          "IncomeType"
+        ],
+        "type": "object",
+        "properties": {
+          "IncomeType": {
+            "$ref": "#/components/schemas/model.IncomeType"
+          }
+        }
+      },
+      "RegisterIncomeTypeRes": {
+        "required": [
+          "newIncomeType"
+        ],
+        "type": "object",
+        "properties": {
+          "newIncomeType": {
+            "$ref": "#/components/schemas/model.IncomeType"
           }
         }
       },

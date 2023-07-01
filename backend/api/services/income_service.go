@@ -12,14 +12,6 @@ func (s *SuitoIncomeService) FindIncomeService(id, uid string) (model.Income, er
 	return income, nil
 }
 
-func (s *SuitoIncomeService) ListIncomeTypesService(uid string) ([]model.IncomeType, error) {
-	incomeTypes, err := s.incomeTypeRepo.FindIncomeTypes(uid)
-	if err != nil {
-		return nil, err
-	}
-	return incomeTypes, nil
-}
-
 func (s *SuitoIncomeService) CreateIncomeService(uid string, income model.Income) (model.Income, error) {
 	income, err := s.incomeRepo.CreateIncome(uid, income)
 	if err != nil {

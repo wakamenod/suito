@@ -44,7 +44,10 @@ type SuitoExpenseService struct {
 }
 
 type SuitoIncomeService struct {
-	incomeRepo     repositories.IncomeRepository
+	incomeRepo repositories.IncomeRepository
+}
+
+type SuitoIncomeTypeService struct {
 	incomeTypeRepo repositories.IncomeTypeRepository
 }
 
@@ -139,10 +142,16 @@ func NewSuitoExpenseService(
 
 func NewSuitoIncomeService(
 	incomeRepo repositories.IncomeRepository,
-	incomeTypeRepo repositories.IncomeTypeRepository,
 ) *SuitoIncomeService {
 	return &SuitoIncomeService{
-		incomeRepo:     incomeRepo,
+		incomeRepo: incomeRepo,
+	}
+}
+
+func NewSuitoIncomeTypeService(
+	incomeTypeRepo repositories.IncomeTypeRepository,
+) *SuitoIncomeTypeService {
+	return &SuitoIncomeTypeService{
 		incomeTypeRepo: incomeTypeRepo,
 	}
 }
