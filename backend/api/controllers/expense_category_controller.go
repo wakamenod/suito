@@ -41,6 +41,12 @@ type (
 	UpdateExpenseCategoryRes struct {
 		UpdatedExpenseCategory model.ExpenseCategory `json:"updatedExpenseCategory"`
 	} // @Name UpdateExpenseCategoryRes
+
+	DeleteExpenseCategoryReq struct {
+		ExpenseCategoryID string `json:"expenseCategoryId" validate:"required"`
+	} // @Name DeleteExpenseCategoryReq
+	DeleteExpenseCategoryRes struct {
+	} // @Name DeleteExpenseCategoryRes
 )
 
 // @Summary     List expense categories
@@ -127,5 +133,35 @@ func (s *ExpenseCategoryController) UpdateExpenseCategoryHandler(c echo.Context)
 	var res UpdateExpenseCategoryRes
 	res.UpdatedExpenseCategory = expenseCategory
 
+	return webutils.Response(c, http.StatusOK, res)
+}
+
+// @Summary     Delete expense category
+// @Description 支出カテゴリー情報を削除します
+// @Tags        suito.expenseCategory
+// @ID          deleteExpenseCategory
+// @Accept      json
+// @Produce     json
+// @Param       request body     DeleteExpenseCategoryReq   true           "delete expenseCategory req"
+// @Success     200     {object} DeleteExpenseCategoryRes   "Success"
+// @Failure     500     {object} apperrors.SuitoError       "Unknown Error"
+// @Router      /expense/categories [DELETE]
+func (s *ExpenseCategoryController) DeleteExpenseCategoryHandler(c echo.Context) error {
+	var req DeleteExpenseCategoryReq
+
+	if err := c.Bind(&req); err != nil {
+		return errors.Wrap(err, "failed bind")
+	}
+	if err := c.Validate(req); err != nil {
+		return err
+	}
+
+	uid := c.Get(middleware.UIDKey).(string)
+	err := s.service.DeleteExpenseCategoryService(req.ExpenseCategoryID, uid)
+	if err != nil {
+		return err
+	}
+
+	var res DeleteExpenseCategoryRes
 	return webutils.Response(c, http.StatusOK, res)
 }

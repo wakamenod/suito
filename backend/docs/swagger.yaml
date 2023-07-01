@@ -325,6 +325,33 @@ paths:
               schema:
                 $ref: '#/components/schemas/SuitoError'
       x-codegen-request-body-name: request
+    delete:
+      tags:
+      - suito.expenseCategory
+      summary: Delete expense category
+      description: 支出カテゴリー情報を削除します
+      operationId: deleteExpenseCategory
+      requestBody:
+        description: delete expenseCategory req
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteExpenseCategoryReq'
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteExpenseCategoryRes'
+        500:
+          description: Unknown Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuitoError'
+      x-codegen-request-body-name: request
   /expense/detail:
     post:
       tags:
@@ -704,6 +731,15 @@ components:
           type: integer
         month:
           type: string
+    DeleteExpenseCategoryReq:
+      required:
+      - expenseCategoryId
+      type: object
+      properties:
+        expenseCategoryId:
+          type: string
+    DeleteExpenseCategoryRes:
+      type: object
     DeleteExpenseReq:
       required:
       - expenseId

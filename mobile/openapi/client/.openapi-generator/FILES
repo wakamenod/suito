@@ -4,6 +4,7 @@ README.md
 analysis_options.yaml
 doc/ColumnChartCategoryData.md
 doc/ColumnChartData.md
+doc/DeleteExpenseCategoryReq.md
 doc/DeleteExpenseReq.md
 doc/DeleteExpenseScheduleReq.md
 doc/DeleteIncomeScheduleReq.md
@@ -85,6 +86,7 @@ lib/src/date_serializer.dart
 lib/src/model/column_chart_category_data.dart
 lib/src/model/column_chart_data.dart
 lib/src/model/date.dart
+lib/src/model/delete_expense_category_req.dart
 lib/src/model/delete_expense_req.dart
 lib/src/model/delete_expense_schedule_req.dart
 lib/src/model/delete_income_schedule_req.dart
@@ -140,6 +142,7 @@ lib/src/serializers.dart
 pubspec.yaml
 test/column_chart_category_data_test.dart
 test/column_chart_data_test.dart
+test/delete_expense_category_req_test.dart
 test/delete_expense_req_test.dart
 test/delete_expense_schedule_req_test.dart
 test/delete_income_schedule_req_test.dart

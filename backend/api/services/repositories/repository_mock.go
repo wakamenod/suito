@@ -24,6 +24,9 @@ var _ ExpenseCategoryRepository = &ExpenseCategoryRepositoryMock{}
 //			CreateExpenseCategoryFunc: func(uid string, expenseCategory model.ExpenseCategory) (model.ExpenseCategory, error) {
 //				panic("mock out the CreateExpenseCategory method")
 //			},
+//			DeleteExpenseCategoryFunc: func(id string, uid string) error {
+//				panic("mock out the DeleteExpenseCategory method")
+//			},
 //			EndTxFunc: func(db *gorm.DB)  {
 //				panic("mock out the EndTx method")
 //			},
@@ -55,6 +58,9 @@ type ExpenseCategoryRepositoryMock struct {
 	// CreateExpenseCategoryFunc mocks the CreateExpenseCategory method.
 	CreateExpenseCategoryFunc func(uid string, expenseCategory model.ExpenseCategory) (model.ExpenseCategory, error)
 
+	// DeleteExpenseCategoryFunc mocks the DeleteExpenseCategory method.
+	DeleteExpenseCategoryFunc func(id string, uid string) error
+
 	// EndTxFunc mocks the EndTx method.
 	EndTxFunc func(db *gorm.DB)
 
@@ -84,6 +90,13 @@ type ExpenseCategoryRepositoryMock struct {
 			UID string
 			// ExpenseCategory is the expenseCategory argument value.
 			ExpenseCategory model.ExpenseCategory
+		}
+		// DeleteExpenseCategory holds details about calls to the DeleteExpenseCategory method.
+		DeleteExpenseCategory []struct {
+			// ID is the id argument value.
+			ID string
+			// UID is the uid argument value.
+			UID string
 		}
 		// EndTx holds details about calls to the EndTx method.
 		EndTx []struct {
@@ -128,6 +141,7 @@ type ExpenseCategoryRepositoryMock struct {
 		}
 	}
 	lockCreateExpenseCategory              sync.RWMutex
+	lockDeleteExpenseCategory              sync.RWMutex
 	lockEndTx                              sync.RWMutex
 	lockFindExpenseCategories              sync.RWMutex
 	lockFindExpenseCategory                sync.RWMutex
@@ -170,6 +184,42 @@ func (mock *ExpenseCategoryRepositoryMock) CreateExpenseCategoryCalls() []struct
 	mock.lockCreateExpenseCategory.RLock()
 	calls = mock.calls.CreateExpenseCategory
 	mock.lockCreateExpenseCategory.RUnlock()
+	return calls
+}
+
+// DeleteExpenseCategory calls DeleteExpenseCategoryFunc.
+func (mock *ExpenseCategoryRepositoryMock) DeleteExpenseCategory(id string, uid string) error {
+	if mock.DeleteExpenseCategoryFunc == nil {
+		panic("ExpenseCategoryRepositoryMock.DeleteExpenseCategoryFunc: method is nil but ExpenseCategoryRepository.DeleteExpenseCategory was just called")
+	}
+	callInfo := struct {
+		ID  string
+		UID string
+	}{
+		ID:  id,
+		UID: uid,
+	}
+	mock.lockDeleteExpenseCategory.Lock()
+	mock.calls.DeleteExpenseCategory = append(mock.calls.DeleteExpenseCategory, callInfo)
+	mock.lockDeleteExpenseCategory.Unlock()
+	return mock.DeleteExpenseCategoryFunc(id, uid)
+}
+
+// DeleteExpenseCategoryCalls gets all the calls that were made to DeleteExpenseCategory.
+// Check the length with:
+//
+//	len(mockedExpenseCategoryRepository.DeleteExpenseCategoryCalls())
+func (mock *ExpenseCategoryRepositoryMock) DeleteExpenseCategoryCalls() []struct {
+	ID  string
+	UID string
+} {
+	var calls []struct {
+		ID  string
+		UID string
+	}
+	mock.lockDeleteExpenseCategory.RLock()
+	calls = mock.calls.DeleteExpenseCategory
+	mock.lockDeleteExpenseCategory.RUnlock()
 	return calls
 }
 

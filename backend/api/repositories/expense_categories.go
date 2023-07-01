@@ -52,6 +52,13 @@ func (r *SuitoExpenseCategoryRepository) UpdateExpenseCategory(uid string, expen
 	return expenseCategory, nil
 }
 
+func (r *SuitoExpenseCategoryRepository) DeleteExpenseCategory(id string, uid string) error {
+	if err := r.db.Where("id = ? AND uid = ?", id, uid).Delete(&model.ExpenseCategory{}).Error; err != nil {
+		return errors.Wrap(err, "failed to delete expenseCategory")
+	}
+	return nil
+}
+
 func (r *SuitoExpenseCategoryRepository) FindOrCreateExpenseCategory(uid string, name string) (model.ExpenseCategory, error) {
 	var res model.ExpenseCategory
 

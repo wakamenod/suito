@@ -477,6 +477,45 @@ const docTemplate = `{
                         }
                     }
                 }
+            },
+            "delete": {
+                "description": "支出カテゴリー情報を削除します",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "suito.expenseCategory"
+                ],
+                "summary": "Delete expense category",
+                "operationId": "deleteExpenseCategory",
+                "parameters": [
+                    {
+                        "description": "delete expenseCategory req",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/DeleteExpenseCategoryReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/DeleteExpenseCategoryRes"
+                        }
+                    },
+                    "500": {
+                        "description": "Unknown Error",
+                        "schema": {
+                            "$ref": "#/definitions/SuitoError"
+                        }
+                    }
+                }
             }
         },
         "/expense/detail": {
@@ -1035,6 +1074,20 @@ const docTemplate = `{
                     "type": "string"
                 }
             }
+        },
+        "DeleteExpenseCategoryReq": {
+            "type": "object",
+            "required": [
+                "expenseCategoryId"
+            ],
+            "properties": {
+                "expenseCategoryId": {
+                    "type": "string"
+                }
+            }
+        },
+        "DeleteExpenseCategoryRes": {
+            "type": "object"
         },
         "DeleteExpenseReq": {
             "type": "object",
