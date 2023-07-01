@@ -1,7 +1,7 @@
 import 'package:openapi/openapi.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:suito/src/features/transactions/repositories/transactions_repository.dart';
-import 'package:suito/src/features/transactions/services/transaction_year_months.dart';
+import 'package:suito/src/features/transactions/repositories/transaction/transactions_repository.dart';
+import 'package:suito/src/features/transactions/services/transaction/transaction_year_months.dart';
 
 import 'transactions_total_amounts.dart';
 

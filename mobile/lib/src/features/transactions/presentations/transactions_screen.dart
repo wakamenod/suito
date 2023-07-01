@@ -4,9 +4,9 @@ import 'package:go_router/go_router.dart';
 import 'package:suito/i18n/translations.g.dart';
 import 'package:suito/src/routing/app_router.dart';
 
-import 'transaction_months_dropdown.dart';
-import 'transactions_list.dart';
-import 'transactions_total_amounts.dart';
+import 'transaction/transaction_months_dropdown.dart';
+import 'transaction/transactions_list.dart';
+import 'transaction/transactions_total_amounts.dart';
 
 class TransactionsScreen extends ConsumerWidget {
   const TransactionsScreen({super.key});

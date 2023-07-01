@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:suito/src/features/transactions/presentations/expense_detail_view.dart';
-import 'package:suito/src/features/transactions/services/transaction_service.dart';
-
-import 'income_detail_view.dart';
+import 'package:suito/src/features/transactions/presentations/expense/expense_detail_view.dart';
+import 'package:suito/src/features/transactions/presentations/incomes/income_detail_view.dart';
+import 'package:suito/src/features/transactions/services/transaction/transaction_service.dart';
 
 class TransactionDetailScreen extends ConsumerWidget {
   final String id;

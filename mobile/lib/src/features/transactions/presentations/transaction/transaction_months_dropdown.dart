@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:suito/i18n/translations.g.dart';
 import 'package:suito/src/common_widgets/error_message_widget.dart';
-import 'package:suito/src/features/transactions/services/transaction_year_months.dart';
+import 'package:suito/src/features/transactions/services/transaction/transaction_year_months.dart';
 
 class TransactionMonthsDropdown extends ConsumerWidget {
   const TransactionMonthsDropdown({super.key});

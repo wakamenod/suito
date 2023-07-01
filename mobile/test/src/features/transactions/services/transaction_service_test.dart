@@ -2,9 +2,9 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 // import 'package:suito/src/features/transactions/repositories/fake_transactions_repository.dart';
-import 'package:suito/src/features/transactions/repositories/transactions_repository.dart';
+import 'package:suito/src/features/transactions/repositories/transaction/transactions_repository.dart';
 // import 'package:suito/src/features/transactions/services/transaction_service.dart';
-import 'package:suito/src/features/transactions/services/transactions_total_amounts.dart';
+import 'package:suito/src/features/transactions/services/transaction/transactions_total_amounts.dart';
 
 class MockTransactionsRepository extends Mock
     implements TransactionsRepository {}

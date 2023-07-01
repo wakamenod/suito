@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:suito/i18n/translations.g.dart';
-import 'package:suito/src/features/transactions/services/transaction_service.dart';
+import 'package:suito/src/features/transactions/services/transaction/transaction_service.dart';
 import 'package:suito/src/utils/currency_formatter.dart';
 
 class TransactionsTotalAmounts extends ConsumerWidget {

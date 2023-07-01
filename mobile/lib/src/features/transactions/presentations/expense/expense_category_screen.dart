@@ -4,17 +4,17 @@ import 'package:go_router/go_router.dart';
 import 'package:suito/i18n/translations.g.dart';
 import 'package:suito/src/common_widgets/custom_autocomplete.dart';
 import 'package:suito/src/common_widgets/error_message_widget.dart';
-import 'package:suito/src/features/transactions/repositories/income_types_repository.dart';
+import 'package:suito/src/features/transactions/repositories/expense/expense_categories_repository.dart';
 
-// TODO 登録済みの場合の初期値対応
-class IncomeTypeScreen extends ConsumerStatefulWidget {
-  const IncomeTypeScreen({super.key});
+class ExpenseCategoryScreen extends ConsumerStatefulWidget {
+  const ExpenseCategoryScreen({super.key});
 
   @override
-  ConsumerState<IncomeTypeScreen> createState() => _IncomeTypeScreenState();
+  ConsumerState<ExpenseCategoryScreen> createState() =>
+      _ExpenseCategoryScreenState();
 }
 
-class _IncomeTypeScreenState extends ConsumerState<IncomeTypeScreen> {
+class _ExpenseCategoryScreenState extends ConsumerState<ExpenseCategoryScreen> {
   final TextEditingController _textEditingController = TextEditingController();
 
   @override
@@ -27,30 +27,31 @@ class _IncomeTypeScreenState extends ConsumerState<IncomeTypeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(t.transactions.incomeType.title),
+        title: Text(t.transactions.category.title),
         leading: IconButton(
             icon: const Icon(Icons.arrow_back, color: Colors.white),
             onPressed: () => context.pop(_textEditingController.text)),
       ),
       body: Column(
         children: [
-          _IncomeTypesAutocomplete(_textEditingController),
+          _ExpenseCategoriesAutocomplete(_textEditingController),
         ],
       ),
     );
   }
 }
 
-class _IncomeTypesAutocomplete extends ConsumerWidget {
+class _ExpenseCategoriesAutocomplete extends ConsumerWidget {
   final TextEditingController controller;
 
-  const _IncomeTypesAutocomplete(this.controller);
+  const _ExpenseCategoriesAutocomplete(this.controller);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final incomeTypesValue = ref.watch(incomeTypesListFutureProvider);
+    final expenseCategoriesValue =
+        ref.watch(expenseCategoriesListFutureProvider);
 
-    return incomeTypesValue.when(
+    return expenseCategoriesValue.when(
         data: (categoryItems) {
           return CustomAutocomplete(
             textEditingController: controller,
