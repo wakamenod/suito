@@ -74,6 +74,7 @@ Class | Method | HTTP request | Description
 [*SuitoExpenseApi*](doc/SuitoExpenseApi.md) | [**updateExpense**](doc/SuitoExpenseApi.md#updateexpense) | **PUT** /expense | Update expense
 [*SuitoExpenseCategoryApi*](doc/SuitoExpenseCategoryApi.md) | [**listExpenseCategories**](doc/SuitoExpenseCategoryApi.md#listexpensecategories) | **GET** /expense/categories | List expense categories
 [*SuitoExpenseCategoryApi*](doc/SuitoExpenseCategoryApi.md) | [**registerExpenseCategory**](doc/SuitoExpenseCategoryApi.md#registerexpensecategory) | **POST** /expense/categories | Register expense category
+[*SuitoExpenseCategoryApi*](doc/SuitoExpenseCategoryApi.md) | [**updateExpenseCategory**](doc/SuitoExpenseCategoryApi.md#updateexpensecategory) | **PUT** /expense/categories | Update expense category
 [*SuitoExpenseScheduleApi*](doc/SuitoExpenseScheduleApi.md) | [**deleteExpenseSchedule**](doc/SuitoExpenseScheduleApi.md#deleteexpenseschedule) | **DELETE** /expense-schedule | Delete expense schedule
 [*SuitoExpenseScheduleApi*](doc/SuitoExpenseScheduleApi.md) | [**expenseScheduleDetail**](doc/SuitoExpenseScheduleApi.md#expensescheduledetail) | **POST** /expense-schedule/detail | Get expense schedule detail
 [*SuitoExpenseScheduleApi*](doc/SuitoExpenseScheduleApi.md) | [**registerExpenseSchedule**](doc/SuitoExpenseScheduleApi.md#registerexpenseschedule) | **POST** /expense-schedule | Register expense schedule
@@ -136,6 +137,8 @@ Class | Method | HTTP request | Description
  - [Transaction](doc/Transaction.md)
  - [TransactionMonthsRes](doc/TransactionMonthsRes.md)
  - [TransactionSchedule](doc/TransactionSchedule.md)
+ - [UpdateExpenseCategoryReq](doc/UpdateExpenseCategoryReq.md)
+ - [UpdateExpenseCategoryRes](doc/UpdateExpenseCategoryRes.md)
  - [UpdateExpenseReq](doc/UpdateExpenseReq.md)
  - [UpdateExpenseRes](doc/UpdateExpenseRes.md)
  - [UpdateExpenseScheduleReq](doc/UpdateExpenseScheduleReq.md)

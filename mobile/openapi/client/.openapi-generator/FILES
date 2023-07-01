@@ -54,6 +54,8 @@ doc/SuitoTransactionsApi.md
 doc/Transaction.md
 doc/TransactionMonthsRes.md
 doc/TransactionSchedule.md
+doc/UpdateExpenseCategoryReq.md
+doc/UpdateExpenseCategoryRes.md
 doc/UpdateExpenseReq.md
 doc/UpdateExpenseRes.md
 doc/UpdateExpenseScheduleReq.md
@@ -124,6 +126,8 @@ lib/src/model/suito_error.dart
 lib/src/model/transaction.dart
 lib/src/model/transaction_months_res.dart
 lib/src/model/transaction_schedule.dart
+lib/src/model/update_expense_category_req.dart
+lib/src/model/update_expense_category_res.dart
 lib/src/model/update_expense_req.dart
 lib/src/model/update_expense_res.dart
 lib/src/model/update_expense_schedule_req.dart
@@ -186,6 +190,8 @@ test/suito_transactions_api_test.dart
 test/transaction_months_res_test.dart
 test/transaction_schedule_test.dart
 test/transaction_test.dart
+test/update_expense_category_req_test.dart
+test/update_expense_category_res_test.dart
 test/update_expense_req_test.dart
 test/update_expense_res_test.dart
 test/update_expense_schedule_req_test.dart

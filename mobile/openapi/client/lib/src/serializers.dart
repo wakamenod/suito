@@ -57,6 +57,8 @@ import 'package:openapi/src/model/suito_error.dart';
 import 'package:openapi/src/model/transaction.dart';
 import 'package:openapi/src/model/transaction_months_res.dart';
 import 'package:openapi/src/model/transaction_schedule.dart';
+import 'package:openapi/src/model/update_expense_category_req.dart';
+import 'package:openapi/src/model/update_expense_category_res.dart';
 import 'package:openapi/src/model/update_expense_req.dart';
 import 'package:openapi/src/model/update_expense_res.dart';
 import 'package:openapi/src/model/update_expense_schedule_req.dart';
@@ -112,6 +114,8 @@ part 'serializers.g.dart';
   Transaction,
   TransactionMonthsRes,
   TransactionSchedule,
+  UpdateExpenseCategoryReq,
+  UpdateExpenseCategoryRes,
   UpdateExpenseReq,
   UpdateExpenseRes,
   UpdateExpenseScheduleReq,

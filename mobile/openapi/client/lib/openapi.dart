@@ -62,6 +62,8 @@ export 'package:openapi/src/model/suito_error.dart';
 export 'package:openapi/src/model/transaction.dart';
 export 'package:openapi/src/model/transaction_months_res.dart';
 export 'package:openapi/src/model/transaction_schedule.dart';
+export 'package:openapi/src/model/update_expense_category_req.dart';
+export 'package:openapi/src/model/update_expense_category_res.dart';
 export 'package:openapi/src/model/update_expense_req.dart';
 export 'package:openapi/src/model/update_expense_res.dart';
 export 'package:openapi/src/model/update_expense_schedule_req.dart';

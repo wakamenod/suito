@@ -271,6 +271,33 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuitoError'
+    put:
+      tags:
+      - suito.expenseCategory
+      summary: Update expense category
+      description: 支出カテゴリー情報を更新します
+      operationId: updateExpenseCategory
+      requestBody:
+        description: update expenseCategory req
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateExpenseCategoryReq'
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateExpenseCategoryRes'
+        500:
+          description: Unknown Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuitoError'
+      x-codegen-request-body-name: request
     post:
       tags:
       - suito.expenseCategory
@@ -972,6 +999,20 @@ components:
           type: string
         title:
           type: string
+    UpdateExpenseCategoryReq:
+      required:
+      - expenseCategory
+      type: object
+      properties:
+        expenseCategory:
+          $ref: '#/components/schemas/model.ExpenseCategory'
+    UpdateExpenseCategoryRes:
+      required:
+      - updatedExpenseCategory
+      type: object
+      properties:
+        updatedExpenseCategory:
+          $ref: '#/components/schemas/model.ExpenseCategory'
     UpdateExpenseReq:
       required:
       - expense

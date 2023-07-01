@@ -74,3 +74,45 @@ func TestRegisterExpenseCategoryHandler_Success(t *testing.T) {
 	require.Equal(t, "TEST_NEW_CATEGORY_ID", res.NewExpenseCategory.ID)
 	require.Equal(t, "TestCategory", res.NewExpenseCategory.Name)
 }
+
+func TestUpdateExpenseCategoryHandler_ValidationError(t *testing.T) {
+	// Setup
+	e := echo.New()
+	e.Validator = validate.NewValidator()
+	req := httptest.NewRequest(http.MethodPut, "/categories", nil)
+	rec := httptest.NewRecorder()
+	c := e.NewContext(req, rec)
+	c.Set(middleware.UIDKey, "user1")
+
+	// Assertions
+	err := categoryCon.UpdateExpenseCategoryHandler(c)
+	var appErr *apperrors.SuitoError
+	require.ErrorAs(t, err, &appErr)
+	require.Equal(t, apperrors.InvalidParameter, appErr.ErrCode)
+}
+
+func TestUpdateExpenseCategoryHandler_Success(t *testing.T) {
+	// Setup
+	e := echo.New()
+	e.Validator = validate.NewValidator()
+	jsonReq, err := json.Marshal(UpdateExpenseCategoryReq{
+		ExpenseCategory: model.ExpenseCategory{
+			ID:   "categoryID",
+			Name: "TestCategory",
+		}})
+	require.NoError(t, err)
+	req := httptest.NewRequest(http.MethodPut, "/categories", bytes.NewReader(jsonReq))
+	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+	rec := httptest.NewRecorder()
+	c := e.NewContext(req, rec)
+	c.Set(middleware.UIDKey, "user1")
+
+	// Assertions
+	require.NoError(t, categoryCon.UpdateExpenseCategoryHandler(c))
+	require.Equal(t, http.StatusOK, rec.Code)
+
+	var res UpdateExpenseCategoryRes
+	require.NoError(t, json.Unmarshal(rec.Body.Bytes(), &res))
+	require.Equal(t, "categoryID", res.UpdatedExpenseCategory.ID)
+	require.Equal(t, "TestCategory", res.UpdatedExpenseCategory.Name)
+}
