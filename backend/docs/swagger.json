@@ -428,17 +428,17 @@
       },
       "put": {
         "tags": [
-          "suito.expenseLocation"
+          "suito.expenseCategory"
         ],
-        "summary": "Update expense location",
-        "description": "支出場所情報を更新します",
-        "operationId": "updateExpenseLocation",
+        "summary": "Update expense category",
+        "description": "支出カテゴリー情報を更新します",
+        "operationId": "updateExpenseCategory",
         "requestBody": {
-          "description": "update expenseLocation req",
+          "description": "update expenseCategory req",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateExpenseLocationReq"
+                "$ref": "#/components/schemas/UpdateExpenseCategoryReq"
               }
             }
           },
@@ -450,7 +450,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/github.com_wakamenod_suito_api_controllers.UpdateExpenseCategoryRes"
+                  "$ref": "#/components/schemas/UpdateExpenseCategoryRes"
                 }
               }
             }
@@ -628,6 +628,48 @@
           }
         }
       },
+      "put": {
+        "tags": [
+          "suito.expenseLocation"
+        ],
+        "summary": "Update expense location",
+        "description": "支出場所情報を更新します",
+        "operationId": "updateExpenseLocation",
+        "requestBody": {
+          "description": "update expenseLocation req",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateExpenseLocationReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateExpenseLocationRes"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unknown Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuitoError"
+                }
+              }
+            }
+          }
+        },
+        "x-codegen-request-body-name": "request"
+      },
       "post": {
         "tags": [
           "suito.expenseLocation"
@@ -653,6 +695,48 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/RegisterExpenseLocationRes"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unknown Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuitoError"
+                }
+              }
+            }
+          }
+        },
+        "x-codegen-request-body-name": "request"
+      },
+      "delete": {
+        "tags": [
+          "suito.expenseLocation"
+        ],
+        "summary": "Delete expense location",
+        "description": "支出場所情報を削除します",
+        "operationId": "deleteExpenseLocation",
+        "requestBody": {
+          "description": "delete expenseLocation req",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteExpenseLocationReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteExpenseLocationRes"
                 }
               }
             }
@@ -1205,6 +1289,20 @@
       "DeleteExpenseCategoryRes": {
         "type": "object"
       },
+      "DeleteExpenseLocationReq": {
+        "required": [
+          "expenseLocationId"
+        ],
+        "type": "object",
+        "properties": {
+          "expenseLocationId": {
+            "type": "string"
+          }
+        }
+      },
+      "DeleteExpenseLocationRes": {
+        "type": "object"
+      },
       "DeleteExpenseReq": {
         "required": [
           "expenseId"
@@ -1691,6 +1789,17 @@
           }
         }
       },
+      "UpdateExpenseCategoryRes": {
+        "required": [
+          "updatedExpenseCategory"
+        ],
+        "type": "object",
+        "properties": {
+          "updatedExpenseCategory": {
+            "$ref": "#/components/schemas/model.ExpenseCategory"
+          }
+        }
+      },
       "UpdateExpenseLocationReq": {
         "required": [
           "expenseLocation"
@@ -1698,6 +1807,17 @@
         "type": "object",
         "properties": {
           "expenseLocation": {
+            "$ref": "#/components/schemas/model.ExpenseLocation"
+          }
+        }
+      },
+      "UpdateExpenseLocationRes": {
+        "required": [
+          "updatedExpenseLocation"
+        ],
+        "type": "object",
+        "properties": {
+          "updatedExpenseLocation": {
             "$ref": "#/components/schemas/model.ExpenseLocation"
           }
         }
@@ -1787,17 +1907,6 @@
         "properties": {
           "updatedIncomeSchedule": {
             "$ref": "#/components/schemas/model.IncomeSchedule"
-          }
-        }
-      },
-      "github.com_wakamenod_suito_api_controllers.UpdateExpenseCategoryRes": {
-        "required": [
-          "updatedExpenseCategory"
-        ],
-        "type": "object",
-        "properties": {
-          "updatedExpenseCategory": {
-            "$ref": "#/components/schemas/model.ExpenseCategory"
           }
         }
       },

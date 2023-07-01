@@ -74,6 +74,7 @@ func InitRoute(e *echo.Echo, db *gorm.DB) *echo.Echo {
 			c.GET("", locationCon.ExpenseLocationsHandler)
 			c.POST("", locationCon.RegisterExpenseLocationHandler)
 			c.PUT("", locationCon.UpdateExpenseLocationHandler)
+			c.DELETE("", locationCon.DeleteExpenseLocationHandler)
 		}
 	}
 	{

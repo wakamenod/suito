@@ -36,7 +36,13 @@ type (
 	} // @Name UpdateExpenseLocationReq
 	UpdateExpenseLocationRes struct {
 		UpdatedExpenseLocation model.ExpenseLocation `json:"updatedExpenseLocation"`
-	} // @Name UpdateExpenseCategoryRes
+	} // @Name UpdateExpenseLocationRes
+
+	DeleteExpenseLocationReq struct {
+		ExpenseLocationID string `json:"expenseLocationId" validate:"required"`
+	} // @Name DeleteExpenseLocationReq
+	DeleteExpenseLocationRes struct {
+	} // @Name DeleteExpenseLocationRes
 )
 
 // @Summary     List expense locations
@@ -103,7 +109,7 @@ func (s *ExpenseLocationController) RegisterExpenseLocationHandler(c echo.Contex
 // @Param       request body     UpdateExpenseLocationReq   true           "update expenseLocation req"
 // @Success     200     {object} UpdateExpenseLocationRes   "Success"
 // @Failure     500     {object} apperrors.SuitoError       "Unknown Error"
-// @Router      /expense/categories [PUT]
+// @Router      /expense/locations [PUT]
 func (s *ExpenseLocationController) UpdateExpenseLocationHandler(c echo.Context) error {
 	var req UpdateExpenseLocationReq
 
@@ -123,5 +129,35 @@ func (s *ExpenseLocationController) UpdateExpenseLocationHandler(c echo.Context)
 	var res UpdateExpenseLocationRes
 	res.UpdatedExpenseLocation = expenseLocation
 
+	return webutils.Response(c, http.StatusOK, res)
+}
+
+// @Summary     Delete expense location
+// @Description 支出場所情報を削除します
+// @Tags        suito.expenseLocation
+// @ID          deleteExpenseLocation
+// @Accept      json
+// @Produce     json
+// @Param       request body     DeleteExpenseLocationReq   true           "delete expenseLocation req"
+// @Success     200     {object} DeleteExpenseLocationRes   "Success"
+// @Failure     500     {object} apperrors.SuitoError       "Unknown Error"
+// @Router      /expense/locations [DELETE]
+func (s *ExpenseLocationController) DeleteExpenseLocationHandler(c echo.Context) error {
+	var req DeleteExpenseLocationReq
+
+	if err := c.Bind(&req); err != nil {
+		return errors.Wrap(err, "failed bind")
+	}
+	if err := c.Validate(req); err != nil {
+		return err
+	}
+
+	uid := c.Get(middleware.UIDKey).(string)
+	err := s.service.DeleteExpenseLocationService(req.ExpenseLocationID, uid)
+	if err != nil {
+		return err
+	}
+
+	var res DeleteExpenseLocationRes
 	return webutils.Response(c, http.StatusOK, res)
 }

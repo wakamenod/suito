@@ -5,6 +5,7 @@ analysis_options.yaml
 doc/ColumnChartCategoryData.md
 doc/ColumnChartData.md
 doc/DeleteExpenseCategoryReq.md
+doc/DeleteExpenseLocationReq.md
 doc/DeleteExpenseReq.md
 doc/DeleteExpenseScheduleReq.md
 doc/DeleteIncomeScheduleReq.md
@@ -14,7 +15,6 @@ doc/ExpenseScheduleDetailReq.md
 doc/ExpenseScheduleDetailRes.md
 doc/GetColumnChartDataRes.md
 doc/GetPieChartDataRes.md
-doc/GithubComWakamenodSuitoApiControllersUpdateExpenseCategoryRes.md
 doc/GormDeletedAt.md
 doc/IncomeDetailReq.md
 doc/IncomeDetailRes.md
@@ -60,7 +60,9 @@ doc/Transaction.md
 doc/TransactionMonthsRes.md
 doc/TransactionSchedule.md
 doc/UpdateExpenseCategoryReq.md
+doc/UpdateExpenseCategoryRes.md
 doc/UpdateExpenseLocationReq.md
+doc/UpdateExpenseLocationRes.md
 doc/UpdateExpenseReq.md
 doc/UpdateExpenseRes.md
 doc/UpdateExpenseScheduleReq.md
@@ -92,6 +94,7 @@ lib/src/model/column_chart_category_data.dart
 lib/src/model/column_chart_data.dart
 lib/src/model/date.dart
 lib/src/model/delete_expense_category_req.dart
+lib/src/model/delete_expense_location_req.dart
 lib/src/model/delete_expense_req.dart
 lib/src/model/delete_expense_schedule_req.dart
 lib/src/model/delete_income_schedule_req.dart
@@ -101,7 +104,6 @@ lib/src/model/expense_schedule_detail_req.dart
 lib/src/model/expense_schedule_detail_res.dart
 lib/src/model/get_column_chart_data_res.dart
 lib/src/model/get_pie_chart_data_res.dart
-lib/src/model/github_com_wakamenod_suito_api_controllers_update_expense_category_res.dart
 lib/src/model/gorm_deleted_at.dart
 lib/src/model/income_detail_req.dart
 lib/src/model/income_detail_res.dart
@@ -137,7 +139,9 @@ lib/src/model/transaction.dart
 lib/src/model/transaction_months_res.dart
 lib/src/model/transaction_schedule.dart
 lib/src/model/update_expense_category_req.dart
+lib/src/model/update_expense_category_res.dart
 lib/src/model/update_expense_location_req.dart
+lib/src/model/update_expense_location_res.dart
 lib/src/model/update_expense_req.dart
 lib/src/model/update_expense_res.dart
 lib/src/model/update_expense_schedule_req.dart
@@ -151,6 +155,7 @@ pubspec.yaml
 test/column_chart_category_data_test.dart
 test/column_chart_data_test.dart
 test/delete_expense_category_req_test.dart
+test/delete_expense_location_req_test.dart
 test/delete_expense_req_test.dart
 test/delete_expense_schedule_req_test.dart
 test/delete_income_schedule_req_test.dart
@@ -160,7 +165,6 @@ test/expense_schedule_detail_req_test.dart
 test/expense_schedule_detail_res_test.dart
 test/get_column_chart_data_res_test.dart
 test/get_pie_chart_data_res_test.dart
-test/github_com_wakamenod_suito_api_controllers_update_expense_category_res_test.dart
 test/gorm_deleted_at_test.dart
 test/income_detail_req_test.dart
 test/income_detail_res_test.dart
@@ -206,7 +210,9 @@ test/transaction_months_res_test.dart
 test/transaction_schedule_test.dart
 test/transaction_test.dart
 test/update_expense_category_req_test.dart
+test/update_expense_category_res_test.dart
 test/update_expense_location_req_test.dart
+test/update_expense_location_res_test.dart
 test/update_expense_req_test.dart
 test/update_expense_res_test.dart
 test/update_expense_schedule_req_test.dart
