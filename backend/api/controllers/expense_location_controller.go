@@ -31,6 +31,12 @@ type (
 		NewExpenseLocation model.ExpenseLocation `json:"newExpenseLocation"`
 	} // @Name RegisterExpenseLocationRes
 
+	UpdateExpenseLocationReq struct {
+		ExpenseLocation model.ExpenseLocation `json:"expenseLocation" validate:"required"`
+	} // @Name UpdateExpenseLocationReq
+	UpdateExpenseLocationRes struct {
+		UpdatedExpenseLocation model.ExpenseLocation `json:"updatedExpenseLocation"`
+	} // @Name UpdateExpenseCategoryRes
 )
 
 // @Summary     List expense locations
@@ -84,6 +90,38 @@ func (s *ExpenseLocationController) RegisterExpenseLocationHandler(c echo.Contex
 
 	var res RegisterExpenseLocationRes
 	res.NewExpenseLocation = newExpenseLocation
+
+	return webutils.Response(c, http.StatusOK, res)
+}
+
+// @Summary     Update expense location
+// @Description 支出場所情報を更新します
+// @Tags        suito.expenseLocation
+// @ID          updateExpenseLocation
+// @Accept      json
+// @Produce     json
+// @Param       request body     UpdateExpenseLocationReq   true           "update expenseLocation req"
+// @Success     200     {object} UpdateExpenseLocationRes   "Success"
+// @Failure     500     {object} apperrors.SuitoError       "Unknown Error"
+// @Router      /expense/categories [PUT]
+func (s *ExpenseLocationController) UpdateExpenseLocationHandler(c echo.Context) error {
+	var req UpdateExpenseLocationReq
+
+	if err := c.Bind(&req); err != nil {
+		return errors.Wrap(err, "failed bind")
+	}
+	if err := c.Validate(req); err != nil {
+		return err
+	}
+
+	uid := c.Get(middleware.UIDKey).(string)
+	expenseLocation, err := s.service.UpdateExpenseLocationService(uid, req.ExpenseLocation)
+	if err != nil {
+		return err
+	}
+
+	var res UpdateExpenseLocationRes
+	res.UpdatedExpenseLocation = expenseLocation
 
 	return webutils.Response(c, http.StatusOK, res)
 }

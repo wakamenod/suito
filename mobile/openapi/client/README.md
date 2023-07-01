@@ -75,8 +75,8 @@ Class | Method | HTTP request | Description
 [*SuitoExpenseCategoryApi*](doc/SuitoExpenseCategoryApi.md) | [**deleteExpenseCategory**](doc/SuitoExpenseCategoryApi.md#deleteexpensecategory) | **DELETE** /expense/categories | Delete expense category
 [*SuitoExpenseCategoryApi*](doc/SuitoExpenseCategoryApi.md) | [**listExpenseCategories**](doc/SuitoExpenseCategoryApi.md#listexpensecategories) | **GET** /expense/categories | List expense categories
 [*SuitoExpenseCategoryApi*](doc/SuitoExpenseCategoryApi.md) | [**registerExpenseCategory**](doc/SuitoExpenseCategoryApi.md#registerexpensecategory) | **POST** /expense/categories | Register expense category
-[*SuitoExpenseCategoryApi*](doc/SuitoExpenseCategoryApi.md) | [**updateExpenseCategory**](doc/SuitoExpenseCategoryApi.md#updateexpensecategory) | **PUT** /expense/categories | Update expense category
 [*SuitoExpenseLocationApi*](doc/SuitoExpenseLocationApi.md) | [**registerExpenseLocation**](doc/SuitoExpenseLocationApi.md#registerexpenselocation) | **POST** /expense/locations | Register expense location
+[*SuitoExpenseLocationApi*](doc/SuitoExpenseLocationApi.md) | [**updateExpenseLocation**](doc/SuitoExpenseLocationApi.md#updateexpenselocation) | **PUT** /expense/categories | Update expense location
 [*SuitoExpenseScheduleApi*](doc/SuitoExpenseScheduleApi.md) | [**deleteExpenseSchedule**](doc/SuitoExpenseScheduleApi.md#deleteexpenseschedule) | **DELETE** /expense-schedule | Delete expense schedule
 [*SuitoExpenseScheduleApi*](doc/SuitoExpenseScheduleApi.md) | [**expenseScheduleDetail**](doc/SuitoExpenseScheduleApi.md#expensescheduledetail) | **POST** /expense-schedule/detail | Get expense schedule detail
 [*SuitoExpenseScheduleApi*](doc/SuitoExpenseScheduleApi.md) | [**registerExpenseSchedule**](doc/SuitoExpenseScheduleApi.md#registerexpenseschedule) | **POST** /expense-schedule | Register expense schedule
@@ -108,6 +108,7 @@ Class | Method | HTTP request | Description
  - [ExpenseScheduleDetailRes](doc/ExpenseScheduleDetailRes.md)
  - [GetColumnChartDataRes](doc/GetColumnChartDataRes.md)
  - [GetPieChartDataRes](doc/GetPieChartDataRes.md)
+ - [GithubComWakamenodSuitoApiControllersUpdateExpenseCategoryRes](doc/GithubComWakamenodSuitoApiControllersUpdateExpenseCategoryRes.md)
  - [GormDeletedAt](doc/GormDeletedAt.md)
  - [IncomeDetailReq](doc/IncomeDetailReq.md)
  - [IncomeDetailRes](doc/IncomeDetailRes.md)
@@ -143,7 +144,7 @@ Class | Method | HTTP request | Description
  - [TransactionMonthsRes](doc/TransactionMonthsRes.md)
  - [TransactionSchedule](doc/TransactionSchedule.md)
  - [UpdateExpenseCategoryReq](doc/UpdateExpenseCategoryReq.md)
- - [UpdateExpenseCategoryRes](doc/UpdateExpenseCategoryRes.md)
+ - [UpdateExpenseLocationReq](doc/UpdateExpenseLocationReq.md)
  - [UpdateExpenseReq](doc/UpdateExpenseReq.md)
  - [UpdateExpenseRes](doc/UpdateExpenseRes.md)
  - [UpdateExpenseScheduleReq](doc/UpdateExpenseScheduleReq.md)

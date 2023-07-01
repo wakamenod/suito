@@ -34,14 +34,5 @@ void main() {
       // TODO
     });
 
-    // Update expense category
-    //
-    // 支出カテゴリー情報を更新します
-    //
-    //Future<UpdateExpenseCategoryRes> updateExpenseCategory(UpdateExpenseCategoryReq request) async
-    test('test updateExpenseCategory', () async {
-      // TODO
-    });
-
   });
 }

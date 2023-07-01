@@ -490,6 +490,9 @@ var _ ExpenseLocationRepository = &ExpenseLocationRepositoryMock{}
 //			StartTxFunc: func(tx *gorm.DB)  {
 //				panic("mock out the StartTx method")
 //			},
+//			UpdateExpenseLocationFunc: func(uid string, expenseLocation model.ExpenseLocation) (model.ExpenseLocation, error) {
+//				panic("mock out the UpdateExpenseLocation method")
+//			},
 //		}
 //
 //		// use mockedExpenseLocationRepository in code that requires ExpenseLocationRepository
@@ -517,6 +520,9 @@ type ExpenseLocationRepositoryMock struct {
 
 	// StartTxFunc mocks the StartTx method.
 	StartTxFunc func(tx *gorm.DB)
+
+	// UpdateExpenseLocationFunc mocks the UpdateExpenseLocation method.
+	UpdateExpenseLocationFunc func(uid string, expenseLocation model.ExpenseLocation) (model.ExpenseLocation, error)
 
 	// calls tracks calls to the methods.
 	calls struct {
@@ -561,6 +567,13 @@ type ExpenseLocationRepositoryMock struct {
 			// Tx is the tx argument value.
 			Tx *gorm.DB
 		}
+		// UpdateExpenseLocation holds details about calls to the UpdateExpenseLocation method.
+		UpdateExpenseLocation []struct {
+			// UID is the uid argument value.
+			UID string
+			// ExpenseLocation is the expenseLocation argument value.
+			ExpenseLocation model.ExpenseLocation
+		}
 	}
 	lockCreateExpenseLocation             sync.RWMutex
 	lockEndTx                             sync.RWMutex
@@ -569,6 +582,7 @@ type ExpenseLocationRepositoryMock struct {
 	lockFindOrCreateExpenseLocation       sync.RWMutex
 	lockHardDeleteAllUserExpenseLocations sync.RWMutex
 	lockStartTx                           sync.RWMutex
+	lockUpdateExpenseLocation             sync.RWMutex
 }
 
 // CreateExpenseLocation calls CreateExpenseLocationFunc.
@@ -804,6 +818,42 @@ func (mock *ExpenseLocationRepositoryMock) StartTxCalls() []struct {
 	mock.lockStartTx.RLock()
 	calls = mock.calls.StartTx
 	mock.lockStartTx.RUnlock()
+	return calls
+}
+
+// UpdateExpenseLocation calls UpdateExpenseLocationFunc.
+func (mock *ExpenseLocationRepositoryMock) UpdateExpenseLocation(uid string, expenseLocation model.ExpenseLocation) (model.ExpenseLocation, error) {
+	if mock.UpdateExpenseLocationFunc == nil {
+		panic("ExpenseLocationRepositoryMock.UpdateExpenseLocationFunc: method is nil but ExpenseLocationRepository.UpdateExpenseLocation was just called")
+	}
+	callInfo := struct {
+		UID             string
+		ExpenseLocation model.ExpenseLocation
+	}{
+		UID:             uid,
+		ExpenseLocation: expenseLocation,
+	}
+	mock.lockUpdateExpenseLocation.Lock()
+	mock.calls.UpdateExpenseLocation = append(mock.calls.UpdateExpenseLocation, callInfo)
+	mock.lockUpdateExpenseLocation.Unlock()
+	return mock.UpdateExpenseLocationFunc(uid, expenseLocation)
+}
+
+// UpdateExpenseLocationCalls gets all the calls that were made to UpdateExpenseLocation.
+// Check the length with:
+//
+//	len(mockedExpenseLocationRepository.UpdateExpenseLocationCalls())
+func (mock *ExpenseLocationRepositoryMock) UpdateExpenseLocationCalls() []struct {
+	UID             string
+	ExpenseLocation model.ExpenseLocation
+} {
+	var calls []struct {
+		UID             string
+		ExpenseLocation model.ExpenseLocation
+	}
+	mock.lockUpdateExpenseLocation.RLock()
+	calls = mock.calls.UpdateExpenseLocation
+	mock.lockUpdateExpenseLocation.RUnlock()
 	return calls
 }
 

@@ -273,16 +273,16 @@ paths:
                 $ref: '#/components/schemas/SuitoError'
     put:
       tags:
-      - suito.expenseCategory
-      summary: Update expense category
-      description: 支出カテゴリー情報を更新します
-      operationId: updateExpenseCategory
+      - suito.expenseLocation
+      summary: Update expense location
+      description: 支出場所情報を更新します
+      operationId: updateExpenseLocation
       requestBody:
-        description: update expenseCategory req
+        description: update expenseLocation req
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UpdateExpenseCategoryReq'
+              $ref: '#/components/schemas/UpdateExpenseLocationReq'
         required: true
       responses:
         200:
@@ -290,7 +290,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UpdateExpenseCategoryRes'
+                $ref: '#/components/schemas/github.com_wakamenod_suito_api_controllers.UpdateExpenseCategoryRes'
         500:
           description: Unknown Error
           content:
@@ -1083,13 +1083,13 @@ components:
       properties:
         expenseCategory:
           $ref: '#/components/schemas/model.ExpenseCategory'
-    UpdateExpenseCategoryRes:
+    UpdateExpenseLocationReq:
       required:
-      - updatedExpenseCategory
+      - expenseLocation
       type: object
       properties:
-        updatedExpenseCategory:
-          $ref: '#/components/schemas/model.ExpenseCategory'
+        expenseLocation:
+          $ref: '#/components/schemas/model.ExpenseLocation'
     UpdateExpenseReq:
       required:
       - expense
@@ -1146,6 +1146,13 @@ components:
       properties:
         updatedIncomeSchedule:
           $ref: '#/components/schemas/model.IncomeSchedule'
+    github.com_wakamenod_suito_api_controllers.UpdateExpenseCategoryRes:
+      required:
+      - updatedExpenseCategory
+      type: object
+      properties:
+        updatedExpenseCategory:
+          $ref: '#/components/schemas/model.ExpenseCategory'
     gorm.DeletedAt:
       type: object
       properties:

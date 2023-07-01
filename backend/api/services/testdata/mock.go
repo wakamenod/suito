@@ -44,6 +44,9 @@ var ExpenseLocationRepositoryMock = srepositories.ExpenseLocationRepositoryMock{
 		expense.ID = "TEST_NEW_LOCATION_ID"
 		return expense, nil
 	},
+	UpdateExpenseLocationFunc: func(uid string, expenseLocation model.ExpenseLocation) (model.ExpenseLocation, error) {
+		return expenseLocation, nil
+	},
 	FindExpenseLocationFunc: func(id string, uid string) (model.ExpenseLocation, error) {
 		return model.ExpenseLocation{ID: "TEST_LOCATION_ID", Name: "Test Location"}, nil
 	},

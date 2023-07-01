@@ -200,3 +200,25 @@ func TestCreateExpenseLocation(t *testing.T) {
 	require.Equal(t, "user1", res.UID)
 	require.Equal(t, location.Name, res.Name)
 }
+
+func TestUpdateExpenseLocation(t *testing.T) {
+	tx := begin()
+	defer rollback(tx)
+	// setup
+	i := testutils.NewTestDataInserter(t, tx)
+	id := i.InsertExpenseLocation("user1", "Location01").ID
+	i.InsertExpenseLocation("user99", "Other users location")
+	i.InsertExpenseLocation("user1", "Location02")
+	targetExpenseLocation := model.ExpenseLocation{
+		ID:   id,
+		Name: "update name",
+	}
+	// run
+	_, err := NewSuitoExpenseLocationRepository(tx).UpdateExpenseLocation("user1", targetExpenseLocation)
+	// check
+	require.NoError(t, err)
+
+	found, err := NewSuitoExpenseLocationRepository(tx).FindExpenseLocation(id, "user1")
+	require.NoError(t, err)
+	require.Equal(t, targetExpenseLocation.Name, found.Name)
+}
