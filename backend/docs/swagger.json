@@ -627,6 +627,48 @@
             }
           }
         }
+      },
+      "post": {
+        "tags": [
+          "suito.expenseLocation"
+        ],
+        "summary": "Register expense location",
+        "description": "支出場所情報を登録します",
+        "operationId": "registerExpenseLocation",
+        "requestBody": {
+          "description": "register expenseLocation req",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterExpenseLocationReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegisterExpenseLocationRes"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unknown Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuitoError"
+                }
+              }
+            }
+          }
+        },
+        "x-codegen-request-body-name": "request"
       }
     },
     "/income": {
@@ -1454,6 +1496,28 @@
         "properties": {
           "newExpenseCategory": {
             "$ref": "#/components/schemas/model.ExpenseCategory"
+          }
+        }
+      },
+      "RegisterExpenseLocationReq": {
+        "required": [
+          "expenseLocation"
+        ],
+        "type": "object",
+        "properties": {
+          "expenseLocation": {
+            "$ref": "#/components/schemas/model.ExpenseLocation"
+          }
+        }
+      },
+      "RegisterExpenseLocationRes": {
+        "required": [
+          "newExpenseLocation"
+        ],
+        "type": "object",
+        "properties": {
+          "newExpenseLocation": {
+            "$ref": "#/components/schemas/model.ExpenseLocation"
           }
         }
       },

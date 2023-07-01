@@ -23,6 +23,7 @@ type ExpenseLocationRepository interface {
 	FindExpenseLocations(uid string) ([]model.ExpenseLocation, error)
 	FindExpenseLocation(id string, uid string) (model.ExpenseLocation, error)
 	FindOrCreateExpenseLocation(uid string, name string) (model.ExpenseLocation, error)
+	CreateExpenseLocation(uid string, expenseLocation model.ExpenseLocation) (model.ExpenseLocation, error)
 	HardDeleteAllUserExpenseLocations(uid string) error
 	transaction.TransactionHandler
 }

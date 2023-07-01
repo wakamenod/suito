@@ -24,10 +24,6 @@ type (
 		ExpenseCategories []model.ExpenseCategory `json:"expenseCategories"`
 	} // @Name ListExpenseCategoriesRes
 
-	ListExpenseLocationsRes struct {
-		ExpenseLocations []model.ExpenseLocation `json:"expenseLocations"`
-	} // @Name ListExpenseLocationsRes
-
 	RegisterExpenseCategoryReq struct {
 		ExpenseCategory model.ExpenseCategory `json:"expenseCategory" validate:"required"`
 	} // @Name RegisterExpenseCategoryReq

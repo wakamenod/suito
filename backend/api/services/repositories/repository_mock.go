@@ -469,6 +469,9 @@ var _ ExpenseLocationRepository = &ExpenseLocationRepositoryMock{}
 //
 //		// make and configure a mocked ExpenseLocationRepository
 //		mockedExpenseLocationRepository := &ExpenseLocationRepositoryMock{
+//			CreateExpenseLocationFunc: func(uid string, expenseLocation model.ExpenseLocation) (model.ExpenseLocation, error) {
+//				panic("mock out the CreateExpenseLocation method")
+//			},
 //			EndTxFunc: func(db *gorm.DB)  {
 //				panic("mock out the EndTx method")
 //			},
@@ -494,6 +497,9 @@ var _ ExpenseLocationRepository = &ExpenseLocationRepositoryMock{}
 //
 //	}
 type ExpenseLocationRepositoryMock struct {
+	// CreateExpenseLocationFunc mocks the CreateExpenseLocation method.
+	CreateExpenseLocationFunc func(uid string, expenseLocation model.ExpenseLocation) (model.ExpenseLocation, error)
+
 	// EndTxFunc mocks the EndTx method.
 	EndTxFunc func(db *gorm.DB)
 
@@ -514,6 +520,13 @@ type ExpenseLocationRepositoryMock struct {
 
 	// calls tracks calls to the methods.
 	calls struct {
+		// CreateExpenseLocation holds details about calls to the CreateExpenseLocation method.
+		CreateExpenseLocation []struct {
+			// UID is the uid argument value.
+			UID string
+			// ExpenseLocation is the expenseLocation argument value.
+			ExpenseLocation model.ExpenseLocation
+		}
 		// EndTx holds details about calls to the EndTx method.
 		EndTx []struct {
 			// Db is the db argument value.
@@ -549,12 +562,49 @@ type ExpenseLocationRepositoryMock struct {
 			Tx *gorm.DB
 		}
 	}
+	lockCreateExpenseLocation             sync.RWMutex
 	lockEndTx                             sync.RWMutex
 	lockFindExpenseLocation               sync.RWMutex
 	lockFindExpenseLocations              sync.RWMutex
 	lockFindOrCreateExpenseLocation       sync.RWMutex
 	lockHardDeleteAllUserExpenseLocations sync.RWMutex
 	lockStartTx                           sync.RWMutex
+}
+
+// CreateExpenseLocation calls CreateExpenseLocationFunc.
+func (mock *ExpenseLocationRepositoryMock) CreateExpenseLocation(uid string, expenseLocation model.ExpenseLocation) (model.ExpenseLocation, error) {
+	if mock.CreateExpenseLocationFunc == nil {
+		panic("ExpenseLocationRepositoryMock.CreateExpenseLocationFunc: method is nil but ExpenseLocationRepository.CreateExpenseLocation was just called")
+	}
+	callInfo := struct {
+		UID             string
+		ExpenseLocation model.ExpenseLocation
+	}{
+		UID:             uid,
+		ExpenseLocation: expenseLocation,
+	}
+	mock.lockCreateExpenseLocation.Lock()
+	mock.calls.CreateExpenseLocation = append(mock.calls.CreateExpenseLocation, callInfo)
+	mock.lockCreateExpenseLocation.Unlock()
+	return mock.CreateExpenseLocationFunc(uid, expenseLocation)
+}
+
+// CreateExpenseLocationCalls gets all the calls that were made to CreateExpenseLocation.
+// Check the length with:
+//
+//	len(mockedExpenseLocationRepository.CreateExpenseLocationCalls())
+func (mock *ExpenseLocationRepositoryMock) CreateExpenseLocationCalls() []struct {
+	UID             string
+	ExpenseLocation model.ExpenseLocation
+} {
+	var calls []struct {
+		UID             string
+		ExpenseLocation model.ExpenseLocation
+	}
+	mock.lockCreateExpenseLocation.RLock()
+	calls = mock.calls.CreateExpenseLocation
+	mock.lockCreateExpenseLocation.RUnlock()
+	return calls
 }
 
 // EndTx calls EndTxFunc.
