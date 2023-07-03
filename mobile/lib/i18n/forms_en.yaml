@@ -1,3 +1,4 @@
 errors:
   emptyTitle: Empty title
   emptyAmount: Empty amount
+  emptyAttributeName: Empty Name

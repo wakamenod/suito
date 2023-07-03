@@ -41,8 +41,9 @@ class TransitionTextFieldState extends State<TransitionTextField> {
           controller: _textEditingController,
           readOnly: true,
           onTap: () async {
-            final val =
-                await context.pushNamed<String>(widget.route.name) ?? '';
+            final val = await context.pushNamed<String>(widget.route.name,
+                    extra: widget.initialValue) ??
+                '';
             _textEditingController.text = val;
             widget.onChanged(val);
           },
