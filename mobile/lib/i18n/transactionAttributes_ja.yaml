@@ -1,0 +1,8 @@
+addTile:
+  title: '$input を追加'
+  subtitle: タップして追加
+searchInputHint: 入力して検索、追加
+bottomSheet:
+  title: カテゴリ追加
+  inputLabel: カテゴリ名
+floatingButton: 新規追加

@@ -1,3 +1,4 @@
 errors:
   emptyTitle: 品目が未入力です
   emptyAmount: 金額が未入力です
+  emptyAttributeName: 名称が未入力です

@@ -1,9 +1,9 @@
 /// Generated file. Do not edit.
 ///
 /// Locales: 2
-/// Strings: 72 (36 per locale)
+/// Strings: 86 (43 per locale)
 ///
-/// Built on 2023-06-28 at 10:42 UTC
+/// Built on 2023-07-03 at 01:16 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -192,6 +192,8 @@ class _TranslationsEn implements BaseTranslations<AppLocale, _TranslationsEn> {
   late final _TranslationsChartsEn charts = _TranslationsChartsEn._(_root);
   late final _TranslationsTransactionsEn transactions =
       _TranslationsTransactionsEn._(_root);
+  late final _TranslationsTransactionAttributesEn transactionAttributes =
+      _TranslationsTransactionAttributesEn._(_root);
   late final _TranslationsFormsEn forms = _TranslationsFormsEn._(_root);
 }
 
@@ -258,6 +260,21 @@ class _TranslationsTransactionsEn {
       _TranslationsTransactionsTotalAmountsEn._(_root);
   late final _TranslationsTransactionsButtonsEn buttons =
       _TranslationsTransactionsButtonsEn._(_root);
+}
+
+// Path: transactionAttributes
+class _TranslationsTransactionAttributesEn {
+  _TranslationsTransactionAttributesEn._(this._root);
+
+  final _TranslationsEn _root; // ignore: unused_field
+
+  // Translations
+  late final _TranslationsTransactionAttributesAddTileEn addTile =
+      _TranslationsTransactionAttributesAddTileEn._(_root);
+  String get searchInputHint => 'Type to search and add';
+  late final _TranslationsTransactionAttributesBottomSheetEn bottomSheet =
+      _TranslationsTransactionAttributesBottomSheetEn._(_root);
+  String get floatingButton => 'ADD NEW';
 }
 
 // Path: forms
@@ -407,6 +424,28 @@ class _TranslationsTransactionsButtonsEn {
   String get post => 'Post';
 }
 
+// Path: transactionAttributes.addTile
+class _TranslationsTransactionAttributesAddTileEn {
+  _TranslationsTransactionAttributesAddTileEn._(this._root);
+
+  final _TranslationsEn _root; // ignore: unused_field
+
+  // Translations
+  String title({required Object input}) => 'Add ${input}';
+  String get subtitle => 'Tap to add this as new item';
+}
+
+// Path: transactionAttributes.bottomSheet
+class _TranslationsTransactionAttributesBottomSheetEn {
+  _TranslationsTransactionAttributesBottomSheetEn._(this._root);
+
+  final _TranslationsEn _root; // ignore: unused_field
+
+  // Translations
+  String get title => 'Add category';
+  String get inputLabel => 'Category Name';
+}
+
 // Path: forms.errors
 class _TranslationsFormsErrorsEn {
   _TranslationsFormsErrorsEn._(this._root);
@@ -416,6 +455,7 @@ class _TranslationsFormsErrorsEn {
   // Translations
   String get emptyTitle => 'Empty title';
   String get emptyAmount => 'Empty amount';
+  String get emptyAttributeName => 'Empty Name';
 }
 
 // Path: transactions.detail.inputLabels
@@ -474,6 +514,9 @@ class _TranslationsJa implements _TranslationsEn {
       _TranslationsTransactionsJa._(_root);
   @override
   late final _TranslationsChartsJa charts = _TranslationsChartsJa._(_root);
+  @override
+  late final _TranslationsTransactionAttributesJa transactionAttributes =
+      _TranslationsTransactionAttributesJa._(_root);
   @override
   late final _TranslationsFormsJa forms = _TranslationsFormsJa._(_root);
 }
@@ -560,6 +603,27 @@ class _TranslationsChartsJa implements _TranslationsChartsEn {
   @override
   late final _TranslationsChartsToggleJa toggle =
       _TranslationsChartsToggleJa._(_root);
+}
+
+// Path: transactionAttributes
+class _TranslationsTransactionAttributesJa
+    implements _TranslationsTransactionAttributesEn {
+  _TranslationsTransactionAttributesJa._(this._root);
+
+  @override
+  final _TranslationsJa _root; // ignore: unused_field
+
+  // Translations
+  @override
+  late final _TranslationsTransactionAttributesAddTileJa addTile =
+      _TranslationsTransactionAttributesAddTileJa._(_root);
+  @override
+  String get searchInputHint => '入力して検索、追加';
+  @override
+  late final _TranslationsTransactionAttributesBottomSheetJa bottomSheet =
+      _TranslationsTransactionAttributesBottomSheetJa._(_root);
+  @override
+  String get floatingButton => '新規追加';
 }
 
 // Path: forms
@@ -758,6 +822,36 @@ class _TranslationsChartsToggleJa implements _TranslationsChartsToggleEn {
   String get location => '購入場所';
 }
 
+// Path: transactionAttributes.addTile
+class _TranslationsTransactionAttributesAddTileJa
+    implements _TranslationsTransactionAttributesAddTileEn {
+  _TranslationsTransactionAttributesAddTileJa._(this._root);
+
+  @override
+  final _TranslationsJa _root; // ignore: unused_field
+
+  // Translations
+  @override
+  String title({required Object input}) => '${input} を追加';
+  @override
+  String get subtitle => 'タップして追加';
+}
+
+// Path: transactionAttributes.bottomSheet
+class _TranslationsTransactionAttributesBottomSheetJa
+    implements _TranslationsTransactionAttributesBottomSheetEn {
+  _TranslationsTransactionAttributesBottomSheetJa._(this._root);
+
+  @override
+  final _TranslationsJa _root; // ignore: unused_field
+
+  // Translations
+  @override
+  String get title => 'カテゴリ追加';
+  @override
+  String get inputLabel => 'カテゴリ名';
+}
+
 // Path: forms.errors
 class _TranslationsFormsErrorsJa implements _TranslationsFormsErrorsEn {
   _TranslationsFormsErrorsJa._(this._root);
@@ -770,6 +864,8 @@ class _TranslationsFormsErrorsJa implements _TranslationsFormsErrorsEn {
   String get emptyTitle => '品目が未入力です';
   @override
   String get emptyAmount => '金額が未入力です';
+  @override
+  String get emptyAttributeName => '名称が未入力です';
 }
 
 // Path: transactions.detail.inputLabels
@@ -870,10 +966,24 @@ extension on _TranslationsEn {
         return 'Close';
       case 'transactions.buttons.post':
         return 'Post';
+      case 'transactionAttributes.addTile.title':
+        return ({required Object input}) => 'Add ${input}';
+      case 'transactionAttributes.addTile.subtitle':
+        return 'Tap to add this as new item';
+      case 'transactionAttributes.searchInputHint':
+        return 'Type to search and add';
+      case 'transactionAttributes.bottomSheet.title':
+        return 'Add category';
+      case 'transactionAttributes.bottomSheet.inputLabel':
+        return 'Category Name';
+      case 'transactionAttributes.floatingButton':
+        return 'ADD NEW';
       case 'forms.errors.emptyTitle':
         return 'Empty title';
       case 'forms.errors.emptyAmount':
         return 'Empty amount';
+      case 'forms.errors.emptyAttributeName':
+        return 'Empty Name';
       default:
         return null;
     }
@@ -952,10 +1062,24 @@ extension on _TranslationsJa {
         return 'カテゴリ';
       case 'charts.toggle.location':
         return '購入場所';
+      case 'transactionAttributes.addTile.title':
+        return ({required Object input}) => '${input} を追加';
+      case 'transactionAttributes.addTile.subtitle':
+        return 'タップして追加';
+      case 'transactionAttributes.searchInputHint':
+        return '入力して検索、追加';
+      case 'transactionAttributes.bottomSheet.title':
+        return 'カテゴリ追加';
+      case 'transactionAttributes.bottomSheet.inputLabel':
+        return 'カテゴリ名';
+      case 'transactionAttributes.floatingButton':
+        return '新規追加';
       case 'forms.errors.emptyTitle':
         return '品目が未入力です';
       case 'forms.errors.emptyAmount':
         return '金額が未入力です';
+      case 'forms.errors.emptyAttributeName':
+        return '名称が未入力です';
       default:
         return null;
     }

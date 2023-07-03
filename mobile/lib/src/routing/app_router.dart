@@ -8,9 +8,9 @@ import 'package:suito/src/features/authentication/presentation/sign_out/custom_s
 import 'package:suito/src/features/charts/presentations/charts_screen.dart';
 import 'package:suito/src/features/schedules/presentations/schedule_detail_screen.dart';
 import 'package:suito/src/features/schedules/presentations/schedule_screen.dart';
-import 'package:suito/src/features/transactions/presentations/expense/expense_category_screen.dart';
 import 'package:suito/src/features/transactions/presentations/expense/expense_location_screen.dart';
 import 'package:suito/src/features/transactions/presentations/expense/expense_memo_screen.dart';
+import 'package:suito/src/features/transactions/presentations/expense/new_expense_category_screen.dart';
 import 'package:suito/src/features/transactions/presentations/incomes/income_type_screen.dart';
 import 'package:suito/src/features/transactions/presentations/transaction_detail_screen.dart';
 import 'package:suito/src/features/transactions/presentations/transactions_screen.dart';
@@ -121,7 +121,9 @@ final goRouterProvider = Provider.family<GoRouter, GlobalKey<NavigatorState>>(
                         name: AppRoute.category.name,
                         pageBuilder: (context, state) => CustomTransitionPage(
                           key: state.pageKey,
-                          child: const ExpenseCategoryScreen(),
+                          child: NewExpenseCategoryScreen(
+                            selectedValue: state.extra as String,
+                          ),
                           transitionsBuilder: _slideTransitionBuilder,
                         ),
                       ),
@@ -184,7 +186,9 @@ final goRouterProvider = Provider.family<GoRouter, GlobalKey<NavigatorState>>(
                         name: AppRoute.scheduleCategory.name,
                         pageBuilder: (context, state) => CustomTransitionPage(
                           key: state.pageKey,
-                          child: const ExpenseCategoryScreen(),
+                          child: NewExpenseCategoryScreen(
+                            selectedValue: state.extra as String,
+                          ),
                           transitionsBuilder: _slideTransitionBuilder,
                         ),
                       ),
