@@ -21,7 +21,7 @@ IncomeTypesRepository incomeTypesRepository(IncomeTypesRepositoryRef ref) {
   return IncomeTypesRepository(openapi);
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 Future<List<ModelIncomeType>> incomeTypesListFuture(
     IncomeTypesListFutureRef ref) {
   final incomeTypesRepository = ref.watch(incomeTypesRepositoryProvider);

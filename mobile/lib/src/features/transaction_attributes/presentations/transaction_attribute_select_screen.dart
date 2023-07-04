@@ -2,22 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:suito/i18n/translations.g.dart';
-import 'package:suito/src/features/transactions/presentations/expense/expense_category_search_input.dart';
-import 'package:suito/src/features/transactions/presentations/expense/expense_filtered_category_list.dart';
-import 'package:suito/src/features/transactions/services/transaction/transaction_detail_selection_service.dart';
+import 'package:suito/src/features/transaction_attributes/presentations/transaction_attribute_add_tile.dart';
+import 'package:suito/src/features/transaction_attributes/presentations/transaction_attribute_bottom_sheet.dart';
+import 'package:suito/src/features/transaction_attributes/presentations/transaction_attribute_list.dart';
+import 'package:suito/src/features/transaction_attributes/presentations/transaction_attribute_search_input.dart';
+import 'package:suito/src/features/transaction_attributes/services/transaction_attribute_service.dart';
 
-import 'add_new_category_tile.dart';
-import 'new_category_bottom_sheet.dart';
-
-class NewExpenseCategoryScreen extends ConsumerWidget {
-  const NewExpenseCategoryScreen({required this.selectedValue, super.key});
+class TransactionAttributeSelectScreen extends ConsumerWidget {
+  const TransactionAttributeSelectScreen(
+      {required this.selectedValue, super.key});
 
   final String selectedValue;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final searchStarted = ref.watch(transactionDetailSelectionControllerProvider
+    final searchStarted = ref.watch(transactionAttributeSearchControllerProvider
         .select((value) => value.searchStarted));
+    final words = ref.watch(transactionAttributeWordsProvider);
 
     return SafeArea(
       top: searchStarted,
@@ -25,7 +26,7 @@ class NewExpenseCategoryScreen extends ConsumerWidget {
         appBar: searchStarted
             ? null
             : AppBar(
-                title: Text(t.transactions.incomeType.title),
+                title: Text(words.appBar()),
                 leading: IconButton(
                     icon: const Icon(Icons.arrow_back, color: Colors.white),
                     onPressed: () => context.pop(selectedValue)),
@@ -33,13 +34,13 @@ class NewExpenseCategoryScreen extends ConsumerWidget {
         body: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            const ExpenseCategorySearchInput(),
+            const TransactionAttributeSearchInput(),
             const Divider(
               height: 0,
             ),
-            const AddNewCategoryTile(),
+            const TransactionAttributeAddTile(),
             Expanded(
-              child: ExpenseFilteredCategoryList(
+              child: TransactionAttributeList(
                 selectedValue: selectedValue,
               ),
             ),
@@ -56,7 +57,7 @@ class NewExpenseCategoryScreen extends ConsumerWidget {
                         borderRadius:
                             BorderRadius.vertical(top: Radius.circular(12))),
                     builder: (context) {
-                      return const NewCategoryBottomSheet();
+                      return const TransactionAttributeBottomSheet();
                     },
                   ).then((result) {
                     if (result != null) {

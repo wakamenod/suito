@@ -7,6 +7,7 @@ import 'package:suito/src/common_widgets/currency_input_field.dart';
 import 'package:suito/src/common_widgets/text_input_field.dart';
 import 'package:suito/src/common_widgets/transition_text_field.dart';
 import 'package:suito/src/constants/app_sizes.dart';
+import 'package:suito/src/features/transaction_attributes/services/transaction_attribute_service.dart';
 import 'package:suito/src/features/transactions/presentations/widgets/transaction_date_picker.dart';
 import 'package:suito/src/features/transactions/services/expense/expense.dart';
 import 'package:suito/src/features/transactions/services/expense/expense_service.dart';
@@ -60,12 +61,18 @@ class ExpenseDetailView extends ConsumerWidget {
                     initialValue: expense.category,
                     labelText: t.transactions.detail.inputLabels.category,
                     route: AppRoute.category,
+                    onTap: () => ref
+                        .read(transactionAttributeTypeProvider.notifier)
+                        .state = TransactionAttributeType.category,
                     onChanged: expenseController.onChangeCategory),
                 gapH12,
                 TransitionTextField(
                     initialValue: expense.location,
                     labelText: t.transactions.detail.inputLabels.location,
                     route: AppRoute.location,
+                    onTap: () => ref
+                        .read(transactionAttributeTypeProvider.notifier)
+                        .state = TransactionAttributeType.location,
                     onChanged: expenseController.onChangeLocation),
                 gapH12,
                 TransitionTextField(

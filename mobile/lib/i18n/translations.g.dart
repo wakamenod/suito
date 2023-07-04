@@ -1,9 +1,9 @@
 /// Generated file. Do not edit.
 ///
 /// Locales: 2
-/// Strings: 86 (43 per locale)
+/// Strings: 106 (53 per locale)
 ///
-/// Built on 2023-07-03 at 01:16 UTC
+/// Built on 2023-07-04 at 03:14 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -272,9 +272,13 @@ class _TranslationsTransactionAttributesEn {
   late final _TranslationsTransactionAttributesAddTileEn addTile =
       _TranslationsTransactionAttributesAddTileEn._(_root);
   String get searchInputHint => 'Type to search and add';
-  late final _TranslationsTransactionAttributesBottomSheetEn bottomSheet =
-      _TranslationsTransactionAttributesBottomSheetEn._(_root);
   String get floatingButton => 'ADD NEW';
+  late final _TranslationsTransactionAttributesCategoryEn category =
+      _TranslationsTransactionAttributesCategoryEn._(_root);
+  late final _TranslationsTransactionAttributesLocationEn location =
+      _TranslationsTransactionAttributesLocationEn._(_root);
+  late final _TranslationsTransactionAttributesIncomeTypeEn incomeType =
+      _TranslationsTransactionAttributesIncomeTypeEn._(_root);
 }
 
 // Path: forms
@@ -435,15 +439,43 @@ class _TranslationsTransactionAttributesAddTileEn {
   String get subtitle => 'Tap to add this as new item';
 }
 
-// Path: transactionAttributes.bottomSheet
-class _TranslationsTransactionAttributesBottomSheetEn {
-  _TranslationsTransactionAttributesBottomSheetEn._(this._root);
+// Path: transactionAttributes.category
+class _TranslationsTransactionAttributesCategoryEn {
+  _TranslationsTransactionAttributesCategoryEn._(this._root);
 
   final _TranslationsEn _root; // ignore: unused_field
 
   // Translations
-  String get title => 'Add category';
-  String get inputLabel => 'Category Name';
+  String get appBar => 'Category';
+  String get noEntry => 'NO CATEGORY';
+  String get bottomSheetTitle => 'Add category';
+  String get bottomSheetInputLabel => 'Category Name';
+}
+
+// Path: transactionAttributes.location
+class _TranslationsTransactionAttributesLocationEn {
+  _TranslationsTransactionAttributesLocationEn._(this._root);
+
+  final _TranslationsEn _root; // ignore: unused_field
+
+  // Translations
+  String get appBar => 'Location';
+  String get noEntry => 'NO LOCATION';
+  String get bottomSheetTitle => 'Add location';
+  String get bottomSheetInputLabel => 'Location Name';
+}
+
+// Path: transactionAttributes.incomeType
+class _TranslationsTransactionAttributesIncomeTypeEn {
+  _TranslationsTransactionAttributesIncomeTypeEn._(this._root);
+
+  final _TranslationsEn _root; // ignore: unused_field
+
+  // Translations
+  String get appBar => 'Income Type';
+  String get noEntry => 'NO INCOME TYPE';
+  String get bottomSheetTitle => 'Add income type';
+  String get bottomSheetInputLabel => 'Income Type Name';
 }
 
 // Path: forms.errors
@@ -620,10 +652,16 @@ class _TranslationsTransactionAttributesJa
   @override
   String get searchInputHint => '入力して検索、追加';
   @override
-  late final _TranslationsTransactionAttributesBottomSheetJa bottomSheet =
-      _TranslationsTransactionAttributesBottomSheetJa._(_root);
-  @override
   String get floatingButton => '新規追加';
+  @override
+  late final _TranslationsTransactionAttributesCategoryJa category =
+      _TranslationsTransactionAttributesCategoryJa._(_root);
+  @override
+  late final _TranslationsTransactionAttributesLocationJa location =
+      _TranslationsTransactionAttributesLocationJa._(_root);
+  @override
+  late final _TranslationsTransactionAttributesIncomeTypeJa incomeType =
+      _TranslationsTransactionAttributesIncomeTypeJa._(_root);
 }
 
 // Path: forms
@@ -703,7 +741,7 @@ class _TranslationsTransactionsIncomeTypeJa
 
   // Translations
   @override
-  String get title => '支出種別';
+  String get title => '収入種別';
 }
 
 // Path: transactions.category
@@ -832,24 +870,66 @@ class _TranslationsTransactionAttributesAddTileJa
 
   // Translations
   @override
-  String title({required Object input}) => '${input} を追加';
+  String title({required Object input}) => '\'${input}\' を追加';
   @override
   String get subtitle => 'タップして追加';
 }
 
-// Path: transactionAttributes.bottomSheet
-class _TranslationsTransactionAttributesBottomSheetJa
-    implements _TranslationsTransactionAttributesBottomSheetEn {
-  _TranslationsTransactionAttributesBottomSheetJa._(this._root);
+// Path: transactionAttributes.category
+class _TranslationsTransactionAttributesCategoryJa
+    implements _TranslationsTransactionAttributesCategoryEn {
+  _TranslationsTransactionAttributesCategoryJa._(this._root);
 
   @override
   final _TranslationsJa _root; // ignore: unused_field
 
   // Translations
   @override
-  String get title => 'カテゴリ追加';
+  String get appBar => 'カテゴリー';
   @override
-  String get inputLabel => 'カテゴリ名';
+  String get noEntry => 'カテゴリー無し';
+  @override
+  String get bottomSheetTitle => 'カテゴリー追加';
+  @override
+  String get bottomSheetInputLabel => 'カテゴリー名';
+}
+
+// Path: transactionAttributes.location
+class _TranslationsTransactionAttributesLocationJa
+    implements _TranslationsTransactionAttributesLocationEn {
+  _TranslationsTransactionAttributesLocationJa._(this._root);
+
+  @override
+  final _TranslationsJa _root; // ignore: unused_field
+
+  // Translations
+  @override
+  String get appBar => '購入場所';
+  @override
+  String get noEntry => '購入場所なし';
+  @override
+  String get bottomSheetTitle => '購入場所追加';
+  @override
+  String get bottomSheetInputLabel => '購入場所名';
+}
+
+// Path: transactionAttributes.incomeType
+class _TranslationsTransactionAttributesIncomeTypeJa
+    implements _TranslationsTransactionAttributesIncomeTypeEn {
+  _TranslationsTransactionAttributesIncomeTypeJa._(this._root);
+
+  @override
+  final _TranslationsJa _root; // ignore: unused_field
+
+  // Translations
+  @override
+  String get appBar => '収入種別';
+  @override
+  String get noEntry => 'NO INCOME TYPE';
+  @override
+  String get bottomSheetTitle => '収入種別追加';
+  @override
+  String get bottomSheetInputLabel => '収入種別名';
 }
 
 // Path: forms.errors
@@ -972,12 +1052,32 @@ extension on _TranslationsEn {
         return 'Tap to add this as new item';
       case 'transactionAttributes.searchInputHint':
         return 'Type to search and add';
-      case 'transactionAttributes.bottomSheet.title':
-        return 'Add category';
-      case 'transactionAttributes.bottomSheet.inputLabel':
-        return 'Category Name';
       case 'transactionAttributes.floatingButton':
         return 'ADD NEW';
+      case 'transactionAttributes.category.appBar':
+        return 'Category';
+      case 'transactionAttributes.category.noEntry':
+        return 'NO CATEGORY';
+      case 'transactionAttributes.category.bottomSheetTitle':
+        return 'Add category';
+      case 'transactionAttributes.category.bottomSheetInputLabel':
+        return 'Category Name';
+      case 'transactionAttributes.location.appBar':
+        return 'Location';
+      case 'transactionAttributes.location.noEntry':
+        return 'NO LOCATION';
+      case 'transactionAttributes.location.bottomSheetTitle':
+        return 'Add location';
+      case 'transactionAttributes.location.bottomSheetInputLabel':
+        return 'Location Name';
+      case 'transactionAttributes.incomeType.appBar':
+        return 'Income Type';
+      case 'transactionAttributes.incomeType.noEntry':
+        return 'NO INCOME TYPE';
+      case 'transactionAttributes.incomeType.bottomSheetTitle':
+        return 'Add income type';
+      case 'transactionAttributes.incomeType.bottomSheetInputLabel':
+        return 'Income Type Name';
       case 'forms.errors.emptyTitle':
         return 'Empty title';
       case 'forms.errors.emptyAmount':
@@ -1021,7 +1121,7 @@ extension on _TranslationsJa {
       case 'transactions.abbBar':
         return '決済一覧';
       case 'transactions.incomeType.title':
-        return '支出種別';
+        return '収入種別';
       case 'transactions.category.title':
         return '支出カテゴリー';
       case 'transactions.location.title':
@@ -1063,17 +1163,37 @@ extension on _TranslationsJa {
       case 'charts.toggle.location':
         return '購入場所';
       case 'transactionAttributes.addTile.title':
-        return ({required Object input}) => '${input} を追加';
+        return ({required Object input}) => '\'${input}\' を追加';
       case 'transactionAttributes.addTile.subtitle':
         return 'タップして追加';
       case 'transactionAttributes.searchInputHint':
         return '入力して検索、追加';
-      case 'transactionAttributes.bottomSheet.title':
-        return 'カテゴリ追加';
-      case 'transactionAttributes.bottomSheet.inputLabel':
-        return 'カテゴリ名';
       case 'transactionAttributes.floatingButton':
         return '新規追加';
+      case 'transactionAttributes.category.appBar':
+        return 'カテゴリー';
+      case 'transactionAttributes.category.noEntry':
+        return 'カテゴリー無し';
+      case 'transactionAttributes.category.bottomSheetTitle':
+        return 'カテゴリー追加';
+      case 'transactionAttributes.category.bottomSheetInputLabel':
+        return 'カテゴリー名';
+      case 'transactionAttributes.location.appBar':
+        return '購入場所';
+      case 'transactionAttributes.location.noEntry':
+        return '購入場所なし';
+      case 'transactionAttributes.location.bottomSheetTitle':
+        return '購入場所追加';
+      case 'transactionAttributes.location.bottomSheetInputLabel':
+        return '購入場所名';
+      case 'transactionAttributes.incomeType.appBar':
+        return '収入種別';
+      case 'transactionAttributes.incomeType.noEntry':
+        return 'NO INCOME TYPE';
+      case 'transactionAttributes.incomeType.bottomSheetTitle':
+        return '収入種別追加';
+      case 'transactionAttributes.incomeType.bottomSheetInputLabel':
+        return '収入種別名';
       case 'forms.errors.emptyTitle':
         return '品目が未入力です';
       case 'forms.errors.emptyAmount':

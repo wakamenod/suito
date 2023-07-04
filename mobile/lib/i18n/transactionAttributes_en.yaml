@@ -2,7 +2,19 @@ addTile:
   title: 'Add $input'
   subtitle: Tap to add this as new item
 searchInputHint: Type to search and add
-bottomSheet:
-  title: Add category
-  inputLabel: Category Name
 floatingButton: ADD NEW
+category:
+  appBar: Category
+  noEntry: 'NO CATEGORY'
+  bottomSheetTitle: Add category
+  bottomSheetInputLabel: Category Name
+location:
+  appBar: Location
+  noEntry: 'NO LOCATION'
+  bottomSheetTitle: Add location
+  bottomSheetInputLabel: Location Name
+incomeType:
+  appBar: Income Type
+  noEntry: 'NO INCOME TYPE'
+  bottomSheetTitle: Add income type
+  bottomSheetInputLabel: Income Type Name

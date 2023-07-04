@@ -4,12 +4,13 @@ import 'package:suito/i18n/translations.g.dart';
 import 'package:suito/src/constants/app_sizes.dart';
 import 'package:suito/src/features/transaction_attributes/services/transaction_attribute_service.dart';
 
-class NewCategoryBottomSheet extends ConsumerWidget {
-  const NewCategoryBottomSheet({super.key});
+class TransactionAttributeBottomSheet extends ConsumerWidget {
+  const TransactionAttributeBottomSheet({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final name = ref.watch(transactionAttributeControllerProvider);
+    final name = ref.watch(transactionAttributeSubmitControllerProvider);
+    final words = ref.watch(transactionAttributeWordsProvider);
 
     return SizedBox(
         height: MediaQuery.of(context).size.height / 3,
@@ -26,7 +27,7 @@ class NewCategoryBottomSheet extends ConsumerWidget {
                   },
                 ),
                 Text(
-                  t.transactionAttributes.bottomSheet.title,
+                  words.bottomSheetTitle(),
                   style: const TextStyle(
                       fontSize: 16,
                       color: Colors.black,
@@ -44,12 +45,13 @@ class NewCategoryBottomSheet extends ConsumerWidget {
                 child: TextFormField(
                   initialValue: name.value,
                   onChanged: ref
-                      .read(transactionAttributeControllerProvider.notifier)
+                      .read(
+                          transactionAttributeSubmitControllerProvider.notifier)
                       .onChangeName,
                   autofocus: true,
                   decoration: InputDecoration(
                     border: const OutlineInputBorder(),
-                    labelText: t.transactionAttributes.bottomSheet.inputLabel,
+                    labelText: words.bottomSheetTextInputLabel(),
                     contentPadding: const EdgeInsets.symmetric(
                         vertical: 15, horizontal: 10),
                   ),
@@ -71,10 +73,12 @@ class NewCategoryBottomSheet extends ConsumerWidget {
                   onPressed: () async {
                     final navigatorState = Navigator.of(context);
                     await ref
-                        .read(transactionAttributeControllerProvider.notifier)
+                        .read(transactionAttributeSubmitControllerProvider
+                            .notifier)
                         .submit();
-                    navigatorState.pop(
-                        ref.read(transactionAttributeControllerProvider).value);
+                    navigatorState.pop(ref
+                        .read(transactionAttributeSubmitControllerProvider)
+                        .value);
                   },
                   child: Text(
                     t.transactions.buttons.post,

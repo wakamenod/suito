@@ -8,6 +8,7 @@ import 'package:suito/src/common_widgets/transition_text_field.dart';
 import 'package:suito/src/constants/app_sizes.dart';
 import 'package:suito/src/features/schedules/services/income_schedule.dart';
 import 'package:suito/src/features/schedules/services/income_schedule_service.dart';
+import 'package:suito/src/features/transaction_attributes/services/transaction_attribute_service.dart';
 import 'package:suito/src/formz/amount.dart';
 import 'package:suito/src/routing/app_router.dart';
 import 'package:suito/src/utils/currency_formatter.dart';
@@ -38,6 +39,9 @@ class IncomeScheduleDetailView extends ConsumerWidget {
                     initialValue: income.title.value,
                     labelText: t.transactions.detail.inputLabels.title,
                     route: AppRoute.incomeType,
+                    onTap: () => ref
+                        .read(transactionAttributeTypeProvider.notifier)
+                        .state = TransactionAttributeType.incomeType,
                     onChanged: incomeScheduleController.onChangeTitle),
                 gapH12,
                 CurrencyInputField(

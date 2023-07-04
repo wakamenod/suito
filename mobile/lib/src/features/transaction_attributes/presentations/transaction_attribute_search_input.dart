@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:suito/i18n/translations.g.dart';
 import 'package:suito/src/constants/app_sizes.dart';
-import 'package:suito/src/features/transactions/services/transaction/transaction_detail_selection_service.dart';
+import 'package:suito/src/features/transaction_attributes/services/transaction_attribute_service.dart';
 
-class ExpenseCategorySearchInput extends ConsumerStatefulWidget {
-  const ExpenseCategorySearchInput({super.key});
+class TransactionAttributeSearchInput extends ConsumerStatefulWidget {
+  const TransactionAttributeSearchInput({super.key});
 
   @override
-  ConsumerState<ExpenseCategorySearchInput> createState() =>
+  ConsumerState<TransactionAttributeSearchInput> createState() =>
       _ExpenseCategorySearchInputState();
 }
 
 class _ExpenseCategorySearchInputState
-    extends ConsumerState<ExpenseCategorySearchInput> {
+    extends ConsumerState<TransactionAttributeSearchInput> {
   late final TextEditingController _controller = TextEditingController();
 
   @override
@@ -24,7 +24,7 @@ class _ExpenseCategorySearchInputState
 
   @override
   Widget build(BuildContext context) {
-    final searchStarted = ref.watch(transactionDetailSelectionControllerProvider
+    final searchStarted = ref.watch(transactionAttributeSearchControllerProvider
         .select((value) => value.searchStarted));
 
     return Row(
@@ -37,7 +37,7 @@ class _ExpenseCategorySearchInputState
               _controller.clear();
               FocusScope.of(context).unfocus();
               ref
-                  .read(transactionDetailSelectionControllerProvider.notifier)
+                  .read(transactionAttributeSearchControllerProvider.notifier)
                   .endInput();
             }
           },
@@ -50,11 +50,11 @@ class _ExpenseCategorySearchInputState
           onTap: () {
             // _controller.clear();
             ref
-                .read(transactionDetailSelectionControllerProvider.notifier)
+                .read(transactionAttributeSearchControllerProvider.notifier)
                 .startInput();
           },
           onChanged: (value) => ref
-              .read(transactionDetailSelectionControllerProvider.notifier)
+              .read(transactionAttributeSearchControllerProvider.notifier)
               .onChangeInput(value),
           decoration: InputDecoration(
               contentPadding: const EdgeInsets.only(bottom: 4.0),
@@ -73,7 +73,7 @@ class _ExpenseCategorySearchInputState
             onPressed: () {
               _controller.clear();
               ref
-                  .read(transactionDetailSelectionControllerProvider.notifier)
+                  .read(transactionAttributeSearchControllerProvider.notifier)
                   .clearInput();
             },
           )

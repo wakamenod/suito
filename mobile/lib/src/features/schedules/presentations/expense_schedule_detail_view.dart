@@ -9,6 +9,7 @@ import 'package:suito/src/common_widgets/transition_text_field.dart';
 import 'package:suito/src/constants/app_sizes.dart';
 import 'package:suito/src/features/schedules/services/expense_schedule.dart';
 import 'package:suito/src/features/schedules/services/expense_schedule_service.dart';
+import 'package:suito/src/features/transaction_attributes/services/transaction_attribute_service.dart';
 import 'package:suito/src/formz/amount.dart';
 import 'package:suito/src/formz/title.dart' as stitle;
 import 'package:suito/src/routing/app_router.dart';
@@ -55,12 +56,18 @@ class ExpenseScheduleDetailView extends ConsumerWidget {
                     initialValue: expense.categoryID,
                     labelText: t.transactions.detail.inputLabels.category,
                     route: AppRoute.category,
+                    onTap: () => ref
+                        .read(transactionAttributeTypeProvider.notifier)
+                        .state = TransactionAttributeType.category,
                     onChanged: expenseScheduleController.onChangeCategory),
                 gapH12,
                 TransitionTextField(
                     initialValue: expense.locationID,
                     labelText: t.transactions.detail.inputLabels.location,
                     route: AppRoute.location,
+                    onTap: () => ref
+                        .read(transactionAttributeTypeProvider.notifier)
+                        .state = TransactionAttributeType.location,
                     onChanged: expenseScheduleController.onChangeLocation),
                 gapH12,
                 TransitionTextField(
