@@ -12,6 +12,8 @@ part 'model_expense.g.dart';
 ///
 /// Properties:
 /// * [amount] 
+/// * [expenseCategoryID] 
+/// * [expenseLocationID] 
 /// * [id] 
 /// * [localDate] 
 /// * [memo] 
@@ -20,6 +22,12 @@ part 'model_expense.g.dart';
 abstract class ModelExpense implements Built<ModelExpense, ModelExpenseBuilder> {
   @BuiltValueField(wireName: r'amount')
   int get amount;
+
+  @BuiltValueField(wireName: r'expenseCategoryID')
+  String get expenseCategoryID;
+
+  @BuiltValueField(wireName: r'expenseLocationID')
+  String get expenseLocationID;
 
   @BuiltValueField(wireName: r'id')
   String get id;
@@ -60,6 +68,16 @@ class _$ModelExpenseSerializer implements PrimitiveSerializer<ModelExpense> {
     yield serializers.serialize(
       object.amount,
       specifiedType: const FullType(int),
+    );
+    yield r'expenseCategoryID';
+    yield serializers.serialize(
+      object.expenseCategoryID,
+      specifiedType: const FullType(String),
+    );
+    yield r'expenseLocationID';
+    yield serializers.serialize(
+      object.expenseLocationID,
+      specifiedType: const FullType(String),
     );
     yield r'id';
     yield serializers.serialize(
@@ -110,6 +128,20 @@ class _$ModelExpenseSerializer implements PrimitiveSerializer<ModelExpense> {
             specifiedType: const FullType(int),
           ) as int;
           result.amount = valueDes;
+          break;
+        case r'expenseCategoryID':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.expenseCategoryID = valueDes;
+          break;
+        case r'expenseLocationID':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.expenseLocationID = valueDes;
           break;
         case r'id':
           final valueDes = serializers.deserialize(

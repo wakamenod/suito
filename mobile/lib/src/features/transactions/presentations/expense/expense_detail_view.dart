@@ -23,8 +23,6 @@ class ExpenseDetailView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final expenseController =
-        ref.watch(expenseControllerProvider(expenseID).notifier);
     final expenseValue = ref.watch(expenseControllerProvider(expenseID));
 
     return AsyncValueWidget<Expense>(
@@ -40,46 +38,68 @@ class ExpenseDetailView extends ConsumerWidget {
                   padding: const EdgeInsets.only(top: 10.0, bottom: 14.0),
                   child: TransactionDatePicker(
                       date: expense.date,
-                      onChanged: expenseController.onChangeDate),
+                      onChanged: ref
+                          .read(expenseControllerProvider(expenseID).notifier)
+                          .onChangeDate),
                 ),
                 TextInputField(
                     initialValue: expense.title.value,
                     errorText:
                         stitle.Title.showTitleErrorMessage(expense.title),
                     labelText: t.transactions.detail.inputLabels.title,
-                    onChanged: expenseController.onChangeTitle),
+                    onChanged: ref
+                        .read(expenseControllerProvider(expenseID).notifier)
+                        .onChangeTitle),
                 gapH12,
                 CurrencyInputField(
                   formatter: ref.watch(currencyFormatterProvider),
                   initialValue: expense.amount.value,
                   errorText: Amount.showAmountErrorMessage(expense.amount),
                   labelText: t.transactions.detail.inputLabels.amount,
-                  onChanged: expenseController.onChangeAmount,
+                  onChanged: ref
+                      .read(expenseControllerProvider(expenseID).notifier)
+                      .onChangeAmount,
                 ),
                 gapH12,
                 TransitionTextField(
                     initialValue: expense.category,
+                    getValueByID: (id) => expense.categoryByID(id),
                     labelText: t.transactions.detail.inputLabels.category,
                     route: AppRoute.category,
-                    onTap: () => ref
-                        .read(transactionAttributeTypeProvider.notifier)
-                        .state = TransactionAttributeType.category,
-                    onChanged: expenseController.onChangeCategory),
+                    onTap: () {
+                      ref
+                          .read(transactionAttributeTypeProvider.notifier)
+                          .state = TransactionAttributeType.category;
+                      ref.read(transactionAttributeIDProvider.notifier).state =
+                          expense.categoryID;
+                    },
+                    onChanged: ref
+                        .read(expenseControllerProvider(expenseID).notifier)
+                        .onChangeCategory),
                 gapH12,
                 TransitionTextField(
                     initialValue: expense.location,
+                    getValueByID: (id) => expense.locationByID(id),
                     labelText: t.transactions.detail.inputLabels.location,
                     route: AppRoute.location,
-                    onTap: () => ref
-                        .read(transactionAttributeTypeProvider.notifier)
-                        .state = TransactionAttributeType.location,
-                    onChanged: expenseController.onChangeLocation),
+                    onTap: () {
+                      ref
+                          .read(transactionAttributeTypeProvider.notifier)
+                          .state = TransactionAttributeType.location;
+                      ref.read(transactionAttributeIDProvider.notifier).state =
+                          expense.locationID;
+                    },
+                    onChanged: ref
+                        .read(expenseControllerProvider(expenseID).notifier)
+                        .onChangeLocation),
                 gapH12,
                 TransitionTextField(
                     initialValue: expense.memo,
                     labelText: t.transactions.detail.inputLabels.memo,
                     route: AppRoute.memo,
-                    onChanged: expenseController.onChangeMemo),
+                    onChanged: ref
+                        .read(expenseControllerProvider(expenseID).notifier)
+                        .onChangeMemo),
                 gapH12,
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
@@ -89,7 +109,9 @@ class ExpenseDetailView extends ConsumerWidget {
                     backgroundColor: const Color(0xff1D7094),
                   ),
                   onPressed: () async {
-                    await expenseController.registerExpense();
+                    await ref
+                        .read(expenseControllerProvider(expenseID).notifier)
+                        .registerExpense();
                     if (context.mounted) context.pop();
                   },
                   child: Text(

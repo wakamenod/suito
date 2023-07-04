@@ -22,8 +22,6 @@ class ExpenseScheduleDetailView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final expenseScheduleController = ref
-        .watch(expenseScheduleControllerProvider(expenseScheduleID).notifier);
     final expenseScheduleValue =
         ref.watch(expenseScheduleControllerProvider(expenseScheduleID));
 
@@ -42,39 +40,60 @@ class ExpenseScheduleDetailView extends ConsumerWidget {
                     errorText:
                         stitle.Title.showTitleErrorMessage(expense.title),
                     labelText: t.transactions.detail.inputLabels.title,
-                    onChanged: expenseScheduleController.onChangeTitle),
+                    onChanged: ref
+                        .read(
+                            expenseScheduleControllerProvider(expenseScheduleID)
+                                .notifier)
+                        .onChangeTitle),
                 gapH12,
                 CurrencyInputField(
-                  formatter: ref.watch(currencyFormatterProvider),
-                  initialValue: expense.amount.value,
-                  errorText: Amount.showAmountErrorMessage(expense.amount),
-                  labelText: t.transactions.detail.inputLabels.amount,
-                  onChanged: expenseScheduleController.onChangeAmount,
-                ),
+                    formatter: ref.watch(currencyFormatterProvider),
+                    initialValue: expense.amount.value,
+                    errorText: Amount.showAmountErrorMessage(expense.amount),
+                    labelText: t.transactions.detail.inputLabels.amount,
+                    onChanged: ref
+                        .read(
+                            expenseScheduleControllerProvider(expenseScheduleID)
+                                .notifier)
+                        .onChangeAmount),
                 gapH12,
                 TransitionTextField(
-                    initialValue: expense.categoryID,
+                    initialValue: expense.category,
+                    getValueByID: (id) => expense.categoryByID(id),
                     labelText: t.transactions.detail.inputLabels.category,
                     route: AppRoute.category,
                     onTap: () => ref
                         .read(transactionAttributeTypeProvider.notifier)
                         .state = TransactionAttributeType.category,
-                    onChanged: expenseScheduleController.onChangeCategory),
+                    onChanged: ref
+                        .read(
+                            expenseScheduleControllerProvider(expenseScheduleID)
+                                .notifier)
+                        .onChangeCategory),
                 gapH12,
                 TransitionTextField(
-                    initialValue: expense.locationID,
+                    initialValue: expense.location,
+                    getValueByID: (id) => expense.locationByID(id),
                     labelText: t.transactions.detail.inputLabels.location,
                     route: AppRoute.location,
                     onTap: () => ref
                         .read(transactionAttributeTypeProvider.notifier)
                         .state = TransactionAttributeType.location,
-                    onChanged: expenseScheduleController.onChangeLocation),
+                    onChanged: ref
+                        .read(
+                            expenseScheduleControllerProvider(expenseScheduleID)
+                                .notifier)
+                        .onChangeLocation),
                 gapH12,
                 TransitionTextField(
                     initialValue: expense.memo,
                     labelText: t.transactions.detail.inputLabels.memo,
                     route: AppRoute.memo,
-                    onChanged: expenseScheduleController.onChangeMemo),
+                    onChanged: ref
+                        .read(
+                            expenseScheduleControllerProvider(expenseScheduleID)
+                                .notifier)
+                        .onChangeMemo),
                 gapH12,
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
@@ -84,7 +103,11 @@ class ExpenseScheduleDetailView extends ConsumerWidget {
                     backgroundColor: const Color(0xff1D7094),
                   ),
                   onPressed: () async {
-                    await expenseScheduleController.registerExpenseSchedule();
+                    await ref
+                        .read(
+                            expenseScheduleControllerProvider(expenseScheduleID)
+                                .notifier)
+                        .registerExpenseSchedule();
                     if (context.mounted) context.pop();
                   },
                   child: Text(

@@ -4,6 +4,8 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:suito/src/features/schedules/repositories/expense_schedule_detail_repository.dart';
 import 'package:suito/src/features/schedules/repositories/register_expense_schedule_repository.dart';
 import 'package:suito/src/features/schedules/repositories/update_expense_schedule_repository.dart';
+import 'package:suito/src/features/transactions/repositories/expense/expense_categories_repository.dart';
+import 'package:suito/src/features/transactions/repositories/expense/expense_locations_repository.dart';
 import 'package:suito/src/formz/amount.dart';
 import 'package:suito/src/formz/title.dart' as formz_title;
 import 'package:suito/src/utils/timezone_provider.dart';
@@ -18,13 +20,18 @@ part 'expense_schedule_service.g.dart';
 class ExpenseScheduleController extends _$ExpenseScheduleController {
   @override
   FutureOr<ExpenseSchedule> build(String arg) async {
+    final categoriesMap =
+        await ref.read(expenseCategoriesMapFutureProvider.future);
+    final locationsMap =
+        await ref.read(expenseLocationsMapFutureProvider.future);
+
     if (arg.isEmpty) {
-      return ExpenseSchedule.init();
+      return ExpenseSchedule.init(categoriesMap, locationsMap);
     }
     final modelRes = await ref
         .read(expenseScheduleDetailRepositoryProvider)
         .fetchExpenseScheduleDetail(arg);
-    return ExpenseSchedule.fromModel(modelRes);
+    return ExpenseSchedule.fromModel(modelRes, categoriesMap, locationsMap);
   }
 
   bool get _isNew => state.value!.id == '';

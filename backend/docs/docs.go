@@ -1407,19 +1407,11 @@ const docTemplate = `{
         "ExpenseDetailRes": {
             "type": "object",
             "required": [
-                "category",
-                "expense",
-                "location"
+                "expense"
             ],
             "properties": {
-                "category": {
-                    "type": "string"
-                },
                 "expense": {
                     "$ref": "#/definitions/model.Expense"
-                },
-                "location": {
-                    "type": "string"
                 }
             }
         },
@@ -2022,6 +2014,8 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "amount",
+                "expenseCategoryID",
+                "expenseLocationID",
                 "id",
                 "local_date",
                 "memo",
@@ -2030,6 +2024,12 @@ const docTemplate = `{
             "properties": {
                 "amount": {
                     "type": "integer"
+                },
+                "expenseCategoryID": {
+                    "type": "string"
+                },
+                "expenseLocationID": {
+                    "type": "string"
                 },
                 "id": {
                     "type": "string"

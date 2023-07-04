@@ -956,17 +956,11 @@ components:
           type: string
     ExpenseDetailRes:
       required:
-      - category
       - expense
-      - location
       type: object
       properties:
-        category:
-          type: string
         expense:
           $ref: '#/components/schemas/model.Expense'
-        location:
-          type: string
     ExpenseScheduleDetailReq:
       required:
       - id
@@ -1352,6 +1346,8 @@ components:
     model.Expense:
       required:
       - amount
+      - expenseCategoryID
+      - expenseLocationID
       - id
       - local_date
       - memo
@@ -1360,6 +1356,10 @@ components:
       properties:
         amount:
           type: integer
+        expenseCategoryID:
+          type: string
+        expenseLocationID:
+          type: string
         id:
           type: string
         local_date:

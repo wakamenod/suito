@@ -119,9 +119,7 @@ final goRouterProvider = Provider.family<GoRouter, GlobalKey<NavigatorState>>(
                         name: AppRoute.category.name,
                         pageBuilder: (context, state) => CustomTransitionPage(
                           key: state.pageKey,
-                          child: TransactionAttributeSelectScreen(
-                            selectedValue: state.extra as String,
-                          ),
+                          child: const TransactionAttributeSelectScreen(),
                           transitionsBuilder: _slideTransitionBuilder,
                         ),
                       ),
@@ -130,9 +128,7 @@ final goRouterProvider = Provider.family<GoRouter, GlobalKey<NavigatorState>>(
                         name: AppRoute.location.name,
                         pageBuilder: (context, state) => CustomTransitionPage(
                           key: state.pageKey,
-                          child: TransactionAttributeSelectScreen(
-                            selectedValue: state.extra as String,
-                          ),
+                          child: const TransactionAttributeSelectScreen(),
                           transitionsBuilder: _slideTransitionBuilder,
                         ),
                       ),
@@ -150,9 +146,7 @@ final goRouterProvider = Provider.family<GoRouter, GlobalKey<NavigatorState>>(
                         name: AppRoute.incomeType.name,
                         pageBuilder: (context, state) => CustomTransitionPage(
                           key: state.pageKey,
-                          child: TransactionAttributeSelectScreen(
-                            selectedValue: state.extra as String,
-                          ),
+                          child: const TransactionAttributeSelectScreen(),
                           transitionsBuilder: _slideTransitionBuilder,
                         ),
                       ),
@@ -188,9 +182,7 @@ final goRouterProvider = Provider.family<GoRouter, GlobalKey<NavigatorState>>(
                         name: AppRoute.scheduleCategory.name,
                         pageBuilder: (context, state) => CustomTransitionPage(
                           key: state.pageKey,
-                          child: TransactionAttributeSelectScreen(
-                            selectedValue: state.extra as String,
-                          ),
+                          child: const TransactionAttributeSelectScreen(),
                           transitionsBuilder: _slideTransitionBuilder,
                         ),
                       ),
@@ -199,9 +191,7 @@ final goRouterProvider = Provider.family<GoRouter, GlobalKey<NavigatorState>>(
                         name: AppRoute.scheduleLocation.name,
                         pageBuilder: (context, state) => CustomTransitionPage(
                           key: state.pageKey,
-                          child: TransactionAttributeSelectScreen(
-                            selectedValue: state.extra as String,
-                          ),
+                          child: const TransactionAttributeSelectScreen(),
                           transitionsBuilder: _slideTransitionBuilder,
                         ),
                       ),
@@ -219,9 +209,7 @@ final goRouterProvider = Provider.family<GoRouter, GlobalKey<NavigatorState>>(
                         name: AppRoute.scheduleIncomeType.name,
                         pageBuilder: (context, state) => CustomTransitionPage(
                           key: state.pageKey,
-                          child: TransactionAttributeSelectScreen(
-                            selectedValue: state.extra as String,
-                          ),
+                          child: const TransactionAttributeSelectScreen(),
                           transitionsBuilder: _slideTransitionBuilder,
                         ),
                       ),
