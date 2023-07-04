@@ -10,6 +10,10 @@ class _$ModelExpense extends ModelExpense {
   @override
   final int amount;
   @override
+  final String expenseCategoryID;
+  @override
+  final String expenseLocationID;
+  @override
   final String id;
   @override
   final String localDate;
@@ -23,12 +27,18 @@ class _$ModelExpense extends ModelExpense {
 
   _$ModelExpense._(
       {required this.amount,
+      required this.expenseCategoryID,
+      required this.expenseLocationID,
       required this.id,
       required this.localDate,
       required this.memo,
       required this.title})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(amount, r'ModelExpense', 'amount');
+    BuiltValueNullFieldError.checkNotNull(
+        expenseCategoryID, r'ModelExpense', 'expenseCategoryID');
+    BuiltValueNullFieldError.checkNotNull(
+        expenseLocationID, r'ModelExpense', 'expenseLocationID');
     BuiltValueNullFieldError.checkNotNull(id, r'ModelExpense', 'id');
     BuiltValueNullFieldError.checkNotNull(
         localDate, r'ModelExpense', 'localDate');
@@ -48,6 +58,8 @@ class _$ModelExpense extends ModelExpense {
     if (identical(other, this)) return true;
     return other is ModelExpense &&
         amount == other.amount &&
+        expenseCategoryID == other.expenseCategoryID &&
+        expenseLocationID == other.expenseLocationID &&
         id == other.id &&
         localDate == other.localDate &&
         memo == other.memo &&
@@ -58,6 +70,8 @@ class _$ModelExpense extends ModelExpense {
   int get hashCode {
     var _$hash = 0;
     _$hash = $jc(_$hash, amount.hashCode);
+    _$hash = $jc(_$hash, expenseCategoryID.hashCode);
+    _$hash = $jc(_$hash, expenseLocationID.hashCode);
     _$hash = $jc(_$hash, id.hashCode);
     _$hash = $jc(_$hash, localDate.hashCode);
     _$hash = $jc(_$hash, memo.hashCode);
@@ -70,6 +84,8 @@ class _$ModelExpense extends ModelExpense {
   String toString() {
     return (newBuiltValueToStringHelper(r'ModelExpense')
           ..add('amount', amount)
+          ..add('expenseCategoryID', expenseCategoryID)
+          ..add('expenseLocationID', expenseLocationID)
           ..add('id', id)
           ..add('localDate', localDate)
           ..add('memo', memo)
@@ -85,6 +101,16 @@ class ModelExpenseBuilder
   int? _amount;
   int? get amount => _$this._amount;
   set amount(int? amount) => _$this._amount = amount;
+
+  String? _expenseCategoryID;
+  String? get expenseCategoryID => _$this._expenseCategoryID;
+  set expenseCategoryID(String? expenseCategoryID) =>
+      _$this._expenseCategoryID = expenseCategoryID;
+
+  String? _expenseLocationID;
+  String? get expenseLocationID => _$this._expenseLocationID;
+  set expenseLocationID(String? expenseLocationID) =>
+      _$this._expenseLocationID = expenseLocationID;
 
   String? _id;
   String? get id => _$this._id;
@@ -110,6 +136,8 @@ class ModelExpenseBuilder
     final $v = _$v;
     if ($v != null) {
       _amount = $v.amount;
+      _expenseCategoryID = $v.expenseCategoryID;
+      _expenseLocationID = $v.expenseLocationID;
       _id = $v.id;
       _localDate = $v.localDate;
       _memo = $v.memo;
@@ -138,6 +166,10 @@ class ModelExpenseBuilder
         new _$ModelExpense._(
             amount: BuiltValueNullFieldError.checkNotNull(
                 amount, r'ModelExpense', 'amount'),
+            expenseCategoryID: BuiltValueNullFieldError.checkNotNull(
+                expenseCategoryID, r'ModelExpense', 'expenseCategoryID'),
+            expenseLocationID: BuiltValueNullFieldError.checkNotNull(
+                expenseLocationID, r'ModelExpense', 'expenseLocationID'),
             id: BuiltValueNullFieldError.checkNotNull(
                 id, r'ModelExpense', 'id'),
             localDate: BuiltValueNullFieldError.checkNotNull(

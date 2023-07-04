@@ -8,6 +8,8 @@ part 'expense_schedule.freezed.dart';
 
 @freezed
 class ExpenseSchedule with _$ExpenseSchedule {
+  const ExpenseSchedule._();
+
   const factory ExpenseSchedule({
     required String id,
     required Title title,
@@ -17,20 +19,31 @@ class ExpenseSchedule with _$ExpenseSchedule {
     required String memo,
     required bool isValid,
     required FormzSubmissionStatus submissionStatus,
+    required Map<String, ModelExpenseCategory> categoriesMap,
+    required Map<String, ModelExpenseLocation> locationsMap,
   }) = _ExpenseSchedule;
 
-  static ExpenseSchedule init() => const ExpenseSchedule(
+  String get category => categoryByID(categoryID);
+  String get location => locationByID(locationID);
+
+  String categoryByID(id) => categoriesMap[id]?.name ?? '';
+  String locationByID(id) => locationsMap[id]?.name ?? '';
+
+  static ExpenseSchedule init(categoriesMap, locationsMap) => ExpenseSchedule(
         id: '',
-        title: Title.pure(),
-        amount: Amount.pure(),
+        title: const Title.pure(),
+        amount: const Amount.pure(),
         categoryID: '',
         locationID: '',
         memo: '',
+        categoriesMap: categoriesMap,
+        locationsMap: locationsMap,
         isValid: true,
         submissionStatus: FormzSubmissionStatus.initial,
       );
 
-  static ExpenseSchedule fromModel(ExpenseScheduleDetailRes res) =>
+  static ExpenseSchedule fromModel(
+          ExpenseScheduleDetailRes res, categoriesMap, locationsMap) =>
       ExpenseSchedule(
         id: res.expenseSchedule.id,
         title: Title.dirty(res.expenseSchedule.title),
@@ -38,6 +51,8 @@ class ExpenseSchedule with _$ExpenseSchedule {
         categoryID: res.expenseSchedule.expenseCategoryID,
         locationID: res.expenseSchedule.expenseLocationID,
         memo: res.expenseSchedule.memo,
+        categoriesMap: categoriesMap,
+        locationsMap: locationsMap,
         isValid: true,
         submissionStatus: FormzSubmissionStatus.initial,
       );

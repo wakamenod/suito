@@ -9,10 +9,7 @@ import 'package:suito/src/features/transaction_attributes/presentations/transact
 import 'package:suito/src/features/transaction_attributes/services/transaction_attribute_service.dart';
 
 class TransactionAttributeSelectScreen extends ConsumerWidget {
-  const TransactionAttributeSelectScreen(
-      {required this.selectedValue, super.key});
-
-  final String selectedValue;
+  const TransactionAttributeSelectScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -29,20 +26,19 @@ class TransactionAttributeSelectScreen extends ConsumerWidget {
                 title: Text(words.appBar()),
                 leading: IconButton(
                     icon: const Icon(Icons.arrow_back, color: Colors.white),
-                    onPressed: () => context.pop(selectedValue)),
+                    onPressed: () =>
+                        context.pop(ref.read(transactionAttributeIDProvider))),
               ),
-        body: Column(
+        body: const Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            const TransactionAttributeSearchInput(),
-            const Divider(
+            TransactionAttributeSearchInput(),
+            Divider(
               height: 0,
             ),
-            const TransactionAttributeAddTile(),
+            TransactionAttributeAddTile(),
             Expanded(
-              child: TransactionAttributeList(
-                selectedValue: selectedValue,
-              ),
+              child: TransactionAttributeList(),
             ),
           ],
         ),

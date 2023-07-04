@@ -72,13 +72,11 @@ class TransactionAttributeBottomSheet extends ConsumerWidget {
                   ),
                   onPressed: () async {
                     final navigatorState = Navigator.of(context);
-                    await ref
+                    final newID = await ref
                         .read(transactionAttributeSubmitControllerProvider
                             .notifier)
                         .submit();
-                    navigatorState.pop(ref
-                        .read(transactionAttributeSubmitControllerProvider)
-                        .value);
+                    navigatorState.pop(newID);
                   },
                   child: Text(
                     t.transactions.buttons.post,

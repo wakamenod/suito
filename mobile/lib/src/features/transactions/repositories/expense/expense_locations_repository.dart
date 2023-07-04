@@ -29,3 +29,12 @@ Future<List<ModelExpenseLocation>> expenseLocationsListFuture(
       ref.watch(expenseLocationsRepositoryProvider);
   return expenseLocationsRepository.fetchExpenseLocationsList();
 }
+
+@Riverpod(keepAlive: true)
+Future<Map<String, ModelExpenseLocation>> expenseLocationsMapFuture(
+    ExpenseLocationsMapFutureRef ref) async {
+  final expenseLocationsRepository =
+      ref.watch(expenseLocationsRepositoryProvider);
+  final list = await expenseLocationsRepository.fetchExpenseLocationsList();
+  return {for (var e in list) e.id!: e};
+}

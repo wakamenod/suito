@@ -45,115 +45,23 @@ final transactionAttributeWordsProvider =
 typedef TransactionAttributeWordsRef
     = AutoDisposeProviderRef<TransactionAttributeWords>;
 String _$filteredCategoriesHash() =>
-    r'f6f6ecaf4e49e8fb07841dba8184f5f383cb77dc';
-
-/// Copied from Dart SDK
-class _SystemHash {
-  _SystemHash._();
-
-  static int combine(int hash, int value) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + value);
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x0007ffff & hash) << 10));
-    return hash ^ (hash >> 6);
-  }
-
-  static int finish(int hash) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x03ffffff & hash) << 3));
-    // ignore: parameter_assignments
-    hash = hash ^ (hash >> 11);
-    return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
-  }
-}
-
-typedef FilteredCategoriesRef = AutoDisposeFutureProviderRef<
-    ({List<AttributeEntry> filteredItems, AttributeEntry selected})>;
+    r'8d6fabdb546ec3f6ec19cc4fb9a5f85b025e6d46';
 
 /// See also [filteredCategories].
 @ProviderFor(filteredCategories)
-const filteredCategoriesProvider = FilteredCategoriesFamily();
+final filteredCategoriesProvider = AutoDisposeFutureProvider<
+    ({List<AttributeEntry> filteredItems, AttributeEntry selected})>.internal(
+  filteredCategories,
+  name: r'filteredCategoriesProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$filteredCategoriesHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
-/// See also [filteredCategories].
-class FilteredCategoriesFamily extends Family<
-    AsyncValue<
-        ({List<AttributeEntry> filteredItems, AttributeEntry selected})>> {
-  /// See also [filteredCategories].
-  const FilteredCategoriesFamily();
-
-  /// See also [filteredCategories].
-  FilteredCategoriesProvider call(
-    String selectedValue,
-  ) {
-    return FilteredCategoriesProvider(
-      selectedValue,
-    );
-  }
-
-  @override
-  FilteredCategoriesProvider getProviderOverride(
-    covariant FilteredCategoriesProvider provider,
-  ) {
-    return call(
-      provider.selectedValue,
-    );
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'filteredCategoriesProvider';
-}
-
-/// See also [filteredCategories].
-class FilteredCategoriesProvider extends AutoDisposeFutureProvider<
-    ({List<AttributeEntry> filteredItems, AttributeEntry selected})> {
-  /// See also [filteredCategories].
-  FilteredCategoriesProvider(
-    this.selectedValue,
-  ) : super.internal(
-          (ref) => filteredCategories(
-            ref,
-            selectedValue,
-          ),
-          from: filteredCategoriesProvider,
-          name: r'filteredCategoriesProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$filteredCategoriesHash,
-          dependencies: FilteredCategoriesFamily._dependencies,
-          allTransitiveDependencies:
-              FilteredCategoriesFamily._allTransitiveDependencies,
-        );
-
-  final String selectedValue;
-
-  @override
-  bool operator ==(Object other) {
-    return other is FilteredCategoriesProvider &&
-        other.selectedValue == selectedValue;
-  }
-
-  @override
-  int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, selectedValue.hashCode);
-
-    return _SystemHash.finish(hash);
-  }
-}
-
+typedef FilteredCategoriesRef = AutoDisposeFutureProviderRef<
+    ({List<AttributeEntry> filteredItems, AttributeEntry selected})>;
 String _$addableInputValueHash() => r'42ca7c701cace6ef9653732ab85f1e26eea92df7';
 
 /// See also [addableInputValue].
@@ -170,7 +78,7 @@ final addableInputValueProvider = AutoDisposeFutureProvider<String?>.internal(
 
 typedef AddableInputValueRef = AutoDisposeFutureProviderRef<String?>;
 String _$transactionAttributeSubmitControllerHash() =>
-    r'aee37647475c98f872dd7d0203062f9b72211831';
+    r'757d18052d69b6ee4d3c70f43adfbbc2f28dfcee';
 
 /// See also [TransactionAttributeSubmitController].
 @ProviderFor(TransactionAttributeSubmitController)

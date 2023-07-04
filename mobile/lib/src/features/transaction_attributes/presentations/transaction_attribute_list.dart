@@ -6,14 +6,11 @@ import 'package:suito/src/features/transaction_attributes/services/transaction_a
 import 'package:suito/src/features/transaction_attributes/services/transaction_attribute_service.dart';
 
 class TransactionAttributeList extends ConsumerWidget {
-  const TransactionAttributeList({required this.selectedValue, super.key});
-
-  final String selectedValue;
+  const TransactionAttributeList({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final filteredCategoriesValue =
-        ref.watch(filteredCategoriesProvider(selectedValue));
+    final filteredCategoriesValue = ref.watch(filteredCategoriesProvider);
 
     return AsyncValueWidget<
         ({List<AttributeEntry> filteredItems, AttributeEntry selected})>(
@@ -27,7 +24,7 @@ class TransactionAttributeList extends ConsumerWidget {
                     value: category,
                     groupValue: value.selected,
                     onChanged: (AttributeEntry? value) {
-                      context.pop(value?.id == null ? '' : value?.name);
+                      context.pop(value?.id ?? '');
                     },
                   ),
                 )

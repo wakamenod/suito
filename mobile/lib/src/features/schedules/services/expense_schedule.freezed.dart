@@ -25,6 +25,10 @@ mixin _$ExpenseSchedule {
   bool get isValid => throw _privateConstructorUsedError;
   FormzSubmissionStatus get submissionStatus =>
       throw _privateConstructorUsedError;
+  Map<String, ModelExpenseCategory> get categoriesMap =>
+      throw _privateConstructorUsedError;
+  Map<String, ModelExpenseLocation> get locationsMap =>
+      throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ExpenseScheduleCopyWith<ExpenseSchedule> get copyWith =>
@@ -45,7 +49,9 @@ abstract class $ExpenseScheduleCopyWith<$Res> {
       String locationID,
       String memo,
       bool isValid,
-      FormzSubmissionStatus submissionStatus});
+      FormzSubmissionStatus submissionStatus,
+      Map<String, ModelExpenseCategory> categoriesMap,
+      Map<String, ModelExpenseLocation> locationsMap});
 }
 
 /// @nodoc
@@ -69,6 +75,8 @@ class _$ExpenseScheduleCopyWithImpl<$Res, $Val extends ExpenseSchedule>
     Object? memo = null,
     Object? isValid = null,
     Object? submissionStatus = null,
+    Object? categoriesMap = null,
+    Object? locationsMap = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -103,6 +111,14 @@ class _$ExpenseScheduleCopyWithImpl<$Res, $Val extends ExpenseSchedule>
           ? _value.submissionStatus
           : submissionStatus // ignore: cast_nullable_to_non_nullable
               as FormzSubmissionStatus,
+      categoriesMap: null == categoriesMap
+          ? _value.categoriesMap
+          : categoriesMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, ModelExpenseCategory>,
+      locationsMap: null == locationsMap
+          ? _value.locationsMap
+          : locationsMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, ModelExpenseLocation>,
     ) as $Val);
   }
 }
@@ -123,7 +139,9 @@ abstract class _$$_ExpenseScheduleCopyWith<$Res>
       String locationID,
       String memo,
       bool isValid,
-      FormzSubmissionStatus submissionStatus});
+      FormzSubmissionStatus submissionStatus,
+      Map<String, ModelExpenseCategory> categoriesMap,
+      Map<String, ModelExpenseLocation> locationsMap});
 }
 
 /// @nodoc
@@ -145,6 +163,8 @@ class __$$_ExpenseScheduleCopyWithImpl<$Res>
     Object? memo = null,
     Object? isValid = null,
     Object? submissionStatus = null,
+    Object? categoriesMap = null,
+    Object? locationsMap = null,
   }) {
     return _then(_$_ExpenseSchedule(
       id: null == id
@@ -179,13 +199,21 @@ class __$$_ExpenseScheduleCopyWithImpl<$Res>
           ? _value.submissionStatus
           : submissionStatus // ignore: cast_nullable_to_non_nullable
               as FormzSubmissionStatus,
+      categoriesMap: null == categoriesMap
+          ? _value._categoriesMap
+          : categoriesMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, ModelExpenseCategory>,
+      locationsMap: null == locationsMap
+          ? _value._locationsMap
+          : locationsMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, ModelExpenseLocation>,
     ));
   }
 }
 
 /// @nodoc
 
-class _$_ExpenseSchedule implements _ExpenseSchedule {
+class _$_ExpenseSchedule extends _ExpenseSchedule {
   const _$_ExpenseSchedule(
       {required this.id,
       required this.title,
@@ -194,7 +222,12 @@ class _$_ExpenseSchedule implements _ExpenseSchedule {
       required this.locationID,
       required this.memo,
       required this.isValid,
-      required this.submissionStatus});
+      required this.submissionStatus,
+      required final Map<String, ModelExpenseCategory> categoriesMap,
+      required final Map<String, ModelExpenseLocation> locationsMap})
+      : _categoriesMap = categoriesMap,
+        _locationsMap = locationsMap,
+        super._();
 
   @override
   final String id;
@@ -212,10 +245,25 @@ class _$_ExpenseSchedule implements _ExpenseSchedule {
   final bool isValid;
   @override
   final FormzSubmissionStatus submissionStatus;
+  final Map<String, ModelExpenseCategory> _categoriesMap;
+  @override
+  Map<String, ModelExpenseCategory> get categoriesMap {
+    if (_categoriesMap is EqualUnmodifiableMapView) return _categoriesMap;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_categoriesMap);
+  }
+
+  final Map<String, ModelExpenseLocation> _locationsMap;
+  @override
+  Map<String, ModelExpenseLocation> get locationsMap {
+    if (_locationsMap is EqualUnmodifiableMapView) return _locationsMap;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_locationsMap);
+  }
 
   @override
   String toString() {
-    return 'ExpenseSchedule(id: $id, title: $title, amount: $amount, categoryID: $categoryID, locationID: $locationID, memo: $memo, isValid: $isValid, submissionStatus: $submissionStatus)';
+    return 'ExpenseSchedule(id: $id, title: $title, amount: $amount, categoryID: $categoryID, locationID: $locationID, memo: $memo, isValid: $isValid, submissionStatus: $submissionStatus, categoriesMap: $categoriesMap, locationsMap: $locationsMap)';
   }
 
   @override
@@ -233,12 +281,26 @@ class _$_ExpenseSchedule implements _ExpenseSchedule {
             (identical(other.memo, memo) || other.memo == memo) &&
             (identical(other.isValid, isValid) || other.isValid == isValid) &&
             (identical(other.submissionStatus, submissionStatus) ||
-                other.submissionStatus == submissionStatus));
+                other.submissionStatus == submissionStatus) &&
+            const DeepCollectionEquality()
+                .equals(other._categoriesMap, _categoriesMap) &&
+            const DeepCollectionEquality()
+                .equals(other._locationsMap, _locationsMap));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, title, amount, categoryID,
-      locationID, memo, isValid, submissionStatus);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      title,
+      amount,
+      categoryID,
+      locationID,
+      memo,
+      isValid,
+      submissionStatus,
+      const DeepCollectionEquality().hash(_categoriesMap),
+      const DeepCollectionEquality().hash(_locationsMap));
 
   @JsonKey(ignore: true)
   @override
@@ -247,7 +309,7 @@ class _$_ExpenseSchedule implements _ExpenseSchedule {
       __$$_ExpenseScheduleCopyWithImpl<_$_ExpenseSchedule>(this, _$identity);
 }
 
-abstract class _ExpenseSchedule implements ExpenseSchedule {
+abstract class _ExpenseSchedule extends ExpenseSchedule {
   const factory _ExpenseSchedule(
           {required final String id,
           required final Title title,
@@ -256,8 +318,11 @@ abstract class _ExpenseSchedule implements ExpenseSchedule {
           required final String locationID,
           required final String memo,
           required final bool isValid,
-          required final FormzSubmissionStatus submissionStatus}) =
+          required final FormzSubmissionStatus submissionStatus,
+          required final Map<String, ModelExpenseCategory> categoriesMap,
+          required final Map<String, ModelExpenseLocation> locationsMap}) =
       _$_ExpenseSchedule;
+  const _ExpenseSchedule._() : super._();
 
   @override
   String get id;
@@ -275,6 +340,10 @@ abstract class _ExpenseSchedule implements ExpenseSchedule {
   bool get isValid;
   @override
   FormzSubmissionStatus get submissionStatus;
+  @override
+  Map<String, ModelExpenseCategory> get categoriesMap;
+  @override
+  Map<String, ModelExpenseLocation> get locationsMap;
   @override
   @JsonKey(ignore: true)
   _$$_ExpenseScheduleCopyWith<_$_ExpenseSchedule> get copyWith =>

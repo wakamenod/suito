@@ -1,7 +1,9 @@
 import 'package:formz/formz.dart';
 import 'package:openapi/openapi.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:suito/src/features/transactions/repositories/expense/expense_categories_repository.dart';
 import 'package:suito/src/features/transactions/repositories/expense/expense_detail_repository.dart';
+import 'package:suito/src/features/transactions/repositories/expense/expense_locations_repository.dart';
 import 'package:suito/src/features/transactions/repositories/expense/register_expense_repository.dart';
 import 'package:suito/src/features/transactions/repositories/expense/update_expense_repository.dart';
 import 'package:suito/src/features/transactions/services/transaction/transaction_service.dart';
@@ -18,12 +20,17 @@ part 'expense_service.g.dart';
 class ExpenseController extends _$ExpenseController {
   @override
   FutureOr<Expense> build(String arg) async {
+    final categoriesMap =
+        await ref.read(expenseCategoriesMapFutureProvider.future);
+    final locationsMap =
+        await ref.read(expenseLocationsMapFutureProvider.future);
+
     if (arg.isEmpty) {
-      return Expense.init();
+      return Expense.init(categoriesMap, locationsMap);
     }
     final modelRes =
         await ref.read(expenseDetailRepositoryProvider).fetchExpenseDetail(arg);
-    return Expense.fromModel(modelRes);
+    return Expense.fromModel(modelRes, categoriesMap, locationsMap);
   }
 
   bool get _isNew => state.value!.id == '';
@@ -60,13 +67,13 @@ class ExpenseController extends _$ExpenseController {
 
   void onChangeCategory(String value) {
     state = AsyncValue.data(state.value!.copyWith(
-      category: value,
+      categoryID: value,
     ));
   }
 
   void onChangeLocation(String value) {
     state = AsyncValue.data(state.value!.copyWith(
-      location: value,
+      locationID: value,
     ));
   }
 
@@ -77,10 +84,11 @@ class ExpenseController extends _$ExpenseController {
   }
 
   RegisterExpenseReq _registerRequest() {
-    // todo category_id, location_id
     return RegisterExpenseReq((r) => r
       ..expense.replace(ModelExpense((e) => e
         ..id = ''
+        ..expenseCategoryID = state.value!.categoryID
+        ..expenseLocationID = state.value!.locationID
         ..title = state.value!.title.value
         ..localDate = DateTime.parse(state.value!.date).toRfc3339()
         ..memo = state.value!.memo
@@ -88,10 +96,11 @@ class ExpenseController extends _$ExpenseController {
   }
 
   UpdateExpenseReq _updateRequest() {
-    // todo category_id, location_id
     return UpdateExpenseReq((r) => r
       ..expense.replace(ModelExpense((e) => e
         ..id = state.value!.id
+        ..expenseCategoryID = state.value!.categoryID
+        ..expenseLocationID = state.value!.locationID
         ..title = state.value!.title.value
         ..localDate = DateTime.parse(state.value!.date).toRfc3339()
         ..memo = state.value!.memo

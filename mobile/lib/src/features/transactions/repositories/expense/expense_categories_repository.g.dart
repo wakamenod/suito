@@ -44,4 +44,22 @@ final expenseCategoriesListFutureProvider =
 
 typedef ExpenseCategoriesListFutureRef
     = FutureProviderRef<List<ModelExpenseCategory>>;
+String _$expenseCategoriesMapFutureHash() =>
+    r'dd747dbc9472143f83143ff84f031c6e7756e354';
+
+/// See also [expenseCategoriesMapFuture].
+@ProviderFor(expenseCategoriesMapFuture)
+final expenseCategoriesMapFutureProvider =
+    FutureProvider<Map<String, ModelExpenseCategory>>.internal(
+  expenseCategoriesMapFuture,
+  name: r'expenseCategoriesMapFutureProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$expenseCategoriesMapFutureHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef ExpenseCategoriesMapFutureRef
+    = FutureProviderRef<Map<String, ModelExpenseCategory>>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

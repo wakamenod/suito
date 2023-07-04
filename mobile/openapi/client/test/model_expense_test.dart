@@ -12,6 +12,16 @@ void main() {
       // TODO
     });
 
+    // String expenseCategoryID
+    test('to test the property `expenseCategoryID`', () async {
+      // TODO
+    });
+
+    // String expenseLocationID
+    test('to test the property `expenseLocationID`', () async {
+      // TODO
+    });
+
     // String id
     test('to test the property `id`', () async {
       // TODO

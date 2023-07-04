@@ -17,7 +17,7 @@ type ExpenseService interface {
 	CreateExpenseService(uid string, expense model.Expense) (model.Expense, error)
 	UpdateExpenseService(uid string, expense model.Expense) (model.Expense, error)
 	DeleteExpenseService(id, uid string) error
-	FindExpenseService(id, uid string) (model.Expense, string, string, error)
+	FindExpenseService(id, uid string) (model.Expense, error)
 }
 
 type ExpenseCategoryService interface {

@@ -19,7 +19,7 @@ final _noIncomeType = IncomeTypeAsAttributeEntry(
 
 abstract class TransactionAttributeRepository {
   Future<List<AttributeEntry>> list();
-  Future<void> register(String name);
+  Future<String> register(String name);
   AttributeEntry noEntry();
 }
 
@@ -42,11 +42,14 @@ class CategoryAttributesRepository implements TransactionAttributeRepository {
   }
 
   @override
-  Future<void> register(name) async {
+  Future<String> register(name) async {
     final req = RegisterExpenseCategoryReq((r) => r
       ..expenseCategory.replace(ModelExpenseCategory((e) => e..name = name)));
 
-    _ref.read(registerCategoryRepositoryProvider).registerCategory(req);
+    final res = await _ref
+        .read(registerCategoryRepositoryProvider)
+        .registerCategory(req);
+    return res.id!;
   }
 }
 
@@ -69,11 +72,14 @@ class LocationAttributesRepository implements TransactionAttributeRepository {
   }
 
   @override
-  Future<void> register(name) async {
+  Future<String> register(name) async {
     final req = RegisterExpenseLocationReq((r) => r
       ..expenseLocation.replace(ModelExpenseLocation((e) => e..name = name)));
 
-    _ref.read(registerLocationRepositoryProvider).registerLocation(req);
+    final res = await _ref
+        .read(registerLocationRepositoryProvider)
+        .registerLocation(req);
+    return res.id!;
   }
 }
 
@@ -95,9 +101,12 @@ class IncomeTypeAttributesRepository implements TransactionAttributeRepository {
   }
 
   @override
-  Future<void> register(name) async {
+  Future<String> register(name) async {
     final req = RegisterIncomeTypeReq(
         (r) => r..incomeType.replace(ModelIncomeType((e) => e..name = name)));
-    _ref.read(registerIncomeTypeRepositoryProvider).registerIncomeType(req);
+    final res = await _ref
+        .read(registerIncomeTypeRepositoryProvider)
+        .registerIncomeType(req);
+    return res.id!;
   }
 }

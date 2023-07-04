@@ -10,16 +10,14 @@ import (
 )
 
 func TestFindExpenseService(t *testing.T) {
-	res, category, location, err := expenseSer.FindExpenseService("ID_EXPENSE_02", "user1")
+	res, err := expenseSer.FindExpenseService("ID_EXPENSE_02", "user1")
 	require.NoError(t, err)
 	require.Equal(t, 200, res.Amount)
 	require.Equal(t, "Test002", res.Title)
-	require.Equal(t, "Test Category", category)
-	require.Equal(t, "Test Location", location)
 }
 
 func TestFindExpenseService_Error(t *testing.T) {
-	_, _, _, err := expenseSer.FindExpenseService("ID_EXPENSE_02", "user2")
+	_, err := expenseSer.FindExpenseService("ID_EXPENSE_02", "user2")
 	require.Error(t, err)
 	require.ErrorIs(t, err, gorm.ErrRecordNotFound)
 }

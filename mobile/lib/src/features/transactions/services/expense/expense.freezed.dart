@@ -20,11 +20,15 @@ mixin _$Expense {
   Title get title => throw _privateConstructorUsedError;
   Amount get amount => throw _privateConstructorUsedError;
   String get date => throw _privateConstructorUsedError;
-  String get category => throw _privateConstructorUsedError;
-  String get location => throw _privateConstructorUsedError;
+  String get categoryID => throw _privateConstructorUsedError;
+  String get locationID => throw _privateConstructorUsedError;
   String get memo => throw _privateConstructorUsedError;
   bool get isValid => throw _privateConstructorUsedError;
   FormzSubmissionStatus get submissionStatus =>
+      throw _privateConstructorUsedError;
+  Map<String, ModelExpenseCategory> get categoriesMap =>
+      throw _privateConstructorUsedError;
+  Map<String, ModelExpenseLocation> get locationsMap =>
       throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -41,11 +45,13 @@ abstract class $ExpenseCopyWith<$Res> {
       Title title,
       Amount amount,
       String date,
-      String category,
-      String location,
+      String categoryID,
+      String locationID,
       String memo,
       bool isValid,
-      FormzSubmissionStatus submissionStatus});
+      FormzSubmissionStatus submissionStatus,
+      Map<String, ModelExpenseCategory> categoriesMap,
+      Map<String, ModelExpenseLocation> locationsMap});
 }
 
 /// @nodoc
@@ -65,11 +71,13 @@ class _$ExpenseCopyWithImpl<$Res, $Val extends Expense>
     Object? title = null,
     Object? amount = null,
     Object? date = null,
-    Object? category = null,
-    Object? location = null,
+    Object? categoryID = null,
+    Object? locationID = null,
     Object? memo = null,
     Object? isValid = null,
     Object? submissionStatus = null,
+    Object? categoriesMap = null,
+    Object? locationsMap = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -88,13 +96,13 @@ class _$ExpenseCopyWithImpl<$Res, $Val extends Expense>
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
               as String,
-      category: null == category
-          ? _value.category
-          : category // ignore: cast_nullable_to_non_nullable
+      categoryID: null == categoryID
+          ? _value.categoryID
+          : categoryID // ignore: cast_nullable_to_non_nullable
               as String,
-      location: null == location
-          ? _value.location
-          : location // ignore: cast_nullable_to_non_nullable
+      locationID: null == locationID
+          ? _value.locationID
+          : locationID // ignore: cast_nullable_to_non_nullable
               as String,
       memo: null == memo
           ? _value.memo
@@ -108,6 +116,14 @@ class _$ExpenseCopyWithImpl<$Res, $Val extends Expense>
           ? _value.submissionStatus
           : submissionStatus // ignore: cast_nullable_to_non_nullable
               as FormzSubmissionStatus,
+      categoriesMap: null == categoriesMap
+          ? _value.categoriesMap
+          : categoriesMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, ModelExpenseCategory>,
+      locationsMap: null == locationsMap
+          ? _value.locationsMap
+          : locationsMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, ModelExpenseLocation>,
     ) as $Val);
   }
 }
@@ -124,11 +140,13 @@ abstract class _$$_ExpenseCopyWith<$Res> implements $ExpenseCopyWith<$Res> {
       Title title,
       Amount amount,
       String date,
-      String category,
-      String location,
+      String categoryID,
+      String locationID,
       String memo,
       bool isValid,
-      FormzSubmissionStatus submissionStatus});
+      FormzSubmissionStatus submissionStatus,
+      Map<String, ModelExpenseCategory> categoriesMap,
+      Map<String, ModelExpenseLocation> locationsMap});
 }
 
 /// @nodoc
@@ -145,11 +163,13 @@ class __$$_ExpenseCopyWithImpl<$Res>
     Object? title = null,
     Object? amount = null,
     Object? date = null,
-    Object? category = null,
-    Object? location = null,
+    Object? categoryID = null,
+    Object? locationID = null,
     Object? memo = null,
     Object? isValid = null,
     Object? submissionStatus = null,
+    Object? categoriesMap = null,
+    Object? locationsMap = null,
   }) {
     return _then(_$_Expense(
       id: null == id
@@ -168,13 +188,13 @@ class __$$_ExpenseCopyWithImpl<$Res>
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
               as String,
-      category: null == category
-          ? _value.category
-          : category // ignore: cast_nullable_to_non_nullable
+      categoryID: null == categoryID
+          ? _value.categoryID
+          : categoryID // ignore: cast_nullable_to_non_nullable
               as String,
-      location: null == location
-          ? _value.location
-          : location // ignore: cast_nullable_to_non_nullable
+      locationID: null == locationID
+          ? _value.locationID
+          : locationID // ignore: cast_nullable_to_non_nullable
               as String,
       memo: null == memo
           ? _value.memo
@@ -188,23 +208,36 @@ class __$$_ExpenseCopyWithImpl<$Res>
           ? _value.submissionStatus
           : submissionStatus // ignore: cast_nullable_to_non_nullable
               as FormzSubmissionStatus,
+      categoriesMap: null == categoriesMap
+          ? _value._categoriesMap
+          : categoriesMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, ModelExpenseCategory>,
+      locationsMap: null == locationsMap
+          ? _value._locationsMap
+          : locationsMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, ModelExpenseLocation>,
     ));
   }
 }
 
 /// @nodoc
 
-class _$_Expense implements _Expense {
+class _$_Expense extends _Expense {
   const _$_Expense(
       {required this.id,
       required this.title,
       required this.amount,
       required this.date,
-      required this.category,
-      required this.location,
+      required this.categoryID,
+      required this.locationID,
       required this.memo,
       required this.isValid,
-      required this.submissionStatus});
+      required this.submissionStatus,
+      required final Map<String, ModelExpenseCategory> categoriesMap,
+      required final Map<String, ModelExpenseLocation> locationsMap})
+      : _categoriesMap = categoriesMap,
+        _locationsMap = locationsMap,
+        super._();
 
   @override
   final String id;
@@ -215,19 +248,34 @@ class _$_Expense implements _Expense {
   @override
   final String date;
   @override
-  final String category;
+  final String categoryID;
   @override
-  final String location;
+  final String locationID;
   @override
   final String memo;
   @override
   final bool isValid;
   @override
   final FormzSubmissionStatus submissionStatus;
+  final Map<String, ModelExpenseCategory> _categoriesMap;
+  @override
+  Map<String, ModelExpenseCategory> get categoriesMap {
+    if (_categoriesMap is EqualUnmodifiableMapView) return _categoriesMap;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_categoriesMap);
+  }
+
+  final Map<String, ModelExpenseLocation> _locationsMap;
+  @override
+  Map<String, ModelExpenseLocation> get locationsMap {
+    if (_locationsMap is EqualUnmodifiableMapView) return _locationsMap;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_locationsMap);
+  }
 
   @override
   String toString() {
-    return 'Expense(id: $id, title: $title, amount: $amount, date: $date, category: $category, location: $location, memo: $memo, isValid: $isValid, submissionStatus: $submissionStatus)';
+    return 'Expense(id: $id, title: $title, amount: $amount, date: $date, categoryID: $categoryID, locationID: $locationID, memo: $memo, isValid: $isValid, submissionStatus: $submissionStatus, categoriesMap: $categoriesMap, locationsMap: $locationsMap)';
   }
 
   @override
@@ -239,19 +287,34 @@ class _$_Expense implements _Expense {
             (identical(other.title, title) || other.title == title) &&
             (identical(other.amount, amount) || other.amount == amount) &&
             (identical(other.date, date) || other.date == date) &&
-            (identical(other.category, category) ||
-                other.category == category) &&
-            (identical(other.location, location) ||
-                other.location == location) &&
+            (identical(other.categoryID, categoryID) ||
+                other.categoryID == categoryID) &&
+            (identical(other.locationID, locationID) ||
+                other.locationID == locationID) &&
             (identical(other.memo, memo) || other.memo == memo) &&
             (identical(other.isValid, isValid) || other.isValid == isValid) &&
             (identical(other.submissionStatus, submissionStatus) ||
-                other.submissionStatus == submissionStatus));
+                other.submissionStatus == submissionStatus) &&
+            const DeepCollectionEquality()
+                .equals(other._categoriesMap, _categoriesMap) &&
+            const DeepCollectionEquality()
+                .equals(other._locationsMap, _locationsMap));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, title, amount, date,
-      category, location, memo, isValid, submissionStatus);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      title,
+      amount,
+      date,
+      categoryID,
+      locationID,
+      memo,
+      isValid,
+      submissionStatus,
+      const DeepCollectionEquality().hash(_categoriesMap),
+      const DeepCollectionEquality().hash(_locationsMap));
 
   @JsonKey(ignore: true)
   @override
@@ -260,17 +323,21 @@ class _$_Expense implements _Expense {
       __$$_ExpenseCopyWithImpl<_$_Expense>(this, _$identity);
 }
 
-abstract class _Expense implements Expense {
+abstract class _Expense extends Expense {
   const factory _Expense(
-      {required final String id,
-      required final Title title,
-      required final Amount amount,
-      required final String date,
-      required final String category,
-      required final String location,
-      required final String memo,
-      required final bool isValid,
-      required final FormzSubmissionStatus submissionStatus}) = _$_Expense;
+          {required final String id,
+          required final Title title,
+          required final Amount amount,
+          required final String date,
+          required final String categoryID,
+          required final String locationID,
+          required final String memo,
+          required final bool isValid,
+          required final FormzSubmissionStatus submissionStatus,
+          required final Map<String, ModelExpenseCategory> categoriesMap,
+          required final Map<String, ModelExpenseLocation> locationsMap}) =
+      _$_Expense;
+  const _Expense._() : super._();
 
   @override
   String get id;
@@ -281,15 +348,19 @@ abstract class _Expense implements Expense {
   @override
   String get date;
   @override
-  String get category;
+  String get categoryID;
   @override
-  String get location;
+  String get locationID;
   @override
   String get memo;
   @override
   bool get isValid;
   @override
   FormzSubmissionStatus get submissionStatus;
+  @override
+  Map<String, ModelExpenseCategory> get categoriesMap;
+  @override
+  Map<String, ModelExpenseLocation> get locationsMap;
   @override
   @JsonKey(ignore: true)
   _$$_ExpenseCopyWith<_$_Expense> get copyWith =>

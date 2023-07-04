@@ -42,6 +42,7 @@ class IncomeDetailView extends ConsumerWidget {
                 ),
                 TransitionTextField(
                     initialValue: income.title.value,
+                    //  getValueByID: () => income.title.value,
                     labelText: t.transactions.detail.inputLabels.title,
                     route: AppRoute.incomeType,
                     onTap: () => ref

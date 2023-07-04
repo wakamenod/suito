@@ -15,6 +15,8 @@ final transactionAttributeTypeProvider =
     StateProvider<TransactionAttributeType>(
         (ref) => TransactionAttributeType.category);
 
+final transactionAttributeIDProvider = StateProvider<String>((ref) => '');
+
 @riverpod
 TransactionAttributeRepository transactionAttributeRepository(
     TransactionAttributeRepositoryRef ref) {
@@ -51,8 +53,8 @@ class TransactionAttributeSubmitController
     state = AttributeName.dirty(value);
   }
 
-  Future<void> submit() async {
-    if (!state.isValid) return;
+  Future<String?> submit() async {
+    if (!state.isValid) return null;
 
     // TODO エラーハンドリング
     // try {
@@ -61,7 +63,7 @@ class TransactionAttributeSubmitController
     //   password: state.password.value,
     // );
 
-    await ref
+    return ref
         .read(transactionAttributeRepositoryProvider)
         .register(state.value);
 
@@ -98,11 +100,11 @@ class TransactionAttributeSearchController
   }
 }
 
-// TODO familyにする必要はない 画面遷移時にどのIDを選択したか記録する
 @riverpod
 Future<({List<AttributeEntry> filteredItems, AttributeEntry selected})>
-    filteredCategories(FilteredCategoriesRef ref, String selectedValue) async {
+    filteredCategories(FilteredCategoriesRef ref) async {
   final repo = ref.watch(transactionAttributeRepositoryProvider);
+  final selectedID = ref.watch(transactionAttributeIDProvider);
   final items = await repo.list();
   final searchInput = ref.watch(transactionAttributeSearchControllerProvider
       .select((value) => value.searchInput));
@@ -117,7 +119,7 @@ Future<({List<AttributeEntry> filteredItems, AttributeEntry selected})>
   // AttributeEntry' is not a subtype of type '(() => ExpenseLocationAsAttributeEntry)?' of 'orElse
   AttributeEntry selected;
   try {
-    selected = items.firstWhere((item) => item.name == selectedValue);
+    selected = items.firstWhere((item) => item.id == selectedID);
   } on StateError {
     selected = repo.noEntry();
   }

@@ -1498,20 +1498,12 @@
       },
       "ExpenseDetailRes": {
         "required": [
-          "category",
-          "expense",
-          "location"
+          "expense"
         ],
         "type": "object",
         "properties": {
-          "category": {
-            "type": "string"
-          },
           "expense": {
             "$ref": "#/components/schemas/model.Expense"
-          },
-          "location": {
-            "type": "string"
           }
         }
       },
@@ -2109,6 +2101,8 @@
       "model.Expense": {
         "required": [
           "amount",
+          "expenseCategoryID",
+          "expenseLocationID",
           "id",
           "local_date",
           "memo",
@@ -2118,6 +2112,12 @@
         "properties": {
           "amount": {
             "type": "integer"
+          },
+          "expenseCategoryID": {
+            "type": "string"
+          },
+          "expenseLocationID": {
+            "type": "string"
           },
           "id": {
             "type": "string"
