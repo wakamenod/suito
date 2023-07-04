@@ -3,11 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:suito/i18n/translations.g.dart';
 import 'package:suito/src/common_widgets/async_value_widget.dart';
-import 'package:suito/src/features/transactions/presentations/expense/new_category_bottom_sheet.dart';
-import 'package:suito/src/features/transactions/services/transaction/transaction_detail_selection_service.dart';
+import 'package:suito/src/features/transaction_attributes/presentations/transaction_attribute_bottom_sheet.dart';
+import 'package:suito/src/features/transaction_attributes/services/transaction_attribute_service.dart';
 
-class AddNewCategoryTile extends ConsumerWidget {
-  const AddNewCategoryTile({super.key});
+class TransactionAttributeAddTile extends ConsumerWidget {
+  const TransactionAttributeAddTile({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -42,7 +42,7 @@ class AddNewCategoryTile extends ConsumerWidget {
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(12))),
                 builder: (context) {
-                  return const NewCategoryBottomSheet();
+                  return const TransactionAttributeBottomSheet();
                 },
               ).then((result) {
                 if (result != null) {

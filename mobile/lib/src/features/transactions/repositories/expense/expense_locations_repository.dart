@@ -22,7 +22,7 @@ ExpenseLocationsRepository expenseLocationsRepository(
   return ExpenseLocationsRepository(openapi);
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 Future<List<ModelExpenseLocation>> expenseLocationsListFuture(
     ExpenseLocationsListFutureRef ref) {
   final expenseLocationsRepository =

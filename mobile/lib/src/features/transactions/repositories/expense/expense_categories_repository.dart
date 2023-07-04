@@ -22,7 +22,7 @@ ExpenseCategoriesRepository expenseCategoriesRepository(
   return ExpenseCategoriesRepository(openapi);
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 Future<List<ModelExpenseCategory>> expenseCategoriesListFuture(
     ExpenseCategoriesListFutureRef ref) {
   final expenseCategoriesRepository =

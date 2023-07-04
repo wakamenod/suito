@@ -1,8 +1,20 @@
 addTile:
-  title: '$input を追加'
+  title: "'$input' を追加"
   subtitle: タップして追加
 searchInputHint: 入力して検索、追加
-bottomSheet:
-  title: カテゴリ追加
-  inputLabel: カテゴリ名
 floatingButton: 新規追加
+category:
+  appBar: カテゴリー
+  noEntry: カテゴリー無し
+  bottomSheetTitle: カテゴリー追加
+  bottomSheetInputLabel: カテゴリー名
+location:
+  appBar: 購入場所
+  noEntry: 購入場所なし
+  bottomSheetTitle: 購入場所追加
+  bottomSheetInputLabel: 購入場所名
+incomeType:
+  appBar: 収入種別
+  noEntry: 'NO INCOME TYPE'
+  bottomSheetTitle: 収入種別追加
+  bottomSheetInputLabel: 収入種別名

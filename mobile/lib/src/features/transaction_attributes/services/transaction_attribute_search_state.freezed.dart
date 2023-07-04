@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'transaction_detail_selection_service.dart';
+part of 'transaction_attribute_search_state.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,31 +15,31 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
-mixin _$TransactionDetailSelectionState {
+mixin _$TransactionAttributeSearchState {
   bool get searchStarted => throw _privateConstructorUsedError;
   String get searchInput => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $TransactionDetailSelectionStateCopyWith<TransactionDetailSelectionState>
+  $TransactionAttributeSearchStateCopyWith<TransactionAttributeSearchState>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $TransactionDetailSelectionStateCopyWith<$Res> {
-  factory $TransactionDetailSelectionStateCopyWith(
-          TransactionDetailSelectionState value,
-          $Res Function(TransactionDetailSelectionState) then) =
-      _$TransactionDetailSelectionStateCopyWithImpl<$Res,
-          TransactionDetailSelectionState>;
+abstract class $TransactionAttributeSearchStateCopyWith<$Res> {
+  factory $TransactionAttributeSearchStateCopyWith(
+          TransactionAttributeSearchState value,
+          $Res Function(TransactionAttributeSearchState) then) =
+      _$TransactionAttributeSearchStateCopyWithImpl<$Res,
+          TransactionAttributeSearchState>;
   @useResult
   $Res call({bool searchStarted, String searchInput});
 }
 
 /// @nodoc
-class _$TransactionDetailSelectionStateCopyWithImpl<$Res,
-        $Val extends TransactionDetailSelectionState>
-    implements $TransactionDetailSelectionStateCopyWith<$Res> {
-  _$TransactionDetailSelectionStateCopyWithImpl(this._value, this._then);
+class _$TransactionAttributeSearchStateCopyWithImpl<$Res,
+        $Val extends TransactionAttributeSearchState>
+    implements $TransactionAttributeSearchStateCopyWith<$Res> {
+  _$TransactionAttributeSearchStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -66,25 +66,25 @@ class _$TransactionDetailSelectionStateCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_TransactionDetailSelectionStateCopyWith<$Res>
-    implements $TransactionDetailSelectionStateCopyWith<$Res> {
-  factory _$$_TransactionDetailSelectionStateCopyWith(
-          _$_TransactionDetailSelectionState value,
-          $Res Function(_$_TransactionDetailSelectionState) then) =
-      __$$_TransactionDetailSelectionStateCopyWithImpl<$Res>;
+abstract class _$$_TransactionAttributeSearchStateCopyWith<$Res>
+    implements $TransactionAttributeSearchStateCopyWith<$Res> {
+  factory _$$_TransactionAttributeSearchStateCopyWith(
+          _$_TransactionAttributeSearchState value,
+          $Res Function(_$_TransactionAttributeSearchState) then) =
+      __$$_TransactionAttributeSearchStateCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({bool searchStarted, String searchInput});
 }
 
 /// @nodoc
-class __$$_TransactionDetailSelectionStateCopyWithImpl<$Res>
-    extends _$TransactionDetailSelectionStateCopyWithImpl<$Res,
-        _$_TransactionDetailSelectionState>
-    implements _$$_TransactionDetailSelectionStateCopyWith<$Res> {
-  __$$_TransactionDetailSelectionStateCopyWithImpl(
-      _$_TransactionDetailSelectionState _value,
-      $Res Function(_$_TransactionDetailSelectionState) _then)
+class __$$_TransactionAttributeSearchStateCopyWithImpl<$Res>
+    extends _$TransactionAttributeSearchStateCopyWithImpl<$Res,
+        _$_TransactionAttributeSearchState>
+    implements _$$_TransactionAttributeSearchStateCopyWith<$Res> {
+  __$$_TransactionAttributeSearchStateCopyWithImpl(
+      _$_TransactionAttributeSearchState _value,
+      $Res Function(_$_TransactionAttributeSearchState) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -93,7 +93,7 @@ class __$$_TransactionDetailSelectionStateCopyWithImpl<$Res>
     Object? searchStarted = null,
     Object? searchInput = null,
   }) {
-    return _then(_$_TransactionDetailSelectionState(
+    return _then(_$_TransactionAttributeSearchState(
       searchStarted: null == searchStarted
           ? _value.searchStarted
           : searchStarted // ignore: cast_nullable_to_non_nullable
@@ -108,9 +108,9 @@ class __$$_TransactionDetailSelectionStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_TransactionDetailSelectionState
-    implements _TransactionDetailSelectionState {
-  const _$_TransactionDetailSelectionState(
+class _$_TransactionAttributeSearchState
+    implements _TransactionAttributeSearchState {
+  const _$_TransactionAttributeSearchState(
       {required this.searchStarted, required this.searchInput});
 
   @override
@@ -120,14 +120,14 @@ class _$_TransactionDetailSelectionState
 
   @override
   String toString() {
-    return 'TransactionDetailSelectionState(searchStarted: $searchStarted, searchInput: $searchInput)';
+    return 'TransactionAttributeSearchState(searchStarted: $searchStarted, searchInput: $searchInput)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_TransactionDetailSelectionState &&
+            other is _$_TransactionAttributeSearchState &&
             (identical(other.searchStarted, searchStarted) ||
                 other.searchStarted == searchStarted) &&
             (identical(other.searchInput, searchInput) ||
@@ -140,17 +140,17 @@ class _$_TransactionDetailSelectionState
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_TransactionDetailSelectionStateCopyWith<
-          _$_TransactionDetailSelectionState>
-      get copyWith => __$$_TransactionDetailSelectionStateCopyWithImpl<
-          _$_TransactionDetailSelectionState>(this, _$identity);
+  _$$_TransactionAttributeSearchStateCopyWith<
+          _$_TransactionAttributeSearchState>
+      get copyWith => __$$_TransactionAttributeSearchStateCopyWithImpl<
+          _$_TransactionAttributeSearchState>(this, _$identity);
 }
 
-abstract class _TransactionDetailSelectionState
-    implements TransactionDetailSelectionState {
-  const factory _TransactionDetailSelectionState(
+abstract class _TransactionAttributeSearchState
+    implements TransactionAttributeSearchState {
+  const factory _TransactionAttributeSearchState(
       {required final bool searchStarted,
-      required final String searchInput}) = _$_TransactionDetailSelectionState;
+      required final String searchInput}) = _$_TransactionAttributeSearchState;
 
   @override
   bool get searchStarted;
@@ -158,7 +158,7 @@ abstract class _TransactionDetailSelectionState
   String get searchInput;
   @override
   @JsonKey(ignore: true)
-  _$$_TransactionDetailSelectionStateCopyWith<
-          _$_TransactionDetailSelectionState>
+  _$$_TransactionAttributeSearchStateCopyWith<
+          _$_TransactionAttributeSearchState>
       get copyWith => throw _privateConstructorUsedError;
 }

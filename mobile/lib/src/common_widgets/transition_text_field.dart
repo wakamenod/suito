@@ -8,6 +8,7 @@ class TransitionTextField extends StatefulWidget {
   final String initialValue;
   final String labelText;
   final ValueChanged<String> onChanged;
+  final GestureTapCallback? onTap;
 
   const TransitionTextField({
     super.key,
@@ -15,6 +16,7 @@ class TransitionTextField extends StatefulWidget {
     required this.labelText,
     required this.onChanged,
     required this.initialValue,
+    this.onTap,
   });
 
   @override
@@ -41,6 +43,7 @@ class TransitionTextFieldState extends State<TransitionTextField> {
           controller: _textEditingController,
           readOnly: true,
           onTap: () async {
+            widget.onTap?.call();
             final val = await context.pushNamed<String>(widget.route.name,
                     extra: widget.initialValue) ??
                 '';

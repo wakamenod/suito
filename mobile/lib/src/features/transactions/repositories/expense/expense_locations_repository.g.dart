@@ -26,12 +26,12 @@ final expenseLocationsRepositoryProvider =
 
 typedef ExpenseLocationsRepositoryRef = ProviderRef<ExpenseLocationsRepository>;
 String _$expenseLocationsListFutureHash() =>
-    r'7afb39a8115d99844644fd369a9a8d09f5a4de41';
+    r'8de6ec9849e1512949765056f523c07835b4cd75';
 
 /// See also [expenseLocationsListFuture].
 @ProviderFor(expenseLocationsListFuture)
 final expenseLocationsListFutureProvider =
-    AutoDisposeFutureProvider<List<ModelExpenseLocation>>.internal(
+    FutureProvider<List<ModelExpenseLocation>>.internal(
   expenseLocationsListFuture,
   name: r'expenseLocationsListFutureProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -42,5 +42,5 @@ final expenseLocationsListFutureProvider =
 );
 
 typedef ExpenseLocationsListFutureRef
-    = AutoDisposeFutureProviderRef<List<ModelExpenseLocation>>;
+    = FutureProviderRef<List<ModelExpenseLocation>>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions
