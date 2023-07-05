@@ -1,3 +1,5 @@
 * Suito
-** 1
+** 全体の構成
+※ Flutter webは Google Play Storeの「データ削除ポリシー対応」として、[[https://web.suito.wakamenod.com][アカウント削除ページ]]作成に使用
+
 [[file:drawio/system2.drawio.png]]
