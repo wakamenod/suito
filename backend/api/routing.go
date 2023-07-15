@@ -29,7 +29,7 @@ func InitRoute(e *echo.Echo, db *gorm.DB) *echo.Echo {
 	transactionMonthsRepo := repositories.NewSuitoTransactionMonthsRepository(db)
 	transactionProvider := transaction.NewSuitoTransactionProvider(db)
 
-	transactionSer := services.NewSuitoTransactionService(expenseRepo, incomeRepo, transactionMonthsRepo)
+	transactionSer := services.NewSuitoTransactionService(expenseRepo, incomeRepo, incomeTypeRepo, transactionMonthsRepo)
 	incomeSer := services.NewSuitoIncomeService(incomeRepo)
 	expenseSer := services.NewSuitoExpenseService(expenseRepo, categoryRepo, locationRepo)
 	expenseCategorySer := services.NewSuitoExpenseCategoryService(categoryRepo)

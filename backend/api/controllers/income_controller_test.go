@@ -39,11 +39,9 @@ func TestRegisterIncomeHandler_Success(t *testing.T) {
 	e.Validator = validate.NewValidator()
 	jsonReq, err := json.Marshal(RegisterIncomeReq{
 		Income: model.Income{
-			IncomeType: model.IncomeType{
-				Name: "testName",
-			},
-			Amount:    9999,
-			LocalDate: time.Date(2023, 5, 4, 0, 0, 0, 0, time.UTC),
+			Amount:       9999,
+			IncomeTypeID: "test_income_type_id",
+			LocalDate:    time.Date(2023, 5, 4, 0, 0, 0, 0, time.UTC),
 		}})
 	require.NoError(t, err)
 	req := httptest.NewRequest(http.MethodPost, "/", bytes.NewReader(jsonReq))
@@ -58,7 +56,8 @@ func TestRegisterIncomeHandler_Success(t *testing.T) {
 
 	var res RegisterIncomeRes
 	require.NoError(t, json.Unmarshal(rec.Body.Bytes(), &res))
-	require.Equal(t, "testName", res.NewIncome.IncomeType.Name)
+	require.Equal(t, "new_income_id", res.NewIncome.ID)
+	require.Equal(t, "test_income_type_id", res.NewIncome.IncomeTypeID)
 }
 
 func TestIncomeDetailHandler_ErrorValidate(t *testing.T) {
@@ -143,10 +142,9 @@ func TestUpdateIncomeHandler_Success(t *testing.T) {
 	e.Validator = validate.NewValidator()
 	jsonReq, err := json.Marshal(UpdateIncomeReq{
 		Income: model.Income{
-			ID:         "update_target_id",
-			Amount:     9999,
-			LocalDate:  time.Date(2023, 5, 4, 0, 0, 0, 0, time.UTC),
-			IncomeType: model.IncomeType{Name: "new income name"},
+			ID:        "update_target_id",
+			Amount:    9999,
+			LocalDate: time.Date(2023, 5, 4, 0, 0, 0, 0, time.UTC),
 		}})
 	require.NoError(t, err)
 	req := httptest.NewRequest(http.MethodPut, "/", bytes.NewReader(jsonReq))

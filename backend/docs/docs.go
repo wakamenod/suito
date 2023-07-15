@@ -2125,7 +2125,7 @@ const docTemplate = `{
             "required": [
                 "amount",
                 "id",
-                "income_type",
+                "incomeTypeId",
                 "local_date",
                 "memo"
             ],
@@ -2136,8 +2136,8 @@ const docTemplate = `{
                 "id": {
                     "type": "string"
                 },
-                "income_type": {
-                    "$ref": "#/definitions/model.IncomeType"
+                "incomeTypeId": {
+                    "type": "string"
                 },
                 "local_date": {
                     "type": "string"

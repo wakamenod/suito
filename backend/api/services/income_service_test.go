@@ -18,7 +18,6 @@ func TestCreateIncomeService_NoIncomeType(t *testing.T) {
 	require.NoError(t, err)
 	require.Equal(t, "new_income_id", newIncome.ID)
 	require.Empty(t, newIncome.IncomeTypeID)
-	require.Empty(t, newIncome.IncomeType.Name)
 }
 
 func TestCreateIncomeService(t *testing.T) {
@@ -31,8 +30,6 @@ func TestCreateIncomeService(t *testing.T) {
 	newIncome, err := incomeSer.CreateIncomeService("user1", income)
 	require.NoError(t, err)
 	require.Equal(t, "new_income_id", newIncome.ID)
-	require.Equal(t, income.IncomeType.Name, newIncome.IncomeType.Name)
-	require.Equal(t, income.IncomeType.ID, newIncome.IncomeType.ID)
 	require.Equal(t, income.IncomeTypeID, newIncome.IncomeTypeID)
 }
 
@@ -55,7 +52,6 @@ func TestUpdateIncomeService(t *testing.T) {
 		LocalDate:    time.Date(2023, 5, 3, 0, 0, 0, 0, time.UTC),
 		Amount:       2000,
 		Memo:         "test_memo",
-		IncomeType:   model.IncomeType{ID: incomeTypeID, Name: "NewName"},
 		IncomeTypeID: incomeTypeID,
 	}
 	updateIncome, err := incomeSer.UpdateIncomeService("user1", income)

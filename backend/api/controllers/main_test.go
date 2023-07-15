@@ -26,7 +26,7 @@ func TestMain(m *testing.M) {
 		},
 	}
 
-	transactionSer := services.NewSuitoTransactionService(&testdata.ExpenseRepositoryMock, &testdata.IncomeRepositoryMock, &testdata.TransactionMonthsRepositoryMock)
+	transactionSer := services.NewSuitoTransactionService(&testdata.ExpenseRepositoryMock, &testdata.IncomeRepositoryMock, &testdata.IncomeTypeRepositoryMock, &testdata.TransactionMonthsRepositoryMock)
 	expenseSer := services.NewSuitoExpenseService(&testdata.ExpenseRepositoryMock, &testdata.ExpenseCategoryRepositoryMock, &testdata.ExpenseLocationRepositoryMock)
 	incomeSer := services.NewSuitoIncomeService(&testdata.IncomeRepositoryMock)
 	chartSer := services.NewSuitoChartService(&testdata.ExpenseRepositoryMock, &testdata.IncomeRepositoryMock)

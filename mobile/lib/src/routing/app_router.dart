@@ -40,6 +40,7 @@ enum AppRoute {
   final String path;
 }
 
+// TODO move
 final firebaseAuthProvider = Provider<FirebaseAuth>((ref) {
   return FirebaseAuth.instance;
 });
