@@ -32,7 +32,6 @@ class IncomeController extends _$IncomeController {
     final title = formz_title.Title.dirty(value);
 
     state = AsyncValue.data(state.value!.copyWith(
-      title: title,
       isValid: Formz.validate([
         title,
         state.value!.amount,
@@ -47,7 +46,6 @@ class IncomeController extends _$IncomeController {
       amount: amount,
       isValid: Formz.validate([
         amount,
-        state.value!.title,
       ]),
     ));
   }
@@ -68,8 +66,9 @@ class IncomeController extends _$IncomeController {
     return RegisterIncomeReq((r) => r
       ..income.replace(ModelIncome((e) => e
         ..id = ''
-        ..incomeType
-            .replace(ModelIncomeType((t) => t..name = state.value!.title.value))
+        // TODO
+        // ..incomeType
+        //     .replace(ModelIncomeType((t) => t..name = state.value!.title.value))
         ..localDate = DateTime.parse(state.value!.date).toRfc3339()
         ..memo = state.value!.memo
         ..amount = state.value!.amount.value)));
@@ -79,8 +78,9 @@ class IncomeController extends _$IncomeController {
     return UpdateIncomeReq((r) => r
       ..income.replace(ModelIncome((e) => e
         ..id = state.value!.id
-        ..incomeType
-            .replace(ModelIncomeType((t) => t..name = state.value!.title.value))
+        // TODO
+        // ..incomeType
+        //     .replace(ModelIncomeType((t) => t..name = state.value!.title.value))
         ..localDate = DateTime.parse(state.value!.date).toRfc3339()
         ..memo = state.value!.memo
         ..amount = state.value!.amount.value)));

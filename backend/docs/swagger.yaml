@@ -1423,7 +1423,7 @@ components:
       required:
       - amount
       - id
-      - income_type
+      - incomeTypeId
       - local_date
       - memo
       type: object
@@ -1432,8 +1432,8 @@ components:
           type: integer
         id:
           type: string
-        income_type:
-          $ref: '#/components/schemas/model.IncomeType'
+        incomeTypeId:
+          type: string
         local_date:
           type: string
         memo:

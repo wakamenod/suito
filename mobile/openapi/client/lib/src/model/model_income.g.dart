@@ -12,7 +12,7 @@ class _$ModelIncome extends ModelIncome {
   @override
   final String id;
   @override
-  final ModelIncomeType incomeType;
+  final String incomeTypeId;
   @override
   final String localDate;
   @override
@@ -24,14 +24,14 @@ class _$ModelIncome extends ModelIncome {
   _$ModelIncome._(
       {required this.amount,
       required this.id,
-      required this.incomeType,
+      required this.incomeTypeId,
       required this.localDate,
       required this.memo})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(amount, r'ModelIncome', 'amount');
     BuiltValueNullFieldError.checkNotNull(id, r'ModelIncome', 'id');
     BuiltValueNullFieldError.checkNotNull(
-        incomeType, r'ModelIncome', 'incomeType');
+        incomeTypeId, r'ModelIncome', 'incomeTypeId');
     BuiltValueNullFieldError.checkNotNull(
         localDate, r'ModelIncome', 'localDate');
     BuiltValueNullFieldError.checkNotNull(memo, r'ModelIncome', 'memo');
@@ -50,7 +50,7 @@ class _$ModelIncome extends ModelIncome {
     return other is ModelIncome &&
         amount == other.amount &&
         id == other.id &&
-        incomeType == other.incomeType &&
+        incomeTypeId == other.incomeTypeId &&
         localDate == other.localDate &&
         memo == other.memo;
   }
@@ -60,7 +60,7 @@ class _$ModelIncome extends ModelIncome {
     var _$hash = 0;
     _$hash = $jc(_$hash, amount.hashCode);
     _$hash = $jc(_$hash, id.hashCode);
-    _$hash = $jc(_$hash, incomeType.hashCode);
+    _$hash = $jc(_$hash, incomeTypeId.hashCode);
     _$hash = $jc(_$hash, localDate.hashCode);
     _$hash = $jc(_$hash, memo.hashCode);
     _$hash = $jf(_$hash);
@@ -72,7 +72,7 @@ class _$ModelIncome extends ModelIncome {
     return (newBuiltValueToStringHelper(r'ModelIncome')
           ..add('amount', amount)
           ..add('id', id)
-          ..add('incomeType', incomeType)
+          ..add('incomeTypeId', incomeTypeId)
           ..add('localDate', localDate)
           ..add('memo', memo))
         .toString();
@@ -90,11 +90,9 @@ class ModelIncomeBuilder implements Builder<ModelIncome, ModelIncomeBuilder> {
   String? get id => _$this._id;
   set id(String? id) => _$this._id = id;
 
-  ModelIncomeTypeBuilder? _incomeType;
-  ModelIncomeTypeBuilder get incomeType =>
-      _$this._incomeType ??= new ModelIncomeTypeBuilder();
-  set incomeType(ModelIncomeTypeBuilder? incomeType) =>
-      _$this._incomeType = incomeType;
+  String? _incomeTypeId;
+  String? get incomeTypeId => _$this._incomeTypeId;
+  set incomeTypeId(String? incomeTypeId) => _$this._incomeTypeId = incomeTypeId;
 
   String? _localDate;
   String? get localDate => _$this._localDate;
@@ -113,7 +111,7 @@ class ModelIncomeBuilder implements Builder<ModelIncome, ModelIncomeBuilder> {
     if ($v != null) {
       _amount = $v.amount;
       _id = $v.id;
-      _incomeType = $v.incomeType.toBuilder();
+      _incomeTypeId = $v.incomeTypeId;
       _localDate = $v.localDate;
       _memo = $v.memo;
       _$v = null;
@@ -136,30 +134,17 @@ class ModelIncomeBuilder implements Builder<ModelIncome, ModelIncomeBuilder> {
   ModelIncome build() => _build();
 
   _$ModelIncome _build() {
-    _$ModelIncome _$result;
-    try {
-      _$result = _$v ??
-          new _$ModelIncome._(
-              amount: BuiltValueNullFieldError.checkNotNull(
-                  amount, r'ModelIncome', 'amount'),
-              id: BuiltValueNullFieldError.checkNotNull(
-                  id, r'ModelIncome', 'id'),
-              incomeType: incomeType.build(),
-              localDate: BuiltValueNullFieldError.checkNotNull(
-                  localDate, r'ModelIncome', 'localDate'),
-              memo: BuiltValueNullFieldError.checkNotNull(
-                  memo, r'ModelIncome', 'memo'));
-    } catch (_) {
-      late String _$failedField;
-      try {
-        _$failedField = 'incomeType';
-        incomeType.build();
-      } catch (e) {
-        throw new BuiltValueNestedFieldError(
-            r'ModelIncome', _$failedField, e.toString());
-      }
-      rethrow;
-    }
+    final _$result = _$v ??
+        new _$ModelIncome._(
+            amount: BuiltValueNullFieldError.checkNotNull(
+                amount, r'ModelIncome', 'amount'),
+            id: BuiltValueNullFieldError.checkNotNull(id, r'ModelIncome', 'id'),
+            incomeTypeId: BuiltValueNullFieldError.checkNotNull(
+                incomeTypeId, r'ModelIncome', 'incomeTypeId'),
+            localDate: BuiltValueNullFieldError.checkNotNull(
+                localDate, r'ModelIncome', 'localDate'),
+            memo: BuiltValueNullFieldError.checkNotNull(
+                memo, r'ModelIncome', 'memo'));
     replace(_$result);
     return _$result;
   }

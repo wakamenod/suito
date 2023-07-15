@@ -17,8 +17,8 @@ void main() {
       // TODO
     });
 
-    // ModelIncomeType incomeType
-    test('to test the property `incomeType`', () async {
+    // String incomeTypeId
+    test('to test the property `incomeTypeId`', () async {
       // TODO
     });
 

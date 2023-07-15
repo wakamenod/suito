@@ -3,6 +3,8 @@ package services
 import (
 	"sort"
 	"time"
+
+	"github.com/wakamenod/suito/model"
 )
 
 const (
@@ -34,6 +36,15 @@ func (s *SuitoTransactionService) ListTransactionsService(uid string, start, end
 	if err != nil {
 		return nil, err
 	}
+	incomeTypes, err := s.incomeTypeRepo.FindIncomeTypes(uid)
+	if err != nil {
+		return nil, err
+	}
+	incomeTypeMap := make(map[string]model.IncomeType)
+	for _, incomeType := range incomeTypes {
+		incomeTypeMap[incomeType.ID] = incomeType
+	}
+
 	transactions := make([]Transaction, len(expenses)+len(incomes))
 	for i, ex := range expenses {
 		transactions[i] = Transaction{
@@ -47,7 +58,7 @@ func (s *SuitoTransactionService) ListTransactionsService(uid string, start, end
 	for i, in := range incomes {
 		transactions[len(expenses)+i] = Transaction{
 			ID:        in.ID,
-			Title:     in.IncomeType.Name,
+			Title:     incomeTypeMap[in.IncomeTypeID].Name,
 			Amount:    in.Amount,
 			LocalDate: in.LocalDate,
 			Type:      TransactionTypeIncome,

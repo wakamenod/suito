@@ -41,7 +41,7 @@ class IncomeDetailView extends ConsumerWidget {
                       onChanged: incomeController.onChangeDate),
                 ),
                 TransitionTextField(
-                    initialValue: income.title.value,
+                    initialValue: '', // TODO
                     //  getValueByID: () => income.title.value,
                     labelText: t.transactions.detail.inputLabels.title,
                     route: AppRoute.incomeType,

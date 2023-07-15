@@ -14,6 +14,7 @@ type SuitoChartService struct {
 type SuitoTransactionService struct {
 	expenseRepo           repositories.ExpenseRepository
 	incomeRepo            repositories.IncomeRepository
+	incomeTypeRepo        repositories.IncomeTypeRepository
 	transactionMonthsRepo repositories.TransactionMonthsRepository
 }
 
@@ -79,11 +80,13 @@ func NewSuitoChartService(exRepo repositories.ExpenseRepository, inRepo reposito
 func NewSuitoTransactionService(
 	expenseRepo repositories.ExpenseRepository,
 	incomeRepo repositories.IncomeRepository,
+	incomeTypeRepo repositories.IncomeTypeRepository,
 	transactionMonthsRepo repositories.TransactionMonthsRepository,
 ) *SuitoTransactionService {
 	return &SuitoTransactionService{
 		expenseRepo:           expenseRepo,
 		incomeRepo:            incomeRepo,
+		incomeTypeRepo:        incomeTypeRepo,
 		transactionMonthsRepo: transactionMonthsRepo,
 	}
 }

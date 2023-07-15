@@ -33,9 +33,11 @@ func TestFindIncomes2(t *testing.T) {
 	// setup test data
 	i := testutils.NewTestDataInserter(t, tx)
 
+	var typeID3, typeID1 string
 	{
 		incomeType := i.InsertIncomeType("user2", "title01")
 		i.InsertIncome("user1", "2023-05-01", incomeType.ID)
+		typeID1 = incomeType.ID
 	}
 	{
 		incomeType := i.InsertIncomeType("user2", "title02")
@@ -44,6 +46,7 @@ func TestFindIncomes2(t *testing.T) {
 	{
 		incomeType := i.InsertIncomeType("user2", "title03")
 		i.InsertIncome("user1", "2023-05-03", incomeType.ID)
+		typeID3 = incomeType.ID
 	}
 	{
 		incomeType := i.InsertIncomeType("user2", "title06")
@@ -57,8 +60,8 @@ func TestFindIncomes2(t *testing.T) {
 	// check
 	require.NoError(t, err)
 	require.Equal(t, 2, len(res))
-	require.Equal(t, "title03", res[0].IncomeType.Name)
-	require.Equal(t, "title01", res[1].IncomeType.Name)
+	require.Equal(t, typeID3, res[0].IncomeTypeID)
+	require.Equal(t, typeID1, res[1].IncomeTypeID)
 }
 
 // Check date range
@@ -67,13 +70,16 @@ func TestFindIncomes3(t *testing.T) {
 	defer rollback(tx)
 	// setup test data
 	i := testutils.NewTestDataInserter(t, tx)
+	var typeID2, typeID1 string
 	{
 		incomeType := i.InsertIncomeType("user2", "title01")
 		i.InsertIncome("user1", "2023-05-01", incomeType.ID)
+		typeID1 = incomeType.ID
 	}
 	{
 		incomeType := i.InsertIncomeType("user2", "title02")
 		i.InsertIncome("user1", "2023-05-02", incomeType.ID)
+		typeID2 = incomeType.ID
 	}
 	{
 		incomeType := i.InsertIncomeType("user2", "title03")
@@ -86,8 +92,8 @@ func TestFindIncomes3(t *testing.T) {
 	// check
 	require.NoError(t, err)
 	require.Equal(t, 2, len(res))
-	require.Equal(t, "title02", res[0].IncomeType.Name)
-	require.Equal(t, "title01", res[1].IncomeType.Name)
+	require.Equal(t, typeID2, res[0].IncomeTypeID)
+	require.Equal(t, typeID1, res[1].IncomeTypeID)
 }
 
 func TestFindIncome(t *testing.T) {
@@ -102,7 +108,7 @@ func TestFindIncome(t *testing.T) {
 	// check
 	require.NoError(t, err)
 	require.Equal(t, id, res.ID)
-	require.Equal(t, "title02", res.IncomeType.Name)
+	require.Equal(t, incomeType.ID, res.IncomeTypeID)
 }
 
 func TestFindIncome_ErrorNotFound(t *testing.T) {
@@ -122,14 +128,14 @@ func TestCreateIncome(t *testing.T) {
 	tx := begin()
 	defer rollback(tx)
 	// setup
-	income := model.Income{IncomeType: model.IncomeType{Name: "title"}, Amount: 2000, LocalDate: time.Date(2023, 5, 1, 0, 0, 0, 0, time.UTC)}
+	income := model.Income{IncomeTypeID: "testIncomeTypeID", Amount: 2000, LocalDate: time.Date(2023, 5, 1, 0, 0, 0, 0, time.UTC)}
 	// run
 	res, err := NewSuitoIncomeRepository(tx).CreateIncome("user1", income)
 	// check
 	require.NoError(t, err)
 	require.NotEmpty(t, res.ID)
 	require.Equal(t, "user1", res.UID)
-	require.Equal(t, income.IncomeType.Name, res.IncomeType.Name)
+	require.Equal(t, income.IncomeTypeID, res.IncomeTypeID)
 	require.Equal(t, income.Amount, res.Amount)
 }
 
@@ -209,11 +215,7 @@ func TestUpdateIncome(t *testing.T) {
 	i.InsertIncome("user1", "2023-05-01", "income_type_id_01_2")
 	updateIncomeTypeID := "update incomeTypeID"
 	targetIncome := model.Income{
-		ID: id,
-		IncomeType: model.IncomeType{
-			ID:   updateIncomeTypeID,
-			Name: "update title",
-		},
+		ID:           id,
 		IncomeTypeID: updateIncomeTypeID,
 		Amount:       2000, LocalDate: time.Date(2022, 6, 1, 0, 0, 0, 0, time.UTC),
 		Memo: "updated memo",
@@ -239,10 +241,7 @@ func TestUpdateIncome_Deselect(t *testing.T) {
 	i := testutils.NewTestDataInserter(t, tx)
 	id := i.InsertIncome("user1", "2023-05-01", "income_type_id_01")
 	targetIncome := model.Income{
-		ID: id,
-		IncomeType: model.IncomeType{
-			Name: "update title",
-		},
+		ID:     id,
 		Amount: 2000, LocalDate: time.Date(2022, 6, 1, 0, 0, 0, 0, time.UTC),
 	}
 	// run
@@ -253,7 +252,6 @@ func TestUpdateIncome_Deselect(t *testing.T) {
 	require.NoError(t, err)
 	require.Equal(t, targetIncome.Amount, found.Amount)
 	require.Empty(t, found.IncomeTypeID)
-	require.Empty(t, found.IncomeType.Name)
 }
 
 func TestCreateIncomesFromScheduledQueue(t *testing.T) {

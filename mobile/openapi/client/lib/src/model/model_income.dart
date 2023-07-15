@@ -3,7 +3,6 @@
 //
 
 // ignore_for_file: unused_element
-import 'package:openapi/src/model/model_income_type.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
@@ -14,7 +13,7 @@ part 'model_income.g.dart';
 /// Properties:
 /// * [amount] 
 /// * [id] 
-/// * [incomeType] 
+/// * [incomeTypeId] 
 /// * [localDate] 
 /// * [memo] 
 @BuiltValue()
@@ -25,8 +24,8 @@ abstract class ModelIncome implements Built<ModelIncome, ModelIncomeBuilder> {
   @BuiltValueField(wireName: r'id')
   String get id;
 
-  @BuiltValueField(wireName: r'income_type')
-  ModelIncomeType get incomeType;
+  @BuiltValueField(wireName: r'incomeTypeId')
+  String get incomeTypeId;
 
   @BuiltValueField(wireName: r'local_date')
   String get localDate;
@@ -67,10 +66,10 @@ class _$ModelIncomeSerializer implements PrimitiveSerializer<ModelIncome> {
       object.id,
       specifiedType: const FullType(String),
     );
-    yield r'income_type';
+    yield r'incomeTypeId';
     yield serializers.serialize(
-      object.incomeType,
-      specifiedType: const FullType(ModelIncomeType),
+      object.incomeTypeId,
+      specifiedType: const FullType(String),
     );
     yield r'local_date';
     yield serializers.serialize(
@@ -119,12 +118,12 @@ class _$ModelIncomeSerializer implements PrimitiveSerializer<ModelIncome> {
           ) as String;
           result.id = valueDes;
           break;
-        case r'income_type':
+        case r'incomeTypeId':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(ModelIncomeType),
-          ) as ModelIncomeType;
-          result.incomeType.replace(valueDes);
+            specifiedType: const FullType(String),
+          ) as String;
+          result.incomeTypeId = valueDes;
           break;
         case r'local_date':
           final valueDes = serializers.deserialize(

@@ -31,20 +31,20 @@ var expenseTestData = []model.Expense{
 
 var incomeTestData = []model.Income{
 	model.Income{
-		ID:         "ID_INCOME_01",
-		UID:        "user1",
-		IncomeType: model.IncomeType{Name: "Test001"},
-		Amount:     100,
-		Memo:       "Memo001",
-		LocalDate:  time.Date(2023, time.Month(2), 1, 0, 0, 0, 0, time.UTC),
+		ID:           "ID_INCOME_01",
+		UID:          "user1",
+		Amount:       100,
+		Memo:         "Memo001",
+		IncomeTypeID: incomeTypeTestData[0].ID,
+		LocalDate:    time.Date(2023, time.Month(2), 1, 0, 0, 0, 0, time.UTC),
 	},
 	model.Income{
-		ID:         "ID_INCOME_02",
-		UID:        "user1",
-		IncomeType: model.IncomeType{Name: "Test002"},
-		Amount:     200,
-		Memo:       "Memo001",
-		LocalDate:  time.Date(2023, time.Month(4), 1, 0, 0, 0, 0, time.UTC),
+		ID:           "ID_INCOME_02",
+		UID:          "user1",
+		Amount:       200,
+		Memo:         "Memo001",
+		IncomeTypeID: incomeTypeTestData[1].ID,
+		LocalDate:    time.Date(2023, time.Month(4), 1, 0, 0, 0, 0, time.UTC),
 	},
 }
 
@@ -52,12 +52,12 @@ var incomeTypeTestData = []model.IncomeType{
 	model.IncomeType{
 		ID:   "ID_INCOME_TYPE_01",
 		UID:  "user1",
-		Name: "Test Category 01",
+		Name: "Test Income Type 01",
 	},
 	model.IncomeType{
 		ID:   "ID_INCOME_TYPE_02",
 		UID:  "user1",
-		Name: "Test Category 02",
+		Name: "Test Income Type 02",
 	},
 }
 

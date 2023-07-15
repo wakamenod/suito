@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **amount** | **int** |  | 
 **id** | **String** |  | 
-**incomeType** | [**ModelIncomeType**](ModelIncomeType.md) |  | 
+**incomeTypeId** | **String** |  | 
 **localDate** | **String** |  | 
 **memo** | **String** |  | 
 
