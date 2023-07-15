@@ -29,7 +29,7 @@ func TestMain(m *testing.M) {
 	expenseSer = NewSuitoExpenseService(&testdata.ExpenseRepositoryMock, &testdata.ExpenseCategoryRepositoryMock, &testdata.ExpenseLocationRepositoryMock)
 	incomeSer = NewSuitoIncomeService(&testdata.IncomeRepositoryMock)
 	chartSer = NewSuitoChartService(&testdata.ExpenseRepositoryMock, &testdata.IncomeRepositoryMock)
-	transactionScheduleSer = NewSuitoTransactionScheduleService(&testdata.ExpenseScheduleRepositoryMock, &testdata.IncomeScheduleRepositoryMock)
+	transactionScheduleSer = NewSuitoTransactionScheduleService(&testdata.ExpenseScheduleRepositoryMock, &testdata.IncomeScheduleRepositoryMock, &testdata.IncomeTypeRepositoryMock)
 	expenseScheduleSer = NewSuitoExpenseScheduleService(&testdata.ExpenseScheduleRepositoryMock, &mockTransactionProvider)
 	incomeScheduleSer = NewSuitoIncomeScheduleService(&testdata.IncomeScheduleRepositoryMock, &mockTransactionProvider)
 	expenseCategorySer = NewSuitoExpenseCategoryService(&testdata.ExpenseCategoryRepositoryMock)

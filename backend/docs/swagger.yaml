@@ -1442,7 +1442,7 @@ components:
       required:
       - amount
       - id
-      - incomeType
+      - incomeTypeId
       - memo
       - timezone
       type: object
@@ -1455,8 +1455,8 @@ components:
           $ref: '#/components/schemas/gorm.DeletedAt'
         id:
           type: string
-        incomeType:
-          $ref: '#/components/schemas/model.IncomeType'
+        incomeTypeId:
+          type: string
         memo:
           type: string
         scheduleType:

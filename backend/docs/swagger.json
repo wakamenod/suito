@@ -2239,7 +2239,7 @@
         "required": [
           "amount",
           "id",
-          "incomeType",
+          "incomeTypeId",
           "memo",
           "timezone"
         ],
@@ -2257,8 +2257,8 @@
           "id": {
             "type": "string"
           },
-          "incomeType": {
-            "$ref": "#/components/schemas/model.IncomeType"
+          "incomeTypeId": {
+            "type": "string"
           },
           "memo": {
             "type": "string"

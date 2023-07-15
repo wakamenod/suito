@@ -20,9 +20,11 @@ class FakeIncomeScheduleDetailRepository
     final f = kFakeIncomeSchedules.firstWhere((el) => el.id == id);
     return Future.value(IncomeScheduleDetailRes((b) => b
       ..incomeSchedule.replace(ModelIncomeSchedule((s) => s
-        ..id = f.id
-        ..amount = f.amount
-        ..memo = f.memo
-        ..incomeType.replace(ModelIncomeType((c) => c..name = f.title))))));
+            ..id = f.id
+            ..amount = f.amount
+            ..memo = f.memo
+          // TODO
+          // ..incomeType.replace(ModelIncomeType((c) => c..name = f.title))
+          ))));
   }
 }

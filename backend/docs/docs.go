@@ -2152,7 +2152,7 @@ const docTemplate = `{
             "required": [
                 "amount",
                 "id",
-                "incomeType",
+                "incomeTypeId",
                 "memo",
                 "timezone"
             ],
@@ -2169,8 +2169,8 @@ const docTemplate = `{
                 "id": {
                     "type": "string"
                 },
-                "incomeType": {
-                    "$ref": "#/definitions/model.IncomeType"
+                "incomeTypeId": {
+                    "type": "string"
                 },
                 "memo": {
                     "type": "string"

@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 **createdAt** | **String** |  | [optional] 
 **deletedAt** | [**GormDeletedAt**](GormDeletedAt.md) |  | [optional] 
 **id** | **String** |  | 
-**incomeType** | [**ModelIncomeType**](ModelIncomeType.md) |  | 
+**incomeTypeId** | **String** |  | 
 **memo** | **String** |  | 
 **scheduleType** | **int** |  | [optional] 
 **timezone** | **String** |  | 

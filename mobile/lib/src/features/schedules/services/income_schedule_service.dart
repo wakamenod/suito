@@ -33,7 +33,6 @@ class IncomeScheduleController extends _$IncomeScheduleController {
     final title = formz_title.Title.dirty(value);
 
     state = AsyncValue.data(state.value!.copyWith(
-      title: title,
       isValid: Formz.validate([
         title,
         state.value!.amount,
@@ -48,7 +47,6 @@ class IncomeScheduleController extends _$IncomeScheduleController {
       amount: amount,
       isValid: Formz.validate([
         amount,
-        state.value!.title,
       ]),
     ));
   }
@@ -62,22 +60,26 @@ class IncomeScheduleController extends _$IncomeScheduleController {
   RegisterIncomeScheduleReq _registerRequest(String timezone) =>
       RegisterIncomeScheduleReq((r) => r
         ..incomeSchedule.replace(ModelIncomeSchedule((e) => e
-          ..id = ''
-          ..memo = state.value!.memo
-          ..amount = state.value!.amount.value
-          ..timezone = timezone
-          ..incomeType.replace(
-              ModelIncomeType((c) => c..name = state.value!.title.value)))));
+              ..id = ''
+              ..memo = state.value!.memo
+              ..amount = state.value!.amount.value
+              ..timezone = timezone
+            // TODO
+            // ..incomeType.replace(
+            //     ModelIncomeType((c) => c..name = state.value!.title.value))
+            )));
 
   UpdateIncomeScheduleReq _updateRequest(String timezone) =>
       UpdateIncomeScheduleReq((r) => r
         ..incomeSchedule.replace(ModelIncomeSchedule((e) => e
-          ..id = state.value!.id
-          ..memo = state.value!.memo
-          ..amount = state.value!.amount.value
-          ..timezone = timezone
-          ..incomeType.replace(
-              ModelIncomeType((c) => c..name = state.value!.title.value)))));
+              ..id = state.value!.id
+              ..memo = state.value!.memo
+              ..amount = state.value!.amount.value
+              ..timezone = timezone
+            // TODO
+            // ..incomeType.replace(
+            //     ModelIncomeType((c) => c..name = state.value!.title.value))
+            )));
 
   Future<void> registerIncome() async {
     if (!state.value!.isValid) return;

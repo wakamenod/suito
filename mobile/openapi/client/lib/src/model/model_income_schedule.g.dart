@@ -16,7 +16,7 @@ class _$ModelIncomeSchedule extends ModelIncomeSchedule {
   @override
   final String id;
   @override
-  final ModelIncomeType incomeType;
+  final String incomeTypeId;
   @override
   final String memo;
   @override
@@ -35,7 +35,7 @@ class _$ModelIncomeSchedule extends ModelIncomeSchedule {
       this.createdAt,
       this.deletedAt,
       required this.id,
-      required this.incomeType,
+      required this.incomeTypeId,
       required this.memo,
       this.scheduleType,
       required this.timezone,
@@ -45,7 +45,7 @@ class _$ModelIncomeSchedule extends ModelIncomeSchedule {
         amount, r'ModelIncomeSchedule', 'amount');
     BuiltValueNullFieldError.checkNotNull(id, r'ModelIncomeSchedule', 'id');
     BuiltValueNullFieldError.checkNotNull(
-        incomeType, r'ModelIncomeSchedule', 'incomeType');
+        incomeTypeId, r'ModelIncomeSchedule', 'incomeTypeId');
     BuiltValueNullFieldError.checkNotNull(memo, r'ModelIncomeSchedule', 'memo');
     BuiltValueNullFieldError.checkNotNull(
         timezone, r'ModelIncomeSchedule', 'timezone');
@@ -68,7 +68,7 @@ class _$ModelIncomeSchedule extends ModelIncomeSchedule {
         createdAt == other.createdAt &&
         deletedAt == other.deletedAt &&
         id == other.id &&
-        incomeType == other.incomeType &&
+        incomeTypeId == other.incomeTypeId &&
         memo == other.memo &&
         scheduleType == other.scheduleType &&
         timezone == other.timezone &&
@@ -82,7 +82,7 @@ class _$ModelIncomeSchedule extends ModelIncomeSchedule {
     _$hash = $jc(_$hash, createdAt.hashCode);
     _$hash = $jc(_$hash, deletedAt.hashCode);
     _$hash = $jc(_$hash, id.hashCode);
-    _$hash = $jc(_$hash, incomeType.hashCode);
+    _$hash = $jc(_$hash, incomeTypeId.hashCode);
     _$hash = $jc(_$hash, memo.hashCode);
     _$hash = $jc(_$hash, scheduleType.hashCode);
     _$hash = $jc(_$hash, timezone.hashCode);
@@ -98,7 +98,7 @@ class _$ModelIncomeSchedule extends ModelIncomeSchedule {
           ..add('createdAt', createdAt)
           ..add('deletedAt', deletedAt)
           ..add('id', id)
-          ..add('incomeType', incomeType)
+          ..add('incomeTypeId', incomeTypeId)
           ..add('memo', memo)
           ..add('scheduleType', scheduleType)
           ..add('timezone', timezone)
@@ -129,11 +129,9 @@ class ModelIncomeScheduleBuilder
   String? get id => _$this._id;
   set id(String? id) => _$this._id = id;
 
-  ModelIncomeTypeBuilder? _incomeType;
-  ModelIncomeTypeBuilder get incomeType =>
-      _$this._incomeType ??= new ModelIncomeTypeBuilder();
-  set incomeType(ModelIncomeTypeBuilder? incomeType) =>
-      _$this._incomeType = incomeType;
+  String? _incomeTypeId;
+  String? get incomeTypeId => _$this._incomeTypeId;
+  set incomeTypeId(String? incomeTypeId) => _$this._incomeTypeId = incomeTypeId;
 
   String? _memo;
   String? get memo => _$this._memo;
@@ -162,7 +160,7 @@ class ModelIncomeScheduleBuilder
       _createdAt = $v.createdAt;
       _deletedAt = $v.deletedAt?.toBuilder();
       _id = $v.id;
-      _incomeType = $v.incomeType.toBuilder();
+      _incomeTypeId = $v.incomeTypeId;
       _memo = $v.memo;
       _scheduleType = $v.scheduleType;
       _timezone = $v.timezone;
@@ -197,7 +195,8 @@ class ModelIncomeScheduleBuilder
               deletedAt: _deletedAt?.build(),
               id: BuiltValueNullFieldError.checkNotNull(
                   id, r'ModelIncomeSchedule', 'id'),
-              incomeType: incomeType.build(),
+              incomeTypeId: BuiltValueNullFieldError.checkNotNull(
+                  incomeTypeId, r'ModelIncomeSchedule', 'incomeTypeId'),
               memo: BuiltValueNullFieldError.checkNotNull(
                   memo, r'ModelIncomeSchedule', 'memo'),
               scheduleType: scheduleType,
@@ -209,9 +208,6 @@ class ModelIncomeScheduleBuilder
       try {
         _$failedField = 'deletedAt';
         _deletedAt?.build();
-
-        _$failedField = 'incomeType';
-        incomeType.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             r'ModelIncomeSchedule', _$failedField, e.toString());

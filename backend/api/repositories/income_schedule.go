@@ -11,7 +11,7 @@ import (
 func (r *SuitoIncomeScheduleRepository) FindIncomeSchedules(uid string) ([]model.IncomeSchedule, error) {
 	var res []model.IncomeSchedule
 
-	if err := r.db.Preload("IncomeType").Where("uid = ?", uid).
+	if err := r.db.Where("uid = ?", uid).
 		Order("id").
 		Find(&res).Error; err != nil {
 		return nil, errors.Wrap(err, "failed to find income schedules")
@@ -23,7 +23,7 @@ func (r *SuitoIncomeScheduleRepository) FindIncomeSchedules(uid string) ([]model
 func (r *SuitoIncomeScheduleRepository) FindIncomeSchedule(id, uid string) (model.IncomeSchedule, error) {
 	var res model.IncomeSchedule
 
-	if err := r.db.Preload("IncomeType").Where("id = ? AND uid = ?", id, uid).
+	if err := r.db.Where("id = ? AND uid = ?", id, uid).
 		First(&res).Error; err != nil {
 		return res, errors.Wrap(err, "failed to income income schedule")
 	}

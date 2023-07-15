@@ -63,6 +63,7 @@ type SuitoScheduleJobService struct {
 type SuitoTransactionScheduleService struct {
 	expenseScheduleRepo repositories.ExpenseScheduleRepository
 	incomeScheduleRepo  repositories.IncomeScheduleRepository
+	incomeTypeRepo      repositories.IncomeTypeRepository
 }
 
 type SuitoExpenseCategoryService struct {
@@ -178,10 +179,12 @@ func NewSuitoScheduleJobService(
 func NewSuitoTransactionScheduleService(
 	expenseScheduleRepo repositories.ExpenseScheduleRepository,
 	incomeScheduleRepo repositories.IncomeScheduleRepository,
+	incomeTypeRepo repositories.IncomeTypeRepository,
 ) *SuitoTransactionScheduleService {
 	return &SuitoTransactionScheduleService{
 		expenseScheduleRepo: expenseScheduleRepo,
 		incomeScheduleRepo:  incomeScheduleRepo,
+		incomeTypeRepo:      incomeTypeRepo,
 	}
 }
 
