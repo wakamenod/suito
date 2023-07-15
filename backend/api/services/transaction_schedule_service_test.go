@@ -19,9 +19,9 @@ func TestListTransactionSchedulesService(t *testing.T) {
 	}
 	{
 		require.Equal(t, 2, len(resIncomes))
-		require.Equal(t, "Income Type 1", resIncomes[0].Title)
+		require.Equal(t, "Test Income Type 01", resIncomes[0].Title)
 		require.Equal(t, 300, resIncomes[0].Amount)
-		require.Equal(t, "Income Type 2", resIncomes[1].Title)
+		require.Equal(t, "Test Income Type 02", resIncomes[1].Title)
 		require.Equal(t, 400, resIncomes[1].Amount)
 	}
 }

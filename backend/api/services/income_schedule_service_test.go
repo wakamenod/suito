@@ -36,19 +36,15 @@ func TestUpdateIncomeScheduleService(t *testing.T) {
 
 func TestUpdateIncomeService_Deselect(t *testing.T) {
 	incomeSchedule := model.IncomeSchedule{
-		ID:     "update_target_incomeSchedule_id",
-		Amount: 2000,
-		Memo:   "test_memo",
-		IncomeType: model.IncomeType{
-			Name: "",
-		},
+		ID:           "update_target_incomeSchedule_id",
+		Amount:       2000,
+		Memo:         "test_memo",
+		IncomeTypeID: "test_income_type_id",
 	}
 	updateIncomeSchedule, err := incomeScheduleSer.UpdateIncomeScheduleService("user1", incomeSchedule)
 	require.NoError(t, err)
 	require.Equal(t, incomeSchedule.ID, updateIncomeSchedule.ID)
-	require.Empty(t, updateIncomeSchedule.IncomeTypeID)
-	require.Empty(t, updateIncomeSchedule.IncomeType.ID)
-	require.Empty(t, updateIncomeSchedule.IncomeType.Name)
+	require.Equal(t, incomeSchedule.IncomeTypeID, updateIncomeSchedule.IncomeTypeID)
 }
 
 func TestCreateIncomeScheduleService_NoCategoryLocation(t *testing.T) {
@@ -81,12 +77,10 @@ func TestCreateIncomeScheduleService_DBRepository(t *testing.T) {
 	userID := "user1"
 
 	incomeSchedule := model.IncomeSchedule{
-		Amount: 2000,
-		Memo:   "test_memo",
-		IncomeType: model.IncomeType{
-			Name: "new income type",
-		},
-		Timezone: "Asia/Tokyo",
+		Amount:       2000,
+		Memo:         "test_memo",
+		IncomeTypeID: "new_income_type_id",
+		Timezone:     "Asia/Tokyo",
 	}
 
 	res, err := NewSuitoIncomeScheduleService(

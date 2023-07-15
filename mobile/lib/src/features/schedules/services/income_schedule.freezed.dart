@@ -17,7 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$IncomeSchedule {
   String get id => throw _privateConstructorUsedError;
-  Title get title => throw _privateConstructorUsedError;
+  String get incomeTypeId => throw _privateConstructorUsedError;
   Amount get amount => throw _privateConstructorUsedError;
   String get memo => throw _privateConstructorUsedError;
   bool get isValid => throw _privateConstructorUsedError;
@@ -37,7 +37,7 @@ abstract class $IncomeScheduleCopyWith<$Res> {
   @useResult
   $Res call(
       {String id,
-      Title title,
+      String incomeTypeId,
       Amount amount,
       String memo,
       bool isValid,
@@ -58,7 +58,7 @@ class _$IncomeScheduleCopyWithImpl<$Res, $Val extends IncomeSchedule>
   @override
   $Res call({
     Object? id = null,
-    Object? title = null,
+    Object? incomeTypeId = null,
     Object? amount = null,
     Object? memo = null,
     Object? isValid = null,
@@ -69,10 +69,10 @@ class _$IncomeScheduleCopyWithImpl<$Res, $Val extends IncomeSchedule>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as Title,
+      incomeTypeId: null == incomeTypeId
+          ? _value.incomeTypeId
+          : incomeTypeId // ignore: cast_nullable_to_non_nullable
+              as String,
       amount: null == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
@@ -103,7 +103,7 @@ abstract class _$$_IncomeScheduleCopyWith<$Res>
   @useResult
   $Res call(
       {String id,
-      Title title,
+      String incomeTypeId,
       Amount amount,
       String memo,
       bool isValid,
@@ -122,7 +122,7 @@ class __$$_IncomeScheduleCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
-    Object? title = null,
+    Object? incomeTypeId = null,
     Object? amount = null,
     Object? memo = null,
     Object? isValid = null,
@@ -133,10 +133,10 @@ class __$$_IncomeScheduleCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as Title,
+      incomeTypeId: null == incomeTypeId
+          ? _value.incomeTypeId
+          : incomeTypeId // ignore: cast_nullable_to_non_nullable
+              as String,
       amount: null == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
@@ -162,7 +162,7 @@ class __$$_IncomeScheduleCopyWithImpl<$Res>
 class _$_IncomeSchedule implements _IncomeSchedule {
   const _$_IncomeSchedule(
       {required this.id,
-      required this.title,
+      required this.incomeTypeId,
       required this.amount,
       required this.memo,
       required this.isValid,
@@ -171,7 +171,7 @@ class _$_IncomeSchedule implements _IncomeSchedule {
   @override
   final String id;
   @override
-  final Title title;
+  final String incomeTypeId;
   @override
   final Amount amount;
   @override
@@ -183,7 +183,7 @@ class _$_IncomeSchedule implements _IncomeSchedule {
 
   @override
   String toString() {
-    return 'IncomeSchedule(id: $id, title: $title, amount: $amount, memo: $memo, isValid: $isValid, submissionStatus: $submissionStatus)';
+    return 'IncomeSchedule(id: $id, incomeTypeId: $incomeTypeId, amount: $amount, memo: $memo, isValid: $isValid, submissionStatus: $submissionStatus)';
   }
 
   @override
@@ -192,7 +192,8 @@ class _$_IncomeSchedule implements _IncomeSchedule {
         (other.runtimeType == runtimeType &&
             other is _$_IncomeSchedule &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.title, title) || other.title == title) &&
+            (identical(other.incomeTypeId, incomeTypeId) ||
+                other.incomeTypeId == incomeTypeId) &&
             (identical(other.amount, amount) || other.amount == amount) &&
             (identical(other.memo, memo) || other.memo == memo) &&
             (identical(other.isValid, isValid) || other.isValid == isValid) &&
@@ -202,7 +203,7 @@ class _$_IncomeSchedule implements _IncomeSchedule {
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, id, title, amount, memo, isValid, submissionStatus);
+      runtimeType, id, incomeTypeId, amount, memo, isValid, submissionStatus);
 
   @JsonKey(ignore: true)
   @override
@@ -214,7 +215,7 @@ class _$_IncomeSchedule implements _IncomeSchedule {
 abstract class _IncomeSchedule implements IncomeSchedule {
   const factory _IncomeSchedule(
           {required final String id,
-          required final Title title,
+          required final String incomeTypeId,
           required final Amount amount,
           required final String memo,
           required final bool isValid,
@@ -224,7 +225,7 @@ abstract class _IncomeSchedule implements IncomeSchedule {
   @override
   String get id;
   @override
-  Title get title;
+  String get incomeTypeId;
   @override
   Amount get amount;
   @override

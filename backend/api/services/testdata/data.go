@@ -106,19 +106,15 @@ var expenseSchedulesTestData = []model.ExpenseSchedule{
 
 var incomeSchedulesTestData = []model.IncomeSchedule{
 	{
-		ID:  "INCOME_SCHEDULE_ID1",
-		UID: "user1",
-		IncomeType: model.IncomeType{
-			Name: "Income Type 1",
-		},
-		Amount: 300,
+		ID:           "INCOME_SCHEDULE_ID1",
+		UID:          "user1",
+		IncomeTypeID: incomeTypeTestData[0].ID,
+		Amount:       300,
 	},
 	{
-		ID:  "INCOME_SCHEDULE_ID2",
-		UID: "user1",
-		IncomeType: model.IncomeType{
-			Name: "Income Type 2",
-		},
-		Amount: 400,
+		ID:           "INCOME_SCHEDULE_ID2",
+		UID:          "user1",
+		IncomeTypeID: incomeTypeTestData[1].ID,
+		Amount:       400,
 	},
 }

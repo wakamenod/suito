@@ -74,7 +74,7 @@ func TestIncomeScheduleDetailHandler_Success(t *testing.T) {
 	var res IncomeScheduleDetailRes
 	require.NoError(t, json.Unmarshal(rec.Body.Bytes(), &res))
 	require.Equal(t, "INCOME_SCHEDULE_ID1", res.IncomeSchedule.ID)
-	require.Equal(t, "Income Type 1", res.IncomeSchedule.IncomeType.Name)
+	require.Equal(t, "ID_INCOME_TYPE_01", res.IncomeSchedule.IncomeTypeID)
 }
 
 func TestUpdateIncomeScheduleHandler_ErrorValidate(t *testing.T) {
@@ -100,12 +100,10 @@ func TestUpdateIncomeScheduleHandler_Success(t *testing.T) {
 	e.Validator = validate.NewValidator()
 	jsonReq, err := json.Marshal(UpdateIncomeScheduleReq{
 		IncomeSchedule: model.IncomeSchedule{
-			ID:     "update_target_id",
-			Amount: 9999,
-			IncomeType: model.IncomeType{
-				Name: "income title 01",
-			},
-			Timezone: "Asia/Tokyo",
+			ID:           "update_target_id",
+			Amount:       9999,
+			IncomeTypeID: "new_income_type_id",
+			Timezone:     "Asia/Tokyo",
 		}})
 	require.NoError(t, err)
 	req := httptest.NewRequest(http.MethodPut, "/", bytes.NewReader(jsonReq))
@@ -144,11 +142,9 @@ func TestRegisterIncomeScheduleHandler_Success(t *testing.T) {
 	e.Validator = validate.NewValidator()
 	jsonReq, err := json.Marshal(RegisterIncomeScheduleReq{
 		IncomeSchedule: model.IncomeSchedule{
-			Amount: 9999,
-			IncomeType: model.IncomeType{
-				Name: "new type",
-			},
-			Timezone: "Asia/Tokyo",
+			Amount:       9999,
+			IncomeTypeID: "new_income_type_id",
+			Timezone:     "Asia/Tokyo",
 		}})
 	require.NoError(t, err)
 	req := httptest.NewRequest(http.MethodPost, "/", bytes.NewReader(jsonReq))
@@ -164,7 +160,7 @@ func TestRegisterIncomeScheduleHandler_Success(t *testing.T) {
 	var res RegisterIncomeScheduleRes
 	require.NoError(t, json.Unmarshal(rec.Body.Bytes(), &res))
 	require.Equal(t, "new_income_schedule_id", res.NewIncomeSchedule.ID)
-	require.Equal(t, "new type", res.NewIncomeSchedule.IncomeType.Name)
+	require.Equal(t, "new_income_type_id", res.NewIncomeSchedule.IncomeTypeID)
 	require.Equal(t, "Asia/Tokyo", res.NewIncomeSchedule.Timezone)
 	require.Equal(t, 9999, res.NewIncomeSchedule.Amount)
 }

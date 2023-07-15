@@ -36,7 +36,8 @@ class IncomeScheduleDetailView extends ConsumerWidget {
               children: [
                 gapH12,
                 TransitionTextField(
-                    initialValue: income.title.value,
+                    initialValue: '', // TODO
+                    // initialValue: income.title.value,
                     labelText: t.transactions.detail.inputLabels.title,
                     route: AppRoute.incomeType,
                     onTap: () => ref

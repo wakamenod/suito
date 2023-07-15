@@ -1,5 +1,7 @@
 package services
 
+import "github.com/wakamenod/suito/model"
+
 func (s *SuitoTransactionScheduleService) ListTransactionSchedulesService(uid string) ([]TransactionSchedule, []TransactionSchedule, error) {
 	expenses, err := s.expenseScheduleRepo.FindExpenseSchedules(uid)
 	if err != nil {
@@ -8,6 +10,14 @@ func (s *SuitoTransactionScheduleService) ListTransactionSchedulesService(uid st
 	incomes, err := s.incomeScheduleRepo.FindIncomeSchedules(uid)
 	if err != nil {
 		return nil, nil, err
+	}
+	incomeTypes, err := s.incomeTypeRepo.FindIncomeTypes(uid)
+	if err != nil {
+		return nil, nil, err
+	}
+	incomeTypeMap := make(map[string]model.IncomeType)
+	for _, incomeType := range incomeTypes {
+		incomeTypeMap[incomeType.ID] = incomeType
 	}
 
 	resExpenses := make([]TransactionSchedule, len(expenses))
@@ -23,7 +33,7 @@ func (s *SuitoTransactionScheduleService) ListTransactionSchedulesService(uid st
 	for i, in := range incomes {
 		resIncomes[i] = TransactionSchedule{
 			ID:     in.ID,
-			Title:  in.IncomeType.Name,
+			Title:  incomeTypeMap[in.IncomeTypeID].Name,
 			Amount: in.Amount,
 		}
 	}

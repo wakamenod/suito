@@ -47,14 +47,14 @@ func TestFindIncomeSchedules2(t *testing.T) {
 	require.Equal(t, 2, len(res))
 	{
 		schedule := res[0]
-		require.Equal(t, "", schedule.IncomeType.Name)
+		require.Equal(t, "", schedule.IncomeTypeID)
 		require.Equal(t, "America/New_York", schedule.Timezone)
 		require.Equal(t, 200, schedule.Amount)
 		require.Equal(t, "", schedule.Memo)
 	}
 	{
 		schedule := res[1]
-		require.Equal(t, "収入A", schedule.IncomeType.Name)
+		require.Equal(t, incomeTypeID, schedule.IncomeTypeID)
 		require.Equal(t, "Asia/Tokyo", schedule.Timezone)
 		require.Equal(t, 100, schedule.Amount)
 		require.Equal(t, "memo", schedule.Memo)
@@ -74,7 +74,7 @@ func TestFindIncomeSchedule(t *testing.T) {
 	// check
 	require.NoError(t, err)
 	require.Equal(t, id, res.ID)
-	require.Equal(t, "Income Type", res.IncomeType.Name)
+	require.Equal(t, typeID, res.IncomeTypeID)
 	require.Equal(t, 200, res.Amount)
 }
 
@@ -112,7 +112,7 @@ func TestUpdateIncomeSchedule(t *testing.T) {
 
 	found, err := NewSuitoIncomeScheduleRepository(tx).FindIncomeSchedule(id, userID)
 	require.NoError(t, err)
-	require.Equal(t, "Test income type", found.IncomeType.Name)
+	require.Equal(t, typeID, found.IncomeTypeID)
 	require.Equal(t, targetIncomeSchedule.Amount, found.Amount)
 }
 
@@ -134,7 +134,6 @@ func TestUpdateIncomeSchedule_Deselect(t *testing.T) {
 
 	found, err := NewSuitoIncomeScheduleRepository(tx).FindIncomeSchedule(id, userID)
 	require.NoError(t, err)
-	require.Empty(t, found.IncomeType.Name)
 	require.Empty(t, found.IncomeTypeID)
 }
 
