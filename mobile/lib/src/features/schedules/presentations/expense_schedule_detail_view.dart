@@ -27,96 +27,85 @@ class ExpenseScheduleDetailView extends ConsumerWidget {
 
     return AsyncValueWidget<ExpenseSchedule>(
       value: expenseScheduleValue,
-      data: (expense) => Scaffold(
-          appBar: AppBar(
-            title: Text(t.transactions.detail.title),
-          ),
-          body: SingleChildScrollView(
-            child: ListBody(
-              children: [
-                gapH12,
-                TextInputField(
-                    initialValue: expense.title.value,
-                    errorText:
-                        stitle.Title.showTitleErrorMessage(expense.title),
-                    labelText: t.transactions.detail.inputLabels.title,
-                    onChanged: ref
-                        .read(
-                            expenseScheduleControllerProvider(expenseScheduleID)
-                                .notifier)
-                        .onChangeTitle),
-                gapH12,
-                CurrencyInputField(
-                    formatter: ref.watch(currencyFormatterProvider),
-                    initialValue: expense.amount.value,
-                    errorText: Amount.showAmountErrorMessage(expense.amount),
-                    labelText: t.transactions.detail.inputLabels.amount,
-                    onChanged: ref
-                        .read(
-                            expenseScheduleControllerProvider(expenseScheduleID)
-                                .notifier)
-                        .onChangeAmount),
-                gapH12,
-                TransitionTextField(
-                    initialValue: expense.category,
-                    getValueByID: (id) => expense.categoryByID(id),
-                    labelText: t.transactions.detail.inputLabels.category,
-                    route: AppRoute.category,
-                    onTap: () => ref
-                        .read(transactionAttributeTypeProvider.notifier)
-                        .state = TransactionAttributeType.category,
-                    onChanged: ref
-                        .read(
-                            expenseScheduleControllerProvider(expenseScheduleID)
-                                .notifier)
-                        .onChangeCategory),
-                gapH12,
-                TransitionTextField(
-                    initialValue: expense.location,
-                    getValueByID: (id) => expense.locationByID(id),
-                    labelText: t.transactions.detail.inputLabels.location,
-                    route: AppRoute.location,
-                    onTap: () => ref
-                        .read(transactionAttributeTypeProvider.notifier)
-                        .state = TransactionAttributeType.location,
-                    onChanged: ref
-                        .read(
-                            expenseScheduleControllerProvider(expenseScheduleID)
-                                .notifier)
-                        .onChangeLocation),
-                gapH12,
-                TransitionTextField(
-                    initialValue: expense.memo,
-                    labelText: t.transactions.detail.inputLabels.memo,
-                    route: AppRoute.memo,
-                    onChanged: ref
-                        .read(
-                            expenseScheduleControllerProvider(expenseScheduleID)
-                                .notifier)
-                        .onChangeMemo),
-                gapH12,
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(3.0),
-                    ),
-                    backgroundColor: const Color(0xff1D7094),
-                  ),
-                  onPressed: () async {
-                    await ref
-                        .read(
-                            expenseScheduleControllerProvider(expenseScheduleID)
-                                .notifier)
-                        .registerExpenseSchedule();
-                    if (context.mounted) context.pop();
-                  },
-                  child: Text(
-                    t.transactions.buttons.post,
-                  ),
-                )
-              ],
-            ),
-          )),
+      data: (expense) => SingleChildScrollView(
+        child: ListBody(
+          children: [
+            gapH12,
+            TextInputField(
+                initialValue: expense.title.value,
+                errorText: stitle.Title.showTitleErrorMessage(expense.title),
+                labelText: t.transactions.detail.inputLabels.title,
+                onChanged: ref
+                    .read(expenseScheduleControllerProvider(expenseScheduleID)
+                        .notifier)
+                    .onChangeTitle),
+            gapH12,
+            CurrencyInputField(
+                formatter: ref.watch(currencyFormatterProvider),
+                initialValue: expense.amount.value,
+                errorText: Amount.showAmountErrorMessage(expense.amount),
+                labelText: t.transactions.detail.inputLabels.amount,
+                onChanged: ref
+                    .read(expenseScheduleControllerProvider(expenseScheduleID)
+                        .notifier)
+                    .onChangeAmount),
+            gapH12,
+            TransitionTextField(
+                initialValue: expense.category,
+                getValueByID: (id) => expense.categoryByID(id),
+                labelText: t.transactions.detail.inputLabels.category,
+                route: AppRoute.category,
+                onTap: () => ref
+                    .read(transactionAttributeTypeProvider.notifier)
+                    .state = TransactionAttributeType.category,
+                onChanged: ref
+                    .read(expenseScheduleControllerProvider(expenseScheduleID)
+                        .notifier)
+                    .onChangeCategory),
+            gapH12,
+            TransitionTextField(
+                initialValue: expense.location,
+                getValueByID: (id) => expense.locationByID(id),
+                labelText: t.transactions.detail.inputLabels.location,
+                route: AppRoute.location,
+                onTap: () => ref
+                    .read(transactionAttributeTypeProvider.notifier)
+                    .state = TransactionAttributeType.location,
+                onChanged: ref
+                    .read(expenseScheduleControllerProvider(expenseScheduleID)
+                        .notifier)
+                    .onChangeLocation),
+            gapH12,
+            TransitionTextField(
+                initialValue: expense.memo,
+                labelText: t.transactions.detail.inputLabels.memo,
+                route: AppRoute.memo,
+                onChanged: ref
+                    .read(expenseScheduleControllerProvider(expenseScheduleID)
+                        .notifier)
+                    .onChangeMemo),
+            gapH12,
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(3.0),
+                ),
+                backgroundColor: const Color(0xff1D7094),
+              ),
+              onPressed: () async {
+                await ref
+                    .read(expenseScheduleControllerProvider(expenseScheduleID)
+                        .notifier)
+                    .registerExpenseSchedule();
+                if (context.mounted) context.pop();
+              },
+              child: Text(
+                t.transactions.buttons.post,
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 }

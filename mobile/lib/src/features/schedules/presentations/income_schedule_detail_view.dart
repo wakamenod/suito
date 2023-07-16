@@ -27,56 +27,52 @@ class IncomeScheduleDetailView extends ConsumerWidget {
 
     return AsyncValueWidget<IncomeSchedule>(
       value: incomeScheduleValue,
-      data: (income) => Scaffold(
-          appBar: AppBar(
-            title: Text(t.transactions.detail.title),
-          ),
-          body: SingleChildScrollView(
-            child: ListBody(
-              children: [
-                gapH12,
-                TransitionTextField(
-                    initialValue: '', // TODO
-                    // initialValue: income.title.value,
-                    labelText: t.transactions.detail.inputLabels.title,
-                    route: AppRoute.incomeType,
-                    onTap: () => ref
-                        .read(transactionAttributeTypeProvider.notifier)
-                        .state = TransactionAttributeType.incomeType,
-                    onChanged: incomeScheduleController.onChangeTitle),
-                gapH12,
-                CurrencyInputField(
-                  formatter: ref.watch(currencyFormatterProvider),
-                  initialValue: income.amount.value,
-                  errorText: Amount.showAmountErrorMessage(income.amount),
-                  labelText: t.transactions.detail.inputLabels.amount,
-                  onChanged: incomeScheduleController.onChangeAmount,
-                ),
-                gapH12,
-                TransitionTextField(
-                    initialValue: income.memo,
-                    labelText: t.transactions.detail.inputLabels.memo,
-                    route: AppRoute.memo,
-                    onChanged: incomeScheduleController.onChangeMemo),
-                gapH12,
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(3.0),
-                    ),
-                    backgroundColor: const Color(0xff1D7094),
-                  ),
-                  onPressed: () async {
-                    await incomeScheduleController.registerIncome();
-                    if (context.mounted) context.pop();
-                  },
-                  child: Text(
-                    t.transactions.buttons.post,
-                  ),
-                )
-              ],
+      data: (income) => SingleChildScrollView(
+        child: ListBody(
+          children: [
+            gapH12,
+            TransitionTextField(
+                initialValue: '', // TODO
+                // initialValue: income.title.value,
+                labelText: t.transactions.detail.inputLabels.title,
+                route: AppRoute.incomeType,
+                onTap: () => ref
+                    .read(transactionAttributeTypeProvider.notifier)
+                    .state = TransactionAttributeType.incomeType,
+                onChanged: incomeScheduleController.onChangeTitle),
+            gapH12,
+            CurrencyInputField(
+              formatter: ref.watch(currencyFormatterProvider),
+              initialValue: income.amount.value,
+              errorText: Amount.showAmountErrorMessage(income.amount),
+              labelText: t.transactions.detail.inputLabels.amount,
+              onChanged: incomeScheduleController.onChangeAmount,
             ),
-          )),
+            gapH12,
+            TransitionTextField(
+                initialValue: income.memo,
+                labelText: t.transactions.detail.inputLabels.memo,
+                route: AppRoute.memo,
+                onChanged: incomeScheduleController.onChangeMemo),
+            gapH12,
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(3.0),
+                ),
+                backgroundColor: const Color(0xff1D7094),
+              ),
+              onPressed: () async {
+                await incomeScheduleController.registerIncome();
+                if (context.mounted) context.pop();
+              },
+              child: Text(
+                t.transactions.buttons.post,
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 }

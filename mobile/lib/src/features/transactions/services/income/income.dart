@@ -7,6 +7,8 @@ part 'income.freezed.dart';
 
 @freezed
 class Income with _$Income {
+  const Income._();
+
   const factory Income({
     required String id,
     required String incomeTypeID,
@@ -15,24 +17,30 @@ class Income with _$Income {
     required String memo,
     required bool isValid,
     required FormzSubmissionStatus submissionStatus,
+    required Map<String, ModelIncomeType> incomeTypeMap,
   }) = _Income;
 
-  static Income init() => const Income(
+  String get incomeType => incomeTypeByID(incomeTypeID);
+  String incomeTypeByID(id) => incomeTypeMap[id]?.name ?? '';
+
+  static Income init(incomeTypeMap) => Income(
         id: '',
         incomeTypeID: '',
-        amount: Amount.pure(),
+        amount: const Amount.pure(),
         date: '',
         memo: '',
+        incomeTypeMap: incomeTypeMap,
         isValid: true,
         submissionStatus: FormzSubmissionStatus.initial,
       );
 
-  static Income fromModel(IncomeDetailRes res) => Income(
+  static Income fromModel(IncomeDetailRes res, incomeTypeMap) => Income(
         id: res.income.id,
         incomeTypeID: res.income.incomeTypeId,
         amount: Amount.dirty(res.income.amount),
         date: res.income.localDate,
         memo: res.income.memo,
+        incomeTypeMap: incomeTypeMap,
         isValid: true,
         submissionStatus: FormzSubmissionStatus.initial,
       );
