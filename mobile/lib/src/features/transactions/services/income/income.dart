@@ -2,6 +2,7 @@ import 'package:formz/formz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:openapi/openapi.dart';
 import 'package:suito/src/formz/amount.dart';
+import 'package:suito/src/formz/title.dart';
 
 part 'income.freezed.dart';
 
@@ -11,6 +12,7 @@ class Income with _$Income {
 
   const factory Income({
     required String id,
+    required Title title,
     required String incomeTypeID,
     required Amount amount,
     required String date,
@@ -26,6 +28,7 @@ class Income with _$Income {
   static Income init(incomeTypeMap) => Income(
         id: '',
         incomeTypeID: '',
+        title: const Title.pure(),
         amount: const Amount.pure(),
         date: '',
         memo: '',
@@ -37,6 +40,7 @@ class Income with _$Income {
   static Income fromModel(IncomeDetailRes res, incomeTypeMap) => Income(
         id: res.income.id,
         incomeTypeID: res.income.incomeTypeId,
+        title: Title.dirty(incomeTypeMap[res.income.incomeTypeId].name ?? ''),
         amount: Amount.dirty(res.income.amount),
         date: res.income.localDate,
         memo: res.income.memo,

@@ -17,11 +17,14 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$IncomeSchedule {
   String get id => throw _privateConstructorUsedError;
-  String get incomeTypeId => throw _privateConstructorUsedError;
+  Title get title => throw _privateConstructorUsedError;
+  String get incomeTypeID => throw _privateConstructorUsedError;
   Amount get amount => throw _privateConstructorUsedError;
   String get memo => throw _privateConstructorUsedError;
   bool get isValid => throw _privateConstructorUsedError;
   FormzSubmissionStatus get submissionStatus =>
+      throw _privateConstructorUsedError;
+  Map<String, ModelIncomeType> get incomeTypeMap =>
       throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -37,11 +40,13 @@ abstract class $IncomeScheduleCopyWith<$Res> {
   @useResult
   $Res call(
       {String id,
-      String incomeTypeId,
+      Title title,
+      String incomeTypeID,
       Amount amount,
       String memo,
       bool isValid,
-      FormzSubmissionStatus submissionStatus});
+      FormzSubmissionStatus submissionStatus,
+      Map<String, ModelIncomeType> incomeTypeMap});
 }
 
 /// @nodoc
@@ -58,20 +63,26 @@ class _$IncomeScheduleCopyWithImpl<$Res, $Val extends IncomeSchedule>
   @override
   $Res call({
     Object? id = null,
-    Object? incomeTypeId = null,
+    Object? title = null,
+    Object? incomeTypeID = null,
     Object? amount = null,
     Object? memo = null,
     Object? isValid = null,
     Object? submissionStatus = null,
+    Object? incomeTypeMap = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      incomeTypeId: null == incomeTypeId
-          ? _value.incomeTypeId
-          : incomeTypeId // ignore: cast_nullable_to_non_nullable
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as Title,
+      incomeTypeID: null == incomeTypeID
+          ? _value.incomeTypeID
+          : incomeTypeID // ignore: cast_nullable_to_non_nullable
               as String,
       amount: null == amount
           ? _value.amount
@@ -89,6 +100,10 @@ class _$IncomeScheduleCopyWithImpl<$Res, $Val extends IncomeSchedule>
           ? _value.submissionStatus
           : submissionStatus // ignore: cast_nullable_to_non_nullable
               as FormzSubmissionStatus,
+      incomeTypeMap: null == incomeTypeMap
+          ? _value.incomeTypeMap
+          : incomeTypeMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, ModelIncomeType>,
     ) as $Val);
   }
 }
@@ -103,11 +118,13 @@ abstract class _$$_IncomeScheduleCopyWith<$Res>
   @useResult
   $Res call(
       {String id,
-      String incomeTypeId,
+      Title title,
+      String incomeTypeID,
       Amount amount,
       String memo,
       bool isValid,
-      FormzSubmissionStatus submissionStatus});
+      FormzSubmissionStatus submissionStatus,
+      Map<String, ModelIncomeType> incomeTypeMap});
 }
 
 /// @nodoc
@@ -122,20 +139,26 @@ class __$$_IncomeScheduleCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
-    Object? incomeTypeId = null,
+    Object? title = null,
+    Object? incomeTypeID = null,
     Object? amount = null,
     Object? memo = null,
     Object? isValid = null,
     Object? submissionStatus = null,
+    Object? incomeTypeMap = null,
   }) {
     return _then(_$_IncomeSchedule(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      incomeTypeId: null == incomeTypeId
-          ? _value.incomeTypeId
-          : incomeTypeId // ignore: cast_nullable_to_non_nullable
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as Title,
+      incomeTypeID: null == incomeTypeID
+          ? _value.incomeTypeID
+          : incomeTypeID // ignore: cast_nullable_to_non_nullable
               as String,
       amount: null == amount
           ? _value.amount
@@ -153,25 +176,35 @@ class __$$_IncomeScheduleCopyWithImpl<$Res>
           ? _value.submissionStatus
           : submissionStatus // ignore: cast_nullable_to_non_nullable
               as FormzSubmissionStatus,
+      incomeTypeMap: null == incomeTypeMap
+          ? _value._incomeTypeMap
+          : incomeTypeMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, ModelIncomeType>,
     ));
   }
 }
 
 /// @nodoc
 
-class _$_IncomeSchedule implements _IncomeSchedule {
+class _$_IncomeSchedule extends _IncomeSchedule {
   const _$_IncomeSchedule(
       {required this.id,
-      required this.incomeTypeId,
+      required this.title,
+      required this.incomeTypeID,
       required this.amount,
       required this.memo,
       required this.isValid,
-      required this.submissionStatus});
+      required this.submissionStatus,
+      required final Map<String, ModelIncomeType> incomeTypeMap})
+      : _incomeTypeMap = incomeTypeMap,
+        super._();
 
   @override
   final String id;
   @override
-  final String incomeTypeId;
+  final Title title;
+  @override
+  final String incomeTypeID;
   @override
   final Amount amount;
   @override
@@ -180,10 +213,17 @@ class _$_IncomeSchedule implements _IncomeSchedule {
   final bool isValid;
   @override
   final FormzSubmissionStatus submissionStatus;
+  final Map<String, ModelIncomeType> _incomeTypeMap;
+  @override
+  Map<String, ModelIncomeType> get incomeTypeMap {
+    if (_incomeTypeMap is EqualUnmodifiableMapView) return _incomeTypeMap;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_incomeTypeMap);
+  }
 
   @override
   String toString() {
-    return 'IncomeSchedule(id: $id, incomeTypeId: $incomeTypeId, amount: $amount, memo: $memo, isValid: $isValid, submissionStatus: $submissionStatus)';
+    return 'IncomeSchedule(id: $id, title: $title, incomeTypeID: $incomeTypeID, amount: $amount, memo: $memo, isValid: $isValid, submissionStatus: $submissionStatus, incomeTypeMap: $incomeTypeMap)';
   }
 
   @override
@@ -192,18 +232,29 @@ class _$_IncomeSchedule implements _IncomeSchedule {
         (other.runtimeType == runtimeType &&
             other is _$_IncomeSchedule &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.incomeTypeId, incomeTypeId) ||
-                other.incomeTypeId == incomeTypeId) &&
+            (identical(other.title, title) || other.title == title) &&
+            (identical(other.incomeTypeID, incomeTypeID) ||
+                other.incomeTypeID == incomeTypeID) &&
             (identical(other.amount, amount) || other.amount == amount) &&
             (identical(other.memo, memo) || other.memo == memo) &&
             (identical(other.isValid, isValid) || other.isValid == isValid) &&
             (identical(other.submissionStatus, submissionStatus) ||
-                other.submissionStatus == submissionStatus));
+                other.submissionStatus == submissionStatus) &&
+            const DeepCollectionEquality()
+                .equals(other._incomeTypeMap, _incomeTypeMap));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, id, incomeTypeId, amount, memo, isValid, submissionStatus);
+      runtimeType,
+      id,
+      title,
+      incomeTypeID,
+      amount,
+      memo,
+      isValid,
+      submissionStatus,
+      const DeepCollectionEquality().hash(_incomeTypeMap));
 
   @JsonKey(ignore: true)
   @override
@@ -212,20 +263,25 @@ class _$_IncomeSchedule implements _IncomeSchedule {
       __$$_IncomeScheduleCopyWithImpl<_$_IncomeSchedule>(this, _$identity);
 }
 
-abstract class _IncomeSchedule implements IncomeSchedule {
+abstract class _IncomeSchedule extends IncomeSchedule {
   const factory _IncomeSchedule(
           {required final String id,
-          required final String incomeTypeId,
+          required final Title title,
+          required final String incomeTypeID,
           required final Amount amount,
           required final String memo,
           required final bool isValid,
-          required final FormzSubmissionStatus submissionStatus}) =
+          required final FormzSubmissionStatus submissionStatus,
+          required final Map<String, ModelIncomeType> incomeTypeMap}) =
       _$_IncomeSchedule;
+  const _IncomeSchedule._() : super._();
 
   @override
   String get id;
   @override
-  String get incomeTypeId;
+  Title get title;
+  @override
+  String get incomeTypeID;
   @override
   Amount get amount;
   @override
@@ -234,6 +290,8 @@ abstract class _IncomeSchedule implements IncomeSchedule {
   bool get isValid;
   @override
   FormzSubmissionStatus get submissionStatus;
+  @override
+  Map<String, ModelIncomeType> get incomeTypeMap;
   @override
   @JsonKey(ignore: true)
   _$$_IncomeScheduleCopyWith<_$_IncomeSchedule> get copyWith =>

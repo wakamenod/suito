@@ -8,7 +8,7 @@ part of 'income_service.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$incomeControllerHash() => r'2c1241dab204672fad88499e6bd2204c09474e7a';
+String _$incomeControllerHash() => r'f2df924ac5b42a07f2fd99d8ddea7adc36af8f6f';
 
 /// Copied from Dart SDK
 class _SystemHash {

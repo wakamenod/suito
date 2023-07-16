@@ -31,10 +31,13 @@ class IncomeController extends _$IncomeController {
 
   bool get _isNew => state.value!.id == '';
 
-  void onChangeTitle(String value) {
-    final title = formz_title.Title.dirty(value);
+  void onChangeTitle(String incomeTypeID) {
+    final titleValue = state.value!.incomeTypeMap[incomeTypeID]?.id ?? '';
+    final title = formz_title.Title.dirty(titleValue);
 
     state = AsyncValue.data(state.value!.copyWith(
+      title: title,
+      incomeTypeID: incomeTypeID,
       isValid: Formz.validate([
         title,
         state.value!.amount,
@@ -49,6 +52,7 @@ class IncomeController extends _$IncomeController {
       amount: amount,
       isValid: Formz.validate([
         amount,
+        state.value!.title,
       ]),
     ));
   }
@@ -69,9 +73,7 @@ class IncomeController extends _$IncomeController {
     return RegisterIncomeReq((r) => r
       ..income.replace(ModelIncome((e) => e
         ..id = ''
-        // TODO
-        // ..incomeType
-        //     .replace(ModelIncomeType((t) => t..name = state.value!.title.value))
+        ..incomeTypeId = state.value!.incomeTypeID
         ..localDate = DateTime.parse(state.value!.date).toRfc3339()
         ..memo = state.value!.memo
         ..amount = state.value!.amount.value)));
@@ -81,9 +83,7 @@ class IncomeController extends _$IncomeController {
     return UpdateIncomeReq((r) => r
       ..income.replace(ModelIncome((e) => e
         ..id = state.value!.id
-        // TODO
-        // ..incomeType
-        //     .replace(ModelIncomeType((t) => t..name = state.value!.title.value))
+        ..incomeTypeId = state.value!.incomeTypeID
         ..localDate = DateTime.parse(state.value!.date).toRfc3339()
         ..memo = state.value!.memo
         ..amount = state.value!.amount.value)));

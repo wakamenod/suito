@@ -4,6 +4,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:suito/src/features/schedules/repositories/income_schedule_detail_repository.dart';
 import 'package:suito/src/features/schedules/repositories/register_income_schedule_repository.dart';
 import 'package:suito/src/features/schedules/repositories/update_income_schedule_repository.dart';
+import 'package:suito/src/features/transactions/repositories/income/income_types_repository.dart';
 import 'package:suito/src/formz/amount.dart';
 import 'package:suito/src/formz/title.dart' as formz_title;
 import 'package:suito/src/utils/timezone_provider.dart';
@@ -18,21 +19,26 @@ part 'income_schedule_service.g.dart';
 class IncomeScheduleController extends _$IncomeScheduleController {
   @override
   FutureOr<IncomeSchedule> build(String arg) async {
+    final incomeTypeMap = await ref.read(incomeTypeMapFutureProvider.future);
+
     if (arg.isEmpty) {
-      return IncomeSchedule.init();
+      return IncomeSchedule.init(incomeTypeMap);
     }
     final modelRes = await ref
         .read(incomeScheduleDetailRepositoryProvider)
         .fetchIncomeScheduleDetail(arg);
-    return IncomeSchedule.fromModel(modelRes);
+    return IncomeSchedule.fromModel(modelRes, incomeTypeMap);
   }
 
   bool get _isNew => state.value!.id == '';
 
-  void onChangeTitle(String value) {
-    final title = formz_title.Title.dirty(value);
+  void onChangeTitle(String incomeTypeID) {
+    final titleValue = state.value!.incomeTypeMap[incomeTypeID]?.id ?? '';
+    final title = formz_title.Title.dirty(titleValue);
 
     state = AsyncValue.data(state.value!.copyWith(
+      title: title,
+      incomeTypeID: incomeTypeID,
       isValid: Formz.validate([
         title,
         state.value!.amount,
@@ -60,26 +66,20 @@ class IncomeScheduleController extends _$IncomeScheduleController {
   RegisterIncomeScheduleReq _registerRequest(String timezone) =>
       RegisterIncomeScheduleReq((r) => r
         ..incomeSchedule.replace(ModelIncomeSchedule((e) => e
-              ..id = ''
-              ..memo = state.value!.memo
-              ..amount = state.value!.amount.value
-              ..timezone = timezone
-            // TODO
-            // ..incomeType.replace(
-            //     ModelIncomeType((c) => c..name = state.value!.title.value))
-            )));
+          ..id = ''
+          ..memo = state.value!.memo
+          ..amount = state.value!.amount.value
+          ..timezone = timezone
+          ..incomeTypeId = state.value!.incomeTypeID)));
 
   UpdateIncomeScheduleReq _updateRequest(String timezone) =>
       UpdateIncomeScheduleReq((r) => r
         ..incomeSchedule.replace(ModelIncomeSchedule((e) => e
-              ..id = state.value!.id
-              ..memo = state.value!.memo
-              ..amount = state.value!.amount.value
-              ..timezone = timezone
-            // TODO
-            // ..incomeType.replace(
-            //     ModelIncomeType((c) => c..name = state.value!.title.value))
-            )));
+          ..id = state.value!.id
+          ..memo = state.value!.memo
+          ..amount = state.value!.amount.value
+          ..timezone = timezone
+          ..incomeTypeId = state.value!.incomeTypeID)));
 
   Future<void> registerIncome() async {
     if (!state.value!.isValid) return;

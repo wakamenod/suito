@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$Income {
   String get id => throw _privateConstructorUsedError;
+  Title get title => throw _privateConstructorUsedError;
   String get incomeTypeID => throw _privateConstructorUsedError;
   Amount get amount => throw _privateConstructorUsedError;
   String get date => throw _privateConstructorUsedError;
@@ -38,6 +39,7 @@ abstract class $IncomeCopyWith<$Res> {
   @useResult
   $Res call(
       {String id,
+      Title title,
       String incomeTypeID,
       Amount amount,
       String date,
@@ -61,6 +63,7 @@ class _$IncomeCopyWithImpl<$Res, $Val extends Income>
   @override
   $Res call({
     Object? id = null,
+    Object? title = null,
     Object? incomeTypeID = null,
     Object? amount = null,
     Object? date = null,
@@ -74,6 +77,10 @@ class _$IncomeCopyWithImpl<$Res, $Val extends Income>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as Title,
       incomeTypeID: null == incomeTypeID
           ? _value.incomeTypeID
           : incomeTypeID // ignore: cast_nullable_to_non_nullable
@@ -114,6 +121,7 @@ abstract class _$$_IncomeCopyWith<$Res> implements $IncomeCopyWith<$Res> {
   @useResult
   $Res call(
       {String id,
+      Title title,
       String incomeTypeID,
       Amount amount,
       String date,
@@ -134,6 +142,7 @@ class __$$_IncomeCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
+    Object? title = null,
     Object? incomeTypeID = null,
     Object? amount = null,
     Object? date = null,
@@ -147,6 +156,10 @@ class __$$_IncomeCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as Title,
       incomeTypeID: null == incomeTypeID
           ? _value.incomeTypeID
           : incomeTypeID // ignore: cast_nullable_to_non_nullable
@@ -184,6 +197,7 @@ class __$$_IncomeCopyWithImpl<$Res>
 class _$_Income extends _Income {
   const _$_Income(
       {required this.id,
+      required this.title,
       required this.incomeTypeID,
       required this.amount,
       required this.date,
@@ -196,6 +210,8 @@ class _$_Income extends _Income {
 
   @override
   final String id;
+  @override
+  final Title title;
   @override
   final String incomeTypeID;
   @override
@@ -218,7 +234,7 @@ class _$_Income extends _Income {
 
   @override
   String toString() {
-    return 'Income(id: $id, incomeTypeID: $incomeTypeID, amount: $amount, date: $date, memo: $memo, isValid: $isValid, submissionStatus: $submissionStatus, incomeTypeMap: $incomeTypeMap)';
+    return 'Income(id: $id, title: $title, incomeTypeID: $incomeTypeID, amount: $amount, date: $date, memo: $memo, isValid: $isValid, submissionStatus: $submissionStatus, incomeTypeMap: $incomeTypeMap)';
   }
 
   @override
@@ -227,6 +243,7 @@ class _$_Income extends _Income {
         (other.runtimeType == runtimeType &&
             other is _$_Income &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.title, title) || other.title == title) &&
             (identical(other.incomeTypeID, incomeTypeID) ||
                 other.incomeTypeID == incomeTypeID) &&
             (identical(other.amount, amount) || other.amount == amount) &&
@@ -243,6 +260,7 @@ class _$_Income extends _Income {
   int get hashCode => Object.hash(
       runtimeType,
       id,
+      title,
       incomeTypeID,
       amount,
       date,
@@ -261,6 +279,7 @@ class _$_Income extends _Income {
 abstract class _Income extends Income {
   const factory _Income(
       {required final String id,
+      required final Title title,
       required final String incomeTypeID,
       required final Amount amount,
       required final String date,
@@ -272,6 +291,8 @@ abstract class _Income extends Income {
 
   @override
   String get id;
+  @override
+  Title get title;
   @override
   String get incomeTypeID;
   @override
