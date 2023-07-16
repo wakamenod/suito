@@ -40,9 +40,12 @@ class IncomeDetailView extends ConsumerWidget {
                 getValueByID: (id) => income.incomeTypeByID(id),
                 labelText: t.transactions.detail.inputLabels.title,
                 route: AppRoute.incomeType,
-                onTap: () => ref
-                    .read(transactionAttributeTypeProvider.notifier)
-                    .state = TransactionAttributeType.incomeType,
+                onTap: () {
+                  ref.read(transactionAttributeTypeProvider.notifier).state =
+                      TransactionAttributeType.incomeType;
+                  ref.read(transactionAttributeIDProvider.notifier).state =
+                      income.incomeTypeID;
+                },
                 onChanged: incomeController.onChangeTitle),
             gapH12,
             CurrencyInputField(

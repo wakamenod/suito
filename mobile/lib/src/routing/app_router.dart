@@ -27,12 +27,12 @@ enum AppRoute {
   transactionDetail(path: 'transaction-detail'),
   category(path: 'category'),
   location(path: 'location'),
-  incomeType(path: 'income-type'),
+  incomeType(path: 'incometype'),
   memo(path: 'memo'),
   scheduleDetail(path: 'schedule-detail'),
   scheduleCategory(path: 'category'),
   scheduleLocation(path: 'location'),
-  scheduleIncomeType(path: 'income-type'),
+  scheduleIncomeType(path: 'incometype'),
   scheduleMemo(path: 'memo');
 
   const AppRoute({required this.path});
