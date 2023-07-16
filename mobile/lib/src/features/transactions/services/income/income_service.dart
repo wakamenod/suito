@@ -2,6 +2,7 @@ import 'package:formz/formz.dart';
 import 'package:openapi/openapi.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:suito/src/features/transactions/repositories/income/income_detail_repository.dart';
+import 'package:suito/src/features/transactions/repositories/income/income_types_repository.dart';
 import 'package:suito/src/features/transactions/repositories/income/register_income_repository.dart';
 import 'package:suito/src/features/transactions/repositories/income/update_income_repository.dart';
 import 'package:suito/src/features/transactions/services/transaction/transaction_service.dart';
@@ -18,12 +19,14 @@ part 'income_service.g.dart';
 class IncomeController extends _$IncomeController {
   @override
   FutureOr<Income> build(String arg) async {
+    final incomeTypeMap = await ref.read(incomeTypeMapFutureProvider.future);
+
     if (arg.isEmpty) {
-      return Income.init();
+      return Income.init(incomeTypeMap);
     }
     final modelRes =
         await ref.read(incomeDetailRepositoryProvider).fetchIncomeDetail(arg);
-    return Income.fromModel(modelRes);
+    return Income.fromModel(modelRes, incomeTypeMap);
   }
 
   bool get _isNew => state.value!.id == '';

@@ -24,6 +24,8 @@ mixin _$Income {
   bool get isValid => throw _privateConstructorUsedError;
   FormzSubmissionStatus get submissionStatus =>
       throw _privateConstructorUsedError;
+  Map<String, ModelIncomeType> get incomeTypeMap =>
+      throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $IncomeCopyWith<Income> get copyWith => throw _privateConstructorUsedError;
@@ -41,7 +43,8 @@ abstract class $IncomeCopyWith<$Res> {
       String date,
       String memo,
       bool isValid,
-      FormzSubmissionStatus submissionStatus});
+      FormzSubmissionStatus submissionStatus,
+      Map<String, ModelIncomeType> incomeTypeMap});
 }
 
 /// @nodoc
@@ -64,6 +67,7 @@ class _$IncomeCopyWithImpl<$Res, $Val extends Income>
     Object? memo = null,
     Object? isValid = null,
     Object? submissionStatus = null,
+    Object? incomeTypeMap = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -94,6 +98,10 @@ class _$IncomeCopyWithImpl<$Res, $Val extends Income>
           ? _value.submissionStatus
           : submissionStatus // ignore: cast_nullable_to_non_nullable
               as FormzSubmissionStatus,
+      incomeTypeMap: null == incomeTypeMap
+          ? _value.incomeTypeMap
+          : incomeTypeMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, ModelIncomeType>,
     ) as $Val);
   }
 }
@@ -111,7 +119,8 @@ abstract class _$$_IncomeCopyWith<$Res> implements $IncomeCopyWith<$Res> {
       String date,
       String memo,
       bool isValid,
-      FormzSubmissionStatus submissionStatus});
+      FormzSubmissionStatus submissionStatus,
+      Map<String, ModelIncomeType> incomeTypeMap});
 }
 
 /// @nodoc
@@ -131,6 +140,7 @@ class __$$_IncomeCopyWithImpl<$Res>
     Object? memo = null,
     Object? isValid = null,
     Object? submissionStatus = null,
+    Object? incomeTypeMap = null,
   }) {
     return _then(_$_Income(
       id: null == id
@@ -161,13 +171,17 @@ class __$$_IncomeCopyWithImpl<$Res>
           ? _value.submissionStatus
           : submissionStatus // ignore: cast_nullable_to_non_nullable
               as FormzSubmissionStatus,
+      incomeTypeMap: null == incomeTypeMap
+          ? _value._incomeTypeMap
+          : incomeTypeMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, ModelIncomeType>,
     ));
   }
 }
 
 /// @nodoc
 
-class _$_Income implements _Income {
+class _$_Income extends _Income {
   const _$_Income(
       {required this.id,
       required this.incomeTypeID,
@@ -175,7 +189,10 @@ class _$_Income implements _Income {
       required this.date,
       required this.memo,
       required this.isValid,
-      required this.submissionStatus});
+      required this.submissionStatus,
+      required final Map<String, ModelIncomeType> incomeTypeMap})
+      : _incomeTypeMap = incomeTypeMap,
+        super._();
 
   @override
   final String id;
@@ -191,10 +208,17 @@ class _$_Income implements _Income {
   final bool isValid;
   @override
   final FormzSubmissionStatus submissionStatus;
+  final Map<String, ModelIncomeType> _incomeTypeMap;
+  @override
+  Map<String, ModelIncomeType> get incomeTypeMap {
+    if (_incomeTypeMap is EqualUnmodifiableMapView) return _incomeTypeMap;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_incomeTypeMap);
+  }
 
   @override
   String toString() {
-    return 'Income(id: $id, incomeTypeID: $incomeTypeID, amount: $amount, date: $date, memo: $memo, isValid: $isValid, submissionStatus: $submissionStatus)';
+    return 'Income(id: $id, incomeTypeID: $incomeTypeID, amount: $amount, date: $date, memo: $memo, isValid: $isValid, submissionStatus: $submissionStatus, incomeTypeMap: $incomeTypeMap)';
   }
 
   @override
@@ -210,12 +234,22 @@ class _$_Income implements _Income {
             (identical(other.memo, memo) || other.memo == memo) &&
             (identical(other.isValid, isValid) || other.isValid == isValid) &&
             (identical(other.submissionStatus, submissionStatus) ||
-                other.submissionStatus == submissionStatus));
+                other.submissionStatus == submissionStatus) &&
+            const DeepCollectionEquality()
+                .equals(other._incomeTypeMap, _incomeTypeMap));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, incomeTypeID, amount, date,
-      memo, isValid, submissionStatus);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      incomeTypeID,
+      amount,
+      date,
+      memo,
+      isValid,
+      submissionStatus,
+      const DeepCollectionEquality().hash(_incomeTypeMap));
 
   @JsonKey(ignore: true)
   @override
@@ -224,7 +258,7 @@ class _$_Income implements _Income {
       __$$_IncomeCopyWithImpl<_$_Income>(this, _$identity);
 }
 
-abstract class _Income implements Income {
+abstract class _Income extends Income {
   const factory _Income(
       {required final String id,
       required final String incomeTypeID,
@@ -232,7 +266,9 @@ abstract class _Income implements Income {
       required final String date,
       required final String memo,
       required final bool isValid,
-      required final FormzSubmissionStatus submissionStatus}) = _$_Income;
+      required final FormzSubmissionStatus submissionStatus,
+      required final Map<String, ModelIncomeType> incomeTypeMap}) = _$_Income;
+  const _Income._() : super._();
 
   @override
   String get id;
@@ -248,6 +284,8 @@ abstract class _Income implements Income {
   bool get isValid;
   @override
   FormzSubmissionStatus get submissionStatus;
+  @override
+  Map<String, ModelIncomeType> get incomeTypeMap;
   @override
   @JsonKey(ignore: true)
   _$$_IncomeCopyWith<_$_Income> get copyWith =>

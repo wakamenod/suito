@@ -41,4 +41,22 @@ final incomeTypesListFutureProvider =
 );
 
 typedef IncomeTypesListFutureRef = FutureProviderRef<List<ModelIncomeType>>;
+String _$incomeTypeMapFutureHash() =>
+    r'1b01f4fe21e18ca3f45cc1953ada8c7a10f7009a';
+
+/// See also [incomeTypeMapFuture].
+@ProviderFor(incomeTypeMapFuture)
+final incomeTypeMapFutureProvider =
+    FutureProvider<Map<String, ModelIncomeType>>.internal(
+  incomeTypeMapFuture,
+  name: r'incomeTypeMapFutureProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$incomeTypeMapFutureHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef IncomeTypeMapFutureRef
+    = FutureProviderRef<Map<String, ModelIncomeType>>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

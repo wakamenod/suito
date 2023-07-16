@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:suito/i18n/translations.g.dart';
 import 'package:suito/src/features/transactions/services/transaction/transaction_service.dart';
 
 import 'expense_schedule_detail_view.dart';
@@ -15,11 +16,17 @@ class ScheduleDetailScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final typeValue = ref.watch(typeProvider(type));
 
-    if (TransactionType.isExpense(typeValue)) {
-      return ExpenseScheduleDetailView(expenseScheduleID: id);
-    } else {
-      return IncomeScheduleDetailView(incomeScheduleID: id);
-    }
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(t.transactions.detail.title),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+        child: TransactionType.isExpense(typeValue)
+            ? ExpenseScheduleDetailView(expenseScheduleID: id)
+            : IncomeScheduleDetailView(incomeScheduleID: id),
+      ),
+    );
   }
 }
 

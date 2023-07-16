@@ -27,3 +27,11 @@ Future<List<ModelIncomeType>> incomeTypesListFuture(
   final incomeTypesRepository = ref.watch(incomeTypesRepositoryProvider);
   return incomeTypesRepository.fetchIncomeTypesList();
 }
+
+@Riverpod(keepAlive: true)
+Future<Map<String, ModelIncomeType>> incomeTypeMapFuture(
+    IncomeTypeMapFutureRef ref) async {
+  final incomeTypesRepository = ref.watch(incomeTypesRepositoryProvider);
+  final list = await incomeTypesRepository.fetchIncomeTypesList();
+  return {for (var e in list) e.id!: e};
+}
