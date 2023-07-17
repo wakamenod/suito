@@ -15,7 +15,8 @@ final transactionAttributeTypeProvider =
     StateProvider<TransactionAttributeType>(
         (ref) => TransactionAttributeType.category);
 
-final transactionAttributeIDProvider = StateProvider<String>((ref) => '');
+final transactionAttributeIDProvider =
+    StateProvider<({String id, String name})>((ref) => (id: '', name: ''));
 
 @riverpod
 TransactionAttributeRepository transactionAttributeRepository(
@@ -104,7 +105,7 @@ class TransactionAttributeSearchController
 Future<({List<AttributeEntry> filteredItems, AttributeEntry selected})>
     filteredCategories(FilteredCategoriesRef ref) async {
   final repo = ref.watch(transactionAttributeRepositoryProvider);
-  final selectedID = ref.watch(transactionAttributeIDProvider);
+  final selectedID = ref.watch(transactionAttributeIDProvider).id;
   final items = await repo.list();
   final searchInput = ref.watch(transactionAttributeSearchControllerProvider
       .select((value) => value.searchInput));

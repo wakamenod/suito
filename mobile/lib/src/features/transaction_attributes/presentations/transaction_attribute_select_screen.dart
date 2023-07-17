@@ -8,6 +8,7 @@ import 'package:suito/src/features/transaction_attributes/presentations/transact
 import 'package:suito/src/features/transaction_attributes/presentations/transaction_attribute_search_input.dart';
 import 'package:suito/src/features/transaction_attributes/services/transaction_attribute_entry.dart';
 import 'package:suito/src/features/transaction_attributes/services/transaction_attribute_service.dart';
+import 'package:suito/src/routing/app_router.dart';
 
 class TransactionAttributeSelectScreen extends ConsumerWidget {
   const TransactionAttributeSelectScreen({super.key});
@@ -26,9 +27,18 @@ class TransactionAttributeSelectScreen extends ConsumerWidget {
             : AppBar(
                 title: Text(words.appBar()),
                 leading: IconButton(
-                    icon: const Icon(Icons.arrow_back, color: Colors.white),
-                    onPressed: () =>
-                        context.pop(ref.read(transactionAttributeIDProvider))),
+                  icon: const Icon(Icons.arrow_back, color: Colors.white),
+                  onPressed: () {
+                    final record = ref.read(transactionAttributeIDProvider);
+                    context.pop(AttributeEntry(record.id, record.name));
+                  },
+                ),
+                actions: [
+                  IconButton(
+                      icon: const Icon(Icons.settings, color: Colors.white),
+                      onPressed: () =>
+                          context.pushNamed(AppRoute.attributeSettings.path))
+                ],
               ),
         body: const Column(
           mainAxisAlignment: MainAxisAlignment.start,

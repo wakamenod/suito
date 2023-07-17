@@ -60,12 +60,12 @@ class ExpenseDetailView extends ConsumerWidget {
             TransitionTextField<AttributeEntry>(
                 initialValue: expense.category,
                 labelText: t.transactions.detail.inputLabels.category,
-                route: AppRoute.category,
+                route: AppRoute.attribute,
                 onTap: () {
                   ref.read(transactionAttributeTypeProvider.notifier).state =
                       TransactionAttributeType.category;
                   ref.read(transactionAttributeIDProvider.notifier).state =
-                      expense.categoryID;
+                      (id: expense.categoryID, name: expense.category);
                 },
                 onChanged: ref
                     .read(expenseControllerProvider(expenseID).notifier)
@@ -74,12 +74,12 @@ class ExpenseDetailView extends ConsumerWidget {
             TransitionTextField<AttributeEntry>(
                 initialValue: expense.location,
                 labelText: t.transactions.detail.inputLabels.location,
-                route: AppRoute.location,
+                route: AppRoute.attribute,
                 onTap: () {
                   ref.read(transactionAttributeTypeProvider.notifier).state =
                       TransactionAttributeType.location;
                   ref.read(transactionAttributeIDProvider.notifier).state =
-                      expense.locationID;
+                      (id: expense.locationID, name: expense.location);
                 },
                 onChanged: ref
                     .read(expenseControllerProvider(expenseID).notifier)

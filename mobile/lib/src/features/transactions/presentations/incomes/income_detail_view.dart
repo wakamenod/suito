@@ -39,12 +39,12 @@ class IncomeDetailView extends ConsumerWidget {
             TransitionTextField<AttributeEntry>(
                 initialValue: income.incomeType,
                 labelText: t.transactions.detail.inputLabels.title,
-                route: AppRoute.incomeType,
+                route: AppRoute.attribute,
                 onTap: () {
                   ref.read(transactionAttributeTypeProvider.notifier).state =
                       TransactionAttributeType.incomeType;
                   ref.read(transactionAttributeIDProvider.notifier).state =
-                      income.incomeTypeID;
+                      (id: income.incomeTypeID, name: income.title.value);
                 },
                 onChanged: incomeController.onChangeTitle),
             gapH12,

@@ -1,8 +1,15 @@
 import 'package:openapi/openapi.dart';
 
-abstract class AttributeEntry {
-  String get name;
-  String? get id;
+class AttributeEntry {
+  final String? id;
+  final String name;
+
+  AttributeEntry(this.id, this.name);
+
+  @override
+  String toString() {
+    return name;
+  }
 }
 
 class ExpenseCategoryAsAttributeEntry implements AttributeEntry {
