@@ -8,13 +8,17 @@ category:
   noEntry: 'NO CATEGORY'
   bottomSheetTitle: Add category
   bottomSheetInputLabel: Category Name
+  settingsAdd: Add New Category
 location:
   appBar: Location
   noEntry: 'NO LOCATION'
   bottomSheetTitle: Add location
   bottomSheetInputLabel: Location Name
+  settingsAdd: Add New Location
 incomeType:
   appBar: Income Type
   noEntry: 'NO INCOME TYPE'
   bottomSheetTitle: Add income type
   bottomSheetInputLabel: Income Type Name
+  settingsAdd: Add New Income Type
+appBarSettings: '$title Settings'

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:suito/i18n/translations.g.dart';
 import 'package:suito/src/common_widgets/async_value_widget.dart';
 import 'package:suito/src/features/transaction_attributes/presentations/transaction_attribute_bottom_sheet.dart';
-import 'package:suito/src/features/transaction_attributes/services/transaction_attribute_entry.dart';
 import 'package:suito/src/features/transaction_attributes/services/transaction_attribute_service.dart';
 
 class TransactionAttributeAddTile extends ConsumerWidget {
@@ -36,20 +34,8 @@ class TransactionAttributeAddTile extends ConsumerWidget {
               color: Color(0xff1D7094),
             ),
             onTap: () {
-              showModalBottomSheet<AttributeEntry?>(
-                context: context,
-                isScrollControlled: true,
-                shape: const RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(12))),
-                builder: (context) {
-                  return const TransactionAttributeBottomSheet();
-                },
-              ).then((result) {
-                if (result != null) {
-                  context.pop(result);
-                }
-              });
+              TransactionAttributeBottomSheet
+                  .showTransactionAttributeBottomSheet(context);
             },
           ),
         ),

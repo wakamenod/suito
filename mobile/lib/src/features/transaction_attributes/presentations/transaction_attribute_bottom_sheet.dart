@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:suito/i18n/translations.g.dart';
 import 'package:suito/src/constants/app_sizes.dart';
 import 'package:suito/src/features/transaction_attributes/services/transaction_attribute_entry.dart';
@@ -87,5 +88,21 @@ class TransactionAttributeBottomSheet extends ConsumerWidget {
             ),
           ],
         ));
+  }
+
+  static void showTransactionAttributeBottomSheet(BuildContext context) {
+    showModalBottomSheet<AttributeEntry?>(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(12))),
+      builder: (context) {
+        return const TransactionAttributeBottomSheet();
+      },
+    ).then((AttributeEntry? result) {
+      if (result != null) {
+        context.pop<AttributeEntry>(result);
+      }
+    });
   }
 }
