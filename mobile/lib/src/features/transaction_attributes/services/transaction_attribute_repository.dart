@@ -19,7 +19,7 @@ final _noIncomeType = IncomeTypeAsAttributeEntry(
 
 abstract class TransactionAttributeRepository {
   Future<List<AttributeEntry>> list();
-  Future<String> register(String name);
+  Future<AttributeEntry> register(String name);
   AttributeEntry noEntry();
 }
 
@@ -42,14 +42,17 @@ class CategoryAttributesRepository implements TransactionAttributeRepository {
   }
 
   @override
-  Future<String> register(name) async {
+  Future<AttributeEntry> register(name) async {
     final req = RegisterExpenseCategoryReq((r) => r
       ..expenseCategory.replace(ModelExpenseCategory((e) => e..name = name)));
 
     final res = await _ref
         .read(registerCategoryRepositoryProvider)
         .registerCategory(req);
-    return res.id!;
+
+    _ref.invalidate(expenseCategoriesRepositoryProvider);
+
+    return ExpenseCategoryAsAttributeEntry(res);
   }
 }
 
@@ -72,14 +75,17 @@ class LocationAttributesRepository implements TransactionAttributeRepository {
   }
 
   @override
-  Future<String> register(name) async {
+  Future<AttributeEntry> register(name) async {
     final req = RegisterExpenseLocationReq((r) => r
       ..expenseLocation.replace(ModelExpenseLocation((e) => e..name = name)));
 
     final res = await _ref
         .read(registerLocationRepositoryProvider)
         .registerLocation(req);
-    return res.id!;
+
+    _ref.invalidate(expenseLocationsRepositoryProvider);
+
+    return ExpenseLocationAsAttributeEntry(res);
   }
 }
 
@@ -101,12 +107,15 @@ class IncomeTypeAttributesRepository implements TransactionAttributeRepository {
   }
 
   @override
-  Future<String> register(name) async {
+  Future<AttributeEntry> register(name) async {
     final req = RegisterIncomeTypeReq(
         (r) => r..incomeType.replace(ModelIncomeType((e) => e..name = name)));
     final res = await _ref
         .read(registerIncomeTypeRepositoryProvider)
         .registerIncomeType(req);
-    return res.id!;
+
+    _ref.invalidate(incomeTypesRepositoryProvider);
+
+    return IncomeTypeAsAttributeEntry(res);
   }
 }

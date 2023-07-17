@@ -1,6 +1,7 @@
 import 'package:formz/formz.dart';
 import 'package:openapi/openapi.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:suito/src/features/transaction_attributes/services/transaction_attribute_entry.dart';
 import 'package:suito/src/features/transactions/repositories/income/income_detail_repository.dart';
 import 'package:suito/src/features/transactions/repositories/income/income_types_repository.dart';
 import 'package:suito/src/features/transactions/repositories/income/register_income_repository.dart';
@@ -31,13 +32,12 @@ class IncomeController extends _$IncomeController {
 
   bool get _isNew => state.value!.id == '';
 
-  void onChangeTitle(String incomeTypeID) {
-    final titleValue = state.value!.incomeTypeMap[incomeTypeID]?.id ?? '';
-    final title = formz_title.Title.dirty(titleValue);
+  void onChangeTitle(AttributeEntry? entry) {
+    final title = formz_title.Title.dirty(entry?.name ?? '');
 
     state = AsyncValue.data(state.value!.copyWith(
       title: title,
-      incomeTypeID: incomeTypeID,
+      incomeTypeID: entry?.id ?? '',
       isValid: Formz.validate([
         title,
         state.value!.amount,
@@ -63,9 +63,9 @@ class IncomeController extends _$IncomeController {
     ));
   }
 
-  void onChangeMemo(String value) {
+  void onChangeMemo(String? value) {
     state = AsyncValue.data(state.value!.copyWith(
-      memo: value,
+      memo: value ?? '',
     ));
   }
 

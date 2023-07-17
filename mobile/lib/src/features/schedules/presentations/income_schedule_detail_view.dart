@@ -8,6 +8,7 @@ import 'package:suito/src/common_widgets/transition_text_field.dart';
 import 'package:suito/src/constants/app_sizes.dart';
 import 'package:suito/src/features/schedules/services/income_schedule.dart';
 import 'package:suito/src/features/schedules/services/income_schedule_service.dart';
+import 'package:suito/src/features/transaction_attributes/services/transaction_attribute_entry.dart';
 import 'package:suito/src/features/transaction_attributes/services/transaction_attribute_service.dart';
 import 'package:suito/src/formz/amount.dart';
 import 'package:suito/src/routing/app_router.dart';
@@ -31,9 +32,8 @@ class IncomeScheduleDetailView extends ConsumerWidget {
         child: ListBody(
           children: [
             gapH12,
-            TransitionTextField(
+            TransitionTextField<AttributeEntry>(
                 initialValue: income.incomeType,
-                getValueByID: (id) => income.incomeTypeByID(id),
                 labelText: t.transactions.detail.inputLabels.title,
                 route: AppRoute.incomeType,
                 onTap: () => ref
@@ -49,7 +49,7 @@ class IncomeScheduleDetailView extends ConsumerWidget {
               onChanged: incomeScheduleController.onChangeAmount,
             ),
             gapH12,
-            TransitionTextField(
+            TransitionTextField<String>(
                 initialValue: income.memo,
                 labelText: t.transactions.detail.inputLabels.memo,
                 route: AppRoute.memo,

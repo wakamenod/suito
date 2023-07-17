@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:suito/i18n/translations.g.dart';
 import 'package:suito/src/constants/app_sizes.dart';
+import 'package:suito/src/features/transaction_attributes/services/transaction_attribute_entry.dart';
 import 'package:suito/src/features/transaction_attributes/services/transaction_attribute_service.dart';
 
 class TransactionAttributeBottomSheet extends ConsumerWidget {
@@ -72,11 +73,11 @@ class TransactionAttributeBottomSheet extends ConsumerWidget {
                   ),
                   onPressed: () async {
                     final navigatorState = Navigator.of(context);
-                    final newID = await ref
+                    final newEntry = await ref
                         .read(transactionAttributeSubmitControllerProvider
                             .notifier)
                         .submit();
-                    navigatorState.pop(newID);
+                    navigatorState.pop<AttributeEntry>(newEntry);
                   },
                   child: Text(
                     t.transactions.buttons.post,

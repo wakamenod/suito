@@ -53,7 +53,7 @@ class TransactionAttributeSubmitController
     state = AttributeName.dirty(value);
   }
 
-  Future<String?> submit() async {
+  Future<AttributeEntry?> submit() async {
     if (!state.isValid) return null;
 
     // TODO エラーハンドリング

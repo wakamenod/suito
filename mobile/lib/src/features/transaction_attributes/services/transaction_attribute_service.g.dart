@@ -78,7 +78,7 @@ final addableInputValueProvider = AutoDisposeFutureProvider<String?>.internal(
 
 typedef AddableInputValueRef = AutoDisposeFutureProviderRef<String?>;
 String _$transactionAttributeSubmitControllerHash() =>
-    r'757d18052d69b6ee4d3c70f43adfbbc2f28dfcee';
+    r'd27ccafbfa83053f672bbca76995515275a002d9';
 
 /// See also [TransactionAttributeSubmitController].
 @ProviderFor(TransactionAttributeSubmitController)

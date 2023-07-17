@@ -21,7 +21,9 @@ mixin _$Expense {
   Amount get amount => throw _privateConstructorUsedError;
   String get date => throw _privateConstructorUsedError;
   String get categoryID => throw _privateConstructorUsedError;
+  String get category => throw _privateConstructorUsedError;
   String get locationID => throw _privateConstructorUsedError;
+  String get location => throw _privateConstructorUsedError;
   String get memo => throw _privateConstructorUsedError;
   bool get isValid => throw _privateConstructorUsedError;
   FormzSubmissionStatus get submissionStatus =>
@@ -46,7 +48,9 @@ abstract class $ExpenseCopyWith<$Res> {
       Amount amount,
       String date,
       String categoryID,
+      String category,
       String locationID,
+      String location,
       String memo,
       bool isValid,
       FormzSubmissionStatus submissionStatus,
@@ -72,7 +76,9 @@ class _$ExpenseCopyWithImpl<$Res, $Val extends Expense>
     Object? amount = null,
     Object? date = null,
     Object? categoryID = null,
+    Object? category = null,
     Object? locationID = null,
+    Object? location = null,
     Object? memo = null,
     Object? isValid = null,
     Object? submissionStatus = null,
@@ -100,9 +106,17 @@ class _$ExpenseCopyWithImpl<$Res, $Val extends Expense>
           ? _value.categoryID
           : categoryID // ignore: cast_nullable_to_non_nullable
               as String,
+      category: null == category
+          ? _value.category
+          : category // ignore: cast_nullable_to_non_nullable
+              as String,
       locationID: null == locationID
           ? _value.locationID
           : locationID // ignore: cast_nullable_to_non_nullable
+              as String,
+      location: null == location
+          ? _value.location
+          : location // ignore: cast_nullable_to_non_nullable
               as String,
       memo: null == memo
           ? _value.memo
@@ -141,7 +155,9 @@ abstract class _$$_ExpenseCopyWith<$Res> implements $ExpenseCopyWith<$Res> {
       Amount amount,
       String date,
       String categoryID,
+      String category,
       String locationID,
+      String location,
       String memo,
       bool isValid,
       FormzSubmissionStatus submissionStatus,
@@ -164,7 +180,9 @@ class __$$_ExpenseCopyWithImpl<$Res>
     Object? amount = null,
     Object? date = null,
     Object? categoryID = null,
+    Object? category = null,
     Object? locationID = null,
+    Object? location = null,
     Object? memo = null,
     Object? isValid = null,
     Object? submissionStatus = null,
@@ -192,9 +210,17 @@ class __$$_ExpenseCopyWithImpl<$Res>
           ? _value.categoryID
           : categoryID // ignore: cast_nullable_to_non_nullable
               as String,
+      category: null == category
+          ? _value.category
+          : category // ignore: cast_nullable_to_non_nullable
+              as String,
       locationID: null == locationID
           ? _value.locationID
           : locationID // ignore: cast_nullable_to_non_nullable
+              as String,
+      location: null == location
+          ? _value.location
+          : location // ignore: cast_nullable_to_non_nullable
               as String,
       memo: null == memo
           ? _value.memo
@@ -229,7 +255,9 @@ class _$_Expense extends _Expense {
       required this.amount,
       required this.date,
       required this.categoryID,
+      required this.category,
       required this.locationID,
+      required this.location,
       required this.memo,
       required this.isValid,
       required this.submissionStatus,
@@ -250,7 +278,11 @@ class _$_Expense extends _Expense {
   @override
   final String categoryID;
   @override
+  final String category;
+  @override
   final String locationID;
+  @override
+  final String location;
   @override
   final String memo;
   @override
@@ -275,7 +307,7 @@ class _$_Expense extends _Expense {
 
   @override
   String toString() {
-    return 'Expense(id: $id, title: $title, amount: $amount, date: $date, categoryID: $categoryID, locationID: $locationID, memo: $memo, isValid: $isValid, submissionStatus: $submissionStatus, categoriesMap: $categoriesMap, locationsMap: $locationsMap)';
+    return 'Expense(id: $id, title: $title, amount: $amount, date: $date, categoryID: $categoryID, category: $category, locationID: $locationID, location: $location, memo: $memo, isValid: $isValid, submissionStatus: $submissionStatus, categoriesMap: $categoriesMap, locationsMap: $locationsMap)';
   }
 
   @override
@@ -289,8 +321,12 @@ class _$_Expense extends _Expense {
             (identical(other.date, date) || other.date == date) &&
             (identical(other.categoryID, categoryID) ||
                 other.categoryID == categoryID) &&
+            (identical(other.category, category) ||
+                other.category == category) &&
             (identical(other.locationID, locationID) ||
                 other.locationID == locationID) &&
+            (identical(other.location, location) ||
+                other.location == location) &&
             (identical(other.memo, memo) || other.memo == memo) &&
             (identical(other.isValid, isValid) || other.isValid == isValid) &&
             (identical(other.submissionStatus, submissionStatus) ||
@@ -309,7 +345,9 @@ class _$_Expense extends _Expense {
       amount,
       date,
       categoryID,
+      category,
       locationID,
+      location,
       memo,
       isValid,
       submissionStatus,
@@ -330,7 +368,9 @@ abstract class _Expense extends Expense {
           required final Amount amount,
           required final String date,
           required final String categoryID,
+          required final String category,
           required final String locationID,
+          required final String location,
           required final String memo,
           required final bool isValid,
           required final FormzSubmissionStatus submissionStatus,
@@ -350,7 +390,11 @@ abstract class _Expense extends Expense {
   @override
   String get categoryID;
   @override
+  String get category;
+  @override
   String get locationID;
+  @override
+  String get location;
   @override
   String get memo;
   @override

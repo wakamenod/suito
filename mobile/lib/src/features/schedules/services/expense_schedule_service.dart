@@ -4,6 +4,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:suito/src/features/schedules/repositories/expense_schedule_detail_repository.dart';
 import 'package:suito/src/features/schedules/repositories/register_expense_schedule_repository.dart';
 import 'package:suito/src/features/schedules/repositories/update_expense_schedule_repository.dart';
+import 'package:suito/src/features/transaction_attributes/services/transaction_attribute_entry.dart';
 import 'package:suito/src/features/transactions/repositories/expense/expense_categories_repository.dart';
 import 'package:suito/src/features/transactions/repositories/expense/expense_locations_repository.dart';
 import 'package:suito/src/formz/amount.dart';
@@ -60,21 +61,23 @@ class ExpenseScheduleController extends _$ExpenseScheduleController {
     ));
   }
 
-  void onChangeCategory(String value) {
+  void onChangeCategory(AttributeEntry? category) {
     state = AsyncValue.data(state.value!.copyWith(
-      categoryID: value,
+      categoryID: category?.id ?? '',
+      category: category?.name ?? '',
     ));
   }
 
-  void onChangeLocation(String value) {
+  void onChangeLocation(AttributeEntry? location) {
     state = AsyncValue.data(state.value!.copyWith(
-      locationID: value,
+      locationID: location?.id ?? '',
+      location: location?.name ?? '',
     ));
   }
 
-  void onChangeMemo(String value) {
+  void onChangeMemo(String? value) {
     state = AsyncValue.data(state.value!.copyWith(
-      memo: value,
+      memo: value ?? '',
     ));
   }
 

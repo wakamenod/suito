@@ -15,16 +15,15 @@ class ExpenseSchedule with _$ExpenseSchedule {
     required Title title,
     required Amount amount,
     required String categoryID,
+    required String category,
     required String locationID,
+    required String location,
     required String memo,
     required bool isValid,
     required FormzSubmissionStatus submissionStatus,
     required Map<String, ModelExpenseCategory> categoriesMap,
     required Map<String, ModelExpenseLocation> locationsMap,
   }) = _ExpenseSchedule;
-
-  String get category => categoryByID(categoryID);
-  String get location => locationByID(locationID);
 
   String categoryByID(id) => categoriesMap[id]?.name ?? '';
   String locationByID(id) => locationsMap[id]?.name ?? '';
@@ -34,7 +33,9 @@ class ExpenseSchedule with _$ExpenseSchedule {
         title: const Title.pure(),
         amount: const Amount.pure(),
         categoryID: '',
+        category: '',
         locationID: '',
+        location: '',
         memo: '',
         categoriesMap: categoriesMap,
         locationsMap: locationsMap,
@@ -49,7 +50,11 @@ class ExpenseSchedule with _$ExpenseSchedule {
         title: Title.dirty(res.expenseSchedule.title),
         amount: Amount.dirty(res.expenseSchedule.amount),
         categoryID: res.expenseSchedule.expenseCategoryID,
+        category:
+            categoriesMap[res.expenseSchedule.expenseCategoryID]?.name ?? '',
         locationID: res.expenseSchedule.expenseLocationID,
+        location:
+            locationsMap[res.expenseSchedule.expenseLocationID]?.name ?? '',
         memo: res.expenseSchedule.memo,
         categoriesMap: categoriesMap,
         locationsMap: locationsMap,
