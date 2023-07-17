@@ -57,20 +57,8 @@ class TransactionAttributeSelectScreen extends ConsumerWidget {
             ? null
             : FloatingActionButton.extended(
                 onPressed: () {
-                  showModalBottomSheet<AttributeEntry?>(
-                    context: context,
-                    isScrollControlled: true,
-                    shape: const RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.vertical(top: Radius.circular(12))),
-                    builder: (context) {
-                      return const TransactionAttributeBottomSheet();
-                    },
-                  ).then((AttributeEntry? result) {
-                    if (result != null) {
-                      context.pop<AttributeEntry>(result);
-                    }
-                  });
+                  TransactionAttributeBottomSheet
+                      .showTransactionAttributeBottomSheet(context);
                 },
                 backgroundColor: const Color(0xff2CAAE0),
                 label: Text(t.transactionAttributes.floatingButton),

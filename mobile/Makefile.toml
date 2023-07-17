@@ -54,7 +54,7 @@ fvm flutter test --coverage
 [tasks.lint]
 dependencies = ["format"]
 script = '''
-fvm dart fix --apply
+# fvm dart fix --apply
 fvm flutter analyze
 '''
 
