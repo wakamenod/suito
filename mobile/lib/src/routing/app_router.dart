@@ -8,6 +8,7 @@ import 'package:suito/src/features/authentication/presentation/sign_out/custom_s
 import 'package:suito/src/features/charts/presentations/charts_screen.dart';
 import 'package:suito/src/features/schedules/presentations/schedule_detail_screen.dart';
 import 'package:suito/src/features/schedules/presentations/schedule_screen.dart';
+import 'package:suito/src/features/transaction_attributes/presentations/settings/transaction_attribute_settings_screen.dart';
 import 'package:suito/src/features/transaction_attributes/presentations/transaction_attribute_select_screen.dart';
 import 'package:suito/src/features/transactions/presentations/expense/expense_memo_screen.dart';
 import 'package:suito/src/features/transactions/presentations/transaction_detail_screen.dart';
@@ -25,14 +26,11 @@ enum AppRoute {
   home(path: '/home'),
   profile(path: '/profile'),
   transactionDetail(path: 'transaction-detail'),
-  category(path: 'category'),
-  location(path: 'location'),
-  incomeType(path: 'incometype'),
+  attribute(path: 'attribute'),
+  attributeSettings(path: 'attributeSettings'),
   memo(path: 'memo'),
   scheduleDetail(path: 'schedule-detail'),
-  scheduleCategory(path: 'category'),
-  scheduleLocation(path: 'location'),
-  scheduleIncomeType(path: 'incometype'),
+  scheduleTransactionAttribute(path: 'attribute'),
   scheduleMemo(path: 'memo');
 
   const AppRoute({required this.path});
@@ -116,38 +114,32 @@ final goRouterProvider = Provider.family<GoRouter, GlobalKey<NavigatorState>>(
                         ),
                     routes: [
                       GoRoute(
-                        path: AppRoute.category.path,
-                        name: AppRoute.category.name,
-                        pageBuilder: (context, state) => CustomTransitionPage(
-                          key: state.pageKey,
-                          child: const TransactionAttributeSelectScreen(),
-                          transitionsBuilder: _slideTransitionBuilder,
-                        ),
-                      ),
-                      GoRoute(
-                        path: AppRoute.location.path,
-                        name: AppRoute.location.name,
-                        pageBuilder: (context, state) => CustomTransitionPage(
-                          key: state.pageKey,
-                          child: const TransactionAttributeSelectScreen(),
-                          transitionsBuilder: _slideTransitionBuilder,
-                        ),
-                      ),
+                          path: AppRoute.attribute.path,
+                          name: AppRoute.attribute.name,
+                          pageBuilder: (context, state) => CustomTransitionPage(
+                                key: state.pageKey,
+                                child: const TransactionAttributeSelectScreen(),
+                                transitionsBuilder: _slideTransitionBuilder,
+                              ),
+                          routes: [
+                            GoRoute(
+                              path: AppRoute.attributeSettings.path,
+                              name: AppRoute.attributeSettings.name,
+                              pageBuilder: (context, state) =>
+                                  CustomTransitionPage(
+                                key: state.pageKey,
+                                child:
+                                    const TransactionAttributeSettingsScreen(),
+                                transitionsBuilder: _slideTransitionBuilder,
+                              ),
+                            )
+                          ]),
                       GoRoute(
                         path: AppRoute.memo.path,
                         name: AppRoute.memo.name,
                         pageBuilder: (context, state) => CustomTransitionPage(
                           key: state.pageKey,
                           child: const ExpenseMemoScreen(),
-                          transitionsBuilder: _slideTransitionBuilder,
-                        ),
-                      ),
-                      GoRoute(
-                        path: AppRoute.incomeType.path,
-                        name: AppRoute.incomeType.name,
-                        pageBuilder: (context, state) => CustomTransitionPage(
-                          key: state.pageKey,
-                          child: const TransactionAttributeSelectScreen(),
                           transitionsBuilder: _slideTransitionBuilder,
                         ),
                       ),
@@ -179,17 +171,8 @@ final goRouterProvider = Provider.family<GoRouter, GlobalKey<NavigatorState>>(
                         ),
                     routes: [
                       GoRoute(
-                        path: AppRoute.scheduleCategory.path,
-                        name: AppRoute.scheduleCategory.name,
-                        pageBuilder: (context, state) => CustomTransitionPage(
-                          key: state.pageKey,
-                          child: const TransactionAttributeSelectScreen(),
-                          transitionsBuilder: _slideTransitionBuilder,
-                        ),
-                      ),
-                      GoRoute(
-                        path: AppRoute.scheduleLocation.path,
-                        name: AppRoute.scheduleLocation.name,
+                        path: AppRoute.scheduleTransactionAttribute.path,
+                        name: AppRoute.scheduleTransactionAttribute.name,
                         pageBuilder: (context, state) => CustomTransitionPage(
                           key: state.pageKey,
                           child: const TransactionAttributeSelectScreen(),
@@ -202,15 +185,6 @@ final goRouterProvider = Provider.family<GoRouter, GlobalKey<NavigatorState>>(
                         pageBuilder: (context, state) => CustomTransitionPage(
                           key: state.pageKey,
                           child: const ExpenseMemoScreen(),
-                          transitionsBuilder: _slideTransitionBuilder,
-                        ),
-                      ),
-                      GoRoute(
-                        path: AppRoute.scheduleIncomeType.path,
-                        name: AppRoute.scheduleIncomeType.name,
-                        pageBuilder: (context, state) => CustomTransitionPage(
-                          key: state.pageKey,
-                          child: const TransactionAttributeSelectScreen(),
                           transitionsBuilder: _slideTransitionBuilder,
                         ),
                       ),
