@@ -7,6 +7,7 @@ import 'package:suito/src/common_widgets/currency_input_field.dart';
 import 'package:suito/src/common_widgets/text_input_field.dart';
 import 'package:suito/src/common_widgets/transition_text_field.dart';
 import 'package:suito/src/constants/app_sizes.dart';
+import 'package:suito/src/features/transaction_attributes/services/transaction_attribute_entry.dart';
 import 'package:suito/src/features/transaction_attributes/services/transaction_attribute_service.dart';
 import 'package:suito/src/features/transactions/presentations/widgets/transaction_date_picker.dart';
 import 'package:suito/src/features/transactions/services/expense/expense.dart';
@@ -56,9 +57,8 @@ class ExpenseDetailView extends ConsumerWidget {
                   .onChangeAmount,
             ),
             gapH12,
-            TransitionTextField(
+            TransitionTextField<AttributeEntry>(
                 initialValue: expense.category,
-                getValueByID: (id) => expense.categoryByID(id),
                 labelText: t.transactions.detail.inputLabels.category,
                 route: AppRoute.category,
                 onTap: () {
@@ -71,9 +71,8 @@ class ExpenseDetailView extends ConsumerWidget {
                     .read(expenseControllerProvider(expenseID).notifier)
                     .onChangeCategory),
             gapH12,
-            TransitionTextField(
+            TransitionTextField<AttributeEntry>(
                 initialValue: expense.location,
-                getValueByID: (id) => expense.locationByID(id),
                 labelText: t.transactions.detail.inputLabels.location,
                 route: AppRoute.location,
                 onTap: () {
@@ -86,7 +85,7 @@ class ExpenseDetailView extends ConsumerWidget {
                     .read(expenseControllerProvider(expenseID).notifier)
                     .onChangeLocation),
             gapH12,
-            TransitionTextField(
+            TransitionTextField<String>(
                 initialValue: expense.memo,
                 labelText: t.transactions.detail.inputLabels.memo,
                 route: AppRoute.memo,

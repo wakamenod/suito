@@ -6,6 +6,7 @@ import 'package:suito/src/features/transaction_attributes/presentations/transact
 import 'package:suito/src/features/transaction_attributes/presentations/transaction_attribute_bottom_sheet.dart';
 import 'package:suito/src/features/transaction_attributes/presentations/transaction_attribute_list.dart';
 import 'package:suito/src/features/transaction_attributes/presentations/transaction_attribute_search_input.dart';
+import 'package:suito/src/features/transaction_attributes/services/transaction_attribute_entry.dart';
 import 'package:suito/src/features/transaction_attributes/services/transaction_attribute_service.dart';
 
 class TransactionAttributeSelectScreen extends ConsumerWidget {
@@ -46,7 +47,7 @@ class TransactionAttributeSelectScreen extends ConsumerWidget {
             ? null
             : FloatingActionButton.extended(
                 onPressed: () {
-                  showModalBottomSheet<String?>(
+                  showModalBottomSheet<AttributeEntry?>(
                     context: context,
                     isScrollControlled: true,
                     shape: const RoundedRectangleBorder(
@@ -55,9 +56,9 @@ class TransactionAttributeSelectScreen extends ConsumerWidget {
                     builder: (context) {
                       return const TransactionAttributeBottomSheet();
                     },
-                  ).then((result) {
+                  ).then((AttributeEntry? result) {
                     if (result != null) {
-                      context.pop(result);
+                      context.pop<AttributeEntry>(result);
                     }
                   });
                 },

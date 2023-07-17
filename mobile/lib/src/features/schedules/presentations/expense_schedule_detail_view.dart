@@ -9,6 +9,7 @@ import 'package:suito/src/common_widgets/transition_text_field.dart';
 import 'package:suito/src/constants/app_sizes.dart';
 import 'package:suito/src/features/schedules/services/expense_schedule.dart';
 import 'package:suito/src/features/schedules/services/expense_schedule_service.dart';
+import 'package:suito/src/features/transaction_attributes/services/transaction_attribute_entry.dart';
 import 'package:suito/src/features/transaction_attributes/services/transaction_attribute_service.dart';
 import 'package:suito/src/formz/amount.dart';
 import 'package:suito/src/formz/title.dart' as stitle;
@@ -50,9 +51,8 @@ class ExpenseScheduleDetailView extends ConsumerWidget {
                         .notifier)
                     .onChangeAmount),
             gapH12,
-            TransitionTextField(
+            TransitionTextField<AttributeEntry>(
                 initialValue: expense.category,
-                getValueByID: (id) => expense.categoryByID(id),
                 labelText: t.transactions.detail.inputLabels.category,
                 route: AppRoute.category,
                 onTap: () => ref
@@ -63,9 +63,8 @@ class ExpenseScheduleDetailView extends ConsumerWidget {
                         .notifier)
                     .onChangeCategory),
             gapH12,
-            TransitionTextField(
+            TransitionTextField<AttributeEntry>(
                 initialValue: expense.location,
-                getValueByID: (id) => expense.locationByID(id),
                 labelText: t.transactions.detail.inputLabels.location,
                 route: AppRoute.location,
                 onTap: () => ref
@@ -76,7 +75,7 @@ class ExpenseScheduleDetailView extends ConsumerWidget {
                         .notifier)
                     .onChangeLocation),
             gapH12,
-            TransitionTextField(
+            TransitionTextField<String>(
                 initialValue: expense.memo,
                 labelText: t.transactions.detail.inputLabels.memo,
                 route: AppRoute.memo,

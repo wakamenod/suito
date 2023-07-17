@@ -24,7 +24,7 @@ class TransactionAttributeList extends ConsumerWidget {
                     value: category,
                     groupValue: value.selected,
                     onChanged: (AttributeEntry? value) {
-                      context.pop(value?.id ?? '');
+                      context.pop(value?.id == null ? null : value);
                     },
                   ),
                 )

@@ -17,16 +17,15 @@ class Expense with _$Expense {
     required Amount amount,
     required String date,
     required String categoryID,
+    required String category,
     required String locationID,
+    required String location,
     required String memo,
     required bool isValid,
     required FormzSubmissionStatus submissionStatus,
     required Map<String, ModelExpenseCategory> categoriesMap,
     required Map<String, ModelExpenseLocation> locationsMap,
   }) = _Expense;
-
-  String get category => categoryByID(categoryID);
-  String get location => locationByID(locationID);
 
   String categoryByID(id) => categoriesMap[id]?.name ?? '';
   String locationByID(id) => locationsMap[id]?.name ?? '';
@@ -37,7 +36,9 @@ class Expense with _$Expense {
         amount: const Amount.pure(),
         date: DateTime.now().toRfc3339(),
         categoryID: '',
+        category: '',
         locationID: '',
+        location: '',
         memo: '',
         categoriesMap: categoriesMap,
         locationsMap: locationsMap,
@@ -52,7 +53,9 @@ class Expense with _$Expense {
         amount: Amount.dirty(res.expense.amount),
         date: res.expense.localDate,
         categoryID: res.expense.expenseCategoryID,
+        category: categoriesMap[res.expense.expenseCategoryID]?.name ?? '',
         locationID: res.expense.expenseLocationID,
+        location: locationsMap[res.expense.expenseLocationID]?.name ?? '',
         memo: res.expense.memo,
         categoriesMap: categoriesMap,
         locationsMap: locationsMap,

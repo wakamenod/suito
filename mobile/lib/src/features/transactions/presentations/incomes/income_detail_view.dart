@@ -6,6 +6,7 @@ import 'package:suito/src/common_widgets/async_value_widget.dart';
 import 'package:suito/src/common_widgets/currency_input_field.dart';
 import 'package:suito/src/common_widgets/transition_text_field.dart';
 import 'package:suito/src/constants/app_sizes.dart';
+import 'package:suito/src/features/transaction_attributes/services/transaction_attribute_entry.dart';
 import 'package:suito/src/features/transaction_attributes/services/transaction_attribute_service.dart';
 import 'package:suito/src/features/transactions/presentations/widgets/transaction_date_picker.dart';
 import 'package:suito/src/features/transactions/services/income/income.dart';
@@ -35,9 +36,8 @@ class IncomeDetailView extends ConsumerWidget {
               child: TransactionDatePicker(
                   date: income.date, onChanged: incomeController.onChangeDate),
             ),
-            TransitionTextField(
+            TransitionTextField<AttributeEntry>(
                 initialValue: income.incomeType,
-                getValueByID: (id) => income.incomeTypeByID(id),
                 labelText: t.transactions.detail.inputLabels.title,
                 route: AppRoute.incomeType,
                 onTap: () {
@@ -56,7 +56,7 @@ class IncomeDetailView extends ConsumerWidget {
               onChanged: incomeController.onChangeAmount,
             ),
             gapH12,
-            TransitionTextField(
+            TransitionTextField<String>(
                 initialValue: income.memo,
                 labelText: t.transactions.detail.inputLabels.memo,
                 route: AppRoute.memo,

@@ -15,6 +15,11 @@ class ExpenseCategoryAsAttributeEntry implements AttributeEntry {
 
   @override
   String? get id => category.id;
+
+  @override
+  String toString() {
+    return name;
+  }
 }
 
 class ExpenseLocationAsAttributeEntry implements AttributeEntry {
@@ -27,6 +32,11 @@ class ExpenseLocationAsAttributeEntry implements AttributeEntry {
 
   @override
   String? get id => location.id;
+
+  @override
+  String toString() {
+    return name;
+  }
 }
 
 class IncomeTypeAsAttributeEntry implements AttributeEntry {
@@ -39,4 +49,9 @@ class IncomeTypeAsAttributeEntry implements AttributeEntry {
 
   @override
   String? get id => incomeType.id;
+
+  @override
+  String toString() {
+    return name;
+  }
 }

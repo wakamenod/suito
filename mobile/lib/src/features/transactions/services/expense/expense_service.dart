@@ -1,6 +1,7 @@
 import 'package:formz/formz.dart';
 import 'package:openapi/openapi.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:suito/src/features/transaction_attributes/services/transaction_attribute_entry.dart';
 import 'package:suito/src/features/transactions/repositories/expense/expense_categories_repository.dart';
 import 'package:suito/src/features/transactions/repositories/expense/expense_detail_repository.dart';
 import 'package:suito/src/features/transactions/repositories/expense/expense_locations_repository.dart';
@@ -65,21 +66,30 @@ class ExpenseController extends _$ExpenseController {
     ));
   }
 
-  void onChangeCategory(String value) {
+  void onChangeCategory(AttributeEntry? category) async {
+    final categoriesMap =
+        await ref.read(expenseCategoriesMapFutureProvider.future);
+
     state = AsyncValue.data(state.value!.copyWith(
-      categoryID: value,
+        categoryID: category?.id ?? '',
+        category: category?.name ?? '',
+        categoriesMap: categoriesMap));
+  }
+
+  void onChangeLocation(AttributeEntry? location) async {
+    final locationsMap =
+        await ref.read(expenseLocationsMapFutureProvider.future);
+
+    state = AsyncValue.data(state.value!.copyWith(
+      locationID: location?.id ?? '',
+      location: location?.name ?? '',
+      locationsMap: locationsMap,
     ));
   }
 
-  void onChangeLocation(String value) {
+  void onChangeMemo(String? value) {
     state = AsyncValue.data(state.value!.copyWith(
-      locationID: value,
-    ));
-  }
-
-  void onChangeMemo(String value) {
-    state = AsyncValue.data(state.value!.copyWith(
-      memo: value,
+      memo: value ?? '',
     ));
   }
 

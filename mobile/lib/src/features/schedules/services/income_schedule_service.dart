@@ -4,6 +4,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:suito/src/features/schedules/repositories/income_schedule_detail_repository.dart';
 import 'package:suito/src/features/schedules/repositories/register_income_schedule_repository.dart';
 import 'package:suito/src/features/schedules/repositories/update_income_schedule_repository.dart';
+import 'package:suito/src/features/transaction_attributes/services/transaction_attribute_entry.dart';
 import 'package:suito/src/features/transactions/repositories/income/income_types_repository.dart';
 import 'package:suito/src/formz/amount.dart';
 import 'package:suito/src/formz/title.dart' as formz_title;
@@ -32,13 +33,12 @@ class IncomeScheduleController extends _$IncomeScheduleController {
 
   bool get _isNew => state.value!.id == '';
 
-  void onChangeTitle(String incomeTypeID) {
-    final titleValue = state.value!.incomeTypeMap[incomeTypeID]?.id ?? '';
-    final title = formz_title.Title.dirty(titleValue);
+  void onChangeTitle(AttributeEntry? entry) {
+    final title = formz_title.Title.dirty(entry?.name ?? '');
 
     state = AsyncValue.data(state.value!.copyWith(
       title: title,
-      incomeTypeID: incomeTypeID,
+      incomeTypeID: entry?.id ?? '',
       isValid: Formz.validate([
         title,
         state.value!.amount,
@@ -57,9 +57,9 @@ class IncomeScheduleController extends _$IncomeScheduleController {
     ));
   }
 
-  void onChangeMemo(String value) {
+  void onChangeMemo(String? value) {
     state = AsyncValue.data(state.value!.copyWith(
-      memo: value,
+      memo: value ?? '',
     ));
   }
 
