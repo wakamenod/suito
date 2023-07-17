@@ -9,16 +9,19 @@ category:
   bottomSheetTitle: カテゴリー追加
   bottomSheetInputLabel: カテゴリー名
   settingsAdd: 新規カテゴリー追加
+  settingsListLabel: 登録済みカテゴリー一覧
 location:
   appBar: 購入場所
   noEntry: 購入場所なし
   bottomSheetTitle: 購入場所追加
   bottomSheetInputLabel: 購入場所名
   settingsAdd: 新規購入場所追加
+  settingsListLabel: 登録済み購入場所一覧
 incomeType:
   appBar: 収入種別
   noEntry: 'NO INCOME TYPE'
   bottomSheetTitle: 収入種別追加
   bottomSheetInputLabel: 収入種別名
   settingsAdd: 新規収入種別追加
+  settingsListLabel: 登録済み収入種別一覧
 appBarSettings: '$title設定'

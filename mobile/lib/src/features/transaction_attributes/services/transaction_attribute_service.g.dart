@@ -8,6 +8,24 @@ part of 'transaction_attribute_service.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+String _$listAttributeEntriesHash() =>
+    r'7ced23ed1c2b9a2fa73ad3308d70e5089584f8f9';
+
+/// See also [listAttributeEntries].
+@ProviderFor(listAttributeEntries)
+final listAttributeEntriesProvider =
+    AutoDisposeFutureProvider<List<AttributeEntry>>.internal(
+  listAttributeEntries,
+  name: r'listAttributeEntriesProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$listAttributeEntriesHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef ListAttributeEntriesRef
+    = AutoDisposeFutureProviderRef<List<AttributeEntry>>;
 String _$transactionAttributeRepositoryHash() =>
     r'6b13c6d6b6be2e5b8234bb9826421771d1c46eba';
 
@@ -45,7 +63,7 @@ final transactionAttributeWordsProvider =
 typedef TransactionAttributeWordsRef
     = AutoDisposeProviderRef<TransactionAttributeWords>;
 String _$filteredCategoriesHash() =>
-    r'8d6fabdb546ec3f6ec19cc4fb9a5f85b025e6d46';
+    r'3dd88c485c7cf8202dc64e924d753b4413ba5f91';
 
 /// See also [filteredCategories].
 @ProviderFor(filteredCategories)
@@ -62,7 +80,7 @@ final filteredCategoriesProvider = AutoDisposeFutureProvider<
 
 typedef FilteredCategoriesRef = AutoDisposeFutureProviderRef<
     ({List<AttributeEntry> filteredItems, AttributeEntry selected})>;
-String _$addableInputValueHash() => r'42ca7c701cace6ef9653732ab85f1e26eea92df7';
+String _$addableInputValueHash() => r'31d415c837cd44c5912bc679f7f1c63b34cb6128';
 
 /// See also [addableInputValue].
 @ProviderFor(addableInputValue)
