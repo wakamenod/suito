@@ -6,6 +6,8 @@ abstract class TransactionAttributeWords {
   String bottomSheetTextInputLabel();
   String settingsAddTile();
   String settingsListLabel();
+  String deleteConfirmTitle();
+  String deleteConfirmContent();
 }
 
 class CategoryAttributesWords implements TransactionAttributeWords {
@@ -32,6 +34,16 @@ class CategoryAttributesWords implements TransactionAttributeWords {
   @override
   String settingsListLabel() {
     return t.transactionAttributes.category.settingsListLabel;
+  }
+
+  @override
+  String deleteConfirmTitle() {
+    return t.transactionAttributes.category.deleteConfirmTitle;
+  }
+
+  @override
+  String deleteConfirmContent() {
+    return t.transactionAttributes.category.deleteConfirmContent;
   }
 }
 
@@ -60,6 +72,16 @@ class LocationAttributesWords implements TransactionAttributeWords {
   String settingsListLabel() {
     return t.transactionAttributes.location.settingsListLabel;
   }
+
+  @override
+  String deleteConfirmTitle() {
+    return t.transactionAttributes.location.deleteConfirmTitle;
+  }
+
+  @override
+  String deleteConfirmContent() {
+    return t.transactionAttributes.location.deleteConfirmContent;
+  }
 }
 
 class IncomeTypeAttributesWords implements TransactionAttributeWords {
@@ -86,5 +108,15 @@ class IncomeTypeAttributesWords implements TransactionAttributeWords {
   @override
   String settingsListLabel() {
     return t.transactionAttributes.incomeType.settingsListLabel;
+  }
+
+  @override
+  String deleteConfirmTitle() {
+    return t.transactionAttributes.incomeType.deleteConfirmTitle;
+  }
+
+  @override
+  String deleteConfirmContent() {
+    return t.transactionAttributes.incomeType.deleteConfirmContent;
   }
 }

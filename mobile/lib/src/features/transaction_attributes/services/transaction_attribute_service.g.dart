@@ -9,7 +9,7 @@ part of 'transaction_attribute_service.dart';
 // **************************************************************************
 
 String _$listAttributeEntriesHash() =>
-    r'7ced23ed1c2b9a2fa73ad3308d70e5089584f8f9';
+    r'989e4d9f4f411c57cbd141f0f960d610aef3c25c';
 
 /// See also [listAttributeEntries].
 @ProviderFor(listAttributeEntries)
@@ -96,13 +96,12 @@ final addableInputValueProvider = AutoDisposeFutureProvider<String?>.internal(
 
 typedef AddableInputValueRef = AutoDisposeFutureProviderRef<String?>;
 String _$transactionAttributeSubmitControllerHash() =>
-    r'd27ccafbfa83053f672bbca76995515275a002d9';
+    r'19726837ceb42c0a8862e76a6fa19f7c2c4448db';
 
 /// See also [TransactionAttributeSubmitController].
 @ProviderFor(TransactionAttributeSubmitController)
-final transactionAttributeSubmitControllerProvider =
-    AutoDisposeNotifierProvider<TransactionAttributeSubmitController,
-        AttributeName>.internal(
+final transactionAttributeSubmitControllerProvider = NotifierProvider<
+    TransactionAttributeSubmitController, AttributeName>.internal(
   TransactionAttributeSubmitController.new,
   name: r'transactionAttributeSubmitControllerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -112,8 +111,7 @@ final transactionAttributeSubmitControllerProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$TransactionAttributeSubmitController
-    = AutoDisposeNotifier<AttributeName>;
+typedef _$TransactionAttributeSubmitController = Notifier<AttributeName>;
 String _$transactionAttributeSearchControllerHash() =>
     r'69e34ce7f42755d5fb9a81bc6b5c84e1cbd0dfc1';
 

@@ -1,10 +1,13 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:openapi/openapi.dart';
 import 'package:suito/i18n/translations.g.dart';
+import 'package:suito/src/features/transaction_attributes/repositories/categories/delete_category_repository.dart';
 import 'package:suito/src/features/transaction_attributes/repositories/categories/register_category_repository.dart';
 import 'package:suito/src/features/transaction_attributes/repositories/categories/update_category_repository.dart';
+import 'package:suito/src/features/transaction_attributes/repositories/income_types/delete_income_type_repository.dart';
 import 'package:suito/src/features/transaction_attributes/repositories/income_types/register_income_type_repository.dart';
 import 'package:suito/src/features/transaction_attributes/repositories/income_types/update_income_type_repository.dart';
+import 'package:suito/src/features/transaction_attributes/repositories/locations/delete_location_repository.dart';
 import 'package:suito/src/features/transaction_attributes/repositories/locations/register_location_repository.dart';
 import 'package:suito/src/features/transaction_attributes/repositories/locations/update_location_repository.dart';
 import 'package:suito/src/features/transactions/repositories/expense/expense_categories_repository.dart';
@@ -24,6 +27,7 @@ abstract class TransactionAttributeRepository {
   // Future<List<AttributeEntry>> list();
   Future<AttributeEntry> register(String name);
   Future<AttributeEntry> update(String id, String name);
+  Future<void> delete(String id);
   AttributeEntry noEntry();
 }
 
@@ -73,6 +77,15 @@ class CategoryAttributesRepository implements TransactionAttributeRepository {
 
     return AttributeEntry.fromCategory(res);
   }
+
+  @override
+  Future<void> delete(String id) async {
+    final req = DeleteExpenseCategoryReq((r) => r..expenseCategoryId = id);
+
+    await _ref.read(deleteCategoryRepositoryProvider).deleteCategory(req);
+
+    _ref.invalidate(expenseCategoriesRepositoryProvider);
+  }
 }
 
 class LocationAttributesRepository implements TransactionAttributeRepository {
@@ -121,6 +134,15 @@ class LocationAttributesRepository implements TransactionAttributeRepository {
 
     return AttributeEntry.fromLocation(res);
   }
+
+  @override
+  Future<void> delete(String id) async {
+    final req = DeleteExpenseLocationReq((r) => r..expenseLocationId = id);
+
+    await _ref.read(deleteLocationRepositoryProvider).deleteLocation(req);
+
+    _ref.invalidate(expenseLocationsRepositoryProvider);
+  }
 }
 
 class IncomeTypeAttributesRepository implements TransactionAttributeRepository {
@@ -167,5 +189,14 @@ class IncomeTypeAttributesRepository implements TransactionAttributeRepository {
     _ref.invalidate(incomeTypesRepositoryProvider);
 
     return AttributeEntry.fromIncomeType(res);
+  }
+
+  @override
+  Future<void> delete(String id) async {
+    final req = DeleteIncomeTypeReq((r) => r..incomeTypeId = id);
+
+    await _ref.read(deleteIncomeTypeRepositoryProvider).deleteIncomeType(req);
+
+    _ref.invalidate(incomeTypesRepositoryProvider);
   }
 }

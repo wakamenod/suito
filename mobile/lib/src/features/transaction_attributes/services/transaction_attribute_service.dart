@@ -19,7 +19,7 @@ final transactionAttributeTypeProvider =
         (ref) => TransactionAttributeType.category);
 
 final transactionAttributeIDProvider =
-    StateProvider<({String id, String name})>((ref) => (id: '', name: ''));
+    StateProvider<({String? id, String name})>((ref) => (id: null, name: ''));
 
 @riverpod
 Future<List<AttributeEntry>> listAttributeEntries(

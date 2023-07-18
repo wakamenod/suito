@@ -10,6 +10,8 @@ category:
   bottomSheetInputLabel: Category Name
   settingsAdd: Add New Category
   settingsListLabel: Registered Categories
+  deleteConfirmTitle: Delete Category?
+  deleteConfirmContent: When you delete a category, it will also be removed from the expenses where this category is registered.
 location:
   appBar: Location
   noEntry: 'NO LOCATION'
@@ -17,6 +19,8 @@ location:
   bottomSheetInputLabel: Location Name
   settingsAdd: Add New Location
   settingsListLabel: Registered Locations
+  deleteConfirmTitle: Delete Location?
+  deleteConfirmContent: When you delete a location, it will also be removed from the expenses where this location is registered.
 incomeType:
   appBar: Income Type
   noEntry: 'NO INCOME TYPE'
@@ -24,6 +28,10 @@ incomeType:
   bottomSheetInputLabel: Income Type Name
   settingsAdd: Add New Income Type
   settingsListLabel: Registered Income Types
+  deleteConfirmTitle: Delete Income Type?
+  deleteConfirmContent: The income type will be deleted. (Income types that are in use within income data cannot be deleted.)
 appBarSettings: '$title Settings'
 settingsRename: 'Rename'
 settingsDelete: 'Delete'
+settingsCancel: 'Cancel'
+deleteConfirmation: Are you sure? this can't be undone

@@ -10,6 +10,8 @@ category:
   bottomSheetInputLabel: カテゴリー名
   settingsAdd: 新規カテゴリー追加
   settingsListLabel: 登録済みカテゴリー一覧
+  deleteConfirmTitle: カテゴリーを削除しますか？
+  deleteConfirmContent: カテゴリーを削除すると、同時にこのカテゴリーが登録されている支出からもカテゴリーが削除されます。
 location:
   appBar: 購入場所
   noEntry: 購入場所なし
@@ -17,6 +19,8 @@ location:
   bottomSheetInputLabel: 購入場所名
   settingsAdd: 新規購入場所追加
   settingsListLabel: 登録済み購入場所一覧
+  deleteConfirmTitle: 購入場所を削除しますか？
+  deleteConfirmContent: 購入場所を削除すると、同時にこの購入場所が登録されている支出からも購入場所が削除されます。
 incomeType:
   appBar: 収入種別
   noEntry: 'NO INCOME TYPE'
@@ -24,6 +28,10 @@ incomeType:
   bottomSheetInputLabel: 収入種別名
   settingsAdd: 新規収入種別追加
   settingsListLabel: 登録済み収入種別一覧
+  deleteConfirmTitle: 収入種別削除を削除しますか？
+  deleteConfirmContent: 収入種別を削除します。(収入データで使用中の収入種別は削除できません)
 appBarSettings: '$title設定'
 settingsRename: 'リネーム'
 settingsDelete: '削除'
+settingsCancel: 'キャンセル'
+deleteConfirmation: 本当に宜しいですか？この操作は取り消せません
