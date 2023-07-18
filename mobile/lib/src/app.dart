@@ -36,6 +36,9 @@ class MyApp extends ConsumerWidget {
       ],
       supportedLocales: AppLocaleUtils.supportedLocales,
       theme: ThemeData(
+        popupMenuTheme: const PopupMenuThemeData(
+          color: Colors.white,
+        ),
         appBarTheme:
             const AppBarTheme(color: Color(0xff63AECE), toolbarHeight: 50),
         scaffoldBackgroundColor: const Color(0xfff2f4f5),

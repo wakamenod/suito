@@ -76,15 +76,29 @@ class TransactionAttributeSettingsScreen extends ConsumerWidget {
                                           .colorScheme
                                           .secondary),
                                 ),
-                                trailing: Icon(
-                                  Icons.more_vert,
-                                  color:
-                                      Theme.of(context).colorScheme.secondary,
+                                trailing: PopupMenuButton<String>(
+                                  icon: Icon(
+                                    Icons.more_vert,
+                                    color:
+                                        Theme.of(context).colorScheme.secondary,
+                                  ),
+                                  itemBuilder: (BuildContext context) =>
+                                      <PopupMenuEntry<String>>[
+                                    PopupMenuItem<String>(
+                                      value: 'Rename',
+                                      child: Text(t.transactionAttributes
+                                          .settingsRename),
+                                    ),
+                                    PopupMenuItem<String>(
+                                      value: 'Delete',
+                                      child: Text(t.transactionAttributes
+                                          .settingsDelete),
+                                    ),
+                                  ],
+                                  onSelected: (String value) {
+                                    // print("$value was selected");
+                                  },
                                 ),
-                                onTap: () {
-                                  // TransactionAttributeBottomSheet
-                                  //     .showTransactionAttributeBottomSheet(context);
-                                },
                               )),
                         ))
                     .toList(),

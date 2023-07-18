@@ -25,3 +25,5 @@ incomeType:
   settingsAdd: 新規収入種別追加
   settingsListLabel: 登録済み収入種別一覧
 appBarSettings: '$title設定'
+settingsRename: 'リネーム'
+settingsDelete: '削除'
