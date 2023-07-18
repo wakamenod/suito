@@ -30,15 +30,12 @@ class TransactionAttributeSelectScreen extends ConsumerWidget {
                   icon: const Icon(Icons.arrow_back, color: Colors.white),
                   onPressed: () async {
                     final record = ref.read(transactionAttributeIDProvider);
-                    if (record.id.isEmpty) {
-                      context.pop(AttributeEntry('', ''));
-                    } else {
-                      final list =
-                          await ref.read(listAttributeEntriesProvider.future);
-                      if (context.mounted) {
-                        context.pop(AttributeEntry(record.id,
-                            list.firstWhere((el) => el.id == record.id).name));
-                      }
+                    final list =
+                        await ref.read(listAttributeEntriesProvider.future);
+                    if (context.mounted) {
+                      final res = list.firstWhere((el) => el.id == record.id,
+                          orElse: () => AttributeEntry('', ''));
+                      context.pop(res);
                     }
                   },
                 ),

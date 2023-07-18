@@ -1,9 +1,9 @@
 /// Generated file. Do not edit.
 ///
 /// Locales: 2
-/// Strings: 124 (62 per locale)
+/// Strings: 140 (70 per locale)
 ///
-/// Built on 2023-07-18 at 00:18 UTC
+/// Built on 2023-07-18 at 06:39 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -282,6 +282,8 @@ class _TranslationsTransactionAttributesEn {
   String appBarSettings({required Object title}) => '${title} Settings';
   String get settingsRename => 'Rename';
   String get settingsDelete => 'Delete';
+  String get settingsCancel => 'Cancel';
+  String get deleteConfirmation => 'Are you sure? this can\'t be undone';
 }
 
 // Path: forms
@@ -455,6 +457,9 @@ class _TranslationsTransactionAttributesCategoryEn {
   String get bottomSheetInputLabel => 'Category Name';
   String get settingsAdd => 'Add New Category';
   String get settingsListLabel => 'Registered Categories';
+  String get deleteConfirmTitle => 'Delete Category?';
+  String get deleteConfirmContent =>
+      'When you delete a category, it will also be removed from the expenses where this category is registered.';
 }
 
 // Path: transactionAttributes.location
@@ -470,6 +475,9 @@ class _TranslationsTransactionAttributesLocationEn {
   String get bottomSheetInputLabel => 'Location Name';
   String get settingsAdd => 'Add New Location';
   String get settingsListLabel => 'Registered Locations';
+  String get deleteConfirmTitle => 'Delete Location?';
+  String get deleteConfirmContent =>
+      'When you delete a location, it will also be removed from the expenses where this location is registered.';
 }
 
 // Path: transactionAttributes.incomeType
@@ -485,6 +493,9 @@ class _TranslationsTransactionAttributesIncomeTypeEn {
   String get bottomSheetInputLabel => 'Income Type Name';
   String get settingsAdd => 'Add New Income Type';
   String get settingsListLabel => 'Registered Income Types';
+  String get deleteConfirmTitle => 'Delete Income Type?';
+  String get deleteConfirmContent =>
+      'The income type will be deleted. (Income types that are in use within income data cannot be deleted.)';
 }
 
 // Path: forms.errors
@@ -677,6 +688,10 @@ class _TranslationsTransactionAttributesJa
   String get settingsRename => 'リネーム';
   @override
   String get settingsDelete => '削除';
+  @override
+  String get settingsCancel => 'キャンセル';
+  @override
+  String get deleteConfirmation => '本当に宜しいですか？この操作は取り消せません';
 }
 
 // Path: forms
@@ -911,6 +926,11 @@ class _TranslationsTransactionAttributesCategoryJa
   String get settingsAdd => '新規カテゴリー追加';
   @override
   String get settingsListLabel => '登録済みカテゴリー一覧';
+  @override
+  String get deleteConfirmTitle => 'カテゴリーを削除しますか？';
+  @override
+  String get deleteConfirmContent =>
+      'カテゴリーを削除すると、同時にこのカテゴリーが登録されている支出からもカテゴリーが削除されます。';
 }
 
 // Path: transactionAttributes.location
@@ -934,6 +954,11 @@ class _TranslationsTransactionAttributesLocationJa
   String get settingsAdd => '新規購入場所追加';
   @override
   String get settingsListLabel => '登録済み購入場所一覧';
+  @override
+  String get deleteConfirmTitle => '購入場所を削除しますか？';
+  @override
+  String get deleteConfirmContent =>
+      '購入場所を削除すると、同時にこの購入場所が登録されている支出からも購入場所が削除されます。';
 }
 
 // Path: transactionAttributes.incomeType
@@ -957,6 +982,10 @@ class _TranslationsTransactionAttributesIncomeTypeJa
   String get settingsAdd => '新規収入種別追加';
   @override
   String get settingsListLabel => '登録済み収入種別一覧';
+  @override
+  String get deleteConfirmTitle => '収入種別削除を削除しますか？';
+  @override
+  String get deleteConfirmContent => '収入種別を削除します。(収入データで使用中の収入種別は削除できません)';
 }
 
 // Path: forms.errors
@@ -1093,6 +1122,10 @@ extension on _TranslationsEn {
         return 'Add New Category';
       case 'transactionAttributes.category.settingsListLabel':
         return 'Registered Categories';
+      case 'transactionAttributes.category.deleteConfirmTitle':
+        return 'Delete Category?';
+      case 'transactionAttributes.category.deleteConfirmContent':
+        return 'When you delete a category, it will also be removed from the expenses where this category is registered.';
       case 'transactionAttributes.location.appBar':
         return 'Location';
       case 'transactionAttributes.location.noEntry':
@@ -1105,6 +1138,10 @@ extension on _TranslationsEn {
         return 'Add New Location';
       case 'transactionAttributes.location.settingsListLabel':
         return 'Registered Locations';
+      case 'transactionAttributes.location.deleteConfirmTitle':
+        return 'Delete Location?';
+      case 'transactionAttributes.location.deleteConfirmContent':
+        return 'When you delete a location, it will also be removed from the expenses where this location is registered.';
       case 'transactionAttributes.incomeType.appBar':
         return 'Income Type';
       case 'transactionAttributes.incomeType.noEntry':
@@ -1117,12 +1154,20 @@ extension on _TranslationsEn {
         return 'Add New Income Type';
       case 'transactionAttributes.incomeType.settingsListLabel':
         return 'Registered Income Types';
+      case 'transactionAttributes.incomeType.deleteConfirmTitle':
+        return 'Delete Income Type?';
+      case 'transactionAttributes.incomeType.deleteConfirmContent':
+        return 'The income type will be deleted. (Income types that are in use within income data cannot be deleted.)';
       case 'transactionAttributes.appBarSettings':
         return ({required Object title}) => '${title} Settings';
       case 'transactionAttributes.settingsRename':
         return 'Rename';
       case 'transactionAttributes.settingsDelete':
         return 'Delete';
+      case 'transactionAttributes.settingsCancel':
+        return 'Cancel';
+      case 'transactionAttributes.deleteConfirmation':
+        return 'Are you sure? this can\'t be undone';
       case 'forms.errors.emptyTitle':
         return 'Empty title';
       case 'forms.errors.emptyAmount':
@@ -1227,6 +1272,10 @@ extension on _TranslationsJa {
         return '新規カテゴリー追加';
       case 'transactionAttributes.category.settingsListLabel':
         return '登録済みカテゴリー一覧';
+      case 'transactionAttributes.category.deleteConfirmTitle':
+        return 'カテゴリーを削除しますか？';
+      case 'transactionAttributes.category.deleteConfirmContent':
+        return 'カテゴリーを削除すると、同時にこのカテゴリーが登録されている支出からもカテゴリーが削除されます。';
       case 'transactionAttributes.location.appBar':
         return '購入場所';
       case 'transactionAttributes.location.noEntry':
@@ -1239,6 +1288,10 @@ extension on _TranslationsJa {
         return '新規購入場所追加';
       case 'transactionAttributes.location.settingsListLabel':
         return '登録済み購入場所一覧';
+      case 'transactionAttributes.location.deleteConfirmTitle':
+        return '購入場所を削除しますか？';
+      case 'transactionAttributes.location.deleteConfirmContent':
+        return '購入場所を削除すると、同時にこの購入場所が登録されている支出からも購入場所が削除されます。';
       case 'transactionAttributes.incomeType.appBar':
         return '収入種別';
       case 'transactionAttributes.incomeType.noEntry':
@@ -1251,12 +1304,20 @@ extension on _TranslationsJa {
         return '新規収入種別追加';
       case 'transactionAttributes.incomeType.settingsListLabel':
         return '登録済み収入種別一覧';
+      case 'transactionAttributes.incomeType.deleteConfirmTitle':
+        return '収入種別削除を削除しますか？';
+      case 'transactionAttributes.incomeType.deleteConfirmContent':
+        return '収入種別を削除します。(収入データで使用中の収入種別は削除できません)';
       case 'transactionAttributes.appBarSettings':
         return ({required Object title}) => '${title}設定';
       case 'transactionAttributes.settingsRename':
         return 'リネーム';
       case 'transactionAttributes.settingsDelete':
         return '削除';
+      case 'transactionAttributes.settingsCancel':
+        return 'キャンセル';
+      case 'transactionAttributes.deleteConfirmation':
+        return '本当に宜しいですか？この操作は取り消せません';
       case 'forms.errors.emptyTitle':
         return '品目が未入力です';
       case 'forms.errors.emptyAmount':
