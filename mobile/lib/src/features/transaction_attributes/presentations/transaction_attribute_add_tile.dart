@@ -34,8 +34,16 @@ class TransactionAttributeAddTile extends ConsumerWidget {
               color: Color(0xff1D7094),
             ),
             onTap: () {
+              final input = ref.read(
+                  transactionAttributeSearchControllerProvider
+                      .select((value) => value.searchInput));
               TransactionAttributeBottomSheet
-                  .showTransactionAttributeBottomSheet(context);
+                  .showTransactionAttributeBottomSheet(context, ref,
+                      initialName: input,
+                      onSubmit: ref
+                          .read(transactionAttributeSubmitControllerProvider
+                              .notifier)
+                          .register);
             },
           ),
         ),

@@ -28,9 +28,18 @@ class TransactionAttributeSelectScreen extends ConsumerWidget {
                 title: Text(words.appBar()),
                 leading: IconButton(
                   icon: const Icon(Icons.arrow_back, color: Colors.white),
-                  onPressed: () {
+                  onPressed: () async {
                     final record = ref.read(transactionAttributeIDProvider);
-                    context.pop(AttributeEntry(record.id, record.name));
+                    if (record.id.isEmpty) {
+                      context.pop(AttributeEntry('', ''));
+                    } else {
+                      final list =
+                          await ref.read(listAttributeEntriesProvider.future);
+                      if (context.mounted) {
+                        context.pop(AttributeEntry(record.id,
+                            list.firstWhere((el) => el.id == record.id).name));
+                      }
+                    }
                   },
                 ),
                 actions: [
@@ -58,7 +67,12 @@ class TransactionAttributeSelectScreen extends ConsumerWidget {
             : FloatingActionButton.extended(
                 onPressed: () {
                   TransactionAttributeBottomSheet
-                      .showTransactionAttributeBottomSheet(context);
+                      .showTransactionAttributeBottomSheet(context, ref,
+                          initialName: '',
+                          onSubmit: ref
+                              .read(transactionAttributeSubmitControllerProvider
+                                  .notifier)
+                              .register);
                 },
                 backgroundColor: const Color(0xff2CAAE0),
                 label: Text(t.transactionAttributes.floatingButton),

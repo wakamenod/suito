@@ -7,6 +7,8 @@ import 'package:suito/src/features/transaction_attributes/presentations/transact
 import 'package:suito/src/features/transaction_attributes/services/transaction_attribute_entry.dart';
 import 'package:suito/src/features/transaction_attributes/services/transaction_attribute_service.dart';
 
+enum _PopupItemType { rename, delete }
+
 class TransactionAttributeSettingsScreen extends ConsumerWidget {
   const TransactionAttributeSettingsScreen({super.key});
 
@@ -45,7 +47,13 @@ class TransactionAttributeSettingsScreen extends ConsumerWidget {
                     ),
                     onTap: () {
                       TransactionAttributeBottomSheet
-                          .showTransactionAttributeBottomSheet(context);
+                          .showTransactionAttributeBottomSheet(context, ref,
+                              initialName: '',
+                              onSubmit: ref
+                                  .read(
+                                      transactionAttributeSubmitControllerProvider
+                                          .notifier)
+                                  .register);
                     },
                   ),
                 ),
@@ -60,6 +68,7 @@ class TransactionAttributeSettingsScreen extends ConsumerWidget {
                 ),
                 gapH8,
                 ...attributes
+                    .where((element) => element.id != null)
                     .map((a) => Padding(
                           padding: const EdgeInsets.symmetric(vertical: 5),
                           child: Container(
@@ -76,27 +85,41 @@ class TransactionAttributeSettingsScreen extends ConsumerWidget {
                                           .colorScheme
                                           .secondary),
                                 ),
-                                trailing: PopupMenuButton<String>(
+                                trailing: PopupMenuButton<_PopupItemType>(
                                   icon: Icon(
                                     Icons.more_vert,
                                     color:
                                         Theme.of(context).colorScheme.secondary,
                                   ),
                                   itemBuilder: (BuildContext context) =>
-                                      <PopupMenuEntry<String>>[
-                                    PopupMenuItem<String>(
-                                      value: 'Rename',
+                                      <PopupMenuEntry<_PopupItemType>>[
+                                    PopupMenuItem<_PopupItemType>(
+                                      value: _PopupItemType.rename,
                                       child: Text(t.transactionAttributes
                                           .settingsRename),
                                     ),
-                                    PopupMenuItem<String>(
-                                      value: 'Delete',
+                                    PopupMenuItem<_PopupItemType>(
+                                      value: _PopupItemType.delete,
                                       child: Text(t.transactionAttributes
                                           .settingsDelete),
                                     ),
                                   ],
-                                  onSelected: (String value) {
-                                    // print("$value was selected");
+                                  onSelected: (_PopupItemType type) {
+                                    switch (type) {
+                                      case _PopupItemType.rename:
+                                        TransactionAttributeBottomSheet
+                                            .showTransactionAttributeBottomSheet(
+                                                context, ref,
+                                                initialName: a.name,
+                                                onSubmit: () {
+                                          return ref
+                                              .read(
+                                                  transactionAttributeSubmitControllerProvider
+                                                      .notifier)
+                                              .update(a.id);
+                                        });
+                                      case _PopupItemType.delete:
+                                    }
                                   },
                                 ),
                               )),

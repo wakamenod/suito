@@ -6,56 +6,14 @@ class AttributeEntry {
 
   AttributeEntry(this.id, this.name);
 
-  @override
-  String toString() {
-    return name;
-  }
-}
+  factory AttributeEntry.fromCategory(ModelExpenseCategory c) =>
+      AttributeEntry(c.id, c.name);
 
-class ExpenseCategoryAsAttributeEntry implements AttributeEntry {
-  final ModelExpenseCategory category;
+  factory AttributeEntry.fromLocation(ModelExpenseLocation l) =>
+      AttributeEntry(l.id, l.name);
 
-  ExpenseCategoryAsAttributeEntry(this.category);
-
-  @override
-  String get name => category.name;
-
-  @override
-  String? get id => category.id;
-
-  @override
-  String toString() {
-    return name;
-  }
-}
-
-class ExpenseLocationAsAttributeEntry implements AttributeEntry {
-  final ModelExpenseLocation location;
-
-  ExpenseLocationAsAttributeEntry(this.location);
-
-  @override
-  String get name => location.name;
-
-  @override
-  String? get id => location.id;
-
-  @override
-  String toString() {
-    return name;
-  }
-}
-
-class IncomeTypeAsAttributeEntry implements AttributeEntry {
-  final ModelIncomeType incomeType;
-
-  IncomeTypeAsAttributeEntry(this.incomeType);
-
-  @override
-  String get name => incomeType.name;
-
-  @override
-  String? get id => incomeType.id;
+  factory AttributeEntry.fromIncomeType(ModelIncomeType t) =>
+      AttributeEntry(t.id, t.name);
 
   @override
   String toString() {

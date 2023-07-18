@@ -7,7 +7,9 @@ import 'package:suito/src/features/transaction_attributes/services/transaction_a
 import 'package:suito/src/features/transaction_attributes/services/transaction_attribute_service.dart';
 
 class TransactionAttributeBottomSheet extends ConsumerWidget {
-  const TransactionAttributeBottomSheet({super.key});
+  final Future<AttributeEntry?> Function() onSubmit;
+
+  const TransactionAttributeBottomSheet({super.key, required this.onSubmit});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -74,10 +76,7 @@ class TransactionAttributeBottomSheet extends ConsumerWidget {
                   ),
                   onPressed: () async {
                     final navigatorState = Navigator.of(context);
-                    final newEntry = await ref
-                        .read(transactionAttributeSubmitControllerProvider
-                            .notifier)
-                        .submit();
+                    final newEntry = await onSubmit();
                     navigatorState.pop<AttributeEntry>(newEntry);
                   },
                   child: Text(
@@ -90,14 +89,23 @@ class TransactionAttributeBottomSheet extends ConsumerWidget {
         ));
   }
 
-  static void showTransactionAttributeBottomSheet(BuildContext context) {
+  static void showTransactionAttributeBottomSheet(
+      BuildContext context, WidgetRef ref,
+      {required String initialName,
+      required Future<AttributeEntry?> Function() onSubmit}) {
+    ref
+        .read(transactionAttributeSubmitControllerProvider.notifier)
+        .setInitailName(initialName);
+
     showModalBottomSheet<AttributeEntry?>(
       context: context,
       isScrollControlled: true,
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(12))),
       builder: (context) {
-        return const TransactionAttributeBottomSheet();
+        return TransactionAttributeBottomSheet(
+          onSubmit: onSubmit,
+        );
       },
     ).then((AttributeEntry? result) {
       if (result != null) {
