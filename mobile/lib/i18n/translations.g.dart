@@ -1,9 +1,9 @@
 /// Generated file. Do not edit.
 ///
 /// Locales: 2
-/// Strings: 114 (57 per locale)
+/// Strings: 120 (60 per locale)
 ///
-/// Built on 2023-07-17 at 09:56 UTC
+/// Built on 2023-07-17 at 11:06 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -452,6 +452,7 @@ class _TranslationsTransactionAttributesCategoryEn {
   String get bottomSheetTitle => 'Add category';
   String get bottomSheetInputLabel => 'Category Name';
   String get settingsAdd => 'Add New Category';
+  String get settingsListLabel => 'Registered Categories';
 }
 
 // Path: transactionAttributes.location
@@ -466,6 +467,7 @@ class _TranslationsTransactionAttributesLocationEn {
   String get bottomSheetTitle => 'Add location';
   String get bottomSheetInputLabel => 'Location Name';
   String get settingsAdd => 'Add New Location';
+  String get settingsListLabel => 'Registered Locations';
 }
 
 // Path: transactionAttributes.incomeType
@@ -480,6 +482,7 @@ class _TranslationsTransactionAttributesIncomeTypeEn {
   String get bottomSheetTitle => 'Add income type';
   String get bottomSheetInputLabel => 'Income Type Name';
   String get settingsAdd => 'Add New Income Type';
+  String get settingsListLabel => 'Registered Income Types';
 }
 
 // Path: forms.errors
@@ -900,6 +903,8 @@ class _TranslationsTransactionAttributesCategoryJa
   String get bottomSheetInputLabel => 'カテゴリー名';
   @override
   String get settingsAdd => '新規カテゴリー追加';
+  @override
+  String get settingsListLabel => '登録済みカテゴリー一覧';
 }
 
 // Path: transactionAttributes.location
@@ -921,6 +926,8 @@ class _TranslationsTransactionAttributesLocationJa
   String get bottomSheetInputLabel => '購入場所名';
   @override
   String get settingsAdd => '新規購入場所追加';
+  @override
+  String get settingsListLabel => '登録済み購入場所一覧';
 }
 
 // Path: transactionAttributes.incomeType
@@ -942,6 +949,8 @@ class _TranslationsTransactionAttributesIncomeTypeJa
   String get bottomSheetInputLabel => '収入種別名';
   @override
   String get settingsAdd => '新規収入種別追加';
+  @override
+  String get settingsListLabel => '登録済み収入種別一覧';
 }
 
 // Path: forms.errors
@@ -1076,6 +1085,8 @@ extension on _TranslationsEn {
         return 'Category Name';
       case 'transactionAttributes.category.settingsAdd':
         return 'Add New Category';
+      case 'transactionAttributes.category.settingsListLabel':
+        return 'Registered Categories';
       case 'transactionAttributes.location.appBar':
         return 'Location';
       case 'transactionAttributes.location.noEntry':
@@ -1086,6 +1097,8 @@ extension on _TranslationsEn {
         return 'Location Name';
       case 'transactionAttributes.location.settingsAdd':
         return 'Add New Location';
+      case 'transactionAttributes.location.settingsListLabel':
+        return 'Registered Locations';
       case 'transactionAttributes.incomeType.appBar':
         return 'Income Type';
       case 'transactionAttributes.incomeType.noEntry':
@@ -1096,6 +1109,8 @@ extension on _TranslationsEn {
         return 'Income Type Name';
       case 'transactionAttributes.incomeType.settingsAdd':
         return 'Add New Income Type';
+      case 'transactionAttributes.incomeType.settingsListLabel':
+        return 'Registered Income Types';
       case 'transactionAttributes.appBarSettings':
         return ({required Object title}) => '${title} Settings';
       case 'forms.errors.emptyTitle':
@@ -1200,6 +1215,8 @@ extension on _TranslationsJa {
         return 'カテゴリー名';
       case 'transactionAttributes.category.settingsAdd':
         return '新規カテゴリー追加';
+      case 'transactionAttributes.category.settingsListLabel':
+        return '登録済みカテゴリー一覧';
       case 'transactionAttributes.location.appBar':
         return '購入場所';
       case 'transactionAttributes.location.noEntry':
@@ -1210,6 +1227,8 @@ extension on _TranslationsJa {
         return '購入場所名';
       case 'transactionAttributes.location.settingsAdd':
         return '新規購入場所追加';
+      case 'transactionAttributes.location.settingsListLabel':
+        return '登録済み購入場所一覧';
       case 'transactionAttributes.incomeType.appBar':
         return '収入種別';
       case 'transactionAttributes.incomeType.noEntry':
@@ -1220,6 +1239,8 @@ extension on _TranslationsJa {
         return '収入種別名';
       case 'transactionAttributes.incomeType.settingsAdd':
         return '新規収入種別追加';
+      case 'transactionAttributes.incomeType.settingsListLabel':
+        return '登録済み収入種別一覧';
       case 'transactionAttributes.appBarSettings':
         return ({required Object title}) => '${title}設定';
       case 'forms.errors.emptyTitle':

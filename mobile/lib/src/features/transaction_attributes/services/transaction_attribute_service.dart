@@ -1,5 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:openapi/openapi.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:suito/i18n/translations.g.dart';
+import 'package:suito/src/features/transactions/repositories/expense/expense_categories_repository.dart';
+import 'package:suito/src/features/transactions/repositories/expense/expense_locations_repository.dart';
+import 'package:suito/src/features/transactions/repositories/income/income_types_repository.dart';
 import 'package:suito/src/formz/name.dart';
 
 import 'transaction_attribute_entry.dart';
@@ -17,6 +22,33 @@ final transactionAttributeTypeProvider =
 
 final transactionAttributeIDProvider =
     StateProvider<({String id, String name})>((ref) => (id: '', name: ''));
+
+final _noCategory = ExpenseCategoryAsAttributeEntry(ModelExpenseCategory(
+    (r) => r..name = t.transactionAttributes.category.noEntry));
+final _noLocation = ExpenseLocationAsAttributeEntry(ModelExpenseLocation(
+    (r) => r..name = t.transactionAttributes.location.noEntry));
+
+@riverpod
+Future<List<AttributeEntry>> listAttributeEntries(
+    ListAttributeEntriesRef ref) async {
+  final type = ref.watch(transactionAttributeTypeProvider);
+  switch (type) {
+    case TransactionAttributeType.category:
+      final l = await ref.watch(expenseCategoriesListFutureProvider.future);
+      final res = l.map((e) => ExpenseCategoryAsAttributeEntry(e)).toList();
+      res.insert(0, _noCategory);
+      return res;
+    case TransactionAttributeType.location:
+      final list = await ref.watch(expenseLocationsListFutureProvider.future);
+      final res = list.map((e) => ExpenseLocationAsAttributeEntry(e)).toList();
+      res.insert(0, _noLocation);
+      return res;
+    case TransactionAttributeType.incomeType:
+      final list = await ref.watch(incomeTypesListFutureProvider.future);
+      final res = list.map((e) => IncomeTypeAsAttributeEntry(e)).toList();
+      return res;
+  }
+}
 
 @riverpod
 TransactionAttributeRepository transactionAttributeRepository(
@@ -106,7 +138,7 @@ Future<({List<AttributeEntry> filteredItems, AttributeEntry selected})>
     filteredCategories(FilteredCategoriesRef ref) async {
   final repo = ref.watch(transactionAttributeRepositoryProvider);
   final selectedID = ref.watch(transactionAttributeIDProvider).id;
-  final items = await repo.list();
+  final items = await ref.watch(listAttributeEntriesProvider.future);
   final searchInput = ref.watch(transactionAttributeSearchControllerProvider
       .select((value) => value.searchInput));
 
@@ -132,8 +164,7 @@ Future<({List<AttributeEntry> filteredItems, AttributeEntry selected})>
 // (新規追加できない場合はnull)
 @riverpod
 Future<String?> addableInputValue(AddableInputValueRef ref) async {
-  final repo = ref.watch(transactionAttributeRepositoryProvider);
-  final items = await repo.list();
+  final items = await ref.watch(listAttributeEntriesProvider.future);
   final searchInput =
       ref.watch(transactionAttributeSearchControllerProvider).searchInput;
   if (searchInput.isEmpty) {

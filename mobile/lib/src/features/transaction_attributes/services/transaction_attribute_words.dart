@@ -5,6 +5,7 @@ abstract class TransactionAttributeWords {
   String bottomSheetTitle();
   String bottomSheetTextInputLabel();
   String settingsAddTile();
+  String settingsListLabel();
 }
 
 class CategoryAttributesWords implements TransactionAttributeWords {
@@ -26,6 +27,11 @@ class CategoryAttributesWords implements TransactionAttributeWords {
   @override
   String settingsAddTile() {
     return t.transactionAttributes.category.settingsAdd;
+  }
+
+  @override
+  String settingsListLabel() {
+    return t.transactionAttributes.category.settingsListLabel;
   }
 }
 
@@ -49,6 +55,11 @@ class LocationAttributesWords implements TransactionAttributeWords {
   String settingsAddTile() {
     return t.transactionAttributes.location.settingsAdd;
   }
+
+  @override
+  String settingsListLabel() {
+    return t.transactionAttributes.location.settingsListLabel;
+  }
 }
 
 class IncomeTypeAttributesWords implements TransactionAttributeWords {
@@ -70,5 +81,10 @@ class IncomeTypeAttributesWords implements TransactionAttributeWords {
   @override
   String settingsAddTile() {
     return t.transactionAttributes.incomeType.settingsAdd;
+  }
+
+  @override
+  String settingsListLabel() {
+    return t.transactionAttributes.incomeType.settingsListLabel;
   }
 }

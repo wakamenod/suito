@@ -18,7 +18,7 @@ final _noIncomeType = IncomeTypeAsAttributeEntry(
     ModelIncomeType((r) => r..name = 'NO INCOME TYPE')); // NOTE 使わない
 
 abstract class TransactionAttributeRepository {
-  Future<List<AttributeEntry>> list();
+  // Future<List<AttributeEntry>> list();
   Future<AttributeEntry> register(String name);
   AttributeEntry noEntry();
 }
@@ -28,13 +28,13 @@ class CategoryAttributesRepository implements TransactionAttributeRepository {
 
   CategoryAttributesRepository(this._ref);
 
-  @override
-  Future<List<AttributeEntry>> list() async {
-    final list = await _ref.watch(expenseCategoriesListFutureProvider.future);
-    final res = list.map((e) => ExpenseCategoryAsAttributeEntry(e)).toList();
-    res.insert(0, _noCategory);
-    return res;
-  }
+  // @override
+  // Future<List<AttributeEntry>> list() async {
+  //   final list = await _ref.watch(expenseCategoriesListFutureProvider.future);
+  //   final res = list.map((e) => ExpenseCategoryAsAttributeEntry(e)).toList();
+  //   res.insert(0, _noCategory);
+  //   return res;
+  // }
 
   @override
   AttributeEntry noEntry() {
@@ -61,13 +61,13 @@ class LocationAttributesRepository implements TransactionAttributeRepository {
 
   LocationAttributesRepository(this._ref);
 
-  @override
-  Future<List<AttributeEntry>> list() async {
-    final list = await _ref.watch(expenseLocationsListFutureProvider.future);
-    final res = list.map((e) => ExpenseLocationAsAttributeEntry(e)).toList();
-    res.insert(0, _noLocation);
-    return res;
-  }
+  // @override
+  // Future<List<AttributeEntry>> list() async {
+  //   final list = await _ref.watch(expenseLocationsListFutureProvider.future);
+  //   final res = list.map((e) => ExpenseLocationAsAttributeEntry(e)).toList();
+  //   res.insert(0, _noLocation);
+  //   return res;
+  // }
 
   @override
   AttributeEntry noEntry() {
@@ -94,12 +94,12 @@ class IncomeTypeAttributesRepository implements TransactionAttributeRepository {
 
   IncomeTypeAttributesRepository(this._ref);
 
-  @override
-  Future<List<AttributeEntry>> list() async {
-    final list = await _ref.watch(incomeTypesListFutureProvider.future);
-    final res = list.map((e) => IncomeTypeAsAttributeEntry(e)).toList();
-    return res;
-  }
+  // @override
+  // Future<List<AttributeEntry>> list() async {
+  //   final list = await _ref.watch(incomeTypesListFutureProvider.future);
+  //   final res = list.map((e) => IncomeTypeAsAttributeEntry(e)).toList();
+  //   return res;
+  // }
 
   @override
   AttributeEntry noEntry() {
