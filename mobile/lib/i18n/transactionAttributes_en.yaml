@@ -25,3 +25,5 @@ incomeType:
   settingsAdd: Add New Income Type
   settingsListLabel: Registered Income Types
 appBarSettings: '$title Settings'
+settingsRename: 'Rename'
+settingsDelete: 'Delete'

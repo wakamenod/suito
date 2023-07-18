@@ -1,9 +1,9 @@
 /// Generated file. Do not edit.
 ///
 /// Locales: 2
-/// Strings: 120 (60 per locale)
+/// Strings: 124 (62 per locale)
 ///
-/// Built on 2023-07-17 at 11:06 UTC
+/// Built on 2023-07-18 at 00:18 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -280,6 +280,8 @@ class _TranslationsTransactionAttributesEn {
   late final _TranslationsTransactionAttributesIncomeTypeEn incomeType =
       _TranslationsTransactionAttributesIncomeTypeEn._(_root);
   String appBarSettings({required Object title}) => '${title} Settings';
+  String get settingsRename => 'Rename';
+  String get settingsDelete => 'Delete';
 }
 
 // Path: forms
@@ -671,6 +673,10 @@ class _TranslationsTransactionAttributesJa
       _TranslationsTransactionAttributesIncomeTypeJa._(_root);
   @override
   String appBarSettings({required Object title}) => '${title}設定';
+  @override
+  String get settingsRename => 'リネーム';
+  @override
+  String get settingsDelete => '削除';
 }
 
 // Path: forms
@@ -1113,6 +1119,10 @@ extension on _TranslationsEn {
         return 'Registered Income Types';
       case 'transactionAttributes.appBarSettings':
         return ({required Object title}) => '${title} Settings';
+      case 'transactionAttributes.settingsRename':
+        return 'Rename';
+      case 'transactionAttributes.settingsDelete':
+        return 'Delete';
       case 'forms.errors.emptyTitle':
         return 'Empty title';
       case 'forms.errors.emptyAmount':
@@ -1243,6 +1253,10 @@ extension on _TranslationsJa {
         return '登録済み収入種別一覧';
       case 'transactionAttributes.appBarSettings':
         return ({required Object title}) => '${title}設定';
+      case 'transactionAttributes.settingsRename':
+        return 'リネーム';
+      case 'transactionAttributes.settingsDelete':
+        return '削除';
       case 'forms.errors.emptyTitle':
         return '品目が未入力です';
       case 'forms.errors.emptyAmount':
