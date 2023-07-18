@@ -1,7 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:openapi/openapi.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:suito/i18n/translations.g.dart';
 import 'package:suito/src/features/transactions/repositories/expense/expense_categories_repository.dart';
 import 'package:suito/src/features/transactions/repositories/expense/expense_locations_repository.dart';
 import 'package:suito/src/features/transactions/repositories/income/income_types_repository.dart';
@@ -23,29 +21,25 @@ final transactionAttributeTypeProvider =
 final transactionAttributeIDProvider =
     StateProvider<({String id, String name})>((ref) => (id: '', name: ''));
 
-final _noCategory = ExpenseCategoryAsAttributeEntry(ModelExpenseCategory(
-    (r) => r..name = t.transactionAttributes.category.noEntry));
-final _noLocation = ExpenseLocationAsAttributeEntry(ModelExpenseLocation(
-    (r) => r..name = t.transactionAttributes.location.noEntry));
-
 @riverpod
 Future<List<AttributeEntry>> listAttributeEntries(
     ListAttributeEntriesRef ref) async {
   final type = ref.watch(transactionAttributeTypeProvider);
+  final repo = ref.watch(transactionAttributeRepositoryProvider);
   switch (type) {
     case TransactionAttributeType.category:
       final l = await ref.watch(expenseCategoriesListFutureProvider.future);
-      final res = l.map((e) => ExpenseCategoryAsAttributeEntry(e)).toList();
-      res.insert(0, _noCategory);
+      final res = l.map((e) => AttributeEntry.fromCategory(e)).toList();
+      res.insert(0, repo.noEntry());
       return res;
     case TransactionAttributeType.location:
       final list = await ref.watch(expenseLocationsListFutureProvider.future);
-      final res = list.map((e) => ExpenseLocationAsAttributeEntry(e)).toList();
-      res.insert(0, _noLocation);
+      final res = list.map((e) => AttributeEntry.fromLocation(e)).toList();
+      res.insert(0, repo.noEntry());
       return res;
     case TransactionAttributeType.incomeType:
       final list = await ref.watch(incomeTypesListFutureProvider.future);
-      final res = list.map((e) => IncomeTypeAsAttributeEntry(e)).toList();
+      final res = list.map((e) => AttributeEntry.fromIncomeType(e)).toList();
       return res;
   }
 }
@@ -72,21 +66,23 @@ TransactionAttributeWords transactionAttributeWords(
   };
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 class TransactionAttributeSubmitController
     extends _$TransactionAttributeSubmitController {
   @override
   AttributeName build() {
-    final input = ref.read(transactionAttributeSearchControllerProvider
-        .select((value) => value.searchInput));
-    return AttributeName.pure(input);
+    return const AttributeName.pure();
   }
 
   void onChangeName(value) {
     state = AttributeName.dirty(value);
   }
 
-  Future<AttributeEntry?> submit() async {
+  void setInitailName(String initialName) {
+    state = AttributeName.dirty(initialName);
+  }
+
+  Future<AttributeEntry?> register() async {
     if (!state.isValid) return null;
 
     // TODO エラーハンドリング
@@ -99,6 +95,26 @@ class TransactionAttributeSubmitController
     return ref
         .read(transactionAttributeRepositoryProvider)
         .register(state.value);
+
+    // } on CustomFailure catch (e) {
+    //   state = state.copyWith(
+    //       status: FormzSubmissionStatus.failure, errorMessage: e.code);
+    // }
+  }
+
+  Future<AttributeEntry?> update(id) async {
+    if (!state.isValid) return null;
+
+    // TODO エラーハンドリング
+    // try {
+    // await _authenticationRepository.signUpWithEmailAndPassword(
+    //   email: state.email.value,
+    //   password: state.password.value,
+    // );
+
+    return ref
+        .read(transactionAttributeRepositoryProvider)
+        .update(id, state.value);
 
     // } on CustomFailure catch (e) {
     //   state = state.copyWith(

@@ -2,24 +2,28 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:openapi/openapi.dart';
 import 'package:suito/i18n/translations.g.dart';
 import 'package:suito/src/features/transaction_attributes/repositories/categories/register_category_repository.dart';
+import 'package:suito/src/features/transaction_attributes/repositories/categories/update_category_repository.dart';
 import 'package:suito/src/features/transaction_attributes/repositories/income_types/register_income_type_repository.dart';
+import 'package:suito/src/features/transaction_attributes/repositories/income_types/update_income_type_repository.dart';
 import 'package:suito/src/features/transaction_attributes/repositories/locations/register_location_repository.dart';
+import 'package:suito/src/features/transaction_attributes/repositories/locations/update_location_repository.dart';
 import 'package:suito/src/features/transactions/repositories/expense/expense_categories_repository.dart';
 import 'package:suito/src/features/transactions/repositories/expense/expense_locations_repository.dart';
 import 'package:suito/src/features/transactions/repositories/income/income_types_repository.dart';
 
 import 'transaction_attribute_entry.dart';
 
-final _noCategory = ExpenseCategoryAsAttributeEntry(ModelExpenseCategory(
+final _noCategory = AttributeEntry.fromCategory(ModelExpenseCategory(
     (r) => r..name = t.transactionAttributes.category.noEntry));
-final _noLocation = ExpenseLocationAsAttributeEntry(ModelExpenseLocation(
+final _noLocation = AttributeEntry.fromLocation(ModelExpenseLocation(
     (r) => r..name = t.transactionAttributes.location.noEntry));
-final _noIncomeType = IncomeTypeAsAttributeEntry(
+final _noIncomeType = AttributeEntry.fromIncomeType(
     ModelIncomeType((r) => r..name = 'NO INCOME TYPE')); // NOTE 使わない
 
 abstract class TransactionAttributeRepository {
   // Future<List<AttributeEntry>> list();
   Future<AttributeEntry> register(String name);
+  Future<AttributeEntry> update(String id, String name);
   AttributeEntry noEntry();
 }
 
@@ -52,7 +56,22 @@ class CategoryAttributesRepository implements TransactionAttributeRepository {
 
     _ref.invalidate(expenseCategoriesRepositoryProvider);
 
-    return ExpenseCategoryAsAttributeEntry(res);
+    return AttributeEntry.fromCategory(res);
+  }
+
+  @override
+  Future<AttributeEntry> update(id, name) async {
+    final req = UpdateExpenseCategoryReq((r) => r
+      ..expenseCategory.replace(ModelExpenseCategory((e) => e
+        ..id = id
+        ..name = name)));
+
+    final res =
+        await _ref.read(updateCategoryRepositoryProvider).updateCategory(req);
+
+    _ref.invalidate(expenseCategoriesRepositoryProvider);
+
+    return AttributeEntry.fromCategory(res);
   }
 }
 
@@ -85,7 +104,22 @@ class LocationAttributesRepository implements TransactionAttributeRepository {
 
     _ref.invalidate(expenseLocationsRepositoryProvider);
 
-    return ExpenseLocationAsAttributeEntry(res);
+    return AttributeEntry.fromLocation(res);
+  }
+
+  @override
+  Future<AttributeEntry> update(id, name) async {
+    final req = UpdateExpenseLocationReq((r) => r
+      ..expenseLocation.replace(ModelExpenseLocation((e) => e
+        ..id = id
+        ..name = name)));
+
+    final res =
+        await _ref.read(updateLocationRepositoryProvider).updateLocation(req);
+
+    _ref.invalidate(expenseLocationsRepositoryProvider);
+
+    return AttributeEntry.fromLocation(res);
   }
 }
 
@@ -116,6 +150,22 @@ class IncomeTypeAttributesRepository implements TransactionAttributeRepository {
 
     _ref.invalidate(incomeTypesRepositoryProvider);
 
-    return IncomeTypeAsAttributeEntry(res);
+    return AttributeEntry.fromIncomeType(res);
+  }
+
+  @override
+  Future<AttributeEntry> update(id, name) async {
+    final req = UpdateIncomeTypeReq((r) => r
+      ..incomeType.replace(ModelIncomeType((e) => e
+        ..id = id
+        ..name = name)));
+
+    final res = await _ref
+        .read(updateIncomeTypeRepositoryProvider)
+        .updateIncomeType(req);
+
+    _ref.invalidate(incomeTypesRepositoryProvider);
+
+    return AttributeEntry.fromIncomeType(res);
   }
 }
