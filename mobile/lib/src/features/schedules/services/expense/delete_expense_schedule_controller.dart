@@ -1,11 +1,8 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:suito/src/features/schedules/repositories/delete_expense_schedule_repository.dart';
-
-import 'schedule_service.dart';
+import 'package:suito/src/features/schedules/repositories/expense/delete_expense_schedule_repository.dart';
+import 'package:suito/src/features/schedules/services/schedule_service.dart';
 
 part 'delete_expense_schedule_controller.g.dart';
-
-// TODO 命名の一貫性
 
 @riverpod
 class DeleteExpenseScheduleController

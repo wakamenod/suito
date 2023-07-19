@@ -4,8 +4,8 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:suito/i18n/translations.g.dart';
 import 'package:suito/src/features/schedules/repositories/schedules_repository.dart';
 
-import 'delete_expense_schedule_controller.dart';
-import 'delete_income_schedule_controller.dart';
+import 'expense/delete_expense_schedule_controller.dart';
+import 'income/delete_income_schedule_controller.dart';
 
 part 'schedule_service.g.dart';
 

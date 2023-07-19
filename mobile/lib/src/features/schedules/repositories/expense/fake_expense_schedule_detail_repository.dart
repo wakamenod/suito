@@ -1,6 +1,7 @@
 import 'package:openapi/openapi.dart';
-import 'package:suito/src/features/schedules/repositories/expense_schedule_detail_repository.dart';
 import 'package:suito/src/features/schedules/repositories/fake_schedules_repository.dart';
+
+import 'expense_schedule_detail_repository.dart';
 
 class FakeExpenseScheduleDetailRes {
   final String id;

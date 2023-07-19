@@ -1,7 +1,7 @@
 import 'package:openapi/openapi.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:suito/src/features/schedules/repositories/register_income_schedule_repository.dart';
-import 'package:suito/src/features/schedules/repositories/update_income_schedule_repository.dart';
+import 'package:suito/src/features/schedules/repositories/income/register_income_schedule_repository.dart';
+import 'package:suito/src/features/schedules/repositories/income/update_income_schedule_repository.dart';
 import 'package:suito/src/features/schedules/services/schedule_service.dart';
 import 'package:suito/src/utils/timezone_provider.dart';
 
