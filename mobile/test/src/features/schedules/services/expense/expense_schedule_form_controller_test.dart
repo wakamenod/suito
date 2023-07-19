@@ -1,14 +1,36 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:openapi/openapi.dart';
+import 'package:suito/src/features/schedules/repositories/expense/expense_schedule_detail_repository.dart';
 import 'package:suito/src/features/schedules/services/expense/expense_schedule.dart';
 import 'package:suito/src/features/schedules/services/expense/expense_schedule_form_controller.dart';
 import 'package:suito/src/features/transaction_attributes/services/transaction_attribute_entry.dart';
+import 'package:suito/src/features/transactions/repositories/expense/expense_categories_repository.dart';
+import 'package:suito/src/features/transactions/repositories/expense/expense_locations_repository.dart';
+
+import '../../../../mocks.dart';
 
 void main() {
+  late MockExpenseScheduleDetailRepository expenseScheduleDetailRepository;
+  late MockExpenseCategoriesRepository expenseCategoryRepository;
+  late MockExpenseLocationsRepository expenseLocationRepository;
+  setUp(() {
+    expenseScheduleDetailRepository = MockExpenseScheduleDetailRepository();
+    expenseCategoryRepository = MockExpenseCategoriesRepository();
+    expenseLocationRepository = MockExpenseLocationsRepository();
+  });
+
   ProviderContainer makeProviderContainer() {
     final container = ProviderContainer(
-      overrides: [],
+      overrides: [
+        expenseScheduleDetailRepositoryProvider
+            .overrideWithValue(expenseScheduleDetailRepository),
+        expenseCategoriesRepositoryProvider
+            .overrideWithValue(expenseCategoryRepository),
+        expenseLocationsRepositoryProvider
+            .overrideWithValue(expenseLocationRepository),
+      ],
     );
     addTearDown(container.dispose);
     return container;
@@ -136,6 +158,57 @@ void main() {
       expect(state.locationID, '');
       expect(state.memo, memo);
       expect(state.isValid, true);
+    });
+  });
+
+  group('expenseScheduleFuture', () {
+    test('do not fetch expense schedule if id is null', () async {
+      // setup
+      final container = makeProviderContainer();
+      // run
+      final schedule =
+          await container.read(expenseScheduleFutureProvider().future);
+      // check
+      expect(schedule.id, '');
+    });
+
+    test('do fetch expense schedule if id is not null', () async {
+      // setup
+      final container = makeProviderContainer();
+      final category = ModelExpenseCategory((e) => e
+        ..id = 'expense_category_id'
+        ..name = 'Test Category');
+      final location = ModelExpenseLocation((e) => e
+        ..id = 'expense_location_id'
+        ..name = 'Test Location');
+      final modelSchedule = ModelExpenseSchedule((e) => e
+        ..id = 'test_expense_id'
+        ..title = 'expense title'
+        ..amount = 400
+        ..memo = ''
+        ..expenseCategoryID = category.id
+        ..expenseLocationID = location.id
+        ..timezone = 'Asia/Tokyo');
+      when(() => expenseScheduleDetailRepository
+              .fetchExpenseScheduleDetail(modelSchedule.id))
+          .thenAnswer((invocation) => Future.value(ExpenseScheduleDetailRes(
+              (b) => b.expenseSchedule.replace(modelSchedule))));
+      when(() => expenseCategoryRepository.fetchExpenseCategoriesList())
+          .thenAnswer((invocation) => Future.value([category]));
+      when(() => expenseLocationRepository.fetchExpenseLocationsList())
+          .thenAnswer((invocation) => Future.value([location]));
+      // run
+      final expenseSchedule = await container
+          .read(expenseScheduleFutureProvider(id: modelSchedule.id).future);
+      // check
+      expect(expenseSchedule.id, modelSchedule.id);
+      expect(expenseSchedule.title.value, modelSchedule.title);
+      expect(expenseSchedule.amount.value, modelSchedule.amount);
+      expect(expenseSchedule.memo, modelSchedule.memo);
+      expect(expenseSchedule.category, category.name);
+      expect(expenseSchedule.categoryID, category.id);
+      expect(expenseSchedule.location, location.name);
+      expect(expenseSchedule.locationID, location.id);
     });
   });
 }
