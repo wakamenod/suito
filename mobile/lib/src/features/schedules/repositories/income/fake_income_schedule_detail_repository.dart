@@ -1,6 +1,7 @@
 import 'package:openapi/openapi.dart';
 import 'package:suito/src/features/schedules/repositories/fake_schedules_repository.dart';
-import 'package:suito/src/features/schedules/repositories/income_schedule_detail_repository.dart';
+
+import 'income_schedule_detail_repository.dart';
 
 class FakeIncomeScheduleDetailRes {
   final String id;

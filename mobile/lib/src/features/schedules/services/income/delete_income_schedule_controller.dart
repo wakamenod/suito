@@ -1,11 +1,8 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:suito/src/features/schedules/repositories/delete_income_schedule_repository.dart';
-
-import 'schedule_service.dart';
+import 'package:suito/src/features/schedules/repositories/income/delete_income_schedule_repository.dart';
+import 'package:suito/src/features/schedules/services/schedule_service.dart';
 
 part 'delete_income_schedule_controller.g.dart';
-
-// TODO 命名の一貫性
 
 @riverpod
 class DeleteIncomeScheduleController extends _$DeleteIncomeScheduleController {

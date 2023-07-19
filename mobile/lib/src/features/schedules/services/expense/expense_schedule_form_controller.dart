@@ -1,6 +1,6 @@
 import 'package:formz/formz.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:suito/src/features/schedules/repositories/expense_schedule_detail_repository.dart';
+import 'package:suito/src/features/schedules/repositories/expense/expense_schedule_detail_repository.dart';
 import 'package:suito/src/features/transaction_attributes/services/transaction_attribute_entry.dart';
 import 'package:suito/src/features/transactions/repositories/expense/expense_categories_repository.dart';
 import 'package:suito/src/features/transactions/repositories/expense/expense_locations_repository.dart';
