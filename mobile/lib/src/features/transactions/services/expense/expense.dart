@@ -21,16 +21,11 @@ class Expense with _$Expense {
     required String location,
     required String memo,
     required bool isValid,
-    required Map<String, ModelExpenseCategory> categoriesMap,
-    required Map<String, ModelExpenseLocation> locationsMap,
   }) = _Expense;
-
-  String categoryByID(id) => categoriesMap[id]?.name ?? '';
-  String locationByID(id) => locationsMap[id]?.name ?? '';
 
   bool get isNew => id == '';
 
-  static Expense init(categoriesMap, locationsMap) => Expense(
+  static Expense init() => Expense(
         id: '',
         title: const Title.pure(),
         amount: const Amount.pure(),
@@ -40,9 +35,7 @@ class Expense with _$Expense {
         locationID: '',
         location: '',
         memo: '',
-        categoriesMap: categoriesMap,
-        locationsMap: locationsMap,
-        isValid: true,
+        isValid: false,
       );
 
   static Expense fromModel(ExpenseDetailRes res, categoriesMap, locationsMap) =>
@@ -56,8 +49,6 @@ class Expense with _$Expense {
         locationID: res.expense.expenseLocationID,
         location: locationsMap[res.expense.expenseLocationID]?.name ?? '',
         memo: res.expense.memo,
-        categoriesMap: categoriesMap,
-        locationsMap: locationsMap,
         isValid: true,
       );
 }

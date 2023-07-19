@@ -51,7 +51,7 @@ class _IncomeDetailViewContents extends ConsumerWidget {
                 date: inc.date, onChanged: controller.onChangeDate),
           ),
           TransitionTextField<AttributeEntry>(
-              initialValue: inc.incomeType,
+              initialValue: inc.title.value,
               labelText: t.transactions.detail.inputLabels.title,
               route: AppRoute.attribute,
               onTap: () {
