@@ -44,7 +44,6 @@ class SchedulesList extends ConsumerWidget {
                             onPressed: () {
                               context.goNamed(AppRoute.scheduleDetail.name,
                                   queryParameters: {
-                                    'id': '',
                                     'type': index == 0
                                         ? TransactionType.expense.value
                                             .toString()

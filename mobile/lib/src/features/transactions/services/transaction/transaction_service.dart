@@ -45,20 +45,7 @@ TransactionsTotalAmounts transactionsTotalAmounts(
 }
 
 @riverpod
-class ReloadTransactions extends _$ReloadTransactions {
-  @override
-  int build() {
-    return 0;
-  }
-
-  Future<void> reload() async {
-    state++;
-  }
-}
-
-@riverpod
 Future<List<Transaction>> fetchTransactions(FetchTransactionsRef ref) {
-  ref.watch(reloadTransactionsProvider);
   final selectedYearMonth = ref.watch(selectedYearMonthProvider);
   final transactionsRepository = ref.read(transactionsRepositoryProvider);
   return transactionsRepository.fetchTransactionsList(selectedYearMonth);

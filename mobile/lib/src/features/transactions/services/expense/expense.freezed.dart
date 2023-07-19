@@ -26,8 +26,6 @@ mixin _$Expense {
   String get location => throw _privateConstructorUsedError;
   String get memo => throw _privateConstructorUsedError;
   bool get isValid => throw _privateConstructorUsedError;
-  FormzSubmissionStatus get submissionStatus =>
-      throw _privateConstructorUsedError;
   Map<String, ModelExpenseCategory> get categoriesMap =>
       throw _privateConstructorUsedError;
   Map<String, ModelExpenseLocation> get locationsMap =>
@@ -53,7 +51,6 @@ abstract class $ExpenseCopyWith<$Res> {
       String location,
       String memo,
       bool isValid,
-      FormzSubmissionStatus submissionStatus,
       Map<String, ModelExpenseCategory> categoriesMap,
       Map<String, ModelExpenseLocation> locationsMap});
 }
@@ -81,7 +78,6 @@ class _$ExpenseCopyWithImpl<$Res, $Val extends Expense>
     Object? location = null,
     Object? memo = null,
     Object? isValid = null,
-    Object? submissionStatus = null,
     Object? categoriesMap = null,
     Object? locationsMap = null,
   }) {
@@ -126,10 +122,6 @@ class _$ExpenseCopyWithImpl<$Res, $Val extends Expense>
           ? _value.isValid
           : isValid // ignore: cast_nullable_to_non_nullable
               as bool,
-      submissionStatus: null == submissionStatus
-          ? _value.submissionStatus
-          : submissionStatus // ignore: cast_nullable_to_non_nullable
-              as FormzSubmissionStatus,
       categoriesMap: null == categoriesMap
           ? _value.categoriesMap
           : categoriesMap // ignore: cast_nullable_to_non_nullable
@@ -160,7 +152,6 @@ abstract class _$$_ExpenseCopyWith<$Res> implements $ExpenseCopyWith<$Res> {
       String location,
       String memo,
       bool isValid,
-      FormzSubmissionStatus submissionStatus,
       Map<String, ModelExpenseCategory> categoriesMap,
       Map<String, ModelExpenseLocation> locationsMap});
 }
@@ -185,7 +176,6 @@ class __$$_ExpenseCopyWithImpl<$Res>
     Object? location = null,
     Object? memo = null,
     Object? isValid = null,
-    Object? submissionStatus = null,
     Object? categoriesMap = null,
     Object? locationsMap = null,
   }) {
@@ -230,10 +220,6 @@ class __$$_ExpenseCopyWithImpl<$Res>
           ? _value.isValid
           : isValid // ignore: cast_nullable_to_non_nullable
               as bool,
-      submissionStatus: null == submissionStatus
-          ? _value.submissionStatus
-          : submissionStatus // ignore: cast_nullable_to_non_nullable
-              as FormzSubmissionStatus,
       categoriesMap: null == categoriesMap
           ? _value._categoriesMap
           : categoriesMap // ignore: cast_nullable_to_non_nullable
@@ -260,7 +246,6 @@ class _$_Expense extends _Expense {
       required this.location,
       required this.memo,
       required this.isValid,
-      required this.submissionStatus,
       required final Map<String, ModelExpenseCategory> categoriesMap,
       required final Map<String, ModelExpenseLocation> locationsMap})
       : _categoriesMap = categoriesMap,
@@ -287,8 +272,6 @@ class _$_Expense extends _Expense {
   final String memo;
   @override
   final bool isValid;
-  @override
-  final FormzSubmissionStatus submissionStatus;
   final Map<String, ModelExpenseCategory> _categoriesMap;
   @override
   Map<String, ModelExpenseCategory> get categoriesMap {
@@ -307,7 +290,7 @@ class _$_Expense extends _Expense {
 
   @override
   String toString() {
-    return 'Expense(id: $id, title: $title, amount: $amount, date: $date, categoryID: $categoryID, category: $category, locationID: $locationID, location: $location, memo: $memo, isValid: $isValid, submissionStatus: $submissionStatus, categoriesMap: $categoriesMap, locationsMap: $locationsMap)';
+    return 'Expense(id: $id, title: $title, amount: $amount, date: $date, categoryID: $categoryID, category: $category, locationID: $locationID, location: $location, memo: $memo, isValid: $isValid, categoriesMap: $categoriesMap, locationsMap: $locationsMap)';
   }
 
   @override
@@ -329,8 +312,6 @@ class _$_Expense extends _Expense {
                 other.location == location) &&
             (identical(other.memo, memo) || other.memo == memo) &&
             (identical(other.isValid, isValid) || other.isValid == isValid) &&
-            (identical(other.submissionStatus, submissionStatus) ||
-                other.submissionStatus == submissionStatus) &&
             const DeepCollectionEquality()
                 .equals(other._categoriesMap, _categoriesMap) &&
             const DeepCollectionEquality()
@@ -350,7 +331,6 @@ class _$_Expense extends _Expense {
       location,
       memo,
       isValid,
-      submissionStatus,
       const DeepCollectionEquality().hash(_categoriesMap),
       const DeepCollectionEquality().hash(_locationsMap));
 
@@ -373,7 +353,6 @@ abstract class _Expense extends Expense {
           required final String location,
           required final String memo,
           required final bool isValid,
-          required final FormzSubmissionStatus submissionStatus,
           required final Map<String, ModelExpenseCategory> categoriesMap,
           required final Map<String, ModelExpenseLocation> locationsMap}) =
       _$_Expense;
@@ -399,8 +378,6 @@ abstract class _Expense extends Expense {
   String get memo;
   @override
   bool get isValid;
-  @override
-  FormzSubmissionStatus get submissionStatus;
   @override
   Map<String, ModelExpenseCategory> get categoriesMap;
   @override

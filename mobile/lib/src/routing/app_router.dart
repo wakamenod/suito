@@ -105,7 +105,7 @@ final goRouterProvider = Provider.family<GoRouter, GlobalKey<NavigatorState>>(
                     pageBuilder: (context, state) => CustomTransitionPage(
                           key: state.pageKey,
                           child: TransactionDetailScreen(
-                            id: state.queryParameters['id'] ?? '',
+                            id: state.queryParameters['id'],
                             type: int.tryParse(
                                     state.queryParameters['type'] ?? '') ??
                                 TransactionType.expense.value,
@@ -162,7 +162,7 @@ final goRouterProvider = Provider.family<GoRouter, GlobalKey<NavigatorState>>(
                     pageBuilder: (context, state) => CustomTransitionPage(
                           key: state.pageKey,
                           child: ScheduleDetailScreen(
-                            id: state.queryParameters['id'] ?? '',
+                            id: state.queryParameters['id'],
                             type: int.tryParse(
                                     state.queryParameters['type'] ?? '') ??
                                 TransactionType.expense.value,

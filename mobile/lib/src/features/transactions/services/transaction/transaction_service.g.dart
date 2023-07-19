@@ -26,7 +26,7 @@ final transactionsTotalAmountsProvider =
 
 typedef TransactionsTotalAmountsRef
     = AutoDisposeProviderRef<TransactionsTotalAmounts>;
-String _$fetchTransactionsHash() => r'b8ce688551939c08892e3b4b27caf0b86ceedf9e';
+String _$fetchTransactionsHash() => r'e01a8c6ef3b9b38e3825ccf43199f2209bc1740e';
 
 /// See also [fetchTransactions].
 @ProviderFor(fetchTransactions)
@@ -42,21 +42,4 @@ final fetchTransactionsProvider =
 );
 
 typedef FetchTransactionsRef = AutoDisposeFutureProviderRef<List<Transaction>>;
-String _$reloadTransactionsHash() =>
-    r'fe8c91afc32b7fdca919280528aca410e5a57506';
-
-/// See also [ReloadTransactions].
-@ProviderFor(ReloadTransactions)
-final reloadTransactionsProvider =
-    AutoDisposeNotifierProvider<ReloadTransactions, int>.internal(
-  ReloadTransactions.new,
-  name: r'reloadTransactionsProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$reloadTransactionsHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef _$ReloadTransactions = AutoDisposeNotifier<int>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

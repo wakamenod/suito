@@ -24,6 +24,8 @@ class IncomeSchedule with _$IncomeSchedule {
   String get incomeType => incomeTypeByID(incomeTypeID);
   String incomeTypeByID(id) => incomeTypeMap[id]?.name ?? '';
 
+  bool get isNew => id == '';
+
   static IncomeSchedule init(incomeTypeMap) => IncomeSchedule(
         id: '',
         incomeTypeID: '',

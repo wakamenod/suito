@@ -25,6 +25,8 @@ class Income with _$Income {
   String get incomeType => incomeTypeByID(incomeTypeID);
   String incomeTypeByID(id) => incomeTypeMap[id]?.name ?? '';
 
+  bool get isNew => id == '';
+
   static Income init(incomeTypeMap) => Income(
         id: '',
         incomeTypeID: '',

@@ -1,4 +1,3 @@
-import 'package:formz/formz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:openapi/openapi.dart';
 import 'package:suito/src/formz/amount.dart';
@@ -22,13 +21,14 @@ class Expense with _$Expense {
     required String location,
     required String memo,
     required bool isValid,
-    required FormzSubmissionStatus submissionStatus,
     required Map<String, ModelExpenseCategory> categoriesMap,
     required Map<String, ModelExpenseLocation> locationsMap,
   }) = _Expense;
 
   String categoryByID(id) => categoriesMap[id]?.name ?? '';
   String locationByID(id) => locationsMap[id]?.name ?? '';
+
+  bool get isNew => id == '';
 
   static Expense init(categoriesMap, locationsMap) => Expense(
         id: '',
@@ -43,7 +43,6 @@ class Expense with _$Expense {
         categoriesMap: categoriesMap,
         locationsMap: locationsMap,
         isValid: true,
-        submissionStatus: FormzSubmissionStatus.initial,
       );
 
   static Expense fromModel(ExpenseDetailRes res, categoriesMap, locationsMap) =>
@@ -60,6 +59,5 @@ class Expense with _$Expense {
         categoriesMap: categoriesMap,
         locationsMap: locationsMap,
         isValid: true,
-        submissionStatus: FormzSubmissionStatus.initial,
       );
 }

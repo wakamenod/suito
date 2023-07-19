@@ -21,7 +21,7 @@ class DeleteIncomeScheduleController extends _$DeleteIncomeScheduleController {
       await repository.deleteIncomeSchedule(incomeScheduleID);
       // FIXME https://github.com/cfug/dio/issues/1480
       // dioのバージョンを上げれば直るかもしれないがopenapi側の制約で上げられない
-      await ref.read(reloadSchedulesProvider.notifier).reload();
+      ref.invalidate(fetchSchedulesProvider);
     });
 
     // TODO エラーハンドリング

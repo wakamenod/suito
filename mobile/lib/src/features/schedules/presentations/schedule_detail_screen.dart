@@ -7,7 +7,7 @@ import 'expense_schedule_detail_view.dart';
 import 'income_schedule_detail_view.dart';
 
 class ScheduleDetailScreen extends ConsumerWidget {
-  final String id;
+  final String? id;
   final int type;
 
   const ScheduleDetailScreen({required this.id, required this.type, super.key});
