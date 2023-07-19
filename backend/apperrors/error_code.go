@@ -13,6 +13,8 @@ const (
 
 	InvalidParameter ErrCode = "C001"
 
+	IncomeTypeInUse ErrCode = "R001"
+
 	InvalidIDToken ErrCode = "M001"
 )
 
@@ -22,6 +24,7 @@ const (
 	messageDeadlineExceeded errMessage = "timeout occurs"
 	messageInvalidParameter errMessage = "request parameter is invalid"
 	messageInvalidIDToken   errMessage = "firebase idtoken is invalid"
+	messageIncomeTypeInUse  errMessage = "income type is in use"
 )
 
 const (
@@ -47,6 +50,8 @@ func (e *ErrCode) statusCode() int {
 		return http.StatusBadRequest
 	case InvalidIDToken:
 		return http.StatusForbidden
+	case IncomeTypeInUse:
+		return http.StatusForbidden
 	default:
 		return http.StatusInternalServerError
 	}
@@ -64,6 +69,8 @@ func (e *ErrCode) errorMessage() errMessage {
 		return messageInvalidParameter
 	case InvalidIDToken:
 		return messageInvalidIDToken
+	case IncomeTypeInUse:
+		return messageIncomeTypeInUse
 	default:
 		return messageUnknown
 	}

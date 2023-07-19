@@ -56,6 +56,13 @@ func (r *SuitoExpenseCategoryRepository) DeleteExpenseCategory(id string, uid st
 	if err := r.db.Where("id = ? AND uid = ?", id, uid).Delete(&model.ExpenseCategory{}).Error; err != nil {
 		return errors.Wrap(err, "failed to delete expenseCategory")
 	}
+	if err := r.db.Model(&model.Expense{}).
+		Where("expense_category_id = ? AND uid = ?", id, uid).
+		Updates(map[string]any{
+			"expense_category_id": "",
+		}).Error; err != nil {
+		return errors.Wrap(err, "failed to update expense_category_id")
+	}
 	return nil
 }
 

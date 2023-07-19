@@ -227,15 +227,28 @@ func TestDeleteExpenseCategory(t *testing.T) {
 	tx := begin()
 	defer rollback(tx)
 	// setup
+	uid := "user1"
 	i := testutils.NewTestDataInserter(t, tx)
-	id := i.InsertExpenseCategory("user1", "Category01").ID
-	i.InsertExpenseCategory("user99", "Other users category")
-	i.InsertExpenseCategory("user1", "Category02")
+	id := i.InsertExpenseCategory(uid, "Category01").ID
+	otherID := i.InsertExpenseCategory(uid, "Other users category").ID
+	i.InsertExpenseCategory(uid, "Category02")
+	ex1ID := i.InsertExpense(uid, "2023-04-05", "title", id)
+	ex2ID := i.InsertExpense(uid, "2023-04-05", "title", otherID)
 	// run
 	err := NewSuitoExpenseCategoryRepository(tx).DeleteExpenseCategory(id, "user1")
 	// check
 	require.NoError(t, err)
 
 	var found model.ExpenseCategory
-	require.Error(t, tx.Where("id = ? AND uid = ?", id, "user1").Unscoped().First(&found).Error)
+	require.Error(t, tx.Where("id = ? AND uid = ?", id, uid).Unscoped().First(&found).Error)
+	{
+		var ex1 model.Expense
+		require.NoError(t, tx.Where("id = ?", ex1ID).Unscoped().First(&ex1).Error)
+		require.Empty(t, ex1.ExpenseCategoryID)
+	}
+	{
+		var ex2 model.Expense
+		require.NoError(t, tx.Where("id = ?", ex2ID).Unscoped().First(&ex2).Error)
+		require.NotEmpty(t, ex2.ExpenseCategoryID)
+	}
 }
