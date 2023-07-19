@@ -6,7 +6,7 @@ import 'package:suito/src/features/transactions/presentations/incomes/income_det
 import 'package:suito/src/features/transactions/services/transaction/transaction_service.dart';
 
 class TransactionDetailScreen extends ConsumerWidget {
-  final String id;
+  final String? id;
   final int type;
 
   const TransactionDetailScreen(

@@ -39,7 +39,7 @@ class TransactionAttributeSettingsScreen extends ConsumerWidget {
                     )
                   ],
                 ),
-                gapH8,
+                gapH4,
                 ...attributes
                     .where((element) => element.id != null)
                     .map((a) => Padding(

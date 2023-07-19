@@ -23,20 +23,7 @@ class Schedules {
 }
 
 @riverpod
-class ReloadSchedules extends _$ReloadSchedules {
-  @override
-  int build() {
-    return 0;
-  }
-
-  Future<void> reload() async {
-    state++;
-  }
-}
-
-@riverpod
 Future<List<Schedules>> fetchSchedules(FetchSchedulesRef ref) async {
-  ref.watch(reloadSchedulesProvider);
   final schedulesRepository = ref.read(schedulesRepositoryProvider);
   final res = await schedulesRepository.fetchSchedulesList();
   // TODO theme

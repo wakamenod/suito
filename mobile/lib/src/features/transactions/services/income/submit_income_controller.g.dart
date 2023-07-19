@@ -2,28 +2,27 @@
 
 // ignore_for_file: non_constant_identifier_names
 
-part of 'delete_expense_schedule_controller.dart';
+part of 'submit_income_controller.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$deleteExpenseScheduleControllerHash() =>
-    r'9c30324466249e5208e3860f2dcdf57de51c2dd0';
+String _$submitIncomeControllerHash() =>
+    r'd85ee9c3fa56dbbeb165f8ab431ce6929a436ba0';
 
-/// See also [DeleteExpenseScheduleController].
-@ProviderFor(DeleteExpenseScheduleController)
-final deleteExpenseScheduleControllerProvider =
-    AutoDisposeAsyncNotifierProvider<DeleteExpenseScheduleController,
-        void>.internal(
-  DeleteExpenseScheduleController.new,
-  name: r'deleteExpenseScheduleControllerProvider',
+/// See also [SubmitIncomeController].
+@ProviderFor(SubmitIncomeController)
+final submitIncomeControllerProvider =
+    AutoDisposeAsyncNotifierProvider<SubmitIncomeController, void>.internal(
+  SubmitIncomeController.new,
+  name: r'submitIncomeControllerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$deleteExpenseScheduleControllerHash,
+      : _$submitIncomeControllerHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$DeleteExpenseScheduleController = AutoDisposeAsyncNotifier<void>;
+typedef _$SubmitIncomeController = AutoDisposeAsyncNotifier<void>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

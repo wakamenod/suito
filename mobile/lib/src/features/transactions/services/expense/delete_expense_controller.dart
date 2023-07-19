@@ -4,8 +4,6 @@ import 'package:suito/src/features/transactions/services/transaction/transaction
 
 part 'delete_expense_controller.g.dart';
 
-// TODO 命名の一貫性
-
 @riverpod
 class DeleteExpenseController extends _$DeleteExpenseController {
   @override
@@ -19,8 +17,9 @@ class DeleteExpenseController extends _$DeleteExpenseController {
     state = await AsyncValue.guard(() async {
       await repository.deleteExpense(expenseID);
       // FIXME https://github.com/cfug/dio/issues/1480
+      // 上のリンクのFuture already completedが発生する
       // dioのバージョンを上げれば直るかもしれないがopenapi側の制約で上げられない
-      await ref.read(reloadTransactionsProvider.notifier).reload();
+      ref.invalidate(fetchTransactionsProvider);
     });
 
     // TODO エラーハンドリング

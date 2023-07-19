@@ -9,7 +9,7 @@ part of 'delete_expense_controller.dart';
 // **************************************************************************
 
 String _$deleteExpenseControllerHash() =>
-    r'0b86d560c5ce75394c2c12e39871c0de4ef5068a';
+    r'6ce82772d47dc5feac6bdfedc7eb3a076be52679';
 
 /// See also [DeleteExpenseController].
 @ProviderFor(DeleteExpenseController)

@@ -28,6 +28,8 @@ class ExpenseSchedule with _$ExpenseSchedule {
   String categoryByID(id) => categoriesMap[id]?.name ?? '';
   String locationByID(id) => locationsMap[id]?.name ?? '';
 
+  bool get isNew => id == '';
+
   static ExpenseSchedule init(categoriesMap, locationsMap) => ExpenseSchedule(
         id: '',
         title: const Title.pure(),
