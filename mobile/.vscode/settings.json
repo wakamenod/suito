@@ -17,5 +17,5 @@
   "files.watcherExclude": {
     "**/.fvm": true
   },
-  "cSpell.words": ["suito"]
+  "cSpell.words": ["datetime", "formz", "openapi", "suito"]
 }

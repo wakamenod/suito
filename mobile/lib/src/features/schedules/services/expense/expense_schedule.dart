@@ -1,4 +1,3 @@
-import 'package:formz/formz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:openapi/openapi.dart';
 import 'package:suito/src/formz/amount.dart';
@@ -20,29 +19,20 @@ class ExpenseSchedule with _$ExpenseSchedule {
     required String location,
     required String memo,
     required bool isValid,
-    required FormzSubmissionStatus submissionStatus,
-    required Map<String, ModelExpenseCategory> categoriesMap,
-    required Map<String, ModelExpenseLocation> locationsMap,
   }) = _ExpenseSchedule;
-
-  String categoryByID(id) => categoriesMap[id]?.name ?? '';
-  String locationByID(id) => locationsMap[id]?.name ?? '';
 
   bool get isNew => id == '';
 
-  static ExpenseSchedule init(categoriesMap, locationsMap) => ExpenseSchedule(
+  static ExpenseSchedule init() => const ExpenseSchedule(
         id: '',
-        title: const Title.pure(),
-        amount: const Amount.pure(),
+        title: Title.pure(),
+        amount: Amount.pure(),
         categoryID: '',
         category: '',
         locationID: '',
         location: '',
         memo: '',
-        categoriesMap: categoriesMap,
-        locationsMap: locationsMap,
-        isValid: true,
-        submissionStatus: FormzSubmissionStatus.initial,
+        isValid: false,
       );
 
   static ExpenseSchedule fromModel(
@@ -58,9 +48,6 @@ class ExpenseSchedule with _$ExpenseSchedule {
         location:
             locationsMap[res.expenseSchedule.expenseLocationID]?.name ?? '',
         memo: res.expenseSchedule.memo,
-        categoriesMap: categoriesMap,
-        locationsMap: locationsMap,
         isValid: true,
-        submissionStatus: FormzSubmissionStatus.initial,
       );
 }

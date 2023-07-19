@@ -13,11 +13,11 @@ part 'income_schedule_form_controller.g.dart';
 @riverpod
 Future<IncomeSchedule> incomeScheduleFuture(IncomeScheduleFutureRef ref,
     {String? id}) async {
-  final incomeTypeMap = await ref.read(incomeTypeMapFutureProvider.future);
-
   if (id == null) {
-    return IncomeSchedule.init(incomeTypeMap);
+    return IncomeSchedule.init();
   }
+
+  final incomeTypeMap = await ref.read(incomeTypeMapFutureProvider.future);
   final modelRes = await ref
       .read(incomeScheduleDetailRepositoryProvider)
       .fetchIncomeScheduleDetail(id);

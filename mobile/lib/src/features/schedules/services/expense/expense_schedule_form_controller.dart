@@ -14,13 +14,13 @@ part 'expense_schedule_form_controller.g.dart';
 @riverpod
 Future<ExpenseSchedule> expenseScheduleFuture(ExpenseScheduleFutureRef ref,
     {String? id}) async {
+  if (id == null) {
+    return ExpenseSchedule.init();
+  }
+
   final categoriesMap =
       await ref.read(expenseCategoriesMapFutureProvider.future);
   final locationsMap = await ref.read(expenseLocationsMapFutureProvider.future);
-
-  if (id == null) {
-    return ExpenseSchedule.init(categoriesMap, locationsMap);
-  }
   final modelRes = await ref
       .read(expenseScheduleDetailRepositoryProvider)
       .fetchExpenseScheduleDetail(id);

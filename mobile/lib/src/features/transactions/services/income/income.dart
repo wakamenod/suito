@@ -1,4 +1,3 @@
-import 'package:formz/formz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:openapi/openapi.dart';
 import 'package:suito/src/formz/amount.dart';
@@ -18,25 +17,18 @@ class Income with _$Income {
     required String date,
     required String memo,
     required bool isValid,
-    required FormzSubmissionStatus submissionStatus,
-    required Map<String, ModelIncomeType> incomeTypeMap,
   }) = _Income;
-
-  String get incomeType => incomeTypeByID(incomeTypeID);
-  String incomeTypeByID(id) => incomeTypeMap[id]?.name ?? '';
 
   bool get isNew => id == '';
 
-  static Income init(incomeTypeMap) => Income(
+  static Income init() => const Income(
         id: '',
         incomeTypeID: '',
-        title: const Title.pure(),
-        amount: const Amount.pure(),
+        title: Title.pure(),
+        amount: Amount.pure(),
         date: '',
         memo: '',
-        incomeTypeMap: incomeTypeMap,
-        isValid: true,
-        submissionStatus: FormzSubmissionStatus.initial,
+        isValid: false,
       );
 
   static Income fromModel(IncomeDetailRes res, incomeTypeMap) => Income(
@@ -46,8 +38,6 @@ class Income with _$Income {
         amount: Amount.dirty(res.income.amount),
         date: res.income.localDate,
         memo: res.income.memo,
-        incomeTypeMap: incomeTypeMap,
         isValid: true,
-        submissionStatus: FormzSubmissionStatus.initial,
       );
 }

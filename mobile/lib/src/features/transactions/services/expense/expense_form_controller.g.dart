@@ -8,7 +8,7 @@ part of 'expense_form_controller.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$expenseFutureHash() => r'b14601778da9f594cbb74edb3bedaad7c4e64bc2';
+String _$expenseFutureHash() => r'82252af72bd3d3ef13322589ec79b460e4e5adc7';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -113,7 +113,7 @@ class ExpenseFutureProvider extends AutoDisposeFutureProvider<Expense> {
 }
 
 String _$expenseFormControllerHash() =>
-    r'4a99bb6703c95c65c7d68bbf86c35773e2b35e48';
+    r'9eb1b3099292ff77f57c6bf0587bfd7e1f6ec339';
 
 abstract class _$ExpenseFormController
     extends BuildlessAutoDisposeNotifier<Expense> {
