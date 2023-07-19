@@ -66,6 +66,9 @@ func (s *SuitoTransactionService) ListTransactionsService(uid string, start, end
 	}
 
 	sort.SliceStable(transactions, func(i, j int) bool {
+		if transactions[i].LocalDate.Equal(transactions[j].LocalDate) {
+			return transactions[i].ID > transactions[j].ID
+		}
 		return transactions[i].LocalDate.After(transactions[j].LocalDate)
 	})
 

@@ -26,11 +26,12 @@ func TestTransactionsListHandler(t *testing.T) {
 
 	var res ListTransactionsRes
 	require.NoError(t, json.Unmarshal(rec.Body.Bytes(), &res))
-	require.Equal(t, 4, len(res.Transactions))
-	require.Equal(t, "ID_INCOME_02", res.Transactions[0].ID)
-	require.Equal(t, "ID_EXPENSE_02", res.Transactions[1].ID)
-	require.Equal(t, "ID_INCOME_01", res.Transactions[2].ID)
-	require.Equal(t, "ID_EXPENSE_01", res.Transactions[3].ID)
+	require.Equal(t, 5, len(res.Transactions))
+	require.Equal(t, "ZZZ_ID_EXPENSE_03", res.Transactions[0].ID)
+	require.Equal(t, "ID_INCOME_02", res.Transactions[1].ID)
+	require.Equal(t, "ID_EXPENSE_02", res.Transactions[2].ID)
+	require.Equal(t, "ID_INCOME_01", res.Transactions[3].ID)
+	require.Equal(t, "ID_EXPENSE_01", res.Transactions[4].ID)
 }
 
 func TestTransactionsListHandlerError(t *testing.T) {

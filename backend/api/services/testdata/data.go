@@ -27,6 +27,16 @@ var expenseTestData = []model.Expense{
 		ExpenseCategoryID: "ID_EXPENSE_CATEGORY_01",
 		LocalDate:         time.Date(2023, time.Month(3), 1, 0, 0, 0, 0, time.UTC),
 	},
+	model.Expense{
+		ID:                "ZZZ_ID_EXPENSE_03",
+		UID:               "user1",
+		Title:             "Test003",
+		Amount:            200,
+		Memo:              "Memo001",
+		ExpenseLocationID: "ID_EXPENSE_LOCATION_01",
+		ExpenseCategoryID: "ID_EXPENSE_CATEGORY_01",
+		LocalDate:         time.Date(2023, time.Month(4), 1, 0, 0, 0, 0, time.UTC),
+	},
 }
 
 var incomeTestData = []model.Income{
