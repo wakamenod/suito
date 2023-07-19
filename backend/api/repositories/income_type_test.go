@@ -7,6 +7,7 @@ import (
 
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/stretchr/testify/require"
+	"github.com/wakamenod/suito/apperrors"
 	"github.com/wakamenod/suito/model"
 	"github.com/wakamenod/suito/utils/testutils"
 	"gorm.io/gorm"
@@ -187,4 +188,23 @@ func TestDeleteIncomeType(t *testing.T) {
 
 	var found model.IncomeType
 	require.Error(t, tx.Where("id = ? AND uid = ?", id, "user1").Unscoped().First(&found).Error)
+}
+
+func TestDeleteIncomeType_ErrorInUse(t *testing.T) {
+	tx := begin()
+	defer rollback(tx)
+	// setup
+	uid := "user1"
+	i := testutils.NewTestDataInserter(t, tx)
+	id := i.InsertIncomeType(uid, "IncomeType01").ID
+	i.InsertIncomeType("user99", "Other users incomeType")
+	i.InsertIncomeType(uid, "IncomeType02")
+	i.InsertIncome(uid, "2023-05-01", id)
+	// run
+	err := NewSuitoIncomeTypeRepository(tx).DeleteIncomeType(id, uid)
+	// check
+	require.Error(t, err)
+	var suitoError *apperrors.SuitoError
+	require.ErrorAs(t, err, &suitoError)
+	require.Equal(t, apperrors.IncomeTypeInUse, suitoError.ErrCode)
 }

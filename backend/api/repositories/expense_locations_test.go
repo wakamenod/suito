@@ -227,15 +227,28 @@ func TestDeleteExpenseLocation(t *testing.T) {
 	tx := begin()
 	defer rollback(tx)
 	// setup
+	uid := "user1"
 	i := testutils.NewTestDataInserter(t, tx)
-	id := i.InsertExpenseLocation("user1", "Location01").ID
-	i.InsertExpenseLocation("user99", "Other users location")
-	i.InsertExpenseLocation("user1", "Location02")
+	id := i.InsertExpenseLocation(uid, "Location01").ID
+	otherID := i.InsertExpenseLocation(uid, "Other users location").ID
+	i.InsertExpenseLocation(uid, "Location02")
+	ex1ID := i.InsertExpense(uid, "2023-04-05", "title", "", id)
+	ex2ID := i.InsertExpense(uid, "2023-04-05", "title", "", otherID)
 	// run
 	err := NewSuitoExpenseLocationRepository(tx).DeleteExpenseLocation(id, "user1")
 	// check
 	require.NoError(t, err)
 
 	var found model.ExpenseLocation
-	require.Error(t, tx.Where("id = ? AND uid = ?", id, "user1").Unscoped().First(&found).Error)
+	require.Error(t, tx.Where("id = ? AND uid = ?", id, uid).Unscoped().First(&found).Error)
+	{
+		var ex1 model.Expense
+		require.NoError(t, tx.Where("id = ?", ex1ID).Unscoped().First(&ex1).Error)
+		require.Empty(t, ex1.ExpenseLocationID)
+	}
+	{
+		var ex2 model.Expense
+		require.NoError(t, tx.Where("id = ?", ex2ID).Unscoped().First(&ex2).Error)
+		require.NotEmpty(t, ex2.ExpenseLocationID)
+	}
 }

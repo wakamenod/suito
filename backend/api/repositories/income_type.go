@@ -1,8 +1,11 @@
 package repositories
 
 import (
+	"fmt"
+
 	"github.com/pkg/errors"
 	"github.com/rs/xid"
+	"github.com/wakamenod/suito/apperrors"
 	"github.com/wakamenod/suito/model"
 	"gorm.io/gorm"
 )
@@ -30,6 +33,16 @@ func (r *SuitoIncomeTypeRepository) UpdateIncomeType(uid string, IncomeType mode
 }
 
 func (r *SuitoIncomeTypeRepository) DeleteIncomeType(id string, uid string) error {
+	var count int64
+	if err := r.db.Model(&model.Income{}).
+		Where("income_type_id = ? AND uid = ?", id, uid).
+		Count(&count).
+		Error; err != nil {
+		return errors.Wrap(err, "failed to count income type")
+	}
+	if count > 0 {
+		return apperrors.IncomeTypeInUse.Wrap(errors.Errorf(fmt.Sprintf("incomeTypeID=%s count=%d", id, count)))
+	}
 	if err := r.db.Where("id = ? AND uid = ?", id, uid).Delete(&model.IncomeType{}).Error; err != nil {
 		return errors.Wrap(err, "failed to delete incomeType")
 	}
