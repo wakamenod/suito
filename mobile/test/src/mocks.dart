@@ -17,6 +17,7 @@ import 'package:suito/src/features/transactions/repositories/income/income_detai
 import 'package:suito/src/features/transactions/repositories/income/income_types_repository.dart';
 import 'package:suito/src/features/transactions/repositories/income/register_income_repository.dart';
 import 'package:suito/src/features/transactions/repositories/income/update_income_repository.dart';
+import 'package:suito/src/features/transactions/repositories/transaction/transactions_repository.dart';
 
 class MockExpenseDetailRepository extends Mock
     implements ExpenseDetailRepository {}
@@ -70,6 +71,9 @@ class MockRegisterIncomeScheduleRepository extends Mock
 
 class MockUpdateIncomeScheduleRepository extends Mock
     implements UpdateIncomeScheduleRepository {}
+
+class MockTransactionsRepository extends Mock
+    implements TransactionsRepository {}
 
 class Listener<T> extends Mock {
   void call(T? previous, T next);

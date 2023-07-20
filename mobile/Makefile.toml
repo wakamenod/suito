@@ -46,9 +46,18 @@ fvm flutter run --dart-define-from-file=dart_defines/prod.json
 
 [tasks.test]
 script = '''
-fvm flutter test --coverage
+# vscodeのflutter coverageはlcovファイル内に同じソースファイル(SF)が復数回出現した場合に合算されない
+# lcov-result-mergerを使ってマージすることにした
+fvm flutter test --coverage --coverage-path="coverage/source_lcov.info"
+./node_modules/.bin/lcov-result-merger ./coverage/source_lcov.info ./coverage/lcov.info
+rm coverage/source_lcov.info
 # fvm flutter test lib --machine > machine.log || echo 'Tests failed'
 # flutter pub global run dart_dot_reporter machine.log --show-message
+'''
+
+[tasks.ci-test]
+script = '''
+fvm flutter test
 '''
 
 [tasks.lint]
