@@ -7,6 +7,7 @@ import 'package:suito/src/features/schedules/repositories/income/delete_income_s
 import 'package:suito/src/features/schedules/repositories/income/income_schedule_detail_repository.dart';
 import 'package:suito/src/features/schedules/repositories/income/register_income_schedule_repository.dart';
 import 'package:suito/src/features/schedules/repositories/income/update_income_schedule_repository.dart';
+import 'package:suito/src/features/schedules/repositories/schedules_repository.dart';
 import 'package:suito/src/features/transactions/repositories/expense/delete_expense_repository.dart';
 import 'package:suito/src/features/transactions/repositories/expense/expense_categories_repository.dart';
 import 'package:suito/src/features/transactions/repositories/expense/expense_detail_repository.dart';
@@ -74,6 +75,8 @@ class MockUpdateIncomeScheduleRepository extends Mock
 
 class MockTransactionsRepository extends Mock
     implements TransactionsRepository {}
+
+class MockSchedulesRepository extends Mock implements SchedulesRepository {}
 
 class Listener<T> extends Mock {
   void call(T? previous, T next);
