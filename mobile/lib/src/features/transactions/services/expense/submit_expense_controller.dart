@@ -41,30 +41,19 @@ class SubmitExpenseController extends _$SubmitExpenseController {
   }
 
   Future<void> submit(Expense expense) async {
+    if (!expense.isValid) return;
     state = const AsyncLoading<void>();
 
-    expense.isNew
-        ? await ref
-            .read(registerExpenseRepositoryProvider)
-            .registerExpense(_registerRequest(expense))
-        : await ref
-            .read(updateExpenseRepositoryProvider)
-            .updateExpense(_updateRequest(expense));
+    state = await AsyncValue.guard(() async {
+      expense.isNew
+          ? await ref
+              .read(registerExpenseRepositoryProvider)
+              .registerExpense(_registerRequest(expense))
+          : await ref
+              .read(updateExpenseRepositoryProvider)
+              .updateExpense(_updateRequest(expense));
 
-    ref.invalidate(fetchTransactionsProvider);
-
-    // ref.read(reloadTransactionsProvider.notifier).reload();
-
-    // state = AsyncValue.data(
-    //     state.copyWith(submissionStatus: FormzSubmissionStatus.success));
-    // // } on CustomFailure catch (e) {
-    // //   state = state.copyWith(
-    // //       status: FormzSubmissionStatus.failure, errorMessage: e.code);
-    // // }
-
-    // TODO エラーハンドリング
-    // if (!state.hasError) {
-    //   ref.read(itemQuantityControllerProvider.notifier).updateQuantity(1);
-    // }
+      ref.invalidate(fetchTransactionsProvider);
+    });
   }
 }

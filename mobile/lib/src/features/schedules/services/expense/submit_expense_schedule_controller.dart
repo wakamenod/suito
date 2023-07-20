@@ -39,32 +39,23 @@ class SubmitExpenseScheduleController
           ..expenseLocationID = schedule.locationID)));
 
   Future<void> submit(ExpenseSchedule expenseSchedule) async {
+    if (!expenseSchedule.isValid) return;
     state = const AsyncLoading<void>();
 
     final String timezone =
         await ref.read(localTimezoneProvider.future) ?? 'UTC';
 
-    expenseSchedule.isNew
-        ? await ref
-            .read(registerExpenseScheduleRepositoryProvider)
-            .registerExpenseSchedule(
-                _registerRequest(expenseSchedule, timezone))
-        : await ref
-            .read(updateExpenseScheduleRepositoryProvider)
-            .updateExpenseSchedule(_updateRequest(expenseSchedule, timezone));
+    state = await AsyncValue.guard(() async {
+      expenseSchedule.isNew
+          ? await ref
+              .read(registerExpenseScheduleRepositoryProvider)
+              .registerExpenseSchedule(
+                  _registerRequest(expenseSchedule, timezone))
+          : await ref
+              .read(updateExpenseScheduleRepositoryProvider)
+              .updateExpenseSchedule(_updateRequest(expenseSchedule, timezone));
 
-    ref.invalidate(fetchSchedulesProvider);
-
-    // state = AsyncValue.data(
-    //     state.copyWith(submissionStatus: FormzSubmissionStatus.success));
-    // // } on CustomFailure catch (e) {
-    // //   state = state.copyWith(
-    // //       status: FormzSubmissionStatus.failure, errorMessage: e.code);
-    // // }
-
-    // TODO エラーハンドリング
-    // if (!state.hasError) {
-    //   ref.read(itemQuantityControllerProvider.notifier).updateQuantity(1);
-    // }
+      ref.invalidate(fetchSchedulesProvider);
+    });
   }
 }

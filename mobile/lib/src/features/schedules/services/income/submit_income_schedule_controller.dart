@@ -35,31 +35,23 @@ class SubmitIncomeScheduleController extends _$SubmitIncomeScheduleController {
           ..incomeTypeId = inc.incomeTypeID)));
 
   Future<void> submit(IncomeSchedule incomeSchedule) async {
+    if (!incomeSchedule.isValid) return;
     state = const AsyncLoading<void>();
 
     final String timezone =
         await ref.read(localTimezoneProvider.future) ?? 'UTC';
 
-    incomeSchedule.isNew
-        ? await ref
-            .read(registerIncomeScheduleRepositoryProvider)
-            .registerIncomeSchedule(_registerRequest(incomeSchedule, timezone))
-        : await ref
-            .read(updateIncomeScheduleRepositoryProvider)
-            .updateIncomeSchedule(_updateRequest(incomeSchedule, timezone));
+    state = await AsyncValue.guard(() async {
+      incomeSchedule.isNew
+          ? await ref
+              .read(registerIncomeScheduleRepositoryProvider)
+              .registerIncomeSchedule(
+                  _registerRequest(incomeSchedule, timezone))
+          : await ref
+              .read(updateIncomeScheduleRepositoryProvider)
+              .updateIncomeSchedule(_updateRequest(incomeSchedule, timezone));
 
-    ref.invalidate(fetchSchedulesProvider);
-
-    // state = AsyncValue.data(
-    //     state.copyWith(submissionStatus: FormzSubmissionStatus.success));
-    // // } on CustomFailure catch (e) {
-    // //   state = state.copyWith(
-    // //       status: FormzSubmissionStatus.failure, errorMessage: e.code);
-    // // }
-
-    // TODO エラーハンドリング
-    // if (!state.hasError) {
-    //   ref.read(itemQuantityControllerProvider.notifier).updateQuantity(1);
-    // }
+      ref.invalidate(fetchSchedulesProvider);
+    });
   }
 }
