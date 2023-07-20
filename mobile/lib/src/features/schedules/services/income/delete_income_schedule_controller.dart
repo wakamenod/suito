@@ -20,10 +20,5 @@ class DeleteIncomeScheduleController extends _$DeleteIncomeScheduleController {
       // dioのバージョンを上げれば直るかもしれないがopenapi側の制約で上げられない
       ref.invalidate(fetchSchedulesProvider);
     });
-
-    // TODO エラーハンドリング
-    // if (!state.hasError) {
-    //   ref.read(itemQuantityControllerProvider.notifier).updateQuantity(1);
-    // }
   }
 }
