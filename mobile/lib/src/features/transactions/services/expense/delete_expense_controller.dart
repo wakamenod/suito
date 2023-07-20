@@ -21,10 +21,5 @@ class DeleteExpenseController extends _$DeleteExpenseController {
       // dioのバージョンを上げれば直るかもしれないがopenapi側の制約で上げられない
       ref.invalidate(fetchTransactionsProvider);
     });
-
-    // TODO エラーハンドリング
-    // if (!state.hasError) {
-    //   ref.read(itemQuantityControllerProvider.notifier).updateQuantity(1);
-    // }
   }
 }

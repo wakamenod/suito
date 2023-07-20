@@ -12,7 +12,7 @@ class ExpenseDetailRepository {
     final api = _openapi.getSuitoExpenseApi();
     final response =
         await api.expenseDetail(request: ExpenseDetailReq((r) => r.id = id));
-    return response.data ?? ExpenseDetailRes();
+    return response.data!;
   }
 }
 
