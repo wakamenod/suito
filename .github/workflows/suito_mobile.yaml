@@ -55,4 +55,4 @@ jobs:
         run: cd mobile && cargo make lint
 
       - name: Test
-        run: cd mobile && cargo make test
+        run: cd mobile && cargo make ci-test

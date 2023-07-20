@@ -64,3 +64,4 @@ key.jks
 !.dir-locals.el
 
 coverage
+node_modules/
