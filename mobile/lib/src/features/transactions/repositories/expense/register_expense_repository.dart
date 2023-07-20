@@ -11,7 +11,7 @@ class RegisterExpenseRepository {
   Future<ModelExpense> registerExpense(RegisterExpenseReq request) async {
     final api = _openapi.getSuitoExpenseApi();
     final response = await api.registerExpense(request: request);
-    return response.data?.newExpense ?? ModelExpense();
+    return response.data!.newExpense;
   }
 }
 

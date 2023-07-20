@@ -37,30 +37,19 @@ class SubmitIncomeController extends _$SubmitIncomeController {
   }
 
   Future<void> submit(Income income) async {
+    if (!income.isValid) return;
     state = const AsyncLoading<void>();
 
-    income.isNew
-        ? await ref
-            .read(registerIncomeRepositoryProvider)
-            .registerIncome(_registerRequest(income))
-        : await ref
-            .read(updateIncomeRepositoryProvider)
-            .updateIncome(_updateRequest(income));
+    state = await AsyncValue.guard(() async {
+      income.isNew
+          ? await ref
+              .read(registerIncomeRepositoryProvider)
+              .registerIncome(_registerRequest(income))
+          : await ref
+              .read(updateIncomeRepositoryProvider)
+              .updateIncome(_updateRequest(income));
 
-    ref.invalidate(fetchTransactionsProvider);
-
-    // ref.read(reloadTransactionsProvider.notifier).reload();
-
-    // state = AsyncValue.data(
-    //     state.copyWith(submissionStatus: FormzSubmissionStatus.success));
-    // // } on CustomFailure catch (e) {
-    // //   state = state.copyWith(
-    // //       status: FormzSubmissionStatus.failure, errorMessage: e.code);
-    // // }
-
-    // TODO エラーハンドリング
-    // if (!state.hasError) {
-    //   ref.read(itemQuantityControllerProvider.notifier).updateQuantity(1);
-    // }
+      ref.invalidate(fetchTransactionsProvider);
+    });
   }
 }
