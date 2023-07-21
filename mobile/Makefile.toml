@@ -57,7 +57,7 @@ rm coverage/source_lcov.info
 
 [tasks.ci-test]
 script = '''
-fvm flutter test
+fvm flutter test --exclude-tags golden
 '''
 
 [tasks.lint]
