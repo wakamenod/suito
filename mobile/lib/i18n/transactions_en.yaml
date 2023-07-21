@@ -26,3 +26,4 @@ totalAmounts:
 buttons:
   close: Close
   post: Post
+emptyLabel: 'No data has been registered for this month yet.'

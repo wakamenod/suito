@@ -18,6 +18,7 @@ import 'package:suito/src/features/transactions/repositories/income/income_detai
 import 'package:suito/src/features/transactions/repositories/income/income_types_repository.dart';
 import 'package:suito/src/features/transactions/repositories/income/register_income_repository.dart';
 import 'package:suito/src/features/transactions/repositories/income/update_income_repository.dart';
+import 'package:suito/src/features/transactions/repositories/transaction/transaction_months_repository.dart';
 import 'package:suito/src/features/transactions/repositories/transaction/transactions_repository.dart';
 
 class MockExpenseDetailRepository extends Mock
@@ -75,6 +76,9 @@ class MockUpdateIncomeScheduleRepository extends Mock
 
 class MockTransactionsRepository extends Mock
     implements TransactionsRepository {}
+
+class MockTransactionMonthsRepository extends Mock
+    implements TransactionMonthsRepository {}
 
 class MockSchedulesRepository extends Mock implements SchedulesRepository {}
 

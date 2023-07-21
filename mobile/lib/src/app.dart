@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:suito/i18n/translations.g.dart';
+import 'package:suito/src/app_theme.dart';
 import 'package:suito/src/localizations/japanese_cupertino_localizations.dart';
 import 'package:suito/src/routing/app_router.dart';
 import 'package:suito/src/utils/version_check.dart';
@@ -35,23 +36,7 @@ class MyApp extends ConsumerWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: AppLocaleUtils.supportedLocales,
-      theme: ThemeData(
-        popupMenuTheme: const PopupMenuThemeData(
-          color: Colors.white,
-        ),
-        appBarTheme:
-            const AppBarTheme(color: Color(0xff63AECE), toolbarHeight: 50),
-        scaffoldBackgroundColor: const Color(0xfff2f4f5),
-        fontFamily: 'NotoSerifJP',
-        useMaterial3: true,
-        primarySwatch: Colors.grey,
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.black, // background (button) color
-            foregroundColor: Colors.white, // foreground (text) color
-          ),
-        ),
-      ),
+      theme: AppTheme().create(),
     );
   }
 }

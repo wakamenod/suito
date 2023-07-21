@@ -545,10 +545,18 @@ packages:
     dependency: "direct main"
     description:
       name: go_router
-      sha256: "00d1b67d6e9fa443331da229084dd3eb04407f5a2dff22940bd7bba6af5722c3"
+      sha256: edbceb4c06758652fc9d12e58edb371cd977011b032e298dae0eb357167baad2
       url: "https://pub.dev"
     source: hosted
-    version: "7.1.1"
+    version: "9.1.1"
+  golden_toolkit:
+    dependency: "direct dev"
+    description:
+      name: golden_toolkit
+      sha256: "8f74adab33154fe7b731395782797021f97d2edc52f7bfb85ff4f1b5c4a215f0"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.15.0"
   graphs:
     dependency: transitive
     description:
