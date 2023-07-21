@@ -26,3 +26,4 @@ totalAmounts:
 buttons:
   close: 閉じる
   post: 登録
+emptyLabel: 'この月のデータはまだ登録されていません。'

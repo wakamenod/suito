@@ -17,17 +17,10 @@ class TransactionsScreen extends ConsumerWidget {
       appBar: AppBar(
         title: Text(t.transactions.abbBar),
       ),
-      body: Column(
+      body: const Column(
         children: [
-          const TransactionMonthsDropdown(),
-          const TransactionsTotalAmounts(),
-          const Padding(
-            padding:
-                EdgeInsets.only(right: 12.0, left: 12.0, top: 8.0, bottom: 3.0),
-            child: Row(
-              children: [Icon(Icons.sort)],
-            ),
-          ),
+          TransactionMonthsDropdown(),
+          TransactionsTotalAmounts(),
           Expanded(child: TransactionsList())
         ],
       ),

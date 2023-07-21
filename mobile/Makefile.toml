@@ -94,3 +94,8 @@ cd ./openapi/client
 flutter pub get
 flutter packages pub run build_runner build --delete-conflicting-outputs
 '''
+
+[tasks.update-goldens]
+script = '''
+fvm flutter test --update-goldens
+'''

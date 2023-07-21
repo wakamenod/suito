@@ -1,9 +1,9 @@
 /// Generated file. Do not edit.
 ///
 /// Locales: 2
-/// Strings: 140 (70 per locale)
+/// Strings: 142 (71 per locale)
 ///
-/// Built on 2023-07-18 at 06:39 UTC
+/// Built on 2023-07-21 at 08:12 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -260,6 +260,7 @@ class _TranslationsTransactionsEn {
       _TranslationsTransactionsTotalAmountsEn._(_root);
   late final _TranslationsTransactionsButtonsEn buttons =
       _TranslationsTransactionsButtonsEn._(_root);
+  String get emptyLabel => 'No data has been registered for this month yet.';
 }
 
 // Path: transactionAttributes
@@ -640,6 +641,8 @@ class _TranslationsTransactionsJa implements _TranslationsTransactionsEn {
   @override
   late final _TranslationsTransactionsButtonsJa buttons =
       _TranslationsTransactionsButtonsJa._(_root);
+  @override
+  String get emptyLabel => 'この月のデータはまだ登録されていません。';
 }
 
 // Path: charts
@@ -1102,6 +1105,8 @@ extension on _TranslationsEn {
         return 'Close';
       case 'transactions.buttons.post':
         return 'Post';
+      case 'transactions.emptyLabel':
+        return 'No data has been registered for this month yet.';
       case 'transactionAttributes.addTile.title':
         return ({required Object input}) => 'Add ${input}';
       case 'transactionAttributes.addTile.subtitle':
@@ -1246,6 +1251,8 @@ extension on _TranslationsJa {
         return '閉じる';
       case 'transactions.buttons.post':
         return '登録';
+      case 'transactions.emptyLabel':
+        return 'この月のデータはまだ登録されていません。';
       case 'charts.abbBar':
         return 'レポート';
       case 'charts.toggle.category':
