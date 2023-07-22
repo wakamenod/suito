@@ -16,13 +16,12 @@ class TransactionYearMonths extends _$TransactionYearMonths {
     final repository = ref.read(transactionMonthsRepositoryProvider);
     final res = await repository.fetchTransactionMonthsList();
     // 現在月は常に入れるようにする
-    final current = currentYYYYMM();
+    final current = ref.watch(currentTimeProvider).toYYYYMM();
     res.contains(current) ? null : res.add(current);
     return res;
   }
 }
 
 // トランザクション一覧の年月ドロップダウンで選択中の年月を管理する
-final selectedYearMonthProvider = StateProvider<String>(
-  (ref) => currentYYYYMM(),
-);
+final selectedYearMonthProvider =
+    StateProvider<String>((ref) => ref.watch(currentTimeProvider).toYYYYMM());

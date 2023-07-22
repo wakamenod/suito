@@ -6,6 +6,7 @@ import 'package:suito/src/features/transactions/repositories/expense/expense_det
 import 'package:suito/src/features/transactions/repositories/expense/expense_locations_repository.dart';
 import 'package:suito/src/formz/amount.dart';
 import 'package:suito/src/formz/title.dart' as formz_title;
+import 'package:suito/src/utils/datetime_utils.dart';
 
 import 'expense.dart';
 
@@ -14,7 +15,8 @@ part 'expense_form_controller.g.dart';
 @riverpod
 Future<Expense> expenseFuture(ExpenseFutureRef ref, {String? id}) async {
   if (id == null) {
-    return Expense.init();
+    final now = ref.watch(currentTimeProvider);
+    return Expense.init(now);
   }
   final categoriesMap =
       await ref.read(expenseCategoriesMapFutureProvider.future);

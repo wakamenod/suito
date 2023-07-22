@@ -9,9 +9,7 @@ import '../../transactions_robot.dart';
 
 void main() {
   group('Golden test group', () {
-    testGoldens('Empty list',
-        // skip because the default month selected in the dropdown differs depending on the test execution time
-        skip: true, (tester) async {
+    testGoldens('Empty list', (tester) async {
       await loadAppFonts();
       final r = TransactionsRobot(tester);
       final repository = MockTransactionsRepository();
@@ -20,8 +18,9 @@ void main() {
           .thenAnswer((_) => Future.value([]));
       when(() => monthsRepository.fetchTransactionMonthsList())
           .thenAnswer((_) => Future.value([]));
+      final now = DateTime(2023, 7, 1);
       await r.pumpTransactionsScreen(
-          transactionsRepo: repository, monthsRepo: monthsRepository);
+          now: now, transactionsRepo: repository, monthsRepo: monthsRepository);
       await screenMatchesGolden(tester, 'empty_list');
     });
 
@@ -60,8 +59,9 @@ void main() {
                   ..type = TransactionType.expense.value
                   ..amount = 1300)
               ]));
+      final now = DateTime(2023, 7, 1);
       await r.pumpTransactionsScreen(
-          transactionsRepo: repository, monthsRepo: monthsRepository);
+          now: now, transactionsRepo: repository, monthsRepo: monthsRepository);
       await tester.pumpAndSettle();
 
       await r.tapToggleButton();
@@ -80,8 +80,9 @@ void main() {
         .thenAnswer((_) => Future.value([]));
     when(() => monthsRepository.fetchTransactionMonthsList())
         .thenAnswer((_) => Future.value([]));
+    final now = DateTime(2023, 7, 1);
     await r.pumpTransactionsScreen(
-        transactionsRepo: repository, monthsRepo: monthsRepository);
+        now: now, transactionsRepo: repository, monthsRepo: monthsRepository);
     await tester.pumpAndSettle();
     r.expectEmptyLabelFound();
   });
