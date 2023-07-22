@@ -57,6 +57,8 @@ rm coverage/source_lcov.info
 
 [tasks.ci-test]
 script = '''
+# ciでgoldenテストを除外(異なるplatformでgoldenを作成するとフォントのレンダリングで差が出る為)
+# 現在はCIがmacos、ローカルがubuntu
 fvm flutter test --exclude-tags golden
 '''
 
