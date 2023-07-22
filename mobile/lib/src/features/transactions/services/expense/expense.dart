@@ -25,11 +25,11 @@ class Expense with _$Expense {
 
   bool get isNew => id == '';
 
-  static Expense init() => Expense(
+  static Expense init(DateTime now) => Expense(
         id: '',
         title: const Title.pure(),
         amount: const Amount.pure(),
-        date: DateTime.now().toRfc3339(),
+        date: now.toRfc3339(),
         categoryID: '',
         category: '',
         locationID: '',

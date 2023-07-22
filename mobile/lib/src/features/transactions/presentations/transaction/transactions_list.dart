@@ -16,6 +16,7 @@ class TransactionsList extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final transactionsValue = ref.watch(fetchTransactionsProvider);
 
+    // TODO エラー表示のgoldens test追加
     return AsyncValueWidget<List<Transaction>>(
       value: transactionsValue,
       data: (transactions) => transactions.isEmpty

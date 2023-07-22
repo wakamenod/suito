@@ -39,7 +39,7 @@ void main() {
   group('expenseFormController', () {
     test('register new expense - validation valid', () async {
       final container = makeProviderContainer();
-      final exp = Expense.init();
+      final exp = Expense.init(DateTime.now());
       final controller =
           container.read(expenseFormControllerProvider(exp).notifier);
       const title = 'New title value';
@@ -70,7 +70,7 @@ void main() {
 
     test('register new expense - validation invalid', () async {
       final container = makeProviderContainer();
-      final exp = Expense.init();
+      final exp = Expense.init(DateTime.now());
       final controller =
           container.read(expenseFormControllerProvider(exp).notifier);
       const memo = 'Memo';
