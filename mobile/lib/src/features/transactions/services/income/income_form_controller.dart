@@ -5,6 +5,7 @@ import 'package:suito/src/features/transactions/repositories/income/income_detai
 import 'package:suito/src/features/transactions/repositories/income/income_types_repository.dart';
 import 'package:suito/src/formz/amount.dart';
 import 'package:suito/src/formz/title.dart' as formz_title;
+import 'package:suito/src/utils/datetime_utils.dart';
 
 import 'income.dart';
 
@@ -13,7 +14,8 @@ part 'income_form_controller.g.dart';
 @riverpod
 Future<Income> incomeFuture(IncomeFutureRef ref, {String? id}) async {
   if (id == null) {
-    return Income.init();
+    final now = ref.watch(currentTimeProvider);
+    return Income.init(now);
   }
 
   final incomeTypeMap = await ref.read(incomeTypeMapFutureProvider.future);

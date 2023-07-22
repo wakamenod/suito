@@ -9,6 +9,8 @@ import 'package:suito/src/features/transactions/presentations/transactions_scree
 import 'package:suito/src/features/transactions/repositories/expense/expense_categories_repository.dart';
 import 'package:suito/src/features/transactions/repositories/expense/expense_detail_repository.dart';
 import 'package:suito/src/features/transactions/repositories/expense/expense_locations_repository.dart';
+import 'package:suito/src/features/transactions/repositories/income/income_detail_repository.dart';
+import 'package:suito/src/features/transactions/repositories/income/income_types_repository.dart';
 import 'package:suito/src/features/transactions/repositories/transaction/transaction_months_repository.dart';
 import 'package:suito/src/features/transactions/repositories/transaction/transactions_repository.dart';
 import 'package:suito/src/features/transactions/services/transaction/transaction_service.dart';
@@ -62,6 +64,32 @@ class TransactionsRobot {
             home: TransactionDetailScreen(
               id: id,
               type: TransactionType.expense.value,
+            ),
+            theme: AppTheme().create()),
+      ),
+    );
+  }
+
+  Future<void> pumpIncomeDetailScreen(
+      {IncomeDetailRepository? incomeRepo,
+      IncomeTypesRepository? incomeTypeRepo,
+      required String? id,
+      required DateTime now}) async {
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          currentTimeProvider.overrideWithValue(now),
+          if (incomeRepo != null)
+            incomeDetailRepositoryProvider.overrideWithValue(incomeRepo),
+          if (incomeTypeRepo != null)
+            incomeTypesRepositoryProvider.overrideWithValue(
+              incomeTypeRepo,
+            )
+        ],
+        child: MaterialApp(
+            home: TransactionDetailScreen(
+              id: id,
+              type: TransactionType.income.value,
             ),
             theme: AppTheme().create()),
       ),

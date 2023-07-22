@@ -2,6 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:openapi/openapi.dart';
 import 'package:suito/src/formz/amount.dart';
 import 'package:suito/src/formz/title.dart';
+import 'package:suito/src/utils/datetime_utils.dart';
 
 part 'income.freezed.dart';
 
@@ -21,12 +22,12 @@ class Income with _$Income {
 
   bool get isNew => id == '';
 
-  static Income init() => const Income(
+  static Income init(DateTime now) => Income(
         id: '',
         incomeTypeID: '',
-        title: Title.pure(),
-        amount: Amount.pure(),
-        date: '',
+        title: const Title.pure(),
+        amount: const Amount.pure(),
+        date: now.toRfc3339(),
         memo: '',
         isValid: false,
       );
