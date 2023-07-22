@@ -34,7 +34,7 @@ void main() {
   group('incomeFormController', () {
     test('register new income - validation valid', () async {
       final container = makeProviderContainer();
-      final exp = Income.init();
+      final exp = Income.init(DateTime.now());
       final controller =
           container.read(incomeFormControllerProvider(exp).notifier);
       final incomeType = AttributeEntry('income_type_id', 'Income Title');
@@ -58,7 +58,7 @@ void main() {
 
     test('register new income - validation invalid', () async {
       final container = makeProviderContainer();
-      final exp = Income.init();
+      final exp = Income.init(DateTime.now());
       final controller =
           container.read(incomeFormControllerProvider(exp).notifier);
       const memo = 'Memo';
