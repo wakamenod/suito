@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:openapi/openapi.dart';
+import 'package:suito/src/features/transactions/services/income/income_form_value.dart';
 
 import '../../../../../mocks.dart';
 import '../../../transactions_robot.dart';
@@ -15,7 +16,8 @@ void main() {
       await loadAppFonts();
       final r = TransactionsRobot(tester);
       final now = DateTime(2023, 5, 1);
-      await r.pumpIncomeDetailScreen(id: null, now: now);
+      final income = IncomeFormValue.newIncome(now);
+      await r.pumpIncomeDetailScreen(income);
       await screenMatchesGolden(tester, 'new_income_detail');
     });
   });
@@ -24,28 +26,27 @@ void main() {
       (tester) async {
     await loadAppFonts();
     final r = TransactionsRobot(tester);
-    final now = DateTime(2023, 5, 1);
     final repository = MockIncomeDetailRepository();
     final incomeTypeRepo = MockIncomeTypesRepository();
     const id = 'income_id';
     final incomeType = ModelIncomeType((e) => e
       ..id = 'income_type_id'
       ..name = 'Test Income Type');
+    final incomeTypeMap = {incomeType.id: incomeType};
     final res = IncomeDetailRes((r) => r.income.replace(ModelIncome((b) => b
       ..id = id
       ..localDate = '2023-05-03'
       ..memo = 'some memo'
       ..amount = 400
       ..incomeTypeId = incomeType.id)));
+    final income = IncomeFormValue.fromIncome(res, incomeTypeMap);
     when(() => repository.fetchIncomeDetail(id))
         .thenAnswer((invocation) => Future.value(res));
     when(() => incomeTypeRepo.fetchIncomeTypesList())
         .thenAnswer((invocation) => Future.value([incomeType]));
-    await r.pumpIncomeDetailScreen(
-        incomeRepo: repository,
-        incomeTypeRepo: incomeTypeRepo,
-        id: id,
-        now: now);
+    // run
+    await r.pumpIncomeDetailScreen(income);
+    // check
     await screenMatchesGolden(tester, 'update_income_detail');
   });
 }

@@ -2,10 +2,9 @@ import 'package:openapi/openapi.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:suito/src/features/transactions/repositories/income/register_income_repository.dart';
 import 'package:suito/src/features/transactions/repositories/income/update_income_repository.dart';
+import 'package:suito/src/features/transactions/services/income/income_form_value.dart';
 import 'package:suito/src/features/transactions/services/transaction/transaction_service.dart';
 import 'package:suito/src/utils/datetime_utils.dart';
-
-import 'income.dart';
 
 part 'submit_income_controller.g.dart';
 
@@ -36,7 +35,7 @@ class SubmitIncomeController extends _$SubmitIncomeController {
         ..amount = inc.amount.value)));
   }
 
-  Future<void> submit(Income income) async {
+  Future<void> submit(IncomeFormValue income) async {
     if (!income.isValid) return;
     state = const AsyncLoading<void>();
 

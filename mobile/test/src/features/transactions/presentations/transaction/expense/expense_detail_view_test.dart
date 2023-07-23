@@ -1,9 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
-import 'package:mocktail/mocktail.dart';
 import 'package:openapi/openapi.dart';
+import 'package:suito/src/features/transactions/services/expense/expense_form_value.dart';
 
-import '../../../../../mocks.dart';
 import '../../../transactions_robot.dart';
 
 void main() {
@@ -15,7 +14,8 @@ void main() {
       await loadAppFonts();
       final r = TransactionsRobot(tester);
       final now = DateTime(2023, 5, 1);
-      await r.pumpExpenseDetailScreen(id: null, now: now);
+      final expense = ExpenseFormValue.newExpense(now);
+      await r.pumpExpenseDetailScreen(expense);
       await screenMatchesGolden(tester, 'new_expense_detail');
     });
   });
@@ -24,17 +24,15 @@ void main() {
       (tester) async {
     await loadAppFonts();
     final r = TransactionsRobot(tester);
-    final now = DateTime(2023, 5, 1);
-    final repository = MockExpenseDetailRepository();
-    final categoryRepo = MockExpenseCategoriesRepository();
-    final locationRepo = MockExpenseLocationsRepository();
     const id = 'expense_id';
     final category = ModelExpenseCategory((e) => e
       ..id = 'expense_category_id'
       ..name = 'Test Category');
+    final categoryMap = {category.id: category};
     final location = ModelExpenseLocation((e) => e
       ..id = 'expense_location_id'
       ..name = 'Test Location');
+    final locationMap = {location.id: location};
     final res = ExpenseDetailRes((r) => r.expense.replace(ModelExpense((b) => b
       ..id = id
       ..title = 'registered title'
@@ -43,18 +41,9 @@ void main() {
       ..amount = 400
       ..expenseCategoryID = category.id
       ..expenseLocationID = location.id)));
-    when(() => repository.fetchExpenseDetail(id))
-        .thenAnswer((_) => Future.value(res));
-    when(() => categoryRepo.fetchExpenseCategoriesList())
-        .thenAnswer((invocation) => Future.value([category]));
-    when(() => locationRepo.fetchExpenseLocationsList())
-        .thenAnswer((invocation) => Future.value([location]));
-    await r.pumpExpenseDetailScreen(
-        expenseRepo: repository,
-        categoryRepo: categoryRepo,
-        locationRepo: locationRepo,
-        id: id,
-        now: now);
+
+    final expense = ExpenseFormValue.fromExpense(res, categoryMap, locationMap);
+    await r.pumpExpenseDetailScreen(expense);
     await screenMatchesGolden(tester, 'update_expense_detail');
   });
 }

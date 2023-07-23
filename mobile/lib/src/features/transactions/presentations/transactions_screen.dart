@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:suito/i18n/translations.g.dart';
-import 'package:suito/src/routing/app_router.dart';
+import 'package:suito/src/features/transactions/services/transaction/transaction_detail_navigator.dart';
 
 import 'transaction/transaction_months_dropdown.dart';
 import 'transaction/transactions_list.dart';
@@ -13,6 +12,8 @@ class TransactionsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final navigator = ref.watch(transactionDetailNavigatorProvider.notifier);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(t.transactions.abbBar),
@@ -25,9 +26,7 @@ class TransactionsScreen extends ConsumerWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          context.goNamed(AppRoute.transactionDetail.name);
-        },
+        onPressed: navigator.goNewExpense,
         backgroundColor: const Color(0xff2CAAE0),
         child: const Icon(Icons.add),
       ),

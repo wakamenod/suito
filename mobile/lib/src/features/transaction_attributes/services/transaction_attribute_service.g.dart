@@ -26,6 +26,20 @@ final listAttributeEntriesProvider =
 
 typedef ListAttributeEntriesRef
     = AutoDisposeFutureProviderRef<List<AttributeEntry>>;
+String _$attributeIDHash() => r'99bf1b367fbed6d6d3d6b7795e6e08073857c2b9';
+
+/// See also [attributeID].
+@ProviderFor(attributeID)
+final attributeIDProvider = AutoDisposeProvider<String>.internal(
+  attributeID,
+  name: r'attributeIDProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$attributeIDHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef AttributeIDRef = AutoDisposeProviderRef<String>;
 String _$transactionAttributeRepositoryHash() =>
     r'6b13c6d6b6be2e5b8234bb9826421771d1c46eba';
 
@@ -63,7 +77,7 @@ final transactionAttributeWordsProvider =
 typedef TransactionAttributeWordsRef
     = AutoDisposeProviderRef<TransactionAttributeWords>;
 String _$filteredCategoriesHash() =>
-    r'3dd88c485c7cf8202dc64e924d753b4413ba5f91';
+    r'594fc4eb01b8749a0feb7f84b1e55b084c55da2c';
 
 /// See also [filteredCategories].
 @ProviderFor(filteredCategories)

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:suito/i18n/translations.g.dart';
-import 'package:suito/src/common_widgets/async_value_widget.dart';
 import 'package:suito/src/common_widgets/currency_input_field.dart';
 import 'package:suito/src/common_widgets/text_input_field.dart';
 import 'package:suito/src/common_widgets/transition_text_field.dart';
@@ -10,7 +9,6 @@ import 'package:suito/src/constants/app_sizes.dart';
 import 'package:suito/src/features/transaction_attributes/services/transaction_attribute_entry.dart';
 import 'package:suito/src/features/transaction_attributes/services/transaction_attribute_service.dart';
 import 'package:suito/src/features/transactions/presentations/widgets/transaction_date_picker.dart';
-import 'package:suito/src/features/transactions/services/expense/expense.dart';
 import 'package:suito/src/features/transactions/services/expense/expense_form_controller.dart';
 import 'package:suito/src/features/transactions/services/expense/submit_expense_controller.dart';
 import 'package:suito/src/formz/amount.dart';
@@ -19,31 +17,12 @@ import 'package:suito/src/routing/app_router.dart';
 import 'package:suito/src/utils/currency_formatter.dart';
 
 class ExpenseDetailView extends ConsumerWidget {
-  final String? expenseID;
-
-  const ExpenseDetailView({required this.expenseID, super.key});
+  const ExpenseDetailView({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final expenseValue = ref.watch(expenseFutureProvider(id: expenseID));
-
-    return AsyncValueWidget<Expense>(
-      value: expenseValue,
-      data: (expense) => _ExpenseDetailViewContents(expense: expense),
-    );
-  }
-}
-
-class _ExpenseDetailViewContents extends ConsumerWidget {
-  final Expense expense;
-
-  const _ExpenseDetailViewContents({required this.expense});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final exp = ref.watch(expenseFormControllerProvider(expense));
-    final controller =
-        ref.watch(expenseFormControllerProvider(expense).notifier);
+    final exp = ref.watch(expenseFormControllerProvider);
+    final controller = ref.watch(expenseFormControllerProvider.notifier);
 
     return SingleChildScrollView(
       child: ListBody(
@@ -71,24 +50,16 @@ class _ExpenseDetailViewContents extends ConsumerWidget {
               initialValue: exp.category,
               labelText: t.transactions.detail.inputLabels.category,
               route: AppRoute.attribute,
-              onTap: () {
-                ref.read(transactionAttributeTypeProvider.notifier).state =
-                    TransactionAttributeType.category;
-                ref.read(transactionAttributeIDProvider.notifier).state =
-                    (id: exp.categoryID, name: exp.category);
-              },
+              onTap: () => controller
+                  .selectAttributeType(TransactionAttributeType.category),
               onChanged: controller.onChangeCategory),
           gapH12,
           TransitionTextField<AttributeEntry>(
               initialValue: exp.location,
               labelText: t.transactions.detail.inputLabels.location,
               route: AppRoute.attribute,
-              onTap: () {
-                ref.read(transactionAttributeTypeProvider.notifier).state =
-                    TransactionAttributeType.location;
-                ref.read(transactionAttributeIDProvider.notifier).state =
-                    (id: exp.locationID, name: exp.location);
-              },
+              onTap: () => controller
+                  .selectAttributeType(TransactionAttributeType.location),
               onChanged: controller.onChangeLocation),
           gapH12,
           TransitionTextField<String>(
@@ -105,10 +76,8 @@ class _ExpenseDetailViewContents extends ConsumerWidget {
               backgroundColor: const Color(0xff1D7094),
             ),
             onPressed: () async {
-              await ref
-                  .read(submitExpenseControllerProvider.notifier)
-                  .submit(exp);
-              if (context.mounted) context.pop();
+              ref.read(submitExpenseControllerProvider.notifier).submit(exp);
+              context.pop();
             },
             child: Text(
               t.transactions.buttons.post,

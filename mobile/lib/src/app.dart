@@ -7,10 +7,10 @@ import 'package:suito/src/localizations/japanese_cupertino_localizations.dart';
 import 'package:suito/src/routing/app_router.dart';
 import 'package:suito/src/utils/version_check.dart';
 
-class MyApp extends ConsumerWidget {
-  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
-  MyApp({super.key});
+class MyApp extends ConsumerWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

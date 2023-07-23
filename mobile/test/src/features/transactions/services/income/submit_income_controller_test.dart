@@ -4,7 +4,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:openapi/openapi.dart';
 import 'package:suito/src/features/transactions/repositories/income/register_income_repository.dart';
 import 'package:suito/src/features/transactions/repositories/income/update_income_repository.dart';
-import 'package:suito/src/features/transactions/services/income/income.dart';
+import 'package:suito/src/features/transactions/services/income/income_form_value.dart';
 import 'package:suito/src/features/transactions/services/income/submit_income_controller.dart';
 import 'package:suito/src/formz/amount.dart';
 import 'package:suito/src/formz/title.dart';
@@ -35,7 +35,7 @@ void main() {
     test('register new income, success', () async {
       // setup
       final registerRepo = MockRegisterIncomeRepository();
-      const income = Income(
+      const income = IncomeFormValue(
           id: '',
           title: Title.dirty('A title'),
           amount: Amount.dirty(400),
@@ -84,7 +84,7 @@ void main() {
     test('register new income, failure', () async {
       // setup
       final registerRepo = MockRegisterIncomeRepository();
-      const income = Income(
+      const income = IncomeFormValue(
           id: '',
           title: Title.dirty('A title'),
           amount: Amount.dirty(400),
@@ -128,7 +128,7 @@ void main() {
     test('update income, success', () async {
       // setup
       final updateRepo = MockUpdateIncomeRepository();
-      const income = Income(
+      const income = IncomeFormValue(
           id: 'income_id',
           title: Title.dirty('A title'),
           amount: Amount.dirty(400),
@@ -177,7 +177,7 @@ void main() {
     test('update income, failure', () async {
       // setup
       final updateRepo = MockUpdateIncomeRepository();
-      const income = Income(
+      const income = IncomeFormValue(
           id: 'income_id',
           title: Title.dirty('A title'),
           amount: Amount.dirty(400),
@@ -222,7 +222,7 @@ void main() {
       // setup
       final registerRepo = MockRegisterIncomeRepository();
       final updateRepo = MockUpdateIncomeRepository();
-      const income = Income(
+      const income = IncomeFormValue(
           id: '',
           title: Title.dirty('A title'),
           amount: Amount.dirty(400),

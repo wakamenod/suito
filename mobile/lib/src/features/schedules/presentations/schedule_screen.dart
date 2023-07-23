@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:suito/i18n/translations.g.dart';
-import 'package:suito/src/features/schedules/presentations/schedules_list.dart';
+import 'package:suito/src/features/schedules/presentations/schedule/schedules_list.dart';
 
 class ScheduleScreen extends ConsumerWidget {
   const ScheduleScreen({super.key});

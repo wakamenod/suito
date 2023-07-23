@@ -4,13 +4,13 @@ import 'package:suito/src/formz/amount.dart';
 import 'package:suito/src/formz/title.dart';
 import 'package:suito/src/utils/datetime_utils.dart';
 
-part 'income.freezed.dart';
+part 'income_form_value.freezed.dart';
 
 @freezed
-class Income with _$Income {
-  const Income._();
+class IncomeFormValue with _$IncomeFormValue {
+  const IncomeFormValue._();
 
-  const factory Income({
+  const factory IncomeFormValue({
     required String id,
     required Title title,
     required String incomeTypeID,
@@ -18,11 +18,11 @@ class Income with _$Income {
     required String date,
     required String memo,
     required bool isValid,
-  }) = _Income;
+  }) = _IncomeFormValue;
 
   bool get isNew => id == '';
 
-  static Income init(DateTime now) => Income(
+  static IncomeFormValue newIncome(DateTime now) => IncomeFormValue(
         id: '',
         incomeTypeID: '',
         title: const Title.pure(),
@@ -32,13 +32,27 @@ class Income with _$Income {
         isValid: false,
       );
 
-  static Income fromModel(IncomeDetailRes res, incomeTypeMap) => Income(
+  static IncomeFormValue fromIncome(IncomeDetailRes res, incomeTypeMap) =>
+      IncomeFormValue(
         id: res.income.id,
         incomeTypeID: res.income.incomeTypeId,
         title: Title.dirty(incomeTypeMap[res.income.incomeTypeId].name ?? ''),
         amount: Amount.dirty(res.income.amount),
         date: res.income.localDate,
         memo: res.income.memo,
+        isValid: true,
+      );
+
+  static IncomeFormValue fromSchedule(
+          IncomeScheduleDetailRes res, incomeTypeMap) =>
+      IncomeFormValue(
+        id: res.incomeSchedule.id,
+        incomeTypeID: res.incomeSchedule.incomeTypeId,
+        title: Title.dirty(
+            incomeTypeMap[res.incomeSchedule.incomeTypeId].name ?? ''),
+        amount: Amount.dirty(res.incomeSchedule.amount),
+        date: '',
+        memo: res.incomeSchedule.memo,
         isValid: true,
       );
 }

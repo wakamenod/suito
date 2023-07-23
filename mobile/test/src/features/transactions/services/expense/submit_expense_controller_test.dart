@@ -4,7 +4,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:openapi/openapi.dart';
 import 'package:suito/src/features/transactions/repositories/expense/register_expense_repository.dart';
 import 'package:suito/src/features/transactions/repositories/expense/update_expense_repository.dart';
-import 'package:suito/src/features/transactions/services/expense/expense.dart';
+import 'package:suito/src/features/transactions/services/expense/expense_form_value.dart';
 import 'package:suito/src/features/transactions/services/expense/submit_expense_controller.dart';
 import 'package:suito/src/formz/amount.dart';
 import 'package:suito/src/formz/title.dart';
@@ -35,7 +35,7 @@ void main() {
     test('register new expense, success', () async {
       // setup
       final registerRepo = MockRegisterExpenseRepository();
-      const expense = Expense(
+      const expense = ExpenseFormValue(
           id: '',
           title: Title.dirty('A title'),
           amount: Amount.dirty(400),
@@ -92,7 +92,7 @@ void main() {
     test('register new expense, failure', () async {
       // setup
       final registerRepo = MockRegisterExpenseRepository();
-      const expense = Expense(
+      const expense = ExpenseFormValue(
           id: '',
           title: Title.dirty('A title'),
           amount: Amount.dirty(400),
@@ -142,7 +142,7 @@ void main() {
     test('update expense, success', () async {
       // setup
       final updateRepo = MockUpdateExpenseRepository();
-      const expense = Expense(
+      const expense = ExpenseFormValue(
           id: 'expense_id',
           title: Title.dirty('A title'),
           amount: Amount.dirty(400),
@@ -199,7 +199,7 @@ void main() {
     test('update expense, failure', () async {
       // setup
       final updateRepo = MockUpdateExpenseRepository();
-      const expense = Expense(
+      const expense = ExpenseFormValue(
           id: 'expense_id',
           title: Title.dirty('A title'),
           amount: Amount.dirty(400),
@@ -250,7 +250,7 @@ void main() {
       // setup
       final registerRepo = MockRegisterExpenseRepository();
       final updateRepo = MockUpdateExpenseRepository();
-      const expense = Expense(
+      const expense = ExpenseFormValue(
           id: '',
           title: Title.dirty('A title'),
           amount: Amount.dirty(400),

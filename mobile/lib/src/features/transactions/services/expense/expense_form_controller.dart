@@ -1,36 +1,24 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:formz/formz.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:suito/src/features/transaction_attributes/services/transaction_attribute_entry.dart';
-import 'package:suito/src/features/transactions/repositories/expense/expense_categories_repository.dart';
-import 'package:suito/src/features/transactions/repositories/expense/expense_detail_repository.dart';
-import 'package:suito/src/features/transactions/repositories/expense/expense_locations_repository.dart';
+import 'package:suito/src/features/transaction_attributes/services/transaction_attribute_service.dart';
 import 'package:suito/src/formz/amount.dart';
 import 'package:suito/src/formz/title.dart' as formz_title;
-import 'package:suito/src/utils/datetime_utils.dart';
 
-import 'expense.dart';
+import 'expense_form_value.dart';
 
 part 'expense_form_controller.g.dart';
 
-@riverpod
-Future<Expense> expenseFuture(ExpenseFutureRef ref, {String? id}) async {
-  if (id == null) {
-    final now = ref.watch(currentTimeProvider);
-    return Expense.init(now);
-  }
-  final categoriesMap =
-      await ref.read(expenseCategoriesMapFutureProvider.future);
-  final locationsMap = await ref.read(expenseLocationsMapFutureProvider.future);
-  final expense =
-      await ref.read(expenseDetailRepositoryProvider).fetchExpenseDetail(id);
-  return Expense.fromModel(expense, categoriesMap, locationsMap);
-}
+// bridge provider between fetching expense and building initial value for expense form
+final expenseFormInitialValueProvider = StateProvider<ExpenseFormValue>(
+    (ref) => ExpenseFormValue.newExpense(DateTime.now()));
 
 @riverpod
 class ExpenseFormController extends _$ExpenseFormController {
   @override
-  Expense build(Expense arg) {
-    return arg;
+  ExpenseFormValue build() {
+    return ref.read(expenseFormInitialValueProvider);
   }
 
   void onChangeTitle(String value) {
@@ -75,5 +63,9 @@ class ExpenseFormController extends _$ExpenseFormController {
     state = state.copyWith(
       memo: value ?? '',
     );
+  }
+
+  void selectAttributeType(TransactionAttributeType type) {
+    ref.read(transactionAttributeTypeProvider.notifier).state = type;
   }
 }

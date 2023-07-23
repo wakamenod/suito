@@ -4,13 +4,13 @@ import 'package:suito/src/formz/amount.dart';
 import 'package:suito/src/formz/title.dart';
 import 'package:suito/src/utils/datetime_utils.dart';
 
-part 'expense.freezed.dart';
+part 'expense_form_value.freezed.dart';
 
 @freezed
-class Expense with _$Expense {
-  const Expense._();
+class ExpenseFormValue with _$ExpenseFormValue {
+  const ExpenseFormValue._();
 
-  const factory Expense({
+  const factory ExpenseFormValue({
     required String id,
     required Title title,
     required Amount amount,
@@ -21,11 +21,11 @@ class Expense with _$Expense {
     required String location,
     required String memo,
     required bool isValid,
-  }) = _Expense;
+  }) = _ExpenseFormValue;
 
   bool get isNew => id == '';
 
-  static Expense init(DateTime now) => Expense(
+  static ExpenseFormValue newExpense(DateTime now) => ExpenseFormValue(
         id: '',
         title: const Title.pure(),
         amount: const Amount.pure(),
@@ -38,8 +38,9 @@ class Expense with _$Expense {
         isValid: false,
       );
 
-  static Expense fromModel(ExpenseDetailRes res, categoriesMap, locationsMap) =>
-      Expense(
+  static ExpenseFormValue fromExpense(
+          ExpenseDetailRes res, categoriesMap, locationsMap) =>
+      ExpenseFormValue(
         id: res.expense.id,
         title: Title.dirty(res.expense.title),
         amount: Amount.dirty(res.expense.amount),
@@ -49,6 +50,23 @@ class Expense with _$Expense {
         locationID: res.expense.expenseLocationID,
         location: locationsMap[res.expense.expenseLocationID]?.name ?? '',
         memo: res.expense.memo,
+        isValid: true,
+      );
+
+  static ExpenseFormValue fromSchedule(
+          ExpenseScheduleDetailRes res, categoriesMap, locationsMap) =>
+      ExpenseFormValue(
+        id: res.expenseSchedule.id,
+        title: Title.dirty(res.expenseSchedule.title),
+        amount: Amount.dirty(res.expenseSchedule.amount),
+        date: '',
+        categoryID: res.expenseSchedule.expenseCategoryID,
+        category:
+            categoriesMap[res.expenseSchedule.expenseCategoryID]?.name ?? '',
+        locationID: res.expenseSchedule.expenseLocationID,
+        location:
+            locationsMap[res.expenseSchedule.expenseLocationID]?.name ?? '',
+        memo: res.expenseSchedule.memo,
         isValid: true,
       );
 }
