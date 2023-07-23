@@ -62,7 +62,6 @@ void main() {
       final now = DateTime(2023, 7, 1);
       await r.pumpTransactionsScreen(
           now: now, transactionsRepo: repository, monthsRepo: monthsRepository);
-      await tester.pumpAndSettle();
 
       await r.tapToggleButton();
       r.expectDropdownMenuItemFound('2023-04');
@@ -83,7 +82,6 @@ void main() {
     final now = DateTime(2023, 7, 1);
     await r.pumpTransactionsScreen(
         now: now, transactionsRepo: repository, monthsRepo: monthsRepository);
-    await tester.pumpAndSettle();
     r.expectEmptyLabelFound();
   });
 }

@@ -1,34 +1,24 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:formz/formz.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:suito/src/features/transaction_attributes/services/transaction_attribute_entry.dart';
-import 'package:suito/src/features/transactions/repositories/income/income_detail_repository.dart';
-import 'package:suito/src/features/transactions/repositories/income/income_types_repository.dart';
+import 'package:suito/src/features/transaction_attributes/services/transaction_attribute_service.dart';
 import 'package:suito/src/formz/amount.dart';
 import 'package:suito/src/formz/title.dart' as formz_title;
-import 'package:suito/src/utils/datetime_utils.dart';
 
-import 'income.dart';
+import 'income_form_value.dart';
 
 part 'income_form_controller.g.dart';
 
-@riverpod
-Future<Income> incomeFuture(IncomeFutureRef ref, {String? id}) async {
-  if (id == null) {
-    final now = ref.watch(currentTimeProvider);
-    return Income.init(now);
-  }
-
-  final incomeTypeMap = await ref.read(incomeTypeMapFutureProvider.future);
-  final modelRes =
-      await ref.read(incomeDetailRepositoryProvider).fetchIncomeDetail(id);
-  return Income.fromModel(modelRes, incomeTypeMap);
-}
+// bridge provider between fetching expense and building initial value for expense form
+final incomeFormInitialValueProvider = StateProvider<IncomeFormValue>(
+    (ref) => IncomeFormValue.newIncome(DateTime.now()));
 
 @riverpod
 class IncomeFormController extends _$IncomeFormController {
   @override
-  Income build(Income arg) {
-    return arg;
+  IncomeFormValue build() {
+    return ref.read(incomeFormInitialValueProvider);
   }
 
   void onChangeTitle(AttributeEntry? entry) {
@@ -66,5 +56,9 @@ class IncomeFormController extends _$IncomeFormController {
     state = state.copyWith(
       memo: value ?? '',
     );
+  }
+
+  void selectAttributeType(TransactionAttributeType type) {
+    ref.read(transactionAttributeTypeProvider.notifier).state = type;
   }
 }

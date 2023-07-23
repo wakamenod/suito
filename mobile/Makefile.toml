@@ -55,6 +55,13 @@ rm coverage/source_lcov.info
 # flutter pub global run dart_dot_reporter machine.log --show-message
 '''
 
+[tasks.test-logic]
+script = '''
+fvm flutter test --exclude-tags golden --coverage --coverage-path="coverage/source_lcov.info"
+./node_modules/.bin/lcov-result-merger ./coverage/source_lcov.info ./coverage/lcov.info
+rm coverage/source_lcov.info
+'''
+
 [tasks.ci-test]
 script = '''
 fvm flutter test

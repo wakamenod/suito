@@ -34,8 +34,8 @@ void main() {
       final list = await container.read(fetchSchedulesProvider.future);
       // check
       expect(list.length, 2);
-      expect(list[0].items.length, 0);
-      expect(list[1].items.length, 0);
+      expect(list[0].length, 0);
+      expect(list[1].length, 0);
     });
 
     test('fetchSchedules, success', () async {
@@ -61,8 +61,8 @@ void main() {
       final list = await container.read(fetchSchedulesProvider.future);
       // check
       expect(list.length, 2);
-      expect(list[0].items.length, 1);
-      expect(list[1].items.length, 1);
+      expect(list[0].length, 1);
+      expect(list[1].length, 1);
     });
   });
 }

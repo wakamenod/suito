@@ -9,7 +9,7 @@ part of 'submit_income_controller.dart';
 // **************************************************************************
 
 String _$submitIncomeControllerHash() =>
-    r'870db52fbb8bc1ce47918db0905b8b8f3e13fc26';
+    r'903693707f41e73165779b70d0f07181a78cfac7';
 
 /// See also [SubmitIncomeController].
 @ProviderFor(SubmitIncomeController)

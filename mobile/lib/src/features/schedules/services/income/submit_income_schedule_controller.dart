@@ -3,9 +3,8 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:suito/src/features/schedules/repositories/income/register_income_schedule_repository.dart';
 import 'package:suito/src/features/schedules/repositories/income/update_income_schedule_repository.dart';
 import 'package:suito/src/features/schedules/services/schedule_service.dart';
+import 'package:suito/src/features/transactions/services/income/income_form_value.dart';
 import 'package:suito/src/utils/timezone_provider.dart';
-
-import 'income_schedule.dart';
 
 part 'submit_income_schedule_controller.g.dart';
 
@@ -34,7 +33,7 @@ class SubmitIncomeScheduleController extends _$SubmitIncomeScheduleController {
           ..timezone = timezone
           ..incomeTypeId = inc.incomeTypeID)));
 
-  Future<void> submit(IncomeSchedule incomeSchedule) async {
+  Future<void> submit(IncomeFormValue incomeSchedule) async {
     if (!incomeSchedule.isValid) return;
     state = const AsyncLoading<void>();
 

@@ -1,3 +1,4 @@
+import 'package:go_router/go_router.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:suito/src/features/schedules/repositories/expense/delete_expense_schedule_repository.dart';
 import 'package:suito/src/features/schedules/repositories/expense/expense_schedule_detail_repository.dart';
@@ -20,6 +21,8 @@ import 'package:suito/src/features/transactions/repositories/income/register_inc
 import 'package:suito/src/features/transactions/repositories/income/update_income_repository.dart';
 import 'package:suito/src/features/transactions/repositories/transaction/transaction_months_repository.dart';
 import 'package:suito/src/features/transactions/repositories/transaction/transactions_repository.dart';
+
+class MockGoRouter extends Mock implements GoRouter {}
 
 class MockExpenseDetailRepository extends Mock
     implements ExpenseDetailRepository {}

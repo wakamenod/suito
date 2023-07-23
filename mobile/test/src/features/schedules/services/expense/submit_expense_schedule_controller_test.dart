@@ -4,8 +4,8 @@ import 'package:mocktail/mocktail.dart';
 import 'package:openapi/openapi.dart';
 import 'package:suito/src/features/schedules/repositories/expense/register_expense_schedule_repository.dart';
 import 'package:suito/src/features/schedules/repositories/expense/update_expense_schedule_repository.dart';
-import 'package:suito/src/features/schedules/services/expense/expense_schedule.dart';
 import 'package:suito/src/features/schedules/services/expense/submit_expense_schedule_controller.dart';
+import 'package:suito/src/features/transactions/services/expense/expense_form_value.dart';
 import 'package:suito/src/formz/amount.dart';
 import 'package:suito/src/formz/title.dart';
 import 'package:suito/src/utils/timezone_provider.dart';
@@ -38,8 +38,9 @@ void main() {
     test('register new expenseSchedule, success', () async {
       // setup
       final registerRepo = MockRegisterExpenseScheduleRepository();
-      const expenseSchedule = ExpenseSchedule(
+      const expenseSchedule = ExpenseFormValue(
           id: '',
+          date: '',
           title: Title.dirty('A title'),
           amount: Amount.dirty(400),
           categoryID: 'category_id',
@@ -94,8 +95,9 @@ void main() {
     test('register new expenseSchedule, failure', () async {
       // setup
       final registerRepo = MockRegisterExpenseScheduleRepository();
-      const expenseSchedule = ExpenseSchedule(
+      const expenseSchedule = ExpenseFormValue(
           id: '',
+          date: '',
           title: Title.dirty('A title'),
           amount: Amount.dirty(400),
           categoryID: 'category_id',
@@ -143,8 +145,9 @@ void main() {
     test('update expenseSchedule, success', () async {
       // setup
       final updateRepo = MockUpdateExpenseScheduleRepository();
-      const expenseSchedule = ExpenseSchedule(
+      const expenseSchedule = ExpenseFormValue(
           id: 'expenseSchedule_id',
+          date: '',
           title: Title.dirty('A title'),
           amount: Amount.dirty(400),
           categoryID: 'category_id',
@@ -199,8 +202,9 @@ void main() {
     test('update expenseSchedule, failure', () async {
       // setup
       final updateRepo = MockUpdateExpenseScheduleRepository();
-      const expenseSchedule = ExpenseSchedule(
+      const expenseSchedule = ExpenseFormValue(
           id: 'expenseSchedule_id',
+          date: '',
           title: Title.dirty('A title'),
           amount: Amount.dirty(400),
           categoryID: 'category_id',
@@ -250,8 +254,9 @@ void main() {
       // setup
       final registerRepo = MockRegisterExpenseScheduleRepository();
       final updateRepo = MockUpdateExpenseScheduleRepository();
-      const expenseSchedule = ExpenseSchedule(
+      const expenseSchedule = ExpenseFormValue(
           id: '',
+          date: '',
           title: Title.dirty('A title'),
           amount: Amount.dirty(400),
           categoryID: 'category_id',

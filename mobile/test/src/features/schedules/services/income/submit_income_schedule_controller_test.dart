@@ -4,8 +4,8 @@ import 'package:mocktail/mocktail.dart';
 import 'package:openapi/openapi.dart';
 import 'package:suito/src/features/schedules/repositories/income/register_income_schedule_repository.dart';
 import 'package:suito/src/features/schedules/repositories/income/update_income_schedule_repository.dart';
-import 'package:suito/src/features/schedules/services/income/income_schedule.dart';
 import 'package:suito/src/features/schedules/services/income/submit_income_schedule_controller.dart';
+import 'package:suito/src/features/transactions/services/income/income_form_value.dart';
 import 'package:suito/src/formz/amount.dart';
 import 'package:suito/src/formz/title.dart';
 import 'package:suito/src/utils/timezone_provider.dart';
@@ -38,8 +38,9 @@ void main() {
     test('register new incomeSchedule, success', () async {
       // setup
       final registerRepo = MockRegisterIncomeScheduleRepository();
-      const incomeSchedule = IncomeSchedule(
+      const incomeSchedule = IncomeFormValue(
           id: '',
+          date: '',
           title: Title.dirty('A title'),
           amount: Amount.dirty(400),
           incomeTypeID: 'income_type_id',
@@ -87,8 +88,9 @@ void main() {
     test('register new incomeSchedule, failure', () async {
       // setup
       final registerRepo = MockRegisterIncomeScheduleRepository();
-      const incomeSchedule = IncomeSchedule(
+      const incomeSchedule = IncomeFormValue(
           id: '',
+          date: '',
           title: Title.dirty('A title'),
           amount: Amount.dirty(400),
           incomeTypeID: 'income_type_id',
@@ -131,8 +133,9 @@ void main() {
     test('update incomeSchedule, success', () async {
       // setup
       final updateRepo = MockUpdateIncomeScheduleRepository();
-      const incomeSchedule = IncomeSchedule(
+      const incomeSchedule = IncomeFormValue(
           id: 'incomeSchedule_id',
+          date: '',
           title: Title.dirty('A title'),
           amount: Amount.dirty(400),
           incomeTypeID: 'income_type_id',
@@ -180,8 +183,9 @@ void main() {
     test('update incomeSchedule, failure', () async {
       // setup
       final updateRepo = MockUpdateIncomeScheduleRepository();
-      const incomeSchedule = IncomeSchedule(
+      const incomeSchedule = IncomeFormValue(
           id: 'incomeSchedule_id',
+          date: '',
           title: Title.dirty('A title'),
           amount: Amount.dirty(400),
           incomeTypeID: 'income_type_id',
@@ -226,8 +230,9 @@ void main() {
       // setup
       final registerRepo = MockRegisterIncomeScheduleRepository();
       final updateRepo = MockUpdateIncomeScheduleRepository();
-      const incomeSchedule = IncomeSchedule(
+      const incomeSchedule = IncomeFormValue(
           id: '',
+          date: '',
           title: Title.dirty('A title'),
           amount: Amount.dirty(400),
           incomeTypeID: 'income_type_id',

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:openapi/openapi.dart';
+import 'package:suito/src/features/transactions/services/transaction/transaction_detail_navigator.dart';
 import 'package:suito/src/features/transactions/services/transaction/transaction_service.dart';
-import 'package:suito/src/routing/app_router.dart';
 import 'package:suito/src/utils/currency_formatter.dart';
 
 class TransactionsListItem extends ConsumerWidget {
@@ -16,13 +15,12 @@ class TransactionsListItem extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currencyFormatter = ref.watch(currencyFormatterProvider);
+    final navigator = ref.watch(transactionDetailNavigatorProvider.notifier);
 
     return GestureDetector(
-      onTap: () {
-        context.goNamed(AppRoute.transactionDetail.name, queryParameters: {
-          'id': transaction.id,
-          'type': transaction.type.toString()
-        });
+      onTap: () async {
+        // TODO エラー表示
+        navigator.goFetch(transaction);
       },
       child: Card(
         elevation: 0,

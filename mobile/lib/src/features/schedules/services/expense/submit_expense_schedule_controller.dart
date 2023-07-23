@@ -3,9 +3,8 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:suito/src/features/schedules/repositories/expense/register_expense_schedule_repository.dart';
 import 'package:suito/src/features/schedules/repositories/expense/update_expense_schedule_repository.dart';
 import 'package:suito/src/features/schedules/services/schedule_service.dart';
+import 'package:suito/src/features/transactions/services/expense/expense_form_value.dart';
 import 'package:suito/src/utils/timezone_provider.dart';
-
-import 'expense_schedule.dart';
 
 part 'submit_expense_schedule_controller.g.dart';
 
@@ -38,7 +37,7 @@ class SubmitExpenseScheduleController
           ..expenseCategoryID = schedule.categoryID
           ..expenseLocationID = schedule.locationID)));
 
-  Future<void> submit(ExpenseSchedule expenseSchedule) async {
+  Future<void> submit(ExpenseFormValue expenseSchedule) async {
     if (!expenseSchedule.isValid) return;
     state = const AsyncLoading<void>();
 

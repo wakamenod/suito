@@ -2,10 +2,9 @@ import 'package:openapi/openapi.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:suito/src/features/transactions/repositories/expense/register_expense_repository.dart';
 import 'package:suito/src/features/transactions/repositories/expense/update_expense_repository.dart';
+import 'package:suito/src/features/transactions/services/expense/expense_form_value.dart';
 import 'package:suito/src/features/transactions/services/transaction/transaction_service.dart';
 import 'package:suito/src/utils/datetime_utils.dart';
-
-import 'expense.dart';
 
 part 'submit_expense_controller.g.dart';
 
@@ -40,7 +39,7 @@ class SubmitExpenseController extends _$SubmitExpenseController {
         ..amount = ex.amount.value)));
   }
 
-  Future<void> submit(Expense expense) async {
+  Future<void> submit(ExpenseFormValue expense) async {
     if (!expense.isValid) return;
     state = const AsyncLoading<void>();
 

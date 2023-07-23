@@ -3,6 +3,8 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:suito/src/features/transactions/repositories/expense/expense_categories_repository.dart';
 import 'package:suito/src/features/transactions/repositories/expense/expense_locations_repository.dart';
 import 'package:suito/src/features/transactions/repositories/income/income_types_repository.dart';
+import 'package:suito/src/features/transactions/services/expense/expense_form_controller.dart';
+import 'package:suito/src/features/transactions/services/income/income_form_controller.dart';
 import 'package:suito/src/formz/name.dart';
 
 import 'transaction_attribute_entry.dart';
@@ -12,14 +14,18 @@ import 'transaction_attribute_words.dart';
 
 part 'transaction_attribute_service.g.dart';
 
-enum TransactionAttributeType { category, location, incomeType }
+enum TransactionAttributeType {
+  category,
+  location,
+  incomeType,
+}
 
 final transactionAttributeTypeProvider =
     StateProvider<TransactionAttributeType>(
         (ref) => TransactionAttributeType.category);
 
-final transactionAttributeIDProvider =
-    StateProvider<({String? id, String name})>((ref) => (id: null, name: ''));
+// final transactionAttributeIDProvider =
+//     StateProvider<({String? id, String name})>((ref) => (id: null, name: ''));
 
 @riverpod
 Future<List<AttributeEntry>> listAttributeEntries(
@@ -41,6 +47,22 @@ Future<List<AttributeEntry>> listAttributeEntries(
       final list = await ref.watch(incomeTypesListFutureProvider.future);
       final res = list.map((e) => AttributeEntry.fromIncomeType(e)).toList();
       return res;
+  }
+}
+
+@riverpod
+String attributeID(AttributeIDRef ref) {
+  final type = ref.watch(transactionAttributeTypeProvider);
+  switch (type) {
+    case TransactionAttributeType.category:
+      final expense = ref.watch(expenseFormControllerProvider);
+      return expense.categoryID;
+    case TransactionAttributeType.location:
+      final expense = ref.watch(expenseFormControllerProvider);
+      return expense.locationID;
+    case TransactionAttributeType.incomeType:
+      final income = ref.watch(incomeFormControllerProvider);
+      return income.incomeTypeID;
   }
 }
 
@@ -153,7 +175,7 @@ class TransactionAttributeSearchController
 Future<({List<AttributeEntry> filteredItems, AttributeEntry selected})>
     filteredCategories(FilteredCategoriesRef ref) async {
   final repo = ref.watch(transactionAttributeRepositoryProvider);
-  final selectedID = ref.watch(transactionAttributeIDProvider).id;
+  final selectedID = ref.watch(attributeIDProvider);
   final items = await ref.watch(listAttributeEntriesProvider.future);
   final searchInput = ref.watch(transactionAttributeSearchControllerProvider
       .select((value) => value.searchInput));

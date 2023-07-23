@@ -6,14 +6,15 @@ import 'package:suito/src/features/authentication/presentation/profile/custom_pr
 import 'package:suito/src/features/authentication/presentation/sign_in/custom_sign_in_screen.dart';
 import 'package:suito/src/features/authentication/presentation/sign_out/custom_sign_out_screen.dart';
 import 'package:suito/src/features/charts/presentations/charts_screen.dart';
-import 'package:suito/src/features/schedules/presentations/schedule_detail_screen.dart';
+import 'package:suito/src/features/schedules/presentations/expense/expense_schedule_detail_screen.dart';
+import 'package:suito/src/features/schedules/presentations/income/income_schedule_detail_screen.dart';
 import 'package:suito/src/features/schedules/presentations/schedule_screen.dart';
 import 'package:suito/src/features/transaction_attributes/presentations/settings/transaction_attribute_settings_screen.dart';
 import 'package:suito/src/features/transaction_attributes/presentations/transaction_attribute_select_screen.dart';
+import 'package:suito/src/features/transactions/presentations/expense/expense_detail_screen.dart';
 import 'package:suito/src/features/transactions/presentations/expense/expense_memo_screen.dart';
-import 'package:suito/src/features/transactions/presentations/transaction_detail_screen.dart';
+import 'package:suito/src/features/transactions/presentations/incomes/income_detail_screen.dart';
 import 'package:suito/src/features/transactions/presentations/transactions_screen.dart';
-import 'package:suito/src/features/transactions/services/transaction//transaction_service.dart';
 import 'package:suito/src/routing/go_router_refresh_stream.dart';
 import 'package:suito/src/utils/app_lifecycle_state_provider.dart';
 import 'package:suito/src/utils/version_check.dart';
@@ -25,11 +26,13 @@ enum AppRoute {
   signOut(path: '/sign-out'),
   home(path: '/home'),
   profile(path: '/profile'),
-  transactionDetail(path: 'transaction-detail'),
+  expenseDetail(path: 'expense'),
+  incomeDetail(path: 'income'),
   attribute(path: 'attribute'),
   attributeSettings(path: 'attributeSettings'),
+  scheduleExpenseDetail(path: 'expense'),
+  scheduleIncomeDetail(path: 'income'),
   memo(path: 'memo'),
-  scheduleDetail(path: 'schedule-detail'),
   scheduleTransactionAttribute(path: 'attribute'),
   scheduleMemo(path: 'memo');
 
@@ -100,16 +103,11 @@ final goRouterProvider = Provider.family<GoRouter, GlobalKey<NavigatorState>>(
                   const NoTransitionPage(child: TransactionsScreen()),
               routes: [
                 GoRoute(
-                    name: AppRoute.transactionDetail.name,
-                    path: AppRoute.transactionDetail.path,
+                    name: AppRoute.expenseDetail.name,
+                    path: AppRoute.expenseDetail.path,
                     pageBuilder: (context, state) => CustomTransitionPage(
                           key: state.pageKey,
-                          child: TransactionDetailScreen(
-                            id: state.queryParameters['id'],
-                            type: int.tryParse(
-                                    state.queryParameters['type'] ?? '') ??
-                                TransactionType.expense.value,
-                          ),
+                          child: const ExpenseDetailScreen(),
                           transitionsBuilder: _slideTransitionBuilder,
                         ),
                     routes: [
@@ -144,6 +142,15 @@ final goRouterProvider = Provider.family<GoRouter, GlobalKey<NavigatorState>>(
                         ),
                       ),
                     ]),
+                GoRoute(
+                  name: AppRoute.incomeDetail.name,
+                  path: AppRoute.incomeDetail.path,
+                  pageBuilder: (context, state) => CustomTransitionPage(
+                    key: state.pageKey,
+                    child: const IncomeDetailScreen(),
+                    transitionsBuilder: _slideTransitionBuilder,
+                  ),
+                ),
               ]),
           GoRoute(
               name: NavigationBarRoute.charts.name,
@@ -157,16 +164,11 @@ final goRouterProvider = Provider.family<GoRouter, GlobalKey<NavigatorState>>(
                   const NoTransitionPage(child: ScheduleScreen()),
               routes: [
                 GoRoute(
-                    name: AppRoute.scheduleDetail.name,
-                    path: AppRoute.scheduleDetail.path,
+                    name: AppRoute.scheduleExpenseDetail.name,
+                    path: AppRoute.scheduleExpenseDetail.path,
                     pageBuilder: (context, state) => CustomTransitionPage(
                           key: state.pageKey,
-                          child: ScheduleDetailScreen(
-                            id: state.queryParameters['id'],
-                            type: int.tryParse(
-                                    state.queryParameters['type'] ?? '') ??
-                                TransactionType.expense.value,
-                          ),
+                          child: const ExpenseScheduleDetailScreen(),
                           transitionsBuilder: _slideTransitionBuilder,
                         ),
                     routes: [
@@ -189,6 +191,15 @@ final goRouterProvider = Provider.family<GoRouter, GlobalKey<NavigatorState>>(
                         ),
                       ),
                     ]),
+                GoRoute(
+                  name: AppRoute.scheduleIncomeDetail.name,
+                  path: AppRoute.scheduleIncomeDetail.path,
+                  pageBuilder: (context, state) => CustomTransitionPage(
+                    key: state.pageKey,
+                    child: const IncomeScheduleDetailScreen(),
+                    transitionsBuilder: _slideTransitionBuilder,
+                  ),
+                ),
               ]),
         ],
       ),
