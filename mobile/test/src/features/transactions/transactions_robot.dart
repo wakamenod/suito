@@ -77,6 +77,13 @@ class TransactionsRobot {
     await tester.pumpAndSettle();
   }
 
+  Future<void> tapDatePicker() async {
+    final calenderIcon = find.byIcon(Icons.calendar_today);
+    expect(calenderIcon, findsOneWidget);
+    await tester.tap(calenderIcon);
+    await tester.pumpAndSettle();
+  }
+
   Finder expectDropdownMenuItemFound(String month) {
     final parentItemFinder = find.byType(DropdownMenuItem<String>);
     final childTextFinder = find.descendant(
