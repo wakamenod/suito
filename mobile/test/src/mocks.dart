@@ -1,6 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:suito/src/features/charts/repositories/column_chart_data_repository.dart';
+import 'package:suito/src/features/charts/repositories/pie_chart_data_repository.dart';
 import 'package:suito/src/features/schedules/repositories/expense/delete_expense_schedule_repository.dart';
 import 'package:suito/src/features/schedules/repositories/expense/expense_schedule_detail_repository.dart';
 import 'package:suito/src/features/schedules/repositories/expense/register_expense_schedule_repository.dart';
@@ -88,6 +89,9 @@ class MockSchedulesRepository extends Mock implements SchedulesRepository {}
 
 class MockColumnChartDataRepository extends Mock
     implements ColumnChartDataRepository {}
+
+class MockPieChartDataRepository extends Mock
+    implements PieChartDataRepository {}
 
 class Listener<T> extends Mock {
   void call(T? previous, T next);

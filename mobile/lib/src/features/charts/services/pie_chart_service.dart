@@ -11,7 +11,7 @@ part 'pie_chart_service.g.dart';
 class PieChartController extends _$PieChartController {
   @override
   Future<PieChart> build() async {
-    final DateTime now = DateTime.now();
+    final DateTime now = ref.read(currentTimeProvider);
     final DateTime firstDayOfMonth = DateTime(now.year, now.month, 1);
     final initialRange = DateTimeRange(start: firstDayOfMonth, end: now);
 
