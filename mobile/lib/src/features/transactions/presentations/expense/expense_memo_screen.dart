@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:suito/i18n/translations.g.dart';
+import 'package:suito/src/app.dart';
+import 'package:suito/src/features/transactions/services/expense/expense_form_controller.dart';
+import 'package:suito/src/routing/app_router.dart';
 
 class ExpenseMemoScreen extends ConsumerStatefulWidget {
   const ExpenseMemoScreen({super.key});
@@ -11,7 +13,10 @@ class ExpenseMemoScreen extends ConsumerStatefulWidget {
 }
 
 class _ExpenseMemoScreenState extends ConsumerState<ExpenseMemoScreen> {
-  final TextEditingController _textEditingController = TextEditingController();
+  late final TextEditingController _textEditingController =
+      TextEditingController(
+          text: ref.watch(
+              expenseFormControllerProvider.select((value) => value.memo)));
 
   @override
   void dispose() {
@@ -25,22 +30,25 @@ class _ExpenseMemoScreenState extends ConsumerState<ExpenseMemoScreen> {
       appBar: AppBar(
         leading: IconButton(
             icon: const Icon(Icons.arrow_back, color: Colors.white),
-            onPressed: () => context.pop(_textEditingController.text)),
+            onPressed: () => ref
+                .read(goRouterProvider(navigatorKey))
+                .pop(_textEditingController.text)),
         title: Text(t.transactions.memo.title),
       ),
-      body: Column(
-        children: [
-          TextField(
-            controller: _textEditingController,
-            maxLines: null,
-            minLines: 5,
-            keyboardType: TextInputType.multiline,
-            decoration: InputDecoration(
-              border: const OutlineInputBorder(),
-              hintText: t.transactions.memo.hintText,
-            ),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: TextField(
+          controller: _textEditingController,
+          maxLines: null,
+          minLines: 5,
+          keyboardType: TextInputType.multiline,
+          decoration: InputDecoration(
+            border: const OutlineInputBorder(),
+            hintText: t.transactions.memo.hintText,
+            fillColor: Colors.white70,
+            filled: true,
           ),
-        ],
+        ),
       ),
     );
   }
