@@ -41,6 +41,5 @@ void main() {
       await r.pumpSchedulesScreen(repository: repository);
       await screenMatchesGolden(tester, 'non_empty_list');
     });
-
   });
 }
