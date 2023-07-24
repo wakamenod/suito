@@ -43,9 +43,9 @@ class SchedulesRobot {
     await tester.pumpAndSettle();
   }
 
-  Future<void> pumpSchedulesScreen(
-      {SchedulesRepository? repository,
-      }) async {
+  Future<void> pumpSchedulesScreen({
+    SchedulesRepository? repository,
+  }) async {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
@@ -58,5 +58,4 @@ class SchedulesRobot {
     );
     await tester.pumpAndSettle();
   }
-
 }

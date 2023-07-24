@@ -19,7 +19,8 @@ void main() {
       await screenMatchesGolden(tester, 'new_expense_schedule_detail');
     });
 
-    testGoldens('Open ExpenseScheduleDetailView for updating a registered expense schedule',
+    testGoldens(
+        'Open ExpenseScheduleDetailView for updating a registered expense schedule',
         (tester) async {
       await loadAppFonts();
       final r = SchedulesRobot(tester);
@@ -32,8 +33,8 @@ void main() {
         ..id = 'expense_location_id'
         ..name = 'Test Location');
       final locationMap = {location.id: location};
-      final res =
-          ExpenseScheduleDetailRes((r) => r.expenseSchedule.replace(ModelExpenseSchedule((b) => b
+      final res = ExpenseScheduleDetailRes(
+          (r) => r.expenseSchedule.replace(ModelExpenseSchedule((b) => b
             ..id = id
             ..timezone = 'Asia/Tokyo'
             ..title = 'registered title'
