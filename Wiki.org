@@ -57,3 +57,5 @@ https://www.canva.com/ で作成
    =フォーマット= -> =イメージ= -> =図形でマスク=
 4. 背景透過画像で書き出す
 右上のタブ =フォーマット= から、背景の =塗りつぶしなし= で設定後、ファイル -> 書き出し
+* MacOS向けビルド手順
+- [[https://docs.flutter.dev/deployment/macos#create-a-build-archive-with-xcode][Create a build archive with Xcode]]
