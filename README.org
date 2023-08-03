@@ -3,3 +3,35 @@
 ※ Flutter webは Google Play Storeの「データ削除ポリシー対応」として、[[https://web.suito.wakamenod.com][アカウント削除ページ]]作成に使用
 
 [[file:drawio/system2.drawio.png]]
+
+** 試したこと (Flutter)
+- ローカライズは[[https://pub.dev/packages/slang][slang]]を使用
+- [[https://pub.dev/packages/envied][envied]] で環境変数の取得
+- firebase_authを使った認証
+  - [[https://pub.dev/packages/firebase_auth][firebase_auth]]
+  - [[https://pub.dev/packages/firebase_ui_auth][firebase_auth_ui]]
+  - IdTokenを送信して自前のバックエンドで認証
+- [[https://pub.dev/packages/riverpod][riverpod]]で状態管理
+- [[https://pub.dev/packages/go_router][go_router]]での画面遷移・ルーティング
+- Flutter webでアカウント削除ページの作成
+- [[https://pub.dev/packages/dio][dio]] をつかったAPI通信
+  - モデル部分はopenapiによる自動生成
+- unitテスト、widgetテストの導入
+  - Goldenテスト導入 ([[https://pub.dev/packages/golden_toolkit][golden_toolkit]])
+  - [[https://pub.dev/packages/mocktail][mocktail]] を使用しモックを使ったテストの導入
+- フォーム実装およびバリデーションは[[https://pub.dev/packages/formz][formz]]を使用
+- サーバーバージョンチェック
+  - アプリバージョンと不一致の場合ストアへ遷移
+- [[https://pub.dev/packages/syncfusion_flutter_charts][syncfusion_flutter_charts]] によるチャートの実装
+
+** 試したこと (Go)
+- Webフレームワークは [[https://github.com/labstack/echo][echo]] を使用
+- ORMは [[https://github.com/go-gorm/gorm][gorm]] を使用
+- 簡単な3層レイヤーを導入
+- [[https://github.com/swaggo/swag][swag]] を使ったSwaggerドキュメント生成
+- firebase認証
+  - Middlewareでクライアントから送られたIdTokenを認証
+- 独自エラー定義
+- [[https://github.com/matryer/moq][moq]] を使ったモック生成
+- [[https://github.com/go-co-op/gocron][gocron]] による定義処理の実装
+-
