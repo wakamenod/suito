@@ -16,6 +16,13 @@ script = '''
 go install -tags mysql github.com/golang-migrate/migrate/v4/cmd/migrate@v4.15.1
 '''
 
+[tasks.restart]
+script = '''
+docker-compose kill
+docker-compose -f docker-compose-prod.yml up -d
+'''
+
+
 [tasks.up]
 script = '''
 cd backend && makers build
