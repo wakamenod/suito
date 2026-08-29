@@ -384,6 +384,12 @@ deno_version = 2
 # [edge_runtime.secrets]
 # secret_key = "env(SECRET_VALUE)"
 
+[functions.delete-account]
+enabled = true
+# The function verifies the caller's JWT itself (auth.getUser); keep the gateway
+# check on too so unauthenticated requests never reach the function.
+verify_jwt = true
+
 [analytics]
 enabled = true
 port = 54327

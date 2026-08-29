@@ -1,0 +1,31 @@
+name: Supabase Keep-Alive
+
+# Supabase Free projects are paused after 7 days without API-gateway traffic.
+# pg_cron activity does NOT count. This hits the REST API once a day so the
+# project stays awake.
+
+on:
+  schedule:
+    # 03:17 UTC daily (odd minute to avoid the top-of-hour cron rush)
+    - cron: "17 3 * * *"
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping app_config via REST
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          set -euo pipefail
+          code=$(curl -sS -o /dev/null -w '%{http_code}' \
+            "${SUPABASE_URL}/rest/v1/app_config?select=latest_version&limit=1" \
+            -H "apikey: ${SUPABASE_ANON_KEY}" \
+            -H "Authorization: Bearer ${SUPABASE_ANON_KEY}")
+          echo "app_config ping -> HTTP ${code}"
+          if [ "${code}" != "200" ]; then
+            echo "::error::Unexpected status ${code} from Supabase REST API"
+            exit 1
+          fi
