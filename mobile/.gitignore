@@ -67,3 +67,6 @@ node_modules/
 
 # FVM Version Cache
 .fvm/
+
+# golden_toolkit writes diff images here when a golden test fails
+test/**/failures/
