@@ -281,19 +281,34 @@ Postgres 関数として実装し RPC 公開、または SQL ビュー:
 
 **成果物**: リポジトリは `mobile/` + `web/` + `supabase/` の3本立て。Lightsail 課金停止。
 
-## Open items（着手前に決めること）
+## Open items（すべて決着済み）
 
-- **ソフトデリート**: `deleted_at` を全テーブルに残すか、参照テーブルからは外すか、いっそ全廃して
-  Postgres の PITR / バックアップに任せるか。現アプリは UI からソフトデリート行を復元しない。
-  → expense / income / *_schedule のみ残す案を推奨。
-- **`income` の削除**: 現状 income には論理削除エンドポイントがない（物理削除のみ、削除ジョブが使用）。
-  Supabase 移行を機に income にも delete を足すか、現挙動を維持するか。
-- **FK の `on delete`**: カテゴリ削除時、現状は「参照を空文字化 + カテゴリは論理削除」。
-  Postgres では `on delete set null` + カテゴリ物理削除がシンプル。UI 挙動が変わらないか要確認。
-- **月軸パディング / トランザクションマージ**: SQL 関数に寄せるか Dart に残すか。
-  → 保守する SQL を減らすため Dart に残す案を推奨。
-- **`pg_uuidv7` 拡張の可用性**: プロジェクトで使えない場合の代替（SQL 定義 uuidv7 関数 / Postgres 18+ `uuidv7()`）を着手時に確定。
-- **リアルタイム**: 現状未使用。今回はスキップ。
+着手前に決めるとしていた6項目。いずれも結論が出て実装に反映されている。
+
+- [x] **ソフトデリート** — 推奨案どおり、`deleted_at` は
+  `expense` / `income` / `expense_schedule` / `income_schedule` の4テーブルのみに残した
+  （`0002_init.sql`）。参照テーブルと queue テーブルは持たない。復元 UI は今も無い。
+  なお絞り込みは RLS ではなくクライアントの `.isFilter('deleted_at', null)` 規約と
+  集計 RPC の `where` 句で担保している。
+- [x] **`income` の削除** — 足した。`delete_income_repository` / `delete_income_controller` を
+  expense と対称に実装し、取引一覧のスワイプを `Transaction.type` で分岐（`03df482`）。
+  それまでは収入行のスワイプが expense 側を呼んで0行更新になり、成功表示だけ出て復活していた。
+- [x] **FK の `on delete`** — 3本とも `on delete set null`、参照テーブルは物理削除
+  （`0002_init.sql`）。これでアプリ側の「参照を空文字で潰す」ロジックは不要になった。
+  ただし `income` は固有の `title` を持たず表示名を `income_type` から借りるため、
+  種別削除でタイトルが空になる。使用中の収入種別は `BEFORE DELETE` トリガーで
+  削除を拒否する（`0008`）。支出は自前の `title` があるのでカテゴリ / 購入場所は `set null` のまま。
+- [x] **月軸パディング / トランザクションマージ** — 推奨どおり Dart に残した。
+  `buildColumnChart()`（`column_chart_data_repository.dart`）と
+  `mergeTransactions()`（`transactions_repository.dart`）。どちらも純粋関数で単体テスト済み。
+- [x] **`pg_uuidv7` 拡張の可用性** — `0001_extensions.sql` が
+  `pg_available_extensions` を見て、あれば C 実装の薄いラッパー、無ければ PL/pgSQL 実装を
+  `public.uuid_generate_v7()` として定義する。どちらの環境でも列 default は同じ名前で解決する。
+- [x] **リアルタイム** — 予定どおりスキップ。`mobile/` `web/` とも購読箇所はゼロ。
+
+移行後に見つかった挙動バグ（論理削除スケジュールからの取引生成、円グラフの半開区間、
+サインアウト導線の欠落、削除失敗時の表示）も `03df482` で解消済み。
+残タスクは README.org の TODO 節を参照。
 
 ## 反映済みレビュー指摘（Gemini）
 
