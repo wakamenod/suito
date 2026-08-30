@@ -146,6 +146,53 @@ just install-hooks   # git config core.hooksPath .githooks
   なった場合の受け皿にはなる
 - 使わないと決めるなら =app_router.dart= の =AppRoute.signOut= ごと削除する
 
+*** TODO golden テストが手元で15件とも失敗する
+=fvm flutter test --tags golden= を実行すると、golden タグの15件が1件も通らない
+(=+0 -15=)。=just test= にも含まれるので、ローカルのフルテストは常に赤くなる。
+
+- 差分は =0.16%= 〜 =2.44%= と小さく、レイアウト崩れではなくフォント／
+  アンチエイリアスの描画差に見える
+- Supabase 移行より前からの状態。=03df482= の作業前に =git stash= した素のツリーでも
+  同じ15件が同じように失敗することを確認済みで、移行で持ち込んだ退行ではない
+- =mobile/.gitignore:72= が =test/**/failures/= を無視しているため、
+  失敗成果物が残っていても気付きにくい
+- CI (=.github/workflows/suito_mobile.yaml=) は =just ci-test=
+  (= =flutter test --exclude-tags supabase=) を実行しており **golden を除外していない**。
+  ただし runner は =ubuntu-20.04= でローカルは macOS なので、CI では通っている可能性がある。
+  =supabase= ブランチをまだ push していないため未確認
+- fvm の設定ファイルが2つあって食い違っているのも要因になりうる:
+  - =mobile/.fvmrc= → =3.13.0=
+  - =mobile/.fvm/fvm_config.json= → =stable=
+  手元の fvm は =.fvmrc= を見て 3.13.0 を使うが、=just fvm-install= (= =fvm install=) が
+  CI でどちらを読むかは fvm のバージョン次第。goldens の再現性を求めるならまず一本化する
+- 進め方:
+  1. ブランチを push して CI での実際の結果を見る
+  2. CI が緑ならローカル環境固有の差分。goldens を生成した環境
+     (OS / アーキテクチャ / Flutter バージョン) を特定し、
+     =just update-goldens= を回す環境を1つに決める
+  3. CI も赤なら goldens 自体が古いので貼り直す
+  - 恒久対策としては golden の実行環境を固定する
+    (CI で生成し、ローカルは =--exclude-tags golden= で回す) のが扱いやすい
+
+*** TODO pgTAP・Edge Function・実接続テストを CI で走らせる
+ワークフローは =gitleaks.yml= / =suito_mobile.yaml= / =suito_web.yaml= /
+=supabase-keep-alive.yml= の4本で、Supabase 側のテストはどれも手元でしか走っていない。
+
+- CI で走っていないもの:
+  - =just supabase-test= … pgTAP 96 アサーション (3ファイル)。RLS・テーブル権限・
+    定期取引エンジン・集計 RPC・income_type の使用中ガードを検証している
+  - =just supabase-test-functions= … Deno。=delete-account= Edge Function
+  - =cd mobile && just test-supabase= … =supabase= タグ 52件。PostgREST のクエリ・
+    カラム名・ソフトデリート規約・RLS スコープを実接続で検証
+- いずれもローカル Supabase スタックが要るため、=suito_mobile.yaml= は
+  =supabase= タグを明示的に除外している
+- つまり **スキーマ・RLS・grant・SQL 関数の退行は CI では検出できない**。
+  =0007= / =0008= のように SQL を触る変更が増えるほどリスクが上がる
+- 対応案: =supabase/**= と =mobile/test/src/data/**= の変更で走るワークフローを追加する。
+  ubuntu runner で =npx supabase start= → =just supabase-test= →
+  =just supabase-test-functions= → =cd mobile && just test-supabase=。
+  CLI は npx で入るので追加のセットアップはほとんど要らない
+
 *** TODO 構成図 (drawio) を Supabase 構成に描き直す
 =drawio/system2.drawio= と =drawio/system.drawio= は Lightsail + nginx + Go API + MySQL +
 Firebase Auth を描いたもので、現構成と合わなくなったため README 冒頭からの参照を外した。
