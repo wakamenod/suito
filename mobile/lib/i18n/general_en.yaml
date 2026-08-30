@@ -3,6 +3,7 @@ version:
   updateAlertContent: "Please update the app\n App version: $appVersion\n Server version: $serverVersion"
 dismissible:
   snackBar: removed
+  deleteFailed: Could not delete. Please try again.
   confirmTitle: Confirmation
   confirmContent: Are you sure you want to delete this item?
   buttonDelete: DELETE

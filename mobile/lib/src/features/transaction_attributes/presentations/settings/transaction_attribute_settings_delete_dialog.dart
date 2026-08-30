@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:suito/i18n/translations.g.dart';
 import 'package:suito/src/constants/app_sizes.dart';
 import 'package:suito/src/features/transaction_attributes/services/transaction_attribute_entry.dart';
@@ -80,11 +81,23 @@ class TransactionAttributeSettingsDeleteDialog extends ConsumerWidget {
                   ),
                   elevation: 0),
               child: Text(t.transactionAttributes.settingsDelete),
-              onPressed: () {
-                ref
-                    .watch(transactionAttributeRepositoryProvider)
-                    .delete(entry.id!);
-                context.pop();
+              onPressed: () async {
+                final navigator = GoRouter.of(context);
+                final messenger = ScaffoldMessenger.of(context);
+                try {
+                  await ref
+                      .read(transactionAttributeRepositoryProvider)
+                      .delete(entry.id!);
+                } on PostgrestException catch (e) {
+                  // 23503: the income_type BEFORE DELETE guard refusing a type
+                  // that a live income or income schedule still points at.
+                  if (e.code != '23503') rethrow;
+                  navigator.pop();
+                  messenger.showSnackBar(SnackBar(
+                      content: Text(t.transactionAttributes.deleteInUseError)));
+                  return;
+                }
+                navigator.pop();
               },
             ),
           ),

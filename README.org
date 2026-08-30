@@ -15,7 +15,7 @@ Flutter からは =supabase_flutter= で PostgREST / RPC を直接叩いてお�
 
 *** Supabase 側の構成
 - スキーマ・RLS・関数・cron はすべて =supabase/migrations/= のマイグレーション
-  (=0001_extensions= 〜 =0005_cron=)
+  (=0001_extensions= 〜 =0008_income_type_in_use_guard=)
 - テナント分離は RLS。全テーブルに =user_id = auth.uid()= のポリシーを張り、
   アプリ側の =WHERE uid = ?= を置き換えている
 - テーブル権限は =0006_grants.sql= が明示的に付与する。=public= スキーマは既定で
@@ -23,7 +23,14 @@ Flutter からは =supabase_flutter= で PostgREST / RPC を直接叩いてお�
   (=anon= が触れるのは =app_config= の SELECT のみ)。
   そのためプロジェクト設定の「Automatically expose new tables」は OFF でよい
 - 定期取引エンジンは =enqueue_transaction_schedules()= と
-  =create_transactions_from_queue()= (どちらも =SECURITY DEFINER=) を =pg_cron= で毎時実行
+  =create_transactions_from_queue()= (どちらも =SECURITY DEFINER=) を =pg_cron= で毎時実行。
+  論理削除済みスケジュールが残した queue 行は、=create_transactions_from_queue()= が
+  取引を作らずに消化する (=0007=。=DELETE ... USING= 側で弾くと queue 行が残るため
+  =INSERT ... SELECT= 側でフィルタしている)
+- 収入は固有の =title= を持たず表示名を =income_type= から借りるため、使用中の
+  収入種別は削除できない (=0008= の =BEFORE DELETE= トリガーが =23503= で弾く)。
+  論理削除済みの収入しか参照していない種別は削除できる。
+  支出は自前の =title= を持つのでカテゴリー / 購入場所は =on delete set null= のまま
 - チャートの集計は =column_chart_data()= / =pie_chart_data()= / =transaction_months()= の RPC。
   月軸のパディングと取引一覧のマージだけ Dart 側に置いている
 - アカウント削除は Edge Function =delete-account=。呼び出し元の JWT を検証し、
@@ -95,16 +102,6 @@ just install-hooks   # git config core.hooksPath .githooks
   フックを飛ばしたいときは =git commit --no-verify=
 
 ** TODO
-*** TODO アプリUIからサインアウト・プロフィール画面へ遷移できない
-=app_router.dart= に =/profile= (=AppRoute.profile=) と =/sign-out= (=AppRoute.signOut=) の
-ルートは定義されているが、そこへ遷移するコードがアプリ内に存在しないため、
-画面からサインアウトやプロフィール表示ができない。
-
-- firebase_auth を使っていた頃からの既存の欠落（Supabase 移行で持ち込んだものではない）
-- サインアウト処理自体は実装・テスト済み
-  (=features/authentication/services/auth_controller.dart= の =signOutControllerProvider=)
-- 対応案: =shell_screen.dart= のシェル（ボトムナビ）に設定／プロフィールへの導線を追加する
-
 *** TODO 本番 Supabase プロジェクトに認証 deep link のリダイレクト URL を登録する
 確認メール・パスワードリセットメールのリンクをアプリへ戻すための設定。
 ローカルスタック (=supabase/config.toml= の =additional_redirect_urls=) には
@@ -120,25 +117,6 @@ just install-hooks   # git config core.hooksPath .githooks
   差し替えるため、メールから戻ってきてもアプリが開かない
 - 検証: ローカルでは =mobile/test/src/features/authentication/auth_flow_test.dart= の
   「the reset email links back into the app」が Mailpit のメール本文で確認している
-
-*** TODO 論理削除したスケジュールから翌月分の取引が1件だけ生成される
-=create_transactions_from_queue()= が親スケジュールの =deleted_at= を見ていないため、
-論理削除済みのスケジュールでも =scheduled_*_queue= に行が残っていれば、
-その1件が取引として materialize されてしまう。
-
-- 発生条件: スケジュール作成 → トリガーが queue に翌月分を積む → ユーザーが削除
-  (=deleted_at= を打つだけで queue 行は残る) → 翌月 cron が queue を消化して取引を生成
-- 2回目以降は起こらない。=enqueue_transaction_schedules()= は
-  =s.deleted_at is null= で絞っているため、消化済みの queue が再度積まれることはない
-- Go 版もまったく同じ挙動だった (=CreateExpensesFromScheduledQueue= が raw SQL で
-  gorm のソフトデリートを迂回していた) ので、移行で持ち込んだ退行ではない。
-  ただしフェーズ4でスケジュール削除が UI から実行できるようになるため顕在化する
-- 対応案: =expense_schedule= / =income_schedule= の AFTER UPDATE トリガーで
-  =deleted_at= が NULL から非 NULL に変わった行の queue 行を削除する
-  (新規マイグレーション =supabase/migrations/0006_*.sql=)。
-  =create_transactions_from_queue()= の DELETE ... USING 側に
-  =s.deleted_at is null= を足すだけでは、queue 行が永久に残るので不可
-- 承認済みのフェーズ2 SQL への変更になるため、フェーズ4では手を入れていない
 
 *** TODO 本番 Supabase の =app_config.latest_version= をリリース版に合わせる
 =app_config= は単一行のテーブルで、=latest_version= が
@@ -159,41 +137,14 @@ just install-hooks   # git config core.hooksPath .githooks
   強制アップデートダイアログに阻まれることはない。
   =mobile/pubspec.yaml= の =version:= を上げたら seed.sql も合わせること
 
-*** TODO 円グラフの期間指定が終了日当日を含まない
-=pie_chart_data(p_start, p_end)= は =local_date >= p_start AND local_date < p_end= の
-半開区間。UI の日付ピッカーで「今月1日〜今日」を選ぶと、今日の支出が
-円グラフに反映されない。
+*** TODO =/sign-out= ルートの去就を決める
+ボトムナビに「設定」タブを足し、そこから =/profile= 経由でサインアウトできるように
+なったが、=/sign-out= (=CustomSignOutScreen=) はどこからも参照されないまま残っている。
 
-- 旧 Go 実装と同じ挙動 (handler が =end= を当日0時としてパースし
-  =local_date < end= で比較していた) なので、移行で変えていない
-- 直感には反するので、仕様として直すかどうかは別途判断が必要
-- 直す場合の変更点は2択:
-  - =supabase/migrations= 側で =local_date <= p_end= にする
-  - =mobile/lib/src/features/charts/services/pie_chart_service.dart= が
-    =dateRange.end= に1日足して渡す (SQL は半開のまま)
-- 現状の挙動は
-  =mobile/test/src/data/chart_repositories_supabase_test.dart= の
-  「pie chart is half open: the end date itself is excluded」で固定しているので、
-  変更する際はこのテストも合わせて更新すること
-
-*** TODO 収入の income_type が削除された場合の表示を決める
-=income.income_type_id= は =on delete set null= になったため、収入種別を削除すると
-その収入の種別が NULL になる。収入には固有の title 列がないため、
-表示名を income_type から借りている箇所が空文字になる。
-
-- 該当箇所:
-  - =transactions_repository.dart= の =mergeTransactions= (取引一覧のタイトル)
-  - =schedules_repository.dart= の =buildTransactionSchedules= (スケジュール一覧)
-  - =income_form_value.dart= の =fromIncome= / =fromSchedule=
-- =income_form_value.dart= は移行前 =incomeTypeMap[...].name= と非 NULL 前提で
-  書かれており、種別削除後に開くと null 参照でクラッシュする状態だった。
-  フェーズ4で =?.name ?? ''= に変更してクラッシュは回避済み
-- ただし「空文字で表示する」のが妥当かは未検討。
-  「(削除済み)」のようなプレースホルダを出す、そもそも参照中の種別は
-  削除させない、などの選択肢がある
-- 現状の「空文字になる」挙動はテストで固定済み
-  (=transactions_repository_test.dart= / =schedules_repository_test.dart= の
-  「leaves the title blank when the income type is gone」)
+- =CustomProfileScreen= がサインアウトボタンを持っているので機能上は重複
+- 「開いた瞬間にサインアウトする画面」という形なので、確認ダイアログを挟みたく
+  なった場合の受け皿にはなる
+- 使わないと決めるなら =app_router.dart= の =AppRoute.signOut= ごと削除する
 
 *** TODO 構成図 (drawio) を Supabase 構成に描き直す
 =drawio/system2.drawio= と =drawio/system.drawio= は Lightsail + nginx + Go API + MySQL +

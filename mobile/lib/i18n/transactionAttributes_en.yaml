@@ -35,3 +35,4 @@ settingsRename: 'Rename'
 settingsDelete: 'Delete'
 settingsCancel: 'Cancel'
 deleteConfirmation: Are you sure? this can't be undone
+deleteInUseError: This item is in use and cannot be deleted.

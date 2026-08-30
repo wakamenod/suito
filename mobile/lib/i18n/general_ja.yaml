@@ -3,6 +3,7 @@ version:
   updateAlertContent: "アプリのアップデートをお願いします\n AppVersion: $appVersion\n ServerVersion: $serverVersion"
 dismissible:
   snackBar: 削除しました
+  deleteFailed: 削除できませんでした。もう一度お試しください。
   confirmTitle: 確認
   confirmContent: このアイテムを削除しますか?
   buttonDelete: 削除

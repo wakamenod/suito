@@ -19,6 +19,7 @@ import 'package:suito/src/features/transactions/repositories/expense/expense_det
 import 'package:suito/src/features/transactions/repositories/expense/expense_locations_repository.dart';
 import 'package:suito/src/features/transactions/repositories/expense/register_expense_repository.dart';
 import 'package:suito/src/features/transactions/repositories/expense/update_expense_repository.dart';
+import 'package:suito/src/features/transactions/repositories/income/delete_income_repository.dart';
 import 'package:suito/src/features/transactions/repositories/income/income_detail_repository.dart';
 import 'package:suito/src/features/transactions/repositories/income/income_types_repository.dart';
 import 'package:suito/src/features/transactions/repositories/income/register_income_repository.dart';
@@ -42,6 +43,7 @@ void main() {
   late final expenseDetail = ExpenseDetailRepository(supabase);
   late final registerIncome = RegisterIncomeRepository(supabase);
   late final updateIncome = UpdateIncomeRepository(supabase);
+  late final deleteIncome = DeleteIncomeRepository(supabase);
   late final incomeDetail = IncomeDetailRepository(supabase);
   late final categories = ExpenseCategoriesRepository(supabase);
   late final locations = ExpenseLocationsRepository(supabase);
@@ -104,7 +106,7 @@ void main() {
   });
 
   group('income CRUD', () {
-    test('registers, reads back and updates', () async {
+    test('registers, reads back, updates and soft deletes', () async {
       final type = await registerIncomeType.registerIncomeType(uniqueName('T'));
 
       final created = await registerIncome.registerIncome(Income(
@@ -121,6 +123,13 @@ void main() {
       final updated =
           await updateIncome.updateIncome(fetched.copyWith(amount: 210000));
       expect(updated.amount, 210000);
+
+      await deleteIncome.deleteIncome(created.id);
+      await expectLater(
+        incomeDetail.fetchIncomeDetail(created.id),
+        throwsA(isA<PostgrestException>()),
+        reason: 'a soft-deleted row must no longer be readable',
+      );
     });
   });
 

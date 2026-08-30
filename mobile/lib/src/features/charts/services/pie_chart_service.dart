@@ -38,9 +38,20 @@ class PieChartController extends _$PieChartController {
   }
 
   Future<PieChartResult> _fetch(DateTimeRange dateRange) async {
+    // `pie_chart_data(p_start, p_end)` is half open (`local_date < p_end`), but
+    // the picker's end date is inclusive -- the default range is 1st-of-month
+    // to today, and the user expects today's spending in the chart. Advance the
+    // bound by a day here and leave the RPC's half-open contract alone.
+    //
+    // Built from the calendar fields rather than `Duration(days: 1)`: a duration
+    // is 24 real hours, which lands on the same date across a DST spring
+    // forward. `DateTime` rolls over month and year ends on its own.
+    final end = dateRange.end;
+    final endExclusive = DateTime(end.year, end.month, end.day + 1);
+
     final res = await ref
         .watch(pieChartDataRepositoryProvider)
-        .fetchPieChartData(dateRange.start.toYMD(), dateRange.end.toYMD());
+        .fetchPieChartData(dateRange.start.toYMD(), endExclusive.toYMD());
     return res;
   }
 }

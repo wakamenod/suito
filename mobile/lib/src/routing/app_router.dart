@@ -9,6 +9,7 @@ import 'package:suito/src/features/charts/presentations/charts_screen.dart';
 import 'package:suito/src/features/schedules/presentations/expense/expense_schedule_detail_screen.dart';
 import 'package:suito/src/features/schedules/presentations/income/income_schedule_detail_screen.dart';
 import 'package:suito/src/features/schedules/presentations/schedule_screen.dart';
+import 'package:suito/src/features/settings/presentations/settings_screen.dart';
 import 'package:suito/src/features/transaction_attributes/presentations/settings/transaction_attribute_settings_screen.dart';
 import 'package:suito/src/features/transaction_attributes/presentations/transaction_attribute_select_screen.dart';
 import 'package:suito/src/features/transactions/presentations/expense/expense_detail_screen.dart';
@@ -200,6 +201,11 @@ final goRouterProvider = Provider.family<GoRouter, GlobalKey<NavigatorState>>(
                   ),
                 ),
               ]),
+          GoRoute(
+              name: NavigationBarRoute.settings.name,
+              path: NavigationBarRoute.settings.path,
+              pageBuilder: (context, state) =>
+                  const NoTransitionPage(child: SettingsScreen())),
         ],
       ),
     ],

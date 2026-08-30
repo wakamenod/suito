@@ -1,9 +1,9 @@
 /// Generated file. Do not edit.
 ///
 /// Locales: 2
-/// Strings: 202 (101 per locale)
+/// Strings: 210 (105 per locale)
 ///
-/// Built on 2026-08-30 at 02:14 UTC
+/// Built on 2026-08-30 at 13:34 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -193,6 +193,8 @@ class _TranslationsEn implements BaseTranslations<AppLocale, _TranslationsEn> {
   late final _TranslationsAuthEn auth = _TranslationsAuthEn._(_root);
   late final _TranslationsTransactionsEn transactions =
       _TranslationsTransactionsEn._(_root);
+  late final _TranslationsSettingsEn settings =
+      _TranslationsSettingsEn._(_root);
   late final _TranslationsChartsEn charts = _TranslationsChartsEn._(_root);
   late final _TranslationsGeneralEn general = _TranslationsGeneralEn._(_root);
   late final _TranslationsFormsEn forms = _TranslationsFormsEn._(_root);
@@ -220,6 +222,7 @@ class _TranslationsTransactionAttributesEn {
   String get settingsDelete => 'Delete';
   String get settingsCancel => 'Cancel';
   String get deleteConfirmation => 'Are you sure? this can\'t be undone';
+  String get deleteInUseError => 'This item is in use and cannot be deleted.';
 }
 
 // Path: schedules
@@ -293,6 +296,17 @@ class _TranslationsTransactionsEn {
   late final _TranslationsTransactionsButtonsEn buttons =
       _TranslationsTransactionsButtonsEn._(_root);
   String get emptyLabel => 'No data has been registered for this month yet.';
+}
+
+// Path: settings
+class _TranslationsSettingsEn {
+  _TranslationsSettingsEn._(this._root);
+
+  final _TranslationsEn _root; // ignore: unused_field
+
+  // Translations
+  String get appBar => 'Settings';
+  String get account => 'Account';
 }
 
 // Path: charts
@@ -545,6 +559,7 @@ class _TranslationsGeneralDismissibleEn {
 
   // Translations
   String get snackBar => 'removed';
+  String get deleteFailed => 'Could not delete. Please try again.';
   String get confirmTitle => 'Confirmation';
   String get confirmContent => 'Are you sure you want to delete this item?';
   String get buttonDelete => 'DELETE';
@@ -615,6 +630,9 @@ class _TranslationsJa implements _TranslationsEn {
 
   // Translations
   @override
+  late final _TranslationsSettingsJa settings =
+      _TranslationsSettingsJa._(_root);
+  @override
   late final _TranslationsTransactionAttributesJa transactionAttributes =
       _TranslationsTransactionAttributesJa._(_root);
   @override
@@ -631,6 +649,20 @@ class _TranslationsJa implements _TranslationsEn {
   late final _TranslationsChartsJa charts = _TranslationsChartsJa._(_root);
   @override
   late final _TranslationsGeneralJa general = _TranslationsGeneralJa._(_root);
+}
+
+// Path: settings
+class _TranslationsSettingsJa implements _TranslationsSettingsEn {
+  _TranslationsSettingsJa._(this._root);
+
+  @override
+  final _TranslationsJa _root; // ignore: unused_field
+
+  // Translations
+  @override
+  String get appBar => '設定';
+  @override
+  String get account => 'アカウント';
 }
 
 // Path: transactionAttributes
@@ -668,6 +700,8 @@ class _TranslationsTransactionAttributesJa
   String get settingsCancel => 'キャンセル';
   @override
   String get deleteConfirmation => '本当に宜しいですか？この操作は取り消せません';
+  @override
+  String get deleteInUseError => '使用中のため削除できません。';
 }
 
 // Path: transactions
@@ -1138,6 +1172,8 @@ class _TranslationsGeneralDismissibleJa
   @override
   String get snackBar => '削除しました';
   @override
+  String get deleteFailed => '削除できませんでした。もう一度お試しください。';
+  @override
   String get confirmTitle => '確認';
   @override
   String get confirmContent => 'このアイテムを削除しますか?';
@@ -1244,6 +1280,8 @@ extension on _TranslationsEn {
         return 'Cancel';
       case 'transactionAttributes.deleteConfirmation':
         return 'Are you sure? this can\'t be undone';
+      case 'transactionAttributes.deleteInUseError':
+        return 'This item is in use and cannot be deleted.';
       case 'schedules.abbBar':
         return 'Schedules';
       case 'schedules.description':
@@ -1344,6 +1382,10 @@ extension on _TranslationsEn {
         return 'Post';
       case 'transactions.emptyLabel':
         return 'No data has been registered for this month yet.';
+      case 'settings.appBar':
+        return 'Settings';
+      case 'settings.account':
+        return 'Account';
       case 'charts.abbBar':
         return 'Reports';
       case 'charts.toggle.category':
@@ -1357,6 +1399,8 @@ extension on _TranslationsEn {
             'Please update the app\n App version: ${appVersion}\n Server version: ${serverVersion}';
       case 'general.dismissible.snackBar':
         return 'removed';
+      case 'general.dismissible.deleteFailed':
+        return 'Could not delete. Please try again.';
       case 'general.dismissible.confirmTitle':
         return 'Confirmation';
       case 'general.dismissible.confirmContent':
@@ -1390,6 +1434,10 @@ extension on _TranslationsEn {
 extension on _TranslationsJa {
   dynamic _flatMapFunction(String path) {
     switch (path) {
+      case 'settings.appBar':
+        return '設定';
+      case 'settings.account':
+        return 'アカウント';
       case 'transactionAttributes.addTile.title':
         return ({required Object input}) => '\'${input}\' を追加';
       case 'transactionAttributes.addTile.subtitle':
@@ -1456,6 +1504,8 @@ extension on _TranslationsJa {
         return 'キャンセル';
       case 'transactionAttributes.deleteConfirmation':
         return '本当に宜しいですか？この操作は取り消せません';
+      case 'transactionAttributes.deleteInUseError':
+        return '使用中のため削除できません。';
       case 'transactions.abbBar':
         return '決済一覧';
       case 'transactions.incomeType.title':
@@ -1583,6 +1633,8 @@ extension on _TranslationsJa {
             'アプリのアップデートをお願いします\n AppVersion: ${appVersion}\n ServerVersion: ${serverVersion}';
       case 'general.dismissible.snackBar':
         return '削除しました';
+      case 'general.dismissible.deleteFailed':
+        return '削除できませんでした。もう一度お試しください。';
       case 'general.dismissible.confirmTitle':
         return '確認';
       case 'general.dismissible.confirmContent':

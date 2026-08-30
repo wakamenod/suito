@@ -43,8 +43,9 @@ void main() {
       ];
       final res = PieChartResult(
           categoryData: categoryData, locationData: locationData);
+      // The RPC bound is exclusive, so the end date is sent as the day after.
       when(() => pieChartDataRepository.fetchPieChartData(
-          start.toYMD(), now.toYMD())).thenAnswer((_) => Future.value(res));
+          start.toYMD(), '2023-07-25')).thenAnswer((_) => Future.value(res));
       // run
       final PieChart data =
           await container.read(pieChartControllerProvider.future);
@@ -96,12 +97,12 @@ void main() {
     final res =
         PieChartResult(categoryData: categoryData, locationData: locationData);
     when(() => pieChartDataRepository.fetchPieChartData(
-        start.toYMD(), now.toYMD())).thenAnswer((_) => Future.value(res));
+        start.toYMD(), '2023-07-25')).thenAnswer((_) => Future.value(res));
     const updateRes = PieChartResult();
     final updateStart = DateTime(1999, 8, 6);
     final updateEnd = DateTime(1999, 10, 6);
     when(() => pieChartDataRepository.fetchPieChartData(
-            updateStart.toYMD(), updateEnd.toYMD()))
+            updateStart.toYMD(), '1999-10-07'))
         .thenAnswer((_) => Future.value(updateRes));
     // run
     await container.read(pieChartControllerProvider.future);
@@ -112,5 +113,49 @@ void main() {
     final data = await container.read(pieChartControllerProvider.future);
     expect(data.res, updateRes);
     expect(data.dateRange, DateTimeRange(start: updateStart, end: updateEnd));
+  });
+
+  // pie_chart_data() is half open (`local_date < p_end`), so the picker's
+  // inclusive end date has to be advanced by one before it goes to the RPC --
+  // otherwise "1st of the month to today" silently drops today.
+  group('inclusive end date', () {
+    Future<String> endSentFor(DateTimeRange range) async {
+      final container = makeProviderContainer(now: range.end);
+      when(() => pieChartDataRepository.fetchPieChartData(any(), any()))
+          .thenAnswer((_) => Future.value(const PieChartResult()));
+      await container.read(pieChartControllerProvider.future);
+      await container
+          .read(pieChartControllerProvider.notifier)
+          .updateDateRange(range);
+
+      final captured = verify(() => pieChartDataRepository.fetchPieChartData(
+          any(), captureAny())).captured;
+      return captured.last as String;
+    }
+
+    test('sends the day after the selected end date', () async {
+      expect(
+        await endSentFor(DateTimeRange(
+            start: DateTime(2023, 7, 1), end: DateTime(2023, 7, 24))),
+        '2023-07-25',
+      );
+    });
+
+    test('rolls over the end of a month', () async {
+      expect(
+        await endSentFor(DateTimeRange(
+            start: DateTime(2024, 2, 1), end: DateTime(2024, 2, 29))),
+        '2024-03-01',
+        reason: '2024 is a leap year',
+      );
+    });
+
+    test('rolls over the end of a year', () async {
+      expect(
+        await endSentFor(DateTimeRange(
+            start: DateTime(2023, 12, 1), end: DateTime(2023, 12, 31))),
+        '2024-01-01',
+      );
+    });
   });
 }

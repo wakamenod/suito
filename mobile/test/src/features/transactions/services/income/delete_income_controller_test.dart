@@ -1,16 +1,16 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:suito/src/features/transactions/repositories/expense/delete_expense_repository.dart';
-import 'package:suito/src/features/transactions/services/expense/delete_expense_controller.dart';
+import 'package:suito/src/features/transactions/repositories/income/delete_income_repository.dart';
+import 'package:suito/src/features/transactions/services/income/delete_income_controller.dart';
 
 import '../../../../mocks.dart';
 
 void main() {
-  ProviderContainer makeProviderContainer(MockDeleteExpenseRepository repo) {
+  ProviderContainer makeProviderContainer(MockDeleteIncomeRepository repo) {
     final container = ProviderContainer(
       overrides: [
-        deleteExpenseRepositoryProvider.overrideWithValue(repo),
+        deleteIncomeRepositoryProvider.overrideWithValue(repo),
       ],
     );
     addTearDown(container.dispose);
@@ -21,27 +21,27 @@ void main() {
     registerFallbackValue(const AsyncLoading<int>());
   });
 
-  group('deleteExpenseController', () {
-    test('delete expense, success', () async {
+  group('deleteIncomeController', () {
+    test('delete income, success', () async {
       // setup
-      const expenseID = 'test_expense_id';
-      final deleteRepo = MockDeleteExpenseRepository();
-      when(() => deleteRepo.deleteExpense(expenseID)).thenAnswer(
+      const incomeID = 'test_income_id';
+      final deleteRepo = MockDeleteIncomeRepository();
+      when(() => deleteRepo.deleteIncome(incomeID)).thenAnswer(
         (_) => Future.value(null),
       );
       final container = makeProviderContainer(deleteRepo);
       final controller =
-          container.read(deleteExpenseControllerProvider.notifier);
+          container.read(deleteIncomeControllerProvider.notifier);
       final listener = Listener<AsyncValue<void>>();
       container.listen(
-        deleteExpenseControllerProvider,
+        deleteIncomeControllerProvider,
         listener,
         fireImmediately: true,
       );
       const data = AsyncData<void>(null);
       verify(() => listener(null, data));
       // run
-      final deleted = await controller.deleteExpense(expenseID);
+      final deleted = await controller.deleteIncome(incomeID);
       // verify
       verifyInOrder([
         () => listener(data, any(that: isA<AsyncLoading>())),
@@ -49,29 +49,29 @@ void main() {
       ]);
       verifyNoMoreInteractions(listener);
       expect(deleted, isTrue);
-      verify(() => deleteRepo.deleteExpense(expenseID)).called(1);
+      verify(() => deleteRepo.deleteIncome(incomeID)).called(1);
     });
 
-    test('delete expense, failure', () async {
+    test('delete income, failure', () async {
       // setup
-      const expenseID = 'test_expense_id';
-      final deleteRepo = MockDeleteExpenseRepository();
-      when(() => deleteRepo.deleteExpense(expenseID)).thenThrow(
+      const incomeID = 'test_income_id';
+      final deleteRepo = MockDeleteIncomeRepository();
+      when(() => deleteRepo.deleteIncome(incomeID)).thenThrow(
         (_) => Exception('Connection failed'),
       );
       final container = makeProviderContainer(deleteRepo);
       final controller =
-          container.read(deleteExpenseControllerProvider.notifier);
+          container.read(deleteIncomeControllerProvider.notifier);
       final listener = Listener<AsyncValue<void>>();
       container.listen(
-        deleteExpenseControllerProvider,
+        deleteIncomeControllerProvider,
         listener,
         fireImmediately: true,
       );
       const data = AsyncData<void>(null);
       verify(() => listener(null, data));
       // run
-      final deleted = await controller.deleteExpense(expenseID);
+      final deleted = await controller.deleteIncome(incomeID);
       // verify
       verifyInOrder([
         () => listener(data, any(that: isA<AsyncLoading>())),
@@ -81,7 +81,7 @@ void main() {
       verifyNoMoreInteractions(listener);
       expect(deleted, isFalse,
           reason: 'the caller restores the row it optimistically hid');
-      verify(() => deleteRepo.deleteExpense(expenseID)).called(1);
+      verify(() => deleteRepo.deleteIncome(incomeID)).called(1);
     });
   });
 }

@@ -2,7 +2,7 @@
 -- Run with: npx supabase test db
 
 begin;
-select plan(31);
+select plan(39);
 
 -- ---------------------------------------------------------------------------
 -- users:  S = schedule/engine + cascade   C = charts
@@ -113,6 +113,50 @@ select is(
   0, 'materialize: due income queue rows are removed');
 
 -- =========================================================================
+-- create_transactions_from_queue(): a soft-deleted schedule materializes nothing
+--
+-- Deleting a schedule only stamps deleted_at; the queue row the AFTER INSERT
+-- trigger already wrote stays behind. It must be cleared without producing a
+-- transaction -- filtering it out of the DELETE instead would strand it.
+-- =========================================================================
+insert into public.expense_schedule (id, user_id, title, amount, memo, expense_category_id, timezone)
+values ('e5000000-0000-4000-8000-0000000000de', '55555555-0000-0000-0000-00000000000e',
+        'Cancelled bill', 777, '', 'fc000000-0000-4000-8000-00000000000e', 'Asia/Tokyo');
+insert into public.income_schedule (id, user_id, income_type_id, amount, memo, timezone)
+values ('51000000-0000-4000-8000-0000000000de', '55555555-0000-0000-0000-00000000000e',
+        null, 888, '', 'Asia/Tokyo');
+
+update public.expense_schedule set deleted_at = now()
+  where id = 'e5000000-0000-4000-8000-0000000000de';
+update public.income_schedule set deleted_at = now()
+  where id = '51000000-0000-4000-8000-0000000000de';
+
+-- The orphaned queue rows fall due.
+update public.scheduled_expense_queue set scheduled_at = timestamptz '2026-03-01 03:00:00+09'
+  where expense_schedule_id = 'e5000000-0000-4000-8000-0000000000de';
+update public.scheduled_income_queue set scheduled_at = timestamptz '2026-03-01 03:00:00+09'
+  where income_schedule_id = '51000000-0000-4000-8000-0000000000de';
+
+select public.create_transactions_from_queue();
+
+select is(
+  (select count(*)::int from public.expense
+   where user_id = '55555555-0000-0000-0000-00000000000e' and title = 'Cancelled bill'),
+  0, 'soft-deleted schedule: no expense is materialized');
+select is(
+  (select count(*)::int from public.scheduled_expense_queue
+   where expense_schedule_id = 'e5000000-0000-4000-8000-0000000000de'),
+  0, 'soft-deleted schedule: the stale expense queue row is cleared anyway');
+select is(
+  (select count(*)::int from public.income
+   where user_id = '55555555-0000-0000-0000-00000000000e' and amount = 888),
+  0, 'soft-deleted schedule: no income is materialized');
+select is(
+  (select count(*)::int from public.scheduled_income_queue
+   where income_schedule_id = '51000000-0000-4000-8000-0000000000de'),
+  0, 'soft-deleted schedule: the stale income queue row is cleared anyway');
+
+-- =========================================================================
 -- Aggregation RPCs (as user C)
 -- =========================================================================
 insert into public.expense (user_id, title, amount, memo, expense_category_id, expense_location_id, local_date) values
@@ -186,6 +230,48 @@ select is(
   1000::bigint, 'pie_chart_data(Jan-Feb): location Store = 1000');
 
 reset role;
+
+-- =========================================================================
+-- income_type: BEFORE DELETE guard (0008)
+--
+-- An income borrows its display title from its type, so detaching one blanks
+-- the title. Deletion is blocked while a *live* referent exists -- soft-deleted
+-- incomes are invisible to the user and must not keep a type hostage.
+-- =========================================================================
+insert into public.income_type (id, user_id, name) values
+  ('11000000-0000-4000-8000-00000000ff01', 'cccccccc-0000-0000-0000-00000000000c', 'Guard-InUse'),
+  ('11000000-0000-4000-8000-00000000ff02', 'cccccccc-0000-0000-0000-00000000000c', 'Guard-Deleted'),
+  ('11000000-0000-4000-8000-00000000ff03', 'cccccccc-0000-0000-0000-00000000000c', 'Guard-Unused'),
+  ('11000000-0000-4000-8000-00000000ff04', 'cccccccc-0000-0000-0000-00000000000c', 'Guard-Scheduled');
+
+insert into public.income (user_id, income_type_id, amount, memo, local_date) values
+  ('cccccccc-0000-0000-0000-00000000000c', '11000000-0000-4000-8000-00000000ff01', 100, '', date '2026-02-01'),
+  ('cccccccc-0000-0000-0000-00000000000c', '11000000-0000-4000-8000-00000000ff02', 200, '', date '2026-02-02');
+update public.income set deleted_at = now()
+  where income_type_id = '11000000-0000-4000-8000-00000000ff02';
+
+insert into public.income_schedule (user_id, income_type_id, amount, memo, timezone)
+values ('cccccccc-0000-0000-0000-00000000000c', '11000000-0000-4000-8000-00000000ff04', 300, '', 'Asia/Tokyo');
+
+select throws_ok(
+  $$ delete from public.income_type where id = '11000000-0000-4000-8000-00000000ff01' $$,
+  '23503',
+  null,
+  'income_type guard: a type used by a live income cannot be deleted');
+
+select throws_ok(
+  $$ delete from public.income_type where id = '11000000-0000-4000-8000-00000000ff04' $$,
+  '23503',
+  null,
+  'income_type guard: a type used by a live income_schedule cannot be deleted');
+
+select lives_ok(
+  $$ delete from public.income_type where id = '11000000-0000-4000-8000-00000000ff02' $$,
+  'income_type guard: a type referenced only by soft-deleted income can be deleted');
+
+select lives_ok(
+  $$ delete from public.income_type where id = '11000000-0000-4000-8000-00000000ff03' $$,
+  'income_type guard: an unused type can be deleted');
 
 -- =========================================================================
 -- Cascade delete from auth.users

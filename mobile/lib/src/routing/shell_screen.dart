@@ -5,7 +5,8 @@ enum NavigationBarRoute {
   transactions(
       path: '/transactions', icon: Icons.list_alt, labelName: 'Transactions'),
   charts(path: '/charts', icon: Icons.stacked_bar_chart, labelName: 'Reports'),
-  schedule(path: '/schedule', icon: Icons.schedule, labelName: 'Schedule');
+  schedule(path: '/schedule', icon: Icons.schedule, labelName: 'Schedule'),
+  settings(path: '/settings', icon: Icons.settings, labelName: 'Settings');
 
   const NavigationBarRoute(
       {required this.path, required this.icon, required this.labelName});

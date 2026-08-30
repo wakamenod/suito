@@ -18,6 +18,7 @@ import 'package:suito/src/features/transactions/repositories/expense/expense_det
 import 'package:suito/src/features/transactions/repositories/expense/expense_locations_repository.dart';
 import 'package:suito/src/features/transactions/repositories/expense/register_expense_repository.dart';
 import 'package:suito/src/features/transactions/repositories/expense/update_expense_repository.dart';
+import 'package:suito/src/features/transactions/repositories/income/delete_income_repository.dart';
 import 'package:suito/src/features/transactions/repositories/income/income_detail_repository.dart';
 import 'package:suito/src/features/transactions/repositories/income/income_types_repository.dart';
 import 'package:suito/src/features/transactions/repositories/income/register_income_repository.dart';
@@ -45,6 +46,9 @@ class MockIncomeTypesRepository extends Mock implements IncomeTypesRepository {}
 
 class MockDeleteExpenseRepository extends Mock
     implements DeleteExpenseRepository {}
+
+class MockDeleteIncomeRepository extends Mock
+    implements DeleteIncomeRepository {}
 
 class MockDeleteExpenseScheduleRepository extends Mock
     implements DeleteExpenseScheduleRepository {}

@@ -35,3 +35,4 @@ settingsRename: 'リネーム'
 settingsDelete: '削除'
 settingsCancel: 'キャンセル'
 deleteConfirmation: 本当に宜しいですか？この操作は取り消せません
+deleteInUseError: 使用中のため削除できません。
