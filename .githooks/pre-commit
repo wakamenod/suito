@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+# Block commits that contain secrets.
+#
+# Enable with:  just install-hooks   (sets core.hooksPath to .githooks)
+# Bypass once:  git commit --no-verify
+
+set -euo pipefail
+
+if ! command -v gitleaks >/dev/null 2>&1; then
+    echo "pre-commit: gitleaks not found, skipping secret scan." >&2
+    echo "            install it with 'brew install gitleaks' (see .gitleaks.toml)." >&2
+    exit 0
+fi
+
+if ! gitleaks git --pre-commit --staged --redact --no-banner --verbose; then
+    cat >&2 <<'MSG'
+
+pre-commit: gitleaks found a secret in the staged changes (see above).
+
+  * real secret      -> unstage it, rotate the credential, keep it out of git
+  * false positive   -> add an allowlist entry to .gitleaks.toml, or append a
+                        'gitleaks:allow' comment to the offending line
+  * commit anyway    -> git commit --no-verify
+MSG
+    exit 1
+fi

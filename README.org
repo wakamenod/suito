@@ -36,6 +36,27 @@
 - [[https://github.com/go-co-op/gocron][gocron]] による定義処理の実装
 -
 
+** シークレットスキャン (gitleaks)
+コミット・CI の両方で [[https://github.com/gitleaks/gitleaks][gitleaks]] を使い、認証情報の混入を防いでいる。
+
+- 設定は =.gitleaks.toml=。デフォルトルールに加え、Supabase ローカルスタックの
+  デモ用キー (=iss: supabase-demo= の JWT) や =Podfile.lock= のチェックサムなどの
+  誤検知を allowlist している
+- CI は =.github/workflows/gitleaks.yml= が PR と main への push で全履歴を走査する
+- ローカルでは pre-commit フックでステージ済みの差分を検査する。初回のみ以下を実行:
+
+#+begin_src sh
+brew install gitleaks
+just install-hooks   # git config core.hooksPath .githooks
+#+end_src
+
+- 手動実行:
+  - =just scan-secrets= … git 履歴全体 (CI と同じ検査)
+  - =just scan-secrets-dir= … 作業ツリー全体 (git 管理外のファイルも含む)
+  - =just scan-secrets-staged= … ステージ済みの差分のみ
+- 誤検知は =.gitleaks.toml= に allowlist を足すか、該当行に =gitleaks:allow= を書く。
+  フックを飛ばしたいときは =git commit --no-verify=
+
 ** TODO
 *** TODO アプリUIからサインアウト・プロフィール画面へ遷移できない
 =app_router.dart= に =/profile= (=AppRoute.profile=) と =/sign-out= (=AppRoute.signOut=) の

@@ -51,3 +51,22 @@ _migrate direction:
 
 ssm:
     aws ssm --profile private start-session --target ${SSM_INSTANCE_ID}
+
+# --- secret scanning (gitleaks) ---------------------------------------------
+
+# point git at .githooks so the gitleaks pre-commit hook runs
+install-hooks:
+    git config core.hooksPath .githooks
+    @echo "core.hooksPath -> .githooks"
+
+# scan the whole git history (same check CI runs)
+scan-secrets:
+    gitleaks git . --redact --no-banner --verbose
+
+# scan the working tree, including git-ignored files
+scan-secrets-dir:
+    gitleaks dir . --redact --no-banner --verbose
+
+# scan only what is staged, as the pre-commit hook does
+scan-secrets-staged:
+    gitleaks git --pre-commit --staged --redact --no-banner --verbose

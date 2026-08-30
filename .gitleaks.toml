@@ -1,0 +1,40 @@
+# gitleaks configuration for suito
+#
+# Scan locally with:
+#   just scan-secrets           # tracked history (same check CI runs)
+#   just scan-secrets-dir       # working tree, including git-ignored files
+#
+# To silence a one-off false positive, append a `gitleaks:allow` comment on the
+# offending line, or add its fingerprint to .gitleaksignore.
+
+title = "suito"
+
+[extend]
+# Start from the upstream ruleset and only add exceptions below.
+useDefault = true
+
+[[allowlists]]
+description = "Supabase CLI scratch dirs: git-ignored, hold credentials for the local stack only"
+paths = [
+  '''(^|/)supabase/\.temp/''',
+  '''(^|/)supabase/\.branches/''',
+]
+
+[[allowlists]]
+description = "Flutter local env file: git-ignored, points at the local Supabase stack"
+paths = ['''(^|/)mobile/\.env\.mobile$''']
+
+[[allowlists]]
+description = "CocoaPods checksums are content hashes of published pods, not credentials"
+paths = ['''(^|/)Podfile\.lock$''']
+
+[[allowlists]]
+description = """\
+Supabase local-development demo JWTs. These anon/service_role tokens are \
+published in the Supabase docs, are signed with the well-known local dev \
+secret, and are only accepted by a `supabase start` stack. Recognised by the \
+`"iss":"supabase-demo"` payload."""
+regexTarget = "secret"
+regexes = [
+  '''^eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIi[A-Za-z0-9_-]*\.[A-Za-z0-9_-]+$''',
+]
