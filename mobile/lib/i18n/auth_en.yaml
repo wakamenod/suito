@@ -1,0 +1,27 @@
+signInTitle: Sign in
+signUpTitle: Sign up
+email: Email
+password: Password
+signInButton: Sign in
+signUpButton: Sign up
+toSignUpPrompt: Don't have an account? Sign up
+toSignInPrompt: Already have an account? Sign in
+signUpConfirmation: Check your inbox to confirm your email address.
+profileTitle: Profile
+signOutButton: Sign out
+signedInAs: Signed in as
+forgotPassword: Forgot your password?
+passwordResetTitle: Reset your password
+passwordResetDescription: We'll email you a link to set a new password.
+passwordResetSendButton: Send link
+passwordResetSent: Password reset email sent. Check your inbox.
+cancel: Cancel
+errors:
+  invalidCredentials: The email or password is incorrect.
+  emailNotConfirmed: Confirm your email address before signing in.
+  userAlreadyExists: That email address is already registered.
+  weakPassword: That password is too weak. Try a longer one.
+  rateLimited: Too many attempts. Please wait a moment and try again.
+  signUpDisabled: Sign up is currently disabled.
+  network: Couldn't reach the server. Check your connection and try again.
+  unknown: Sign in failed. Please try again.

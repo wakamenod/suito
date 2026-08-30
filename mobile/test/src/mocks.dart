@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:suito/src/features/charts/repositories/column_chart_data_repository.dart';
 import 'package:suito/src/features/charts/repositories/pie_chart_data_repository.dart';
 import 'package:suito/src/features/schedules/repositories/expense/delete_expense_schedule_repository.dart';
@@ -25,6 +26,8 @@ import 'package:suito/src/features/transactions/repositories/transaction/transac
 import 'package:suito/src/features/transactions/repositories/transaction/transactions_repository.dart';
 
 class MockGoRouter extends Mock implements GoRouter {}
+
+class MockGoTrueClient extends Mock implements GoTrueClient {}
 
 class MockExpenseDetailRepository extends Mock
     implements ExpenseDetailRepository {}

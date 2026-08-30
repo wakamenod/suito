@@ -2,3 +2,7 @@ errors:
   emptyTitle: Empty title
   emptyAmount: Empty amount
   emptyAttributeName: Empty Name
+  emptyEmail: Enter your email
+  invalidEmail: Enter a valid email
+  emptyPassword: Enter your password
+  shortPassword: Password must be at least 6 characters

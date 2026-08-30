@@ -35,3 +35,30 @@
 - [[https://github.com/matryer/moq][moq]] を使ったモック生成
 - [[https://github.com/go-co-op/gocron][gocron]] による定義処理の実装
 -
+
+** TODO
+*** TODO アプリUIからサインアウト・プロフィール画面へ遷移できない
+=app_router.dart= に =/profile= (=AppRoute.profile=) と =/sign-out= (=AppRoute.signOut=) の
+ルートは定義されているが、そこへ遷移するコードがアプリ内に存在しないため、
+画面からサインアウトやプロフィール表示ができない。
+
+- firebase_auth を使っていた頃からの既存の欠落（Supabase 移行で持ち込んだものではない）
+- サインアウト処理自体は実装・テスト済み
+  (=features/authentication/services/auth_controller.dart= の =signOutControllerProvider=)
+- 対応案: =shell_screen.dart= のシェル（ボトムナビ）に設定／プロフィールへの導線を追加する
+
+*** TODO 本番 Supabase プロジェクトに認証 deep link のリダイレクト URL を登録する
+確認メール・パスワードリセットメールのリンクをアプリへ戻すための設定。
+ローカルスタック (=supabase/config.toml= の =additional_redirect_urls=) には
+追加済みだが、ホスト環境はダッシュボードからの手動登録が必要。
+
+- Supabase Dashboard > Authentication > URL Configuration > Redirect URLs に
+  =net.wakamenod.suito://login-callback/= を追加する
+- この値は =mobile/lib/src/features/authentication/auth_redirect.dart= の
+  =kAuthRedirectUrl= と一致していること
+  (Android は =AndroidManifest.xml= の intent-filter、iOS は =Info.plist= の
+  =CFBundleURLTypes= 側も同じ値で設定済み)
+- 未登録のままだと GoTrue はリンクの =redirect_to= を Site URL (Web) に
+  差し替えるため、メールから戻ってきてもアプリが開かない
+- 検証: ローカルでは =mobile/test/src/features/authentication/auth_flow_test.dart= の
+  「the reset email links back into the app」が Mailpit のメール本文で確認している

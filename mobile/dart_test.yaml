@@ -1,2 +1,4 @@
 tags:
   golden:
+  # Auth tests that need a local Supabase stack (`npx supabase start`).
+  supabase:

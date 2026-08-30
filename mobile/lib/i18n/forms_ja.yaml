@@ -2,3 +2,7 @@ errors:
   emptyTitle: 品目が未入力です
   emptyAmount: 金額が未入力です
   emptyAttributeName: 名称が未入力です
+  emptyEmail: メールアドレスを入力してください
+  invalidEmail: 有効なメールアドレスを入力してください
+  emptyPassword: パスワードを入力してください
+  shortPassword: パスワードは6文字以上で入力してください

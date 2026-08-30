@@ -57,14 +57,23 @@ rm coverage/source_lcov.info
 
 [tasks.test-logic]
 script = '''
-fvm flutter test --exclude-tags golden --coverage --coverage-path="coverage/source_lcov.info"
+# `--exclude-tags` is a single-value option, so repeating it silently keeps
+# only the last one -- use a tag expression instead.
+fvm flutter test --exclude-tags "golden || supabase" --coverage --coverage-path="coverage/source_lcov.info"
 ./node_modules/.bin/lcov-result-merger ./coverage/source_lcov.info ./coverage/lcov.info
 rm coverage/source_lcov.info
 '''
 
 [tasks.ci-test]
 script = '''
-fvm flutter test
+fvm flutter test --exclude-tags supabase
+'''
+
+# Auth integration tests against a local Supabase stack.
+# Requires `npx supabase start` in the repo root first.
+[tasks.test-supabase]
+script = '''
+fvm flutter test --tags supabase
 '''
 
 [tasks.lint]

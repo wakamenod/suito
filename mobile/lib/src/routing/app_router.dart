@@ -1,7 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:suito/src/data/supabase_provider.dart';
 import 'package:suito/src/features/authentication/presentation/profile/custom_profile_screen.dart';
 import 'package:suito/src/features/authentication/presentation/sign_in/custom_sign_in_screen.dart';
 import 'package:suito/src/features/authentication/presentation/sign_out/custom_sign_out_screen.dart';
@@ -41,11 +41,6 @@ enum AppRoute {
   final String path;
 }
 
-// TODO move
-final firebaseAuthProvider = Provider<FirebaseAuth>((ref) {
-  return FirebaseAuth.instance;
-});
-
 final goRouterProvider = Provider.family<GoRouter, GlobalKey<NavigatorState>>(
     (ref, rootNavigatorKey) {
   final versionCheck = ref.watch(versionCheckProvider);
@@ -54,7 +49,11 @@ final goRouterProvider = Provider.family<GoRouter, GlobalKey<NavigatorState>>(
     versionCheck(rootNavigatorKey.currentContext);
   });
 
-  final firebaseAuth = ref.watch(firebaseAuthProvider);
+  final auth = ref.watch(supabaseAuthProvider);
+  // Derived from authStateStreamProvider rather than reaching for
+  // `auth.onAuthStateChange` a second time: the guard and
+  // `currentSessionProvider` react to one shared definition of the stream.
+  final authStateChanges = ref.watch(authStateStreamProvider);
   return GoRouter(
     navigatorKey: rootNavigatorKey,
     initialLocation: AppRoute.signIn.path,
@@ -62,20 +61,20 @@ final goRouterProvider = Provider.family<GoRouter, GlobalKey<NavigatorState>>(
     redirect: (context, state) {
       versionCheck(rootNavigatorKey.currentContext);
 
-      final isLoggedIn = firebaseAuth.currentUser != null;
-      if (isLoggedIn) {
-        if (state.location == AppRoute.signIn.path) {
-          return NavigationBarRoute.transactions.path;
-        }
-      } else {
-        // TODO fix
-        if (state.location == AppRoute.home.path) {
-          return AppRoute.signIn.path;
-        }
+      final isLoggedIn = auth.currentSession != null;
+      final isAtSignIn = state.location == AppRoute.signIn.path;
+
+      if (!isLoggedIn) {
+        // Guard every route: bounce unauthenticated users to sign-in.
+        return isAtSignIn ? null : AppRoute.signIn.path;
+      }
+      // Signed in: keep them out of the sign-in screen.
+      if (isAtSignIn || state.location == AppRoute.home.path) {
+        return NavigationBarRoute.transactions.path;
       }
       return null;
     },
-    refreshListenable: GoRouterRefreshStream(firebaseAuth.authStateChanges()),
+    refreshListenable: GoRouterRefreshStream(authStateChanges),
     routes: [
       GoRoute(
           path: AppRoute.signIn.path,

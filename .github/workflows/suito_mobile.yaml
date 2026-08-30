@@ -16,13 +16,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      # envied reads .env.mobile and generates lib/env/env.g.dart (gitignored),
+      # so the keys are written here and the file is generated below.
       - name: Create configuration files
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          BACKEND_BASE_URL: ${{ secrets.BACKEND_BASE_URL }}
         run: |
-          echo "${{ secrets.ENV_DART }}" | base64 --decode > mobile/lib/env/env.g.dart
-          echo "${{ secrets.IOS_RUNNER_GOOGLESERVICE_INFO_PLIST }}" | base64 --decode > mobile/ios/Runner/GoogleService-Info.plist
-          echo "${{ secrets.IOS_FIREBASE_APP_ID_FILE_JSON }}" | base64 --decode > mobile/ios/firebase_app_id_file.json
-          echo "${{ secrets.MACOS_RUNNER_GOOGLESERVICE_INFO_PLIST }}" | base64 --decode > mobile/macos/Runner/GoogleService-Info.plist
-          echo "${{ secrets.MACOS_FIREBASE_APP_ID_FILE_JSON }}" | base64 --decode > mobile/macos/firebase_app_id_file.json
+          cat > mobile/.env.mobile <<EOF
+          BACKEND_BASE_URL=${BACKEND_BASE_URL}
+          SUPABASE_URL=${SUPABASE_URL}
+          SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY}
+          EOF
 
       - name: Set up Java
         uses: actions/setup-java@v1
@@ -54,8 +60,12 @@ jobs:
       - name: Flutter pub get
         run: cd mobile && cargo make install
 
+      - name: Code generation (envied / riverpod / freezed)
+        run: cd mobile && cargo make freeze
+
       - name: Lint
         run: cd mobile && cargo make lint
 
+      # `supabase`-tagged tests need a local Supabase stack; excluded here.
       - name: Test
         run: cd mobile && cargo make ci-test

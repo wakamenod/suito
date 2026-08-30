@@ -18,6 +18,22 @@
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
 	<string>$(FLUTTER_BUILD_NAME)</string>
+	<!-- Supabase auth deep link (email confirmation / password reset).
+	     Must match kAuthRedirectUrl in
+	     lib/src/features/authentication/auth_redirect.dart. -->
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>net.wakamenod.suito</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>net.wakamenod.suito</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>

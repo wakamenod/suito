@@ -1,0 +1,27 @@
+signInTitle: ログイン
+signUpTitle: 新規登録
+email: メールアドレス
+password: パスワード
+signInButton: ログイン
+signUpButton: 登録する
+toSignUpPrompt: アカウントをお持ちでないですか？ 新規登録
+toSignInPrompt: すでにアカウントをお持ちですか？ ログイン
+signUpConfirmation: 確認メールを送信しました。メールをご確認ください。
+profileTitle: プロフィール
+signOutButton: ログアウト
+signedInAs: ログイン中
+forgotPassword: パスワードをお忘れですか？
+passwordResetTitle: パスワードの再設定
+passwordResetDescription: パスワード再設定用のリンクをメールでお送りします。
+passwordResetSendButton: 送信する
+passwordResetSent: パスワード再設定メールを送信しました。メールをご確認ください。
+cancel: キャンセル
+errors:
+  invalidCredentials: メールアドレスまたはパスワードが正しくありません。
+  emailNotConfirmed: メールアドレスの確認が完了していません。確認メールをご確認ください。
+  userAlreadyExists: このメールアドレスは既に登録されています。
+  weakPassword: パスワードが簡単すぎます。もう少し長いものにしてください。
+  rateLimited: 試行回数が多すぎます。しばらく待ってからお試しください。
+  signUpDisabled: 現在、新規登録を受け付けていません。
+  network: サーバーに接続できませんでした。通信環境をご確認ください。
+  unknown: ログインに失敗しました。しばらくしてからお試しください。

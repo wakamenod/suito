@@ -55,7 +55,6 @@ macos/firebase_app_id_file.json
 android/app/google-services.json
 
 # fvm
-.fvm/flutter_sdk
 
 # Android Play Store key
 key.jks
@@ -65,3 +64,6 @@ key.jks
 
 coverage
 node_modules/
+
+# FVM Version Cache
+.fvm/

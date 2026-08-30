@@ -1,15 +1,18 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 // ignore:depend_on_referenced_packages
 import 'package:flutter_web_plugins/url_strategy.dart';
-import 'package:suito/firebase_options.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:suito/env/env.dart';
 import 'package:suito/i18n/translations.g.dart';
 import 'package:suito/src/app_bootstrap.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
+  // Initialize Supabase (Auth + PostgREST client). Session is persisted to
+  // local storage and restored automatically on the next launch.
+  await Supabase.initialize(
+    url: Env.kSupabaseUrl,
+    anonKey: Env.kSupabaseAnonKey,
   );
   // turn off the # in the URLs on the web
   usePathUrlStrategy();

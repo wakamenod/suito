@@ -3,8 +3,7 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
-  desktop_webview_auth
-  firebase_core
+  app_links
   url_launcher_windows
 )
 
