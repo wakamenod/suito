@@ -119,7 +119,7 @@ Postgres 関数として実装し RPC 公開、または SQL ビュー:
 ### 廃止されるもの
 - nginx の `X-Suito-Header` ゲート（nginx ごと不要）。アクセス制御は anon key + RLS。
 - `backend/` 全体、`ddl/`、`docker-compose*.yml`、Lightsail、Lego 証明書、手動 scp デプロイ。
-- `backend/docs/swagger.*` と `makers swag` / `makers api-generate` タスク。
+- `backend/docs/swagger.*` と `just swag` / `just api-generate` タスク。
 
 ## クライアント（Flutter）変更
 
@@ -259,7 +259,7 @@ Postgres 関数として実装し RPC 公開、または SQL ビュー:
   月軸パディングは Dart 側に移植（現 `chart_service.go` の `groupByCategory` 相当）。
 - **4d. schedules**: expense / income schedule の CRUD + 一覧リポジトリ。作成時の同期 enqueue は DB トリガーが担うので Dart 側から削除。
 - 仕上げ: `openapi_provider.dart` / `mobile/openapi/` 削除、`dio` 依存削除、`version_check.dart` を `app_config` 参照に、
-  `fake_*_repository.dart` を新インターフェースに更新、`makers test`（mobile）グリーン、`makers swag` / `api-generate` タスク削除。
+  `fake_*_repository.dart` を新インターフェースに更新、`just test`（mobile）グリーン、`just swag` / `api-generate` タスク削除。
 
 **検証**: 実機/エミュで Supabase に接続し、サインアップ → 支出/収入追加・編集 → 取引一覧 + 月次合計 →
 両チャート → スケジュール作成 → 翌月分の自動生成（queue 行を手動で過去日付にして cron 関数実行）まで一気通貫。

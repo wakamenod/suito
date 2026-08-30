@@ -1,0 +1,55 @@
+_default:
+    @just --list
+
+install:
+    go install github.com/swaggo/swag/cmd/swag@v1.8.4
+    go install -tags 'mysql' github.com/golang-migrate/migrate/v4/cmd/migrate@v4.15.2
+    go install github.com/mfridman/tparse@latest
+    go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.52.2
+    go install github.com/matryer/moq@latest
+
+format:
+    go fmt ./...
+
+lint:
+    golangci-lint run --tests  ./...
+
+swag:
+    #!/usr/bin/env bash
+    set -o pipefail
+    swag init --parseDependency --requiredByDefault=true
+    # covert to V3 format
+    curl -X 'POST' \
+      'https://converter.swagger.io/api/convert' \
+      -H 'accept: application/json' \
+      -H 'Content-Type: application/json' \
+      -d '@docs/swagger.json' | jq . > docs/tmp_v3_swagger.json
+    curl -X 'POST' \
+      'https://converter.swagger.io/api/convert' \
+      -H 'accept: application/yaml' \
+      -H 'Content-Type: application/yaml' \
+      -d '@docs/swagger.json' \
+      -o 'docs/tmp_v3_swagger.yaml'
+    mv docs/tmp_v3_swagger.json docs/swagger.json
+    mv docs/tmp_v3_swagger.yaml docs/swagger.yaml
+
+build: format
+    GOOS=linux GOARCH=amd64 go build -ldflags "-X env.CommitHash=$(git rev-parse --short HEAD)" -o ./suito
+
+build-prod: format
+    GOOS=linux GOARCH=amd64 go build -tags release -ldflags "-X env.CommitHash=$(git rev-parse --short HEAD)" -o ./suito
+
+run:
+    go build -o ./suito
+    ./suito run --config ./config/config.debug.toml
+
+# `just test`, `just test "-run TestFoo"`, `just test "" "-all"`
+test go_flags="" tparse_flags="": format lint
+    #!/usr/bin/env bash
+    set -o pipefail
+    go test --short {{go_flags}} -ldflags "-X github.com/wakamenod/suito/env.TEST=test" -count=1 -p=1 -cover -coverprofile=cover.out ./... -json | tparse -smallscreen {{tparse_flags}}
+
+test-github go_flags="" tparse_flags="": format
+    #!/usr/bin/env bash
+    set -o pipefail
+    go test --short {{go_flags}} -count=1 -p=1 -cover -coverprofile=cover.out ./... -json | tparse -smallscreen {{tparse_flags}}

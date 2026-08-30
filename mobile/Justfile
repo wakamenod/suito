@@ -1,0 +1,69 @@
+_default:
+    @just --list
+
+clean:
+    fvm flutter clean
+
+install:
+    fvm flutter pub get
+
+fvm-install:
+    fvm install
+
+format:
+    fvm dart format lib test
+
+slang:
+    fvm dart run slang watch
+
+run:
+    # fvm flutter run --flavor dev -t lib/main-dev.dart
+    # fvm flutter run --flavor dev -t lib/main.dart
+    fvm flutter run --dart-define-from-file=dart_defines/dev.json
+
+build_runner_watch:
+    fvm flutter pub run build_runner watch --delete-conflicting-outputs
+
+run-prod:
+    # fvm flutter run --release  --flavor prod -t lib/main-prod.dart
+    fvm flutter run --dart-define-from-file=dart_defines/prod.json
+
+test:
+    # vscodeのflutter coverageはlcovファイル内に同じソースファイル(SF)が復数回出現した場合に合算されない
+    # lcov-result-mergerを使ってマージすることにした
+    fvm flutter test --coverage --coverage-path="coverage/source_lcov.info"
+    ./node_modules/.bin/lcov-result-merger ./coverage/source_lcov.info ./coverage/lcov.info
+    rm coverage/source_lcov.info
+    # fvm flutter test lib --machine > machine.log || echo 'Tests failed'
+    # flutter pub global run dart_dot_reporter machine.log --show-message
+
+test-logic:
+    # `--exclude-tags` is a single-value option, so repeating it silently keeps
+    # only the last one -- use a tag expression instead.
+    fvm flutter test --exclude-tags "golden || supabase" --coverage --coverage-path="coverage/source_lcov.info"
+    ./node_modules/.bin/lcov-result-merger ./coverage/source_lcov.info ./coverage/lcov.info
+    rm coverage/source_lcov.info
+
+ci-test:
+    fvm flutter test --exclude-tags supabase
+
+# Auth integration tests against a local Supabase stack.
+# Requires `npx supabase start` in the repo root first.
+test-supabase:
+    fvm flutter test --tags supabase
+
+lint: format
+    # fvm dart fix --apply
+    fvm flutter analyze
+
+freeze:
+    fvm flutter pub run build_runner build --delete-conflicting-outputs
+
+build-appbundle:
+    fvm flutter build appbundle --dart-define-from-file=dart_defines/prod.json --obfuscate --split-debug-info=obfuscate/android
+
+icon:
+    fvm flutter pub run flutter_launcher_icons:main
+
+update-goldens:
+    fvm flutter test --update-goldens
