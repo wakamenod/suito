@@ -1,3 +1,20 @@
-reauthenticateButton: アカウント削除
 signinSubtitle: この画面はアプリSuitoのアカウント削除用ページです。ログイン後に表示されるアカウント削除ボタンより、アカウントの削除及びアカウントに紐づくデータの削除が行えます。
 deleteAccountText: アカウントを削除すると、同時にアカウントに紐づくデータも削除されます。
+email: メールアドレス
+password: パスワード
+signInButton: ログイン
+signOutButton: ログアウト
+signedInAs: ログイン中
+deleteAccountButton: アカウントを削除
+deleteConfirmTitle: 本当に削除しますか？
+deleteConfirmText: この操作は取り消せません。アカウントと、アカウントに紐づく支出・収入・スケジュールなどのデータがすべて削除されます。
+deleteConfirmCancel: キャンセル
+deleteConfirmOk: 削除する
+deleteSucceeded: アカウントを削除しました。
+errors:
+  emailRequired: メールアドレスを入力してください
+  passwordRequired: パスワードを入力してください
+  invalidCredentials: メールアドレスまたはパスワードが正しくありません
+  network: 通信に失敗しました。接続を確認してください
+  deleteFailed: アカウントの削除に失敗しました。しばらくしてからもう一度お試しください
+  unknown: エラーが発生しました。しばらくしてからもう一度お試しください

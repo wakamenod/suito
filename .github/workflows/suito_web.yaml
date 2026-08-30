@@ -1,10 +1,10 @@
-name: Suito Mobile CI
+name: Suito Web CI
 
 on:
   pull_request:
     types: [opened, synchronize]
     paths:
-      - "mobile/**"
+      - "web/**"
   push:
     branches:
       - master
@@ -23,15 +23,10 @@ jobs:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
         run: |
-          cat > mobile/.env.mobile <<EOF
+          cat > web/.env.mobile <<EOF
           SUPABASE_URL=${SUPABASE_URL}
           SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY}
           EOF
-
-      - name: Set up Java
-        uses: actions/setup-java@v1
-        with:
-          java-version: "12.x"
 
       - name: Setup homebrew
         uses: Homebrew/actions/setup-homebrew@master
@@ -45,17 +40,16 @@ jobs:
         run: brew install just
 
       - name: setup flutter
-        run: cd mobile && just fvm-install
+        run: cd web && just fvm-install
 
       - name: Flutter pub get
-        run: cd mobile && just install
+        run: cd web && just install
 
-      - name: Code generation (envied / riverpod / freezed)
-        run: cd mobile && just freeze
+      - name: Code generation (envied)
+        run: cd web && just build_runner
 
       - name: Lint
-        run: cd mobile && just lint
+        run: cd web && just lint
 
-      # `supabase`-tagged tests need a local Supabase stack; excluded here.
       - name: Test
-        run: cd mobile && just ci-test
+        run: cd web && just test

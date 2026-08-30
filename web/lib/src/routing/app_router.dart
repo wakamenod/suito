@@ -1,6 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:suito_web/src/data/supabase_provider.dart';
 import 'package:suito_web/src/screen/delete_account_screen.dart';
 import 'package:suito_web/src/screen/sign_in_screen.dart';
 
@@ -11,17 +11,14 @@ enum AppRoute {
   delete,
 }
 
-final firebaseAuthProvider = Provider<FirebaseAuth>((ref) {
-  return FirebaseAuth.instance;
-});
-
 final goRouterProvider = Provider<GoRouter>((ref) {
-  final firebaseAuth = ref.watch(firebaseAuthProvider);
+  final auth = ref.watch(supabaseAuthProvider);
+  final authStateChanges = ref.watch(authStateStreamProvider);
   return GoRouter(
     initialLocation: '/sign-in',
     debugLogDiagnostics: true,
     redirect: (context, state) {
-      final isLoggedIn = firebaseAuth.currentUser != null;
+      final isLoggedIn = auth.currentSession != null;
       if (isLoggedIn) {
         if (state.location == '/sign-in') {
           return '/delete';
@@ -33,7 +30,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       }
       return null;
     },
-    refreshListenable: GoRouterRefreshStream(firebaseAuth.authStateChanges()),
+    refreshListenable: GoRouterRefreshStream(authStateChanges),
     routes: [
       GoRoute(
         path: '/sign-in',

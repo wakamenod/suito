@@ -1,30 +1,64 @@
 * Suito
 ** 全体の構成
-※ Flutter webは Google Play Storeの「データ削除ポリシー対応」として、[[https://web.suito.wakamenod.com][アカウント削除ページ]]作成に使用
+リポジトリは3本立て。
 
-[[file:drawio/system2.drawio.png]]
+| ディレクトリ | 中身 |
+|--------------+------|
+| =mobile/=    | 本体の Flutter アプリ (iOS / Android) |
+| =web/=       | Google Play Store の「データ削除ポリシー対応」用の極小 Flutter web アプリ ([[https://web.suito.wakamenod.com][アカウント削除ページ]]) |
+| =supabase/=  | Supabase CLI 管理下のマイグレーション・Edge Function・pgTAP テスト |
+
+バックエンドは Supabase (Auth + Postgres + RLS + pg_cron + Edge Functions) に全面移行済み。
+Flutter からは =supabase_flutter= で PostgREST / RPC を直接叩いており、間に API サーバーはない。
+
+移行の背景・フェーズ分けは [[file:docs/SUPABASE_MIGRATION.md][docs/SUPABASE_MIGRATION.md]] を参照。
+
+*** Supabase 側の構成
+- スキーマ・RLS・関数・cron はすべて =supabase/migrations/= のマイグレーション
+  (=0001_extensions= 〜 =0005_cron=)
+- テナント分離は RLS。全テーブルに =user_id = auth.uid()= のポリシーを張り、
+  アプリ側の =WHERE uid = ?= を置き換えている
+- 定期取引エンジンは =enqueue_transaction_schedules()= と
+  =create_transactions_from_queue()= (どちらも =SECURITY DEFINER=) を =pg_cron= で毎時実行
+- チャートの集計は =column_chart_data()= / =pie_chart_data()= / =transaction_months()= の RPC。
+  月軸のパディングと取引一覧のマージだけ Dart 側に置いている
+- アカウント削除は Edge Function =delete-account=。呼び出し元の JWT を検証し、
+  自分の =user.id= 以外は削除できない。各テーブルの =auth.users= への FK が
+  =ON DELETE CASCADE= なので、Auth ユーザーを消せば全データが消える
+- Free プランは7日間アクセスが無いと自動 Pause されるため、
+  =.github/workflows/supabase-keep-alive.yml= が1日1回 REST API を叩いている
 
 ** 試したこと (Flutter)
 - ローカライズは[[https://pub.dev/packages/slang][slang]]を使用
 - [[https://pub.dev/packages/envied][envied]] で環境変数の取得
-- firebase_authを使った認証
-  - [[https://pub.dev/packages/firebase_auth][firebase_auth]]
-  - [[https://pub.dev/packages/firebase_ui_auth][firebase_auth_ui]]
-  - IdTokenを送信して自前のバックエンドで認証
+- [[https://pub.dev/packages/supabase_flutter][supabase_flutter]] を使った認証
+  - Email / Password。=signInWithPassword= / =signUp= / =signOut= を直接呼び、
+    UI は =formz= + 自前の共通ウィジェットで組んでいる
+  - =onAuthStateChange= を go_router の =refreshListenable= に流してルートガードにしている
+  - 確認メール・パスワードリセットのリンクは deep link
+    (=net.wakamenod.suito://login-callback/=) でアプリに戻る
 - [[https://pub.dev/packages/riverpod][riverpod]]で状態管理
 - [[https://pub.dev/packages/go_router][go_router]]での画面遷移・ルーティング
 - Flutter webでアカウント削除ページの作成
-- [[https://pub.dev/packages/dio][dio]] をつかったAPI通信
-  - モデル部分はopenapiによる自動生成
+- Supabase への直接アクセス
+  - =supabase.from(...)= のクエリビルダと =.rpc()= をリポジトリ層で使用
+  - モデルは [[https://pub.dev/packages/freezed][freezed]] の手書き。以前は dio + openapi 自動生成だった
 - unitテスト、widgetテストの導入
   - Goldenテスト導入 ([[https://pub.dev/packages/golden_toolkit][golden_toolkit]])
   - [[https://pub.dev/packages/mocktail][mocktail]] を使用しモックを使ったテストの導入
+  - ローカル Supabase スタックに実接続するテスト (=supabase= タグ) と、
+    シミュレータ実機で動かす =integration_test/=
 - フォーム実装およびバリデーションは[[https://pub.dev/packages/formz][formz]]を使用
 - サーバーバージョンチェック
-  - アプリバージョンと不一致の場合ストアへ遷移
+  - =app_config= テーブルの =latest_version= と不一致の場合ストアへ遷移
 - [[https://pub.dev/packages/syncfusion_flutter_charts][syncfusion_flutter_charts]] によるチャートの実装
 
-** 試したこと (Go)
+** 旧 Go バックエンドについて
+echo + gorm + MySQL + Firebase Auth + gocron で自前実装していた API サーバーは、
+Supabase 移行にともないこのリポジトリから撤去した。
+実装はポートフォリオとして履歴ごと別リポジトリ (=suito-go-backend=) に切り出してある。
+
+当時試していたこと:
 - Webフレームワークは [[https://github.com/labstack/echo][echo]] を使用
 - ORMは [[https://github.com/go-gorm/gorm][gorm]] を使用
 - 簡単な3層レイヤーを導入
@@ -33,8 +67,7 @@
   - Middlewareでクライアントから送られたIdTokenを認証
 - 独自エラー定義
 - [[https://github.com/matryer/moq][moq]] を使ったモック生成
-- [[https://github.com/go-co-op/gocron][gocron]] による定義処理の実装
--
+- [[https://github.com/go-co-op/gocron][gocron]] による定期処理の実装
 
 ** シークレットスキャン (gitleaks)
 コミット・CI の両方で [[https://github.com/gitleaks/gitleaks][gitleaks]] を使い、認証情報の混入を防いでいる。
@@ -155,3 +188,62 @@ just install-hooks   # git config core.hooksPath .githooks
 - 現状の「空文字になる」挙動はテストで固定済み
   (=transactions_repository_test.dart= / =schedules_repository_test.dart= の
   「leaves the title blank when the income type is gone」)
+
+*** TODO 構成図 (drawio) を Supabase 構成に描き直す
+=drawio/system2.drawio= と =drawio/system.drawio= は Lightsail + nginx + Go API + MySQL +
+Firebase Auth を描いたもので、現構成と合わなくなったため README 冒頭からの参照を外した。
+
+- 実態と食い違っている要素:
+  - Firebase Auth → Supabase Auth (GoTrue)
+  - 自前 Go API (echo) + MySQL 8.0 → Supabase Postgres への直接アクセス (PostgREST / RPC)
+  - nginx の =X-Suito-Header= ゲート → anon key + RLS
+  - gocron のアプリ内ジョブ → pg_cron
+  - 孤児ユーザー削除ジョブ → =auth.users= からの =ON DELETE CASCADE= と
+    Edge Function =delete-account=
+- Lightsail + nginx は「アカウント削除ページの配信」用途としてのみ残っている
+- 図はブラウザの [[https://app.diagrams.net][diagrams.net]] で描かれており、
+  =.drawio= の XML を手で書き換えると壊れやすいので、エディタ上で更新して
+  =.drawio.png= を書き出し直すのが確実。更新後 README 冒頭に参照を戻す
+
+*** TODO 切り出した Go バックエンドを新リポジトリへ push する
+=git filter-repo= で履歴を保持したまま =../suito-go-backend= にローカル抽出済み
+(154 コミット、=backend/= =ddl/= =docker-compose*.yml= と backend 用 CI を含む)。
+GitHub 上のリポジトリ作成と push は未実施。
+
+#+begin_src sh
+$ cd ../suito-go-backend
+$ gh repo create suito-go-backend --private --source=. --remote=origin
+$ git push -u origin main supabase
+#+end_src
+
+- 抽出時に =origin= は削除済みなので、誤って本リポジトリへ push する事故は起きない
+- 本リポジトリの履歴にも =backend/= の全コミットは残っているため、
+  この作業をしなくてもコードが失われることはない
+- push が済んだら README の「旧 Go バックエンドについて」節にリポジトリの
+  リンクを張る
+
+*** TODO web/ の配信を静的ホスティングへ移し、Lightsail を停止する
+現状 =web/= (アカウント削除ページ) は Lightsail 上の docker-compose + nginx +
+Lego 証明書で配信しており、Supabase 移行後もこれだけのために Lightsail 課金が続いている。
+
+- Go API と MySQL のコンテナは撤去済みで、=docker-compose.yml= /
+  =docker-compose-prod.yml= に残っているのは静的ファイルを配る nginx のみ
+- 移行先の候補: Cloudflare Pages / Netlify / Vercel / GitHub Pages。
+  いずれも証明書が自動更新になるので Lego も不要になる
+- Google Play の「データ削除ポリシー対応」ページなので、
+  =https://web.suito.wakamenod.com= を落とす前に移行先を用意し、
+  Play Console に登録している URL を切り替えること
+- 移行が済んだら =docker-compose*.yml= 、=web/Dockerfile= 、=web/nginx/= 、
+  ルート Justfile の =up= / =up-prod= / =restart= / =down= / =ssm= 、
+  Wiki.org の AWS / Lightsail / デプロイ手順を撤去する
+
+*** TODO Firebase プロジェクトをアーカイブする
+Flutter アプリ・web アプリともに Firebase 依存は撤去済み
+(=firebase_core= / =firebase_auth= / =firebase_ui_auth= と =firebase_options.dart= を削除)。
+
+- Firebase Authentication のユーザーはリリース前のテストユーザーのみで、
+  Supabase への移行は行っていない (移行不要と判断済み)
+- ワークフローからの =FIREBASE_*= 参照はすでに無いので、GitHub 側に登録されている
+  同名のシークレットも削除してよい
+- ルート =.gitignore= の =firebase-adminsdk.json= は、
+  ローカルに鍵ファイルが残っていないか確認してから外すこと

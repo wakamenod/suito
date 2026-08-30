@@ -1,3 +1,20 @@
-reauthenticateButton: Delete Account
 signinSubtitle: This page is for deleting accounts on the Suito app. After logging in, you can delete your account and the associated data using the 'Delete Account' button that appears.
 deleteAccountText: Deleting your account will also erase all data associated with it.
+email: Email
+password: Password
+signInButton: Sign in
+signOutButton: Sign out
+signedInAs: Signed in as
+deleteAccountButton: Delete account
+deleteConfirmTitle: Delete your account?
+deleteConfirmText: This cannot be undone. Your account and all of its data -- expenses, incomes and schedules -- will be deleted.
+deleteConfirmCancel: Cancel
+deleteConfirmOk: Delete
+deleteSucceeded: Your account has been deleted.
+errors:
+  emailRequired: Enter your email address
+  passwordRequired: Enter your password
+  invalidCredentials: The email or password is incorrect
+  network: The request failed. Check your connection
+  deleteFailed: Could not delete the account. Please try again later
+  unknown: Something went wrong. Please try again later

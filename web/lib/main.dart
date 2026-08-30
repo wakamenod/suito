@@ -1,16 +1,17 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:suito_web/env/env.dart';
 
-import 'firebase_options.dart';
 import 'i18n/strings.g.dart';
 import 'src/routing/app_router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   LocaleSettings.useDeviceLocale();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
+  await Supabase.initialize(
+    url: Env.kSupabaseUrl,
+    anonKey: Env.kSupabaseAnonKey,
   );
   runApp(TranslationProvider(child: const ProviderScope(child: MyApp())));
 }

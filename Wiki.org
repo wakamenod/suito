@@ -34,7 +34,44 @@ $ aws ssm --profile private \
 * Lightsail
 ** プランのアップグレード
 - [[https://chigusa-web.com/blog/lightsail-upgrade/][【AWS】Lightsailのプランをアップグレード]]
+* Supabase
+** ローカルスタック
+Docker (colima 等) が動いている状態で、リポジトリルートから:
+
+#+begin_src sh
+$ just supabase-start      # Postgres / GoTrue / PostgREST / Edge Runtime を起動
+$ just supabase-reset      # マイグレーションを全部流し直す
+$ just supabase-test       # supabase/tests/database の pgTAP
+$ just supabase-stop
+#+end_src
+
+Studio は http://127.0.0.1:54323 、Mailpit (メールのシンク) は http://127.0.0.1:54324 。
+
+** ホスト環境への反映
+#+begin_src sh
+$ npx supabase link --project-ref <project-ref>
+$ just db-push             # 未適用のマイグレーションを適用
+$ just functions-deploy    # Edge Function をデプロイ
+#+end_src
+
+** 手動設定が必要なもの
+マイグレーションに入れられず、ダッシュボードから設定する必要があるもの:
+
+- Authentication > URL Configuration > Redirect URLs に
+  =net.wakamenod.suito://login-callback/= を追加 (deep link)
+- Authentication > Emails > SMTP。内蔵 SMTP は1時間3〜4通の制限があるため、
+  本番では Resend / SES 等を接続する
+- =app_config.latest_version= をリリース版に合わせる (強制アップデート判定に使う)
+
+** GitHub Actions のシークレット
+- =SUPABASE_URL= / =SUPABASE_ANON_KEY= : mobile / web のビルド時に =.env.mobile= へ書き出す
+- keep-alive ワークフローも同じ2つを使う (Free プランの7日 Pause 回避)
+
 * Flutter webのデプロイ手順
+アカウント削除ページ (=web/=) はまだ Lightsail 上の nginx で配信している。
+Go API と MySQL のコンテナは撤去済みで、docker-compose に残っているのは
+静的ファイルを配る nginx だけ。
+
 事前にこの時だけLightsailの22番ポートを開ける。
 (SSMはSCPのトンネリングサポートをしているがアドバンスインスタンス層を有効にする必要があり、これをすると別途料金が発生する)
 
