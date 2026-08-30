@@ -35,6 +35,19 @@ $ aws ssm --profile private \
 ** プランのアップグレード
 - [[https://chigusa-web.com/blog/lightsail-upgrade/][【AWS】Lightsailのプランをアップグレード]]
 * Supabase
+** プロジェクト作成時の設定
+ダッシュボードで新規プロジェクトを作る際の3つのトグル:
+
+| 設定 | 値 | 理由 |
+|------+----+------|
+| Enable Data API | ON | Flutter が PostgREST を直接叩くので必須 |
+| Automatically expose new tables | OFF | 権限は =0006_grants.sql= が明示的に付ける |
+| Enable automatic RLS | ON | マイグレーションでも有効化しているが、付け忘れの保険 |
+
+=Automatically expose new tables= を OFF にできるのは =0006_grants.sql= があるからで、
+このマイグレーション以前は Supabase のデフォルト権限に依存していた。
+OFF のまま =db-push= すれば、テーブル権限はマイグレーション履歴だけで再現できる。
+
 ** ローカルスタック
 Docker (colima 等) が動いている状態で、リポジトリルートから:
 

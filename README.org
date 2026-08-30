@@ -18,6 +18,10 @@ Flutter からは =supabase_flutter= で PostgREST / RPC を直接叩いてお�
   (=0001_extensions= 〜 =0005_cron=)
 - テナント分離は RLS。全テーブルに =user_id = auth.uid()= のポリシーを張り、
   アプリ側の =WHERE uid = ?= を置き換えている
+- テーブル権限は =0006_grants.sql= が明示的に付与する。=public= スキーマは既定で
+  何も公開せず、=authenticated= にだけ必要な verb を渡す
+  (=anon= が触れるのは =app_config= の SELECT のみ)。
+  そのためプロジェクト設定の「Automatically expose new tables」は OFF でよい
 - 定期取引エンジンは =enqueue_transaction_schedules()= と
   =create_transactions_from_queue()= (どちらも =SECURITY DEFINER=) を =pg_cron= で毎時実行
 - チャートの集計は =column_chart_data()= / =pie_chart_data()= / =transaction_months()= の RPC。
@@ -151,7 +155,9 @@ just install-hooks   # git config core.hooksPath .githooks
   を実行する。アプリのバージョンを上げるたびに更新が必要
 - =min_required_version= 列も用意してあるが現状のコードは参照していない。
   「必須」と「推奨」を分けたいならここを使って判定を作り込む
-- ローカルスタックは =1.0.2= に更新済み (=supabase db reset= すると初期値に戻る)
+- ローカルは =supabase/seed.sql= が =db reset= のたびに =1.0.2= を入れ直すので、
+  強制アップデートダイアログに阻まれることはない。
+  =mobile/pubspec.yaml= の =version:= を上げたら seed.sql も合わせること
 
 *** TODO 円グラフの期間指定が終了日当日を含まない
 =pie_chart_data(p_start, p_end)= は =local_date >= p_start AND local_date < p_end= の
@@ -247,3 +253,20 @@ Flutter アプリ・web アプリともに Firebase 依存は撤去済み
   同名のシークレットも削除してよい
 - ルート =.gitignore= の =firebase-adminsdk.json= は、
   ローカルに鍵ファイルが残っていないか確認してから外すこと
+
+*** TODO Supabase の「Automatically expose new tables」を ON に戻さない
+=0006_grants.sql= がテーブル権限を明示的に付けるようになったため、
+プロジェクト設定の =Automatically expose new tables= は OFF で運用する。
+
+- OFF にしていても =0006_grants.sql= が =revoke all= → 必要な verb だけ =grant= を
+  実行するので、設定が ON でも OFF でも最終的な権限は同じになる。
+  つまりこの設定に依存しない状態になっている
+- ただしダッシュボードで後から ON に戻すと =alter default privileges= が
+  再設定され、**それ以降に作ったテーブル**が =anon= / =authenticated= に
+  自動公開される。マイグレーションで作るテーブルにも影響する
+- テーブルを追加したら =supabase/migrations/= の新しいファイルで
+  =grant ... to authenticated= を明示すること。
+  付け忘れると =permission denied for table= になるので、気付かないまま
+  公開されるより安全側に倒れる
+- 権限そのものは =supabase/tests/database/03_grants_test.sql= の
+  =table_privs_are= で固定してある

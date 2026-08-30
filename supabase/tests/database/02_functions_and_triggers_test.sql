@@ -65,11 +65,15 @@ select is(
 -- enqueue_transaction_schedules(): idempotent
 -- =========================================================================
 select public.enqueue_transaction_schedules();
+-- Scoped to this test's own schedules: the table is shared with whatever the
+-- local stack already holds (the Flutter integration tests seed real ones).
 select is(
-  (select count(*)::int from public.scheduled_expense_queue),
+  (select count(*)::int from public.scheduled_expense_queue
+   where expense_schedule_id = 'e5000000-0000-4000-8000-00000000000e'),
   1, 'enqueue: re-running inserts no duplicate expense queue rows');
 select is(
-  (select count(*)::int from public.scheduled_income_queue),
+  (select count(*)::int from public.scheduled_income_queue
+   where income_schedule_id = '51000000-0000-4000-8000-00000000000e'),
   1, 'enqueue: re-running inserts no duplicate income queue rows');
 
 -- =========================================================================
@@ -95,7 +99,8 @@ select is(
    where user_id = '55555555-0000-0000-0000-00000000000e' and title = 'Rent bill'),
   'fc000000-0000-4000-8000-00000000000e'::uuid, 'materialize: category copied from the schedule');
 select is(
-  (select count(*)::int from public.scheduled_expense_queue),
+  (select count(*)::int from public.scheduled_expense_queue
+   where expense_schedule_id = 'e5000000-0000-4000-8000-00000000000e'),
   0, 'materialize: due expense queue rows are removed');
 
 select is(
@@ -103,7 +108,8 @@ select is(
    where user_id = '55555555-0000-0000-0000-00000000000e' and amount = 300000),
   date '2026-02-01', 'materialize: income local_date converted via schedule tz');
 select is(
-  (select count(*)::int from public.scheduled_income_queue),
+  (select count(*)::int from public.scheduled_income_queue
+   where income_schedule_id = '51000000-0000-4000-8000-00000000000e'),
   0, 'materialize: due income queue rows are removed');
 
 -- =========================================================================
@@ -197,8 +203,14 @@ delete from auth.users where id = '55555555-0000-0000-0000-00000000000e';
 select is((select count(*)::int from public.expense          where user_id = '55555555-0000-0000-0000-00000000000e'), 0, 'cascade: expense rows gone');
 select is((select count(*)::int from public.expense_schedule where user_id = '55555555-0000-0000-0000-00000000000e'), 0, 'cascade: expense_schedule rows gone');
 select is((select count(*)::int from public.income_schedule  where user_id = '55555555-0000-0000-0000-00000000000e'), 0, 'cascade: income_schedule rows gone');
-select is((select count(*)::int from public.scheduled_expense_queue), 0, 'cascade: scheduled_expense_queue emptied via schedule FK');
-select is((select count(*)::int from public.scheduled_income_queue),  0, 'cascade: scheduled_income_queue emptied via schedule FK');
+select is((select count(*)::int from public.scheduled_expense_queue q
+             join public.expense_schedule s on s.id = q.expense_schedule_id
+            where s.user_id = '55555555-0000-0000-0000-00000000000e'),
+          0, 'cascade: scheduled_expense_queue emptied via schedule FK');
+select is((select count(*)::int from public.scheduled_income_queue q
+             join public.income_schedule s on s.id = q.income_schedule_id
+            where s.user_id = '55555555-0000-0000-0000-00000000000e'),
+          0, 'cascade: scheduled_income_queue emptied via schedule FK');
 
 select * from finish();
 rollback;
