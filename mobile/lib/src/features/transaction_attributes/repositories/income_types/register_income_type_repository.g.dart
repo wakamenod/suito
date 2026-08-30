@@ -9,7 +9,7 @@ part of 'register_income_type_repository.dart';
 // **************************************************************************
 
 String _$registerIncomeTypeRepositoryHash() =>
-    r'd650a4df355bf101abfdbddaf82735c27311c45a';
+    r'021dd5f3e08f82f5bf913e31ece75da59e6469ac';
 
 /// See also [registerIncomeTypeRepository].
 @ProviderFor(registerIncomeTypeRepository)

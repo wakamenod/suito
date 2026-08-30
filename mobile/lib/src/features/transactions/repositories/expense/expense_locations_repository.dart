@@ -1,29 +1,32 @@
-import 'package:openapi/openapi.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:suito/src/data/openapi_provider.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:suito/src/data/supabase_provider.dart';
+import 'package:suito/src/models/transaction_attribute.dart';
 
 part 'expense_locations_repository.g.dart';
 
 class ExpenseLocationsRepository {
-  ExpenseLocationsRepository(this._openapi);
-  final Openapi _openapi;
+  ExpenseLocationsRepository(this._client);
+  final SupabaseClient _client;
 
-  Future<List<ModelExpenseLocation>> fetchExpenseLocationsList() async {
-    final api = _openapi.getSuitoExpenseApi();
-    final response = await api.listExpenseLocations();
-    return response.data?.expenseLocations.toList() ?? [];
+  /// Newest first; see [ExpenseCategoriesRepository].
+  Future<List<ExpenseLocation>> fetchExpenseLocationsList() async {
+    final rows = await _client
+        .from('expense_location')
+        .select('id, name')
+        .order('id', ascending: false);
+    return rows.map(ExpenseLocation.fromJson).toList();
   }
 }
 
 @Riverpod(keepAlive: true)
 ExpenseLocationsRepository expenseLocationsRepository(
     ExpenseLocationsRepositoryRef ref) {
-  final openapi = ref.watch(openApiProvider);
-  return ExpenseLocationsRepository(openapi);
+  return ExpenseLocationsRepository(ref.watch(supabaseClientProvider));
 }
 
 @Riverpod(keepAlive: true)
-Future<List<ModelExpenseLocation>> expenseLocationsListFuture(
+Future<List<ExpenseLocation>> expenseLocationsListFuture(
     ExpenseLocationsListFutureRef ref) {
   final expenseLocationsRepository =
       ref.watch(expenseLocationsRepositoryProvider);
@@ -31,7 +34,7 @@ Future<List<ModelExpenseLocation>> expenseLocationsListFuture(
 }
 
 @Riverpod(keepAlive: true)
-Future<Map<String, ModelExpenseLocation>> expenseLocationsMapFuture(
+Future<Map<String, ExpenseLocation>> expenseLocationsMapFuture(
     ExpenseLocationsMapFutureRef ref) async {
   final expenseLocationsRepository =
       ref.watch(expenseLocationsRepositoryProvider);

@@ -1,29 +1,33 @@
-import 'package:openapi/openapi.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:suito/src/data/openapi_provider.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:suito/src/data/supabase_provider.dart';
+import 'package:suito/src/models/transaction_attribute.dart';
 
 part 'expense_categories_repository.g.dart';
 
 class ExpenseCategoriesRepository {
-  ExpenseCategoriesRepository(this._openapi);
-  final Openapi _openapi;
+  ExpenseCategoriesRepository(this._client);
+  final SupabaseClient _client;
 
-  Future<List<ModelExpenseCategory>> fetchExpenseCategoriesList() async {
-    final api = _openapi.getSuitoExpenseCategoryApi();
-    final response = await api.listExpenseCategories();
-    return response.data?.expenseCategories.toList() ?? [];
+  /// Newest first. uuid v7 is time ordered, so `id desc` keeps the ordering the
+  /// Go repository got from its xid keys.
+  Future<List<ExpenseCategory>> fetchExpenseCategoriesList() async {
+    final rows = await _client
+        .from('expense_category')
+        .select('id, name')
+        .order('id', ascending: false);
+    return rows.map(ExpenseCategory.fromJson).toList();
   }
 }
 
 @Riverpod(keepAlive: true)
 ExpenseCategoriesRepository expenseCategoriesRepository(
     ExpenseCategoriesRepositoryRef ref) {
-  final openapi = ref.watch(openApiProvider);
-  return ExpenseCategoriesRepository(openapi);
+  return ExpenseCategoriesRepository(ref.watch(supabaseClientProvider));
 }
 
 @Riverpod(keepAlive: true)
-Future<List<ModelExpenseCategory>> expenseCategoriesListFuture(
+Future<List<ExpenseCategory>> expenseCategoriesListFuture(
     ExpenseCategoriesListFutureRef ref) {
   final expenseCategoriesRepository =
       ref.watch(expenseCategoriesRepositoryProvider);
@@ -31,7 +35,7 @@ Future<List<ModelExpenseCategory>> expenseCategoriesListFuture(
 }
 
 @Riverpod(keepAlive: true)
-Future<Map<String, ModelExpenseCategory>> expenseCategoriesMapFuture(
+Future<Map<String, ExpenseCategory>> expenseCategoriesMapFuture(
     ExpenseCategoriesMapFutureRef ref) async {
   final expenseCategoriesRepository =
       ref.watch(expenseCategoriesRepositoryProvider);

@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
-import 'package:openapi/openapi.dart';
+import 'package:suito/src/models/expense.dart';
+import 'package:suito/src/models/transaction_attribute.dart';
 import 'package:suito/src/features/transactions/services/expense/expense_form_value.dart';
 
 import '../../../transactions_robot.dart';
@@ -24,23 +25,21 @@ void main() {
       await loadAppFonts();
       final r = TransactionsRobot(tester);
       const id = 'expense_id';
-      final category = ModelExpenseCategory((e) => e
-        ..id = 'expense_category_id'
-        ..name = 'Test Category');
+      const category =
+          ExpenseCategory(id: 'expense_category_id', name: 'Test Category');
       final categoryMap = {category.id: category};
-      final location = ModelExpenseLocation((e) => e
-        ..id = 'expense_location_id'
-        ..name = 'Test Location');
+      const location =
+          ExpenseLocation(id: 'expense_location_id', name: 'Test Location');
       final locationMap = {location.id: location};
-      final res =
-          ExpenseDetailRes((r) => r.expense.replace(ModelExpense((b) => b
-            ..id = id
-            ..title = 'registered title'
-            ..localDate = '2023-05-03'
-            ..memo = 'Some memo'
-            ..amount = 400
-            ..expenseCategoryID = category.id
-            ..expenseLocationID = location.id)));
+      const res = Expense(
+        id: id,
+        title: 'registered title',
+        localDate: '2023-05-03',
+        memo: 'Some memo',
+        amount: 400,
+        expenseCategoryId: 'expense_category_id',
+        expenseLocationId: 'expense_location_id',
+      );
 
       final expense =
           ExpenseFormValue.fromExpense(res, categoryMap, locationMap);

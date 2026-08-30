@@ -9,7 +9,7 @@ part of 'delete_category_repository.dart';
 // **************************************************************************
 
 String _$deleteCategoryRepositoryHash() =>
-    r'2c81ba56b2164285cae74d277fd57ba4aa75815b';
+    r'a88d9cc6c302e861c24a58741de3492a46785e94';
 
 /// See also [deleteCategoryRepository].
 @ProviderFor(deleteCategoryRepository)

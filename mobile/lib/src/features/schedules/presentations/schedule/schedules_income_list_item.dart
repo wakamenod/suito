@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:openapi/openapi.dart';
+import 'package:suito/src/models/transaction.dart';
 import 'package:suito/i18n/translations.g.dart';
 import 'package:suito/src/common_widgets/custom_dismissible.dart';
 import 'package:suito/src/constants/app_sizes.dart';

@@ -9,7 +9,7 @@ part of 'expense_locations_repository.dart';
 // **************************************************************************
 
 String _$expenseLocationsRepositoryHash() =>
-    r'23b874054958dfe7444b9af289d03e7901d05868';
+    r'e1e9784a89569879a16526824a512fdf9c47b3d1';
 
 /// See also [expenseLocationsRepository].
 @ProviderFor(expenseLocationsRepository)
@@ -26,12 +26,12 @@ final expenseLocationsRepositoryProvider =
 
 typedef ExpenseLocationsRepositoryRef = ProviderRef<ExpenseLocationsRepository>;
 String _$expenseLocationsListFutureHash() =>
-    r'8de6ec9849e1512949765056f523c07835b4cd75';
+    r'2a3a5c20e650f53a4b684e79e5e99a2ce4f469f8';
 
 /// See also [expenseLocationsListFuture].
 @ProviderFor(expenseLocationsListFuture)
 final expenseLocationsListFutureProvider =
-    FutureProvider<List<ModelExpenseLocation>>.internal(
+    FutureProvider<List<ExpenseLocation>>.internal(
   expenseLocationsListFuture,
   name: r'expenseLocationsListFutureProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -42,14 +42,14 @@ final expenseLocationsListFutureProvider =
 );
 
 typedef ExpenseLocationsListFutureRef
-    = FutureProviderRef<List<ModelExpenseLocation>>;
+    = FutureProviderRef<List<ExpenseLocation>>;
 String _$expenseLocationsMapFutureHash() =>
-    r'd4152ed741f135a81424e9f4f4a2748db8adb9e4';
+    r'4cc8c46f6e64d7c7a4f9b009bbf0cec0afa4db75';
 
 /// See also [expenseLocationsMapFuture].
 @ProviderFor(expenseLocationsMapFuture)
 final expenseLocationsMapFutureProvider =
-    FutureProvider<Map<String, ModelExpenseLocation>>.internal(
+    FutureProvider<Map<String, ExpenseLocation>>.internal(
   expenseLocationsMapFuture,
   name: r'expenseLocationsMapFutureProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -60,5 +60,5 @@ final expenseLocationsMapFutureProvider =
 );
 
 typedef ExpenseLocationsMapFutureRef
-    = FutureProviderRef<Map<String, ModelExpenseLocation>>;
+    = FutureProviderRef<Map<String, ExpenseLocation>>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

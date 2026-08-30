@@ -1,10 +1,11 @@
-import 'package:openapi/openapi.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:suito/src/features/transactions/repositories/expense/register_expense_repository.dart';
 import 'package:suito/src/features/transactions/repositories/expense/update_expense_repository.dart';
 import 'package:suito/src/features/transactions/services/expense/expense_form_value.dart';
 import 'package:suito/src/features/transactions/services/transaction/transaction_service.dart';
+import 'package:suito/src/models/expense.dart';
 import 'package:suito/src/utils/datetime_utils.dart';
+import 'package:suito/src/utils/string_utils.dart';
 
 part 'submit_expense_controller.g.dart';
 
@@ -15,29 +16,16 @@ class SubmitExpenseController extends _$SubmitExpenseController {
     // nothing to do
   }
 
-  RegisterExpenseReq _registerRequest(ex) {
-    return RegisterExpenseReq((r) => r
-      ..expense.replace(ModelExpense((e) => e
-        ..id = ''
-        ..expenseCategoryID = ex.categoryID
-        ..expenseLocationID = ex.locationID
-        ..title = ex.title.value
-        ..localDate = DateTime.parse(ex.date).toRfc3339()
-        ..memo = ex.memo
-        ..amount = ex.amount.value)));
-  }
-
-  UpdateExpenseReq _updateRequest(ex) {
-    return UpdateExpenseReq((r) => r
-      ..expense.replace(ModelExpense((e) => e
-        ..id = ex.id
-        ..expenseCategoryID = ex.categoryID
-        ..expenseLocationID = ex.locationID
-        ..title = ex.title.value
-        ..localDate = DateTime.parse(ex.date).toRfc3339()
-        ..memo = ex.memo
-        ..amount = ex.amount.value)));
-  }
+  Expense _toExpense(ExpenseFormValue ex) => Expense(
+        id: ex.id,
+        title: ex.title.value,
+        amount: ex.amount.value,
+        memo: ex.memo,
+        expenseCategoryId: ex.categoryID.orNull,
+        expenseLocationId: ex.locationID.orNull,
+        // The column is a `date`; the picker hands back a full timestamp.
+        localDate: DateTime.parse(ex.date).toYMD(),
+      );
 
   Future<void> submit(ExpenseFormValue expense) async {
     if (!expense.isValid) return;
@@ -47,10 +35,10 @@ class SubmitExpenseController extends _$SubmitExpenseController {
       expense.isNew
           ? await ref
               .read(registerExpenseRepositoryProvider)
-              .registerExpense(_registerRequest(expense))
+              .registerExpense(_toExpense(expense))
           : await ref
               .read(updateExpenseRepositoryProvider)
-              .updateExpense(_updateRequest(expense));
+              .updateExpense(_toExpense(expense));
 
       ref.invalidate(fetchTransactionsProvider);
     });

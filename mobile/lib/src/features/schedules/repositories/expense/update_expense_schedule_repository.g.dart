@@ -9,7 +9,7 @@ part of 'update_expense_schedule_repository.dart';
 // **************************************************************************
 
 String _$updateExpenseScheduleRepositoryHash() =>
-    r'a9bd4714c65f0ed1c9529059f35d8214376a8377';
+    r'd01f72c803bcc7feb4b969109ba93a46c96fd0d6';
 
 /// See also [updateExpenseScheduleRepository].
 @ProviderFor(updateExpenseScheduleRepository)

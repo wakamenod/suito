@@ -9,7 +9,7 @@ part of 'delete_location_repository.dart';
 // **************************************************************************
 
 String _$deleteLocationRepositoryHash() =>
-    r'ba53bbd9c99044d15ebd7a87e4b5c22522c8843e';
+    r'cfa16024c23a4dfedbba25bf17e4fbd936cbba4b';
 
 /// See also [deleteLocationRepository].
 @ProviderFor(deleteLocationRepository)

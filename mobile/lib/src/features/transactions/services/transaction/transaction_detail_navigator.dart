@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:openapi/openapi.dart';
+import 'package:suito/src/models/transaction.dart';
 import 'package:suito/src/app.dart';
 import 'package:suito/src/features/schedules/repositories/expense/expense_schedule_detail_repository.dart';
 import 'package:suito/src/features/schedules/repositories/income/income_schedule_detail_repository.dart';

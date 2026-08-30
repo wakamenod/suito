@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:openapi/openapi.dart';
+import 'package:suito/src/models/transaction_attribute.dart';
 import 'package:suito/i18n/translations.g.dart';
 import 'package:suito/src/features/transaction_attributes/repositories/categories/delete_category_repository.dart';
 import 'package:suito/src/features/transaction_attributes/repositories/categories/register_category_repository.dart';
@@ -16,12 +16,12 @@ import 'package:suito/src/features/transactions/repositories/income/income_types
 
 import 'transaction_attribute_entry.dart';
 
-final _noCategory = AttributeEntry.fromCategory(ModelExpenseCategory(
-    (r) => r..name = t.transactionAttributes.category.noEntry));
-final _noLocation = AttributeEntry.fromLocation(ModelExpenseLocation(
-    (r) => r..name = t.transactionAttributes.location.noEntry));
+final _noCategory = AttributeEntry.fromCategory(
+    ExpenseCategory(name: t.transactionAttributes.category.noEntry));
+final _noLocation = AttributeEntry.fromLocation(
+    ExpenseLocation(name: t.transactionAttributes.location.noEntry));
 final _noIncomeType = AttributeEntry.fromIncomeType(
-    ModelIncomeType((r) => r..name = 'NO INCOME TYPE')); // NOTE 使わない
+    const IncomeType(name: 'NO INCOME TYPE')); // NOTE 使わない
 
 abstract class TransactionAttributeRepository {
   // Future<List<AttributeEntry>> list();
@@ -51,12 +51,9 @@ class CategoryAttributesRepository implements TransactionAttributeRepository {
 
   @override
   Future<AttributeEntry> register(name) async {
-    final req = RegisterExpenseCategoryReq((r) => r
-      ..expenseCategory.replace(ModelExpenseCategory((e) => e..name = name)));
-
     final res = await _ref
         .read(registerCategoryRepositoryProvider)
-        .registerCategory(req);
+        .registerCategory(name);
 
     _ref.invalidate(expenseCategoriesRepositoryProvider);
 
@@ -65,13 +62,9 @@ class CategoryAttributesRepository implements TransactionAttributeRepository {
 
   @override
   Future<AttributeEntry> update(id, name) async {
-    final req = UpdateExpenseCategoryReq((r) => r
-      ..expenseCategory.replace(ModelExpenseCategory((e) => e
-        ..id = id
-        ..name = name)));
-
-    final res =
-        await _ref.read(updateCategoryRepositoryProvider).updateCategory(req);
+    final res = await _ref
+        .read(updateCategoryRepositoryProvider)
+        .updateCategory(id, name);
 
     _ref.invalidate(expenseCategoriesRepositoryProvider);
 
@@ -80,9 +73,7 @@ class CategoryAttributesRepository implements TransactionAttributeRepository {
 
   @override
   Future<void> delete(String id) async {
-    final req = DeleteExpenseCategoryReq((r) => r..expenseCategoryId = id);
-
-    await _ref.read(deleteCategoryRepositoryProvider).deleteCategory(req);
+    await _ref.read(deleteCategoryRepositoryProvider).deleteCategory(id);
 
     _ref.invalidate(expenseCategoriesRepositoryProvider);
   }
@@ -108,12 +99,9 @@ class LocationAttributesRepository implements TransactionAttributeRepository {
 
   @override
   Future<AttributeEntry> register(name) async {
-    final req = RegisterExpenseLocationReq((r) => r
-      ..expenseLocation.replace(ModelExpenseLocation((e) => e..name = name)));
-
     final res = await _ref
         .read(registerLocationRepositoryProvider)
-        .registerLocation(req);
+        .registerLocation(name);
 
     _ref.invalidate(expenseLocationsRepositoryProvider);
 
@@ -122,13 +110,9 @@ class LocationAttributesRepository implements TransactionAttributeRepository {
 
   @override
   Future<AttributeEntry> update(id, name) async {
-    final req = UpdateExpenseLocationReq((r) => r
-      ..expenseLocation.replace(ModelExpenseLocation((e) => e
-        ..id = id
-        ..name = name)));
-
-    final res =
-        await _ref.read(updateLocationRepositoryProvider).updateLocation(req);
+    final res = await _ref
+        .read(updateLocationRepositoryProvider)
+        .updateLocation(id, name);
 
     _ref.invalidate(expenseLocationsRepositoryProvider);
 
@@ -137,9 +121,7 @@ class LocationAttributesRepository implements TransactionAttributeRepository {
 
   @override
   Future<void> delete(String id) async {
-    final req = DeleteExpenseLocationReq((r) => r..expenseLocationId = id);
-
-    await _ref.read(deleteLocationRepositoryProvider).deleteLocation(req);
+    await _ref.read(deleteLocationRepositoryProvider).deleteLocation(id);
 
     _ref.invalidate(expenseLocationsRepositoryProvider);
   }
@@ -164,11 +146,9 @@ class IncomeTypeAttributesRepository implements TransactionAttributeRepository {
 
   @override
   Future<AttributeEntry> register(name) async {
-    final req = RegisterIncomeTypeReq(
-        (r) => r..incomeType.replace(ModelIncomeType((e) => e..name = name)));
     final res = await _ref
         .read(registerIncomeTypeRepositoryProvider)
-        .registerIncomeType(req);
+        .registerIncomeType(name);
 
     _ref.invalidate(incomeTypesRepositoryProvider);
 
@@ -177,14 +157,9 @@ class IncomeTypeAttributesRepository implements TransactionAttributeRepository {
 
   @override
   Future<AttributeEntry> update(id, name) async {
-    final req = UpdateIncomeTypeReq((r) => r
-      ..incomeType.replace(ModelIncomeType((e) => e
-        ..id = id
-        ..name = name)));
-
     final res = await _ref
         .read(updateIncomeTypeRepositoryProvider)
-        .updateIncomeType(req);
+        .updateIncomeType(id, name);
 
     _ref.invalidate(incomeTypesRepositoryProvider);
 
@@ -193,9 +168,7 @@ class IncomeTypeAttributesRepository implements TransactionAttributeRepository {
 
   @override
   Future<void> delete(String id) async {
-    final req = DeleteIncomeTypeReq((r) => r..incomeTypeId = id);
-
-    await _ref.read(deleteIncomeTypeRepositoryProvider).deleteIncomeType(req);
+    await _ref.read(deleteIncomeTypeRepositoryProvider).deleteIncomeType(id);
 
     _ref.invalidate(incomeTypesRepositoryProvider);
   }

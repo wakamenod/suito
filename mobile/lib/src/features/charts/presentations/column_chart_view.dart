@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:openapi/openapi.dart';
+import 'package:suito/src/models/chart_data.dart';
 import 'package:suito/src/common_widgets/async_value_widget.dart';
 import 'package:suito/src/features/charts/services/column_chart_service.dart';
 import 'package:suito/src/utils/currency_formatter.dart';
@@ -15,7 +15,7 @@ class ColumnChartView extends ConsumerWidget {
     final formatter = ref.watch(currencyFormatterProvider);
     final chartDataValue = ref.watch(fetchColumnChartDataProvider);
 
-    return AsyncValueWidget<GetColumnChartDataRes>(
+    return AsyncValueWidget<ColumnChartResult>(
         value: chartDataValue,
         data: (chartData) {
           // print(chartData.expenseData.first.categoryName);

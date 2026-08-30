@@ -1,22 +1,26 @@
-import 'package:openapi/openapi.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:suito/src/data/openapi_provider.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:suito/src/data/supabase_provider.dart';
+import 'package:suito/src/models/income.dart';
 
 part 'update_income_repository.g.dart';
 
 class UpdateIncomeRepository {
-  UpdateIncomeRepository(this._openapi);
-  final Openapi _openapi;
+  UpdateIncomeRepository(this._client);
+  final SupabaseClient _client;
 
-  Future<ModelIncome> updateIncome(UpdateIncomeReq request) async {
-    final api = _openapi.getSuitoIncomeApi();
-    final response = await api.updateIncome(request: request);
-    return response.data?.updatedIncome ?? ModelIncome();
+  Future<Income> updateIncome(Income income) async {
+    final row = await _client
+        .from('income')
+        .update(income.toColumns())
+        .eq('id', income.id)
+        .select()
+        .single();
+    return Income.fromJson(row);
   }
 }
 
 @Riverpod(keepAlive: true)
 UpdateIncomeRepository updateIncomeRepository(UpdateIncomeRepositoryRef ref) {
-  final openapi = ref.watch(openApiProvider);
-  return UpdateIncomeRepository(openapi);
+  return UpdateIncomeRepository(ref.watch(supabaseClientProvider));
 }

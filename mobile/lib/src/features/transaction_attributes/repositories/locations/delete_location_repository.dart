@@ -1,23 +1,23 @@
-import 'package:openapi/openapi.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:suito/src/data/openapi_provider.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:suito/src/data/supabase_provider.dart';
 
 part 'delete_location_repository.g.dart';
 
 class DeleteLocationRepository {
-  DeleteLocationRepository(this._openapi);
-  final Openapi _openapi;
+  DeleteLocationRepository(this._client);
+  final SupabaseClient _client;
 
-  Future<void> deleteLocation(DeleteExpenseLocationReq request) async {
-    final api = _openapi.getSuitoExpenseLocationApi();
-    await api.deleteExpenseLocation(request: request);
-    return;
+  /// A hard delete: the reference tables carry no `deleted_at`, and the
+  /// transactions that pointed here are detached by `on delete set null`
+  /// instead of the blank-out UPDATE the Go repository ran.
+  Future<void> deleteLocation(String id) async {
+    await _client.from('expense_location').delete().eq('id', id);
   }
 }
 
 @Riverpod(keepAlive: true)
 DeleteLocationRepository deleteLocationRepository(
     DeleteLocationRepositoryRef ref) {
-  final openapi = ref.watch(openApiProvider);
-  return DeleteLocationRepository(openapi);
+  return DeleteLocationRepository(ref.watch(supabaseClientProvider));
 }

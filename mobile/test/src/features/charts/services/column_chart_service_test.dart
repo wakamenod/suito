@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:openapi/openapi.dart';
+import 'package:suito/src/models/chart_data.dart';
 import 'package:suito/src/features/charts/repositories/column_chart_data_repository.dart';
 import 'package:suito/src/features/charts/services/column_chart_service.dart';
 
@@ -27,42 +27,31 @@ void main() {
   group('column_chart_service_test', () {
     test('get column chart data', () async {
       final container = makeProviderContainer();
-      final aCategory = ColumnChartCategoryData((b) => b
-        ..categoryName = 'A Expense Category'
-        ..columnChartData.replace([
-          ColumnChartData((u) => u
-            ..month = '2023-05'
-            ..amount = 100),
-          ColumnChartData((u) => u
-            ..month = '2023-05'
-            ..amount = 200)
-        ]));
-      final bCategory = ColumnChartCategoryData((b) => b
-        ..categoryName = 'B Expense Category'
-        ..columnChartData.replace([
-          ColumnChartData((u) => u
-            ..month = '2023-07'
-            ..amount = 300),
-          ColumnChartData((u) => u
-            ..month = '2023-08'
-            ..amount = 400)
-        ]));
-      final cCategory = ColumnChartCategoryData((b) => b
-        ..categoryName = 'A Income Category'
-        ..columnChartData.replace([
-          ColumnChartData((u) => u
-            ..month = '2023-05'
-            ..amount = 100),
-          ColumnChartData((u) => u
-            ..month = '2023-05'
-            ..amount = 200)
-        ]));
-      final res = GetColumnChartDataRes((r) => r
-        ..expenseData.replace([
-          aCategory,
-          bCategory,
-        ])
-        ..incomeData.replace([cCategory]));
+      const aCategory = ColumnChartCategoryData(
+        categoryName: 'A Expense Category',
+        columnChartData: [
+          ColumnChartData(month: '2023-05', amount: 100),
+          ColumnChartData(month: '2023-05', amount: 200),
+        ],
+      );
+      const bCategory = ColumnChartCategoryData(
+        categoryName: 'B Expense Category',
+        columnChartData: [
+          ColumnChartData(month: '2023-07', amount: 300),
+          ColumnChartData(month: '2023-08', amount: 400),
+        ],
+      );
+      const cCategory = ColumnChartCategoryData(
+        categoryName: 'A Income Category',
+        columnChartData: [
+          ColumnChartData(month: '2023-05', amount: 100),
+          ColumnChartData(month: '2023-05', amount: 200),
+        ],
+      );
+      const res = ColumnChartResult(
+        expenseData: [aCategory, bCategory],
+        incomeData: [cCategory],
+      );
       when(() => columnChartDataRepository.fetchColumnChartData())
           .thenAnswer((_) => Future.value(res));
       // run

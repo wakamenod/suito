@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:openapi/openapi.dart';
+import 'package:suito/src/models/income_schedule.dart';
 import 'package:suito/src/features/schedules/repositories/income/register_income_schedule_repository.dart';
 import 'package:suito/src/features/schedules/repositories/income/update_income_schedule_repository.dart';
 import 'package:suito/src/features/schedules/services/income/submit_income_schedule_controller.dart';
@@ -46,20 +46,14 @@ void main() {
           incomeTypeID: 'income_type_id',
           memo: 'memo',
           isValid: true);
-      final resIncomeSchedule = ModelIncomeSchedule((e) => e
-        ..id = 'new_incomeSchedule_id'
-        ..timezone = 'Asia/Tokyo'
-        ..amount = incomeSchedule.amount.value
-        ..incomeTypeId = incomeSchedule.incomeTypeID
-        ..memo = incomeSchedule.memo);
-      final req = RegisterIncomeScheduleReq(
-          (r) => r.incomeSchedule.replace(ModelIncomeSchedule((e) => e
-            ..id = incomeSchedule.id
-            ..amount = incomeSchedule.amount.value
-            ..timezone = 'Asia/Tokyo'
-            ..incomeTypeId = incomeSchedule.incomeTypeID
-            ..memo = incomeSchedule.memo)));
-      registerFallbackValue(req);
+      final resIncomeSchedule = IncomeSchedule(
+        id: 'new_incomeSchedule_id',
+        timezone: 'Asia/Tokyo',
+        amount: incomeSchedule.amount.value,
+        incomeTypeId: incomeSchedule.incomeTypeID,
+        memo: incomeSchedule.memo,
+      );
+      registerFallbackValue(const IncomeSchedule());
       when(() => registerRepo.registerIncomeSchedule(any())).thenAnswer(
         (_) => Future.value(resIncomeSchedule),
       );
@@ -96,14 +90,7 @@ void main() {
           incomeTypeID: 'income_type_id',
           memo: 'memo',
           isValid: true);
-      final req = RegisterIncomeScheduleReq(
-          (r) => r.incomeSchedule.replace(ModelIncomeSchedule((e) => e
-            ..id = incomeSchedule.id
-            ..amount = incomeSchedule.amount.value
-            ..timezone = 'Asia/Tokyo'
-            ..incomeTypeId = incomeSchedule.incomeTypeID
-            ..memo = incomeSchedule.memo)));
-      registerFallbackValue(req);
+      registerFallbackValue(const IncomeSchedule());
       when(() => registerRepo.registerIncomeSchedule(any())).thenThrow(
         (_) => Exception("Network error"),
       );
@@ -141,20 +128,14 @@ void main() {
           incomeTypeID: 'income_type_id',
           memo: 'memo',
           isValid: true);
-      final resIncomeSchedule = ModelIncomeSchedule((e) => e
-        ..id = incomeSchedule.id
-        ..amount = incomeSchedule.amount.value
-        ..timezone = 'Asia/Tokyo'
-        ..incomeTypeId = incomeSchedule.incomeTypeID
-        ..memo = incomeSchedule.memo);
-      final req = UpdateIncomeScheduleReq(
-          (r) => r.incomeSchedule.replace(ModelIncomeSchedule((e) => e
-            ..id = incomeSchedule.id
-            ..amount = incomeSchedule.amount.value
-            ..timezone = 'Asia/Tokyo'
-            ..incomeTypeId = incomeSchedule.incomeTypeID
-            ..memo = incomeSchedule.memo)));
-      registerFallbackValue(req);
+      final resIncomeSchedule = IncomeSchedule(
+        id: 'new_incomeSchedule_id',
+        timezone: 'Asia/Tokyo',
+        amount: incomeSchedule.amount.value,
+        incomeTypeId: incomeSchedule.incomeTypeID,
+        memo: incomeSchedule.memo,
+      );
+      registerFallbackValue(const IncomeSchedule());
       when(() => updateRepo.updateIncomeSchedule(any())).thenAnswer(
         (_) => Future.value(resIncomeSchedule),
       );
@@ -191,14 +172,7 @@ void main() {
           incomeTypeID: 'income_type_id',
           memo: 'memo',
           isValid: true);
-      final req = UpdateIncomeScheduleReq(
-          (r) => r.incomeSchedule.replace(ModelIncomeSchedule((e) => e
-            ..id = incomeSchedule.id
-            ..amount = incomeSchedule.amount.value
-            ..timezone = 'Asia/Tokyo'
-            ..incomeTypeId = incomeSchedule.incomeTypeID
-            ..memo = incomeSchedule.memo)));
-      registerFallbackValue(req);
+      registerFallbackValue(const IncomeSchedule());
       when(() => updateRepo.updateIncomeSchedule(any())).thenThrow(
         (_) => Exception("Network error"),
       );

@@ -1,7 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:openapi/openapi.dart';
 import 'package:suito/src/formz/amount.dart';
 import 'package:suito/src/formz/title.dart';
+import 'package:suito/src/models/expense.dart';
+import 'package:suito/src/models/expense_schedule.dart';
 import 'package:suito/src/utils/datetime_utils.dart';
 
 part 'expense_form_value.freezed.dart';
@@ -39,34 +40,32 @@ class ExpenseFormValue with _$ExpenseFormValue {
       );
 
   static ExpenseFormValue fromExpense(
-          ExpenseDetailRes res, categoriesMap, locationsMap) =>
+          Expense expense, categoriesMap, locationsMap) =>
       ExpenseFormValue(
-        id: res.expense.id,
-        title: Title.dirty(res.expense.title),
-        amount: Amount.dirty(res.expense.amount),
-        date: res.expense.localDate,
-        categoryID: res.expense.expenseCategoryID,
-        category: categoriesMap[res.expense.expenseCategoryID]?.name ?? '',
-        locationID: res.expense.expenseLocationID,
-        location: locationsMap[res.expense.expenseLocationID]?.name ?? '',
-        memo: res.expense.memo,
+        id: expense.id,
+        title: Title.dirty(expense.title),
+        amount: Amount.dirty(expense.amount),
+        date: expense.localDate,
+        categoryID: expense.expenseCategoryId ?? '',
+        category: categoriesMap[expense.expenseCategoryId]?.name ?? '',
+        locationID: expense.expenseLocationId ?? '',
+        location: locationsMap[expense.expenseLocationId]?.name ?? '',
+        memo: expense.memo,
         isValid: true,
       );
 
   static ExpenseFormValue fromSchedule(
-          ExpenseScheduleDetailRes res, categoriesMap, locationsMap) =>
+          ExpenseSchedule schedule, categoriesMap, locationsMap) =>
       ExpenseFormValue(
-        id: res.expenseSchedule.id,
-        title: Title.dirty(res.expenseSchedule.title),
-        amount: Amount.dirty(res.expenseSchedule.amount),
+        id: schedule.id,
+        title: Title.dirty(schedule.title),
+        amount: Amount.dirty(schedule.amount),
         date: '',
-        categoryID: res.expenseSchedule.expenseCategoryID,
-        category:
-            categoriesMap[res.expenseSchedule.expenseCategoryID]?.name ?? '',
-        locationID: res.expenseSchedule.expenseLocationID,
-        location:
-            locationsMap[res.expenseSchedule.expenseLocationID]?.name ?? '',
-        memo: res.expenseSchedule.memo,
+        categoryID: schedule.expenseCategoryId ?? '',
+        category: categoriesMap[schedule.expenseCategoryId]?.name ?? '',
+        locationID: schedule.expenseLocationId ?? '',
+        location: locationsMap[schedule.expenseLocationId]?.name ?? '',
+        memo: schedule.memo,
         isValid: true,
       );
 }

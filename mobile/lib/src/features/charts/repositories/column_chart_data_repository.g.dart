@@ -9,7 +9,7 @@ part of 'column_chart_data_repository.dart';
 // **************************************************************************
 
 String _$columnChartDataRepositoryHash() =>
-    r'd684fa8b7f1c3854b2df72d688b18b9f9a4d7527';
+    r'dac5bc7b64f15d75d443339746f83270ccbe33cd';
 
 /// See also [columnChartDataRepository].
 @ProviderFor(columnChartDataRepository)

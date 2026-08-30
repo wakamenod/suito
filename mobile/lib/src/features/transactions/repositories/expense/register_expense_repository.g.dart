@@ -9,7 +9,7 @@ part of 'register_expense_repository.dart';
 // **************************************************************************
 
 String _$registerExpenseRepositoryHash() =>
-    r'b151b3bffb4c420f4c143bd6e365260c23f29066';
+    r'9dffcd941d7585cd3432aac278328907e24cd4c7';
 
 /// See also [registerExpenseRepository].
 @ProviderFor(registerExpenseRepository)

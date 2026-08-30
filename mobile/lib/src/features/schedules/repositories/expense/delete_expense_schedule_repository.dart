@@ -1,24 +1,27 @@
-import 'package:openapi/openapi.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:suito/src/data/openapi_provider.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:suito/src/data/supabase_provider.dart';
 
 part 'delete_expense_schedule_repository.g.dart';
 
 class DeleteExpenseScheduleRepository {
-  DeleteExpenseScheduleRepository(this._openapi);
-  final Openapi _openapi;
+  DeleteExpenseScheduleRepository(this._client);
+  final SupabaseClient _client;
 
+  /// Soft delete, as the Go repository did: the schedule stops being listed and
+  /// stops being re-enqueued (`enqueue_transaction_schedules` skips
+  /// `deleted_at is not null`).
   Future<void> deleteExpenseSchedule(String id) async {
-    final api = _openapi.getSuitoExpenseScheduleApi();
-    await api.deleteExpenseSchedule(
-        request: DeleteExpenseScheduleReq((r) => r.expenseScheduleId = id));
-    return;
+    await _client
+        .from('expense_schedule')
+        .update({'deleted_at': DateTime.now().toUtc().toIso8601String()})
+        .eq('id', id)
+        .isFilter('deleted_at', null);
   }
 }
 
 @Riverpod(keepAlive: true)
 DeleteExpenseScheduleRepository deleteExpenseScheduleRepository(
     DeleteExpenseScheduleRepositoryRef ref) {
-  final openapi = ref.watch(openApiProvider);
-  return DeleteExpenseScheduleRepository(openapi);
+  return DeleteExpenseScheduleRepository(ref.watch(supabaseClientProvider));
 }

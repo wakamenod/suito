@@ -9,12 +9,12 @@ part of 'column_chart_service.dart';
 // **************************************************************************
 
 String _$fetchColumnChartDataHash() =>
-    r'5378ce107408ac52b54a0a202fa828012bdeb2d3';
+    r'e7ad3cecfd3fb46eb0b960502797814d38697996';
 
 /// See also [fetchColumnChartData].
 @ProviderFor(fetchColumnChartData)
 final fetchColumnChartDataProvider =
-    AutoDisposeFutureProvider<GetColumnChartDataRes>.internal(
+    AutoDisposeFutureProvider<ColumnChartResult>.internal(
   fetchColumnChartData,
   name: r'fetchColumnChartDataProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -25,5 +25,5 @@ final fetchColumnChartDataProvider =
 );
 
 typedef FetchColumnChartDataRef
-    = AutoDisposeFutureProviderRef<GetColumnChartDataRes>;
+    = AutoDisposeFutureProviderRef<ColumnChartResult>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

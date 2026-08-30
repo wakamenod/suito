@@ -8,7 +8,7 @@ part of 'version_check.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$versionRepositoryHash() => r'3fec314475febbc28882275603d7335dc4534a03';
+String _$versionRepositoryHash() => r'bdef5f1b10ad367481d756745a8413ba927f226a';
 
 /// See also [versionRepository].
 @ProviderFor(versionRepository)

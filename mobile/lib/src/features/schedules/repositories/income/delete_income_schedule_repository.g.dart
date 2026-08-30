@@ -9,7 +9,7 @@ part of 'delete_income_schedule_repository.dart';
 // **************************************************************************
 
 String _$deleteIncomeScheduleRepositoryHash() =>
-    r'6af6ad2b424da5f31dbb27fc2aa07e8e8029850d';
+    r'2b1cbad8d44996c485de49661657526be20711ec';
 
 /// See also [deleteIncomeScheduleRepository].
 @ProviderFor(deleteIncomeScheduleRepository)

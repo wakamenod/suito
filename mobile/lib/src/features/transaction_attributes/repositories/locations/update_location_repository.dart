@@ -1,24 +1,27 @@
-import 'package:openapi/openapi.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:suito/src/data/openapi_provider.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:suito/src/data/supabase_provider.dart';
+import 'package:suito/src/models/transaction_attribute.dart';
 
 part 'update_location_repository.g.dart';
 
 class UpdateLocationRepository {
-  UpdateLocationRepository(this._openapi);
-  final Openapi _openapi;
+  UpdateLocationRepository(this._client);
+  final SupabaseClient _client;
 
-  Future<ModelExpenseLocation> updateLocation(
-      UpdateExpenseLocationReq request) async {
-    final api = _openapi.getSuitoExpenseLocationApi();
-    final response = await api.updateExpenseLocation(request: request);
-    return response.data?.updatedExpenseLocation ?? ModelExpenseLocation();
+  Future<ExpenseLocation> updateLocation(String id, String name) async {
+    final row = await _client
+        .from('expense_location')
+        .update({'name': name})
+        .eq('id', id)
+        .select('id, name')
+        .single();
+    return ExpenseLocation.fromJson(row);
   }
 }
 
 @Riverpod(keepAlive: true)
 UpdateLocationRepository updateLocationRepository(
     UpdateLocationRepositoryRef ref) {
-  final openapi = ref.watch(openApiProvider);
-  return UpdateLocationRepository(openapi);
+  return UpdateLocationRepository(ref.watch(supabaseClientProvider));
 }

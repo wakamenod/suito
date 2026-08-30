@@ -1,7 +1,12 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:openapi/openapi.dart';
+import 'package:suito/src/models/expense.dart';
+import 'package:suito/src/models/expense_schedule.dart';
+import 'package:suito/src/models/income.dart';
+import 'package:suito/src/models/income_schedule.dart';
+import 'package:suito/src/models/transaction.dart';
+import 'package:suito/src/models/transaction_attribute.dart';
 import 'package:suito/src/features/schedules/repositories/expense/expense_schedule_detail_repository.dart';
 import 'package:suito/src/features/schedules/repositories/income/income_schedule_detail_repository.dart';
 import 'package:suito/src/features/transactions/repositories/expense/expense_categories_repository.dart';
@@ -124,28 +129,25 @@ void main() {
       final navigator =
           container.read(transactionDetailNavigatorProvider.notifier);
       final tr = Transaction(
-        (t) => t
-          ..id = 'transaction_id'
-          ..title = 'Transaction Title'
-          ..localDate = '2023-05-01'
-          ..amount = 400
-          ..type = TransactionType.expense.value,
+        id: 'transaction_id',
+        title: 'Transaction Title',
+        localDate: '2023-05-01',
+        amount: 400,
+        type: TransactionType.expense.value,
       );
-      final category = ModelExpenseCategory((e) => e
-        ..id = 'expense_category_id'
-        ..name = 'Test Category');
-      final location = ModelExpenseLocation((e) => e
-        ..id = 'expense_location_id'
-        ..name = 'Test Location');
-      final res =
-          ExpenseDetailRes((r) => r.expense.replace(ModelExpense((b) => b
-            ..id = tr.id
-            ..title = 'registered title'
-            ..localDate = '2023-05-03'
-            ..memo = 'Some memo'
-            ..amount = 400
-            ..expenseCategoryID = category.id
-            ..expenseLocationID = location.id)));
+      const category =
+          ExpenseCategory(id: 'expense_category_id', name: 'Test Category');
+      const location =
+          ExpenseLocation(id: 'expense_location_id', name: 'Test Location');
+      final res = Expense(
+        id: tr.id,
+        title: 'registered title',
+        localDate: '2023-05-03',
+        memo: 'Some memo',
+        amount: 400,
+        expenseCategoryId: category.id,
+        expenseLocationId: location.id,
+      );
       when(() => mockExpenseCategoriesRepository.fetchExpenseCategoriesList())
           .thenAnswer((_) => Future.value([category]));
       when(() => mockExpenseLocationsRepository.fetchExpenseLocationsList())
@@ -165,8 +167,8 @@ void main() {
       final formValue = container.read(expenseFormInitialValueProvider);
       expect(formValue.isValid, true);
       expect(formValue.id, tr.id);
-      expect(formValue.title.value, res.expense.title);
-      expect(formValue.amount.value, res.expense.amount);
+      expect(formValue.title.value, res.title);
+      expect(formValue.amount.value, res.amount);
       expect(formValue.category, category.name);
       expect(formValue.location, location.name);
     });
@@ -177,22 +179,21 @@ void main() {
       final navigator =
           container.read(transactionDetailNavigatorProvider.notifier);
       final tr = Transaction(
-        (t) => t
-          ..id = 'transaction_id'
-          ..title = 'Transaction Title'
-          ..localDate = '2023-05-01'
-          ..amount = 400
-          ..type = TransactionType.income.value,
+        id: 'transaction_id',
+        title: 'Transaction Title',
+        localDate: '2023-05-01',
+        amount: 400,
+        type: TransactionType.income.value,
       );
-      final incomeType = ModelIncomeType((e) => e
-        ..id = 'income_type_id'
-        ..name = 'Test Income Type');
-      final res = IncomeDetailRes((r) => r.income.replace(ModelIncome((b) => b
-        ..id = tr.id
-        ..localDate = '2023-05-03'
-        ..memo = ''
-        ..amount = 400
-        ..incomeTypeId = incomeType.id)));
+      const incomeType =
+          IncomeType(id: 'income_type_id', name: 'Test Income Type');
+      final res = Income(
+        id: tr.id,
+        localDate: '2023-05-03',
+        memo: '',
+        amount: 400,
+        incomeTypeId: incomeType.id,
+      );
       when(() => mockIncomeTypesRepository.fetchIncomeTypesList())
           .thenAnswer((_) => Future.value([incomeType]));
       when(() => mockIncomeDetailRepository.fetchIncomeDetail(tr.id))
@@ -208,7 +209,7 @@ void main() {
       expect(formValue.isValid, true);
       expect(formValue.id, tr.id);
       expect(formValue.title.value, incomeType.name);
-      expect(formValue.amount.value, res.income.amount);
+      expect(formValue.amount.value, res.amount);
     });
 
     test('goFetchExpenseSchedule', () async {
@@ -216,22 +217,20 @@ void main() {
       final container = makeProviderContainer();
       final navigator =
           container.read(transactionDetailNavigatorProvider.notifier);
-      final category = ModelExpenseCategory((e) => e
-        ..id = 'expense_category_id'
-        ..name = 'Test Category');
-      final location = ModelExpenseLocation((e) => e
-        ..id = 'expense_location_id'
-        ..name = 'Test Location');
+      const category =
+          ExpenseCategory(id: 'expense_category_id', name: 'Test Category');
+      const location =
+          ExpenseLocation(id: 'expense_location_id', name: 'Test Location');
       const scheduleID = 'schedule_id';
-      final res = ExpenseScheduleDetailRes(
-          (r) => r.expenseSchedule.replace(ModelExpenseSchedule((b) => b
-            ..id = scheduleID
-            ..title = 'registered title'
-            ..timezone = 'Asia/Tokyo'
-            ..memo = 'Some memo'
-            ..amount = 400
-            ..expenseCategoryID = category.id
-            ..expenseLocationID = location.id)));
+      const res = ExpenseSchedule(
+        id: scheduleID,
+        title: 'registered title',
+        timezone: 'Asia/Tokyo',
+        memo: 'Some memo',
+        amount: 400,
+        expenseCategoryId: 'expense_category_id',
+        expenseLocationId: 'expense_location_id',
+      );
       when(() => mockExpenseCategoriesRepository.fetchExpenseCategoriesList())
           .thenAnswer((_) => Future.value([category]));
       when(() => mockExpenseLocationsRepository.fetchExpenseLocationsList())
@@ -252,8 +251,8 @@ void main() {
       final formValue = container.read(expenseFormInitialValueProvider);
       expect(formValue.isValid, true);
       expect(formValue.id, scheduleID);
-      expect(formValue.title.value, res.expenseSchedule.title);
-      expect(formValue.amount.value, res.expenseSchedule.amount);
+      expect(formValue.title.value, res.title);
+      expect(formValue.amount.value, res.amount);
       expect(formValue.category, category.name);
       expect(formValue.location, location.name);
     });
@@ -263,17 +262,16 @@ void main() {
       final container = makeProviderContainer();
       final navigator =
           container.read(transactionDetailNavigatorProvider.notifier);
-      final incomeType = ModelIncomeType((e) => e
-        ..id = 'income_type_id'
-        ..name = 'Test Income Type');
+      const incomeType =
+          IncomeType(id: 'income_type_id', name: 'Test Income Type');
       const scheduleID = 'schedule_id';
-      final res = IncomeScheduleDetailRes(
-          (r) => r.incomeSchedule.replace(ModelIncomeSchedule((b) => b
-            ..id = scheduleID
-            ..timezone = 'Asia/Tokyo'
-            ..memo = ''
-            ..amount = 400
-            ..incomeTypeId = incomeType.id)));
+      const res = IncomeSchedule(
+        id: scheduleID,
+        timezone: 'Asia/Tokyo',
+        memo: '',
+        amount: 400,
+        incomeTypeId: 'income_type_id',
+      );
       when(() => mockIncomeTypesRepository.fetchIncomeTypesList())
           .thenAnswer((_) => Future.value([incomeType]));
       when(() => mockIncomeScheduleDetailRepository.fetchIncomeScheduleDetail(
@@ -290,7 +288,7 @@ void main() {
       expect(formValue.isValid, true);
       expect(formValue.id, scheduleID);
       expect(formValue.title.value, incomeType.name);
-      expect(formValue.amount.value, res.incomeSchedule.amount);
+      expect(formValue.amount.value, res.amount);
     });
   });
 }

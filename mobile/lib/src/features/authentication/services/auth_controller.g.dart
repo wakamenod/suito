@@ -28,7 +28,7 @@ final authFormControllerProvider =
 
 typedef _$AuthFormController = AutoDisposeNotifier<AuthFormValue>;
 String _$authSubmitControllerHash() =>
-    r'95a6486302270da9e6e1ec08475a73f45a2bdd1e';
+    r'7abbc1029dd73ee42dba3b80ecf6f12735b8d6fd';
 
 /// Runs the Supabase auth call. State is `AsyncValue<void>` so a failure lands
 /// on the standard `AsyncErrorLogger` path; the screen also reads `.isLoading`
@@ -49,7 +49,7 @@ final authSubmitControllerProvider =
 
 typedef _$AuthSubmitController = AutoDisposeAsyncNotifier<void>;
 String _$passwordResetControllerHash() =>
-    r'fcac75f112d4ab8e71bfc958f9dbc041a6557776';
+    r'1cebfc9e0e51b2a5747758eadb60486f54f5a72d';
 
 /// Sends the "set a new password" email. Kept separate from
 /// [AuthSubmitController] so a reset failure can't overwrite the sign-in form's
@@ -69,7 +69,7 @@ final passwordResetControllerProvider =
 );
 
 typedef _$PasswordResetController = AutoDisposeAsyncNotifier<void>;
-String _$signOutControllerHash() => r'cd2c0beda5a2e8fd18617fe147ea4131abc674b6';
+String _$signOutControllerHash() => r'c7059898d05546c4081c0d2bd23f925f6a6d8393';
 
 /// Sign-out action, kept as `AsyncValue<void>` for consistent error handling.
 ///

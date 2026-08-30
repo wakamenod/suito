@@ -9,7 +9,7 @@ part of 'income_schedule_detail_repository.dart';
 // **************************************************************************
 
 String _$incomeScheduleDetailRepositoryHash() =>
-    r'378a04781b22a106beb439cb56528827618a3313';
+    r'cfd8f8cb2f321c485ad9e6a4ab080c56a0ffe88b';
 
 /// See also [incomeScheduleDetailRepository].
 @ProviderFor(incomeScheduleDetailRepository)

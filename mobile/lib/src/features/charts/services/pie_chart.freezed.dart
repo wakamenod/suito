@@ -17,7 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$PieChart {
   DateTimeRange get dateRange => throw _privateConstructorUsedError;
-  GetPieChartDataRes get res => throw _privateConstructorUsedError;
+  PieChartResult get res => throw _privateConstructorUsedError;
   PieChartType get type => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -30,8 +30,9 @@ abstract class $PieChartCopyWith<$Res> {
   factory $PieChartCopyWith(PieChart value, $Res Function(PieChart) then) =
       _$PieChartCopyWithImpl<$Res, PieChart>;
   @useResult
-  $Res call(
-      {DateTimeRange dateRange, GetPieChartDataRes res, PieChartType type});
+  $Res call({DateTimeRange dateRange, PieChartResult res, PieChartType type});
+
+  $PieChartResultCopyWith<$Res> get res;
 }
 
 /// @nodoc
@@ -59,12 +60,20 @@ class _$PieChartCopyWithImpl<$Res, $Val extends PieChart>
       res: null == res
           ? _value.res
           : res // ignore: cast_nullable_to_non_nullable
-              as GetPieChartDataRes,
+              as PieChartResult,
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as PieChartType,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $PieChartResultCopyWith<$Res> get res {
+    return $PieChartResultCopyWith<$Res>(_value.res, (value) {
+      return _then(_value.copyWith(res: value) as $Val);
+    });
   }
 }
 
@@ -75,8 +84,10 @@ abstract class _$$_PieChartCopyWith<$Res> implements $PieChartCopyWith<$Res> {
       __$$_PieChartCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {DateTimeRange dateRange, GetPieChartDataRes res, PieChartType type});
+  $Res call({DateTimeRange dateRange, PieChartResult res, PieChartType type});
+
+  @override
+  $PieChartResultCopyWith<$Res> get res;
 }
 
 /// @nodoc
@@ -102,7 +113,7 @@ class __$$_PieChartCopyWithImpl<$Res>
       res: null == res
           ? _value.res
           : res // ignore: cast_nullable_to_non_nullable
-              as GetPieChartDataRes,
+              as PieChartResult,
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
@@ -121,7 +132,7 @@ class _$_PieChart extends _PieChart {
   @override
   final DateTimeRange dateRange;
   @override
-  final GetPieChartDataRes res;
+  final PieChartResult res;
   @override
   final PieChartType type;
 
@@ -154,14 +165,14 @@ class _$_PieChart extends _PieChart {
 abstract class _PieChart extends PieChart {
   const factory _PieChart(
       {required final DateTimeRange dateRange,
-      required final GetPieChartDataRes res,
+      required final PieChartResult res,
       required final PieChartType type}) = _$_PieChart;
   const _PieChart._() : super._();
 
   @override
   DateTimeRange get dateRange;
   @override
-  GetPieChartDataRes get res;
+  PieChartResult get res;
   @override
   PieChartType get type;
   @override

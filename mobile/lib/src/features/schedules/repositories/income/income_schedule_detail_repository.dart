@@ -1,24 +1,27 @@
-import 'package:openapi/openapi.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:suito/src/data/openapi_provider.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:suito/src/data/supabase_provider.dart';
+import 'package:suito/src/models/income_schedule.dart';
 
 part 'income_schedule_detail_repository.g.dart';
 
 class IncomeScheduleDetailRepository {
-  IncomeScheduleDetailRepository(this._openapi);
-  final Openapi _openapi;
+  IncomeScheduleDetailRepository(this._client);
+  final SupabaseClient _client;
 
-  Future<IncomeScheduleDetailRes> fetchIncomeScheduleDetail(String id) async {
-    final api = _openapi.getSuitoIncomeScheduleApi();
-    final response = await api.incomeScheduleDetail(
-        request: IncomeScheduleDetailReq((r) => r.id = id));
-    return response.data ?? IncomeScheduleDetailRes();
+  Future<IncomeSchedule> fetchIncomeScheduleDetail(String id) async {
+    final row = await _client
+        .from('income_schedule')
+        .select()
+        .eq('id', id)
+        .isFilter('deleted_at', null)
+        .single();
+    return IncomeSchedule.fromJson(row);
   }
 }
 
 @Riverpod(keepAlive: true)
 IncomeScheduleDetailRepository incomeScheduleDetailRepository(
     IncomeScheduleDetailRepositoryRef ref) {
-  final openapi = ref.watch(openApiProvider);
-  return IncomeScheduleDetailRepository(openapi);
+  return IncomeScheduleDetailRepository(ref.watch(supabaseClientProvider));
 }

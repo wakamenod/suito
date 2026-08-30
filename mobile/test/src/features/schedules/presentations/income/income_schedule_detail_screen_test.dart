@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
-import 'package:openapi/openapi.dart';
+import 'package:suito/src/models/income_schedule.dart';
+import 'package:suito/src/models/transaction_attribute.dart';
 import 'package:suito/src/features/transactions/services/income/income_form_value.dart';
 
 import '../../schedules_robot.dart';
@@ -25,17 +26,16 @@ void main() {
       await loadAppFonts();
       final r = SchedulesRobot(tester);
       const id = 'income_schedule_id';
-      final incomeType = ModelIncomeType((e) => e
-        ..id = 'income_type_id'
-        ..name = 'Test Income Type');
+      const incomeType =
+          IncomeType(id: 'income_type_id', name: 'Test Income Type');
       final incomeTypeMap = {incomeType.id: incomeType};
-      final res = IncomeScheduleDetailRes(
-          (r) => r.incomeSchedule.replace(ModelIncomeSchedule((b) => b
-            ..id = id
-            ..timezone = 'Asia/Tokyo'
-            ..incomeTypeId = incomeType.id
-            ..memo = 'Some memo'
-            ..amount = 400)));
+      const res = IncomeSchedule(
+        id: id,
+        timezone: 'Asia/Tokyo',
+        incomeTypeId: 'income_type_id',
+        memo: 'Some memo',
+        amount: 400,
+      );
 
       final income = IncomeFormValue.fromSchedule(res, incomeTypeMap);
       await r.pumpIncomeDetailScreen(income);

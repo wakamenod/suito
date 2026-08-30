@@ -16,8 +16,6 @@ class DeleteIncomeScheduleController extends _$DeleteIncomeScheduleController {
     final repository = ref.read(deleteIncomeScheduleRepositoryProvider);
     state = await AsyncValue.guard(() async {
       await repository.deleteIncomeSchedule(incomeScheduleID);
-      // FIXME https://github.com/cfug/dio/issues/1480
-      // dioのバージョンを上げれば直るかもしれないがopenapi側の制約で上げられない
       ref.invalidate(fetchSchedulesProvider);
     });
   }

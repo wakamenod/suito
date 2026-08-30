@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:openapi/openapi.dart';
+import 'package:suito/src/models/transaction.dart';
 import 'package:suito/src/features/transactions/services/transaction/transaction_detail_navigator.dart';
 import 'package:suito/src/features/transactions/services/transaction/transaction_service.dart';
 import 'package:suito/src/utils/currency_formatter.dart';

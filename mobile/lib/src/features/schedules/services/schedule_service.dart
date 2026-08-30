@@ -1,4 +1,4 @@
-import 'package:openapi/openapi.dart';
+import 'package:suito/src/models/transaction.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:suito/src/features/schedules/repositories/schedules_repository.dart';
 

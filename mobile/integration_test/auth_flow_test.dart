@@ -147,8 +147,7 @@ void main() {
     final errorFinder = find.text(t.auth.errors.invalidCredentials);
 
     var shown = false;
-    await tester
-        .tap(find.widgetWithText(ElevatedButton, t.auth.signInButton));
+    await tester.tap(find.widgetWithText(ElevatedButton, t.auth.signInButton));
     for (var i = 0; i < 100 && !shown; i++) {
       await tester.pump(const Duration(milliseconds: 100));
       shown = errorFinder.evaluate().isNotEmpty;

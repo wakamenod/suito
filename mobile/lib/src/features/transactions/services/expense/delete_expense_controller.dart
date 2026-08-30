@@ -16,9 +16,6 @@ class DeleteExpenseController extends _$DeleteExpenseController {
     final repository = ref.read(deleteExpenseRepositoryProvider);
     state = await AsyncValue.guard(() async {
       await repository.deleteExpense(expenseID);
-      // FIXME https://github.com/cfug/dio/issues/1480
-      // 上のリンクのFuture already completedが発生する
-      // dioのバージョンを上げれば直るかもしれないがopenapi側の制約で上げられない
       ref.invalidate(fetchTransactionsProvider);
     });
   }

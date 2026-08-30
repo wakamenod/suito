@@ -4,10 +4,6 @@ part 'env.g.dart';
 
 @Envied(path: '.env.mobile')
 abstract class Env {
-  @EnviedField(varName: 'BACKEND_BASE_URL', obfuscate: true)
-  static final kBackendBaseUrl = _Env.kBackendBaseUrl;
-
-  // Supabase
   @EnviedField(varName: 'SUPABASE_URL', obfuscate: true)
   static final kSupabaseUrl = _Env.kSupabaseUrl;
 

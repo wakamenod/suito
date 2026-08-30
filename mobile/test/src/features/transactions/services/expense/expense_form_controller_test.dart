@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:openapi/openapi.dart';
+import 'package:suito/src/models/expense.dart';
+import 'package:suito/src/models/transaction_attribute.dart';
 import 'package:suito/src/features/transaction_attributes/services/transaction_attribute_entry.dart';
 import 'package:suito/src/features/transactions/repositories/expense/expense_categories_repository.dart';
 import 'package:suito/src/features/transactions/repositories/expense/expense_detail_repository.dart';
@@ -91,20 +92,20 @@ void main() {
     test('update expense - validation invalid', () async {
       final container = makeProviderContainer();
       final categoryMap = {
-        "category_id": ModelExpenseCategory((b) => b.name = 'A category')
+        "category_id": const ExpenseCategory(name: 'A category')
       };
       final locationMap = {
-        "location_id": ModelExpenseLocation((b) => b.name = 'A location')
+        "location_id": const ExpenseLocation(name: 'A location')
       };
-      final res =
-          ExpenseDetailRes((r) => r.expense.replace(ModelExpense((b) => b
-            ..id = 'expense_id'
-            ..title = 'registered title'
-            ..localDate = '2023-05-03'
-            ..memo = ''
-            ..amount = 400
-            ..expenseCategoryID = 'category_id'
-            ..expenseLocationID = 'location_id')));
+      const res = Expense(
+        id: 'expense_id',
+        title: 'registered title',
+        localDate: '2023-05-03',
+        memo: '',
+        amount: 400,
+        expenseCategoryId: 'category_id',
+        expenseLocationId: 'location_id',
+      );
       final exp = ExpenseFormValue.fromExpense(res, categoryMap, locationMap);
       container.read(expenseFormInitialValueProvider.notifier).state = exp;
       final controller = container.read(expenseFormControllerProvider.notifier);
@@ -132,20 +133,20 @@ void main() {
     test('update expense - validation valid', () async {
       final container = makeProviderContainer();
       final categoryMap = {
-        "category_id": ModelExpenseCategory((b) => b.name = 'A category')
+        "category_id": const ExpenseCategory(name: 'A category')
       };
       final locationMap = {
-        "location_id": ModelExpenseLocation((b) => b.name = 'A location')
+        "location_id": const ExpenseLocation(name: 'A location')
       };
-      final res =
-          ExpenseDetailRes((r) => r.expense.replace(ModelExpense((b) => b
-            ..id = 'expense_id'
-            ..title = 'registered title'
-            ..localDate = '2023-05-03'
-            ..memo = ''
-            ..amount = 400
-            ..expenseCategoryID = 'category_id'
-            ..expenseLocationID = 'location_id')));
+      const res = Expense(
+        id: 'expense_id',
+        title: 'registered title',
+        localDate: '2023-05-03',
+        memo: '',
+        amount: 400,
+        expenseCategoryId: 'category_id',
+        expenseLocationId: 'location_id',
+      );
       final exp = ExpenseFormValue.fromExpense(res, categoryMap, locationMap);
       container.read(expenseFormInitialValueProvider.notifier).state = exp;
       final controller = container.read(expenseFormControllerProvider.notifier);

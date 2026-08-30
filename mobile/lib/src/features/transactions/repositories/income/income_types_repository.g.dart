@@ -9,7 +9,7 @@ part of 'income_types_repository.dart';
 // **************************************************************************
 
 String _$incomeTypesRepositoryHash() =>
-    r'72d18cc4431fefb5a740f914a8304071edc780ed';
+    r'ce867a9b75a3f62a3767bc474af933e573b4936b';
 
 /// See also [incomeTypesRepository].
 @ProviderFor(incomeTypesRepository)
@@ -25,12 +25,11 @@ final incomeTypesRepositoryProvider = Provider<IncomeTypesRepository>.internal(
 
 typedef IncomeTypesRepositoryRef = ProviderRef<IncomeTypesRepository>;
 String _$incomeTypesListFutureHash() =>
-    r'fef1142350aa047179d380f977eb16988264d121';
+    r'adb961fd0473969f73f5038555e43b0d7b362564';
 
 /// See also [incomeTypesListFuture].
 @ProviderFor(incomeTypesListFuture)
-final incomeTypesListFutureProvider =
-    FutureProvider<List<ModelIncomeType>>.internal(
+final incomeTypesListFutureProvider = FutureProvider<List<IncomeType>>.internal(
   incomeTypesListFuture,
   name: r'incomeTypesListFutureProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -40,14 +39,14 @@ final incomeTypesListFutureProvider =
   allTransitiveDependencies: null,
 );
 
-typedef IncomeTypesListFutureRef = FutureProviderRef<List<ModelIncomeType>>;
+typedef IncomeTypesListFutureRef = FutureProviderRef<List<IncomeType>>;
 String _$incomeTypeMapFutureHash() =>
-    r'1b01f4fe21e18ca3f45cc1953ada8c7a10f7009a';
+    r'c70d7377343bc910c465db81448bab738e3bb68b';
 
 /// See also [incomeTypeMapFuture].
 @ProviderFor(incomeTypeMapFuture)
 final incomeTypeMapFutureProvider =
-    FutureProvider<Map<String, ModelIncomeType>>.internal(
+    FutureProvider<Map<String, IncomeType>>.internal(
   incomeTypeMapFuture,
   name: r'incomeTypeMapFutureProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -57,6 +56,5 @@ final incomeTypeMapFutureProvider =
   allTransitiveDependencies: null,
 );
 
-typedef IncomeTypeMapFutureRef
-    = FutureProviderRef<Map<String, ModelIncomeType>>;
+typedef IncomeTypeMapFutureRef = FutureProviderRef<Map<String, IncomeType>>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

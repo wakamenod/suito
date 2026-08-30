@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:openapi/openapi.dart';
+import 'package:suito/src/models/transaction.dart';
 import 'package:suito/src/features/transactions/repositories/transaction/transactions_repository.dart';
 import 'package:suito/src/features/transactions/services/transaction/transaction_service.dart';
 import 'package:suito/src/features/transactions/services/transaction/transaction_year_months.dart';
@@ -64,30 +64,30 @@ void main() {
       const month = '2023-05';
       when(() => repo.fetchTransactionsList(month))
           .thenAnswer((_) => Future.value([
-                Transaction((t) => t
-                  ..id = 'transaction1'
-                  ..title = 'Title 1'
-                  ..localDate = '2023-05-01'
-                  ..type = TransactionType.income.value
-                  ..amount = 400),
-                Transaction((t) => t
-                  ..id = 'transaction2'
-                  ..title = 'Title 2'
-                  ..localDate = '2023-05-01'
-                  ..type = TransactionType.income.value
-                  ..amount = 300),
-                Transaction((t) => t
-                  ..id = 'transaction3'
-                  ..title = 'Title 3'
-                  ..localDate = '2023-05-01'
-                  ..type = TransactionType.expense.value
-                  ..amount = 1400),
-                Transaction((t) => t
-                  ..id = 'transaction4'
-                  ..title = 'Title 4'
-                  ..localDate = '2023-05-01'
-                  ..type = TransactionType.expense.value
-                  ..amount = 1300)
+                Transaction(
+                    id: 'transaction1',
+                    title: 'Title 1',
+                    localDate: '2023-05-01',
+                    type: TransactionType.income.value,
+                    amount: 400),
+                Transaction(
+                    id: 'transaction2',
+                    title: 'Title 2',
+                    localDate: '2023-05-01',
+                    type: TransactionType.income.value,
+                    amount: 300),
+                Transaction(
+                    id: 'transaction3',
+                    title: 'Title 3',
+                    localDate: '2023-05-01',
+                    type: TransactionType.expense.value,
+                    amount: 1400),
+                Transaction(
+                    id: 'transaction4',
+                    title: 'Title 4',
+                    localDate: '2023-05-01',
+                    type: TransactionType.expense.value,
+                    amount: 1300)
               ]));
       final container = makeProviderContainer(repo, month);
       // wait for the request to finish

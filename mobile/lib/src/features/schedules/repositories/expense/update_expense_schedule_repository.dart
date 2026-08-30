@@ -1,24 +1,28 @@
-import 'package:openapi/openapi.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:suito/src/data/openapi_provider.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:suito/src/data/supabase_provider.dart';
+import 'package:suito/src/models/expense_schedule.dart';
 
 part 'update_expense_schedule_repository.g.dart';
 
 class UpdateExpenseScheduleRepository {
-  UpdateExpenseScheduleRepository(this._openapi);
-  final Openapi _openapi;
+  UpdateExpenseScheduleRepository(this._client);
+  final SupabaseClient _client;
 
-  Future<ModelExpenseSchedule> updateExpenseSchedule(
-      UpdateExpenseScheduleReq request) async {
-    final api = _openapi.getSuitoExpenseScheduleApi();
-    final response = await api.updateExpenseSchedule(request: request);
-    return response.data?.updatedExpenseSchedule ?? ModelExpenseSchedule();
+  Future<ExpenseSchedule> updateExpenseSchedule(
+      ExpenseSchedule schedule) async {
+    final row = await _client
+        .from('expense_schedule')
+        .update(schedule.toColumns())
+        .eq('id', schedule.id)
+        .select()
+        .single();
+    return ExpenseSchedule.fromJson(row);
   }
 }
 
 @Riverpod(keepAlive: true)
 UpdateExpenseScheduleRepository updateExpenseScheduleRepository(
     UpdateExpenseScheduleRepositoryRef ref) {
-  final openapi = ref.watch(openApiProvider);
-  return UpdateExpenseScheduleRepository(openapi);
+  return UpdateExpenseScheduleRepository(ref.watch(supabaseClientProvider));
 }

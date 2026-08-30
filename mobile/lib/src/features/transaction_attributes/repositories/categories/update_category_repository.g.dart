@@ -9,7 +9,7 @@ part of 'update_category_repository.dart';
 // **************************************************************************
 
 String _$updateCategoryRepositoryHash() =>
-    r'52aba79ee372c8325d209f666b8c9921293d805b';
+    r'122374db013de79a98e2b019d4f5bdc6d012ac2a';
 
 /// See also [updateCategoryRepository].
 @ProviderFor(updateCategoryRepository)

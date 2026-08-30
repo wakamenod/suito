@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:openapi/openapi.dart';
+import 'package:suito/src/models/transaction.dart';
 
 import '../../../mocks.dart';
 import '../schedules_robot.dart';
@@ -11,7 +11,7 @@ void main() {
     testGoldens('Empty list', (tester) async {
       await loadAppFonts();
       final r = SchedulesRobot(tester);
-      final res = ListTransactionSchedulesRes();
+      const res = TransactionSchedules();
       final repository = MockSchedulesRepository();
       when(() => repository.fetchSchedulesList())
           .thenAnswer((_) => Future.value(res));
@@ -22,19 +22,16 @@ void main() {
     testGoldens('Non Empty list', (tester) async {
       await loadAppFonts();
       final r = SchedulesRobot(tester);
-      final res = ListTransactionSchedulesRes((r) => r
-        ..incomeSchedules.replace([
-          TransactionSchedule((t) => t
-            ..id = 'income_schedule_id'
-            ..amount = 400
-            ..title = 'Income Title')
-        ])
-        ..expenseSchedules.replace([
-          TransactionSchedule((t) => t
-            ..id = 'expense_schedule_id'
-            ..amount = 400
-            ..title = 'Expense Title')
-        ]));
+      const res = TransactionSchedules(
+        incomeSchedules: [
+          TransactionSchedule(
+              id: 'income_schedule_id', amount: 400, title: 'Income Title'),
+        ],
+        expenseSchedules: [
+          TransactionSchedule(
+              id: 'expense_schedule_id', amount: 400, title: 'Expense Title'),
+        ],
+      );
       final repository = MockSchedulesRepository();
       when(() => repository.fetchSchedulesList())
           .thenAnswer((_) => Future.value(res));

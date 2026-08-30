@@ -9,7 +9,7 @@ part of 'delete_expense_repository.dart';
 // **************************************************************************
 
 String _$deleteExpenseRepositoryHash() =>
-    r'fa02826a17dfd0b3fe12d3b8a3a481137875edf0';
+    r'f79193720f1ee9323c06e0fa65a63eb7b6d7f348';
 
 /// See also [deleteExpenseRepository].
 @ProviderFor(deleteExpenseRepository)

@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:openapi/openapi.dart';
+import 'package:suito/src/models/income.dart';
+import 'package:suito/src/models/transaction_attribute.dart';
 import 'package:suito/src/features/transaction_attributes/services/transaction_attribute_entry.dart';
 import 'package:suito/src/features/transactions/repositories/income/income_detail_repository.dart';
 import 'package:suito/src/features/transactions/repositories/income/income_types_repository.dart';
@@ -71,14 +72,15 @@ void main() {
     test('update income - validation invalid', () async {
       final container = makeProviderContainer();
       final incomeTypeMap = {
-        "income_type_id": ModelIncomeType((b) => b.name = 'A Income Type')
+        "income_type_id": const IncomeType(name: 'A Income Type')
       };
-      final res = IncomeDetailRes((r) => r.income.replace(ModelIncome((b) => b
-        ..id = 'income_id'
-        ..localDate = '2023-05-03'
-        ..memo = ''
-        ..amount = 400
-        ..incomeTypeId = 'income_type_id')));
+      const res = Income(
+        id: 'income_id',
+        localDate: '2023-05-03',
+        memo: '',
+        amount: 400,
+        incomeTypeId: 'income_type_id',
+      );
       final inc = IncomeFormValue.fromIncome(res, incomeTypeMap);
       container.read(incomeFormInitialValueProvider.notifier).state = inc;
       final controller = container.read(incomeFormControllerProvider.notifier);
@@ -100,14 +102,15 @@ void main() {
     test('update income - validation valid', () async {
       final container = makeProviderContainer();
       final incomeTypeMap = {
-        "income_type_id": ModelIncomeType((b) => b.name = 'A Income Type')
+        "income_type_id": const IncomeType(name: 'A Income Type')
       };
-      final res = IncomeDetailRes((r) => r.income.replace(ModelIncome((b) => b
-        ..id = 'income_id'
-        ..localDate = '2023-05-03'
-        ..memo = ''
-        ..amount = 400
-        ..incomeTypeId = 'income_type_id')));
+      const res = Income(
+        id: 'income_id',
+        localDate: '2023-05-03',
+        memo: '',
+        amount: 400,
+        incomeTypeId: 'income_type_id',
+      );
       final inc = IncomeFormValue.fromIncome(res, incomeTypeMap);
       container.read(incomeFormInitialValueProvider.notifier).state = inc;
       final controller = container.read(incomeFormControllerProvider.notifier);

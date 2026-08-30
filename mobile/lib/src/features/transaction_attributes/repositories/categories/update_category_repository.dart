@@ -1,24 +1,27 @@
-import 'package:openapi/openapi.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:suito/src/data/openapi_provider.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:suito/src/data/supabase_provider.dart';
+import 'package:suito/src/models/transaction_attribute.dart';
 
 part 'update_category_repository.g.dart';
 
 class UpdateCategoryRepository {
-  UpdateCategoryRepository(this._openapi);
-  final Openapi _openapi;
+  UpdateCategoryRepository(this._client);
+  final SupabaseClient _client;
 
-  Future<ModelExpenseCategory> updateCategory(
-      UpdateExpenseCategoryReq request) async {
-    final api = _openapi.getSuitoExpenseCategoryApi();
-    final response = await api.updateExpenseCategory(request: request);
-    return response.data?.updatedExpenseCategory ?? ModelExpenseCategory();
+  Future<ExpenseCategory> updateCategory(String id, String name) async {
+    final row = await _client
+        .from('expense_category')
+        .update({'name': name})
+        .eq('id', id)
+        .select('id, name')
+        .single();
+    return ExpenseCategory.fromJson(row);
   }
 }
 
 @Riverpod(keepAlive: true)
 UpdateCategoryRepository updateCategoryRepository(
     UpdateCategoryRepositoryRef ref) {
-  final openapi = ref.watch(openApiProvider);
-  return UpdateCategoryRepository(openapi);
+  return UpdateCategoryRepository(ref.watch(supabaseClientProvider));
 }

@@ -9,7 +9,7 @@ part of 'submit_expense_controller.dart';
 // **************************************************************************
 
 String _$submitExpenseControllerHash() =>
-    r'959dc761fb81f8a4dd8db1ad02f43d24d7821aec';
+    r'dd2402bb171bababdef4eacea0f3a795497191cf';
 
 /// See also [SubmitExpenseController].
 @ProviderFor(SubmitExpenseController)

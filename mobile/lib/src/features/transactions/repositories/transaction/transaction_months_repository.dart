@@ -1,31 +1,24 @@
-import 'package:openapi/openapi.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:suito/src/data/openapi_provider.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:suito/src/data/supabase_provider.dart';
 
 part 'transaction_months_repository.g.dart';
 
 class TransactionMonthsRepository {
-  TransactionMonthsRepository(this._openapi);
-  final Openapi _openapi;
+  TransactionMonthsRepository(this._client);
+  final SupabaseClient _client;
 
+  /// The `YYYY-MM` of every month with a transaction, newest first. The
+  /// distinct-union across expense and income lives in the `transaction_months`
+  /// SQL function.
   Future<List<String>> fetchTransactionMonthsList() async {
-    final api = _openapi.getSuitoTransactionsApi();
-    final response = await api.transactionMonths();
-    return response.data?.yearMonths.toList() ?? [];
+    final rows = await _client.rpc<List<dynamic>>('transaction_months');
+    return rows.cast<String>();
   }
 }
 
 @Riverpod(keepAlive: true)
 TransactionMonthsRepository transactionMonthsRepository(
     TransactionMonthsRepositoryRef ref) {
-  final openapi = ref.watch(openApiProvider);
-  return TransactionMonthsRepository(openapi);
+  return TransactionMonthsRepository(ref.watch(supabaseClientProvider));
 }
-
-// @riverpod
-// Future<List<String>> transactionMonthsListFuture(
-//     TransactionMonthsListFutureRef ref) {
-//   final transactionMonthsRepository =
-//       ref.watch(transactionMonthsRepositoryProvider);
-//   return transactionMonthsRepository.fetchTransactionMonthsList();
-// }

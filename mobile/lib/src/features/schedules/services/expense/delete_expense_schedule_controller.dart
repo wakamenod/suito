@@ -17,8 +17,6 @@ class DeleteExpenseScheduleController
     final repository = ref.read(deleteExpenseScheduleRepositoryProvider);
     state = await AsyncValue.guard(() async {
       await repository.deleteExpenseSchedule(expenseScheduleID);
-      // FIXME https://github.com/cfug/dio/issues/1480
-      // dioのバージョンを上げれば直るかもしれないがopenapi側の制約で上げられない
       ref.invalidate(fetchSchedulesProvider);
     });
   }

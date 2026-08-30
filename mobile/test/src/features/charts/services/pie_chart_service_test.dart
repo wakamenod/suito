@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:openapi/openapi.dart';
+import 'package:suito/src/models/chart_data.dart';
 import 'package:suito/src/features/charts/repositories/pie_chart_data_repository.dart';
 import 'package:suito/src/features/charts/services/pie_chart.dart';
 import 'package:suito/src/features/charts/services/pie_chart_service.dart';
@@ -34,24 +34,15 @@ void main() {
       final now = DateTime(2023, 7, 24);
       final container = makeProviderContainer(now: now);
       final categoryData = [
-        PieChartData((b) => b
-          ..name = 'Pie chart category data 1'
-          ..amount = 400),
-        PieChartData((b) => b
-          ..name = 'Pie chart category data 2'
-          ..amount = 700)
+        const PieChartData(name: 'Pie chart category data 1', amount: 400),
+        const PieChartData(name: 'Pie chart category data 2', amount: 700)
       ];
       final locationData = [
-        PieChartData((b) => b
-          ..name = 'Pie chart location data name 1'
-          ..amount = 400),
-        PieChartData((b) => b
-          ..name = 'Pie chart location data name 2'
-          ..amount = 900)
+        const PieChartData(name: 'Pie chart location data name 1', amount: 400),
+        const PieChartData(name: 'Pie chart location data name 2', amount: 900)
       ];
-      final res = GetPieChartDataRes((r) => r
-        ..categoryData.replace(categoryData)
-        ..locationData.replace(locationData));
+      final res = PieChartResult(
+          categoryData: categoryData, locationData: locationData);
       when(() => pieChartDataRepository.fetchPieChartData(
           start.toYMD(), now.toYMD())).thenAnswer((_) => Future.value(res));
       // run
@@ -68,24 +59,15 @@ void main() {
       final now = DateTime(2023, 7, 24);
       final container = makeProviderContainer(now: now);
       final categoryData = [
-        PieChartData((b) => b
-          ..name = 'Pie chart category data 1'
-          ..amount = 400),
-        PieChartData((b) => b
-          ..name = 'Pie chart category data 2'
-          ..amount = 700)
+        const PieChartData(name: 'Pie chart category data 1', amount: 400),
+        const PieChartData(name: 'Pie chart category data 2', amount: 700)
       ];
       final locationData = [
-        PieChartData((b) => b
-          ..name = 'Pie chart location data name 1'
-          ..amount = 400),
-        PieChartData((b) => b
-          ..name = 'Pie chart location data name 2'
-          ..amount = 900)
+        const PieChartData(name: 'Pie chart location data name 1', amount: 400),
+        const PieChartData(name: 'Pie chart location data name 2', amount: 900)
       ];
-      final res = GetPieChartDataRes((r) => r
-        ..categoryData.replace(categoryData)
-        ..locationData.replace(locationData));
+      final res = PieChartResult(
+          categoryData: categoryData, locationData: locationData);
       when(() => pieChartDataRepository.fetchPieChartData(any(), any()))
           .thenAnswer((_) => Future.value(res));
       // run
@@ -104,29 +86,18 @@ void main() {
     final now = DateTime(2023, 7, 24);
     final container = makeProviderContainer(now: now);
     final categoryData = [
-      PieChartData((b) => b
-        ..name = 'Pie chart category data 1'
-        ..amount = 400),
-      PieChartData((b) => b
-        ..name = 'Pie chart category data 2'
-        ..amount = 700)
+      const PieChartData(name: 'Pie chart category data 1', amount: 400),
+      const PieChartData(name: 'Pie chart category data 2', amount: 700)
     ];
     final locationData = [
-      PieChartData((b) => b
-        ..name = 'Pie chart location data name 1'
-        ..amount = 400),
-      PieChartData((b) => b
-        ..name = 'Pie chart location data name 2'
-        ..amount = 900)
+      const PieChartData(name: 'Pie chart location data name 1', amount: 400),
+      const PieChartData(name: 'Pie chart location data name 2', amount: 900)
     ];
-    final res = GetPieChartDataRes((r) => r
-      ..categoryData.replace(categoryData)
-      ..locationData.replace(locationData));
+    final res =
+        PieChartResult(categoryData: categoryData, locationData: locationData);
     when(() => pieChartDataRepository.fetchPieChartData(
         start.toYMD(), now.toYMD())).thenAnswer((_) => Future.value(res));
-    final updateRes = GetPieChartDataRes((r) => r
-      ..categoryData.replace([])
-      ..locationData.replace([]));
+    const updateRes = PieChartResult();
     final updateStart = DateTime(1999, 8, 6);
     final updateEnd = DateTime(1999, 10, 6);
     when(() => pieChartDataRepository.fetchPieChartData(

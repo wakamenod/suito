@@ -22,10 +22,8 @@ jobs:
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
-          BACKEND_BASE_URL: ${{ secrets.BACKEND_BASE_URL }}
         run: |
           cat > mobile/.env.mobile <<EOF
-          BACKEND_BASE_URL=${BACKEND_BASE_URL}
           SUPABASE_URL=${SUPABASE_URL}
           SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY}
           EOF

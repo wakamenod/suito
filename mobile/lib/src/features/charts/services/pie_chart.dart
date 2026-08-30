@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:openapi/openapi.dart';
+import 'package:suito/src/models/chart_data.dart';
 
 part 'pie_chart.freezed.dart';
 
@@ -12,7 +12,7 @@ class PieChart with _$PieChart {
 
   const factory PieChart({
     required DateTimeRange dateRange,
-    required GetPieChartDataRes res,
+    required PieChartResult res,
     required PieChartType type,
   }) = _PieChart;
 

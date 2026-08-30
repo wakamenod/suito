@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_toggle_tab/flutter_toggle_tab.dart';
-import 'package:openapi/openapi.dart';
+import 'package:suito/src/models/chart_data.dart';
 import 'package:suito/i18n/translations.g.dart';
 import 'package:suito/src/common_widgets/async_value_widget.dart';
 import 'package:suito/src/features/charts/services/pie_chart.dart';

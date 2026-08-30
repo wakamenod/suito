@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:openapi/openapi.dart';
+import 'package:suito/src/models/income.dart';
 import 'package:suito/src/features/transactions/repositories/income/register_income_repository.dart';
 import 'package:suito/src/features/transactions/repositories/income/update_income_repository.dart';
 import 'package:suito/src/features/transactions/services/income/income_form_value.dart';
@@ -43,19 +43,14 @@ void main() {
           incomeTypeID: 'income_type_id',
           memo: 'memo',
           isValid: true);
-      final resIncome = ModelIncome((e) => e
-        ..id = 'new_income_id'
-        ..amount = income.amount.value
-        ..localDate = income.date
-        ..incomeTypeId = income.incomeTypeID
-        ..memo = income.memo);
-      final req = RegisterIncomeReq((r) => r.income.replace(ModelIncome((e) => e
-        ..id = income.id
-        ..incomeTypeId = income.incomeTypeID
-        ..amount = income.amount.value
-        ..localDate = income.date
-        ..memo = income.memo)));
-      registerFallbackValue(req);
+      final resIncome = Income(
+        id: 'new_income_id',
+        amount: income.amount.value,
+        localDate: income.date,
+        incomeTypeId: income.incomeTypeID,
+        memo: income.memo,
+      );
+      registerFallbackValue(const Income());
       when(() => registerRepo.registerIncome(any())).thenAnswer(
         (_) => Future.value(resIncome),
       );
@@ -92,13 +87,7 @@ void main() {
           incomeTypeID: 'income_type_id',
           memo: 'memo',
           isValid: true);
-      final req = RegisterIncomeReq((r) => r.income.replace(ModelIncome((e) => e
-        ..id = income.id
-        ..amount = income.amount.value
-        ..localDate = income.date
-        ..incomeTypeId = income.incomeTypeID
-        ..memo = income.memo)));
-      registerFallbackValue(req);
+      registerFallbackValue(const Income());
       when(() => registerRepo.registerIncome(any())).thenThrow(
         (_) => Exception("Network error"),
       );
@@ -136,19 +125,14 @@ void main() {
           incomeTypeID: 'income_type_id',
           memo: 'memo',
           isValid: true);
-      final resIncome = ModelIncome((e) => e
-        ..id = income.id
-        ..amount = income.amount.value
-        ..localDate = income.date
-        ..incomeTypeId = income.incomeTypeID
-        ..memo = income.memo);
-      final req = UpdateIncomeReq((r) => r.income.replace(ModelIncome((e) => e
-        ..id = income.id
-        ..amount = income.amount.value
-        ..localDate = income.date
-        ..incomeTypeId = income.incomeTypeID
-        ..memo = income.memo)));
-      registerFallbackValue(req);
+      final resIncome = Income(
+        id: 'new_income_id',
+        amount: income.amount.value,
+        localDate: income.date,
+        incomeTypeId: income.incomeTypeID,
+        memo: income.memo,
+      );
+      registerFallbackValue(const Income());
       when(() => updateRepo.updateIncome(any())).thenAnswer(
         (_) => Future.value(resIncome),
       );
@@ -185,13 +169,7 @@ void main() {
           incomeTypeID: 'income_type_id',
           memo: 'memo',
           isValid: true);
-      final req = UpdateIncomeReq((r) => r.income.replace(ModelIncome((e) => e
-        ..id = income.id
-        ..amount = income.amount.value
-        ..localDate = income.date
-        ..incomeTypeId = income.incomeTypeID
-        ..memo = income.memo)));
-      registerFallbackValue(req);
+      registerFallbackValue(const Income());
       when(() => updateRepo.updateIncome(any())).thenThrow(
         (_) => Exception("Network error"),
       );
@@ -238,6 +216,48 @@ void main() {
       // verify
       verifyNever(() => registerRepo.registerIncome(any()));
       verifyNever(() => updateRepo.updateIncome(any()));
+    });
+  });
+
+  group('submitIncomeController mapping', () {
+    Future<Income> captureRegistered(IncomeFormValue form) async {
+      final registerRepo = MockRegisterIncomeRepository();
+      registerFallbackValue(const Income());
+      when(() => registerRepo.registerIncome(any()))
+          .thenAnswer((_) async => const Income(id: 'new_id'));
+      final container = makeProviderContainer(registerRepo: registerRepo);
+      await container
+          .read(submitIncomeControllerProvider.notifier)
+          .submit(form);
+      return verify(() => registerRepo.registerIncome(captureAny()))
+          .captured
+          .single as Income;
+    }
+
+    test('truncates the picker timestamp to a date', () async {
+      final sent = await captureRegistered(const IncomeFormValue(
+          id: '',
+          title: Title.dirty('A title'),
+          incomeTypeID: 'income_type_id',
+          amount: Amount.dirty(400),
+          date: '2023-01-05 13:45:00.000',
+          memo: 'memo',
+          isValid: true));
+
+      expect(sent.localDate, '2023-01-05');
+    });
+
+    test('sends no income type as null, not an empty uuid', () async {
+      final sent = await captureRegistered(const IncomeFormValue(
+          id: '',
+          title: Title.dirty('A title'),
+          incomeTypeID: '',
+          amount: Amount.dirty(400),
+          date: '2023-01-05',
+          memo: '',
+          isValid: true));
+
+      expect(sent.incomeTypeId, isNull);
     });
   });
 }

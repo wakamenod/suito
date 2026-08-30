@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:openapi/openapi.dart';
+import 'package:suito/src/models/expense.dart';
 import 'package:suito/src/features/transactions/repositories/expense/register_expense_repository.dart';
 import 'package:suito/src/features/transactions/repositories/expense/update_expense_repository.dart';
 import 'package:suito/src/features/transactions/services/expense/expense_form_value.dart';
@@ -46,24 +46,16 @@ void main() {
           location: 'A locatin',
           memo: 'memo',
           isValid: true);
-      final resExpense = ModelExpense((e) => e
-        ..id = 'new_expense_id'
-        ..title = expense.title.value
-        ..amount = expense.amount.value
-        ..localDate = expense.date
-        ..expenseCategoryID = expense.categoryID
-        ..expenseLocationID = expense.locationID
-        ..memo = expense.memo);
-      final req =
-          RegisterExpenseReq((r) => r.expense.replace(ModelExpense((e) => e
-            ..id = expense.id
-            ..title = expense.title.value
-            ..amount = expense.amount.value
-            ..localDate = expense.date
-            ..expenseCategoryID = expense.categoryID
-            ..expenseLocationID = expense.locationID
-            ..memo = expense.memo)));
-      registerFallbackValue(req);
+      final resExpense = Expense(
+        id: 'new_expense_id',
+        title: expense.title.value,
+        amount: expense.amount.value,
+        localDate: expense.date,
+        expenseCategoryId: expense.categoryID,
+        expenseLocationId: expense.locationID,
+        memo: expense.memo,
+      );
+      registerFallbackValue(const Expense());
       when(() => registerRepo.registerExpense(any())).thenAnswer(
         (_) => Future.value(resExpense),
       );
@@ -103,16 +95,7 @@ void main() {
           location: 'A locatin',
           memo: 'memo',
           isValid: true);
-      final req =
-          RegisterExpenseReq((r) => r.expense.replace(ModelExpense((e) => e
-            ..id = expense.id
-            ..title = expense.title.value
-            ..amount = expense.amount.value
-            ..localDate = expense.date
-            ..expenseCategoryID = expense.categoryID
-            ..expenseLocationID = expense.locationID
-            ..memo = expense.memo)));
-      registerFallbackValue(req);
+      registerFallbackValue(const Expense());
       when(() => registerRepo.registerExpense(any())).thenThrow(
         (_) => Exception("Network error"),
       );
@@ -153,24 +136,16 @@ void main() {
           location: 'A locatin',
           memo: 'memo',
           isValid: true);
-      final resExpense = ModelExpense((e) => e
-        ..id = expense.id
-        ..title = expense.title.value
-        ..amount = expense.amount.value
-        ..localDate = expense.date
-        ..expenseCategoryID = expense.categoryID
-        ..expenseLocationID = expense.locationID
-        ..memo = expense.memo);
-      final req =
-          UpdateExpenseReq((r) => r.expense.replace(ModelExpense((e) => e
-            ..id = expense.id
-            ..title = expense.title.value
-            ..amount = expense.amount.value
-            ..localDate = expense.date
-            ..expenseCategoryID = expense.categoryID
-            ..expenseLocationID = expense.locationID
-            ..memo = expense.memo)));
-      registerFallbackValue(req);
+      final resExpense = Expense(
+        id: 'new_expense_id',
+        title: expense.title.value,
+        amount: expense.amount.value,
+        localDate: expense.date,
+        expenseCategoryId: expense.categoryID,
+        expenseLocationId: expense.locationID,
+        memo: expense.memo,
+      );
+      registerFallbackValue(const Expense());
       when(() => updateRepo.updateExpense(any())).thenAnswer(
         (_) => Future.value(resExpense),
       );
@@ -210,16 +185,7 @@ void main() {
           location: 'A locatin',
           memo: 'memo',
           isValid: true);
-      final req =
-          UpdateExpenseReq((r) => r.expense.replace(ModelExpense((e) => e
-            ..id = expense.id
-            ..title = expense.title.value
-            ..amount = expense.amount.value
-            ..localDate = expense.date
-            ..expenseCategoryID = expense.categoryID
-            ..expenseLocationID = expense.locationID
-            ..memo = expense.memo)));
-      registerFallbackValue(req);
+      registerFallbackValue(const Expense());
       when(() => updateRepo.updateExpense(any())).thenThrow(
         (_) => Exception("Network error"),
       );
@@ -269,6 +235,58 @@ void main() {
       // verify
       verifyNever(() => registerRepo.registerExpense(any()));
       verifyNever(() => updateRepo.updateExpense(any()));
+    });
+  });
+
+  group('submitExpenseController mapping', () {
+    // The Postgres columns differ from the form: `local_date` is a DATE, and
+    // the uuid FKs are nullable where the form uses an empty string.
+    Future<Expense> captureRegistered(ExpenseFormValue form) async {
+      final registerRepo = MockRegisterExpenseRepository();
+      registerFallbackValue(const Expense());
+      when(() => registerRepo.registerExpense(any()))
+          .thenAnswer((_) async => const Expense(id: 'new_id'));
+      final container = makeProviderContainer(registerRepo: registerRepo);
+      await container
+          .read(submitExpenseControllerProvider.notifier)
+          .submit(form);
+      return verify(() => registerRepo.registerExpense(captureAny()))
+          .captured
+          .single as Expense;
+    }
+
+    test('truncates the picker timestamp to a date', () async {
+      final sent = await captureRegistered(const ExpenseFormValue(
+          id: '',
+          title: Title.dirty('A title'),
+          amount: Amount.dirty(400),
+          date: '2023-01-05 13:45:00.000',
+          categoryID: 'category_id',
+          category: 'A category',
+          locationID: 'location_id',
+          location: 'A location',
+          memo: 'memo',
+          isValid: true));
+
+      expect(sent.localDate, '2023-01-05');
+    });
+
+    test('sends no category / no location as null, not an empty uuid',
+        () async {
+      final sent = await captureRegistered(const ExpenseFormValue(
+          id: '',
+          title: Title.dirty('A title'),
+          amount: Amount.dirty(400),
+          date: '2023-01-05',
+          categoryID: '',
+          category: '',
+          locationID: '',
+          location: '',
+          memo: '',
+          isValid: true));
+
+      expect(sent.expenseCategoryId, isNull);
+      expect(sent.expenseLocationId, isNull);
     });
   });
 }

@@ -9,7 +9,7 @@ part of 'transactions_repository.dart';
 // **************************************************************************
 
 String _$transactionsRepositoryHash() =>
-    r'8cca9e5b0f435f2f7b8f11e13cb0a75f34e56a2e';
+    r'49cc2bc66e4bf1b5e762f9bd28c25e5d65e307c2';
 
 /// See also [transactionsRepository].
 @ProviderFor(transactionsRepository)

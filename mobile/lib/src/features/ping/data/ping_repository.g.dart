@@ -8,7 +8,7 @@ part of 'ping_repository.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$pingRepositoryHash() => r'7b346ae487554589b37904e8689b8dfd9d13fa5b';
+String _$pingRepositoryHash() => r'88ad91dcba9934665def029c91525384408f22bc';
 
 /// See also [pingRepository].
 @ProviderFor(pingRepository)

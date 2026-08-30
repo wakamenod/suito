@@ -62,3 +62,75 @@
   差し替えるため、メールから戻ってきてもアプリが開かない
 - 検証: ローカルでは =mobile/test/src/features/authentication/auth_flow_test.dart= の
   「the reset email links back into the app」が Mailpit のメール本文で確認している
+
+*** TODO 論理削除したスケジュールから翌月分の取引が1件だけ生成される
+=create_transactions_from_queue()= が親スケジュールの =deleted_at= を見ていないため、
+論理削除済みのスケジュールでも =scheduled_*_queue= に行が残っていれば、
+その1件が取引として materialize されてしまう。
+
+- 発生条件: スケジュール作成 → トリガーが queue に翌月分を積む → ユーザーが削除
+  (=deleted_at= を打つだけで queue 行は残る) → 翌月 cron が queue を消化して取引を生成
+- 2回目以降は起こらない。=enqueue_transaction_schedules()= は
+  =s.deleted_at is null= で絞っているため、消化済みの queue が再度積まれることはない
+- Go 版もまったく同じ挙動だった (=CreateExpensesFromScheduledQueue= が raw SQL で
+  gorm のソフトデリートを迂回していた) ので、移行で持ち込んだ退行ではない。
+  ただしフェーズ4でスケジュール削除が UI から実行できるようになるため顕在化する
+- 対応案: =expense_schedule= / =income_schedule= の AFTER UPDATE トリガーで
+  =deleted_at= が NULL から非 NULL に変わった行の queue 行を削除する
+  (新規マイグレーション =supabase/migrations/0006_*.sql=)。
+  =create_transactions_from_queue()= の DELETE ... USING 側に
+  =s.deleted_at is null= を足すだけでは、queue 行が永久に残るので不可
+- 承認済みのフェーズ2 SQL への変更になるため、フェーズ4では手を入れていない
+
+*** TODO 本番 Supabase の =app_config.latest_version= をリリース版に合わせる
+=app_config= は単一行のテーブルで、=latest_version= が
+=mobile/lib/src/utils/version_check.dart= の強制アップデート判定に使われる
+(旧 Go バックエンドの =/version= エンドポイントの置き換え)。
+
+- =0004_functions.sql= の初期値は =1.0.0=。=mobile/pubspec.yaml= の =version:= は
+  現在 =1.0.2+11= なので、初期値のままだと起動時に必ず
+  「アップデートがあります」ダイアログが出て操作できなくなる (ローカルで実際に再現)
+- 判定は =serverVersion != packageInfo.version= の単純な不一致比較なので、
+  サーバ側がアプリより古い場合もダイアログが出る
+- 対応: Supabase Dashboard の SQL Editor または Table Editor で
+  =update public.app_config set latest_version = '<リリース版>' where id = 1;=
+  を実行する。アプリのバージョンを上げるたびに更新が必要
+- =min_required_version= 列も用意してあるが現状のコードは参照していない。
+  「必須」と「推奨」を分けたいならここを使って判定を作り込む
+- ローカルスタックは =1.0.2= に更新済み (=supabase db reset= すると初期値に戻る)
+
+*** TODO 円グラフの期間指定が終了日当日を含まない
+=pie_chart_data(p_start, p_end)= は =local_date >= p_start AND local_date < p_end= の
+半開区間。UI の日付ピッカーで「今月1日〜今日」を選ぶと、今日の支出が
+円グラフに反映されない。
+
+- 旧 Go 実装と同じ挙動 (handler が =end= を当日0時としてパースし
+  =local_date < end= で比較していた) なので、移行で変えていない
+- 直感には反するので、仕様として直すかどうかは別途判断が必要
+- 直す場合の変更点は2択:
+  - =supabase/migrations= 側で =local_date <= p_end= にする
+  - =mobile/lib/src/features/charts/services/pie_chart_service.dart= が
+    =dateRange.end= に1日足して渡す (SQL は半開のまま)
+- 現状の挙動は
+  =mobile/test/src/data/chart_repositories_supabase_test.dart= の
+  「pie chart is half open: the end date itself is excluded」で固定しているので、
+  変更する際はこのテストも合わせて更新すること
+
+*** TODO 収入の income_type が削除された場合の表示を決める
+=income.income_type_id= は =on delete set null= になったため、収入種別を削除すると
+その収入の種別が NULL になる。収入には固有の title 列がないため、
+表示名を income_type から借りている箇所が空文字になる。
+
+- 該当箇所:
+  - =transactions_repository.dart= の =mergeTransactions= (取引一覧のタイトル)
+  - =schedules_repository.dart= の =buildTransactionSchedules= (スケジュール一覧)
+  - =income_form_value.dart= の =fromIncome= / =fromSchedule=
+- =income_form_value.dart= は移行前 =incomeTypeMap[...].name= と非 NULL 前提で
+  書かれており、種別削除後に開くと null 参照でクラッシュする状態だった。
+  フェーズ4で =?.name ?? ''= に変更してクラッシュは回避済み
+- ただし「空文字で表示する」のが妥当かは未検討。
+  「(削除済み)」のようなプレースホルダを出す、そもそも参照中の種別は
+  削除させない、などの選択肢がある
+- 現状の「空文字になる」挙動はテストで固定済み
+  (=transactions_repository_test.dart= / =schedules_repository_test.dart= の
+  「leaves the title blank when the income type is gone」)

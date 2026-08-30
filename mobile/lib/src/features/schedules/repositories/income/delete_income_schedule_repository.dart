@@ -1,24 +1,25 @@
-import 'package:openapi/openapi.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:suito/src/data/openapi_provider.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:suito/src/data/supabase_provider.dart';
 
 part 'delete_income_schedule_repository.g.dart';
 
 class DeleteIncomeScheduleRepository {
-  DeleteIncomeScheduleRepository(this._openapi);
-  final Openapi _openapi;
+  DeleteIncomeScheduleRepository(this._client);
+  final SupabaseClient _client;
 
+  /// Soft delete; see `DeleteExpenseScheduleRepository`.
   Future<void> deleteIncomeSchedule(String id) async {
-    final api = _openapi.getSuitoIncomeScheduleApi();
-    await api.deleteIncomeSchedule(
-        request: DeleteIncomeScheduleReq((r) => r.incomeScheduleId = id));
-    return;
+    await _client
+        .from('income_schedule')
+        .update({'deleted_at': DateTime.now().toUtc().toIso8601String()})
+        .eq('id', id)
+        .isFilter('deleted_at', null);
   }
 }
 
 @Riverpod(keepAlive: true)
 DeleteIncomeScheduleRepository deleteIncomeScheduleRepository(
     DeleteIncomeScheduleRepositoryRef ref) {
-  final openapi = ref.watch(openApiProvider);
-  return DeleteIncomeScheduleRepository(openapi);
+  return DeleteIncomeScheduleRepository(ref.watch(supabaseClientProvider));
 }

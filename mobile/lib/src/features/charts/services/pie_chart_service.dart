@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:openapi/openapi.dart';
+import 'package:suito/src/models/chart_data.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:suito/src/features/charts/repositories/pie_chart_data_repository.dart';
 import 'package:suito/src/features/charts/services/pie_chart.dart';
@@ -37,7 +37,7 @@ class PieChartController extends _$PieChartController {
     state = AsyncValue.data(state.value!.copyWith(type: newType));
   }
 
-  Future<GetPieChartDataRes> _fetch(DateTimeRange dateRange) async {
+  Future<PieChartResult> _fetch(DateTimeRange dateRange) async {
     final res = await ref
         .watch(pieChartDataRepositoryProvider)
         .fetchPieChartData(dateRange.start.toYMD(), dateRange.end.toYMD());

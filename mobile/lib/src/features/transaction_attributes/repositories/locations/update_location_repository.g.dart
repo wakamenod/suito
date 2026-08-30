@@ -9,7 +9,7 @@ part of 'update_location_repository.dart';
 // **************************************************************************
 
 String _$updateLocationRepositoryHash() =>
-    r'e28618cb1c34e6e1f96e762597324518426242c7';
+    r'6c90cd43a1dac4c0604eb493ee690da726534eb2';
 
 /// See also [updateLocationRepository].
 @ProviderFor(updateLocationRepository)

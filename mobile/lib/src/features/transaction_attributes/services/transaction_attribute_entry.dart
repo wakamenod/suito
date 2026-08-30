@@ -1,4 +1,4 @@
-import 'package:openapi/openapi.dart';
+import 'package:suito/src/models/transaction_attribute.dart';
 
 class AttributeEntry {
   final String? id;
@@ -6,13 +6,13 @@ class AttributeEntry {
 
   AttributeEntry(this.id, this.name);
 
-  factory AttributeEntry.fromCategory(ModelExpenseCategory c) =>
+  factory AttributeEntry.fromCategory(ExpenseCategory c) =>
       AttributeEntry(c.id, c.name);
 
-  factory AttributeEntry.fromLocation(ModelExpenseLocation l) =>
+  factory AttributeEntry.fromLocation(ExpenseLocation l) =>
       AttributeEntry(l.id, l.name);
 
-  factory AttributeEntry.fromIncomeType(ModelIncomeType t) =>
+  factory AttributeEntry.fromIncomeType(IncomeType t) =>
       AttributeEntry(t.id, t.name);
 
   @override

@@ -1,23 +1,43 @@
-import 'package:openapi/openapi.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:suito/src/data/openapi_provider.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:suito/src/data/supabase_provider.dart';
+import 'package:suito/src/models/chart_data.dart';
 
 part 'pie_chart_data_repository.g.dart';
 
-class PieChartDataRepository {
-  PieChartDataRepository(this._openapi);
-  final Openapi _openapi;
+/// Splits the `pie_chart_data` RPC rows into its two dimensions, keeping the
+/// order the function returns them in (name descending within each dimension).
+PieChartResult splitPieChart(List<Map<String, dynamic>> rows) {
+  List<PieChartData> slices(String dimension) => [
+        for (final row in rows)
+          if (row['dimension'] == dimension)
+            PieChartData(
+              name: row['name'] as String,
+              amount: (row['amount'] as num).toInt(),
+            ),
+      ];
 
-  Future<GetPieChartDataRes> fetchPieChartData(String start, String end) async {
-    final api = _openapi.getSuitoChartApi();
-    final response = await api.getPieChartData(start: start, end: end);
-    // TODO error handling
-    return response.data!;
+  return PieChartResult(
+    categoryData: slices('category'),
+    locationData: slices('location'),
+  );
+}
+
+class PieChartDataRepository {
+  PieChartDataRepository(this._client);
+  final SupabaseClient _client;
+
+  /// [start] and [end] are `YYYY-MM-DD`; the range is half open, `[start, end)`.
+  Future<PieChartResult> fetchPieChartData(String start, String end) async {
+    final rows = await _client.rpc<List<dynamic>>(
+      'pie_chart_data',
+      params: {'p_start': start, 'p_end': end},
+    );
+    return splitPieChart(rows.cast<Map<String, dynamic>>());
   }
 }
 
 @Riverpod(keepAlive: true)
 PieChartDataRepository pieChartDataRepository(PieChartDataRepositoryRef ref) {
-  final openapi = ref.watch(openApiProvider);
-  return PieChartDataRepository(openapi);
+  return PieChartDataRepository(ref.watch(supabaseClientProvider));
 }

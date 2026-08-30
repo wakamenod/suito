@@ -1,5 +1,5 @@
-import 'package:openapi/openapi.dart';
 import 'package:suito/src/features/schedules/repositories/schedules_repository.dart';
+import 'package:suito/src/models/transaction.dart';
 
 const kFakeExpenseSchedules = [
   FakeScheduleItem('ID1', 'Amazon 定期購読', 10000, '娯楽費', 'Amazon', 'Memo1'),
@@ -21,23 +21,19 @@ class FakeScheduleItem {
       this.locationID, this.memo);
 }
 
-final kFakeSchedulesResponse = ListTransactionSchedulesRes((b) => b
-  ..expenseSchedules
-      .replace(kFakeExpenseSchedules.map((e) => TransactionSchedule((s) => s
-        ..id = e.id
-        ..title = e.title
-        ..amount = e.amount)))
-  ..incomeSchedules
-      .replace(kFakeIncomeSchedules.map((e) => TransactionSchedule((s) => s
-        ..id = e.id
-        ..title = e.title
-        ..amount = e.amount))));
+TransactionSchedule _asSchedule(FakeScheduleItem e) =>
+    TransactionSchedule(id: e.id, title: e.title, amount: e.amount);
+
+final kFakeSchedulesResponse = TransactionSchedules(
+  expenseSchedules: kFakeExpenseSchedules.map(_asSchedule).toList(),
+  incomeSchedules: kFakeIncomeSchedules.map(_asSchedule).toList(),
+);
 
 class FakeSchedulesRepository implements SchedulesRepository {
   FakeSchedulesRepository();
 
   @override
-  Future<ListTransactionSchedulesRes> fetchSchedulesList() async {
+  Future<TransactionSchedules> fetchSchedulesList() async {
     return kFakeSchedulesResponse;
   }
 }

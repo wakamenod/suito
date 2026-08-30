@@ -1,23 +1,27 @@
-import 'package:openapi/openapi.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:suito/src/data/openapi_provider.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:suito/src/data/supabase_provider.dart';
+import 'package:suito/src/models/expense.dart';
 
 part 'update_expense_repository.g.dart';
 
 class UpdateExpenseRepository {
-  UpdateExpenseRepository(this._openapi);
-  final Openapi _openapi;
+  UpdateExpenseRepository(this._client);
+  final SupabaseClient _client;
 
-  Future<ModelExpense> updateExpense(UpdateExpenseReq request) async {
-    final api = _openapi.getSuitoExpenseApi();
-    final response = await api.updateExpense(request: request);
-    return response.data?.updatedExpense ?? ModelExpense();
+  Future<Expense> updateExpense(Expense expense) async {
+    final row = await _client
+        .from('expense')
+        .update(expense.toColumns())
+        .eq('id', expense.id)
+        .select()
+        .single();
+    return Expense.fromJson(row);
   }
 }
 
 @Riverpod(keepAlive: true)
 UpdateExpenseRepository updateExpenseRepository(
     UpdateExpenseRepositoryRef ref) {
-  final openapi = ref.watch(openApiProvider);
-  return UpdateExpenseRepository(openapi);
+  return UpdateExpenseRepository(ref.watch(supabaseClientProvider));
 }

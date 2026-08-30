@@ -1,24 +1,33 @@
-import 'package:openapi/openapi.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:suito/src/data/openapi_provider.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:suito/src/data/supabase_extensions.dart';
+import 'package:suito/src/data/supabase_provider.dart';
+import 'package:suito/src/models/expense_schedule.dart';
 
 part 'register_expense_schedule_repository.g.dart';
 
 class RegisterExpenseScheduleRepository {
-  RegisterExpenseScheduleRepository(this._openapi);
-  final Openapi _openapi;
+  RegisterExpenseScheduleRepository(this._client);
+  final SupabaseClient _client;
 
-  Future<ModelExpenseSchedule> registerExpenseSchedule(
-      RegisterExpenseScheduleReq request) async {
-    final api = _openapi.getSuitoExpenseScheduleApi();
-    final response = await api.registerExpenseSchedule(request: request);
-    return response.data?.newExpenseSchedule ?? ModelExpenseSchedule();
+  /// The first occurrence is enqueued by the `enqueue_after_insert` trigger --
+  /// the Go create path made that call itself.
+  Future<ExpenseSchedule> registerExpenseSchedule(
+      ExpenseSchedule schedule) async {
+    final row = await _client
+        .from('expense_schedule')
+        .insert({
+          ...schedule.toColumns(),
+          'user_id': _client.requireUserId,
+        })
+        .select()
+        .single();
+    return ExpenseSchedule.fromJson(row);
   }
 }
 
 @Riverpod(keepAlive: true)
 RegisterExpenseScheduleRepository registerExpenseScheduleRepository(
     RegisterExpenseScheduleRepositoryRef ref) {
-  final openapi = ref.watch(openApiProvider);
-  return RegisterExpenseScheduleRepository(openapi);
+  return RegisterExpenseScheduleRepository(ref.watch(supabaseClientProvider));
 }

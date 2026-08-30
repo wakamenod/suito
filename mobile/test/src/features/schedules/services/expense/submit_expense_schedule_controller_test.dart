@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:openapi/openapi.dart';
+import 'package:suito/src/models/expense_schedule.dart';
 import 'package:suito/src/features/schedules/repositories/expense/register_expense_schedule_repository.dart';
 import 'package:suito/src/features/schedules/repositories/expense/update_expense_schedule_repository.dart';
 import 'package:suito/src/features/schedules/services/expense/submit_expense_schedule_controller.dart';
@@ -49,24 +49,16 @@ void main() {
           location: 'A locatin',
           memo: 'memo',
           isValid: true);
-      final resExpenseSchedule = ModelExpenseSchedule((e) => e
-        ..id = 'new_expenseSchedule_id'
-        ..timezone = 'Asia/Tokyo'
-        ..title = expenseSchedule.title.value
-        ..amount = expenseSchedule.amount.value
-        ..expenseCategoryID = expenseSchedule.categoryID
-        ..expenseLocationID = expenseSchedule.locationID
-        ..memo = expenseSchedule.memo);
-      final req = RegisterExpenseScheduleReq(
-          (r) => r.expenseSchedule.replace(ModelExpenseSchedule((e) => e
-            ..id = expenseSchedule.id
-            ..title = expenseSchedule.title.value
-            ..amount = expenseSchedule.amount.value
-            ..timezone = 'Asia/Tokyo'
-            ..expenseCategoryID = expenseSchedule.categoryID
-            ..expenseLocationID = expenseSchedule.locationID
-            ..memo = expenseSchedule.memo)));
-      registerFallbackValue(req);
+      final resExpenseSchedule = ExpenseSchedule(
+        id: 'new_expenseSchedule_id',
+        timezone: 'Asia/Tokyo',
+        title: expenseSchedule.title.value,
+        amount: expenseSchedule.amount.value,
+        expenseCategoryId: expenseSchedule.categoryID,
+        expenseLocationId: expenseSchedule.locationID,
+        memo: expenseSchedule.memo,
+      );
+      registerFallbackValue(const ExpenseSchedule());
       when(() => registerRepo.registerExpenseSchedule(any())).thenAnswer(
         (_) => Future.value(resExpenseSchedule),
       );
@@ -106,16 +98,7 @@ void main() {
           location: 'A locatin',
           memo: 'memo',
           isValid: true);
-      final req = RegisterExpenseScheduleReq(
-          (r) => r.expenseSchedule.replace(ModelExpenseSchedule((e) => e
-            ..id = expenseSchedule.id
-            ..title = expenseSchedule.title.value
-            ..amount = expenseSchedule.amount.value
-            ..timezone = 'Asia/Tokyo'
-            ..expenseCategoryID = expenseSchedule.categoryID
-            ..expenseLocationID = expenseSchedule.locationID
-            ..memo = expenseSchedule.memo)));
-      registerFallbackValue(req);
+      registerFallbackValue(const ExpenseSchedule());
       when(() => registerRepo.registerExpenseSchedule(any())).thenThrow(
         (_) => Exception("Network error"),
       );
@@ -156,24 +139,16 @@ void main() {
           location: 'A locatin',
           memo: 'memo',
           isValid: true);
-      final resExpenseSchedule = ModelExpenseSchedule((e) => e
-        ..id = expenseSchedule.id
-        ..title = expenseSchedule.title.value
-        ..amount = expenseSchedule.amount.value
-        ..timezone = 'Asia/Tokyo'
-        ..expenseCategoryID = expenseSchedule.categoryID
-        ..expenseLocationID = expenseSchedule.locationID
-        ..memo = expenseSchedule.memo);
-      final req = UpdateExpenseScheduleReq(
-          (r) => r.expenseSchedule.replace(ModelExpenseSchedule((e) => e
-            ..id = expenseSchedule.id
-            ..title = expenseSchedule.title.value
-            ..amount = expenseSchedule.amount.value
-            ..timezone = 'Asia/Tokyo'
-            ..expenseCategoryID = expenseSchedule.categoryID
-            ..expenseLocationID = expenseSchedule.locationID
-            ..memo = expenseSchedule.memo)));
-      registerFallbackValue(req);
+      final resExpenseSchedule = ExpenseSchedule(
+        id: 'new_expenseSchedule_id',
+        timezone: 'Asia/Tokyo',
+        title: expenseSchedule.title.value,
+        amount: expenseSchedule.amount.value,
+        expenseCategoryId: expenseSchedule.categoryID,
+        expenseLocationId: expenseSchedule.locationID,
+        memo: expenseSchedule.memo,
+      );
+      registerFallbackValue(const ExpenseSchedule());
       when(() => updateRepo.updateExpenseSchedule(any())).thenAnswer(
         (_) => Future.value(resExpenseSchedule),
       );
@@ -213,16 +188,7 @@ void main() {
           location: 'A locatin',
           memo: 'memo',
           isValid: true);
-      final req = UpdateExpenseScheduleReq(
-          (r) => r.expenseSchedule.replace(ModelExpenseSchedule((e) => e
-            ..id = expenseSchedule.id
-            ..title = expenseSchedule.title.value
-            ..amount = expenseSchedule.amount.value
-            ..timezone = 'Asia/Tokyo'
-            ..expenseCategoryID = expenseSchedule.categoryID
-            ..expenseLocationID = expenseSchedule.locationID
-            ..memo = expenseSchedule.memo)));
-      registerFallbackValue(req);
+      registerFallbackValue(const ExpenseSchedule());
       when(() => updateRepo.updateExpenseSchedule(any())).thenThrow(
         (_) => Exception("Network error"),
       );

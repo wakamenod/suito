@@ -2,11 +2,11 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:openapi/openapi.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:suito/i18n/translations.g.dart';
-import 'package:suito/src/data/openapi_provider.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:suito/src/data/supabase_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 part 'version_check.g.dart';
@@ -90,18 +90,23 @@ bool _isUpdateRequired(String serverVersion, PackageInfo packageInfo) {
 }
 
 class VersionRepository {
-  VersionRepository(this._openapi);
-  final Openapi _openapi;
+  VersionRepository(this._client);
+  final SupabaseClient _client;
 
+  /// The published version, from the single row of `app_config` (this replaced
+  /// the Go backend's `/version` endpoint). The table is world-readable, so
+  /// this works before the user signs in.
   Future<String> fetchVersion() async {
-    final api = _openapi.getSuitoDefaultApi();
-    final response = await api.version();
-    return response.data ?? '';
+    final row = await _client
+        .from('app_config')
+        .select('latest_version')
+        .eq('id', 1)
+        .single();
+    return row['latest_version'] as String? ?? '';
   }
 }
 
 @Riverpod(keepAlive: true)
 VersionRepository versionRepository(VersionRepositoryRef ref) {
-  final openapi = ref.watch(openApiProvider);
-  return VersionRepository(openapi);
+  return VersionRepository(ref.watch(supabaseClientProvider));
 }

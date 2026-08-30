@@ -1,7 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:openapi/openapi.dart';
 import 'package:suito/src/formz/amount.dart';
 import 'package:suito/src/formz/title.dart';
+import 'package:suito/src/models/income.dart';
+import 'package:suito/src/models/income_schedule.dart';
 import 'package:suito/src/utils/datetime_utils.dart';
 
 part 'income_form_value.freezed.dart';
@@ -32,27 +33,25 @@ class IncomeFormValue with _$IncomeFormValue {
         isValid: false,
       );
 
-  static IncomeFormValue fromIncome(IncomeDetailRes res, incomeTypeMap) =>
+  static IncomeFormValue fromIncome(Income income, incomeTypeMap) =>
       IncomeFormValue(
-        id: res.income.id,
-        incomeTypeID: res.income.incomeTypeId,
-        title: Title.dirty(incomeTypeMap[res.income.incomeTypeId].name ?? ''),
-        amount: Amount.dirty(res.income.amount),
-        date: res.income.localDate,
-        memo: res.income.memo,
+        id: income.id,
+        incomeTypeID: income.incomeTypeId ?? '',
+        title: Title.dirty(incomeTypeMap[income.incomeTypeId]?.name ?? ''),
+        amount: Amount.dirty(income.amount),
+        date: income.localDate,
+        memo: income.memo,
         isValid: true,
       );
 
-  static IncomeFormValue fromSchedule(
-          IncomeScheduleDetailRes res, incomeTypeMap) =>
+  static IncomeFormValue fromSchedule(IncomeSchedule schedule, incomeTypeMap) =>
       IncomeFormValue(
-        id: res.incomeSchedule.id,
-        incomeTypeID: res.incomeSchedule.incomeTypeId,
-        title: Title.dirty(
-            incomeTypeMap[res.incomeSchedule.incomeTypeId].name ?? ''),
-        amount: Amount.dirty(res.incomeSchedule.amount),
+        id: schedule.id,
+        incomeTypeID: schedule.incomeTypeId ?? '',
+        title: Title.dirty(incomeTypeMap[schedule.incomeTypeId]?.name ?? ''),
+        amount: Amount.dirty(schedule.amount),
         date: '',
-        memo: res.incomeSchedule.memo,
+        memo: schedule.memo,
         isValid: true,
       );
 }

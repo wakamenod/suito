@@ -9,7 +9,7 @@ part of 'pie_chart_service.dart';
 // **************************************************************************
 
 String _$pieChartControllerHash() =>
-    r'da20fb77eb52d6c456325e2004f8c13e42189614';
+    r'69e7ae8bb4bf52c092f470c99c59bc51e4825fad';
 
 /// See also [PieChartController].
 @ProviderFor(PieChartController)

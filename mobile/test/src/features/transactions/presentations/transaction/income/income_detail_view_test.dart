@@ -1,7 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:openapi/openapi.dart';
+import 'package:suito/src/models/income.dart';
+import 'package:suito/src/models/transaction_attribute.dart';
 import 'package:suito/src/features/transactions/services/income/income_form_value.dart';
 
 import '../../../../../mocks.dart';
@@ -29,16 +30,16 @@ void main() {
     final repository = MockIncomeDetailRepository();
     final incomeTypeRepo = MockIncomeTypesRepository();
     const id = 'income_id';
-    final incomeType = ModelIncomeType((e) => e
-      ..id = 'income_type_id'
-      ..name = 'Test Income Type');
+    const incomeType =
+        IncomeType(id: 'income_type_id', name: 'Test Income Type');
     final incomeTypeMap = {incomeType.id: incomeType};
-    final res = IncomeDetailRes((r) => r.income.replace(ModelIncome((b) => b
-      ..id = id
-      ..localDate = '2023-05-03'
-      ..memo = 'some memo'
-      ..amount = 400
-      ..incomeTypeId = incomeType.id)));
+    const res = Income(
+      id: id,
+      localDate: '2023-05-03',
+      memo: 'some memo',
+      amount: 400,
+      incomeTypeId: 'income_type_id',
+    );
     final income = IncomeFormValue.fromIncome(res, incomeTypeMap);
     when(() => repository.fetchIncomeDetail(id))
         .thenAnswer((invocation) => Future.value(res));

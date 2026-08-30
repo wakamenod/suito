@@ -1,22 +1,68 @@
-import 'package:openapi/openapi.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:suito/src/data/openapi_provider.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:suito/src/data/supabase_provider.dart';
+import 'package:suito/src/models/transaction.dart';
 
 part 'schedules_repository.g.dart';
 
-class SchedulesRepository {
-  SchedulesRepository(this._openapi);
-  final Openapi _openapi;
+/// Builds the two schedule lists the schedule screen shows.
+///
+/// Ported from `ListTransactionSchedulesService`: income schedules have no
+/// title column, so each borrows its income type's name.
+TransactionSchedules buildTransactionSchedules({
+  required List<Map<String, dynamic>> expenseRows,
+  required List<Map<String, dynamic>> incomeRows,
+  required Map<String, String> incomeTypeNames,
+}) =>
+    TransactionSchedules(
+      expenseSchedules: [
+        for (final row in expenseRows)
+          TransactionSchedule(
+            id: row['id'] as String,
+            title: row['title'] as String,
+            amount: row['amount'] as int,
+          ),
+      ],
+      incomeSchedules: [
+        for (final row in incomeRows)
+          TransactionSchedule(
+            id: row['id'] as String,
+            title: incomeTypeNames[row['income_type_id']] ?? '',
+            amount: row['amount'] as int,
+          ),
+      ],
+    );
 
-  Future<ListTransactionSchedulesRes> fetchSchedulesList() async {
-    final api = _openapi.getSuitoTransactionSchedulesApi();
-    final response = await api.listTransactionSchedules();
-    return response.data ?? ListTransactionSchedulesRes();
+class SchedulesRepository {
+  SchedulesRepository(this._client);
+  final SupabaseClient _client;
+
+  Future<TransactionSchedules> fetchSchedulesList() async {
+    final results = await Future.wait([
+      _client
+          .from('expense_schedule')
+          .select('id, title, amount')
+          .isFilter('deleted_at', null)
+          .order('id', ascending: true),
+      _client
+          .from('income_schedule')
+          .select('id, amount, income_type_id')
+          .isFilter('deleted_at', null)
+          .order('id', ascending: true),
+      _client.from('income_type').select('id, name'),
+    ]);
+
+    return buildTransactionSchedules(
+      expenseRows: results[0],
+      incomeRows: results[1],
+      incomeTypeNames: {
+        for (final row in results[2]) row['id'] as String: row['name'] as String
+      },
+    );
   }
 }
 
 @Riverpod(keepAlive: true)
 SchedulesRepository schedulesRepository(SchedulesRepositoryRef ref) {
-  final openapi = ref.watch(openApiProvider);
-  return SchedulesRepository(openapi);
+  return SchedulesRepository(ref.watch(supabaseClientProvider));
 }

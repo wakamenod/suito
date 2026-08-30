@@ -9,7 +9,7 @@ part of 'expense_categories_repository.dart';
 // **************************************************************************
 
 String _$expenseCategoriesRepositoryHash() =>
-    r'104939c61b4f61dc73fc6676831d1e349c550e6b';
+    r'0def95ca8a38a792765e874706f5be745f148b1b';
 
 /// See also [expenseCategoriesRepository].
 @ProviderFor(expenseCategoriesRepository)
@@ -27,12 +27,12 @@ final expenseCategoriesRepositoryProvider =
 typedef ExpenseCategoriesRepositoryRef
     = ProviderRef<ExpenseCategoriesRepository>;
 String _$expenseCategoriesListFutureHash() =>
-    r'2933eeaea009b088c70a6c4102d93319877b44d9';
+    r'f34f9e0445ba8ea39911fc1af5a073f3b90fddc3';
 
 /// See also [expenseCategoriesListFuture].
 @ProviderFor(expenseCategoriesListFuture)
 final expenseCategoriesListFutureProvider =
-    FutureProvider<List<ModelExpenseCategory>>.internal(
+    FutureProvider<List<ExpenseCategory>>.internal(
   expenseCategoriesListFuture,
   name: r'expenseCategoriesListFutureProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -43,14 +43,14 @@ final expenseCategoriesListFutureProvider =
 );
 
 typedef ExpenseCategoriesListFutureRef
-    = FutureProviderRef<List<ModelExpenseCategory>>;
+    = FutureProviderRef<List<ExpenseCategory>>;
 String _$expenseCategoriesMapFutureHash() =>
-    r'dd747dbc9472143f83143ff84f031c6e7756e354';
+    r'cf07e046d4fe724a4feb017a08e72c71f27765da';
 
 /// See also [expenseCategoriesMapFuture].
 @ProviderFor(expenseCategoriesMapFuture)
 final expenseCategoriesMapFutureProvider =
-    FutureProvider<Map<String, ModelExpenseCategory>>.internal(
+    FutureProvider<Map<String, ExpenseCategory>>.internal(
   expenseCategoriesMapFuture,
   name: r'expenseCategoriesMapFutureProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -61,5 +61,5 @@ final expenseCategoriesMapFutureProvider =
 );
 
 typedef ExpenseCategoriesMapFutureRef
-    = FutureProviderRef<Map<String, ModelExpenseCategory>>;
+    = FutureProviderRef<Map<String, ExpenseCategory>>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

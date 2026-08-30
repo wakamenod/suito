@@ -9,7 +9,7 @@ part of 'income_detail_repository.dart';
 // **************************************************************************
 
 String _$incomeDetailRepositoryHash() =>
-    r'ea09f033fb8231b392605fa98aee69887870b2a1';
+    r'779bf33a78ea2a73ccaf94525dc56f07786642bc';
 
 /// See also [incomeDetailRepository].
 @ProviderFor(incomeDetailRepository)
