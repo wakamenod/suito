@@ -21,7 +21,7 @@ jobs:
         run: |
           set -euo pipefail
           code=$(curl -sS -o /dev/null -w '%{http_code}' \
-            "${SUPABASE_URL}/rest/v1/app_config?select=latest_version&limit=1" \
+            "${SUPABASE_URL}/rest/v1/app_config?select=id&limit=1" \
             -H "apikey: ${SUPABASE_ANON_KEY}" \
             -H "Authorization: Bearer ${SUPABASE_ANON_KEY}")
           echo "app_config ping -> HTTP ${code}"

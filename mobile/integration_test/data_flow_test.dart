@@ -13,7 +13,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:suito/env/env.dart';
 import 'package:suito/i18n/translations.g.dart';
@@ -72,26 +71,6 @@ void main() {
       url: Env.kSupabaseUrl,
       anonKey: Env.kSupabaseAnonKey,
       debug: false,
-    );
-
-    // version_check.dart puts a modal forced-update dialog over every screen
-    // when app_config disagrees with the running app. That dialog absorbs
-    // pointer events, so without this guard the tests below fail with an
-    // opaque "would not hit test on the specified widget" error instead.
-    // `supabase/seed.sql` keeps the local value in step; `supabase db reset`
-    // reverts it to the migration default without it.
-    final config = await _client
-        .from('app_config')
-        .select('latest_version')
-        .eq('id', 1)
-        .single();
-    final info = await PackageInfo.fromPlatform();
-    expect(
-      config['latest_version'],
-      info.version,
-      reason: 'app_config.latest_version must match the app version. Run:\n'
-          "  update public.app_config set latest_version = '${info.version}' "
-          'where id = 1;',
     );
   });
 

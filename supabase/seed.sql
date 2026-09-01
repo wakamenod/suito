@@ -1,13 +1,13 @@
 -- Local-only seed. `supabase db reset` runs this after the migrations; it is
 -- never applied by `supabase db push`.
 --
--- app_config.latest_version defaults to '1.0.0' (0004_functions.sql), which does
--- not match the app's version, so version_check.dart puts a modal
--- forced-update dialog over every screen. Locally that makes the app unusable,
--- and any test that taps something fails with a confusing hit-test error
--- instead of a clear message.
+-- Intentionally empty.
 --
--- Keep this in step with `version:` in mobile/pubspec.yaml.
-update public.app_config
-   set latest_version = '1.0.2', min_required_version = '1.0.2'
- where id = 1;
+-- This file used to force app_config's version to match mobile/pubspec.yaml,
+-- because the forced-update check compared for exact equality and the '1.0.0'
+-- default therefore covered the local app in a dialog that could not be
+-- dismissed. 0009 turned that check into a semantic "older than
+-- min_required_version" test, so the default is now below every build and the
+-- local stack is usable with no seeding at all.
+--
+-- Add rows here if some future feature needs local fixtures.

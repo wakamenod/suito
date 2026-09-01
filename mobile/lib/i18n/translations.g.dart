@@ -1,9 +1,9 @@
 /// Generated file. Do not edit.
 ///
 /// Locales: 2
-/// Strings: 210 (105 per locale)
+/// Strings: 212 (106 per locale)
 ///
-/// Built on 2026-08-30 at 13:34 UTC
+/// Built on 2026-09-01 at 12:50 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -547,8 +547,9 @@ class _TranslationsGeneralVersionEn {
   // Translations
   String get updateAlertTitle => 'Update Required';
   String updateAlertContent(
-          {required Object appVersion, required Object serverVersion}) =>
-      'Please update the app\n App version: ${appVersion}\n Server version: ${serverVersion}';
+          {required Object appVersion, required Object requiredVersion}) =>
+      'Please update the app\n App version: ${appVersion}\n Required version: ${requiredVersion}';
+  String get updateAlertClose => 'CLOSE';
 }
 
 // Path: general.dismissible
@@ -1156,8 +1157,10 @@ class _TranslationsGeneralVersionJa implements _TranslationsGeneralVersionEn {
   String get updateAlertTitle => 'アップデートがあります';
   @override
   String updateAlertContent(
-          {required Object appVersion, required Object serverVersion}) =>
-      'アプリのアップデートをお願いします\n AppVersion: ${appVersion}\n ServerVersion: ${serverVersion}';
+          {required Object appVersion, required Object requiredVersion}) =>
+      'アプリのアップデートをお願いします\n AppVersion: ${appVersion}\n RequiredVersion: ${requiredVersion}';
+  @override
+  String get updateAlertClose => '閉じる';
 }
 
 // Path: general.dismissible
@@ -1395,8 +1398,12 @@ extension on _TranslationsEn {
       case 'general.version.updateAlertTitle':
         return 'Update Required';
       case 'general.version.updateAlertContent':
-        return ({required Object appVersion, required Object serverVersion}) =>
-            'Please update the app\n App version: ${appVersion}\n Server version: ${serverVersion}';
+        return (
+                {required Object appVersion,
+                required Object requiredVersion}) =>
+            'Please update the app\n App version: ${appVersion}\n Required version: ${requiredVersion}';
+      case 'general.version.updateAlertClose':
+        return 'CLOSE';
       case 'general.dismissible.snackBar':
         return 'removed';
       case 'general.dismissible.deleteFailed':
@@ -1629,8 +1636,12 @@ extension on _TranslationsJa {
       case 'general.version.updateAlertTitle':
         return 'アップデートがあります';
       case 'general.version.updateAlertContent':
-        return ({required Object appVersion, required Object serverVersion}) =>
-            'アプリのアップデートをお願いします\n AppVersion: ${appVersion}\n ServerVersion: ${serverVersion}';
+        return (
+                {required Object appVersion,
+                required Object requiredVersion}) =>
+            'アプリのアップデートをお願いします\n AppVersion: ${appVersion}\n RequiredVersion: ${requiredVersion}';
+      case 'general.version.updateAlertClose':
+        return '閉じる';
       case 'general.dismissible.snackBar':
         return '削除しました';
       case 'general.dismissible.deleteFailed':

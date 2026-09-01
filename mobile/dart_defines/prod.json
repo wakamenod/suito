@@ -2,5 +2,6 @@
     "flavor": "prod",
     "appName": "FAT",
     "appIdSuffix": "",
-    "androidStoreURL": "market://details?id=net.wakamenod.suito"
+    "androidStoreURL": "market://details?id=net.wakamenod.suito",
+    "iosStoreURL": ""
 }

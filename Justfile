@@ -61,6 +61,26 @@ db-push:
 functions-deploy:
     npx supabase functions deploy
 
+# --- forced-update brake -----------------------------------------------------
+# version_check.dart blocks builds older than app_config.min_required_version.
+# The '1.0.0' default is below every build we ship, so this stays untouched in
+# normal operation -- there is nothing to do at release time.
+
+# show the hosted project's app_config row (needs .env.suito.prod)
+show-app-version:
+    sh scripts/require-app-version.sh get
+
+# EMERGENCY ONLY. Locks out every client below <version> the moment it lands,
+# so run it after a fixed build is downloadable from the store, not before.
+
+# require <version> or newer, blocking older clients
+require-app-version version:
+    sh scripts/require-app-version.sh set "{{version}}"
+
+# lift the brake (back to 1.0.0, which blocks nobody)
+release-app-version:
+    sh scripts/require-app-version.sh reset
+
 # --- secret scanning (gitleaks) ---------------------------------------------
 
 # point git at .githooks so the gitleaks pre-commit hook runs

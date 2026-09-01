@@ -1,5 +1,6 @@
 // The forced-update check and the profile screen's reachability probe both read
 // `app_config`, which replaced the Go backend's /version and /ping endpoints.
+// Both run before sign-in, so `anon` has to be able to SELECT the row.
 @Tags(['supabase'])
 library;
 
@@ -14,19 +15,21 @@ void main() {
 
   setUpAll(initSupabaseForTests);
 
-  test('the version is readable while signed out', () async {
+  test('the required version is readable while signed out', () async {
     await supabaseAuth.signOut();
 
-    final version = await VersionRepository(supabase).fetchVersion();
+    final minRequired =
+        await VersionRepository(supabase).fetchMinRequiredVersion();
 
     // app_config is world-readable so the update check can run before sign-in.
-    expect(version, isNotEmpty);
+    expect(minRequired, isNotEmpty);
   });
 
-  test('the version is readable while signed in', () async {
+  test('the required version is readable while signed in', () async {
     await signUpFreshUser();
 
-    expect(await VersionRepository(supabase).fetchVersion(), isNotEmpty);
+    expect(await VersionRepository(supabase).fetchMinRequiredVersion(),
+        isNotEmpty);
   });
 
   test('ping answers once the stack is reachable', () async {

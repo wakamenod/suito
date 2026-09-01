@@ -15,7 +15,7 @@ Flutter からは =supabase_flutter= で PostgREST / RPC を直接叩いてお�
 
 *** Supabase 側の構成
 - スキーマ・RLS・関数・cron はすべて =supabase/migrations/= のマイグレーション
-  (=0001_extensions= 〜 =0008_income_type_in_use_guard=)
+  (=0001_extensions= 〜 =0009_app_config_min_required_only=)
 - テナント分離は RLS。全テーブルに =user_id = auth.uid()= のポリシーを張り、
   アプリ側の =WHERE uid = ?= を置き換えている
 - テーブル権限は =0006_grants.sql= が明示的に付与する。=public= スキーマは既定で
@@ -60,8 +60,15 @@ Flutter からは =supabase_flutter= で PostgREST / RPC を直接叩いてお�
   - ローカル Supabase スタックに実接続するテスト (=supabase= タグ) と、
     シミュレータ実機で動かす =integration_test/=
 - フォーム実装およびバリデーションは[[https://pub.dev/packages/formz][formz]]を使用
-- サーバーバージョンチェック
-  - =app_config= テーブルの =latest_version= と不一致の場合ストアへ遷移
+- サーバーバージョンチェック (非常ブレーキ)
+  - =app_config.min_required_version= より **古い** ビルドだけをブロックする。
+    セマンティックな大小比較で、既定値 =1.0.0= はどのビルドより小さいので
+    通常は誰もブロックされない
+  - 取得は起動時と復帰時のみ、かつ6時間のスロットル付き。
+    以前は go_router の =redirect= から呼んでいたため画面遷移のたびに通信していた
+  - 遷移先は =dart_defines/*.json= の =androidStoreURL= / =iosStoreURL=。
+    未設定のプラットフォームではダイアログを閉じられるようにしてある
+    (行き先が無いまま閉じられないと、アプリが操作不能になるため)
 - [[https://pub.dev/packages/syncfusion_flutter_charts][syncfusion_flutter_charts]] によるチャートの実装
 
 ** 旧 Go バックエンドについて
@@ -101,7 +108,61 @@ just install-hooks   # git config core.hooksPath .githooks
 - 誤検知は =.gitleaks.toml= に allowlist を足すか、該当行に =gitleaks:allow= を書く。
   フックを飛ばしたいときは =git commit --no-verify=
 
+** 強制アップデートの非常ブレーキ
+=version_check.dart= は =app_config.min_required_version= より古いビルドを、
+閉じられないダイアログでブロックする。**リリースのたびに触るものではない。**
+
+- 比較はセマンティック (=1.10.0 > 1.9.0= を正しく判定する)。既定値の =1.0.0= は
+  これまで出したどのビルドより小さいので、**この行を一度も触らなければ誰もブロックされない**
+- 判定は fail open。値が壊れていても (空文字列、=v1.0.3=、=1.0.3-beta=)、
+  通信に失敗しても、ブロックしない。誤って通すコストより誤って閉じ込めるコストが桁違いに大きいため
+- 取得は起動時と、フォアグラウンド復帰時のみ。さらに6時間のスロットルが掛かる
+
+#+begin_src sh
+$ just show-app-version              # 現在の値を確認
+$ just require-app-version 1.0.3     # 1.0.3 未満をブロック (非常時のみ)
+$ just release-app-version           # 1.0.0 に戻す (ブレーキを解除)
+#+end_src
+
+- =require-app-version= は **修正版がストアからダウンロードできるようになってから**
+  実行すること。先に打つと、まだ落とせない更新を要求されたユーザーが操作不能になる
+- =.env.suito.prod= (gitignore 済み) に以下が必要:
+
+  #+begin_src sh
+  SUPABASE_URL=https://<project-ref>.supabase.co
+  SUPABASE_SERVICE_ROLE_KEY=<Dashboard > Project Settings > API の service_role キー>
+  #+end_src
+
+  このキーは RLS を無視できるので、コミットもログ出力もしないこと。
+  =just scan-secrets-dir= は git 管理外も走査するのでこのファイルを検出する
+  (=scan-secrets= / =scan-secrets-staged= は git 管理下だけなので影響しない)
+- service_role が =app_config= を UPDATE できることは
+  =supabase/tests/database/03_grants_test.sql= で固定してある
+
+*** 経緯
+当初は =latest_version= との完全一致 (=!== ) で判定していた。これは「床」ではなく
+特定の一点にだけ嵌まる「掛け金」で、サーバ側がアプリより古い場合もブロックされた。
+本番の行が既定値 =1.0.0= のまま放置されていたため、実際にその状態だった。
+=mobile/pubspec.yaml= / =supabase/seed.sql= / 本番の行という3つの写しを
+手で一致させ続ける必要もあった。
+
+=0009_app_config_min_required_only.sql= でセマンティック比較に切り替え、
+「更新のお知らせ」用の =latest_version= 列は削除した (ストアが既に通知するので不要、
+かつ未使用の列を放置したことが今回の脆さの原因そのものだったため)。
+これにより3つの写しを同期する必要自体が無くなっている。
+
 ** TODO
+*** TODO =0009= を本番 Supabase に適用する
+=0009_app_config_min_required_only.sql= はローカルにしか流れていない。
+=just db-push= を打つまで、本番は =latest_version= 列を持つ旧スキーマのまま。
+
+- 適用前でも安全側に倒れている。新しいアプリが読むのは =min_required_version= で、
+  本番のその値は 0004 が入れた既定の =1.0.0= のままなので誰もブロックされない
+- 適用後は =just show-app-version= が =min_required_version= と =updated_at= だけを
+  返すことを確認する
+- =.github/workflows/supabase-keep-alive.yml= は =select=id= に変更済みなので、
+  列が消えても 200 を返し続ける
+
 *** TODO 本番 Supabase プロジェクトに認証 deep link のリダイレクト URL を登録する
 確認メール・パスワードリセットメールのリンクをアプリへ戻すための設定。
 ローカルスタック (=supabase/config.toml= の =additional_redirect_urls=) には
@@ -118,24 +179,15 @@ just install-hooks   # git config core.hooksPath .githooks
 - 検証: ローカルでは =mobile/test/src/features/authentication/auth_flow_test.dart= の
   「the reset email links back into the app」が Mailpit のメール本文で確認している
 
-*** TODO 本番 Supabase の =app_config.latest_version= をリリース版に合わせる
-=app_config= は単一行のテーブルで、=latest_version= が
-=mobile/lib/src/utils/version_check.dart= の強制アップデート判定に使われる
-(旧 Go バックエンドの =/version= エンドポイントの置き換え)。
+*** TODO iOS の App Store URL を =dart_defines= に入れる
+=mobile/dart_defines/{dev,prod}.json= の =iosStoreURL= は空のまま。
+空のあいだは強制ダイアログに「閉じる」が出て閉じられる
+(以前は OK ボタンが何もせず、iOS だけアプリが操作不能になっていた)。
 
-- =0004_functions.sql= の初期値は =1.0.0=。=mobile/pubspec.yaml= の =version:= は
-  現在 =1.0.2+11= なので、初期値のままだと起動時に必ず
-  「アップデートがあります」ダイアログが出て操作できなくなる (ローカルで実際に再現)
-- 判定は =serverVersion != packageInfo.version= の単純な不一致比較なので、
-  サーバ側がアプリより古い場合もダイアログが出る
-- 対応: Supabase Dashboard の SQL Editor または Table Editor で
-  =update public.app_config set latest_version = '<リリース版>' where id = 1;=
-  を実行する。アプリのバージョンを上げるたびに更新が必要
-- =min_required_version= 列も用意してあるが現状のコードは参照していない。
-  「必須」と「推奨」を分けたいならここを使って判定を作り込む
-- ローカルは =supabase/seed.sql= が =db reset= のたびに =1.0.2= を入れ直すので、
-  強制アップデートダイアログに阻まれることはない。
-  =mobile/pubspec.yaml= の =version:= を上げたら seed.sql も合わせること
+- App Store の Apple ID が決まったら
+  =itms-apps://itunes.apple.com/app/id<Apple ID>= を両ファイルに入れる
+- 入れた時点で iOS も Android と同じ「閉じられないダイアログ」に戻る
+- 挙動は =mobile/test/src/utils/version_check_test.dart= が両方の分岐を押さえている
 
 *** TODO =/sign-out= ルートの去就を決める
 ボトムナビに「設定」タブを足し、そこから =/profile= 経由でサインアウトできるように
@@ -268,3 +320,67 @@ Flutter アプリ・web アプリともに Firebase 依存は撤去済み
   公開されるより安全側に倒れる
 - 権限そのものは =supabase/tests/database/03_grants_test.sql= の
   =table_privs_are= で固定してある
+
+*** TODO 本番 Auth に自前 SMTP を接続し、メールテンプレートを日本語化する
+Supabase の内蔵メールサービスはテスト用途で、時間あたりの送信数が極端に少なく、
+送信先も制限される。実ユーザーにはメールが届かないため、本番公開前に
+Resend か AWS SES を Authentication > Emails > SMTP Settings に接続する必要がある。
+
+メールを送る経路は2つ:
+
+1. パスワードリセット — =auth_controller.dart:152= の =PasswordResetController= が
+   =resetPasswordForEmail()= を呼ぶ。サインイン画面の「パスワードをお忘れですか？」
+   (=custom_sign_in_screen.dart:162=) から到達でき、設定で無効化する手段がない。
+   **この経路だけで SMTP は必須**
+2. サインアップ確認メール — =signUp(emailRedirectTo: kAuthRedirectUrl)=。
+   =supabase/config.toml:227= の =enable_confirmations = false= は
+   ローカルスタック専用で、ホスト側のダッシュボードは既定で Confirm email が ON。
+   アプリも確認フローに対応済み (=AuthSubmitResult.needsEmailConfirmation= を受けて
+   =t.auth.signUpConfirmation= のスナックバーを出す) なので、ON のまま運用する前提
+
+- 送信プロバイダを決める (Resend は無料枠 月3000通・日100通 / AWS SES は従量)
+- 送信ドメインの検証。どちらも SPF・DKIM の DNS レコード追加が必要で、
+  SES は加えてサンドボックス解除の申請が要る
+- ダッシュボード > Authentication > Emails > SMTP Settings に
+  ホスト・ポート・ユーザー・パスワード・送信者アドレス・送信者名を設定
+- =site_url= をローカルの =http://127.0.0.1:3000= (=config.toml:158=) から本番の値へ。
+  メール本文中の URL 構築に使われる
+- 接続後、=[auth.rate_limit] email_sent= (=config.toml:200= の既定は2通/時) を
+  実運用に見合う値へ引き上げる
+
+メールテンプレートの日本語化も必要:
+
+- アプリ UI は全て日本語 (=mobile/lib/i18n/auth_ja.yaml=) なのに Auth のメール本文は
+  Supabase 既定の英語のまま。「確認メールを送信しました」と案内した先が英語メール、
+  という状態になっている
+- 対象は Confirm signup と Reset password の2通。
+  Magic link・Invite・Change email address は現状のアプリでは使わない
+- =config.toml= に =[auth.email.template.*]= の =content_path= でテンプレートを
+  外部ファイル化する仕組みがあるので、=supabase/templates/= を切ってリポジトリ管理にできる
+  (このディレクトリはまだ無い)。ただしホストへの反映はダッシュボードへの貼り付けが必要で、
+  =config.toml= のこのセクションはローカルスタックにしか効かない
+
+検証:
+
+- ローカルスタックのメールは Mailpit (http://127.0.0.1:54324) に溜まるので、
+  実際に送らずに本文とリンクを確認できる
+- =mobile/test/src/features/authentication/auth_flow_test.dart:196= の
+  「the reset email links back into the app」が Mailpit の API を叩いて、
+  リセットメール本文中のリンクが deep link に戻ることを検証している。
+  テンプレートを差し替えたらこのテストが通ることを確認すること
+
+*** DONE 本番 Supabase の =app_config.latest_version= をリリース版に合わせる
+手動更新そのものを不要にすることで解決した。
+
+=0009_app_config_min_required_only.sql= で判定を =min_required_version= との
+セマンティックな大小比較に変え、=latest_version= 列は削除した。既定値の =1.0.0= は
+これまで出したどのビルドより小さいので、**本番の行を一度も触らなくても誰もブロックされない**。
+リリースのたびに値を合わせるという作業自体が無くなっている。
+
+- 元の問題は判定が完全一致 (=!== ) だったこと。「床」ではなく特定の一点にだけ嵌まる
+  「掛け金」だったため、サーバ側がアプリより古い場合もブロックされた。
+  本番が既定値のまま放置されていたので、実際にその状態だった
+- =mobile/pubspec.yaml= / =supabase/seed.sql= / 本番の行という3つの写しを
+  手で一致させ続ける必要も消えた。=seed.sql= は空になっている
+- 詳細と操作方法は「強制アップデートの非常ブレーキ」節を参照
+- 本番スキーマへの反映は上の「=0009= を本番 Supabase に適用する」が残っている

@@ -1,6 +1,7 @@
 version:
   updateAlertTitle: アップデートがあります
-  updateAlertContent: "アプリのアップデートをお願いします\n AppVersion: $appVersion\n ServerVersion: $serverVersion"
+  updateAlertContent: "アプリのアップデートをお願いします\n AppVersion: $appVersion\n RequiredVersion: $requiredVersion"
+  updateAlertClose: 閉じる
 dismissible:
   snackBar: 削除しました
   deleteFailed: 削除できませんでした。もう一度お試しください。

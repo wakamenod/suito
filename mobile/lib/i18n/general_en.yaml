@@ -1,6 +1,7 @@
 version:
   updateAlertTitle: Update Required
-  updateAlertContent: "Please update the app\n App version: $appVersion\n Server version: $serverVersion"
+  updateAlertContent: "Please update the app\n App version: $appVersion\n Required version: $requiredVersion"
+  updateAlertClose: CLOSE
 dismissible:
   snackBar: removed
   deleteFailed: Could not delete. Please try again.

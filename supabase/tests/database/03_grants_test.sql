@@ -7,7 +7,7 @@
 -- Run with: npx supabase test db
 
 begin;
-select plan(26);
+select plan(28);
 
 -- ---------------------------------------------------------------------------
 -- anon: app_config only
@@ -68,6 +68,21 @@ select table_privs_are('public', 'scheduled_income_queue', 'authenticated',
   'grants: authenticated can only SELECT scheduled_income_queue');
 select table_privs_are('public', 'app_config', 'authenticated', array['SELECT'],
   'grants: authenticated can only SELECT app_config');
+
+-- ---------------------------------------------------------------------------
+-- service_role still owns app_config's writes.
+--
+-- 0006's `revoke all ... from anon, authenticated` deliberately leaves
+-- service_role alone: `scripts/require-app-version.sh` raises
+-- min_required_version through PostgREST with the service_role key when a
+-- release has to be pulled. Asserted as two capabilities rather than an exact
+-- privilege set, so this pins what we depend on without freezing Supabase's
+-- other defaults for the role.
+-- ---------------------------------------------------------------------------
+select ok(has_table_privilege('service_role', 'public.app_config', 'SELECT'),
+  'grants: service_role can SELECT app_config');
+select ok(has_table_privilege('service_role', 'public.app_config', 'UPDATE'),
+  'grants: service_role can UPDATE app_config');
 
 -- ---------------------------------------------------------------------------
 -- New tables are not exposed by default any more.

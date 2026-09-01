@@ -25,8 +25,11 @@ import 'package:suito/src/features/transactions/repositories/income/register_inc
 import 'package:suito/src/features/transactions/repositories/income/update_income_repository.dart';
 import 'package:suito/src/features/transactions/repositories/transaction/transaction_months_repository.dart';
 import 'package:suito/src/features/transactions/repositories/transaction/transactions_repository.dart';
+import 'package:suito/src/utils/version_check.dart';
 
 class MockGoRouter extends Mock implements GoRouter {}
+
+class MockVersionRepository extends Mock implements VersionRepository {}
 
 class MockGoTrueClient extends Mock implements GoTrueClient {}
 

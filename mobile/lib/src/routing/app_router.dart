@@ -46,8 +46,13 @@ final goRouterProvider = Provider.family<GoRouter, GlobalKey<NavigatorState>>(
     (ref, rootNavigatorKey) {
   final versionCheck = ref.watch(versionCheckProvider);
 
+  // Foreground returns only, and `_checkVersion` throttles from there. The
+  // other lifecycle states fire several times per app switch, and this is an
+  // emergency brake rather than something that needs to be current.
   ref.listen<AppLifecycleState>(appLifecycleStateProvider, (previous, next) {
-    versionCheck(rootNavigatorKey.currentContext);
+    if (next == AppLifecycleState.resumed) {
+      versionCheck(rootNavigatorKey.currentContext);
+    }
   });
 
   final auth = ref.watch(supabaseAuthProvider);
@@ -60,8 +65,6 @@ final goRouterProvider = Provider.family<GoRouter, GlobalKey<NavigatorState>>(
     initialLocation: AppRoute.signIn.path,
     debugLogDiagnostics: true,
     redirect: (context, state) {
-      versionCheck(rootNavigatorKey.currentContext);
-
       final isLoggedIn = auth.currentSession != null;
       final isAtSignIn = state.location == AppRoute.signIn.path;
 

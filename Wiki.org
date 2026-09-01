@@ -72,9 +72,12 @@ $ just functions-deploy    # Edge Function をデプロイ
 
 - Authentication > URL Configuration > Redirect URLs に
   =net.wakamenod.suito://login-callback/= を追加 (deep link)
-- Authentication > Emails > SMTP。内蔵 SMTP は1時間3〜4通の制限があるため、
-  本番では Resend / SES 等を接続する
-- =app_config.latest_version= をリリース版に合わせる (強制アップデート判定に使う)
+- Authentication > Emails > SMTP。内蔵メールサービスはテスト用途で実ユーザーには
+  届かないため、本番では Resend / SES 等を接続する。
+  ドメイン検証とテンプレート日本語化まで含めた手順は README.org の TODO を参照
+- (=app_config= の強制アップデート判定はリリースごとの手動設定を必要としない。
+  非常ブレーキとして使うときだけ =just require-app-version= を実行する。
+  README.org の「強制アップデートの非常ブレーキ」を参照)
 
 ** GitHub Actions のシークレット
 - =SUPABASE_URL= / =SUPABASE_ANON_KEY= : mobile / web のビルド時に =.env.mobile= へ書き出す
