@@ -64,7 +64,7 @@ func handleError(err error) *SuitoError {
 		}
 	}
 
-	suitoErr.Message = string(suitoErr.ErrCode.errorMessage())
+	suitoErr.Message = string(suitoErr.errorMessage())
 	return suitoErr
 }
 

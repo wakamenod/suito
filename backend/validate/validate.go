@@ -3,8 +3,8 @@ package validate
 import (
 	"log"
 
+	"github.com/go-playground/validator/v10"
 	"github.com/wakamenod/suito/apperrors"
-	validator "gopkg.in/go-playground/validator.v9"
 )
 
 type CustomValidator struct {
@@ -13,14 +13,14 @@ type CustomValidator struct {
 
 func NewValidator() CustomValidator {
 	v := validator.New()
-	err := v.RegisterValidation("optional", func(fl validator.FieldLevel) bool { return true }, true)
+	err := v.RegisterValidation("optional", func(_ validator.FieldLevel) bool { return true }, true)
 	if err != nil {
 		log.Fatal(err)
 	}
 	return CustomValidator{validator: v}
 }
 
-func (cv CustomValidator) Validate(i interface{}) error {
+func (cv CustomValidator) Validate(i any) error {
 	err := cv.validator.Struct(i)
 	if err != nil {
 		return apperrors.InvalidParameter.Wrap(err)

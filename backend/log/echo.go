@@ -41,11 +41,11 @@ func (l *EchoLogger) SetPrefix(p string) {
 func (l *EchoLogger) SetHeader(h string) {
 }
 
-func (l *EchoLogger) Print(i ...interface{}) {
+func (l *EchoLogger) Print(i ...any) {
 	l.Logger.Info(fmt.Sprint(i...))
 }
 
-func (l *EchoLogger) Printf(format string, args ...interface{}) {
+func (l *EchoLogger) Printf(format string, args ...any) {
 	l.ErrLogger.Error(fmt.Sprintf(format, args...))
 }
 
@@ -53,11 +53,11 @@ func (l *EchoLogger) Printj(j log.JSON) {
 	l.Logger.Info("printj", zap.Any("json", j))
 }
 
-func (l *EchoLogger) Debug(i ...interface{}) {
+func (l *EchoLogger) Debug(i ...any) {
 	l.Logger.Debug(fmt.Sprint(i...))
 }
 
-func (l *EchoLogger) Debugf(format string, args ...interface{}) {
+func (l *EchoLogger) Debugf(format string, args ...any) {
 	l.Logger.Debug(fmt.Sprintf(format, args...))
 }
 
@@ -65,11 +65,11 @@ func (l *EchoLogger) Debugj(j log.JSON) {
 	l.Logger.Debug("debugj", zap.Any("json", j))
 }
 
-func (l *EchoLogger) Info(i ...interface{}) {
+func (l *EchoLogger) Info(i ...any) {
 	l.Logger.Info(fmt.Sprint(i...))
 }
 
-func (l *EchoLogger) Infof(format string, args ...interface{}) {
+func (l *EchoLogger) Infof(format string, args ...any) {
 	l.Logger.Info(fmt.Sprintf(format, args...))
 }
 
@@ -77,13 +77,13 @@ func (l *EchoLogger) Infoj(j log.JSON) {
 	l.Logger.Info("infoj", zap.Any("json", j))
 }
 
-func (l *EchoLogger) Warn(i ...interface{}) {
+func (l *EchoLogger) Warn(i ...any) {
 	for _, e := range i {
 		l.ErrLogger.Warn(fmt.Sprintf("%+v", e))
 	}
 }
 
-func (l *EchoLogger) Warnf(format string, args ...interface{}) {
+func (l *EchoLogger) Warnf(format string, args ...any) {
 	l.ErrLogger.Warn(fmt.Sprintf(format, args...))
 }
 
@@ -91,13 +91,13 @@ func (l *EchoLogger) Warnj(j log.JSON) {
 	l.ErrLogger.Info("warnj", zap.Any("json", j))
 }
 
-func (l *EchoLogger) Error(i ...interface{}) {
+func (l *EchoLogger) Error(i ...any) {
 	for _, e := range i {
 		l.ErrLogger.Error(fmt.Sprintf("%+v", e))
 	}
 }
 
-func (l *EchoLogger) Errorf(format string, args ...interface{}) {
+func (l *EchoLogger) Errorf(format string, args ...any) {
 	l.ErrLogger.Error(fmt.Sprintf(format, args...))
 }
 
@@ -105,11 +105,11 @@ func (l *EchoLogger) Errorj(j log.JSON) {
 	l.ErrLogger.Error("errorj", zap.Any("json", j))
 }
 
-func (l *EchoLogger) Fatal(i ...interface{}) {
+func (l *EchoLogger) Fatal(i ...any) {
 	l.ErrLogger.Fatal(fmt.Sprint(i...))
 }
 
-func (l *EchoLogger) Fatalf(format string, args ...interface{}) {
+func (l *EchoLogger) Fatalf(format string, args ...any) {
 	l.ErrLogger.Fatal(fmt.Sprintf(format, args...))
 }
 
@@ -117,11 +117,11 @@ func (l *EchoLogger) Fatalj(j log.JSON) {
 	l.ErrLogger.Fatal("infoj", zap.Any("json", j))
 }
 
-func (l *EchoLogger) Panic(i ...interface{}) {
+func (l *EchoLogger) Panic(i ...any) {
 	l.ErrLogger.Panic(fmt.Sprint(i...))
 }
 
-func (l *EchoLogger) Panicf(format string, args ...interface{}) {
+func (l *EchoLogger) Panicf(format string, args ...any) {
 	l.ErrLogger.Panic(fmt.Sprintf(format, args...))
 }
 

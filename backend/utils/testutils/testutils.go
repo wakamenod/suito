@@ -74,7 +74,7 @@ func (e *TestDataInserter) InsertExpenseDeleted(uid, date, title string) string 
 	return id
 }
 
-func (i *TestDataInserter) InsertExpenseCategory(uid, name string) model.ExpenseCategory {
+func (e *TestDataInserter) InsertExpenseCategory(uid, name string) model.ExpenseCategory {
 	cat := model.ExpenseCategory{
 		ID:        xid.New().String(),
 		Name:      name,
@@ -82,11 +82,11 @@ func (i *TestDataInserter) InsertExpenseCategory(uid, name string) model.Expense
 		CreatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC),
 		UpdatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC),
 	}
-	require.NoError(i.t, i.db.Create(&cat).Error, "failed to insert expense category")
+	require.NoError(e.t, e.db.Create(&cat).Error, "failed to insert expense category")
 	return cat
 }
 
-func (i *TestDataInserter) InsertExpenseLocation(uid, name string) model.ExpenseLocation {
+func (e *TestDataInserter) InsertExpenseLocation(uid, name string) model.ExpenseLocation {
 	cat := model.ExpenseLocation{
 		ID:        xid.New().String(),
 		Name:      name,
@@ -94,7 +94,7 @@ func (i *TestDataInserter) InsertExpenseLocation(uid, name string) model.Expense
 		CreatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC),
 		UpdatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC),
 	}
-	require.NoError(i.t, i.db.Create(&cat).Error, "failed to insert expense location")
+	require.NoError(e.t, e.db.Create(&cat).Error, "failed to insert expense location")
 	return cat
 }
 
