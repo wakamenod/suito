@@ -23,7 +23,7 @@ var (
 )
 
 // Fields Log Fields
-type Fields map[string]interface{}
+type Fields map[string]any
 
 type LogConfig struct {
 	OutPath string
@@ -181,7 +181,7 @@ func Debug(msg string, f Fields) {
 	logger.WithOptions(commonOptions...).Debug(msg, zapValues(f)...)
 }
 
-func Debugf(format string, msg ...interface{}) {
+func Debugf(format string, msg ...any) {
 	logger.WithOptions(commonOptions...).Debug(fmt.Sprintf(format, msg...), zapValues(Fields{})...)
 }
 
@@ -190,11 +190,11 @@ func Info(msg string, f Fields) {
 	logger.WithOptions(commonOptions...).Info(msg, zapValues(f)...)
 }
 
-func Infof(format string, msg interface{}, f Fields) {
+func Infof(format string, msg any, f Fields) {
 	logger.WithOptions(commonOptions...).Info(fmt.Sprintf(format, msg), zapValues(f)...)
 }
 
-func InfoWithLoc(msg interface{}, f Fields) {
+func InfoWithLoc(msg any, f Fields) {
 	err, ok := msg.(error)
 	if ok {
 		logger.WithOptions(commonOptions...).Info(fmt.Sprintf("%+v", err), zapValues(f)...)
@@ -204,7 +204,7 @@ func InfoWithLoc(msg interface{}, f Fields) {
 }
 
 // Warn Log
-func Warn(msg interface{}, f Fields) {
+func Warn(msg any, f Fields) {
 	err, ok := msg.(error)
 	if ok {
 		errLogger.WithOptions(commonOptions...).Warn(fmt.Sprintf("%+v", err), zapValues(f)...)
@@ -213,12 +213,12 @@ func Warn(msg interface{}, f Fields) {
 	}
 }
 
-func Warnf(format string, msg interface{}, f Fields) {
+func Warnf(format string, msg any, f Fields) {
 	errLogger.WithOptions(commonOptions...).Warn(fmt.Sprintf(format, msg), zapValues(f)...)
 }
 
 // WarnWithLoc ...
-func WarnWithLoc(msg interface{}, f Fields) {
+func WarnWithLoc(msg any, f Fields) {
 	err, ok := msg.(error)
 	if ok {
 		errLogger.WithOptions(commonOptions...).Warn(fmt.Sprintf("%+v", err), zapValues(f)...)
@@ -228,7 +228,7 @@ func WarnWithLoc(msg interface{}, f Fields) {
 }
 
 // Error Log
-func Error(msg interface{}, f Fields) {
+func Error(msg any, f Fields) {
 	err, ok := msg.(error)
 	if ok {
 		errLogger.WithOptions(commonOptions...).Error(fmt.Sprintf("%+v", err), zapValues(f)...)
@@ -238,12 +238,12 @@ func Error(msg interface{}, f Fields) {
 }
 
 // Errorf Log
-func Errorf(format string, msg interface{}, f Fields) {
+func Errorf(format string, msg any, f Fields) {
 	errLogger.WithOptions(commonOptions...).Error(fmt.Sprintf(format, msg), zapValues(f)...)
 }
 
 // Fatal Log
-func Fatal(msg interface{}, f Fields) {
+func Fatal(msg any, f Fields) {
 	err, ok := msg.(error)
 	if ok {
 		errLogger.WithOptions(commonOptions...).Fatal(fmt.Sprintf("%+v", err), zapValues(f)...)
@@ -253,7 +253,7 @@ func Fatal(msg interface{}, f Fields) {
 }
 
 // Fatal Log
-func Fatalf(format string, msg interface{}, f Fields) {
+func Fatalf(format string, msg any, f Fields) {
 	errLogger.WithOptions(commonOptions...).Fatal(fmt.Sprintf(format, msg), zapValues(f)...)
 }
 

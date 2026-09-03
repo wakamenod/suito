@@ -20,7 +20,7 @@ func NewValidator() CustomValidator {
 	return CustomValidator{validator: v}
 }
 
-func (cv CustomValidator) Validate(i interface{}) error {
+func (cv CustomValidator) Validate(i any) error {
 	err := cv.validator.Struct(i)
 	if err != nil {
 		return apperrors.InvalidParameter.Wrap(err)
