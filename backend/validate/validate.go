@@ -13,7 +13,7 @@ type CustomValidator struct {
 
 func NewValidator() CustomValidator {
 	v := validator.New()
-	err := v.RegisterValidation("optional", func(fl validator.FieldLevel) bool { return true }, true)
+	err := v.RegisterValidation("optional", func(_ validator.FieldLevel) bool { return true }, true)
 	if err != nil {
 		log.Fatal(err)
 	}

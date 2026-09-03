@@ -37,7 +37,7 @@ var runCmd = &cobra.Command{
 	Use:   "run",
 	Short: fmt.Sprintf("Start %s server", env.Name),
 	Long:  ``,
-	Run: func(cmd *cobra.Command, args []string) {
+	Run: func(_ *cobra.Command, _ []string) {
 		if err := startWeb(); err != nil {
 			log.Fatal(err, nil)
 		}

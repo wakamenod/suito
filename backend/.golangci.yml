@@ -1,26 +1,52 @@
+version: "2"
 run:
-  go: '1.19'
-linters-settings:
-  revive:
-    severity: error
-    rules:
-      - name: bare-return
-      - name: context-as-argument
-        arguments:
-          - allowTypesBefore: "*testing.T,*github.com/user/repo/testing.Harness"
-      - name: early-return
-      - name: superfluous-else
-      - name: var-naming
-      - name: unused-parameter
-  staticcheck:
-    checks: ["all"]
+  go: "1.27"
 linters:
   enable:
-    - forbidigo
-    - decorder
     - bodyclose
+    - decorder
+    - exhaustive
+    - forbidigo
     - gosec
     - nilerr
     - revive
-    - staticcheck
-    - exhaustive
+  settings:
+    revive:
+      severity: error
+      rules:
+        - name: bare-return
+        - name: context-as-argument
+          arguments:
+            - allowTypesBefore: '*testing.T,*github.com/user/repo/testing.Harness'
+        - name: early-return
+        - name: superfluous-else
+        - name: var-naming
+        - name: unused-parameter
+    staticcheck:
+      checks:
+        - all
+  exclusions:
+    generated: lax
+    presets:
+      - comments
+      - common-false-positives
+      - legacy
+      - std-error-handling
+    rules:
+      # Mock/stub callbacks in tests must match an interface signature; unused
+      # params there are expected.
+      - path: _test\.go
+        text: 'unused-parameter'
+        linters:
+          - revive
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
+formatters:
+  exclusions:
+    generated: lax
+    paths:
+      - third_party$
+      - builtin$
+      - examples$

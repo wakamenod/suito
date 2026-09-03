@@ -34,7 +34,7 @@ var (
 var importCmd = &cobra.Command{
 	Use:   "import",
 	Short: "Import Test Data",
-	Run: func(cmd *cobra.Command, args []string) {
+	Run: func(_ *cobra.Command, _ []string) {
 		// load env file
 		fatalIfErr(godotenv.Load("../.env.suito"))
 
@@ -259,6 +259,7 @@ func init() {
 
 func fatalIfErr(err error, msg ...string) {
 	if err != nil {
+		//nolint:gosec // G706: this is a local test-data import CLI; msg args are static literals, not attacker-controlled
 		log.Fatal(strings.Join(msg, " ") + ": " + err.Error())
 	}
 }

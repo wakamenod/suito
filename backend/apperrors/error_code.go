@@ -33,8 +33,8 @@ const (
 	typeErrorWithRquestInfo errLogType = 3
 )
 
-func (code ErrCode) Wrap(err error) error {
-	return &SuitoError{ErrCode: code, Err: err}
+func (e ErrCode) Wrap(err error) error {
+	return &SuitoError{ErrCode: e, Err: err}
 }
 
 // https://github.com/nishanths/exhaustiveをlinterに設定済み
