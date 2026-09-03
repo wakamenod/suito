@@ -1,6 +1,8 @@
 module github.com/wakamenod/suito
 
-go 1.19
+go 1.27.0
+
+toolchain go1.27.1
 
 require (
 	firebase.google.com/go/v4 v4.11.0
@@ -19,6 +21,7 @@ require (
 	github.com/swaggo/echo-swagger v1.3.5
 	github.com/swaggo/swag v1.8.1
 	go.uber.org/zap v1.21.0
+	google.golang.org/api v0.114.0
 	gopkg.in/go-playground/validator.v9 v9.31.0
 	gorm.io/driver/mysql v1.5.1
 	gorm.io/gorm v1.25.1
@@ -88,7 +91,6 @@ require (
 	golang.org/x/time v0.3.0 // indirect
 	golang.org/x/tools v0.6.0 // indirect
 	golang.org/x/xerrors v0.0.0-20220907171357-04be3eba64a2 // indirect
-	google.golang.org/api v0.114.0 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
 	google.golang.org/appengine/v2 v2.0.2 // indirect
 	google.golang.org/genproto v0.0.0-20230320184635-7606e756e683 // indirect

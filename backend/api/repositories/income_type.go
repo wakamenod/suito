@@ -1,8 +1,6 @@
 package repositories
 
 import (
-	"fmt"
-
 	"github.com/pkg/errors"
 	"github.com/rs/xid"
 	"github.com/wakamenod/suito/apperrors"
@@ -41,7 +39,7 @@ func (r *SuitoIncomeTypeRepository) DeleteIncomeType(id string, uid string) erro
 		return errors.Wrap(err, "failed to count income type")
 	}
 	if count > 0 {
-		return apperrors.IncomeTypeInUse.Wrap(errors.Errorf(fmt.Sprintf("incomeTypeID=%s count=%d", id, count)))
+		return apperrors.IncomeTypeInUse.Wrap(errors.Errorf("incomeTypeID=%s count=%d", id, count))
 	}
 	if err := r.db.Where("id = ? AND uid = ?", id, uid).Delete(&model.IncomeType{}).Error; err != nil {
 		return errors.Wrap(err, "failed to delete incomeType")
