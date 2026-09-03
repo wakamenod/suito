@@ -13,7 +13,7 @@ DB_CONNECT_TEST = "mysql://${DB_USER}:${DB_PASS}@tcp(${DB_HOST}:${DB_PORT})/${DB
 
 [tasks.install]
 script = '''
-go install -tags mysql github.com/golang-migrate/migrate/v4/cmd/migrate@v4.15.1
+go install -tags mysql github.com/golang-migrate/migrate/v4/cmd/migrate@v4.15.2
 '''
 
 [tasks.restart]

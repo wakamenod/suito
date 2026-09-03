@@ -3,8 +3,8 @@ package validate
 import (
 	"log"
 
+	"github.com/go-playground/validator/v10"
 	"github.com/wakamenod/suito/apperrors"
-	validator "gopkg.in/go-playground/validator.v9"
 )
 
 type CustomValidator struct {
